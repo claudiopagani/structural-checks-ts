@@ -1,0 +1,11 @@
+{
+  "schemaVersion": 1,
+  "corpus": {
+    "repository": "https://github.com/claudiopagani/strutture-normative",
+    "revision": "41da3faa489600173106935bbcf726119300e48d",
+    "status": "extracted"
+  },
+  "references": [],
+  "outsideCorpusReferences": [],
+  "note": "No normative formula has been migrated in slice 0001."
+}

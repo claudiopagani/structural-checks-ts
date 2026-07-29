@@ -1,0 +1,40 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  parity-and-quality:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    strategy:
+      matrix:
+        node-version: [22, 24]
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          path: structural-checks-ts
+      - uses: actions/checkout@v4
+        with:
+          repository: claudiopagani/strutture-js
+          ref: 6f33baead8b88166c4b2cf94af41763412e3c751
+          path: strutture-js
+      - uses: actions/checkout@v4
+        with:
+          repository: claudiopagani/strutture-normative
+          ref: 41da3faa489600173106935bbcf726119300e48d
+          path: strutture-normative
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: npm
+          cache-dependency-path: structural-checks-ts/package-lock.json
+      - run: npm ci
+        working-directory: structural-checks-ts
+      - run: npm run check
+        working-directory: structural-checks-ts

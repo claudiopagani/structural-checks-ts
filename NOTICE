@@ -1,0 +1,14 @@
+structural-checks-ts
+Copyright (C) 2026 Claudio Pagani
+
+This repository contains a TypeScript migration derived from strutture-js:
+https://github.com/claudiopagani/strutture-js
+
+The initial recorded source baseline is:
+6f33baead8b88166c4b2cf94af41763412e3c751
+
+Migrated source remains licensed under LGPL-2.1-or-later. The TypeScript
+migration does not represent the implementation as an unrelated new work and
+does not alter the licensing of historical strutture-js releases.
+
+Detailed file and symbol provenance is recorded under migration/.

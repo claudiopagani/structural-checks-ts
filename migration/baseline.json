@@ -1,0 +1,83 @@
+{
+  "schemaVersion": 1,
+  "observedAt": "2026-07-29",
+  "source": {
+    "repository": "https://github.com/claudiopagani/strutture-js",
+    "revision": "6f33baead8b88166c4b2cf94af41763412e3c751",
+    "branch": "master",
+    "upstream": "origin/master",
+    "ahead": 0,
+    "behind": 0,
+    "worktree": "clean",
+    "packageName": "strutture-js",
+    "packageVersion": "0.8.0",
+    "license": "LGPL-2.1-or-later",
+    "gitDescribe": "v0.7.0-15-g6f33bae",
+    "fullCheck": {
+      "command": "npm run check",
+      "status": "passed"
+    }
+  },
+  "normativeCorpus": {
+    "repository": "https://github.com/claudiopagani/strutture-normative",
+    "revision": "41da3faa489600173106935bbcf726119300e48d",
+    "branch": "master",
+    "upstream": "origin/master",
+    "worktree": "clean",
+    "corpusId": "structural-codes",
+    "corpusStatus": "extracted",
+    "schemaVersion": "2.0.0-alpha.2",
+    "ciCheck": {
+      "command": "npm run check:ci",
+      "status": "passed"
+    },
+    "sourceResolverCheck": {
+      "command": "npm run check:normative-references",
+      "status": "passed",
+      "resolvedReferences": 44,
+      "outsideCorpusReferences": 13,
+      "canonicalUnits": 401,
+      "assets": 320
+    }
+  },
+  "inventory": {
+    "trackedSourceFiles": 480,
+    "trackedTestFiles": 131,
+    "trackedValidationFiles": 27,
+    "trackedExampleFiles": 32,
+    "trackedScriptFiles": 12,
+    "trackedDocumentationFiles": 45,
+    "trackedFixtureFiles": 2,
+    "publicEntryPoints": [
+      ".",
+      "./applications",
+      "./applications/*",
+      "./domain/fem",
+      "./domain/geotechnics",
+      "./domain/math",
+      "./domain/terrain",
+      "./domain/strut-and-tie",
+      "./catalogs/soil-types",
+      "./catalogs/wall-interface-types",
+      "./catalogs/steel-profiles",
+      "./norms/en1992",
+      "./norms/italian-historical",
+      "./norms/ntc2018"
+    ]
+  },
+  "nonAuthoritativeCorpusIntegrationObservation": {
+    "path": "integration/structural-checks-ts/manifest.json",
+    "mappingStatus": "proposed",
+    "providerRevision": "dbad8c8593e26d60e960b29a03ce486700745de5",
+    "observedWorktree": "dirty",
+    "adoptedAsBaseline": false
+  },
+  "remainingBaselineInventory": [
+    "complete root export symbol inventory",
+    "formula and coefficient inventory",
+    "fixture and validation evidence mapping",
+    "numerical tolerance inventory",
+    "browser and Web Worker behavior inventory",
+    "performance and package-size budgets"
+  ]
+}

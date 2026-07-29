@@ -1,0 +1,60 @@
+{
+  "name": "structural-checks-ts-migration-workspace",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Non-publishable TypeScript parity workspace for the planned successor to strutture-js.",
+  "license": "LGPL-2.1-or-later",
+  "allowScripts": {
+    "esbuild@0.28.1": true
+  },
+  "type": "module",
+  "sideEffects": false,
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "default": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist",
+    "src",
+    "scripts/build.ts",
+    "tsconfig.build.json",
+    "README.md",
+    "LICENSE",
+    "NOTICE",
+    "docs/licensing.md",
+    "migration"
+  ],
+  "engines": {
+    "node": "^22.13.0 || >=24.0.0"
+  },
+  "scripts": {
+    "build": "node --experimental-strip-types scripts/build.ts",
+    "test": "npm run build && npm run test:run",
+    "test:run": "node --experimental-strip-types --test \"tests/*.test.ts\"",
+    "lint": "eslint src tests scripts eslint.config.mjs prettier.config.mjs",
+    "typecheck": "tsc --noEmit -p tsconfig.json",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "check:architecture": "node --experimental-strip-types scripts/check-architecture.ts",
+    "check:normative-references": "node --experimental-strip-types scripts/check-normative-references.ts",
+    "check:package": "node --experimental-strip-types scripts/check-package.ts",
+    "check:provenance": "node --experimental-strip-types scripts/check-provenance.ts",
+    "check:worker-bundle": "node --experimental-strip-types scripts/check-worker-bundle.ts",
+    "check": "npm run build && npm run format:check && npm run lint && npm run typecheck && npm run test:run && npm run check:architecture && npm run check:provenance && npm run check:normative-references && npm run check:package && npm run check:worker-bundle"
+  },
+  "devDependencies": {
+    "@eslint/js": "10.0.1",
+    "@types/node": "22.20.1",
+    "esbuild": "0.28.1",
+    "eslint": "10.8.0",
+    "globals": "17.7.0",
+    "prettier": "3.6.2",
+    "typescript": "5.9.3",
+    "typescript-eslint": "8.65.0"
+  }
+}
