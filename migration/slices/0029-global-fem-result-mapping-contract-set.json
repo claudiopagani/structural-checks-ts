@@ -1,0 +1,73 @@
+{
+  "schemaVersion": 1,
+  "sliceId": "0029-global-fem-result-mapping-contract-set",
+  "title": "Global FEM result, entity-mapping and complete contract-set validation",
+  "migrationType": "mechanical-parity",
+  "implementationStatus": "implemented",
+  "dependencies": ["0028-global-fem-shared-contracts"],
+  "source": {
+    "repository": "https://github.com/claudiopagani/strutture-js",
+    "revision": "6f33baead8b88166c4b2cf94af41763412e3c751"
+  },
+  "normativeCorpusRevision": "41da3faa489600173106935bbcf726119300e48d",
+  "sourceFiles": [
+    {
+      "path": "src/domain/fem/ResistanceAxisMapping.js",
+      "gitBlobSha1": "c6d3bde015cd4bf52b3ff7252f2287c4ece85559",
+      "targetPath": "src/domain/fem/ResistanceAxisMapping.ts",
+      "coverage": "Shared explicit transformation validation required by the entity-mapping contract; demand-state projections are exercised in slice 0030."
+    },
+    {
+      "path": "src/domain/fem/contracts/FemEntityMappingContract.js",
+      "gitBlobSha1": "a00216add0a01f11c2db6769dfb7e99f1a969b0c",
+      "targetPath": "src/domain/fem/contracts/FemEntityMappingContract.ts"
+    },
+    {
+      "path": "src/domain/fem/contracts/GlobalFemResultContract.js",
+      "gitBlobSha1": "1259acbe21c2af89b55149b6bbbe932f4dea0294",
+      "targetPath": "src/domain/fem/contracts/GlobalFemResultContract.ts"
+    },
+    {
+      "path": "src/domain/fem/contracts/GlobalFemContractSet.js",
+      "gitBlobSha1": "24e8f12dce639808b9cc751115c689fd6e64c461",
+      "targetPath": "src/domain/fem/contracts/GlobalFemContractSet.ts"
+    }
+  ],
+  "sourceOracles": [
+    {
+      "path": "tests/globalFemContracts.test.js",
+      "gitBlobSha1": "13c587c9b8132a855da7822e60ecf31cb7a6d8f7"
+    }
+  ],
+  "sourcePublicExport": {
+    "path": "src/index.js",
+    "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
+  },
+  "targetTests": ["tests/global-fem-contracts.test.ts"],
+  "publicExports": [
+    "createFemEntityMappingContract",
+    "validateFemEntityMappingContract",
+    "createGlobalFemResultContract",
+    "validateGlobalFemResultContract",
+    "createGlobalFemContractSet",
+    "validateGlobalFemContractSet"
+  ],
+  "normativeReferences": {
+    "resolved": [],
+    "outsideCorpus": [],
+    "normativeConformityClaimed": false,
+    "status": "classified-for-declared-scope"
+  },
+  "independentValidation": {
+    "method": "Source-derived full contract fixture, JSON round-trip, entity/reference, result association, station/modal-result, capability, mapping and complete-set validation tests.",
+    "targetTests": ["tests/global-fem-contracts.test.ts"],
+    "tolerances": {
+      "liveSerializedParity": "exact deep equality after runtime serialization"
+    }
+  },
+  "parityDifferences": [
+    "Global FEM contracts remain solver-neutral and consume externally produced serializable results only.",
+    "Demand-state collection and resistance-axis mapping are deferred to slice 0030."
+  ],
+  "engineeringFunctionality": "Usable validation and construction of complete solver-neutral global FEM contract sets, including model/result provenance, explicit mappings and result-family capability gating. No FEM solver or adapter is included and no normative conformity claim is made."
+}

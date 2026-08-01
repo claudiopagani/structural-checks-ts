@@ -9,7 +9,7 @@ calculation and verification library.
 Implementation status: **partial**. Canonical cutover status: **planned**.
 
 `strutture-js` remains the canonical implementation until the complete migration gates pass and
-maintainers publish an explicit cutover record. This repository currently contains twenty-four
+maintainers publish an explicit cutover record. This repository currently contains thirty-five
 usable parity slices:
 
 - result status constants and serializable `CalculationResult` and `VerificationResult` DTOs;
@@ -72,6 +72,24 @@ usable parity slices:
 - reinforced-concrete foundation-beam analysis for assigned horizontal prismatic beam and Winkler
   inputs, including cracked-stiffness iteration from service moment-curvature curves and local RC
   beam section verification.
+- standalone reinforced-concrete cracked-section service deflection with uncracked/cracked
+  curvature, creep, optional EN 1992 shrinkage curvature, adaptive hyperstatic stiffness
+  redistribution, and compatible beam-deflection integration, including local beam-verifier
+  composition when enabled.
+- reinforced-concrete beam-column joint verification for the pinned NTC 2018 local 2D and concurrent
+  orthogonal 3D boundary, including confinement, shear, diagonal compression, tension reinforcement,
+  capacity hierarchy, eccentricity transfer, and anchorage.
+- reinforced-concrete strut-and-tie verification for explicitly assigned 2D EN 1992 topologies,
+  including linear axial force distribution, member-sign compatibility, concrete strut and steel tie
+  resistance, and ccc/cct/ctt nodal-zone checks.
+- shared solver-neutral FEM capabilities, model, analysis, result, mapping, and complete
+  contract-set validation, including explicit units, axes, statuses, and provenance;
+- concurrent FEM demand-state collection, resistance-axis projection, assisted classification,
+  demand extraction, readiness reporting, and global postprocessing for externally supplied results;
+- NTC 2018 RC building capacity design, diaphragm, regularity, displacement/P-Delta, linear-dynamic,
+  coverage, design-basis, wall, slab, punching, and foundation building boundaries;
+- `RcBuildingVerificationApplication` with explicit consumer-provided member/system verifiers and
+  complete two-producer serialized conformance fixtures.
 
 The section, reinforcement, and material models are usable engineering data models. The ULS uniaxial
 section-resistance and uniaxial/biaxial interaction-domain applications are usable within their
@@ -90,10 +108,17 @@ design bearing and sliding resistances are supplied; geotechnical capacity and s
 calculated by that structural application. The generic frame, single-beam, and foundation-beam
 pipelines can perform bounded linear 2D analysis for their explicit solver-neutral inputs. The RC
 foundation-beam application adds local section verification and source-compatible cracked-stiffness
-iteration for its declared horizontal prismatic beam boundary. Full cracked-section beam deflection
-redistribution, building-level global analysis, and solver adapters are not implemented in this
-TypeScript migration yet. The repository does not claim normative, legal, regulatory, or
-professional conformity.
+iteration for its declared horizontal prismatic beam boundary. Standalone cracked-section beam
+deflection and its local member-verifier composition are implemented for the declared solver-neutral
+boundary; the solver-neutral RC-building application now coordinates the declared building boundary
+from externally supplied FEM results, while application-registry parity and solver adapters remain
+outside the migration. Beam-column joints are available only for the declared local NTC 2018
+boundary; unsupported joint topologies, design codes, and global analysis remain outside the
+migration. Explicit 2D strut-and-tie models are available for the declared EN 1992 boundary;
+automatic topology generation, reinforcement detailing beyond assigned effective areas, and global
+analysis remain outside the migration. The RC-building application does not implement a FEM solver
+or solver-specific adapter and consumes explicit consumer-provided resistance verifiers. The
+repository does not claim normative, legal, regulatory, or professional conformity.
 
 The axial pile slice calculates single-pile geotechnical compression or tension capacity only. It
 does not implement pile groups, pile-cap load sharing, settlement or transfer curves, lateral

@@ -6,6 +6,33 @@ export { KinematicConstraintReducer2D } from "./KinematicConstraintReducer2D.js"
 export { LinearStaticSolver2D } from "./LinearStaticSolver2D.js";
 export { FrameElement2DEulerBernoulli } from "./elements/index.js";
 export { FrameElement2DTimoshenko } from "./elements/index.js";
+export {
+  GLOBAL_FEM_LINE_ACTION_COMPONENTS,
+  GLOBAL_FEM_SHELL_RESULTANT_COMPONENTS,
+  GLOBAL_FEM_SECTION_CUT_COMPONENTS,
+  collectConcurrentLineElementActionStates,
+  collectConcurrentMemberActionStates,
+  filterConcurrentFemStates,
+  collectConcurrentJointActionStates,
+  collectConcurrentSurfaceResultantStates,
+  collectConcurrentSectionCutStates,
+  collectConcurrentSupportReactionStates,
+} from "./ConcurrentFemDemandStates.js";
+export {
+  IDENTITY_RESISTANCE_AXIS_TRANSFORMATION,
+  projectLineActionStateToResistanceAxes,
+  projectMemberActionStatesToResistanceAxes,
+  projectWallSectionCutStatesToResistanceAxes,
+  projectJointActionStatesToResistanceAxes,
+  projectSectionCutStateToResistanceAxes,
+  projectShellResultantStateToResistanceAxes,
+  projectSlabResultantStatesToResistanceAxes,
+  projectSupportReactionStateToResistanceAxes,
+  projectFoundationReactionStatesToResistanceAxes,
+  validateResistanceAxisTransformation,
+  validateSurfaceResistanceAxisTransformation,
+} from "./ResistanceAxisMapping.js";
+export * from "./contracts/index.js";
 export type {
   BeamLineDiscretizationInput,
   BeamLineElementOptions,

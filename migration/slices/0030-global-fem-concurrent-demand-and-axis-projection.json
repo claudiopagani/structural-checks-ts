@@ -1,0 +1,84 @@
+{
+  "schemaVersion": 1,
+  "sliceId": "0030-global-fem-concurrent-demand-and-axis-projection",
+  "title": "Concurrent demand-state collection and resistance-axis projection",
+  "migrationType": "mechanical-parity",
+  "implementationStatus": "implemented",
+  "dependencies": ["0029-global-fem-result-mapping-contract-set"],
+  "source": {
+    "repository": "https://github.com/claudiopagani/strutture-js",
+    "revision": "6f33baead8b88166c4b2cf94af41763412e3c751"
+  },
+  "normativeCorpusRevision": "41da3faa489600173106935bbcf726119300e48d",
+  "sourceFiles": [
+    {
+      "path": "src/domain/fem/ConcurrentFemDemandStates.js",
+      "gitBlobSha1": "6dbf814a17431f989a13829c524368fb6bc0447f",
+      "targetPath": "src/domain/fem/ConcurrentFemDemandStates.ts"
+    }
+  ],
+  "sourceOracles": [
+    {
+      "path": "tests/concurrentFemDemandStates.test.js",
+      "gitBlobSha1": "5762a9af632d1ac75eeb944e8ac4adaa7aae1950"
+    },
+    {
+      "path": "tests/resistanceAxisMapping.test.js",
+      "gitBlobSha1": "36d570e0049c479a9d07b1eb370e310692d18db9"
+    }
+  ],
+  "sourcePublicExport": {
+    "path": "src/index.js",
+    "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
+  },
+  "targetTests": [
+    "tests/concurrent-fem-demand-states-0030.test.ts",
+    "tests/resistance-axis-mapping.test.ts"
+  ],
+  "publicExports": [
+    "GLOBAL_FEM_LINE_ACTION_COMPONENTS",
+    "GLOBAL_FEM_SHELL_RESULTANT_COMPONENTS",
+    "GLOBAL_FEM_SECTION_CUT_COMPONENTS",
+    "collectConcurrentLineElementActionStates",
+    "collectConcurrentMemberActionStates",
+    "filterConcurrentFemStates",
+    "collectConcurrentJointActionStates",
+    "collectConcurrentSurfaceResultantStates",
+    "collectConcurrentSectionCutStates",
+    "collectConcurrentSupportReactionStates",
+    "IDENTITY_RESISTANCE_AXIS_TRANSFORMATION",
+    "projectLineActionStateToResistanceAxes",
+    "projectMemberActionStatesToResistanceAxes",
+    "projectJointActionStatesToResistanceAxes",
+    "projectSectionCutStateToResistanceAxes",
+    "projectWallSectionCutStatesToResistanceAxes",
+    "projectShellResultantStateToResistanceAxes",
+    "projectSlabResultantStatesToResistanceAxes",
+    "projectSupportReactionStateToResistanceAxes",
+    "projectFoundationReactionStatesToResistanceAxes",
+    "validateResistanceAxisTransformation",
+    "validateSurfaceResistanceAxisTransformation"
+  ],
+  "normativeReferences": {
+    "resolved": [],
+    "outsideCorpus": [],
+    "normativeConformityClaimed": false,
+    "status": "classified-for-declared-scope"
+  },
+  "independentValidation": {
+    "method": "Source-derived concurrent state and explicit proper-orthogonal transformation tests; each real state retains its original reference, station, axes, units and components.",
+    "targetTests": [
+      "tests/concurrent-fem-demand-states-0030.test.ts",
+      "tests/resistance-axis-mapping.test.ts"
+    ],
+    "tolerances": {
+      "concurrentStatePreservation": "exact serialized state equality",
+      "axisProjection": "exact component equality for declared transformations"
+    }
+  },
+  "parityDifferences": [
+    "The full source concurrent-state postprocessing oracle is completed with the global postprocessing producer in slice 0031.",
+    "No independent envelope, missing-value default, unit conversion, or solver-specific interpretation is introduced."
+  ],
+  "engineeringFunctionality": "Usable solver-neutral collection and resistance-axis projection for externally supplied FEM states. It preserves concurrent action components and explicit mapping provenance without containing a FEM solver or normative conformity claim."
+}

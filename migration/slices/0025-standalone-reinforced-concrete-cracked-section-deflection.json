@@ -1,0 +1,143 @@
+{
+  "schemaVersion": 1,
+  "sliceId": "0025-standalone-reinforced-concrete-cracked-section-deflection",
+  "title": "Standalone reinforced-concrete cracked-section deflection",
+  "migrationType": "mechanical-parity",
+  "implementationStatus": "implemented",
+  "dependencies": [
+    "0014-reinforced-concrete-beam-member",
+    "0015-reinforced-concrete-plates",
+    "0022-single-beam-analysis",
+    "0024-reinforced-concrete-foundation-beams"
+  ],
+  "source": {
+    "repository": "https://github.com/claudiopagani/strutture-js",
+    "revision": "6f33baead8b88166c4b2cf94af41763412e3c751"
+  },
+  "normativeCorpusRevision": "41da3faa489600173106935bbcf726119300e48d",
+  "sourceFiles": [
+    {
+      "path": "src/applications/rc-cracked-deflection/RCrackedDeflectionApplication.js",
+      "gitBlobSha1": "2b8f26c924bc5637d49222e6b84f3213004a3b8a",
+      "targetPath": "src/applications/rc-cracked-deflection/RCrackedDeflectionApplication.ts"
+    },
+    {
+      "path": "src/applications/rc-cracked-deflection/models/CrackedSectionBeamModel.js",
+      "gitBlobSha1": "615292cd32ac76ab53cd2ccb7d1e3c5a68a8c528",
+      "targetPath": "src/applications/rc-cracked-deflection/models/CrackedSectionBeamModel.ts"
+    },
+    {
+      "path": "src/applications/rc-cracked-deflection/analysis/CrackedSectionDeflectionAnalysis.js",
+      "gitBlobSha1": "bfa0cd6bc00dbf80d9e0aee4d172b479cd33c40d",
+      "targetPath": "src/applications/rc-cracked-deflection/analysis/CrackedSectionDeflectionAnalysis.ts"
+    },
+    {
+      "path": "src/applications/rc-cracked-deflection/analysis/CurvatureDeflectionIntegrator.js",
+      "gitBlobSha1": "161d4c83c63277cbf9d3fbd5a5abb4a0294612de",
+      "targetPath": "src/applications/rc-cracked-deflection/analysis/CurvatureDeflectionIntegrator.ts"
+    },
+    {
+      "path": "src/applications/rc-cracked-deflection/analysis/DeflectionSampling.js",
+      "gitBlobSha1": "43b20d8039d312f946e8f23791fb1e40495e9539",
+      "targetPath": "src/applications/rc-cracked-deflection/analysis/DeflectionSampling.ts"
+    },
+    {
+      "path": "src/applications/rc-cracked-deflection/analysis/HyperstaticDeflectionIteration.js",
+      "gitBlobSha1": "64e8244485509bd763caa67a8165579b9e992a07",
+      "targetPath": "src/applications/rc-cracked-deflection/analysis/HyperstaticDeflectionIteration.ts"
+    },
+    {
+      "path": "src/applications/rc-cracked-deflection/adapters/serviceDeflectionAdapter.js",
+      "gitBlobSha1": "f1e658167e39c0f5ffacfa88404e4346bbc7eafc",
+      "targetPath": "src/applications/rc-cracked-deflection/adapters/serviceDeflectionAdapter.ts"
+    },
+    {
+      "path": "src/applications/rc-cracked-deflection/index.js",
+      "gitBlobSha1": "5a660bac3608cbb50854c6e4baa7358c5e5dc955",
+      "targetPath": "src/applications/rc-cracked-deflection/index.ts"
+    },
+    {
+      "path": "src/applications/reinforced-concrete-sections/checks/ReinforcedConcreteBeamVerification.js",
+      "gitBlobSha1": "f132e9d4b7faf05651cfc4d808ec858d80616423",
+      "targetPath": "src/applications/reinforced-concrete-sections/checks/ReinforcedConcreteBeamVerification.ts",
+      "coverage": "Connects the local beam-member verifier to deflection when serviceability.deflection is enabled."
+    },
+    {
+      "path": "src/applications/rc-cracked-deflection/analysis/DeflectionChecks.js",
+      "gitBlobSha1": "28c1a7e4d4cacf44dcc2fce7e332469eb153489a",
+      "targetPath": "src/applications/rc-cracked-deflection/analysis/DeflectionChecks.ts",
+      "coverage": "Reused from the earlier migration slice; no duplicate implementation introduced."
+    },
+    {
+      "path": "src/applications/rc-cracked-deflection/analysis/SectionMomentCurvatureCurve.js",
+      "gitBlobSha1": "4c829f6e64ba4a97a4158d0266352e5529dc8a28",
+      "targetPath": "src/applications/rc-cracked-deflection/analysis/SectionMomentCurvatureCurve.ts",
+      "coverage": "Reused from slice 0024 for hyperstatic moment-curvature envelopes; no duplicate implementation introduced."
+    },
+    {
+      "path": "src/index.js",
+      "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
+    }
+  ],
+  "sourceOracles": [
+    {
+      "path": "tests/rcCrackedDeflectionAnalysis.test.js",
+      "gitBlobSha1": "d42793ebc243c2cf0cfb1f6e0378bf6de5242a7d"
+    },
+    {
+      "path": "tests/packageExports.test.js",
+      "gitBlobSha1": "8dde24b4c97dd3dae7100207d07d9d96c52b9c74"
+    }
+  ],
+  "sourcePublicExport": {
+    "path": "src/index.js",
+    "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
+  },
+  "targetTests": ["tests/rc-cracked-deflection.test.ts"],
+  "publicExports": [
+    "RCrackedDeflectionApplication",
+    "CrackedSectionDeflectionAnalysis",
+    "RC_DEFLECTION_PERFORMANCE_PROFILES",
+    "CrackedSectionBeamModel",
+    "createServiceDeflectionAnalysisResult",
+    "runRcServiceDeflectionAnalysis",
+    "createScaServiceDeflectionAnalysisResult",
+    "runScaRcDeflectionAnalysis",
+    "SectionMomentCurvatureCurve",
+    "HyperstaticDeflectionIteration"
+  ],
+  "normativeReferences": {
+    "resolved": ["urn:structural-codes:it:unit:ntc2018:4.1.2.2.2"],
+    "outsideCorpus": [
+      "EN 1992-1-1:2004 § 7.4.3, espressioni (7.18)-(7.21)",
+      "EN 1992-1-1:2004 § 7.4.3(6), espressione (7.21)"
+    ],
+    "normativeConformityClaimed": false,
+    "status": "classified-for-declared-scope"
+  },
+  "independentValidation": {
+    "method": "Live serialized comparison with the pinned JavaScript source plus independent response, cracking-threshold, exact-Mcr, creep/shrinkage, sampling, hyperstatic redistribution, axial-force-family, adapter-DTO, and composed beam-verifier checks.",
+    "targetTests": ["tests/rc-cracked-deflection.test.ts"],
+    "tolerances": {
+      "liveSerializedParity": "exact deep equality after runtime serialization",
+      "uncrackedCurvature": "1e-12 relative or absolute",
+      "exactMcrStability": "1e-9 finite-result and branch-consistency checks",
+      "supportCompatibility": "1e-9 length units",
+      "independentClosedFormAndRedistribution": "1e-6 relative or absolute"
+    },
+    "parityFixtures": [
+      "missing input and public model behavior",
+      "uncracked response below Mcr, cracked response above Mcr, asymmetric positive and negative Mcr, long-term effective modular ratio, and exact-Mcr curve stability",
+      "creep and EN 1992 shrinkage curvature with production sampling/profile limits",
+      "fixed-fixed and continuous unequal-span hyperstatic stiffness redistribution, adaptive relaxation diagnostics, and variable axial-force curve families",
+      "service-deflection adapter DTOs and local beam-member verification with deflection enabled",
+      "live serialized standalone and composed-result parity with the pinned JavaScript implementation"
+    ]
+  },
+  "parityDifferences": [
+    "No numerical, unit-conversion, ordering, warning, status, metadata, or tested error-behavior difference is known for the declared migrated scope.",
+    "The source application registry in src/applications/index.js is retained as an oracle but is not migrated in this slice; application-registry parity remains a separate boundary.",
+    "Solver-specific adapters, building-level global analysis, staged construction, and unsupported analysis-result coverage remain excluded."
+  ],
+  "engineeringFunctionality": "Usable standalone reinforced-concrete cracked-section service-deflection analysis for solver-neutral beam analysis results, including uncracked and cracked curvature, sign-specific cracking thresholds, long-term modular ratio, creep, optional EN 1992 shrinkage curvature, sampling profiles, compatible displacement integration, and hyperstatic stiffness redistribution. The local beam verifier composes this application when deflection is enabled. Building-level global analysis and solver-specific adapters remain excluded."
+}

@@ -164,6 +164,10 @@ export const NTC2018_RC_CHAPTER_4_REFERENCES = Object.freeze({
     ],
     citation: "NTC 2018 § 4.1.2.3.6, formule [4.1.34]-[4.1.40]",
   }),
+  strutAndTie: resolvedReference({
+    unitId: "urn:structural-codes:it:unit:ntc2018:4.1.2.3.7",
+    citation: "NTC 2018 § 4.1.2.3.7",
+  }),
   anchorage: resolvedReference({
     unitId: "urn:structural-codes:it:unit:ntc2018:4.1.2.3.10",
     citation: "NTC 2018 § 4.1.2.3.10",
@@ -230,6 +234,18 @@ export const NTC2018_RC_CHAPTER_7_4_REFERENCES = Object.freeze({
     unitId: "urn:structural-codes:it:unit:ntc2018:7.4.1",
     citation: "NTC 2018 § 7.4.1",
   }),
+  structuralTypesAndQ: resolvedReference({
+    unitId: "urn:structural-codes:it:unit:ntc2018:7.4.3",
+    citation: "NTC 2018 § 7.4.3",
+  }),
+  beamCapacityShear: resolvedReference({
+    unitId: "urn:structural-codes:it:unit:ntc2018:7.4.4.1.1",
+    assetIds: [
+      "urn:structural-codes:it:asset:formula:ntc2018:7.4.1",
+      "urn:structural-codes:it:asset:formula:ntc2018:7.4.2",
+    ],
+    citation: "NTC 2018 § 7.4.4.1.1, formule [7.4.1]-[7.4.2]",
+  }),
   columnCapacityDesign: resolvedReference({
     unitId: "urn:structural-codes:it:unit:ntc2018:7.4.4.2.1",
     assetIds: [
@@ -238,6 +254,23 @@ export const NTC2018_RC_CHAPTER_7_4_REFERENCES = Object.freeze({
       "urn:structural-codes:it:asset:formula:ntc2018:7.4.5:mi-d",
     ],
     citation: "NTC 2018 § 7.4.4.2.1, formule [7.4.4]-[7.4.5]",
+  }),
+  beamColumnJoint: resolvedReference({
+    unitId: "urn:structural-codes:it:unit:ntc2018:7.4.4.3.1",
+    assetIds: [
+      "urn:structural-codes:it:asset:formula:ntc2018:7.4.6",
+      "urn:structural-codes:it:asset:formula:ntc2018:7.4.7",
+      "urn:structural-codes:it:asset:formula:ntc2018:7.4.8",
+      "urn:structural-codes:it:asset:formula:ntc2018:7.4.9",
+      "urn:structural-codes:it:asset:formula:ntc2018:7.4.10",
+      "urn:structural-codes:it:asset:formula:ntc2018:7.4.11",
+      "urn:structural-codes:it:asset:formula:ntc2018:7.4.12",
+    ],
+    citation: "NTC 2018 § 7.4.4.3.1, formule [7.4.6]-[7.4.12]",
+  }),
+  diaphragm: resolvedReference({
+    unitId: "urn:structural-codes:it:unit:ntc2018:7.4.4.4.1",
+    citation: "NTC 2018 § 7.4.4.4.1",
   }),
   wall: resolvedReference({
     unitId: "urn:structural-codes:it:unit:ntc2018:7.4.4.5.1",
@@ -275,6 +308,10 @@ export const NTC2018_RC_CHAPTER_7_4_REFERENCES = Object.freeze({
     unitId: "urn:structural-codes:it:unit:ntc2018:7.4.6.1.2",
     citation: "NTC 2018 § 7.4.6.1.2",
   }),
+  jointGeometry: resolvedReference({
+    unitId: "urn:structural-codes:it:unit:ntc2018:7.4.6.1.3",
+    citation: "NTC 2018 § 7.4.6.1.3",
+  }),
   wallGeometry: resolvedReference({
     unitId: "urn:structural-codes:it:unit:ntc2018:7.4.6.1.4",
     citation: "NTC 2018 § 7.4.6.1.4",
@@ -301,6 +338,10 @@ export const NTC2018_RC_CHAPTER_7_4_REFERENCES = Object.freeze({
     ],
     citation: "NTC 2018 § 7.4.6.2.2, formule [7.4.28]-[7.4.31]",
   }),
+  jointDetailing: resolvedReference({
+    unitId: "urn:structural-codes:it:unit:ntc2018:7.4.6.2.3",
+    citation: "NTC 2018 § 7.4.6.2.3",
+  }),
   wallDetailing: resolvedReference({
     unitId: "urn:structural-codes:it:unit:ntc2018:7.4.6.2.4",
     citation: "NTC 2018 § 7.4.6.2.4",
@@ -316,6 +357,20 @@ export const NTC2018_RC_OUTSIDE_CORPUS_REFERENCES = Object.freeze({
     citation:
       "E. Cosenza, G. Maddaloni, G. Cuomo, A simplified method for shear capacity assessment of circular RC cross-sections, equations (3) and (5)",
     href: "https://www.associazioneaicap.com/wp-content/uploads/2018/03/109-COSMET.pdf",
+  }),
+  globalSeismicAnalysis: outsideCorpusReference({
+    citation: "NTC 2018 §§ 7.2-7.3",
+  }),
+  structuralRegularity: outsideCorpusReference({
+    citation: "NTC 2018 § 7.2.1",
+  }),
+  structuralRegularityGuidance: outsideCorpusReference({
+    documentId: "circ2019",
+    citation: "Circolare 2019 § C7.2.1",
+    href: "https://www.gazzettaufficiale.it/eli/id/2019/02/11/19A00855/sg",
+  }),
+  seismicFoundationDesign: outsideCorpusReference({
+    citation: "NTC 2018 § 7.11",
   }),
   materialQualification: outsideCorpusReference({
     citation: "NTC 2018, capitolo 11",

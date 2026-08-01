@@ -33,6 +33,7 @@ import { ReinforcedConcreteSectionVerification } from "./ReinforcedConcreteSecti
 import { ReinforcedConcreteServiceabilityVerification } from "./ReinforcedConcreteServiceabilityVerification.js";
 import { ReinforcedConcreteShearVerification } from "./ReinforcedConcreteShearVerification.js";
 import { ReinforcedConcreteTorsionVerification } from "./ReinforcedConcreteTorsionVerification.js";
+import { CrackedSectionDeflectionAnalysis } from "../../rc-cracked-deflection/analysis/CrackedSectionDeflectionAnalysis.js";
 import type { RcBeamDetailingInput } from "./detailing/beamTypes.js";
 import type { RcServiceabilityOptions } from "./serviceability/serviceabilityOptions.js";
 import type { RcShearInput } from "./shear/types.js";
@@ -66,7 +67,7 @@ export interface ReinforcedConcreteBeamVerificationInput {
   concreteMaterial?: ConcreteMaterial | null;
   reinforcementMaterial?: SteelMaterial | null;
   analysisResult?: BeamAnalysisResult | null;
-  beamModel?: Record<string, unknown> | null;
+  beamModel?: unknown;
   mesh?: ReinforcedConcreteSectionMeshOptions;
   solver?: RcBeamSolverOptions;
   shear?: RcShearInput | null;
@@ -442,35 +443,6 @@ function createRcServiceabilityActionVerifier({
   };
 }
 
-function sleCombinationCount(analysisResult: BeamAnalysisResult): number {
-  const combinations = Object.values(analysisResult.combinations ?? {});
-  const entries =
-    combinations.length > 0 ? combinations : Object.values(analysisResult.loadCases ?? {});
-
-  return entries.filter((entry) => String(entry.context?.limitState ?? "").toUpperCase() === "SLE")
-    .length;
-}
-
-function unavailableDeflectionResult(analysisResult: BeamAnalysisResult): VerificationResult {
-  const combinationCount = sleCombinationCount(analysisResult);
-
-  return new VerificationResult({
-    applicationId: "rc-cracked-deflection",
-    status: RESULT_STATUS.NOT_IMPLEMENTED,
-    summary: "RC cracked-section deflection is not implemented in this migration slice.",
-    warnings: [
-      "Disable serviceability.deflection explicitly to run the parity-tested local RC beam member checks without a deflection claim.",
-    ],
-    outputs: {
-      combinationCount,
-      implementationStatus: "not-implemented",
-    },
-    metadata: {
-      implementationStatus: "not-implemented",
-    },
-  });
-}
-
 function governingFromResults(results: VerificationResult[]): GoverningVerification | null {
   return results.reduce<GoverningVerification | null>((selected, candidate) => {
     if (!Number.isFinite(candidate.utilizationRatio)) {
@@ -630,7 +602,23 @@ export class ReinforcedConcreteBeamVerification {
     const deflectionVerification =
       serviceabilityOptions === null || serviceabilityOptions.deflection === false
         ? null
-        : unavailableDeflectionResult(analysisResult);
+        : new CrackedSectionDeflectionAnalysis({
+            code: this.code,
+          }).analyze({
+            beamId,
+            analysisResult,
+            section,
+            concreteMaterial: resolvedConcreteMaterial,
+            reinforcementMaterial: resolvedReinforcementMaterial,
+            serviceability: serviceabilityOptions,
+            mesh,
+            solver: {
+              tolerance: solver.serviceTolerance ?? 1e-2,
+              maxIterations: solver.serviceMaxIterations ?? 50,
+              finiteDifferenceStep: solver.finiteDifferenceStep ?? 1e-8,
+            },
+            beamModel,
+          });
     const includeDeflection =
       deflectionVerification !== null &&
       Number(deflectionVerification.outputs.combinationCount ?? 0) > 0;
@@ -657,10 +645,7 @@ export class ReinforcedConcreteBeamVerification {
               serviceabilityVerification.status === RESULT_STATUS.OK &&
               (!includeDeflection || deflectionVerification?.status === RESULT_STATUS.OK)
                 ? RESULT_STATUS.OK
-                : includeDeflection &&
-                    deflectionVerification?.status === RESULT_STATUS.NOT_IMPLEMENTED
-                  ? RESULT_STATUS.NOT_IMPLEMENTED
-                  : RESULT_STATUS.NOT_VERIFIED,
+                : RESULT_STATUS.NOT_VERIFIED,
             utilizationRatio: Math.max(
               ulsVerification.utilizationRatio ?? 0,
               serviceabilityVerification.utilizationRatio ?? 0,
@@ -830,9 +815,6 @@ export class ReinforcedConcreteBeamVerification {
           beamId,
           governingCheckId: governing?.id ?? null,
           verificationStations,
-          ...(serviceabilityOptions !== null && serviceabilityOptions.deflection !== false
-            ? { deflectionImplementationStatus: "not-implemented" }
-            : {}),
           ...this.metadata,
         },
         normativeReferences,

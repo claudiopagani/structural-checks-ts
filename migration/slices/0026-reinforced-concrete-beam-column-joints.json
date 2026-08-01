@@ -1,0 +1,140 @@
+{
+  "schemaVersion": 1,
+  "sliceId": "0026-reinforced-concrete-beam-column-joints",
+  "title": "Reinforced-concrete beam-column joint verification",
+  "migrationType": "mechanical-parity",
+  "implementationStatus": "implemented",
+  "dependencies": [
+    "0012-reinforced-concrete-detailing",
+    "0013-reinforced-concrete-column-member",
+    "0014-reinforced-concrete-beam-member",
+    "0017-reinforced-concrete-seismic-walls"
+  ],
+  "source": {
+    "repository": "https://github.com/claudiopagani/strutture-js",
+    "revision": "6f33baead8b88166c4b2cf94af41763412e3c751"
+  },
+  "normativeCorpusRevision": "41da3faa489600173106935bbcf726119300e48d",
+  "sourceFiles": [
+    {
+      "path": "src/applications/reinforced-concrete-beam-column-joints/ReinforcedConcreteBeamColumnJointApplication.js",
+      "gitBlobSha1": "99a76105546c9c404adc4ee1a176847bab479672",
+      "targetPath": "src/applications/reinforced-concrete-beam-column-joints/ReinforcedConcreteBeamColumnJointApplication.ts"
+    },
+    {
+      "path": "src/applications/reinforced-concrete-beam-column-joints/ReinforcedConcreteBeamColumnJointModel.js",
+      "gitBlobSha1": "576920ed76ae17d84110c487964044b07714c3b9",
+      "targetPath": "src/applications/reinforced-concrete-beam-column-joints/ReinforcedConcreteBeamColumnJointModel.ts"
+    },
+    {
+      "path": "src/applications/reinforced-concrete-beam-column-joints/ReinforcedConcreteBeamColumnJointVerification.js",
+      "gitBlobSha1": "2a5c1e95741093da256fd94d7522983f6514ff52",
+      "targetPath": "src/applications/reinforced-concrete-beam-column-joints/ReinforcedConcreteBeamColumnJointVerification.ts"
+    },
+    {
+      "path": "src/applications/reinforced-concrete-beam-column-joints/ReinforcedConcreteBeamColumnJoint3DModel.js",
+      "gitBlobSha1": "211023780d4ff170ec80b2d70e03d0fe12aa70ac",
+      "targetPath": "src/applications/reinforced-concrete-beam-column-joints/ReinforcedConcreteBeamColumnJoint3DModel.ts"
+    },
+    {
+      "path": "src/applications/reinforced-concrete-beam-column-joints/ReinforcedConcreteBeamColumnJoint3DVerification.js",
+      "gitBlobSha1": "500ce871d1d379c6b4f8533167c5a48a73cd1c0f",
+      "targetPath": "src/applications/reinforced-concrete-beam-column-joints/ReinforcedConcreteBeamColumnJoint3DVerification.ts"
+    },
+    {
+      "path": "src/applications/reinforced-concrete-beam-column-joints/index.js",
+      "gitBlobSha1": "8a60e99fa391467232bad57ad32b3f4fec082c3f",
+      "targetPath": "src/applications/reinforced-concrete-beam-column-joints/index.ts"
+    },
+    {
+      "path": "src/norms/ntc2018/reinforced-concrete/ntc2018BeamColumnJoint.js",
+      "gitBlobSha1": "02ab3f6ddcd9da34a538a4e0c13a59e6b1a8f15e",
+      "targetPath": "src/norms/ntc2018/reinforced-concrete/ntc2018BeamColumnJoint.ts"
+    },
+    {
+      "path": "src/norms/ntc2018/normativeReferences.js",
+      "gitBlobSha1": "23ab4d1fbe10f0f363ba6b56b300ea013d856ccf",
+      "targetPath": "src/norms/ntc2018/normativeReferences.ts",
+      "coverage": "Adds the source-compatible NTC 2018 beam-column-joint clauses and unit references used by the migrated joint kernel."
+    },
+    {
+      "path": "src/index.js",
+      "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
+    },
+    {
+      "path": "src/applications/index.js",
+      "gitBlobSha1": "b70179c7cdd2a819f2151dc092c0f59cbce30ba6"
+    }
+  ],
+  "sourceOracles": [
+    {
+      "path": "tests/reinforcedConcreteBeamColumnJointApplication.test.js",
+      "gitBlobSha1": "8cb6dcdef2aca3caa324b4ada7276244d4599831"
+    },
+    {
+      "path": "tests/packageExports.test.js",
+      "gitBlobSha1": "8dde24b4c97dd3dae7100207d07d9d96c52b9c74"
+    }
+  ],
+  "sourcePublicExport": {
+    "path": "src/index.js",
+    "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
+  },
+  "targetTests": [
+    "tests/reinforced-concrete-beam-column-joint.test.ts",
+    "tests/baseline-parity.test.ts"
+  ],
+  "publicExports": [
+    "ReinforcedConcreteBeamColumnJoint3DModel",
+    "ReinforcedConcreteBeamColumnJoint3DVerification",
+    "ReinforcedConcreteBeamColumnJointApplication",
+    "ReinforcedConcreteBeamColumnJointModel",
+    "ReinforcedConcreteBeamColumnJointVerification",
+    "NTC2018_BEAM_COLUMN_JOINT_TENSION_METHODS",
+    "NTC2018_BEAM_COLUMN_JOINT_TYPES",
+    "calculateNTC2018EffectiveJointWidth",
+    "calculateNTC2018JointCompressionCapacity",
+    "calculateNTC2018JointShearDemand",
+    "calculateNTC2018JointTensionReinforcement",
+    "classifyNTC2018JointConfinement",
+    "ntc2018JointOverstrengthFactor"
+  ],
+  "normativeReferences": {
+    "resolved": [
+      "urn:structural-codes:it:unit:ntc2018:7.4.4.3.1",
+      "urn:structural-codes:it:unit:ntc2018:7.4.6.1.3",
+      "urn:structural-codes:it:unit:ntc2018:7.4.6.2.3",
+      "urn:structural-codes:it:unit:ntc2018:7.4.4.2.1",
+      "urn:structural-codes:it:unit:ntc2018:7.4.6.2.1"
+    ],
+    "outsideCorpus": ["EN 1992-1-1:2004 \u00a7\u00a7 8.4.2-8.4.4, espressioni (8.2)-(8.6)"],
+    "normativeConformityClaimed": false,
+    "status": "classified-for-declared-scope"
+  },
+  "independentValidation": {
+    "method": "Live serialized comparison with the pinned JavaScript source plus independently evaluated joint demand, compression, tension, confinement, hierarchy, eccentricity, anchorage, three-dimensional direction, and result-status checks.",
+    "targetTests": [
+      "tests/reinforced-concrete-beam-column-joint.test.ts",
+      "tests/baseline-parity.test.ts"
+    ],
+    "tolerances": {
+      "liveSerializedParity": "exact deep equality after runtime serialization",
+      "independentJointArithmetic": "1e-9 relative or absolute",
+      "threeDimensionalDirectionComposition": "exact serialized direction and check identifiers"
+    },
+    "parityFixtures": [
+      "missing-input and public-model validation",
+      "internal and external joint shear demand, diagonal compression, post-cracking truss, and NTC 2018 overstrength factors",
+      "confinement classification and fully-confined hoop-spacing allowance",
+      "strong-column weak-beam hierarchy, eccentricity transfer reinforcement, and EN anchorage checks",
+      "concurrent orthogonal 3D directions including corner-joint behavior",
+      "exact serialized application parity with the pinned JavaScript implementation and public root-export parity"
+    ]
+  },
+  "parityDifferences": [
+    "No numerical, unit-conversion, ordering, warning, status, metadata, or tested error-behavior difference is known for the declared migrated scope.",
+    "The source application registry in src/applications/index.js is retained as an oracle but is not migrated in this slice; application-registry parity remains a separate boundary.",
+    "Unsupported design codes, unsupported joint topologies or ductility classes, solver-specific adapters, building-level global analysis, and scalar interaction of concurrent 3D directional results remain excluded."
+  ],
+  "engineeringFunctionality": "Usable solver-neutral reinforced-concrete beam-column joint verification for the pinned NTC 2018 local 2D and concurrent orthogonal 3D composition, including joint geometry, confinement, shear, diagonal compression, tension reinforcement, capacity hierarchy, eccentricity transfer, anchorage, source-compatible warnings, assumptions, normative metadata, and serializable results. Building-level global analysis and solver-specific adapters remain excluded."
+}

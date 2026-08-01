@@ -1,0 +1,90 @@
+{
+  "schemaVersion": 1,
+  "sliceId": "0028-global-fem-shared-contracts",
+  "title": "Global FEM shared validation, capabilities, model and analysis contracts",
+  "migrationType": "mechanical-parity",
+  "implementationStatus": "implemented",
+  "dependencies": ["0020-linear-frame-fem-2d", "0027-reinforced-concrete-strut-and-tie"],
+  "source": {
+    "repository": "https://github.com/claudiopagani/strutture-js",
+    "revision": "6f33baead8b88166c4b2cf94af41763412e3c751"
+  },
+  "normativeCorpusRevision": "41da3faa489600173106935bbcf726119300e48d",
+  "sourceFiles": [
+    {
+      "path": "src/domain/fem/contracts/FemContractValidation.js",
+      "gitBlobSha1": "18d63993fe10e06a3c09e6a4008b8674e722e5c2",
+      "targetPath": "src/domain/fem/contracts/FemContractValidation.ts"
+    },
+    {
+      "path": "src/domain/fem/contracts/FemCapabilitiesContract.js",
+      "gitBlobSha1": "b5216618366092be752e11c71d393eb24938a477",
+      "targetPath": "src/domain/fem/contracts/FemCapabilitiesContract.ts"
+    },
+    {
+      "path": "src/domain/fem/contracts/GlobalFemModelContract.js",
+      "gitBlobSha1": "0d4b98953d2ed37251ec6af50f4c44535064afc9",
+      "targetPath": "src/domain/fem/contracts/GlobalFemModelContract.ts"
+    },
+    {
+      "path": "src/domain/fem/contracts/GlobalFemAnalysisContract.js",
+      "gitBlobSha1": "fb23a8aabbb80d941e64e0c06861d0eb59a20540",
+      "targetPath": "src/domain/fem/contracts/GlobalFemAnalysisContract.ts"
+    },
+    {
+      "path": "src/domain/fem/contracts/index.js",
+      "gitBlobSha1": "5d02574340c527162c716e229f09e2ac13f9e613",
+      "targetPath": "src/domain/fem/contracts/index.ts"
+    },
+    {
+      "path": "tests/fixtures/globalFemBuildingFixture.js",
+      "gitBlobSha1": "cbd8f1408637b5d157ffcebbfd4b1c01ca2520f1",
+      "targetPath": "tests/fixtures/globalFemBuildingFixture.ts"
+    }
+  ],
+  "sourceOracles": [
+    {
+      "path": "tests/globalFemContracts.test.js",
+      "gitBlobSha1": "13c587c9b8132a855da7822e60ecf31cb7a6d8f7"
+    }
+  ],
+  "sourcePublicExport": {
+    "path": "src/index.js",
+    "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
+  },
+  "targetTests": ["tests/global-fem-contracts-0028.test.ts"],
+  "publicExports": [
+    "FEM_ANALYSIS_CAPABILITY_KEYS",
+    "FEM_ANALYSIS_TYPES",
+    "FEM_CONTRACT_SCHEMAS",
+    "FEM_ELEMENT_CAPABILITY_KEYS",
+    "FEM_RESULT_CAPABILITY_KEYS",
+    "FEM_RESULT_STATUS_VALUES",
+    "GLOBAL_FEM_CONTRACT_VERSION",
+    "GLOBAL_FEM_REQUIRED_UNIT_KEYS",
+    "createFemCapabilitiesContract",
+    "validateFemCapabilitiesContract",
+    "createGlobalFemModelContract",
+    "validateGlobalFemModelContract",
+    "createGlobalFemAnalysisContract",
+    "validateGlobalFemAnalysisContract"
+  ],
+  "normativeReferences": {
+    "resolved": [],
+    "outsideCorpus": [],
+    "normativeConformityClaimed": false,
+    "status": "classified-for-declared-scope"
+  },
+  "independentValidation": {
+    "method": "Source-derived serialized contract fixture and validation/error-path checks.",
+    "targetTests": ["tests/global-fem-contracts-0028.test.ts"],
+    "tolerances": {
+      "contractSerialization": "exact JSON equality for the declared fixture"
+    }
+  },
+  "parityDifferences": [
+    "Result, entity-mapping and complete contract-set validation are deferred to slice 0029.",
+    "The FEM solver and solver-specific adapters remain outside this library."
+  ],
+  "engineeringFunctionality": "Usable solver-neutral validation and construction of shared global FEM capability, model and analysis contracts. No FEM solver is included and no normative conformity claim is made."
+}

@@ -1,0 +1,155 @@
+{
+  "schemaVersion": 1,
+  "sliceId": "0027-reinforced-concrete-strut-and-tie",
+  "title": "Reinforced-concrete strut-and-tie verification",
+  "migrationType": "mechanical-parity",
+  "implementationStatus": "implemented",
+  "dependencies": [
+    "0003-concrete-materials",
+    "0007-domain-math-and-biaxial-demand-capacity",
+    "0020-linear-frame-fem-2d"
+  ],
+  "source": {
+    "repository": "https://github.com/claudiopagani/strutture-js",
+    "revision": "6f33baead8b88166c4b2cf94af41763412e3c751"
+  },
+  "normativeCorpusRevision": "41da3faa489600173106935bbcf726119300e48d",
+  "sourceFiles": [
+    {
+      "path": "src/domain/strut-and-tie/AxialMember2D.js",
+      "gitBlobSha1": "da5c78fb3df4fbf9fc72e0923fe0ce75f4e61e1d",
+      "targetPath": "src/domain/strut-and-tie/AxialMember2D.ts"
+    },
+    {
+      "path": "src/domain/strut-and-tie/StrutAndTieModel2D.js",
+      "gitBlobSha1": "1b26849c00444ee1f43ead768730497a92de17e0",
+      "targetPath": "src/domain/strut-and-tie/StrutAndTieModel2D.ts"
+    },
+    {
+      "path": "src/domain/strut-and-tie/StrutAndTieAnalysis2D.js",
+      "gitBlobSha1": "d88947132275a5b7d781f7bbadabed728e1c70f4",
+      "targetPath": "src/domain/strut-and-tie/StrutAndTieAnalysis2D.ts"
+    },
+    {
+      "path": "src/domain/strut-and-tie/index.js",
+      "gitBlobSha1": "5868ba5a629df69ce9d20ce73a967ece9a7eb125",
+      "targetPath": "src/domain/strut-and-tie/index.ts"
+    },
+    {
+      "path": "src/norms/en1992/strut-and-tie/en1992StrutAndTie2004.js",
+      "gitBlobSha1": "01056e62ee1c58b9fd941a8c930ff7df619f174f",
+      "targetPath": "src/norms/en1992/strut-and-tie/en1992StrutAndTie2004.ts"
+    },
+    {
+      "path": "src/norms/en1992/strut-and-tie/index.js",
+      "gitBlobSha1": "0f708f1691eaa6a58a3097083e36255b80a3e81c",
+      "targetPath": "src/norms/en1992/strut-and-tie/index.ts"
+    },
+    {
+      "path": "src/norms/en1992/normativeReferences.js",
+      "gitBlobSha1": "991a183cdc30a567472ad6ff66736f0cd2eb1a0f",
+      "targetPath": "src/norms/en1992/normativeReferences.ts",
+      "coverage": "Adds the source-compatible EN 1992 strut-and-tie external reference classified outside the pinned corpus."
+    },
+    {
+      "path": "src/applications/reinforced-concrete-strut-and-tie/ReinforcedConcreteStrutAndTieApplication.js",
+      "gitBlobSha1": "e8311ebadcc0d77b6c9ff1f55cc52917d31b40c2",
+      "targetPath": "src/applications/reinforced-concrete-strut-and-tie/ReinforcedConcreteStrutAndTieApplication.ts"
+    },
+    {
+      "path": "src/applications/reinforced-concrete-strut-and-tie/ReinforcedConcreteStrutAndTieModel.js",
+      "gitBlobSha1": "a4f170362fa1d040cd78cc3618126632dd380ffb",
+      "targetPath": "src/applications/reinforced-concrete-strut-and-tie/ReinforcedConcreteStrutAndTieModel.ts"
+    },
+    {
+      "path": "src/applications/reinforced-concrete-strut-and-tie/ReinforcedConcreteStrutAndTieVerification.js",
+      "gitBlobSha1": "412f4428fbbdf163220a167a86fd41fe3754f03e",
+      "targetPath": "src/applications/reinforced-concrete-strut-and-tie/ReinforcedConcreteStrutAndTieVerification.ts"
+    },
+    {
+      "path": "src/applications/reinforced-concrete-strut-and-tie/index.js",
+      "gitBlobSha1": "6343403bd98bd8648007fc7ea6080109aa7dffd2",
+      "targetPath": "src/applications/reinforced-concrete-strut-and-tie/index.ts"
+    },
+    {
+      "path": "src/norms/ntc2018/normativeReferences.js",
+      "gitBlobSha1": "23ab4d1fbe10f0f363ba6b56b300ea013d856ccf",
+      "targetPath": "src/norms/ntc2018/normativeReferences.ts",
+      "coverage": "Reuses the source-compatible NTC 2018 Chapter 4 strut-and-tie unit reference introduced for this slice."
+    },
+    {
+      "path": "src/index.js",
+      "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
+    },
+    {
+      "path": "src/applications/index.js",
+      "gitBlobSha1": "b70179c7cdd2a819f2151dc092c0f59cbce30ba6"
+    }
+  ],
+  "sourceOracles": [
+    {
+      "path": "tests/reinforcedConcreteStrutAndTieApplication.test.js",
+      "gitBlobSha1": "afa7b00b790f4c1fc2b4a9836aec66864af184ed"
+    },
+    {
+      "path": "tests/packageExports.test.js",
+      "gitBlobSha1": "8dde24b4c97dd3dae7100207d07d9d96c52b9c74"
+    }
+  ],
+  "sourcePublicExport": {
+    "path": "src/index.js",
+    "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
+  },
+  "targetTests": [
+    "tests/reinforced-concrete-strut-and-tie.test.ts",
+    "tests/baseline-parity.test.ts"
+  ],
+  "publicExports": [
+    "AxialMember2D",
+    "STRUT_AND_TIE_MEMBER_TYPES",
+    "StrutAndTieAnalysis2D",
+    "StrutAndTieModel2D",
+    "RC_STRUT_AND_TIE_SUPPORTED_CODE",
+    "ReinforcedConcreteStrutAndTieApplication",
+    "ReinforcedConcreteStrutAndTieModel",
+    "ReinforcedConcreteStrutAndTieVerification",
+    "calculateEn1992NodalDesignStrength",
+    "calculateEn1992StrutAndTieNuPrime",
+    "calculateEn1992StrutDesignStrength",
+    "calculateEn1992TieResistance",
+    "EN1992_STRUT_AND_TIE_NODE_TYPES",
+    "EN1992_STRUT_STRENGTH_MODELS"
+  ],
+  "normativeReferences": {
+    "resolved": ["urn:structural-codes:it:unit:ntc2018:4.1.2.3.7"],
+    "outsideCorpus": ["EN 1992-1-1:2004 § 6.5"],
+    "normativeConformityClaimed": false,
+    "status": "classified-for-declared-scope"
+  },
+  "independentValidation": {
+    "method": "Live serialized comparison with the pinned JavaScript source plus independently evaluated EN 1992 strut, tie, nodal-zone, equilibrium, mechanism-sign, singular-topology, and public-model checks.",
+    "targetTests": [
+      "tests/reinforced-concrete-strut-and-tie.test.ts",
+      "tests/baseline-parity.test.ts"
+    ],
+    "tolerances": {
+      "liveSerializedParity": "exact deep equality after runtime serialization",
+      "strengthArithmetic": "1e-9 relative or absolute",
+      "publishedCorbelEquilibrium": "0.01 N member-force tolerance and exact zero residual DTO",
+      "modelValidation": "exact source-compatible error messages and status values"
+    },
+    "parityFixtures": [
+      "EN 1992 nu-prime, concrete strut-strength, tie-resistance, and ccc/cct/ctt nodal-strength arithmetic",
+      "published corbel equilibrium with explicit load and member force references",
+      "force-sign incompatible mechanism and assigned singular topology",
+      "explicit nodal-zone mapping and public model validation",
+      "exact serialized application parity with the pinned JavaScript implementation and public root-export parity"
+    ]
+  },
+  "parityDifferences": [
+    "No numerical, unit-conversion, ordering, warning, status, metadata, demand, capacity, utilization, or tested error-behavior difference is known for the declared migrated scope.",
+    "The source application registry in src/applications/index.js is retained as an oracle but is not migrated in this slice; application-registry parity remains a separate boundary.",
+    "Automatic topology generation or optimization, iterative removal of incompatible members, tie anchorage, reinforcement distribution, bottle-shaped strut splitting forces, minimum crack-control reinforcement, solver-specific adapters, and building-level global analysis remain excluded."
+  ],
+  "engineeringFunctionality": "Usable solver-neutral reinforced-concrete strut-and-tie verification for an explicitly assigned two-dimensional EN 1992-1-1:2004+A1:2014 topology, including linear axial analysis, force-sign compatibility, concrete strut strength, steel tie resistance, ccc/cct/ctt nodal-zone strength, source-compatible warnings and assumptions, normative metadata, and serializable verification results. Topology generation, reinforcement detailing beyond assigned effective areas, building-level global analysis, and solver-specific adapters remain excluded."
+}

@@ -1,0 +1,109 @@
+{
+  "schemaVersion": 1,
+  "sliceId": "0033-rc-building-coverage-design-basis-orchestration",
+  "title": "RC building coverage, design-basis audit and wall, slab, punching and foundation orchestration",
+  "migrationType": "mechanical-parity",
+  "implementationStatus": "implemented",
+  "dependencies": ["0032-ntc2018-rc-building-kernels"],
+  "source": {
+    "repository": "https://github.com/claudiopagani/strutture-js",
+    "revision": "6f33baead8b88166c4b2cf94af41763412e3c751"
+  },
+  "normativeCorpusRevision": "41da3faa489600173106935bbcf726119300e48d",
+  "sourceFiles": [
+    {
+      "path": "src/applications/rc-building-verification/ntc2018RcBuildingCoverage.js",
+      "gitBlobSha1": "b904e35c0cca746091feb253dc77e997fcefdde2",
+      "targetPath": "src/applications/rc-building-verification/ntc2018RcBuildingCoverage.ts"
+    },
+    {
+      "path": "src/applications/rc-building-verification/ntc2018RcDesignBasisAudit.js",
+      "gitBlobSha1": "499fb5835682b89c5dd65a9c92d5b758504fefff",
+      "targetPath": "src/applications/rc-building-verification/ntc2018RcDesignBasisAudit.ts"
+    },
+    {
+      "path": "src/applications/rc-building-verification/wallBiaxialVerification.js",
+      "gitBlobSha1": "b3fc77c77d81ee9d21e7194615d8d4dc9fe16db0",
+      "targetPath": "src/applications/rc-building-verification/wallBiaxialVerification.ts"
+    },
+    {
+      "path": "src/applications/rc-building-verification/wallSystemVerification.js",
+      "gitBlobSha1": "287ad9d50e178fed13af86521a5ce31d805348b9",
+      "targetPath": "src/applications/rc-building-verification/wallSystemVerification.ts"
+    },
+    {
+      "path": "src/applications/rc-building-verification/slabSystemVerification.js",
+      "gitBlobSha1": "cc3ec2e0f66b7ff086cd21b97f2b1a4adab8cc33",
+      "targetPath": "src/applications/rc-building-verification/slabSystemVerification.ts"
+    },
+    {
+      "path": "src/applications/rc-building-verification/foundationSystemVerification.js",
+      "gitBlobSha1": "e3ea47d00ead07ac387ac7a2804a239a0710b25a",
+      "targetPath": "src/applications/rc-building-verification/foundationSystemVerification.ts"
+    }
+  ],
+  "supportingSourceFiles": [
+    {
+      "path": "src/applications/rc-building-verification/index.js",
+      "gitBlobSha1": "29a2468a0ea87c8ac064a9136b64de8a6385155a",
+      "targetPath": "src/applications/rc-building-verification/index.ts",
+      "coverage": "building application export is added in slice 0034"
+    }
+  ],
+  "sourceOracles": [
+    {
+      "path": "tests/ntc2018RcBuildingCoverage.test.js",
+      "gitBlobSha1": "f90ba136e99789bf3a1d5633cb49a7a81784d5a6"
+    },
+    {
+      "path": "tests/ntc2018RcDesignBasisAudit.test.js",
+      "gitBlobSha1": "203a2afec5098d30bb7eced5bb0e169b0832cd36"
+    }
+  ],
+  "sourcePublicExport": {
+    "path": "src/index.js",
+    "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
+  },
+  "targetTests": [
+    "tests/ntc2018-rc-building-coverage.test.ts",
+    "tests/ntc2018-rc-design-basis-audit.test.ts"
+  ],
+  "publicExports": [
+    "NTC2018_RC_BUILDING_CAPABILITIES",
+    "NTC2018_RC_COVERAGE_STATUS",
+    "NTC2018_RC_TRACEABILITY_STATUS",
+    "auditNTC2018RcDesignBasis",
+    "evaluateNTC2018RcBuildingCompleteness",
+    "getNTC2018RcBuildingCoverage",
+    "runFoundationSystemVerifications",
+    "runSlabSystemVerifications",
+    "runWallSystemVerifications"
+  ],
+  "normativeReferences": {
+    "resolved": [
+      "urn:structural-codes:it:unit:ntc2018:7.4.1",
+      "urn:structural-codes:it:unit:ntc2018:7.4.3",
+      "urn:structural-codes:it:unit:ntc2018:7.4.4.5.1",
+      "urn:structural-codes:it:unit:ntc2018:7.4.6.1.4"
+    ],
+    "outsideCorpus": ["NTC 2018 § 6.4", "NTC 2018 §§ 7.2-7.3", "NTC 2018 § 7.11"],
+    "normativeConformityClaimed": false,
+    "status": "classified-for-declared-scope"
+  },
+  "independentValidation": {
+    "method": "Source-derived coverage inventory and design-basis audit tests; wall, slab, punching and foundation orchestration remains explicit-input and solver-neutral.",
+    "targetTests": [
+      "tests/ntc2018-rc-building-coverage.test.ts",
+      "tests/ntc2018-rc-design-basis-audit.test.ts"
+    ],
+    "tolerances": {
+      "designBasis": "source assertions and q comparison within 1e-12",
+      "coverage": "exact serialized coverage and completeness fields"
+    }
+  },
+  "parityDifferences": [
+    "The building application export is intentionally deferred to slice 0034; this slice exposes only the completed coverage, audit and component orchestration boundary.",
+    "Component and system verifiers consume explicit consumer-provided models, actions and capacities; no section, material, reinforcement, FEM result or solver data is generated."
+  ],
+  "engineeringFunctionality": "Usable RC building coverage and design-basis audit plus explicit wall, slab, punching and foundation orchestration from supplied serializable inputs, without a FEM solver or normative conformity claim."
+}

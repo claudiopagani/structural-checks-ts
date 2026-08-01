@@ -40,6 +40,9 @@ export const EN1992_RC_EXTERNAL_REFERENCES = Object.freeze({
   deflection: externalEn1992Reference({
     citation: "EN 1992-1-1:2004 § 7.4.3, espressioni (7.18)-(7.21)",
   }),
+  strutAndTie: externalEn1992Reference({
+    citation: "EN 1992-1-1:2004 § 6.5",
+  }),
   punching2004: externalEn1992Reference({
     citation: "EN 1992-1-1:2004+A1:2014 §§ 6.4.2-6.4.5 e § 9.4.3",
   }),

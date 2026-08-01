@@ -330,7 +330,7 @@ void test("local RC beam ULS, SLE, shear, torsion, and detailing match the basel
   );
 });
 
-void test("beam verifier reports the unmigrated deflection branch explicitly", () => {
+void test("beam verifier composes the migrated deflection branch", () => {
   const input = createFixture();
   const target = new ReinforcedConcreteBeamVerification().verify({
     ...input,
@@ -340,12 +340,24 @@ void test("beam verifier reports the unmigrated deflection branch explicitly", (
     },
   });
 
-  assert.equal(target.status, "not-implemented");
-  assert.equal(target.metadata.deflectionImplementationStatus, "not-implemented");
+  const JavaScriptVerification = baselineExport<typeof ReinforcedConcreteBeamVerification>(
+    "ReinforcedConcreteBeamVerification",
+  );
+  const source = new JavaScriptVerification().verify({
+    ...input,
+    serviceability: {
+      ...input.serviceability,
+      deflection: {},
+    },
+  });
+
+  assert.deepEqual(target.toJSON(), source.toJSON());
+  assert.notEqual(target.status, "not-implemented");
+  assert.equal(target.metadata.deflectionImplementationStatus, undefined);
   assert.equal(
-    (target.outputs.deflection as { outputs: { implementationStatus: string } }).outputs
-      .implementationStatus,
-    "not-implemented",
+    (target.outputs.deflection as { outputs?: { implementationStatus?: string } } | null)?.outputs
+      ?.implementationStatus,
+    undefined,
   );
 });
 

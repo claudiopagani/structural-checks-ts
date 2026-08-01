@@ -79,8 +79,75 @@ export {
   KinematicConstraintReducer2D,
   LinearStaticSolver2D,
 } from "./domain/fem/index.js";
+export {
+  GLOBAL_FEM_LINE_ACTION_COMPONENTS,
+  GLOBAL_FEM_SHELL_RESULTANT_COMPONENTS,
+  GLOBAL_FEM_SECTION_CUT_COMPONENTS,
+  collectConcurrentLineElementActionStates,
+  collectConcurrentMemberActionStates,
+  filterConcurrentFemStates,
+  collectConcurrentJointActionStates,
+  collectConcurrentSurfaceResultantStates,
+  collectConcurrentSectionCutStates,
+  collectConcurrentSupportReactionStates,
+  IDENTITY_RESISTANCE_AXIS_TRANSFORMATION,
+  projectLineActionStateToResistanceAxes,
+  projectMemberActionStatesToResistanceAxes,
+  projectJointActionStatesToResistanceAxes,
+  projectSectionCutStateToResistanceAxes,
+  projectWallSectionCutStatesToResistanceAxes,
+  projectShellResultantStateToResistanceAxes,
+  projectSlabResultantStatesToResistanceAxes,
+  projectSupportReactionStateToResistanceAxes,
+  projectFoundationReactionStatesToResistanceAxes,
+  validateResistanceAxisTransformation,
+  validateSurfaceResistanceAxisTransformation,
+} from "./domain/fem/index.js";
+export {
+  FEM_ANALYSIS_CAPABILITY_KEYS,
+  FEM_ANALYSIS_TYPES,
+  FEM_CONTRACT_SCHEMAS,
+  FEM_ELEMENT_CAPABILITY_KEYS,
+  FEM_RESULT_CAPABILITY_KEYS,
+  FEM_RESULT_STATUS_VALUES,
+  GLOBAL_FEM_CONTRACT_VERSION,
+  GLOBAL_FEM_REQUIRED_UNIT_KEYS,
+  createFemCapabilitiesContract,
+  validateFemCapabilitiesContract,
+  createGlobalFemModelContract,
+  validateGlobalFemModelContract,
+  createGlobalFemAnalysisContract,
+  validateGlobalFemAnalysisContract,
+  createFemEntityMappingContract,
+  validateFemEntityMappingContract,
+  createGlobalFemResultContract,
+  validateGlobalFemResultContract,
+  createGlobalFemContractSet,
+  validateGlobalFemContractSet,
+} from "./domain/fem/contracts/index.js";
+export {
+  DEFAULT_GLOBAL_FEM_CLASSIFICATION_POLICY,
+  GLOBAL_FEM_CLASSIFICATION_PROPOSAL_VERSION,
+  GLOBAL_FEM_DEMAND_SET_VERSION,
+  GLOBAL_FEM_POSTPROCESSING_PROFILES,
+  GLOBAL_FEM_POSTPROCESSING_PROFILE_VALUES,
+  GLOBAL_FEM_READINESS_ASSESSMENTS,
+  GLOBAL_FEM_READINESS_ASSESSMENT_VALUES,
+  GLOBAL_FEM_READINESS_REPORT_VERSION,
+  GlobalFemPostProcessingApplication,
+  classifyGlobalFemStructuralEntities,
+  evaluateGlobalFemVerificationReadiness,
+  extractGlobalFemDemands,
+  normalizeGlobalFemClassificationPolicy,
+} from "./applications/global-fem-postprocessing/index.js";
 export { DistributedLoad, LineLoad, Load, NodalLoad, PointLoad } from "./domain/loads/index.js";
 export { Support } from "./domain/supports/index.js";
+export {
+  AxialMember2D,
+  STRUT_AND_TIE_MEMBER_TYPES,
+  StrutAndTieAnalysis2D,
+  StrutAndTieModel2D,
+} from "./domain/strut-and-tie/index.js";
 export {
   PUNCHING_ACTION_SCHEMA_VERSION,
   PUNCHING_CONNECTION_SCHEMA_VERSION,
@@ -114,7 +181,31 @@ export {
   ReinforcedConcreteFoundationBeamApplication,
   ReinforcedConcreteFoundationBeamModel,
 } from "./applications/reinforced-concrete-foundation-beams/index.js";
-export { SectionMomentCurvatureCurve } from "./applications/rc-cracked-deflection/index.js";
+export {
+  CrackedSectionBeamModel,
+  CrackedSectionDeflectionAnalysis,
+  HyperstaticDeflectionIteration,
+  RCrackedDeflectionApplication,
+  RC_DEFLECTION_PERFORMANCE_PROFILES,
+  SectionMomentCurvatureCurve,
+  createScaServiceDeflectionAnalysisResult,
+  createServiceDeflectionAnalysisResult,
+  runRcServiceDeflectionAnalysis,
+  runScaRcDeflectionAnalysis,
+} from "./applications/rc-cracked-deflection/index.js";
+export {
+  ReinforcedConcreteBeamColumnJoint3DModel,
+  ReinforcedConcreteBeamColumnJoint3DVerification,
+  ReinforcedConcreteBeamColumnJointApplication,
+  ReinforcedConcreteBeamColumnJointModel,
+  ReinforcedConcreteBeamColumnJointVerification,
+} from "./applications/reinforced-concrete-beam-column-joints/index.js";
+export {
+  RC_STRUT_AND_TIE_SUPPORTED_CODE,
+  ReinforcedConcreteStrutAndTieApplication,
+  ReinforcedConcreteStrutAndTieModel,
+  ReinforcedConcreteStrutAndTieVerification,
+} from "./applications/reinforced-concrete-strut-and-tie/index.js";
 export { ReinforcedConcreteColumnDetailingVerification } from "./applications/reinforced-concrete-columns/ReinforcedConcreteColumnDetailingVerification.js";
 export { ReinforcedConcreteColumnApplication } from "./applications/reinforced-concrete-columns/ReinforcedConcreteColumnApplication.js";
 export { ReinforcedConcreteColumnModel } from "./applications/reinforced-concrete-columns/ReinforcedConcreteColumnModel.js";
@@ -213,11 +304,86 @@ export {
   NTC2018_REINFORCEMENT_STEEL_GRADES,
 } from "./norms/ntc2018/materials/ntc2018MaterialCatalogs.js";
 export {
+  NTC2018_ANALYSIS_METHOD,
+  NTC2018_BASE_Q_FACTORS,
+  NTC2018_ELEVATION_REGULARITY,
   NTC2018_OVERSTRENGTH_FACTORS,
+  NTC2018_PLAN_REGULARITY,
+  NTC2018_REGULARITY_REDUCTION,
   NTC2018_STRUCTURAL_BEHAVIOR,
+  NTC2018_STRUCTURAL_BEHAVIOR_REFERENCES,
+  NTC2018_STRUCTURAL_TYPE,
+  checkNonDissipativeAdmissibility,
+  computeNTC2018EffectiveQFactor,
+  createNTC2018StructuralBehavior,
   normalizeNTC2018StructuralBehavior,
+  normalizeNTC2018StructuralType,
+  resolveNTC2018AlphaRatio,
+  selectNTC2018AllowedAnalysisMethods,
+  selectNTC2018BaseQFactor,
   selectNTC2018OverstrengthFactors,
 } from "./norms/ntc2018/reinforced-concrete/structuralBehavior.js";
+export {
+  NTC2018_REGULARITY_REFERENCES,
+  createNTC2018RegularityAssessment,
+  evaluateNTC2018ElevationRegularity,
+  evaluateNTC2018PlanRegularity,
+} from "./norms/ntc2018/reinforced-concrete/structuralRegularity.js";
+export {
+  NTC2018_CAPACITY_DESIGN_REFERENCES,
+  computeBeamCapacityShear,
+  computeColumnCapacityShear,
+  computeJointCapacityShear,
+  createCapacityDesignAssessment,
+  verifyBeamColumnHierarchy,
+} from "./norms/ntc2018/reinforced-concrete/capacityDesign.js";
+export {
+  NTC2018_DISPLACEMENT_REFERENCES,
+  NTC2018_DRIFT_INFILL_CATEGORY,
+  NTC2018_DRIFT_LIMITS,
+  NTC2018_PDELTA_THRESHOLDS,
+  computePDeltaCoefficient,
+  computeSeismicJointWidth,
+  computeStoreyDrift,
+  createDisplacementAssessment,
+  verifyPDelta,
+  verifyStoreyDisplacements,
+  verifyStoreyDrift,
+} from "./norms/ntc2018/reinforced-concrete/displacementChecks.js";
+export {
+  NTC2018_DIAPHRAGM_FORCE_FACTOR,
+  NTC2018_DIAPHRAGM_REFERENCES,
+  amplifyNTC2018DiaphragmActions,
+  createDiaphragmAssessment,
+} from "./norms/ntc2018/reinforced-concrete/ntc2018Diaphragm.js";
+export {
+  NTC2018_LINEAR_DYNAMIC_REFERENCES,
+  createNTC2018LinearDynamicAssessment,
+  verifyNTC2018AccidentalEccentricities,
+  verifyNTC2018ModalMassParticipation,
+} from "./norms/ntc2018/seismicAnalysisChecks.js";
+export {
+  NTC2018_RC_BUILDING_CAPABILITIES,
+  NTC2018_RC_COVERAGE_STATUS,
+  NTC2018_RC_TRACEABILITY_STATUS,
+  RcBuildingVerificationApplication,
+  auditNTC2018RcDesignBasis,
+  evaluateNTC2018RcBuildingCompleteness,
+  getNTC2018RcBuildingCoverage,
+  runFoundationSystemVerifications,
+  runSlabSystemVerifications,
+  runWallSystemVerifications,
+} from "./applications/rc-building-verification/index.js";
+export {
+  NTC2018_BEAM_COLUMN_JOINT_TENSION_METHODS,
+  NTC2018_BEAM_COLUMN_JOINT_TYPES,
+  calculateNTC2018EffectiveJointWidth,
+  calculateNTC2018JointCompressionCapacity,
+  calculateNTC2018JointShearDemand,
+  calculateNTC2018JointTensionReinforcement,
+  classifyNTC2018JointConfinement,
+  ntc2018JointOverstrengthFactor,
+} from "./norms/ntc2018/reinforced-concrete/ntc2018BeamColumnJoint.js";
 export {
   NTC2018_SHEAR_WALL_REFERENCES,
   computeWallBoundaryLength,
@@ -250,6 +416,14 @@ export {
   calculateEn1992LocalBearingResistance,
   calculateEn1992ShrinkageCurvature,
 } from "./norms/en1992/reinforced-concrete/index.js";
+export {
+  calculateEn1992NodalDesignStrength,
+  calculateEn1992StrutAndTieNuPrime,
+  calculateEn1992StrutDesignStrength,
+  calculateEn1992TieResistance,
+  EN1992_STRUT_AND_TIE_NODE_TYPES,
+  EN1992_STRUT_STRENGTH_MODELS,
+} from "./norms/en1992/strut-and-tie/index.js";
 
 export type {
   CalculationResultJson,
@@ -421,12 +595,22 @@ export type {
 export type { ReinforcedConcreteSectionApplicationInput } from "./applications/reinforced-concrete-sections/ReinforcedConcreteSectionApplication.js";
 export type {
   CrackedTransformedProperties,
+  CrackedSectionBeamModelOptions,
+  CrackedSectionDeflectionAnalysisOptions,
+  CrackedSectionDeflectionAnalyzeInput,
+  HyperstaticDeflectionIterationInput,
+  HyperstaticDeflectionIterationOptions,
+  RcServiceDeflectionAnalysisInput,
+  RCrackedDeflectionApplicationInput,
+  ServiceDeflectionAnalysisResultInput,
+  ServiceDeflectionResult,
   SectionMomentCurvatureCurveMeshOptions,
   SectionMomentCurvatureCurveMetrics,
   SectionMomentCurvatureCurveOptions,
   SectionMomentCurvatureCurveSolverOptions,
   SectionMomentCurvatureState,
 } from "./applications/rc-cracked-deflection/index.js";
+export type { ReinforcedConcreteBeamColumnJointModelOptions } from "./applications/reinforced-concrete-beam-column-joints/index.js";
 export type {
   ReinforcedConcreteFoundationBeamApplicationInput,
   ReinforcedConcreteFoundationBeamCrackedStiffnessOptions,

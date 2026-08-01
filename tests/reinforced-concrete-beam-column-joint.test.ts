@@ -1,0 +1,346 @@
+/* eslint-disable @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-return */
+import path from "node:path";
+import { pathToFileURL } from "node:url";
+import test from "node:test";
+import assert from "node:assert/strict";
+
+import {
+  ReinforcedConcreteBeamColumnJointApplication,
+  ReinforcedConcreteBeamColumnJoint3DModel,
+  ReinforcedConcreteBeamColumnJointModel,
+  calculateNTC2018EffectiveJointWidth,
+  calculateNTC2018JointCompressionCapacity,
+  calculateNTC2018JointShearDemand,
+  calculateNTC2018JointTensionReinforcement,
+  classifyNTC2018JointConfinement,
+  createNTC2018ConcreteMaterial,
+  createNTC2018ReinforcementSteelMaterial,
+  ntc2018JointOverstrengthFactor,
+} from "../dist/index.js";
+
+const units = { force: "N", length: "mm" } as const;
+
+function createModel(overrides: any = {}) {
+  const concreteMaterial = createNTC2018ConcreteMaterial({
+    strengthClass: "C25/30",
+    units,
+  });
+  const reinforcementMaterial = createNTC2018ReinforcementSteelMaterial({
+    grade: "B450C",
+    units,
+  });
+  const source = {
+    id: "joint-01-x-positive",
+    directionId: "x-positive",
+    jointType: "internal",
+    ductilityClass: "CDB",
+    tensionMethod: "diagonal-tension",
+    geometry: {
+      columnWidth: 400,
+      columnDepth: 400,
+      beamWidth: 300,
+      beamHeight: 500,
+      columnLongitudinalLayerDistance: 320,
+      beamLongitudinalLayerDistance: 420,
+    },
+    materials: {
+      concreteMaterial,
+      reinforcementMaterial,
+    },
+    actions: {
+      columnAxialForce: 200000,
+      columnShearAbove: 50000,
+    },
+    beamReinforcement: {
+      topArea: 500,
+      bottomArea: 500,
+    },
+    jointHoops: {
+      diameter: 8,
+      totalArea: 1500,
+      areaPerSet: 220,
+      spacing: 100,
+    },
+    confinement: {
+      faceCoverageRatios: {
+        positiveX: 1,
+        negativeX: 1,
+        positiveZ: 0,
+        negativeZ: 0,
+      },
+      oppositeBeamOverlapRatios: { x: 1, z: 0 },
+      adjacentColumnHoops: {
+        controllingAreaPerSet: 200,
+        controllingSpacing: 100,
+      },
+    },
+    capacityHierarchy: {
+      beamMomentResistanceSum: 200e6,
+      effectiveColumnMomentResistance: 270e6,
+      preReducedForMomentSigns: true,
+    },
+    units,
+  };
+
+  return new ReinforcedConcreteBeamColumnJointModel({
+    ...source,
+    ...overrides,
+    geometry: { ...source.geometry, ...(overrides.geometry ?? {}) },
+    materials: { ...source.materials, ...(overrides.materials ?? {}) },
+    actions: { ...source.actions, ...(overrides.actions ?? {}) },
+    beamReinforcement: {
+      ...source.beamReinforcement,
+      ...(overrides.beamReinforcement ?? {}),
+    },
+    jointHoops: { ...source.jointHoops, ...(overrides.jointHoops ?? {}) },
+    confinement: { ...source.confinement, ...(overrides.confinement ?? {}) },
+    capacityHierarchy: {
+      ...source.capacityHierarchy,
+      ...(overrides.capacityHierarchy ?? {}),
+    },
+  });
+}
+
+void test("NTC joint helpers reproduce independent internal-joint arithmetic", () => {
+  const width = calculateNTC2018EffectiveJointWidth({
+    columnWidth: 350,
+    beamWidth: 300,
+    columnDepth: 350,
+  });
+  const demand = calculateNTC2018JointShearDemand({
+    jointType: "internal",
+    gammaRd: 1.2,
+    topReinforcementArea: 509,
+    bottomReinforcementArea: 509,
+    reinforcementDesignStrength: 391.3,
+    columnShearAbove: 8380,
+  });
+  const compression = calculateNTC2018JointCompressionCapacity({
+    jointType: "internal",
+    fck: 29.05,
+    fcd: 16.46,
+    normalizedAxialForce: 0.044,
+    effectiveJointWidth: width,
+    columnLongitudinalLayerDistance: 262,
+  });
+  const tension = calculateNTC2018JointTensionReinforcement({
+    method: "diagonal-tension",
+    jointType: "internal",
+    jointShearDemand: demand.demand,
+    effectiveJointWidth: width,
+    columnLongitudinalLayerDistance: 262,
+    beamLongitudinalLayerDistance: 266,
+    normalizedAxialForce: 0.044,
+    fcd: 16.46,
+    fctd: 1.32,
+    gammaRd: 1.2,
+    topReinforcementArea: 509,
+    bottomReinforcementArea: 509,
+    reinforcementDesignStrength: 391.3,
+  });
+
+  assert.equal(width, 350);
+  assert.ok(Math.abs(demand.demand - 469632.08) < 0.01);
+  assert.ok(Math.abs(compression.capacity - 766470) < 2);
+  assert.ok(tension.requiredConfiningStress !== undefined);
+  assert.ok(Math.abs(tension.requiredConfiningStress - 11.51) < 0.02);
+  assert.ok(Math.abs(tension.requiredHorizontalTieForce - 1071600) < 3000);
+});
+
+void test("NTC joint overstrength factors reproduce Table 7.2.I", () => {
+  assert.equal(ntc2018JointOverstrengthFactor("CDA"), 1.2);
+  assert.equal(ntc2018JointOverstrengthFactor("CDB"), 1.1);
+});
+
+void test("NTC joint helpers cover external demand, compression and post-cracking truss", () => {
+  const demand = calculateNTC2018JointShearDemand({
+    jointType: "external",
+    gammaRd: 1.2,
+    topReinforcementArea: 400,
+    bottomReinforcementArea: 300,
+    reinforcementDesignStrength: 400,
+    columnShearAbove: 20000,
+  });
+  const compression = calculateNTC2018JointCompressionCapacity({
+    jointType: "external",
+    fck: 25,
+    fcd: 14.167,
+    normalizedAxialForce: 0.1,
+    effectiveJointWidth: 300,
+    columnLongitudinalLayerDistance: 320,
+  });
+  const tension = calculateNTC2018JointTensionReinforcement({
+    method: "post-cracking-truss",
+    jointType: "external",
+    jointShearDemand: demand.demand,
+    effectiveJointWidth: 300,
+    columnLongitudinalLayerDistance: 320,
+    beamLongitudinalLayerDistance: 420,
+    normalizedAxialForce: 0.1,
+    fcd: 14.167,
+    fctd: 1.2,
+    gammaRd: 1.2,
+    topReinforcementArea: 400,
+    bottomReinforcementArea: 300,
+    reinforcementDesignStrength: 400,
+  });
+
+  assert.equal(demand.beamForce, 192000);
+  assert.equal(demand.demand, 172000);
+  assert.ok(Math.abs(compression.eta - 0.432) < 1e-12);
+  assert.ok(Math.abs(compression.capacity - 515062.6313) < 0.001);
+  assert.equal(tension.reinforcementArea, 300);
+  assert.ok(Math.abs(tension.requiredHorizontalTieForce - 132480) < 1e-9);
+  assert.equal(tension.equation, "NTC2018-7.4.12");
+});
+
+void test("RC beam-column joint application verifies the supported local state", () => {
+  const result: any = new ReinforcedConcreteBeamColumnJointApplication().run({
+    model: createModel(),
+  });
+
+  assert.equal(result.applicationId, "reinforced-concrete-beam-column-joints");
+  assert.equal(result.status, "ok");
+  assert.equal(result.outputs.materials.fctdSource, "0.7-fctm/gammaC");
+  assert.ok(result.outputs.materials.fctd > 1.19);
+  assert.equal(result.outputs.confinement.classification, "not-fully-confined");
+  assert.ok(result.checks.some((check: any) => check.id === "rc-joint-diagonal-compression"));
+  assert.ok(result.checks.some((check: any) => check.id === "rc-joint-strong-column-weak-beam"));
+  assert.equal(result.outputs.overstrengthFactors.jointShear, 1.1);
+  assert.equal(result.outputs.overstrengthFactors.columnBending, 1.3);
+  assert.equal(
+    result.checks.find((check: any) => check.id === "rc-joint-strong-column-weak-beam").metadata
+      .gammaRd,
+    1.3,
+  );
+});
+
+void test("fully confined classification permits doubled spacing up to 150 mm", () => {
+  const result: any = new ReinforcedConcreteBeamColumnJointApplication().run({
+    model: createModel({
+      confinement: {
+        faceCoverageRatios: {
+          positiveX: 0.75,
+          negativeX: 0.8,
+          positiveZ: 0.9,
+          negativeZ: 1,
+        },
+        oppositeBeamOverlapRatios: { x: 0.75, z: 0.8 },
+        adjacentColumnHoops: {
+          controllingAreaPerSet: 200,
+          controllingSpacing: 80,
+        },
+      },
+      jointHoops: { spacing: 150 },
+    }),
+  });
+
+  assert.equal(result.outputs.confinement.fullyConfined, true);
+  assert.equal(result.outputs.confinement.allowedJointHoopSpacing, 150);
+  assert.equal(result.checks.find((check: any) => check.id === "rc-joint-hoop-spacing").ok, true);
+});
+
+void test("joint application rejects an insufficient hierarchy capacity", () => {
+  const result: any = new ReinforcedConcreteBeamColumnJointApplication().run({
+    model: createModel({
+      capacityHierarchy: {
+        effectiveColumnMomentResistance: 150e6,
+      },
+    }),
+  });
+
+  assert.equal(result.status, "not-verified");
+  assert.equal(
+    result.checks.find((check: any) => check.id === "rc-joint-strong-column-weak-beam").ok,
+    false,
+  );
+});
+
+void test("joint model requires capacity sums already resolved for member signs", () => {
+  assert.throws(
+    () =>
+      createModel({
+        capacityHierarchy: { preReducedForMomentSigns: false },
+      }),
+    /does not infer member moment signs/,
+  );
+});
+
+void test("joint confinement classifier requires all four faces and both overlaps", () => {
+  assert.throws(
+    () =>
+      classifyNTC2018JointConfinement({
+        faceCoverageRatios: { positiveX: 1 },
+        oppositeBeamOverlapRatios: { x: 1 },
+      }),
+    /requires all face and overlap ratios/,
+  );
+});
+
+function directionInput(model: any, directionId: string) {
+  return {
+    directionId,
+    jointType: model.jointType,
+    ductilityClass: model.ductilityClass,
+    tensionMethod: model.tensionMethod,
+    geometry: { ...model.geometry },
+    materials: { ...model.materials },
+    actions: { ...model.actions },
+    beamReinforcement: { ...model.beamReinforcement },
+    jointHoops: { ...model.jointHoops },
+    confinement: structuredClone(model.confinement),
+    capacityHierarchy: { ...model.capacityHierarchy },
+    anchorage: structuredClone(model.anchorage),
+    eccentricity: { ...model.eccentricity },
+    units,
+  };
+}
+
+void test("3D joint verifies concurrent orthogonal directions including a corner joint", () => {
+  const x = createModel({
+    anchorage: {
+      topBars: { diameter: 16, availableLength: 1000 },
+      bottomBars: { diameter: 16, availableLength: 1000 },
+    },
+  });
+  const z = createModel({
+    jointType: "corner",
+    eccentricity: {
+      beamAxisOffset: 120,
+      transferLeverArm: 300,
+      reinforcementArea: 1000,
+    },
+  });
+  const result: any = new ReinforcedConcreteBeamColumnJointApplication().run({
+    model: new ReinforcedConcreteBeamColumnJoint3DModel({
+      id: "joint-3d",
+      concurrentActionState: true,
+      directions: [directionInput(x, "x"), directionInput(z, "z")],
+    }),
+  });
+
+  assert.equal(result.outputs.directionCount, 2);
+  assert.equal(result.outputs.directions.z.outputs.normativeJointType, "external");
+  assert.ok(
+    result.checks.some((check: any) => check.id === "rc-joint-eccentric-transfer-reinforcement-z"),
+  );
+  assert.ok(
+    result.checks.some((check: any) => check.id === "rc-joint-beam-bar-anchorage-topBars-x"),
+  );
+});
+
+const expectedRevision = "6f33baead8b88166c4b2cf94af41763412e3c751";
+const baselinePath = process.env.STRUTTURE_JS_BASELINE_PATH
+  ? path.resolve(process.env.STRUTTURE_JS_BASELINE_PATH)
+  : path.resolve(import.meta.dirname, "..", "..", "strutture-js");
+
+void test("RC beam-column joint application matches the pinned JavaScript result", async () => {
+  const sourceApi = (await import(
+    pathToFileURL(path.join(baselinePath, "src", "index.js")).href
+  )) as Record<string, any>;
+  const model = createModel();
+  const target = new ReinforcedConcreteBeamColumnJointApplication().run({ model });
+  const source = new sourceApi.ReinforcedConcreteBeamColumnJointApplication().run({ model });
+  assert.equal(expectedRevision, "6f33baead8b88166c4b2cf94af41763412e3c751");
+  assert.deepEqual(target.toJSON(), source.toJSON());
+});

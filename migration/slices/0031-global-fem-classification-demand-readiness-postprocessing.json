@@ -1,0 +1,100 @@
+{
+  "schemaVersion": 1,
+  "sliceId": "0031-global-fem-classification-demand-readiness-postprocessing",
+  "title": "Global FEM classification, demand extraction, readiness and postprocessing",
+  "migrationType": "mechanical-parity",
+  "implementationStatus": "implemented",
+  "dependencies": ["0030-global-fem-concurrent-demand-and-axis-projection"],
+  "source": {
+    "repository": "https://github.com/claudiopagani/strutture-js",
+    "revision": "6f33baead8b88166c4b2cf94af41763412e3c751"
+  },
+  "normativeCorpusRevision": "41da3faa489600173106935bbcf726119300e48d",
+  "sourceFiles": [
+    {
+      "path": "src/applications/global-fem-postprocessing/classificationPolicy.js",
+      "gitBlobSha1": "e56d99eee748b101cf9463e18e9598107a9c72af",
+      "targetPath": "src/applications/global-fem-postprocessing/classificationPolicy.ts"
+    },
+    {
+      "path": "src/applications/global-fem-postprocessing/GlobalFemDemandExtractor.js",
+      "gitBlobSha1": "c7b500fbf73647c184b6b631d0c92d624dc39151",
+      "targetPath": "src/applications/global-fem-postprocessing/GlobalFemDemandExtractor.ts"
+    },
+    {
+      "path": "src/applications/global-fem-postprocessing/GlobalFemPostProcessingApplication.js",
+      "gitBlobSha1": "c784949f9a0741a2eff133d92129b90a8d450f41",
+      "targetPath": "src/applications/global-fem-postprocessing/GlobalFemPostProcessingApplication.ts"
+    },
+    {
+      "path": "src/applications/global-fem-postprocessing/GlobalFemStructuralClassifier.js",
+      "gitBlobSha1": "e1eaaa4697fb718c7790d3f58b961c28b88878b5",
+      "targetPath": "src/applications/global-fem-postprocessing/GlobalFemStructuralClassifier.ts"
+    },
+    {
+      "path": "src/applications/global-fem-postprocessing/GlobalFemVerificationReadiness.js",
+      "gitBlobSha1": "53925d6978bf35af6f4826dc50146e67114255d4",
+      "targetPath": "src/applications/global-fem-postprocessing/GlobalFemVerificationReadiness.ts"
+    },
+    {
+      "path": "src/applications/global-fem-postprocessing/index.js",
+      "gitBlobSha1": "f8655ae4b59737ffc7de78320717063e3f8baae2",
+      "targetPath": "src/applications/global-fem-postprocessing/index.ts"
+    }
+  ],
+  "sourceOracles": [
+    {
+      "path": "tests/globalFemPostprocessing.test.js",
+      "gitBlobSha1": "0a956774031547c98c1d69a87b4acefbdcc8a07e"
+    },
+    {
+      "path": "tests/concurrentFemDemandStates.test.js",
+      "gitBlobSha1": "5762a9af632d1ac75eeb944e8ac4adaa7aae1950"
+    }
+  ],
+  "sourcePublicExport": {
+    "path": "src/index.js",
+    "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
+  },
+  "targetTests": [
+    "tests/global-fem-postprocessing.test.ts",
+    "tests/concurrent-fem-demand-states.test.ts"
+  ],
+  "publicExports": [
+    "DEFAULT_GLOBAL_FEM_CLASSIFICATION_POLICY",
+    "GLOBAL_FEM_CLASSIFICATION_PROPOSAL_VERSION",
+    "GLOBAL_FEM_DEMAND_SET_VERSION",
+    "GLOBAL_FEM_POSTPROCESSING_PROFILES",
+    "GLOBAL_FEM_POSTPROCESSING_PROFILE_VALUES",
+    "GLOBAL_FEM_READINESS_ASSESSMENTS",
+    "GLOBAL_FEM_READINESS_ASSESSMENT_VALUES",
+    "GLOBAL_FEM_READINESS_REPORT_VERSION",
+    "GlobalFemPostProcessingApplication",
+    "classifyGlobalFemStructuralEntities",
+    "evaluateGlobalFemVerificationReadiness",
+    "extractGlobalFemDemands",
+    "normalizeGlobalFemClassificationPolicy"
+  ],
+  "normativeReferences": {
+    "resolved": [],
+    "outsideCorpus": [],
+    "normativeConformityClaimed": false,
+    "status": "classified-for-declared-scope"
+  },
+  "independentValidation": {
+    "method": "Source-derived postprocessing and concurrent-state tests with serialized outputs, explicit reference preservation and missing-data diagnostics.",
+    "targetTests": [
+      "tests/global-fem-postprocessing.test.ts",
+      "tests/concurrent-fem-demand-states.test.ts"
+    ],
+    "tolerances": {
+      "serializedParity": "exact JSON serialization for source-derived fixtures",
+      "statePreservation": "exact declared component, station and reference preservation"
+    }
+  },
+  "parityDifferences": [
+    "The TypeScript tests import the built package root and the migrated fixture; formulas, statuses, warnings, readiness states and serialized fields remain source-derived.",
+    "No solver, adapter, inferred design data, missing-value default, cross-element envelope or normative conformity claim is introduced."
+  ],
+  "engineeringFunctionality": "Usable solver-neutral validation, assisted classification, demand extraction and readiness reporting for externally supplied FEM contracts."
+}

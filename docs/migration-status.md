@@ -326,11 +326,9 @@ Implementation state: **implemented** for the declared local beam-member scope.
 - a composition fixture covering biaxial flexure, service stress, crack control, shear-torsion
   interaction, dissipative detailing, station metadata, and missing-input behavior.
 
-This is usable local beam verification for supplied solver-neutral sampled actions. Cracked-section
-deflection belongs to a separate source application with additional FEM redistribution dependencies
-and is not part of this slice. If deflection is requested, the beam verifier returns an explicit
-`not-implemented` result; it does not silently claim that deflection was checked. Global analysis
-and solver-specific adapters also remain outside this scope.
+This is usable local beam verification for supplied solver-neutral sampled actions. Standalone
+cracked-section deflection is migrated separately in slice 0025; global analysis and solver-specific
+adapters remain outside this scope.
 
 ## Implemented slice 0015
 
@@ -498,9 +496,9 @@ Implementation state: **implemented** for the declared generic single-beam analy
 
 This is usable generic linear single-beam analysis for explicit solver-neutral inputs. It is not RC
 foundation-beam analysis, does not model Winkler soil springs or active-set contact, does not
-perform cracked-section deflection or stiffness iteration, and does not provide a building-level
-analysis or solver-specific adapter. Generic foundation-beam analysis is covered by slice 0023 and
-RC foundation-beam analysis by slice 0024.
+provide the RC cracked-section deflection application, and does not provide a building-level
+analysis or solver-specific adapter. Generic foundation-beam analysis is covered by slice 0023, RC
+foundation-beam analysis by slice 0024, and standalone RC cracked-section deflection by slice 0025.
 
 ## Implemented slice 0023
 
@@ -539,21 +537,241 @@ reinforced-concrete foundation-beam boundary at the pinned source revision. Its 
   section, cracking-threshold, contact, stiffness-iteration, and metadata checks.
 
 The implementation records the source normative keys with the pinned corpus classification and makes
-no conformity claim. The source application registry remains a separate unimplemented boundary. The
-standalone `RCrackedDeflectionApplication`, full `CrackedSectionDeflectionAnalysis`, hyperstatic
-deflection iteration, and service-deflection adapters are explicitly outside this slice and remain a
-later boundary.
+no conformity claim. The source application registry remains a separate unimplemented boundary.
+Standalone cracked-section deflection, hyperstatic deflection iteration, and service-deflection
+adapters are implemented in slice 0025 and are not duplicated here.
+
+## Implemented slice 0025
+
+Implementation state: **implemented** for the declared standalone solver-neutral RC cracked-section
+service-deflection boundary.
+
+Manifest `migration/slices/0025-standalone-reinforced-concrete-cracked-section-deflection.json`
+records the source paths, pinned blobs, source oracle, normative classification, and validation
+boundary. Its scope is:
+
+- `RCrackedDeflectionApplication`, `CrackedSectionBeamModel`, and strict public exports;
+- `CrackedSectionDeflectionAnalysis` with missing-input behavior, uncracked/cracked curvature,
+  sign-specific Mcr, long-term modular ratio, creep, optional EN 1992 shrinkage curvature, and
+  production sampling/profile behavior;
+- curvature integration, compatible displacement profiles, fixed-fixed and continuous hyperstatic
+  stiffness redistribution, adaptive relaxation diagnostics, unequal spans, and variable axial-force
+  moment-curvature families;
+- source-compatible service-deflection adapter DTOs;
+- composition into `ReinforcedConcreteBeamVerification` when deflection is enabled;
+- live serialized parity, independent numerical checks, normative metadata, and public-root exports.
+
+`DeflectionChecks` and `SectionMomentCurvatureCurve` are reused from prior slices. The source
+application registry, building-level global analysis, staged construction, solver-specific adapters,
+and unsupported solver-result coverage remain explicit exclusions. No normative conformity claim is
+made; the inherited EN 1992 deflection and shrinkage references remain classified outside the pinned
+corpus.
+
+## Implemented slice 0026
+
+Implementation state: **implemented** for the declared local reinforced-concrete beam-column joint
+boundary.
+
+Manifest `migration/slices/0026-reinforced-concrete-beam-column-joints.json` records the source
+paths, pinned blobs, source oracle, normative classification, and validation boundary. Its scope is:
+
+- `ReinforcedConcreteBeamColumnJointModel`, the local NTC 2018 joint kernel, and strict public
+  application and verifier exports;
+- internal and external joint shear, diagonal compression, post-cracking truss tension, confinement
+  classification, hoop spacing, strong-column weak-beam hierarchy, eccentricity transfer, and
+  anchorage checks;
+- concurrent orthogonal 3D direction composition, including corner-joint behavior, with source
+  status, outputs, checks, warnings, assumptions, demand, capacity, utilization, and metadata;
+- live serialized parity, independent numerical fixtures, public-root export parity, and pinned
+  normative references with `normativeConformityClaimed: false`.
+
+Unsupported design codes or joint topologies, scalar interaction of concurrent 3D directions,
+building-level global analysis, solver-specific adapters, and application-registry parity remain
+explicit exclusions.
+
+## Implemented slice 0027
+
+Implementation state: **implemented** for the declared explicit 2D reinforced-concrete strut-and-tie
+boundary.
+
+Manifest `migration/slices/0027-reinforced-concrete-strut-and-tie.json` records the source paths,
+pinned blobs, source oracle, normative classification, and validation boundary. Its scope is:
+
+- `AxialMember2D`, `StrutAndTieModel2D`, and `StrutAndTieAnalysis2D` with source-compatible units,
+  linear axial stiffness, equilibrium, reactions, displacements, and diagnostics;
+- `ReinforcedConcreteStrutAndTieModel`, the EN 1992 strut, tie, and nodal-zone kernels, and the
+  public application and verification exports;
+- explicit 2D topology, force-reference mapping, member-sign compatibility, ccc/cct/ctt nodal zones,
+  source warnings and assumptions, serializable verification fields, and statuses;
+- live serialized parity, independent strength and equilibrium checks, public-root export parity,
+  and pinned normative references with `normativeConformityClaimed: false`.
+
+Automatic topology generation or optimization, iterative removal of incompatible members, tie
+anchorage, reinforcement distribution, bottle-shaped strut splitting forces, minimum crack-control
+reinforcement, building-level global analysis, solver-specific adapters, and application-registry
+parity remain explicit exclusions.
+
+## Implemented slice 0028
+
+Implementation state: **implemented** for the declared global FEM shared-contract scope.
+
+Manifest `migration/slices/0028-global-fem-shared-contracts.json` records the source paths, exact
+source blob hashes, pinned revisions, and validation boundary. Its scope is:
+
+- shared FEM contract validation, explicit units and axes, JSON-serializable diagnostics, stable
+  identifiers, capabilities, model topology, load cases, procedures, and analysis contracts;
+- solver-neutral serializable contracts only: the FEM solver, result producer, and concrete solver
+  adapters remain outside this repository;
+- source-derived validation fixtures and explicit unavailable-capability warnings, with
+  `normativeConformityClaimed: false`.
+
+Result, mapping, complete contract-set, demand-state, classification, and RC-building orchestration
+remain deferred to slices 0029–0035.
+
+## Implemented slice 0029
+
+Implementation state: **implemented** for the declared global FEM result and mapping-contract scope.
+
+Manifest `migration/slices/0029-global-fem-result-mapping-contract-set.json` records the exact
+source blob hashes, pinned revisions, source oracle, and validation boundary. Its scope is:
+
+- global FEM result-family validation, model/analysis/provenance association, stations, shell
+  resultants, modal data, partial-result handling, and declared-capability gating;
+- explicit member, wall, slab, storey, joint, punching, and foundation mapping contracts with stable
+  references and end compatibility checks;
+- complete contract-set construction and validation with source-derived JSON round-trip and live
+  serialized parity tests;
+- external FEM results only, with no solver, adapter, inferred missing values, or normative
+  conformity claim.
+
+Concurrent demand-state collection and resistance-axis projection remain deferred to slice 0030.
+
+## Implemented slice 0030
+
+Implementation state: **implemented** for the declared solver-neutral concurrent FEM state and
+resistance-axis projection scope.
+
+Manifest `migration/slices/0030-global-fem-concurrent-demand-and-axis-projection.json` records the
+source blobs, source oracles, public exports, pinned revisions, and validation boundary. Its scope
+is:
+
+- collection of complete line, member, joint, surface, section-cut, and support-reaction states;
+- explicit proper-orthogonal resistance-axis transformations for member, wall, slab, shell, joint,
+  and foundation contexts;
+- preservation of every concurrent state, component, station, combination, coordinate system, units,
+  mapping, and provenance field, with rejection of incomplete mappings or missing values;
+- live and independent serialized projection checks with no FEM solver, adapter, synthesized zero,
+  independent envelope combination, or normative conformity claim.
+
+## Implemented slice 0031
+
+Implementation state: **implemented** for the declared global FEM classification, demand extraction,
+readiness, and postprocessing scope.
+
+Manifest `migration/slices/0031-global-fem-classification-demand-readiness-postprocessing.json`
+records the exact source blobs, source oracles, public exports, pinned revisions, and validation
+boundary. Its scope is:
+
+- gravity-aware assisted structural classification with explicit demand-only, assisted, and
+  confirmed profiles;
+- serialized line, shell, member, surface, joint, and global-response demand extraction with
+  governing component references and complete joint-end states;
+- readiness assessments for generic and semantic demands, global displacement, modal and
+  second-order result families, with explicit missing-input diagnostics;
+- solver-neutral postprocessing status, warnings, assumptions, metadata, and provenance, including
+  partial-result handling and no normative verification claim;
+- source-derived postprocessing and concurrent-state tests against the built TypeScript package
+  root, with every concurrent action state preserved and no inferred missing values.
+
+## Implemented slice 0032
+
+Implementation state: **implemented** for the declared NTC 2018 RC building-kernel scope.
+
+Manifest `migration/slices/0032-ntc2018-rc-building-kernels.json` records the exact source blobs,
+source oracles, shared reference dependency, public exports, pinned revisions, and validation
+boundary. Its scope is:
+
+- capacity-design hierarchy, beam/column/joint shear, and signed concurrent action handling;
+- diaphragm force amplification with explicit action signs and independently supplied capacity
+  checks;
+- plan and elevation regularity criteria, topology evidence, mass/stiffness/setback limits, and
+  analysis-method evidence;
+- storey drift, infill damage limits, seismic separation, displacement assessment, and P-Delta
+  thresholds and amplification;
+- NTC 2018 structural behavior, structural type, q-factor, overstrength, and linear-dynamic modal
+  participation and accidental-eccentricity checks;
+- source-derived numerical oracles with pinned chapter 7.4 and outside-corpus reference records,
+  while retaining `normativeConformityClaimed: false`.
+
+## Implemented slice 0033
+
+Implementation state: **implemented** for the declared RC-building coverage, design-basis audit, and
+component orchestration scope.
+
+Manifest `migration/slices/0033-rc-building-coverage-design-basis-orchestration.json` records the
+exact source blobs, source oracles, public exports, pinned revisions, and validation boundary. Its
+scope is:
+
+- NTC 2018 RC-building capability inventory and declared-scope completeness reporting, explicitly
+  separating implementation coverage from normative traceability and conformity;
+- solver-neutral design-basis auditing for behavior, structural type, regularity, q-factor, analysis
+  method, and required declared capabilities;
+- wall biaxial, wall-system, slab-system, punching, and foundation-system orchestration using
+  consumer-provided verifiers and explicit input data;
+- serializable statuses, checks, warnings, assumptions, demand/capacity fields, metadata, units,
+  axes, signs, combinations, and provenance with no generated or inferred FEM/design data;
+- source-derived coverage and design-basis tests, with `normativeConformityClaimed: false`.
+
+## Implemented slice 0034
+
+Implementation state: **implemented** for the declared solver-neutral RC-building application and
+producer-conformance scope.
+
+Manifest `migration/slices/0034-rc-building-verification-application-and-producer-conformance.json`
+records the exact source blobs, source oracles, fixture provenance, public export, pinned revisions,
+and validation boundary. Its scope is:
+
+- `RcBuildingVerificationApplication` coordinating contract validation, classification, demand
+  extraction, readiness, regularity, behavior/q, linear dynamics, members, joints, walls, slabs,
+  punching, foundations, capacity design, displacement, and building-level aggregation;
+- explicit propagation of units, local/resistance axes, signs, combinations, concurrent component
+  states, source result status, diagnostics, warnings, assumptions, demand/capacity, metadata, and
+  provenance;
+- refusal to claim success when readiness, local verification, required combinations, or required
+  state families are blocked or incomplete;
+- source-derived application fixtures covering blocked and complete workflows, plus two independent
+  FEM producers whose normalized demand semantics and complete RC-building decision are identical;
+- external FEM producers and consumer-supplied member/system verifiers only, with no solver,
+  adapter, generated design data, or normative conformity claim.
+
+## Implemented slice 0035
+
+Implementation state: **implemented** for the RC-building closure-audit scope.
+
+Manifest `migration/slices/0035-rc-building-closure-audit.json` records the exact source provenance
+for the public-root, producer fixtures, and source documentation used as the closure authority. The
+closure audit adds:
+
+- executable assertions that slices 0028-0035 are implemented, pinned to the required source and
+  normative revisions, carry target tests, and retain `normativeConformityClaimed: false`;
+- public-export checks for the complete solver-neutral FEM and RC-building boundary;
+- documentation checks for the explicit no-solver/no-adapter boundary and normative-claim status;
+- a complete-fixture numerical and serialized-oracle check for the RC-building application;
+- final repository evidence from `npm run check`: format, lint, strict typecheck, 332 tests,
+  architecture, provenance, normative references, package, and browser/Web Worker bundle checks.
+
+The closure slice does not convert this partial parity workspace into the canonical package and does
+not close unrelated repository-wide migration work.
 
 ## Remaining migration
 
 The package as a whole is **partial**. Remaining work includes:
 
-1. complete export, symbol, formula, fixture, validation-campaign, performance, and bundle
-   inventory;
+1. repository-wide export, symbol, formula, fixture, validation-campaign, performance, and bundle
+   inventory outside the RC-building closure;
 2. remaining normative catalogs and structured reference utilities;
-3. standalone reinforced-concrete cracked-section deflection, source application-registry parity,
-   geotechnical foundations, remaining pile checks, and other concrete applications in bounded
-   slices;
+3. source application-registry parity, geotechnical foundations, remaining pile checks, and other
+   concrete applications in bounded slices;
 4. remaining FEM elements, preprocessing, applications, browser, and Web Worker parity;
 5. complete numerical campaigns and tolerance comparison;
 6. other material systems and remaining low-level domain primitives;

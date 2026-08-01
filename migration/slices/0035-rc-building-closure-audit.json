@@ -1,0 +1,93 @@
+{
+  "schemaVersion": 1,
+  "sliceId": "0035-rc-building-closure-audit",
+  "title": "RC-building closure audit: exports, manifests, provenance, documentation, numerical oracles, architecture and bundle checks",
+  "migrationType": "closure-audit",
+  "implementationStatus": "implemented",
+  "dependencies": ["0034-rc-building-verification-application-and-producer-conformance"],
+  "source": {
+    "repository": "https://github.com/claudiopagani/strutture-js",
+    "revision": "6f33baead8b88166c4b2cf94af41763412e3c751"
+  },
+  "normativeCorpusRevision": "41da3faa489600173106935bbcf726119300e48d",
+  "sourceFiles": [
+    {
+      "path": "src/index.js",
+      "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7",
+      "targetPath": "src/index.ts",
+      "coverage": "public-root export closure"
+    }
+  ],
+  "sourceOracles": [
+    {
+      "path": "tests/rcBuildingVerificationApplication.test.js",
+      "gitBlobSha1": "c03f0527a004b4ee61ca5fbcabb7fce4138cde74"
+    },
+    {
+      "path": "tests/globalFemProducerConformance.test.js",
+      "gitBlobSha1": "ff5f56d87428084ac3ed4b103e0c41be943c40a9"
+    }
+  ],
+  "sourceDocumentation": [
+    {
+      "path": "docs/global-fem-contracts.md",
+      "gitBlobSha1": "a2457a654d04a0766feda231cf55e189eb4a7324",
+      "targetPath": "docs/rc-building-verification.md",
+      "coverage": "solver-neutral external FEM contract boundary"
+    },
+    {
+      "path": "docs/global-fem-postprocessing.md",
+      "gitBlobSha1": "aa2f3607aa25fe50d05d8bbc6f81b46fcad9c9f7",
+      "targetPath": "docs/rc-building-verification.md",
+      "coverage": "postprocessing, provenance and missing-data boundary"
+    }
+  ],
+  "sourcePublicExport": {
+    "path": "src/index.js",
+    "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
+  },
+  "targetTests": ["tests/rc-building-closure.test.ts"],
+  "publicExports": [
+    "RcBuildingVerificationApplication",
+    "GlobalFemPostProcessingApplication",
+    "validateGlobalFemContractSet",
+    "collectConcurrentMemberActionStates",
+    "projectMemberActionStatesToResistanceAxes",
+    "NTC2018_CAPACITY_DESIGN_REFERENCES",
+    "createNTC2018StructuralBehavior",
+    "createDisplacementAssessment",
+    "getNTC2018RcBuildingCoverage",
+    "auditNTC2018RcDesignBasis",
+    "runWallSystemVerifications",
+    "runSlabSystemVerifications",
+    "runFoundationSystemVerifications"
+  ],
+  "normativeReferences": {
+    "resolved": [
+      "urn:structural-codes:it:unit:ntc2018:4.1.2.3.4.2",
+      "urn:structural-codes:it:unit:ntc2018:7.4.1",
+      "urn:structural-codes:it:unit:ntc2018:7.4.3",
+      "urn:structural-codes:it:unit:ntc2018:7.4.4.2.1",
+      "urn:structural-codes:it:unit:ntc2018:7.4.4.3.1",
+      "urn:structural-codes:it:unit:ntc2018:7.4.4.4.1",
+      "urn:structural-codes:it:unit:ntc2018:7.4.4.5.1"
+    ],
+    "outsideCorpus": ["NTC 2018 Sections 7.2-7.3", "NTC 2018 Section 6.4", "NTC 2018 Section 7.11"],
+    "normativeConformityClaimed": false,
+    "status": "classified-for-declared-scope"
+  },
+  "independentValidation": {
+    "method": "Closure test verifies public exports, all slice manifests, exact source and corpus revisions, target-test presence, no-solver documentation and complete serialized RC-building behavior; the full repository check supplies architecture and bundle evidence.",
+    "targetTests": ["tests/rc-building-closure.test.ts"],
+    "tolerances": {
+      "serializedFixture": "exact JSON round-trip equality",
+      "behaviorFactor": "within 1e-12 of source oracle value q = 3.9",
+      "driftLimit": "exact source oracle value 0.005"
+    }
+  },
+  "parityDifferences": [
+    "The closure test is new TypeScript audit code and does not alter production formulas or solver-neutral contracts.",
+    "The target documentation consolidates the source FEM boundary in English; normative and legal conformity remains explicitly unclaimed."
+  ],
+  "engineeringFunctionality": "Closure evidence for the implemented RC-building boundary; repository-wide migration, canonical cutover and publishing decisions remain open."
+}

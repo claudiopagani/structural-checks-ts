@@ -1,0 +1,82 @@
+{
+  "schemaVersion": 1,
+  "sliceId": "0034-rc-building-verification-application-and-producer-conformance",
+  "title": "RcBuildingVerificationApplication and complete two-producer end-to-end conformance fixtures",
+  "migrationType": "mechanical-parity",
+  "implementationStatus": "implemented",
+  "dependencies": ["0033-rc-building-coverage-design-basis-orchestration"],
+  "source": {
+    "repository": "https://github.com/claudiopagani/strutture-js",
+    "revision": "6f33baead8b88166c4b2cf94af41763412e3c751"
+  },
+  "normativeCorpusRevision": "41da3faa489600173106935bbcf726119300e48d",
+  "sourceFiles": [
+    {
+      "path": "src/applications/rc-building-verification/RcBuildingVerificationApplication.js",
+      "gitBlobSha1": "45fc787f1491081dcc48d62c5ccf029171606ca4",
+      "targetPath": "src/applications/rc-building-verification/RcBuildingVerificationApplication.ts"
+    }
+  ],
+  "supportingSourceFiles": [
+    {
+      "path": "src/applications/rc-building-verification/index.js",
+      "gitBlobSha1": "29a2468a0ea87c8ac064a9136b64de8a6385155a",
+      "targetPath": "src/applications/rc-building-verification/index.ts"
+    },
+    {
+      "path": "tests/fixtures/globalFemBuildingFixture.js",
+      "gitBlobSha1": "cbd8f1408637b5d157ffcebbfd4b1c01ca2520f1",
+      "targetPath": "tests/fixtures/globalFemBuildingFixture.ts",
+      "coverage": "complete explicit RC building fixture shared by the two producer tests"
+    }
+  ],
+  "sourceOracles": [
+    {
+      "path": "tests/rcBuildingVerificationApplication.test.js",
+      "gitBlobSha1": "c03f0527a004b4ee61ca5fbcabb7fce4138cde74"
+    },
+    {
+      "path": "tests/globalFemProducerConformance.test.js",
+      "gitBlobSha1": "ff5f56d87428084ac3ed4b103e0c41be943c40a9"
+    }
+  ],
+  "sourcePublicExport": {
+    "path": "src/index.js",
+    "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
+  },
+  "targetTests": [
+    "tests/rc-building-verification-application.test.ts",
+    "tests/global-fem-producer-conformance.test.ts"
+  ],
+  "publicExports": ["RcBuildingVerificationApplication"],
+  "normativeReferences": {
+    "resolved": [
+      "urn:structural-codes:it:unit:ntc2018:4.1.2.3.4.2",
+      "urn:structural-codes:it:unit:ntc2018:7.4.1",
+      "urn:structural-codes:it:unit:ntc2018:7.4.3",
+      "urn:structural-codes:it:unit:ntc2018:7.4.4.2.1",
+      "urn:structural-codes:it:unit:ntc2018:7.4.4.3.1",
+      "urn:structural-codes:it:unit:ntc2018:7.4.4.4.1",
+      "urn:structural-codes:it:unit:ntc2018:7.4.4.5.1"
+    ],
+    "outsideCorpus": ["NTC 2018 §§ 7.2-7.3", "NTC 2018 § 6.4", "NTC 2018 § 7.11"],
+    "normativeConformityClaimed": false,
+    "status": "classified-for-declared-scope"
+  },
+  "independentValidation": {
+    "method": "Source-derived application tests exercise blocked and complete workflows, explicit member/joint/wall/slab/punching/foundation consumer callbacks, linear dynamics, all concurrent states, and exact semantics from two distinct declared FEM producers.",
+    "targetTests": [
+      "tests/rc-building-verification-application.test.ts",
+      "tests/global-fem-producer-conformance.test.ts"
+    ],
+    "tolerances": {
+      "producerSemantics": "exact serialized equality after producer identity and provenance normalization",
+      "stateCoverage": "every declared concurrent element, section-cut, shell, joint and support state retained"
+    }
+  },
+  "parityDifferences": [
+    "The TypeScript tests invoke the built public package root and preserve the source application statuses, outputs, checks, warnings, assumptions, metadata and provenance.",
+    "Both producer fixtures supply FEM results externally; no solver, adapter, section, material, reinforcement, missing value or unsupported action is generated."
+  ],
+  "engineeringFunctionality": "Complete solver-neutral RC building verification orchestration from explicit FEM contracts and consumer-provided member/system verifiers, with two-producer semantic conformance evidence and no normative conformity claim."
+}

@@ -1,0 +1,169 @@
+{
+  "schemaVersion": 1,
+  "sliceId": "0032-ntc2018-rc-building-kernels",
+  "title": "NTC RC building kernels: capacity design, diaphragm, regularity, displacement/P-Delta and linear-dynamic checks",
+  "migrationType": "mechanical-parity",
+  "implementationStatus": "implemented",
+  "dependencies": ["0031-global-fem-classification-demand-readiness-postprocessing"],
+  "source": {
+    "repository": "https://github.com/claudiopagani/strutture-js",
+    "revision": "6f33baead8b88166c4b2cf94af41763412e3c751"
+  },
+  "normativeCorpusRevision": "41da3faa489600173106935bbcf726119300e48d",
+  "sourceFiles": [
+    {
+      "path": "src/norms/ntc2018/reinforced-concrete/capacityDesign.js",
+      "gitBlobSha1": "5415da1995770029c375f49754c4d9631685020f",
+      "targetPath": "src/norms/ntc2018/reinforced-concrete/capacityDesign.ts"
+    },
+    {
+      "path": "src/norms/ntc2018/reinforced-concrete/ntc2018Diaphragm.js",
+      "gitBlobSha1": "aebc899c9bf39635297686feabd4a39f22703981",
+      "targetPath": "src/norms/ntc2018/reinforced-concrete/ntc2018Diaphragm.ts"
+    },
+    {
+      "path": "src/norms/ntc2018/reinforced-concrete/structuralRegularity.js",
+      "gitBlobSha1": "67114e539a5d5acfc3b2446ab9df02d2470c39f5",
+      "targetPath": "src/norms/ntc2018/reinforced-concrete/structuralRegularity.ts"
+    },
+    {
+      "path": "src/norms/ntc2018/reinforced-concrete/displacementChecks.js",
+      "gitBlobSha1": "c984a00611f87bbc8a46b9c87ca513e52319463f",
+      "targetPath": "src/norms/ntc2018/reinforced-concrete/displacementChecks.ts"
+    },
+    {
+      "path": "src/norms/ntc2018/seismicAnalysisChecks.js",
+      "gitBlobSha1": "826cd56d46508821a28920e150e722ff697edb11",
+      "targetPath": "src/norms/ntc2018/seismicAnalysisChecks.ts"
+    },
+    {
+      "path": "src/norms/ntc2018/reinforced-concrete/structuralBehavior.js",
+      "gitBlobSha1": "06ac23f7067e827b13af1e298de369e79ba592f7",
+      "targetPath": "src/norms/ntc2018/reinforced-concrete/structuralBehavior.ts"
+    }
+  ],
+  "supportingSourceFiles": [
+    {
+      "path": "src/norms/ntc2018/normativeReferences.js",
+      "gitBlobSha1": "23ab4d1fbe10f0f363ba6b56b300ea013d856ccf",
+      "targetPath": "src/norms/ntc2018/normativeReferences.ts",
+      "coverage": "source-derived reference records added to the previously migrated shared catalogue"
+    }
+  ],
+  "sourceOracles": [
+    {
+      "path": "tests/ntc2018CapacityDesign.test.js",
+      "gitBlobSha1": "24e57a84b2747d4f5de6ed78ea9666ec5aff552e"
+    },
+    {
+      "path": "tests/ntc2018Diaphragm.test.js",
+      "gitBlobSha1": "05d1e67f52ff45eaa20c22497dd6fb33cb6395a3"
+    },
+    {
+      "path": "tests/ntc2018StructuralRegularity.test.js",
+      "gitBlobSha1": "45e6acb0e1aae9f9f796e3f4a7dd4ed5bfc76b14"
+    },
+    {
+      "path": "tests/ntc2018DisplacementChecks.test.js",
+      "gitBlobSha1": "87062a41512a52adf3fcc5e5c5d4941afaf1efd2"
+    },
+    {
+      "path": "tests/ntc2018SeismicAnalysisChecks.test.js",
+      "gitBlobSha1": "7d3288d34d3e72a3711ed2fce22e6ca221cdb7eb"
+    },
+    {
+      "path": "tests/ntc2018StructuralBehavior.test.js",
+      "gitBlobSha1": "976db827e272266872c2a195f8e0829460d1527b"
+    }
+  ],
+  "sourcePublicExport": {
+    "path": "src/index.js",
+    "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
+  },
+  "targetTests": [
+    "tests/ntc2018-capacity-design.test.ts",
+    "tests/ntc2018-diaphragm.test.ts",
+    "tests/ntc2018-structural-regularity.test.ts",
+    "tests/ntc2018-displacement-checks.test.ts",
+    "tests/ntc2018-seismic-analysis-checks.test.ts",
+    "tests/ntc2018-structural-behavior.test.ts"
+  ],
+  "publicExports": [
+    "NTC2018_ANALYSIS_METHOD",
+    "NTC2018_BASE_Q_FACTORS",
+    "NTC2018_CAPACITY_DESIGN_REFERENCES",
+    "NTC2018_DIAPHRAGM_FORCE_FACTOR",
+    "NTC2018_DIAPHRAGM_REFERENCES",
+    "NTC2018_DISPLACEMENT_REFERENCES",
+    "NTC2018_DRIFT_INFILL_CATEGORY",
+    "NTC2018_DRIFT_LIMITS",
+    "NTC2018_ELEVATION_REGULARITY",
+    "NTC2018_LINEAR_DYNAMIC_REFERENCES",
+    "NTC2018_PDELTA_THRESHOLDS",
+    "NTC2018_PLAN_REGULARITY",
+    "NTC2018_REGULARITY_REDUCTION",
+    "NTC2018_REGULARITY_REFERENCES",
+    "NTC2018_STRUCTURAL_BEHAVIOR_REFERENCES",
+    "NTC2018_STRUCTURAL_TYPE",
+    "amplifyNTC2018DiaphragmActions",
+    "checkNonDissipativeAdmissibility",
+    "computeBeamCapacityShear",
+    "computeColumnCapacityShear",
+    "computeJointCapacityShear",
+    "computeNTC2018EffectiveQFactor",
+    "computePDeltaCoefficient",
+    "computeSeismicJointWidth",
+    "computeStoreyDrift",
+    "createCapacityDesignAssessment",
+    "createDiaphragmAssessment",
+    "createDisplacementAssessment",
+    "createNTC2018LinearDynamicAssessment",
+    "createNTC2018RegularityAssessment",
+    "createNTC2018StructuralBehavior",
+    "evaluateNTC2018ElevationRegularity",
+    "evaluateNTC2018PlanRegularity",
+    "normalizeNTC2018StructuralType",
+    "resolveNTC2018AlphaRatio",
+    "selectNTC2018AllowedAnalysisMethods",
+    "selectNTC2018BaseQFactor",
+    "verifyBeamColumnHierarchy",
+    "verifyNTC2018AccidentalEccentricities",
+    "verifyNTC2018ModalMassParticipation",
+    "verifyPDelta",
+    "verifyStoreyDisplacements",
+    "verifyStoreyDrift"
+  ],
+  "normativeReferences": {
+    "resolved": [
+      "urn:structural-codes:it:unit:ntc2018:7.4.1",
+      "urn:structural-codes:it:unit:ntc2018:7.4.3",
+      "urn:structural-codes:it:unit:ntc2018:7.4.4.1.1",
+      "urn:structural-codes:it:unit:ntc2018:7.4.4.2.1",
+      "urn:structural-codes:it:unit:ntc2018:7.4.4.3.1",
+      "urn:structural-codes:it:unit:ntc2018:7.4.4.4.1"
+    ],
+    "outsideCorpus": ["NTC 2018 §§ 7.2-7.3", "NTC 2018 § 7.2.1"],
+    "normativeConformityClaimed": false,
+    "status": "classified-for-declared-scope"
+  },
+  "independentValidation": {
+    "method": "Source-derived numerical oracles for capacity-design factors, signed action amplification, regularity thresholds, displacement and P-Delta intervals, modal participation, eccentricity and analysis-method eligibility.",
+    "targetTests": [
+      "tests/ntc2018-capacity-design.test.ts",
+      "tests/ntc2018-diaphragm.test.ts",
+      "tests/ntc2018-structural-regularity.test.ts",
+      "tests/ntc2018-displacement-checks.test.ts",
+      "tests/ntc2018-seismic-analysis-checks.test.ts",
+      "tests/ntc2018-structural-behavior.test.ts"
+    ],
+    "tolerances": {
+      "sourceParity": "exact serialized values and source assertions",
+      "thresholds": "exact source threshold and boundary behavior"
+    }
+  },
+  "parityDifferences": [
+    "The source JavaScript kernels are mechanically migrated to TypeScript with declaration-safe annotations only; formulas, limits, signs, status fields and normative metadata are unchanged.",
+    "The shared normative reference catalogue receives the source records required by these kernels; normativeConformityClaimed remains false."
+  ],
+  "engineeringFunctionality": "Usable solver-neutral NTC 2018 RC building analysis kernels consuming explicit actions and design inputs; no FEM solver, adapter or inferred design data is included."
+}
