@@ -1,0 +1,121 @@
+{
+  "schemaVersion": 1,
+  "sliceId": "0022-single-beam-analysis",
+  "title": "Single-beam analysis pipeline",
+  "migrationType": "mechanical-parity",
+  "implementationStatus": "implemented",
+  "dependencies": ["0021-beam-line-preprocessing-and-timoshenko"],
+  "source": {
+    "repository": "https://github.com/claudiopagani/strutture-js",
+    "revision": "6f33baead8b88166c4b2cf94af41763412e3c751"
+  },
+  "normativeCorpusRevision": "41da3faa489600173106935bbcf726119300e48d",
+  "sourceFiles": [
+    {
+      "path": "src/domain/beams/SectionRotation.js",
+      "gitBlobSha1": "5aac1045cc8faad6b82678b50c1f64223dc04408",
+      "targetPath": "src/domain/beams/SectionRotation.ts"
+    },
+    {
+      "path": "src/domain/beams/ElasticBeamSectionProvider.js",
+      "gitBlobSha1": "63cf9c3c2c503370adcf6f570dc5d5cdf6bcb31e",
+      "targetPath": "src/domain/beams/ElasticBeamSectionProvider.ts"
+    },
+    {
+      "path": "src/domain/beams/SingleBeamInput.js",
+      "gitBlobSha1": "dbe0ca6b74785bbd9eddd5141f88783cea3707df",
+      "targetPath": "src/domain/beams/SingleBeamInput.ts"
+    },
+    {
+      "path": "src/domain/beams/SingleBeamStations.js",
+      "gitBlobSha1": "6c0774c626ad20961a39ae6a8349ab6340681f8c",
+      "targetPath": "src/domain/beams/SingleBeamStations.ts"
+    },
+    {
+      "path": "src/domain/beams/SingleBeamFemBuilder.js",
+      "gitBlobSha1": "40bcfbd756e7ab5cf9d550b69ca932b3343e0c14",
+      "targetPath": "src/domain/beams/SingleBeamFemBuilder.ts"
+    },
+    {
+      "path": "src/domain/beams/SingleBeamResults.js",
+      "gitBlobSha1": "6ed902361f5f552010bf5ca6f49377f5472170b5",
+      "targetPath": "src/domain/beams/SingleBeamResults.ts"
+    },
+    {
+      "path": "src/domain/beams/SingleBeamEnvelopes.js",
+      "gitBlobSha1": "03175cd06a0752d8b068ce19b9584847132b22d7",
+      "targetPath": "src/domain/beams/SingleBeamEnvelopes.ts"
+    },
+    {
+      "path": "src/domain/beams/SingleBeamAnalysis.js",
+      "gitBlobSha1": "0c019944b0b085a9b5a0d8288eacddfa19ae2383",
+      "targetPath": "src/domain/beams/SingleBeamAnalysis.ts"
+    },
+    {
+      "path": "src/domain/beams/index.js",
+      "gitBlobSha1": "2e2083feba0828998506e660e35f3ec64b461f1d",
+      "targetPath": "src/domain/beams/index.ts"
+    },
+    {
+      "path": "src/index.js",
+      "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7",
+      "targetPath": "src/index.ts"
+    }
+  ],
+  "sourceOracles": [
+    {
+      "path": "tests/singleBeamAnalysis.test.js",
+      "gitBlobSha1": "51953d4223895ce3268eaf2a6089729546752fdc"
+    },
+    {
+      "path": "tests/singleBeamDesignApplication.test.js",
+      "gitBlobSha1": "5e423cda0e4f6ad910fbd7cc7abd02969976f24d"
+    }
+  ],
+  "sourcePublicExport": {
+    "path": "src/index.js",
+    "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
+  },
+  "targetTests": ["tests/single-beam-analysis.test.ts", "tests/baseline-parity.test.ts"],
+  "publicExports": [
+    "BEAM_SUPPORT_PRESETS",
+    "DEFAULT_SECTION_ROTATION",
+    "ElasticBeamSectionProvider",
+    "SingleBeamAnalysis",
+    "SingleBeamFemBuilder",
+    "SingleBeamModel",
+    "createElasticBeamSectionProvider",
+    "normalizeSectionRotation",
+    "resolveBeamSupportPreset",
+    "splitPrincipalActions"
+  ],
+  "normativeReferences": {
+    "resolved": [],
+    "outsideCorpus": [],
+    "normativeConformityClaimed": false
+  },
+  "independentValidation": {
+    "method": "live serialized comparison with the pinned JavaScript source plus closed-form and contract-level single-beam checks",
+    "targetTests": ["tests/single-beam-analysis.test.ts", "tests/baseline-parity.test.ts"],
+    "parityFixtures": [
+      "simply supported beam under a uniform load with source-compatible reaction, moment, and deflection checks",
+      "inclined beam with default horizontal load projection",
+      "non-zero section rotation with projected rigidity, principal actions, and warning parity",
+      "G1, G2, and multiple Qk load-case combination factors",
+      "ULS and SLE combination envelopes and result selection",
+      "user, verification-grid, combined, and all station selection",
+      "beam section action verification through the solver-neutral contract",
+      "torsional action forwarding and requested-station filtering",
+      "rigid composite section stiffness and custom provider metadata",
+      "provider limit-state and governing-load-duration context",
+      "source validation and error behavior",
+      "exact full-result comparison against the pinned JavaScript SingleBeamAnalysis"
+    ]
+  },
+  "parityDifferences": [
+    "No numerical, serialized DTO, unit-conversion, ordering, envelope, warning, or tested error-behavior difference is known for this slice.",
+    "The JavaScript source remains the canonical runtime implementation; this TypeScript boundary adds strict compile-time contracts without changing the runtime public subset.",
+    "singleBeamDesignApplication.test.js is retained as a source oracle only. Its downstream design/report application is outside this generic domain slice and is not claimed as migrated."
+  ],
+  "engineeringFunctionality": "Usable solver-neutral analysis of a straight beam with explicit section or provider stiffness, Euler–Bernoulli or Timoshenko linear elements, inclined geometry, section rotation projection, supports, uniform and point loads, load cases, combinations, governing contexts, selectable result stations, sampled internal forces and reactions, envelopes, and generic beam-section action verification. This slice does not provide RC foundation-beam verification, foundation-beam soil interaction, cracked-section deflection, building-level analysis, or solver-specific adapters."
+}

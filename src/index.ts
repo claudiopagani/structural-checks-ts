@@ -62,6 +62,9 @@ export { Node } from "./domain/geometry/Node.js";
 export { ReinforcementBar } from "./domain/reinforcement/ReinforcementBar.js";
 export { createLongitudinalReinforcementLayout } from "./domain/reinforcement/createLongitudinalReinforcementLayout.js";
 export {
+  FoundationBeamAnalysis,
+  FoundationBeamFemBuilder,
+  FoundationBeamModel,
   RectangularFootingContactAnalysis,
   integrateFootingPressureStrip,
 } from "./domain/foundations/index.js";
@@ -91,8 +94,27 @@ export {
   BeamSectionActionVerifier,
   verifyBeamSectionActions,
 } from "./domain/beams/BeamSectionActionVerifier.js";
+export {
+  BEAM_SUPPORT_PRESETS,
+  DEFAULT_SECTION_ROTATION,
+  ElasticBeamSectionProvider,
+  ReinforcedConcreteBeamSectionProvider,
+  SingleBeamAnalysis,
+  SingleBeamFemBuilder,
+  SingleBeamModel,
+  createElasticBeamSectionProvider,
+  createReinforcedConcreteBeamSectionProvider,
+  normalizeSectionRotation,
+  resolveBeamSupportPreset,
+  splitPrincipalActions,
+} from "./domain/beams/index.js";
 export { IllinoisRootSolver } from "./domain/solvers/IllinoisRootSolver.js";
 export { ReinforcedConcreteSectionApplication } from "./applications/reinforced-concrete-sections/ReinforcedConcreteSectionApplication.js";
+export {
+  ReinforcedConcreteFoundationBeamApplication,
+  ReinforcedConcreteFoundationBeamModel,
+} from "./applications/reinforced-concrete-foundation-beams/index.js";
+export { SectionMomentCurvatureCurve } from "./applications/rc-cracked-deflection/index.js";
 export { ReinforcedConcreteColumnDetailingVerification } from "./applications/reinforced-concrete-columns/ReinforcedConcreteColumnDetailingVerification.js";
 export { ReinforcedConcreteColumnApplication } from "./applications/reinforced-concrete-columns/ReinforcedConcreteColumnApplication.js";
 export { ReinforcedConcreteColumnModel } from "./applications/reinforced-concrete-columns/ReinforcedConcreteColumnModel.js";
@@ -366,12 +388,52 @@ export type {
   BeamVerificationStations,
 } from "./domain/beams/BeamSectionActionVerifier.js";
 export type {
+  BeamActionLike,
+  BeamAnalysisContext,
+  BeamCombinationInput,
+  BeamGeometryInput,
+  BeamLoadInput,
+  BeamLoadParticipation,
+  BeamRotationProperties,
+  BeamSectionLike,
+  BeamSupportDefinition,
+  BeamUnits,
+  ElasticBeamPropertiesContext,
+  ElasticBeamPropertyResolver,
+  ElasticBeamSectionProperties,
+  ElasticBeamSectionProviderOptions,
+  NormalizedBeamCombination,
+  NormalizedBeamLoad,
+  NormalizedSectionRotation,
+  SectionRotationInput,
+  SingleBeamModelOptions,
+} from "./domain/beams/index.js";
+export type {
+  ReinforcedConcreteBeamSectionContext,
+  ReinforcedConcreteBeamSectionProviderOptions,
+} from "./domain/beams/index.js";
+export type {
   IllinoisRootHistoryEntry,
   IllinoisRootResult,
   IllinoisRootSolverOptions,
   IllinoisSolveOptions,
 } from "./domain/solvers/IllinoisRootSolver.js";
 export type { ReinforcedConcreteSectionApplicationInput } from "./applications/reinforced-concrete-sections/ReinforcedConcreteSectionApplication.js";
+export type {
+  CrackedTransformedProperties,
+  SectionMomentCurvatureCurveMeshOptions,
+  SectionMomentCurvatureCurveMetrics,
+  SectionMomentCurvatureCurveOptions,
+  SectionMomentCurvatureCurveSolverOptions,
+  SectionMomentCurvatureState,
+} from "./applications/rc-cracked-deflection/index.js";
+export type {
+  ReinforcedConcreteFoundationBeamApplicationInput,
+  ReinforcedConcreteFoundationBeamCrackedStiffnessOptions,
+  ReinforcedConcreteFoundationBeamModelOptions,
+  ReinforcedConcreteFoundationBeamVerificationOptions,
+  ReinforcedConcreteFoundationBeamVerificationSettings,
+} from "./applications/reinforced-concrete-foundation-beams/index.js";
 export type {
   RcColumnActionsInput,
   RcColumnAnchorageInput,
@@ -489,6 +551,27 @@ export type {
   RectangularFootingContactInput,
   RectangularFootingContactResult,
 } from "./domain/foundations/RectangularFootingContactAnalysis.js";
+export type {
+  FoundationBeamAnalysisOptions,
+  FoundationBeamAnalysisOutput,
+  FoundationBeamBuildContext,
+  FoundationBeamDefinition,
+  FoundationBeamDefinitionInput,
+  FoundationBeamElementData,
+  FoundationBeamFemFoundation,
+  FoundationBeamFemModel,
+  FoundationBeamFemBuilderOptions,
+  FoundationBeamFlexuralRigidityResolver,
+  FoundationBeamIteration,
+  FoundationBeamModelOptions,
+  FoundationBeamNodeResponse,
+  FoundationBeamResponse,
+  FoundationBeamResult,
+  FoundationBeamRigidityResolution,
+  FoundationBeamSegment,
+  FoundationBeamSegmentInput,
+  FoundationBeamSegmentResponse,
+} from "./domain/foundations/index.js";
 export type { NodeInput, NodeJson, NodeMetadata } from "./domain/geometry/Node.js";
 export type {
   BeamLineDiscretizationInput,

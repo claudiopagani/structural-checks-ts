@@ -1,6 +1,6 @@
 # Migration status
 
-Last updated on 2026-07-29.
+Last updated on 2026-08-01.
 
 ## Baseline safety
 
@@ -457,7 +457,7 @@ Implementation state: **implemented** for the declared solver-neutral linear 2D 
 This is a usable low-level linear 2D frame analysis kernel. It is not an RC member or
 foundation-beam verification application. Timoshenko elements, rigid offsets, beam-line
 preprocessing, load combinations, envelopes, cracked-section iteration, and reinforced-concrete
-foundation-beam checks remain deferred to bounded later slices.
+foundation-beam checks are covered by slices 0021 through 0024.
 
 ## Implemented slice 0021
 
@@ -475,9 +475,74 @@ Timoshenko-element scope.
 - independent point-load, partial uniform-load, and stocky-cantilever closed-form checks.
 
 This is usable preprocessing and linear frame-element functionality. The higher-level
-`SingleBeamAnalysis` load-case, combination, station, result-envelope, and section-provider pipeline
-is not migrated by this slice. RC foundation-beam analysis and verification therefore remain
-deferred.
+`SingleBeamAnalysis` pipeline is migrated separately in slice 0022. RC foundation-beam analysis and
+verification are covered by slices 0023 and 0024.
+
+## Implemented slice 0022
+
+Implementation state: **implemented** for the declared generic single-beam analysis scope.
+
+- strict TypeScript section rotation, elastic section-provider, input, station, FEM-builder, sampled
+  result, envelope, and analysis contracts;
+- explicit section or provider-derived axial, flexural, and optional shear rigidity;
+- Euler–Bernoulli or Timoshenko linear elements, including custom source-compatible element-class
+  overrides;
+- inclined beam geometry with source-compatible horizontal projection of vertical loads;
+- section-rotation projection of vertical rigidity and principal internal actions, with the source
+  warning and modeled-axis limitations preserved;
+- normalized supports, uniform and point loads, load cases, combinations, governing load context,
+  verification-station selection, reactions, sampled actions, and result envelopes;
+- generic solver-neutral beam section-action verification through the existing contract;
+- exact live serialized comparison with the pinned JavaScript `SingleBeamAnalysis` result, plus
+  closed-form, station, torsion-forwarding, provider-context, and validation-error fixtures.
+
+This is usable generic linear single-beam analysis for explicit solver-neutral inputs. It is not RC
+foundation-beam analysis, does not model Winkler soil springs or active-set contact, does not
+perform cracked-section deflection or stiffness iteration, and does not provide a building-level
+analysis or solver-specific adapter. Generic foundation-beam analysis is covered by slice 0023 and
+RC foundation-beam analysis by slice 0024.
+
+## Implemented slice 0023
+
+Implementation state: **implemented** for the declared generic foundation-beam analysis scope.
+
+- strict TypeScript foundation-beam model, FEM builder, and analysis contracts;
+- contiguous or segmented subgrade-modulus inputs with explicit contact width and unit conversion;
+- bilateral lumped Winkler springs assembled by tributary element length;
+- imposed soil settlements represented by source-compatible equivalent nodal loads;
+- compression-only contact through the source active-set iteration, including active-node metadata,
+  relaxation, convergence, and warnings;
+- optional element flexural-stiffness iteration through a solver-neutral supplied resolver;
+- beam action sampling, soil pressure and reaction response, gap and sign-convention fields,
+  load-case combinations, envelopes, assumptions, and metadata;
+- exact live model-field and full-result comparisons with the pinned JavaScript source, plus
+  independent equilibrium, settlement, active-set, segmented-spring, and stiffness-iteration checks.
+
+This is usable generic foundation-beam soil-interaction analysis for assigned solver-neutral inputs.
+It does not derive soil capacity or geotechnical settlement, perform consolidation or creep
+analysis, verify reinforced-concrete foundation-beam sections, perform cracked-section deflection,
+or provide a solver-specific adapter. Reinforced-concrete foundation-beam verification is covered by
+the separate slice 0024 boundary.
+
+## Implemented slice 0024
+
+Implementation state: **implemented** for the declared RC foundation-beam boundary.
+
+Manifest `migration/slices/0024-reinforced-concrete-foundation-beams.json` records the separate
+reinforced-concrete foundation-beam boundary at the pinned source revision. Its scope is:
+
+- `ReinforcedConcreteBeamSectionProvider` and its public factory;
+- `SectionMomentCurvatureCurve` only as required for the foundation-beam cracked-stiffness resolver;
+- `ReinforcedConcreteFoundationBeamModel` and `ReinforcedConcreteFoundationBeamApplication` composed
+  with the migrated generic foundation and local beam pipelines;
+- strict DTO and error parity, public-root exports, live serialized comparisons, and independent
+  section, cracking-threshold, contact, stiffness-iteration, and metadata checks.
+
+The implementation records the source normative keys with the pinned corpus classification and makes
+no conformity claim. The source application registry remains a separate unimplemented boundary. The
+standalone `RCrackedDeflectionApplication`, full `CrackedSectionDeflectionAnalysis`, hyperstatic
+deflection iteration, and service-deflection adapters are explicitly outside this slice and remain a
+later boundary.
 
 ## Remaining migration
 
@@ -486,8 +551,9 @@ The package as a whole is **partial**. Remaining work includes:
 1. complete export, symbol, formula, fixture, validation-campaign, performance, and bundle
    inventory;
 2. remaining normative catalogs and structured reference utilities;
-3. reinforced-concrete cracked-section deflection, foundation beams, geotechnical foundations,
-   remaining pile checks, and other concrete applications in bounded slices;
+3. standalone reinforced-concrete cracked-section deflection, source application-registry parity,
+   geotechnical foundations, remaining pile checks, and other concrete applications in bounded
+   slices;
 4. remaining FEM elements, preprocessing, applications, browser, and Web Worker parity;
 5. complete numerical campaigns and tolerance comparison;
 6. other material systems and remaining low-level domain primitives;

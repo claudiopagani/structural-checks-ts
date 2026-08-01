@@ -9,8 +9,8 @@ calculation and verification library.
 Implementation status: **partial**. Canonical cutover status: **planned**.
 
 `strutture-js` remains the canonical implementation until the complete migration gates pass and
-maintainers publish an explicit cutover record. This repository currently contains twenty-one usable
-parity slices:
+maintainers publish an explicit cutover record. This repository currently contains twenty-four
+usable parity slices:
 
 - result status constants and serializable `CalculationResult` and `VerificationResult` DTOs;
 - generic result-check utilities;
@@ -63,6 +63,15 @@ parity slices:
   internal-force sampling.
 - straight beam-line preprocessing at supports and load discontinuities, plus a closed-form
   Timoshenko element for linear bending and shear deformation.
+- a generic single-beam analysis pipeline with explicit section providers, inclined geometry,
+  section-rotation projection, load cases, combinations, selectable result stations, sampled
+  actions, reactions, envelopes, and solver-neutral section-action verification.
+- generic foundation-beam analysis with bilateral or compression-only lumped Winkler springs,
+  imposed soil settlements, active-set contact iteration, optional element stiffness iteration,
+  pressure/reaction envelopes, and explicit solver-neutral result metadata.
+- reinforced-concrete foundation-beam analysis for assigned horizontal prismatic beam and Winkler
+  inputs, including cracked-stiffness iteration from service moment-curvature curves and local RC
+  beam section verification.
 
 The section, reinforcement, and material models are usable engineering data models. The ULS uniaxial
 section-resistance and uniaxial/biaxial interaction-domain applications are usable within their
@@ -78,12 +87,13 @@ verification is available on conventional 1000 mm strips, punching is available 
 connection/perimeter contract, and local seismic-wall checks are available for explicit
 solver-neutral demands. Centered rectangular isolated footings can also be checked locally when
 design bearing and sliding resistances are supplied; geotechnical capacity and settlement are not
-calculated by that structural application. The generic frame kernel can perform bounded linear 2D
-beam analysis, but it is not yet connected to the reinforced-concrete beam and foundation-beam
-applications. Cracked-section beam deflection, building-level global analysis, and solver adapters
-are not implemented in this TypeScript migration yet. The beam verifier reports a requested
-deflection branch explicitly as `not-implemented`. The repository does not claim normative, legal,
-regulatory, or professional conformity.
+calculated by that structural application. The generic frame, single-beam, and foundation-beam
+pipelines can perform bounded linear 2D analysis for their explicit solver-neutral inputs. The RC
+foundation-beam application adds local section verification and source-compatible cracked-stiffness
+iteration for its declared horizontal prismatic beam boundary. Full cracked-section beam deflection
+redistribution, building-level global analysis, and solver adapters are not implemented in this
+TypeScript migration yet. The repository does not claim normative, legal, regulatory, or
+professional conformity.
 
 The axial pile slice calculates single-pile geotechnical compression or tension capacity only. It
 does not implement pile groups, pile-cap load sharing, settlement or transfer curves, lateral

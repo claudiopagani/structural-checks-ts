@@ -1,0 +1,82 @@
+{
+  "schemaVersion": 1,
+  "sliceId": "0023-foundation-beam-analysis",
+  "title": "Generic foundation-beam Winkler analysis",
+  "migrationType": "mechanical-parity",
+  "implementationStatus": "implemented",
+  "dependencies": ["0022-single-beam-analysis"],
+  "source": {
+    "repository": "https://github.com/claudiopagani/strutture-js",
+    "revision": "6f33baead8b88166c4b2cf94af41763412e3c751"
+  },
+  "normativeCorpusRevision": "41da3faa489600173106935bbcf726119300e48d",
+  "sourceFiles": [
+    {
+      "path": "src/domain/foundations/FoundationBeamModel.js",
+      "gitBlobSha1": "66d9b068152a6d9772333d814fad1bd872ca6ba4",
+      "targetPath": "src/domain/foundations/FoundationBeamModel.ts"
+    },
+    {
+      "path": "src/domain/foundations/FoundationBeamFemBuilder.js",
+      "gitBlobSha1": "b57b239cc1ecbf8c3cb204a3985c530bd01f5cbc",
+      "targetPath": "src/domain/foundations/FoundationBeamFemBuilder.ts"
+    },
+    {
+      "path": "src/domain/foundations/FoundationBeamAnalysis.js",
+      "gitBlobSha1": "d72cfd65641a7eabcaa15e3e25173271acda0f3e",
+      "targetPath": "src/domain/foundations/FoundationBeamAnalysis.ts"
+    },
+    {
+      "path": "src/domain/foundations/index.js",
+      "gitBlobSha1": "654abf63622d9213120ccc5a4996c11d58e8f79f",
+      "targetPath": "src/domain/foundations/index.ts"
+    },
+    {
+      "path": "src/index.js",
+      "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7",
+      "targetPath": "src/index.ts"
+    }
+  ],
+  "sourceOracles": [
+    {
+      "path": "tests/foundationBeamAnalysis.test.js",
+      "gitBlobSha1": "7a1eaa336325868e67b78286f3e9536c2d786bb3"
+    },
+    {
+      "path": "tests/packageExports.test.js",
+      "gitBlobSha1": "8dde24b4c97dd3dae7100207d07d9d96c52b9c74"
+    }
+  ],
+  "sourcePublicExport": {
+    "path": "src/index.js",
+    "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
+  },
+  "targetTests": ["tests/foundation-beam-analysis.test.ts", "tests/baseline-parity.test.ts"],
+  "publicExports": ["FoundationBeamAnalysis", "FoundationBeamFemBuilder", "FoundationBeamModel"],
+  "normativeReferences": {
+    "resolved": [],
+    "outsideCorpus": [],
+    "normativeConformityClaimed": false
+  },
+  "independentValidation": {
+    "method": "live serialized comparison with the pinned JavaScript source plus Winkler equilibrium, active-set, tributary-spring, imposed-settlement, stiffness-iteration, sign-convention, and validation checks",
+    "targetTests": ["tests/foundation-beam-analysis.test.ts", "tests/baseline-parity.test.ts"],
+    "parityFixtures": [
+      "uniform bilateral Winkler compression and vertical equilibrium",
+      "uniform imposed soil settlement as rigid translation without soil reaction",
+      "compression-only contact with active-set iteration and non-negative pressure",
+      "contiguous foundation segments and tributary spring assembly",
+      "load-case combinations, sampled beam actions, and envelopes",
+      "optional element flexural-stiffness iteration with relaxation and convergence metadata",
+      "foundation model field and unit normalization parity",
+      "complete-coverage validation error parity",
+      "exact full-result comparison against the pinned JavaScript FoundationBeamAnalysis"
+    ]
+  },
+  "parityDifferences": [
+    "No numerical, serialized DTO, unit-conversion, ordering, sign-convention, warning, or tested error-behavior difference is known for this slice.",
+    "The JavaScript source remains the canonical runtime implementation; the TypeScript slice adds strict compile-time contracts without changing the runtime public subset.",
+    "This is a generic domain Winkler analysis only. RC foundation-beam section verification, cracked-section deflection, and any reinforced-concrete application remain excluded and are not presented as implemented."
+  ],
+  "engineeringFunctionality": "Usable solver-neutral foundation-beam analysis for explicit beam stiffness, contact width, segmented subgrade modulus, structural load cases and combinations, bilateral or compression-only lumped Winkler springs, imposed soil settlements, active-set contact iteration, optional element flexural-stiffness iteration, sampled beam actions, soil pressures, reactions, gaps, envelopes, warnings, assumptions, metadata, and serializable result fields. Soil capacity, geotechnical settlement derivation, consolidation, nonlinear soil constitutive behavior beyond the source active set, RC section verification, cracked-section deflection, and solver-specific adapters are excluded."
+}

@@ -28,7 +28,7 @@ export interface BeamInternalForceSample extends Record<string, unknown> {
 
 export interface BeamResultEntry extends Record<string, unknown> {
   id: string;
-  resultType?: string;
+  resultType?: string | undefined;
   geometry?: {
     length?: number;
     horizontalSpan?: number;

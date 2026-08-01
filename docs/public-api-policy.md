@@ -27,6 +27,15 @@ exposes the migrated foundation, concrete-section, and concrete-material slices:
 - generic `Node`, `Support`, load DTOs, `DofRegistry`, `FemAssembler2D`,
   `KinematicConstraintReducer2D`, `LinearStaticSolver2D`, `BeamLinePreprocessor2D`,
   `FrameElement2DEulerBernoulli`, and `FrameElement2DTimoshenko`;
+- `BEAM_SUPPORT_PRESETS`, `DEFAULT_SECTION_ROTATION`, `ElasticBeamSectionProvider`,
+  `SingleBeamAnalysis`, `SingleBeamFemBuilder`, `SingleBeamModel`,
+  `createElasticBeamSectionProvider`, `normalizeSectionRotation`, `resolveBeamSupportPreset`, and
+  `splitPrincipalActions` for the generic single-beam pipeline;
+- `FoundationBeamAnalysis`, `FoundationBeamFemBuilder`, and `FoundationBeamModel` for the generic
+  assigned-input Winkler foundation-beam pipeline;
+- `ReinforcedConcreteBeamSectionProvider` and `createReinforcedConcreteBeamSectionProvider`;
+- `ReinforcedConcreteFoundationBeamApplication`, `ReinforcedConcreteFoundationBeamModel`, and
+  `SectionMomentCurvatureCurve` for the declared RC foundation-beam cracked-stiffness boundary;
 - `ConcreteNoTensionLaw`, `SteelElasticLaw`, `RCServiceStressSolver`, and
   `RCMomentCurvatureAnalyzer`;
 - `ReinforcedConcreteShearVerification` and `ReinforcedConcreteTorsionVerification`;
@@ -114,9 +123,15 @@ The public 2D frame kernel preserves the source linear Euler-Bernoulli and Timos
 generic nodes, supports, nodal and uniform full-element loads, nodal springs, prescribed
 displacements, equal-DOF constraints, reactions, and internal-force sampling. The beam-line
 preprocessor generates a straight frame from explicit supports, load discontinuities, and
-discretization controls. These are solver-neutral low-level analysis boundaries. Rigid offsets, the
-higher-level single-beam combination and envelope pipeline, cracked stiffness, and RC
-foundation-beam verification are not implied by these exports.
+discretization controls. The public single-beam pipeline composes these generic primitives with
+section providers, load cases, combinations, station selection, sampled actions, reactions,
+envelopes, and section-action verification. The public foundation-beam pipeline adds assigned
+bilateral or compression-only lumped Winkler springs, imposed settlements, active-set contact, and
+optional supplied stiffness iteration. These remain solver-neutral analysis boundaries. Rigid
+offsets and geotechnical capacity derivation are not implied by these exports. The RC
+foundation-beam exports provide local section verification and cracked-stiffness iteration for the
+declared horizontal prismatic beam boundary. Full cracked-section deflection redistribution and the
+source application registry remain outside the current target boundary.
 
 `rayPolygonCapacity` preserves the source rule that a demand lies inside or on the sampled radial
 domain when `utilizationRatio <= 1`. It is a generic geometric operation; the beam and column
