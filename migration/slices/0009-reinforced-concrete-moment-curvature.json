@@ -1,0 +1,120 @@
+{
+  "schemaVersion": 1,
+  "sliceId": "0009-reinforced-concrete-moment-curvature",
+  "title": "Reinforced-concrete moment-curvature response",
+  "migrationType": "mechanical-parity",
+  "implementationStatus": "implemented",
+  "dependencies": [
+    "0001-foundation",
+    "0002-reinforced-concrete-sections",
+    "0003-concrete-materials",
+    "0004-ntc2018-uls-uniaxial-concrete-resistance"
+  ],
+  "source": {
+    "repository": "https://github.com/claudiopagani/strutture-js",
+    "revision": "6f33baead8b88166c4b2cf94af41763412e3c751"
+  },
+  "normativeCorpusRevision": "41da3faa489600173106935bbcf726119300e48d",
+  "sourceFiles": [
+    {
+      "path": "src/applications/reinforced-concrete-sections/analysis/RCMomentCurvatureAnalyzer.js",
+      "gitBlobSha1": "228461e3417e6176ef71d269caa0465e1ea601b4",
+      "targetPath": "src/applications/reinforced-concrete-sections/analysis/RCMomentCurvatureAnalyzer.ts"
+    },
+    {
+      "path": "src/applications/reinforced-concrete-sections/analysis/moment-curvature/MomentCurvaturePostUltimateOptions.js",
+      "gitBlobSha1": "fd84c2fa9999b32f1983b122fd6f95e1181c0683",
+      "targetPath": "src/applications/reinforced-concrete-sections/analysis/moment-curvature/MomentCurvaturePostUltimateOptions.ts"
+    },
+    {
+      "path": "src/applications/reinforced-concrete-sections/analysis/moment-curvature/MomentCurvatureSampling.js",
+      "gitBlobSha1": "51a30734547a3e2e82994cd92f2d9dc071f22ae7",
+      "targetPath": "src/applications/reinforced-concrete-sections/analysis/moment-curvature/MomentCurvatureSampling.ts"
+    },
+    {
+      "path": "src/applications/reinforced-concrete-sections/analysis/moment-curvature/RCMomentCurvatureEventLocator.js",
+      "gitBlobSha1": "789e95f88bf9ec8800c0fbbcae717e5b4d3d5878",
+      "targetPath": "src/applications/reinforced-concrete-sections/analysis/moment-curvature/RCMomentCurvatureEventLocator.ts"
+    },
+    {
+      "path": "src/applications/reinforced-concrete-sections/analysis/moment-curvature/RCMomentCurvaturePolicies.js",
+      "gitBlobSha1": "f665bc216ea45688ca9089544acb2cd9f4003bba",
+      "targetPath": "src/applications/reinforced-concrete-sections/analysis/moment-curvature/RCMomentCurvaturePolicies.ts"
+    },
+    {
+      "path": "src/applications/reinforced-concrete-sections/analysis/moment-curvature/RCMomentCurvatureSummary.js",
+      "gitBlobSha1": "c122e162f1876d56f689d9965a5fe5aa6860c34b",
+      "targetPath": "src/applications/reinforced-concrete-sections/analysis/moment-curvature/RCMomentCurvatureSummary.ts"
+    },
+    {
+      "path": "src/applications/reinforced-concrete-sections/shared/RcSectionAnalysisContext.js",
+      "gitBlobSha1": "7f0558f0b1c16ca54c1ff6f4c86bbbad0b3d92f7",
+      "targetPath": "src/applications/reinforced-concrete-sections/shared/RcSectionAnalysisContext.ts"
+    },
+    {
+      "path": "src/applications/reinforced-concrete-sections/workflows/momentCurvatureWorkflow.js",
+      "gitBlobSha1": "d23c63d78b75905409875fb9815dd2fbd5ce5ee8",
+      "targetPath": "src/applications/reinforced-concrete-sections/workflows/momentCurvatureWorkflow.ts"
+    },
+    {
+      "path": "src/applications/reinforced-concrete-sections/models/ReinforcedConcreteSectionModel.js",
+      "gitBlobSha1": "7ef4ccf31cb5fade91c452939990805be4f93413",
+      "targetPath": "src/applications/reinforced-concrete-sections/models/ReinforcedConcreteSectionModel.ts"
+    },
+    {
+      "path": "src/applications/reinforced-concrete-sections/checks/ReinforcedConcreteSectionVerification.js",
+      "gitBlobSha1": "37ad8803cd6630c12e69af9586f6d965e30befd8",
+      "targetPath": "src/applications/reinforced-concrete-sections/checks/ReinforcedConcreteSectionVerification.ts"
+    },
+    {
+      "path": "src/applications/reinforced-concrete-sections/ReinforcedConcreteSectionApplication.js",
+      "gitBlobSha1": "086a35c7d233527a2e32eb07be857f39b9947d6e",
+      "targetPath": "src/applications/reinforced-concrete-sections/ReinforcedConcreteSectionApplication.ts"
+    },
+    {
+      "path": "src/norms/ntc2018/normativeReferences.js",
+      "gitBlobSha1": "23ab4d1fbe10f0f363ba6b56b300ea013d856ccf",
+      "targetPath": "src/norms/ntc2018/normativeReferences.ts"
+    }
+  ],
+  "sourceOracles": [
+    {
+      "path": "tests/reinforcedConcreteMomentCurvature.test.js",
+      "gitBlobSha1": "cf936050c5e978f32ba6654f64c4a18fe8896473"
+    },
+    {
+      "path": "tests/rcMomentCurvatureSampling.test.js",
+      "gitBlobSha1": "a476cdc68bd92377d4f746be30eb6622aabb0347"
+    },
+    {
+      "path": "tests/rcUltimateSectionSolver.test.js",
+      "gitBlobSha1": "a4fe9d5b6048115e49fecf0d4c11378e9f6bed38"
+    },
+    {
+      "path": "tests/packageExports.test.js",
+      "gitBlobSha1": "8dde24b4c97dd3dae7100207d07d9d96c52b9c74"
+    }
+  ],
+  "sourcePublicExport": {
+    "path": "src/index.js",
+    "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
+  },
+  "targetTests": ["tests/concrete-moment-curvature.test.ts", "tests/baseline-parity.test.ts"],
+  "publicExports": ["RCMomentCurvatureAnalyzer"],
+  "normativeReferences": {
+    "resolved": ["urn:structural-codes:it:unit:ntc2018:4.1.2.3.4.2"],
+    "outsideCorpus": [],
+    "normativeConformityClaimed": false
+  },
+  "independentValidation": {
+    "method": "closed-form elastic stiffness of a symmetric fiber section",
+    "targetTest": "tests/concrete-moment-curvature.test.ts",
+    "fixture": "300 mm by 500 mm unreinforced rectangle, Ec = 30000 N/mm2, curvature = 1e-6 1/mm, NEd = 0, concrete tension included",
+    "referenceEquation": "Mx = Ec * sum(Ai * (yi - yc)^2) * curvature",
+    "acceptedRelativeMomentDifference": 1e-13
+  },
+  "parityDifferences": [
+    "The analyzer, event locations, post-ultimate policies, ductility summary, workflow numerical outputs, warnings, assumptions, normative references, and serialized fields have no known parity differences."
+  ],
+  "engineeringFunctionality": "Usable reinforced-concrete section moment-curvature response at assigned axial force, including first yield, material ultimate, balanced failure, post-ultimate termination, and NTC 2018 curvature-ductility outputs. This is a section analysis and does not by itself verify shear, torsion, detailing, stability, or a complete member."
+}

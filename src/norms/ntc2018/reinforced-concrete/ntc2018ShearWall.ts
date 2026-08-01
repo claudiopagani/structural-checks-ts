@@ -1,0 +1,457 @@
+import {
+  NTC2018_STRUCTURAL_BEHAVIOR,
+  normalizeNTC2018StructuralBehavior,
+} from "./structuralBehavior.js";
+import { withNormativeReferences, type NormativeReference } from "../../normativeReference.js";
+import { NTC2018_RC_CHAPTER_7_4_REFERENCES } from "../normativeReferences.js";
+
+function wallMetadata(references: readonly NormativeReference[]): Record<string, unknown> {
+  return withNormativeReferences({}, references);
+}
+
+export const NTC2018_SHEAR_WALL_REFERENCES = Object.freeze([
+  Object.freeze({
+    source: "NTC 2018",
+    citation: "§§ 7.4.4.5.1, 7.4.4.5.2 e 7.4.6.2.4; Eqs. [7.4.13]-[7.4.22] e [7.4.32]-[7.4.33]",
+  }),
+]);
+
+function finite(value: unknown, label: string): number {
+  const number = Number(value);
+  if (!Number.isFinite(number)) {
+    throw new Error(`${label} must be finite; got ${String(value)}.`);
+  }
+  return number;
+}
+
+function positive(value: unknown, label: string): number {
+  const number = finite(value, label);
+  if (number <= 0) {
+    throw new Error(`${label} must be positive; got ${String(value)}.`);
+  }
+  return number;
+}
+
+function nonNegative(value: unknown, label: string): number {
+  const number = finite(value, label);
+  if (number < 0) {
+    throw new Error(`${label} must be non-negative; got ${String(value)}.`);
+  }
+  return number;
+}
+
+function positiveInteger(value: unknown, label: string): number {
+  const number = Number(value);
+  if (!Number.isInteger(number) || number <= 0) {
+    throw new Error(`${label} must be a positive integer; got ${String(value)}.`);
+  }
+  return number;
+}
+
+export interface WallCriticalZoneHeightInput {
+  wallLength?: number;
+  wallHeight?: number;
+  storeyHeight?: number | undefined;
+  storeyCount?: number | undefined;
+}
+
+export function computeWallCriticalZoneHeight({
+  wallLength,
+  wallHeight,
+  storeyHeight,
+  storeyCount,
+}: WallCriticalZoneHeightInput = {}) {
+  const length = positive(wallLength, "wallLength");
+  const height = positive(wallHeight, "wallHeight");
+  const clearStoreyHeight = positive(storeyHeight, "storeyHeight");
+  const storeys = positiveInteger(storeyCount, "storeyCount");
+  const uncapped = Math.max(length, height / 6);
+  const storeyCap = storeys <= 6 ? clearStoreyHeight : 2 * clearStoreyHeight;
+  const hCr = Math.min(uncapped, 2 * length, storeyCap);
+  return {
+    hCr,
+    uncapped,
+    caps: {
+      twoWallLengths: 2 * length,
+      storeyHeight: storeyCap,
+    },
+    reference: "NTC 2018 § 7.4.4.5.1, Eq. [7.4.13]",
+    metadata: wallMetadata([NTC2018_RC_CHAPTER_7_4_REFERENCES.wall]),
+  };
+}
+
+export interface WallMomentShiftInput extends WallCriticalZoneHeightInput {
+  behavior?: string;
+}
+
+export function computeWallMomentShift({
+  wallLength,
+  wallHeight,
+  storeyHeight,
+  storeyCount,
+  behavior,
+}: WallMomentShiftInput = {}) {
+  const length = positive(wallLength, "wallLength");
+  const height = positive(wallHeight, "wallHeight");
+  const normalizedBehavior = normalizeNTC2018StructuralBehavior(behavior);
+  const slender = height / length > 2;
+  const applicable = slender && normalizedBehavior !== NTC2018_STRUCTURAL_BEHAVIOR.NON_DISSIPATIVE;
+  const criticalZone = computeWallCriticalZoneHeight({
+    wallLength: length,
+    wallHeight: height,
+    storeyHeight,
+    storeyCount,
+  });
+  return {
+    shift: applicable ? criticalZone.hCr : 0,
+    applicable,
+    slender,
+    hCr: criticalZone.hCr,
+    reference: "NTC 2018 § 7.4.4.5.1 (Presso-flessione)",
+    metadata: wallMetadata([NTC2018_RC_CHAPTER_7_4_REFERENCES.wall]),
+  };
+}
+
+export interface WallCapacityShearInput {
+  analysisShear?: number;
+  momentResistance?: number;
+  momentDemand?: number;
+  q?: number;
+  behavior?: string;
+  wallLength?: number;
+  wallHeight?: number;
+  elasticSpectrumTc?: number;
+  elasticSpectrumT1?: number;
+}
+
+export function computeWallCapacityShear({
+  analysisShear,
+  momentResistance,
+  momentDemand,
+  q,
+  behavior,
+  wallLength,
+  wallHeight,
+  elasticSpectrumTc,
+  elasticSpectrumT1,
+}: WallCapacityShearInput = {}) {
+  const baseShear = Math.abs(finite(analysisShear, "analysisShear"));
+  const resistance = positive(momentResistance, "momentResistance");
+  const demandMoment = positive(Math.abs(finite(momentDemand, "momentDemand")), "momentDemand");
+  if (resistance < demandMoment) {
+    throw new Error(
+      "momentResistance must be at least momentDemand before applying the wall capacity-shear rule.",
+    );
+  }
+  const behaviorFactor = positive(q, "q");
+  const length = positive(wallLength, "wallLength");
+  const height = positive(wallHeight, "wallHeight");
+  const normalizedBehavior = normalizeNTC2018StructuralBehavior(behavior);
+  if (normalizedBehavior === NTC2018_STRUCTURAL_BEHAVIOR.NON_DISSIPATIVE) {
+    return {
+      shearDemand: baseShear,
+      amplificationFactor: 1,
+      rawAmplificationFactor: 1,
+      gammaRd: null,
+      slender: height / length > 2,
+      reference: "NTC 2018 § 7.4.1",
+      metadata: wallMetadata([NTC2018_RC_CHAPTER_7_4_REFERENCES.structuralBehavior]),
+    };
+  }
+  if (behaviorFactor < 1.5) {
+    throw new Error("Dissipative wall q must be at least 1.5.");
+  }
+
+  const slender = height / length > 2;
+  const gammaRd = normalizedBehavior === NTC2018_STRUCTURAL_BEHAVIOR.CD_A ? 1.2 : 1;
+  let rawAmplificationFactor: number;
+  let amplificationFactor: number;
+  if (slender) {
+    const spectrumTc = positive(elasticSpectrumTc, "elasticSpectrumTc");
+    const spectrumT1 = positive(elasticSpectrumT1, "elasticSpectrumT1");
+    rawAmplificationFactor =
+      behaviorFactor *
+      Math.sqrt(
+        ((gammaRd / behaviorFactor) * (resistance / demandMoment)) ** 2 +
+          0.1 * (spectrumTc / spectrumT1) ** 2,
+      );
+    amplificationFactor = Math.min(behaviorFactor, Math.max(1.5, rawAmplificationFactor));
+  } else {
+    rawAmplificationFactor = (gammaRd * resistance) / demandMoment;
+    amplificationFactor = Math.min(behaviorFactor, rawAmplificationFactor);
+  }
+  return {
+    shearDemand: baseShear * amplificationFactor,
+    amplificationFactor,
+    rawAmplificationFactor,
+    gammaRd,
+    slender,
+    reference: slender
+      ? "NTC 2018 § 7.4.4.5.1, Eq. [7.4.14]"
+      : "NTC 2018 § 7.4.4.5.1, Eq. [7.4.15]",
+    metadata: wallMetadata([NTC2018_RC_CHAPTER_7_4_REFERENCES.wall]),
+  };
+}
+
+export interface WallShearInput {
+  shearDemand?: number;
+  chapter4ConcreteCompressionResistance?: number;
+  wallWebTensionResistance?: number;
+  slidingResistance?: number;
+  inclinedReinforcementContribution?: number;
+  isDissipativeZone?: boolean;
+  isSquatWall?: boolean;
+}
+
+export function verifyWallShear({
+  shearDemand,
+  chapter4ConcreteCompressionResistance,
+  wallWebTensionResistance,
+  slidingResistance,
+  inclinedReinforcementContribution,
+  isDissipativeZone,
+  isSquatWall,
+}: WallShearInput = {}) {
+  const demand = nonNegative(Math.abs(finite(shearDemand, "shearDemand")), "shearDemand");
+  if (typeof isDissipativeZone !== "boolean") {
+    throw new Error("isDissipativeZone must be boolean.");
+  }
+  if (typeof isSquatWall !== "boolean") {
+    throw new Error("isSquatWall must be boolean.");
+  }
+  const chapter4Compression = positive(
+    chapter4ConcreteCompressionResistance,
+    "chapter4ConcreteCompressionResistance",
+  );
+  const concreteCompressionResistance = chapter4Compression * (isDissipativeZone ? 0.4 : 1);
+  const webTensionResistance = positive(wallWebTensionResistance, "wallWebTensionResistance");
+  const checks: Array<Record<string, unknown> & { ok: boolean }> = [
+    {
+      check: "wall-shear-compression",
+      demand,
+      capacity: concreteCompressionResistance,
+      utilizationRatio: demand / concreteCompressionResistance,
+      ok: demand <= concreteCompressionResistance,
+      reference: "NTC 2018 § 7.4.4.5.1 (taglio-compressione)",
+      metadata: wallMetadata([NTC2018_RC_CHAPTER_7_4_REFERENCES.wall]),
+    },
+    {
+      check: "wall-shear-web-tension",
+      demand,
+      capacity: webTensionResistance,
+      utilizationRatio: demand / webTensionResistance,
+      ok: demand <= webTensionResistance,
+      reference: "NTC 2018 § 7.4.4.5.1 (taglio-trazione)",
+      metadata: wallMetadata([NTC2018_RC_CHAPTER_7_4_REFERENCES.wall]),
+    },
+  ];
+  if (isDissipativeZone) {
+    const sliding = positive(slidingResistance, "slidingResistance");
+    checks.push({
+      check: "wall-shear-sliding",
+      demand,
+      capacity: sliding,
+      utilizationRatio: demand / sliding,
+      ok: demand <= sliding,
+      reference: "NTC 2018 § 7.4.4.5.1, Eqs. [7.4.18]-[7.4.22]",
+      metadata: wallMetadata([NTC2018_RC_CHAPTER_7_4_REFERENCES.wall]),
+    });
+    if (isSquatWall) {
+      const inclined = nonNegative(
+        inclinedReinforcementContribution,
+        "inclinedReinforcementContribution",
+      );
+      checks.push({
+        check: "wall-squat-inclined-reinforcement",
+        demand: demand / 2,
+        capacity: inclined,
+        utilizationRatio: inclined > 0 ? demand / 2 / inclined : Infinity,
+        ok: inclined > demand / 2,
+        comparison: ">",
+        reference: "NTC 2018 § 7.4.4.5.1 (Vid > VEd/2)",
+        metadata: wallMetadata([NTC2018_RC_CHAPTER_7_4_REFERENCES.wall]),
+      });
+    }
+  }
+  return {
+    ok: checks.every((check) => check.ok),
+    shearDemand: demand,
+    concreteCompressionResistance,
+    webTensionResistance,
+    checks,
+    reference: "NTC 2018 § 7.4.4.5.1",
+    metadata: wallMetadata([NTC2018_RC_CHAPTER_7_4_REFERENCES.wall]),
+  };
+}
+
+export function verifyWallBoundaryConfinement({
+  maximumConcreteCompressiveStrain,
+}: {
+  maximumConcreteCompressiveStrain?: number;
+} = {}) {
+  const strain = nonNegative(maximumConcreteCompressiveStrain, "maximumConcreteCompressiveStrain");
+  return {
+    confinementRequired: strain > 0.0035,
+    maximumConcreteCompressiveStrain: strain,
+    threshold: 0.0035,
+    check: "wall-boundary-confinement-region",
+    reference: "NTC 2018 § 7.4.4.5.2",
+    metadata: wallMetadata([NTC2018_RC_CHAPTER_7_4_REFERENCES.wallDuctility]),
+  };
+}
+
+export interface WallBoundaryLengthInput {
+  wallLength?: number;
+  wallThickness?: number;
+  strainDerivedLength?: number;
+  simplifiedDetailing?: boolean;
+}
+
+export function computeWallBoundaryLength({
+  wallLength,
+  wallThickness,
+  strainDerivedLength = 0,
+  simplifiedDetailing = false,
+}: WallBoundaryLengthInput = {}) {
+  const length = positive(wallLength, "wallLength");
+  const thickness = positive(wallThickness, "wallThickness");
+  const strainLength = nonNegative(strainDerivedLength, "strainDerivedLength");
+  if (typeof simplifiedDetailing !== "boolean") {
+    throw new Error("simplifiedDetailing must be boolean.");
+  }
+  const minimumLength = simplifiedDetailing
+    ? Math.max(0.2 * length, 1.5 * thickness)
+    : Math.max(0.15 * length, 0.15 * thickness);
+  return {
+    boundaryLength: Math.max(strainLength, minimumLength),
+    strainDerivedLength: strainLength,
+    minimumLength,
+    simplifiedDetailing,
+    reference: simplifiedDetailing ? "NTC 2018 §§ 7.4.4.5.2 e 7.4.6.2.4" : "NTC 2018 § 7.4.4.5.2",
+    metadata: wallMetadata([
+      NTC2018_RC_CHAPTER_7_4_REFERENCES.wallDuctility,
+      ...(simplifiedDetailing ? [NTC2018_RC_CHAPTER_7_4_REFERENCES.wallDetailing] : []),
+    ]),
+  };
+}
+
+export interface WallConfinementOmegaWdInput {
+  behavior?: string;
+  confinementEffectiveness?: number;
+  curvatureDuctilityDemand?: number;
+  normalizedAxialForce?: number;
+  verticalWebMechanicalRatio?: number;
+  reinforcementYieldStrain?: number;
+  grossSectionDepth?: number;
+  confinedCoreDepth?: number;
+}
+
+export function computeWallConfinementOmegaWd({
+  behavior,
+  confinementEffectiveness,
+  curvatureDuctilityDemand,
+  normalizedAxialForce,
+  verticalWebMechanicalRatio,
+  reinforcementYieldStrain,
+  grossSectionDepth,
+  confinedCoreDepth,
+}: WallConfinementOmegaWdInput = {}) {
+  const normalizedBehavior = normalizeNTC2018StructuralBehavior(behavior);
+  if (normalizedBehavior === NTC2018_STRUCTURAL_BEHAVIOR.NON_DISSIPATIVE) {
+    return {
+      omegaWd: 0,
+      equationValue: 0,
+      minimumValue: 0,
+      reference: "NTC 2018 § 7.4.1",
+      metadata: wallMetadata([NTC2018_RC_CHAPTER_7_4_REFERENCES.structuralBehavior]),
+    };
+  }
+  const alpha = positive(confinementEffectiveness, "confinementEffectiveness");
+  const muPhi = positive(curvatureDuctilityDemand, "curvatureDuctilityDemand");
+  const nuD = nonNegative(normalizedAxialForce, "normalizedAxialForce");
+  const omegaV = nonNegative(verticalWebMechanicalRatio, "verticalWebMechanicalRatio");
+  const epsSy = positive(reinforcementYieldStrain, "reinforcementYieldStrain");
+  const bc = positive(grossSectionDepth, "grossSectionDepth");
+  const b0 = positive(confinedCoreDepth, "confinedCoreDepth");
+  const equationValue = (30 * muPhi * (nuD + omegaV) * epsSy * (bc / b0) - 0.035) / alpha;
+  const minimumValue = normalizedBehavior === NTC2018_STRUCTURAL_BEHAVIOR.CD_A ? 0.12 : 0.08;
+  return {
+    omegaWd: Math.max(minimumValue, equationValue),
+    equationValue,
+    minimumValue,
+    reference: "NTC 2018 § 7.4.6.2.4, Eq. [7.4.32]",
+    metadata: wallMetadata([NTC2018_RC_CHAPTER_7_4_REFERENCES.wallDetailing]),
+  };
+}
+
+export interface WallSectionAssessmentInput {
+  sectionId?: string;
+  behavior?: string;
+  wallLength?: number;
+  wallThickness?: number;
+  axialCompressionRatio?: number;
+  flexuralCheck?: (Record<string, unknown> & { ok?: boolean }) | null;
+  shearCheckInput?: WallShearInput | null;
+}
+
+export function createWallSectionAssessment({
+  sectionId,
+  behavior,
+  wallLength,
+  wallThickness,
+  axialCompressionRatio,
+  flexuralCheck,
+  shearCheckInput,
+}: WallSectionAssessmentInput = {}) {
+  const normalizedBehavior = normalizeNTC2018StructuralBehavior(behavior);
+  const length = positive(wallLength, "wallLength");
+  const thickness = positive(wallThickness, "wallThickness");
+  const checks: Array<Record<string, unknown> & { ok?: boolean }> = [
+    {
+      check: "wall-geometric-classification",
+      demand: length / thickness,
+      capacity: 4,
+      comparison: ">",
+      ok: length / thickness > 4,
+      reference: "NTC 2018 § 7.4.4.5",
+      metadata: wallMetadata([NTC2018_RC_CHAPTER_7_4_REFERENCES.wall]),
+    },
+  ];
+  if (normalizedBehavior !== NTC2018_STRUCTURAL_BEHAVIOR.NON_DISSIPATIVE) {
+    const axialRatio = nonNegative(axialCompressionRatio, "axialCompressionRatio");
+    const limit = normalizedBehavior === NTC2018_STRUCTURAL_BEHAVIOR.CD_A ? 0.35 : 0.4;
+    checks.push({
+      check: "wall-axial-compression-ratio",
+      demand: axialRatio,
+      capacity: limit,
+      utilizationRatio: axialRatio / limit,
+      ok: axialRatio <= limit,
+      reference: "NTC 2018 § 7.4.4.5.1",
+      metadata: wallMetadata([NTC2018_RC_CHAPTER_7_4_REFERENCES.wall]),
+    });
+  }
+  if (flexuralCheck != null) {
+    if (typeof flexuralCheck.ok !== "boolean") {
+      throw new Error("flexuralCheck.ok must be boolean.");
+    }
+    checks.push({
+      ...flexuralCheck,
+      check: flexuralCheck.check ?? "wall-flexure",
+    });
+  }
+  if (shearCheckInput != null) {
+    checks.push(...verifyWallShear(shearCheckInput).checks);
+  }
+  const complete = flexuralCheck != null && shearCheckInput != null;
+  const allChecksOk = complete && checks.every((check) => check.ok === true);
+  return {
+    sectionId,
+    behavior: normalizedBehavior,
+    complete,
+    status: complete ? (allChecksOk ? "ok" : "not-verified") : "not-implemented",
+    allChecksOk,
+    checks,
+    references: NTC2018_SHEAR_WALL_REFERENCES,
+    metadata: wallMetadata([NTC2018_RC_CHAPTER_7_4_REFERENCES.wall]),
+  };
+}

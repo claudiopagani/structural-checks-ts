@@ -1,0 +1,114 @@
+{
+  "schemaVersion": 1,
+  "sliceId": "0017-reinforced-concrete-seismic-walls",
+  "title": "Reinforced-concrete seismic wall checks",
+  "migrationType": "mechanical-parity-with-traceability-preservation",
+  "implementationStatus": "implemented",
+  "dependencies": [
+    "0006-ntc2018-uls-biaxial-domain",
+    "0009-reinforced-concrete-moment-curvature",
+    "0010-reinforced-concrete-shear",
+    "0012-reinforced-concrete-detailing"
+  ],
+  "source": {
+    "repository": "https://github.com/claudiopagani/strutture-js",
+    "revision": "6f33baead8b88166c4b2cf94af41763412e3c751"
+  },
+  "normativeCorpusRevision": "41da3faa489600173106935bbcf726119300e48d",
+  "sourceFiles": [
+    {
+      "path": "src/norms/ntc2018/reinforced-concrete/ntc2018ShearWall.js",
+      "gitBlobSha1": "404b046e0496b79d83583d2e04ca4ec00b151a27",
+      "targetPath": "src/norms/ntc2018/reinforced-concrete/ntc2018ShearWall.ts"
+    },
+    {
+      "path": "src/norms/ntc2018/reinforced-concrete/wallSystemChecks.js",
+      "gitBlobSha1": "e34d4d6c8be576b1e968527df86aa04e149f9c76",
+      "targetPath": "src/norms/ntc2018/reinforced-concrete/wallSystemChecks.ts"
+    },
+    {
+      "path": "src/applications/rc-building-verification/wallBiaxialVerification.js",
+      "gitBlobSha1": "b3fc77c77d81ee9d21e7194615d8d4dc9fe16db0",
+      "targetPath": "src/applications/reinforced-concrete-walls/wallBiaxialVerification.ts",
+      "coverage": "Moves the source application-layer biaxial wall function into a bounded public wall module without changing its application-to-domain dependency direction."
+    },
+    {
+      "path": "src/norms/ntc2018/normativeReferences.js",
+      "gitBlobSha1": "23ab4d1fbe10f0f363ba6b56b300ea013d856ccf",
+      "targetPath": "src/norms/ntc2018/normativeReferences.ts",
+      "coverage": "Adds the resolved structural-behavior, wall, wall-ductility, coupling-beam, wall-geometry, and wall-detailing units."
+    }
+  ],
+  "sourceOracles": [
+    {
+      "path": "tests/ntc2018ShearWall.test.js",
+      "gitBlobSha1": "b171933955be1cc5c3c865917e110e75918febe1"
+    },
+    {
+      "path": "tests/ntc2018WallSystemChecks.test.js",
+      "gitBlobSha1": "a7b9bdce19ae9caaa6ed876149fd883c1d992e35"
+    }
+  ],
+  "sourcePublicExport": {
+    "path": "src/index.js",
+    "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
+  },
+  "targetTests": ["tests/concrete-wall.test.ts"],
+  "publicExports": [
+    "NTC2018_SHEAR_WALL_REFERENCES",
+    "NTC2018_WALL_SYSTEM_REFERENCES",
+    "WALL_BIAXIAL_REFERENCE",
+    "computeMixedSystemWallShearEnvelope",
+    "computeWallBoundaryLength",
+    "computeWallCapacityShear",
+    "computeWallConfinementOmegaWd",
+    "computeWallCriticalZoneHeight",
+    "computeWallEffectiveFlangeWidth",
+    "computeWallMomentShift",
+    "computeWeaklyReinforcedWallAxialDemandRange",
+    "computeWeaklyReinforcedWallShearDemand",
+    "createCouplingBeamAssessment",
+    "createWallHeightSystemAssessment",
+    "createWallSectionAssessment",
+    "verifyWallBiaxialBending",
+    "verifyWallBoundaryConfinement",
+    "verifyWallCurvatureDuctility",
+    "verifyWallGeneralDetailing",
+    "verifyWallShear"
+  ],
+  "normativeReferences": {
+    "resolved": [
+      "urn:structural-codes:it:unit:ntc2018:4.1.2.3.4.2",
+      "urn:structural-codes:it:unit:ntc2018:7.4.1",
+      "urn:structural-codes:it:unit:ntc2018:7.4.4.5.1",
+      "urn:structural-codes:it:unit:ntc2018:7.4.4.5.2",
+      "urn:structural-codes:it:unit:ntc2018:7.4.4.6",
+      "urn:structural-codes:it:unit:ntc2018:7.4.6.1.4",
+      "urn:structural-codes:it:unit:ntc2018:7.4.6.2.4"
+    ],
+    "outsideCorpus": [],
+    "normativeConformityClaimed": false
+  },
+  "independentValidation": {
+    "method": "direct equation checks and live full-result comparison with the pinned JavaScript source",
+    "targetTests": ["tests/concrete-wall.test.ts"],
+    "parityFixtures": [
+      "critical-zone height and moment shift",
+      "slender dissipative wall shear amplification",
+      "dissipative squat-wall shear",
+      "boundary confinement and length",
+      "wall confinement mechanical ratio",
+      "wall section aggregation",
+      "effective flange and mixed-system envelope",
+      "weakly reinforced wall shear and axial range",
+      "curvature ductility and general detailing",
+      "diagonally reinforced coupling beam",
+      "wall-height completeness aggregation",
+      "biaxial wall-section resistance"
+    ]
+  },
+  "parityDifferences": [
+    "No numerical or serialized result difference is known for the tested seismic-wall workflows."
+  ],
+  "engineeringFunctionality": "Usable solver-neutral local and height-aggregation checks for primary reinforced-concrete seismic walls: biaxial section resistance, critical zones, moment shifts, capacity shear, dissipative shear modifiers, boundary confinement, wall and coupling-beam detailing, curvature ductility, effective flanges, mixed-system envelopes, and weakly reinforced walls. Automatic extraction of concurrent wall demands from a global FEM model remains in the later global-analysis slice."
+}

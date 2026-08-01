@@ -16,6 +16,11 @@
       "types": "./dist/index.d.ts",
       "import": "./dist/index.js",
       "default": "./dist/index.js"
+    },
+    "./domain/math": {
+      "types": "./dist/domain/math/index.d.ts",
+      "import": "./dist/domain/math/index.js",
+      "default": "./dist/domain/math/index.js"
     }
   },
   "files": [

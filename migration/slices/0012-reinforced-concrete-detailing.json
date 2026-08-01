@@ -1,0 +1,117 @@
+{
+  "schemaVersion": 1,
+  "sliceId": "0012-reinforced-concrete-detailing",
+  "title": "Reinforced-concrete beam and column detailing",
+  "migrationType": "mechanical-parity-with-traceability-preservation",
+  "implementationStatus": "implemented",
+  "dependencies": [
+    "0001-foundation",
+    "0002-reinforced-concrete-sections",
+    "0003-concrete-materials"
+  ],
+  "source": {
+    "repository": "https://github.com/claudiopagani/strutture-js",
+    "revision": "6f33baead8b88166c4b2cf94af41763412e3c751"
+  },
+  "normativeCorpusRevision": "41da3faa489600173106935bbcf726119300e48d",
+  "sourceFiles": [
+    {
+      "path": "src/norms/en1992/reinforced-concrete/en1992Detailing2004.js",
+      "gitBlobSha1": "ebf303d576b35873773aa7b48a74fb6ddb60dfdc",
+      "targetPath": "src/norms/en1992/reinforced-concrete/en1992Detailing2004.ts"
+    },
+    {
+      "path": "src/norms/en1992/reinforced-concrete/index.js",
+      "gitBlobSha1": "70d0caf624c25e69f99f5b1d2acb1085851a4057",
+      "targetPath": "src/norms/en1992/reinforced-concrete/index.ts"
+    },
+    {
+      "path": "src/norms/en1992/normativeReferences.js",
+      "gitBlobSha1": "991a183cdc30a567472ad6ff66736f0cd2eb1a0f",
+      "targetPath": "src/norms/en1992/normativeReferences.ts"
+    },
+    {
+      "path": "src/applications/reinforced-concrete-sections/checks/ReinforcedConcreteBeamDetailingVerification.js",
+      "gitBlobSha1": "35461ce2cadba5fc352e51082016be0d94507957",
+      "targetPath": "src/applications/reinforced-concrete-sections/checks/ReinforcedConcreteBeamDetailingVerification.ts"
+    },
+    {
+      "path": "src/applications/reinforced-concrete-columns/ReinforcedConcreteColumnModel.js",
+      "gitBlobSha1": "f06530b9f0cc7801dc5d094617726305fd2a9f6a",
+      "targetPath": "src/applications/reinforced-concrete-columns/ReinforcedConcreteColumnModel.ts"
+    },
+    {
+      "path": "src/applications/reinforced-concrete-columns/ReinforcedConcreteColumnDetailingVerification.js",
+      "gitBlobSha1": "32ba95e142afbbf76a9390d960e514b072fd0a39",
+      "targetPath": "src/applications/reinforced-concrete-columns/ReinforcedConcreteColumnDetailingVerification.ts"
+    },
+    {
+      "path": "src/norms/ntc2018/normativeReferences.js",
+      "gitBlobSha1": "23ab4d1fbe10f0f363ba6b56b300ea013d856ccf",
+      "targetPath": "src/norms/ntc2018/normativeReferences.ts",
+      "coverage": "Preserves the canonical NTC 2018 bond, anchorage, beam and column geometry, and detailing references."
+    }
+  ],
+  "sourceOracles": [
+    {
+      "path": "tests/reinforcedConcreteCompletion.test.js",
+      "gitBlobSha1": "b63f07e11d03e275a80fdef4d80ad2e8e0d46173"
+    },
+    {
+      "path": "tests/reinforcedConcreteColumnApplication.test.js",
+      "gitBlobSha1": "c8ea5e3a1bfbbdebfe7de233f760f06e9efd7744"
+    },
+    {
+      "path": "tests/packageExports.test.js",
+      "gitBlobSha1": "8dde24b4c97dd3dae7100207d07d9d96c52b9c74"
+    }
+  ],
+  "sourcePublicExport": {
+    "path": "src/index.js",
+    "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
+  },
+  "targetTests": [
+    "tests/concrete-beam-detailing.test.ts",
+    "tests/concrete-column-detailing.test.ts",
+    "tests/baseline-parity.test.ts"
+  ],
+  "publicExports": [
+    "ReinforcedConcreteBeamDetailingVerification",
+    "ReinforcedConcreteColumnModel",
+    "ReinforcedConcreteColumnDetailingVerification",
+    "calculateEn1992AnchorageLength",
+    "calculateEn1992DesignBondStrength",
+    "calculateEn1992LocalBearingResistance",
+    "calculateEn1992ShrinkageCurvature"
+  ],
+  "normativeReferences": {
+    "resolved": [
+      "urn:structural-codes:it:unit:ntc2018:4.1.2.1.1.4",
+      "urn:structural-codes:it:unit:ntc2018:4.1.2.3.10",
+      "urn:structural-codes:it:unit:ntc2018:4.1.6.1.1",
+      "urn:structural-codes:it:unit:ntc2018:4.1.6.1.2",
+      "urn:structural-codes:it:unit:ntc2018:7.4.6.1.1",
+      "urn:structural-codes:it:unit:ntc2018:7.4.6.1.2",
+      "urn:structural-codes:it:unit:ntc2018:7.4.6.2.1",
+      "urn:structural-codes:it:unit:ntc2018:7.4.6.2.2"
+    ],
+    "outsideCorpus": [
+      "EN 1992-1-1:2004 §§ 8.4.2-8.4.4, espressioni (8.2)-(8.6)",
+      "EN 1992-1-1:2004 § 6.7, espressione (6.63)",
+      "EN 1992-1-1:2004 § 7.4.3(6), espressione (7.21)"
+    ],
+    "normativeConformityClaimed": false
+  },
+  "independentValidation": {
+    "method": "direct arithmetic evaluation of anchorage, reinforcement-area, and confinement equations",
+    "targetTests": [
+      "tests/concrete-beam-detailing.test.ts",
+      "tests/concrete-column-detailing.test.ts"
+    ],
+    "acceptedAbsoluteDifference": 1e-12
+  },
+  "parityDifferences": [
+    "The model normalization, detailing checks, outputs, warnings, assumptions, normative references and serialized results have no known parity differences."
+  ],
+  "engineeringFunctionality": "Usable explicit-contract beam and column detailing checks, including ordinary and dissipative reinforcement limits, anchorage, hoop geometry, and column confinement. The checks do not infer reinforcement from drawings or establish construction feasibility."
+}

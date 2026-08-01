@@ -1,0 +1,116 @@
+{
+  "schemaVersion": 1,
+  "sliceId": "0002-reinforced-concrete-sections",
+  "title": "Concrete section geometry, reinforcement layout, and transformed sections",
+  "migrationType": "mechanical-parity",
+  "implementationStatus": "implemented",
+  "dependencies": ["0001-foundation"],
+  "source": {
+    "repository": "https://github.com/claudiopagani/strutture-js",
+    "revision": "6f33baead8b88166c4b2cf94af41763412e3c751"
+  },
+  "normativeCorpusRevision": "41da3faa489600173106935bbcf726119300e48d",
+  "sourceFiles": [
+    {
+      "path": "src/domain/geometry/CrossSection.js",
+      "gitBlobSha1": "9d4268dcc2e9a0b0fe23d67e5a0125d1fc9f89fe",
+      "targetPath": "src/domain/geometry/CrossSection.ts"
+    },
+    {
+      "path": "src/domain/geometry/RectangularSection.js",
+      "gitBlobSha1": "c5fc5c26dd682d5299ccb8ad7aed255ca9dd482d",
+      "targetPath": "src/domain/geometry/RectangularSection.ts"
+    },
+    {
+      "path": "src/domain/geometry/CircularSection.js",
+      "gitBlobSha1": "e4b2a2280aefc1c51782b4f0a711e75142a4ce5d",
+      "targetPath": "src/domain/geometry/CircularSection.ts"
+    },
+    {
+      "path": "src/domain/geometry/TSection.js",
+      "gitBlobSha1": "3aded228c36fef61f0be1699beb66e7c77554799",
+      "targetPath": "src/domain/geometry/TSection.ts"
+    },
+    {
+      "path": "src/domain/geometry/PolygonSection.js",
+      "gitBlobSha1": "b3fb4918cb5e51230148ad66f89e6dcb930ab637",
+      "targetPath": "src/domain/geometry/PolygonSection.ts"
+    },
+    {
+      "path": "src/domain/geometry/SectionMassProperties.js",
+      "gitBlobSha1": "6a6960ea24257faaf837c0d92cf888cf762ec21e",
+      "targetPath": "src/domain/geometry/SectionMassProperties.ts"
+    },
+    {
+      "path": "src/domain/reinforcement/ReinforcementBar.js",
+      "gitBlobSha1": "81864ea77d3e72bc0f8b5e1859305076ece66216",
+      "targetPath": "src/domain/reinforcement/ReinforcementBar.ts"
+    },
+    {
+      "path": "src/domain/reinforcement/createLongitudinalReinforcementLayout.js",
+      "gitBlobSha1": "6eb100c97e93835431a72b475335ed1893f62b3e",
+      "targetPath": "src/domain/reinforcement/createLongitudinalReinforcementLayout.ts"
+    },
+    {
+      "path": "src/domain/composite/CompositeSectionComponent.js",
+      "gitBlobSha1": "f6c33e6985a0d89f20792b36b4ca49e8c3249d84",
+      "targetPath": "src/domain/composite/CompositeSectionComponent.ts"
+    },
+    {
+      "path": "src/domain/composite/CompositeSection.js",
+      "gitBlobSha1": "fc5dfb1963657acec75af6a42af64f36fbe463c4",
+      "targetPath": "src/domain/composite/CompositeSection.ts"
+    },
+    {
+      "path": "src/domain/geometry/ReinforcedConcreteSection.js",
+      "gitBlobSha1": "c0ef54c8f45f0d65a1b3f074b40207e317d85001",
+      "targetPath": "src/domain/geometry/ReinforcedConcreteSection.ts"
+    }
+  ],
+  "sourceOracles": [
+    {
+      "path": "tests/geometrySections.test.js",
+      "gitBlobSha1": "556102bdfcdba0df3f322f3d6c20ad66b8a2ec2f"
+    },
+    {
+      "path": "tests/compositeSections.test.js",
+      "gitBlobSha1": "d2a97b2bcee7335ec642e767a02b72fd103efde6"
+    },
+    {
+      "path": "tests/longitudinalReinforcementLayout.test.js",
+      "gitBlobSha1": "f3f3b896811886655f80bcb6ed4858d5d901d0fa"
+    },
+    {
+      "path": "tests/reinforcementAndConnector.test.js",
+      "gitBlobSha1": "f49bc76477da083db1d8333ccf1d55088b2c4bfe"
+    }
+  ],
+  "sourcePublicExport": {
+    "path": "src/index.js",
+    "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
+  },
+  "targetTests": [
+    "tests/concrete-sections.test.ts",
+    "tests/reinforcement-layout.test.ts",
+    "tests/concrete-baseline-parity.test.ts",
+    "tests/baseline-parity.test.ts"
+  ],
+  "publicExports": [
+    "CircularSection",
+    "CompositeSection",
+    "CompositeSectionComponent",
+    "CrossSection",
+    "PolygonSection",
+    "RectangularSection",
+    "ReinforcedConcreteSection",
+    "ReinforcementBar",
+    "TSection",
+    "calculateSectionMassProperties",
+    "createLongitudinalReinforcementLayout",
+    "principalSecondMoments",
+    "resolvePrincipalSectionFrame",
+    "rotateSecondMoments"
+  ],
+  "parityDifferences": [],
+  "engineeringFunctionality": "Usable geometric, reinforcement-layout, composite, and transformed reinforced-concrete section models. No material design values, normative resistance formula, or structural verification is included."
+}

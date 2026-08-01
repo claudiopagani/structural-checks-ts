@@ -50,6 +50,40 @@ engineering validation, and conformity claims are separate axes.
 
 ## Current implementation
 
-The validation foundation is implemented, but no normative formula has been migrated. Therefore
-`migration/normative-references.json` intentionally contains no formula mappings yet. Normative and
-reinforced-concrete slices remain `not-implemented`.
+The current concrete-first migration resolves the canonical NTC 2018 and Circolare 2019 units used
+by the implemented scopes:
+
+- concrete design compression strength, formula [4.1.3];
+- reinforcement design yield strength, formula [4.1.5];
+- flexure and axial force, formulas [4.1.18a] through [4.1.21].
+- conventional first-yield curvature for moment-curvature ductility.
+- shear without transverse reinforcement, formulas [4.1.22] through [4.1.24].
+- shear with transverse reinforcement, formulas [4.1.25] through [4.1.30].
+- torsion and combined concrete shear-torsion interaction, formulas [4.1.34] through [4.1.40].
+- beam and column ordinary detailing, formulas [4.1.45] and [4.1.46].
+- dissipative beam and column geometry and detailing in NTC 2018 §§ 7.4.6.1.1-7.4.6.2.2.
+- column slenderness and nominal stiffness, formulas [4.1.41] through [4.1.44].
+- column capacity-design shear in NTC 2018 § 7.4.4.2.1.
+- the service modular-ratio statement for `n = 15` in Circolare 2019 § C4.1.2.2.5.
+- concrete and reinforcement service-stress limits, formulas [4.1.15] through [4.1.17].
+- crack-width classification, formula [4.1.14].
+- indirect crack-control bar diameter and spacing tables C4.1.II and C4.1.III.
+- the NTC 2018 deflection unit and Circolare 2019 flat-slab slenderness table C4.1.I.
+- punching shear in NTC 2018 § 4.1.2.3.5.4.
+- structural behavior and primary seismic-wall rules in NTC 2018 §§ 7.4.1, 7.4.4.5.1, and 7.4.4.5.2.
+- coupling beams and wall geometry/detailing in NTC 2018 §§ 7.4.4.6, 7.4.6.1.4, and 7.4.6.2.4.
+
+The chapter 11 source for existing-material properties remains explicitly `outside-corpus`. The
+Cosenza-Maddaloni-Cuomo circular-section shear research equations are also `outside-corpus`; this
+classification distinguishes an empirical publication from the pinned normative units. The inherited
+EN 1992 bond, anchorage, local-bearing, deflection, shrinkage-curvature, and first- and
+second-generation punching references are also `outside-corpus`; no canonical EN identifier is
+reconstructed. Machine-readable mappings are recorded in
+[`migration/normative-references.json`](../migration/normative-references.json), and every migrated
+slice records its source and corpus revisions under [`migration/slices`](../migration/slices).
+
+These mappings support the implemented material, ULS uniaxial resistance, uniaxial and biaxial
+interaction-domain, service-stress, moment-curvature, shear, torsion, detailing, local beam- and
+column-member, local plate/slab-strip, punching, and seismic-wall scopes only. The corpus remains
+`extracted`, `normativeConformityClaimed` remains `false`, and unresolved reinforced-concrete
+capabilities remain `not-implemented`.

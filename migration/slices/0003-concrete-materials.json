@@ -1,0 +1,125 @@
+{
+  "schemaVersion": 1,
+  "sliceId": "0003-concrete-materials",
+  "title": "Concrete and reinforcement material primitives and NTC 2018 factories",
+  "migrationType": "mechanical-parity",
+  "implementationStatus": "implemented",
+  "dependencies": ["0001-foundation", "0002-reinforced-concrete-sections"],
+  "source": {
+    "repository": "https://github.com/claudiopagani/strutture-js",
+    "revision": "6f33baead8b88166c4b2cf94af41763412e3c751"
+  },
+  "normativeCorpusRevision": "41da3faa489600173106935bbcf726119300e48d",
+  "sourceFiles": [
+    {
+      "path": "src/domain/materials/BaseMaterial.js",
+      "gitBlobSha1": "863b59f075a9a12dc636bd2adc8f08b554caf062",
+      "targetPath": "src/domain/materials/BaseMaterial.ts"
+    },
+    {
+      "path": "src/domain/materials/existingMaterialConfidence.js",
+      "gitBlobSha1": "28261e868752684b52b6d564debb7fc214d4621c",
+      "targetPath": "src/domain/materials/existingMaterialConfidence.ts"
+    },
+    {
+      "path": "src/domain/materials/ConcreteMaterial.js",
+      "gitBlobSha1": "0ef149d4be13c00b0121b930c9d79f9e8f344d12",
+      "targetPath": "src/domain/materials/ConcreteMaterial.ts"
+    },
+    {
+      "path": "src/domain/materials/SteelMaterial.js",
+      "gitBlobSha1": "c5e35e468ed9c862c8986af29b30ab90713249bd",
+      "targetPath": "src/domain/materials/SteelMaterial.ts"
+    },
+    {
+      "path": "src/norms/normativeReference.js",
+      "gitBlobSha1": "2a68007dafc2011a086a142dff263e9dd12b8393",
+      "targetPath": "src/norms/normativeReference.ts"
+    },
+    {
+      "path": "src/norms/ntc2018/normativeReferences.js",
+      "gitBlobSha1": "23ab4d1fbe10f0f363ba6b56b300ea013d856ccf",
+      "targetPath": "src/norms/ntc2018/normativeReferences.ts",
+      "coverage": "Internal extraction limited to material references required by this slice."
+    },
+    {
+      "path": "src/norms/ntc2018/materials/ntc2018MaterialCatalogs.js",
+      "gitBlobSha1": "db88567dee5a0f1e95cfdf081960e5c1d6d7be1a",
+      "targetPath": "src/norms/ntc2018/materials/ntc2018MaterialCatalogs.ts",
+      "coverage": "Concrete classes and reinforcement grades only."
+    },
+    {
+      "path": "src/norms/ntc2018/materials/createNTC2018Material.js",
+      "gitBlobSha1": "fc10a704f3abbdf4b6a7f2834200f4b566b53b04",
+      "targetPath": "src/norms/ntc2018/materials/createNTC2018Material.ts",
+      "coverage": "Concrete and reinforcement factories only."
+    }
+  ],
+  "sourceOracles": [
+    {
+      "path": "tests/italianHistoricalReinforcementSteel.test.js",
+      "gitBlobSha1": "5cbe9ebbb37c7040eba53a32442a7f3eeeab197f"
+    },
+    {
+      "path": "tests/unitConversionLayer.test.js",
+      "gitBlobSha1": "a74facdc503cf31160e81f5b73f5915129db71b1"
+    },
+    {
+      "path": "tests/compositeSections.test.js",
+      "gitBlobSha1": "d2a97b2bcee7335ec642e767a02b72fd103efde6"
+    },
+    {
+      "path": "tests/longitudinalReinforcementLayout.test.js",
+      "gitBlobSha1": "f3f3b896811886655f80bcb6ed4858d5d901d0fa"
+    },
+    {
+      "path": "tests/reinforcementAndConnector.test.js",
+      "gitBlobSha1": "f49bc76477da083db1d8333ccf1d55088b2c4bfe"
+    }
+  ],
+  "sourcePublicExport": {
+    "path": "src/index.js",
+    "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
+  },
+  "targetTests": [
+    "tests/concrete-materials.test.ts",
+    "tests/material-baseline-parity.test.ts",
+    "tests/concrete-sections.test.ts",
+    "tests/reinforcement-layout.test.ts",
+    "tests/baseline-parity.test.ts"
+  ],
+  "publicExports": [
+    "BaseMaterial",
+    "ConcreteMaterial",
+    "EXISTING_MATERIAL_CONFIDENCE_LEVELS",
+    "NTC2018_CONCRETE_CLASSES",
+    "NTC2018_EXISTING_MATERIAL_KNOWLEDGE_LEVELS",
+    "NTC2018_REINFORCEMENT_STEEL_GRADES",
+    "SteelMaterial",
+    "characteristicValueFromExistingMean",
+    "createNTC2018ConcreteMaterial",
+    "createNTC2018ReinforcementSteelMaterial",
+    "normalizeExistingMaterialKnowledgeLevel",
+    "resolveExistingMaterialState"
+  ],
+  "normativeReferences": {
+    "resolved": [
+      "urn:structural-codes:it:unit:ntc2018:4.1.2.1.1.1",
+      "urn:structural-codes:it:unit:ntc2018:4.1.2.1.1.3"
+    ],
+    "outsideCorpus": ["NTC 2018, capitolo 11"],
+    "normativeConformityClaimed": false
+  },
+  "languageCompatibility": {
+    "decision": "docs/decisions/0002-language-and-migrated-public-strings.md",
+    "preservedItalianStrings": [
+      "Calcestruzzo <strengthClass>",
+      "Acciaio per c.a. <grade>",
+      "conoscenza limitata",
+      "conoscenza adeguata",
+      "conoscenza accurata"
+    ]
+  },
+  "parityDifferences": [],
+  "engineeringFunctionality": "Usable concrete and reinforcing-steel material DTOs and NTC 2018 material factories with design strengths and structured traceability. No section resistance, serviceability, or member verification is included."
+}

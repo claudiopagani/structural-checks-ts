@@ -1,0 +1,93 @@
+{
+  "schemaVersion": 1,
+  "sliceId": "0013-reinforced-concrete-column-member",
+  "title": "Reinforced-concrete local column-member verification",
+  "migrationType": "mechanical-parity-with-traceability-preservation",
+  "implementationStatus": "implemented",
+  "dependencies": [
+    "0001-foundation",
+    "0002-reinforced-concrete-sections",
+    "0003-concrete-materials",
+    "0006-ntc2018-uls-biaxial-domain",
+    "0007-domain-math-and-biaxial-demand-capacity",
+    "0010-reinforced-concrete-shear",
+    "0012-reinforced-concrete-detailing"
+  ],
+  "source": {
+    "repository": "https://github.com/claudiopagani/strutture-js",
+    "revision": "6f33baead8b88166c4b2cf94af41763412e3c751"
+  },
+  "normativeCorpusRevision": "41da3faa489600173106935bbcf726119300e48d",
+  "sourceFiles": [
+    {
+      "path": "src/applications/reinforced-concrete-columns/ReinforcedConcreteColumnVerification.js",
+      "gitBlobSha1": "a138cf9dc208c25f5e7dc906aa235390bbb52ca9",
+      "targetPath": "src/applications/reinforced-concrete-columns/ReinforcedConcreteColumnVerification.ts"
+    },
+    {
+      "path": "src/applications/reinforced-concrete-columns/ReinforcedConcreteColumnApplication.js",
+      "gitBlobSha1": "b654d45deeb95ff8c9df5167a3d5cf9ca6f36534",
+      "targetPath": "src/applications/reinforced-concrete-columns/ReinforcedConcreteColumnApplication.ts"
+    },
+    {
+      "path": "src/norms/ntc2018/reinforced-concrete/structuralBehavior.js",
+      "gitBlobSha1": "06ac23f7067e827b13af1e298de369e79ba592f7",
+      "targetPath": "src/norms/ntc2018/reinforced-concrete/structuralBehavior.ts",
+      "coverage": "Migrates the structural-behavior normalization and overstrength-factor subset consumed by column capacity-design shear."
+    },
+    {
+      "path": "src/norms/ntc2018/normativeReferences.js",
+      "gitBlobSha1": "23ab4d1fbe10f0f363ba6b56b300ea013d856ccf",
+      "targetPath": "src/norms/ntc2018/normativeReferences.ts",
+      "coverage": "Preserves the canonical column slenderness, nominal-stiffness, and capacity-design references."
+    }
+  ],
+  "sourceOracles": [
+    {
+      "path": "tests/reinforcedConcreteColumnApplication.test.js",
+      "gitBlobSha1": "c8ea5e3a1bfbbdebfe7de233f760f06e9efd7744"
+    },
+    {
+      "path": "tests/packageExports.test.js",
+      "gitBlobSha1": "8dde24b4c97dd3dae7100207d07d9d96c52b9c74"
+    }
+  ],
+  "sourcePublicExport": {
+    "path": "src/index.js",
+    "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
+  },
+  "targetTests": ["tests/concrete-column-member.test.ts", "tests/baseline-parity.test.ts"],
+  "publicExports": [
+    "ReinforcedConcreteColumnVerification",
+    "ReinforcedConcreteColumnApplication",
+    "NTC2018_OVERSTRENGTH_FACTORS",
+    "NTC2018_STRUCTURAL_BEHAVIOR",
+    "normalizeNTC2018StructuralBehavior",
+    "selectNTC2018OverstrengthFactors"
+  ],
+  "normativeReferences": {
+    "resolved": [
+      "urn:structural-codes:it:unit:ntc2018:4.1.2.3.9.2",
+      "urn:structural-codes:it:unit:ntc2018:4.1.2.3.9.3",
+      "urn:structural-codes:it:unit:ntc2018:7.4.4.2.1",
+      "urn:structural-codes:it:unit:ntc2018:4.1.2.3.4.2",
+      "urn:structural-codes:it:unit:ntc2018:4.1.2.3.5.2"
+    ],
+    "outsideCorpus": [],
+    "normativeConformityClaimed": false
+  },
+  "independentValidation": {
+    "method": "direct reconstruction of nominal-stiffness second-order generation",
+    "targetTest": "tests/concrete-column-member.test.ts",
+    "referenceEquations": [
+      "Kc = 0.3 / (1 + 0.5 phi)",
+      "Ncr = pi^2 Kc Ecd I / l0^2",
+      "magnification = 1 + beta / (Ncr / NEd - 1)"
+    ],
+    "acceptedAbsoluteGeneratedMomentDifferenceNmm": 1
+  },
+  "parityDifferences": [
+    "The column stability, domain containment, shear, detailing, warnings, assumptions, metadata and serialized result have no known parity differences."
+  ],
+  "engineeringFunctionality": "Usable local column-member verification for assigned solver-neutral actions and explicit effective lengths, including second-order screening or generation, biaxial resistance, optional shear, and optional detailing. Global frame analysis and automatic effective-length inference remain outside this slice."
+}

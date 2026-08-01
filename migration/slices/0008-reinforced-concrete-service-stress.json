@@ -1,0 +1,133 @@
+{
+  "schemaVersion": 1,
+  "sliceId": "0008-reinforced-concrete-service-stress",
+  "title": "Reinforced-concrete service-stress equilibrium",
+  "migrationType": "mechanical-parity-with-traceability-addition",
+  "implementationStatus": "implemented",
+  "dependencies": [
+    "0001-foundation",
+    "0002-reinforced-concrete-sections",
+    "0003-concrete-materials",
+    "0007-domain-math-and-biaxial-demand-capacity"
+  ],
+  "source": {
+    "repository": "https://github.com/claudiopagani/strutture-js",
+    "revision": "6f33baead8b88166c4b2cf94af41763412e3c751"
+  },
+  "normativeCorpusRevision": "41da3faa489600173106935bbcf726119300e48d",
+  "sourceFiles": [
+    {
+      "path": "src/domain/constitutive-laws/ConcreteNoTensionLaw.js",
+      "gitBlobSha1": "855a564b16d64bc55c0848a72fd8f2789f73633c",
+      "targetPath": "src/domain/constitutive-laws/ConcreteNoTensionLaw.ts"
+    },
+    {
+      "path": "src/domain/constitutive-laws/SteelElasticLaw.js",
+      "gitBlobSha1": "178ce17facae6531c3795591e89e7190245fbd0d",
+      "targetPath": "src/domain/constitutive-laws/SteelElasticLaw.ts"
+    },
+    {
+      "path": "src/applications/reinforced-concrete-sections/serviceabilityDefaults.js",
+      "gitBlobSha1": "e4dda4613eca9bba425565fad2ad914d5142e79e",
+      "targetPath": "src/applications/reinforced-concrete-sections/serviceabilityDefaults.ts"
+    },
+    {
+      "path": "src/applications/reinforced-concrete-sections/analysis/RCServiceStressSolver.js",
+      "gitBlobSha1": "eecc24bef7e750d9f002a67e4818535d08b54f53",
+      "targetPath": "src/applications/reinforced-concrete-sections/analysis/RCServiceStressSolver.ts"
+    },
+    {
+      "path": "src/applications/reinforced-concrete-sections/analysis/solveServiceStressWithFallbacks.js",
+      "gitBlobSha1": "38c3c6b48bc52502af197a553df94f569273e18d",
+      "targetPath": "src/applications/reinforced-concrete-sections/analysis/solveServiceStressWithFallbacks.ts"
+    },
+    {
+      "path": "src/applications/reinforced-concrete-sections/shared/solveRcServiceSectionState.js",
+      "gitBlobSha1": "541694375912fb54ffc1c4805b4ab00c5bfd941d",
+      "targetPath": "src/applications/reinforced-concrete-sections/shared/solveRcServiceSectionState.ts"
+    },
+    {
+      "path": "src/applications/reinforced-concrete-sections/shared/RcSectionAnalysisContext.js",
+      "gitBlobSha1": "7f0558f0b1c16ca54c1ff6f4c86bbbad0b3d92f7",
+      "targetPath": "src/applications/reinforced-concrete-sections/shared/RcSectionAnalysisContext.ts"
+    },
+    {
+      "path": "src/applications/reinforced-concrete-sections/shared/rcConstitutiveLaws.js",
+      "gitBlobSha1": "39a2bc8aaa37ef328a2e0cb236c7715b6c97243d",
+      "targetPath": "src/applications/reinforced-concrete-sections/shared/rcConstitutiveLaws.ts"
+    },
+    {
+      "path": "src/applications/reinforced-concrete-sections/shared/rcCommon.js",
+      "gitBlobSha1": "ca349af5da2ad6e974f1ae9e7c47e3d08aa3029e",
+      "targetPath": "src/applications/reinforced-concrete-sections/shared/rcCommon.ts"
+    },
+    {
+      "path": "src/applications/reinforced-concrete-sections/workflows/serviceStressWorkflow.js",
+      "gitBlobSha1": "76c68c8559d9a22a6aed9f7da8db14f86f4e454a",
+      "targetPath": "src/applications/reinforced-concrete-sections/workflows/serviceStressWorkflow.ts"
+    },
+    {
+      "path": "src/applications/reinforced-concrete-sections/models/ReinforcedConcreteSectionModel.js",
+      "gitBlobSha1": "7ef4ccf31cb5fade91c452939990805be4f93413",
+      "targetPath": "src/applications/reinforced-concrete-sections/models/ReinforcedConcreteSectionModel.ts"
+    },
+    {
+      "path": "src/applications/reinforced-concrete-sections/checks/ReinforcedConcreteSectionVerification.js",
+      "gitBlobSha1": "37ad8803cd6630c12e69af9586f6d965e30befd8",
+      "targetPath": "src/applications/reinforced-concrete-sections/checks/ReinforcedConcreteSectionVerification.ts"
+    },
+    {
+      "path": "src/applications/reinforced-concrete-sections/ReinforcedConcreteSectionApplication.js",
+      "gitBlobSha1": "086a35c7d233527a2e32eb07be857f39b9947d6e",
+      "targetPath": "src/applications/reinforced-concrete-sections/ReinforcedConcreteSectionApplication.ts"
+    },
+    {
+      "path": "src/norms/ntc2018/normativeReferences.js",
+      "gitBlobSha1": "23ab4d1fbe10f0f363ba6b56b300ea013d856ccf",
+      "targetPath": "src/norms/ntc2018/normativeReferences.ts",
+      "coverage": "Preserves the source catalog and adds the pinned canonical Circolare 2019 unit for the legacy n = 15 service modular-ratio default."
+    }
+  ],
+  "sourceOracles": [
+    {
+      "path": "tests/rcServiceStressSolver.test.js",
+      "gitBlobSha1": "859c57c55aac8ea8fdc13a34abb238e91a635087"
+    },
+    {
+      "path": "tests/reinforcedConcreteSectionServiceApplication.test.js",
+      "gitBlobSha1": "72e7a5a648c06725a53ed6f6fc1b2432936affa4"
+    },
+    {
+      "path": "tests/packageExports.test.js",
+      "gitBlobSha1": "8dde24b4c97dd3dae7100207d07d9d96c52b9c74"
+    }
+  ],
+  "sourcePublicExport": {
+    "path": "src/index.js",
+    "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
+  },
+  "targetTests": [
+    "tests/concrete-service-stress.test.ts",
+    "tests/baseline-parity.test.ts",
+    "tests/concrete-section-resistance.test.ts",
+    "tests/concrete-uniaxial-domain.test.ts"
+  ],
+  "publicExports": ["ConcreteNoTensionLaw", "RCServiceStressSolver", "SteelElasticLaw"],
+  "normativeReferences": {
+    "resolved": ["urn:structural-codes:it:unit:circ2019:c4.1.2.2.5"],
+    "outsideCorpus": [],
+    "normativeConformityClaimed": false
+  },
+  "independentValidation": {
+    "method": "closed-form uniform axial compatibility for a fully compressed elastic section",
+    "targetTest": "tests/concrete-service-stress.test.ts",
+    "fixture": "300 mm by 500 mm section, four 16 mm bars, Es = 210000 N/mm2, n = 15, NEd = -400000 N, MxEd = MyEd = 0",
+    "referenceEquation": "eps0 = NEd / ((Es / n) Ac + Es As)",
+    "acceptedAbsoluteStrainDifference": 1e-15
+  },
+  "parityDifferences": [
+    "The constitutive laws, solver state, workflow numerical outputs, warnings, assumptions, and all pre-existing serialized fields have no known parity differences.",
+    "The TypeScript workflow adds metadata.normativeReferences for the pinned Circolare 2019 unit that supports the inherited default modular ratio n = 15. The JavaScript baseline omitted this structured reference."
+  ],
+  "engineeringFunctionality": "Usable reinforced-concrete service-stress equilibrium for axial force and biaxial bending using an elastic steel law, a linear no-tension concrete law, explicit modular ratio, damped finite-difference Newton iteration, and concrete tension exclusion. This slice solves stresses but does not yet apply NTC concrete or reinforcement stress limits, crack control, deflection, shear, torsion, detailing, or member verification."
+}

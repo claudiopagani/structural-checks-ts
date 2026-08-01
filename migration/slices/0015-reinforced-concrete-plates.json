@@ -1,0 +1,160 @@
+{
+  "schemaVersion": 1,
+  "sliceId": "0015-reinforced-concrete-plates",
+  "title": "Reinforced-concrete local plate and slab-strip verification",
+  "migrationType": "mechanical-parity",
+  "implementationStatus": "implemented",
+  "dependencies": [
+    "0001-foundation",
+    "0002-reinforced-concrete-sections",
+    "0003-concrete-materials",
+    "0004-ntc2018-uls-uniaxial-concrete-resistance",
+    "0008-reinforced-concrete-service-stress",
+    "0010-reinforced-concrete-shear",
+    "0014-reinforced-concrete-beam-member"
+  ],
+  "source": {
+    "repository": "https://github.com/claudiopagani/strutture-js",
+    "revision": "6f33baead8b88166c4b2cf94af41763412e3c751"
+  },
+  "normativeCorpusRevision": "41da3faa489600173106935bbcf726119300e48d",
+  "sourceFiles": [
+    {
+      "path": "src/applications/rc-cracked-deflection/analysis/DeflectionChecks.js",
+      "gitBlobSha1": "28c1a7e4d4cacf44dcc2fce7e332469eb153489a",
+      "targetPath": "src/applications/rc-cracked-deflection/analysis/DeflectionChecks.ts",
+      "coverage": "Migrates the reusable slenderness-screening helper needed by the plate application. This slice does not migrate curvature integration or direct deflection analysis."
+    },
+    {
+      "path": "src/applications/reinforced-concrete-plates/ReinforcedConcretePlateApplication.js",
+      "gitBlobSha1": "849525be5ca609cdaf57ba3dc7322762bd335a32",
+      "targetPath": "src/applications/reinforced-concrete-plates/ReinforcedConcretePlateApplication.ts"
+    },
+    {
+      "path": "src/applications/reinforced-concrete-plates/ReinforcedConcretePlateModel.js",
+      "gitBlobSha1": "5ea64ca666e67135e592ae18dca4edd19193a794",
+      "targetPath": "src/applications/reinforced-concrete-plates/ReinforcedConcretePlateModel.ts"
+    },
+    {
+      "path": "src/applications/reinforced-concrete-plates/ReinforcedConcretePlateVerification.js",
+      "gitBlobSha1": "bbcb8165cb4860650b2669a9db676540fbe66f7d",
+      "targetPath": "src/applications/reinforced-concrete-plates/ReinforcedConcretePlateVerification.ts"
+    },
+    {
+      "path": "src/applications/reinforced-concrete-plates/actions/rotatePlateMoments.js",
+      "gitBlobSha1": "f96ab17f9b6dceea122411c554bc021b69c73ca7",
+      "targetPath": "src/applications/reinforced-concrete-plates/actions/rotatePlateMoments.ts"
+    },
+    {
+      "path": "src/applications/reinforced-concrete-plates/actions/rotatePlateShear.js",
+      "gitBlobSha1": "335e1e3f48fdaa1f099111245fdd8caca3cf4eb5",
+      "targetPath": "src/applications/reinforced-concrete-plates/actions/rotatePlateShear.ts"
+    },
+    {
+      "path": "src/applications/reinforced-concrete-plates/actions/woodArmer.js",
+      "gitBlobSha1": "1afab7404dc31572eb5ca80a07a3a529f905062a",
+      "targetPath": "src/applications/reinforced-concrete-plates/actions/woodArmer.ts"
+    },
+    {
+      "path": "src/applications/reinforced-concrete-plates/checks/plateCheckUtils.js",
+      "gitBlobSha1": "812ee3d794f763b5b9f1895ee97258baaa87bf6d",
+      "targetPath": "src/applications/reinforced-concrete-plates/checks/plateCheckUtils.ts"
+    },
+    {
+      "path": "src/applications/reinforced-concrete-plates/checks/verifyPlateBending.js",
+      "gitBlobSha1": "979c4762cc1fce295bb76069d3e473a5c0aa85c4",
+      "targetPath": "src/applications/reinforced-concrete-plates/checks/verifyPlateBending.ts"
+    },
+    {
+      "path": "src/applications/reinforced-concrete-plates/checks/verifyPlateServiceability.js",
+      "gitBlobSha1": "d026d7cbd9472d95e197c44a2609d71a3f9a97bb",
+      "targetPath": "src/applications/reinforced-concrete-plates/checks/verifyPlateServiceability.ts"
+    },
+    {
+      "path": "src/applications/reinforced-concrete-plates/checks/verifyPlateShear.js",
+      "gitBlobSha1": "a18b4b950b9688a831cbe73fa12bfcd512da1618",
+      "targetPath": "src/applications/reinforced-concrete-plates/checks/verifyPlateShear.ts"
+    },
+    {
+      "path": "src/applications/reinforced-concrete-plates/checks/verifyPlateSlenderness.js",
+      "gitBlobSha1": "385922803f5400bd50f7ca5bc94d1cf8f8df93f7",
+      "targetPath": "src/applications/reinforced-concrete-plates/checks/verifyPlateSlenderness.ts"
+    },
+    {
+      "path": "src/applications/reinforced-concrete-plates/sections/createPlateStripSection.js",
+      "gitBlobSha1": "dc698c9bbad8da9c886b0b596432239db337e128",
+      "targetPath": "src/applications/reinforced-concrete-plates/sections/createPlateStripSection.ts"
+    },
+    {
+      "path": "src/applications/reinforced-concrete-plates/index.js",
+      "gitBlobSha1": "61286c729fcb978ce2bc30c10f611bc8caf8e045",
+      "targetPath": "src/applications/reinforced-concrete-plates/index.ts"
+    },
+    {
+      "path": "src/norms/ntc2018/normativeReferences.js",
+      "gitBlobSha1": "23ab4d1fbe10f0f363ba6b56b300ea013d856ccf",
+      "targetPath": "src/norms/ntc2018/normativeReferences.ts",
+      "coverage": "Adds the resolved NTC deflection unit and Circolare flat-slab slenderness table used by the simplified plate screening."
+    },
+    {
+      "path": "src/norms/en1992/normativeReferences.js",
+      "gitBlobSha1": "991a183cdc30a567472ad6ff66736f0cd2eb1a0f",
+      "targetPath": "src/norms/en1992/normativeReferences.ts",
+      "coverage": "Preserves the inherited deflection reference as outside-corpus; it is not assigned a reconstructed canonical identifier."
+    }
+  ],
+  "sourceOracles": [
+    {
+      "path": "tests/reinforcedConcretePlateApplication.test.js",
+      "gitBlobSha1": "498dbffb3c8a372dc85f3590d6a0dbe9832281e0"
+    }
+  ],
+  "sourcePublicExport": {
+    "path": "src/index.js",
+    "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
+  },
+  "targetTests": ["tests/concrete-plate.test.ts"],
+  "publicExports": [
+    "RC_PLATE_ANALYSIS_TYPES",
+    "ReinforcedConcretePlateApplication",
+    "ReinforcedConcretePlateModel",
+    "ReinforcedConcretePlateVerification",
+    "createPlateStripSection",
+    "rotatePlateMoments",
+    "rotatePlateShear",
+    "verifyPlateBending",
+    "verifyPlateServiceability",
+    "verifyPlateShear",
+    "verifyPlateSlenderness",
+    "woodArmer"
+  ],
+  "normativeReferences": {
+    "resolved": [
+      "urn:structural-codes:it:unit:ntc2018:4.1.2.2.2",
+      "urn:structural-codes:it:unit:ntc2018:4.1.2.2.4.5",
+      "urn:structural-codes:it:unit:ntc2018:4.1.2.2.5.1",
+      "urn:structural-codes:it:unit:ntc2018:4.1.2.2.5.2",
+      "urn:structural-codes:it:unit:ntc2018:4.1.2.3.4.2",
+      "urn:structural-codes:it:unit:ntc2018:4.1.2.3.5.1",
+      "urn:structural-codes:it:unit:ntc2018:4.1.2.3.5.2",
+      "urn:structural-codes:it:unit:circ2019:c4.1.2.2.2",
+      "urn:structural-codes:it:unit:circ2019:c4.1.2.2.4.5"
+    ],
+    "outsideCorpus": ["EN 1992-1-1:2004 § 7.4.3"],
+    "normativeConformityClaimed": false
+  },
+  "independentValidation": {
+    "method": "tensor invariants, shear-vector norm, distributed-area reconstruction, strip-fiber area, and live full-result comparison with the pinned JavaScript source",
+    "targetTests": ["tests/concrete-plate.test.ts"],
+    "parityFixtures": [
+      "ULS bending and shear without transverse reinforcement",
+      "ULS shear with a regular vertical S-link grid",
+      "SLS service stress and indirect crack control",
+      "simplified flat-slab slenderness"
+    ]
+  },
+  "parityDifferences": [
+    "No numerical or serialized result difference is known for the four tested plate workflows."
+  ],
+  "engineeringFunctionality": "Usable local verification of flat reinforced-concrete plates through conventional 1000 mm Wood-Armer equivalent strips for ULS bending and directional shear, SLS stress and indirect crack control, and simplified flat-slab slenderness. This is not a plate finite-element solver, does not verify membrane action or punching, and does not calculate curvature, stiffness, or direct deflection."
+}

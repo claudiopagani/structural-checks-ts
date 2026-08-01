@@ -1,0 +1,64 @@
+{
+  "schemaVersion": 1,
+  "sliceId": "0021-beam-line-preprocessing-and-timoshenko",
+  "title": "Beam-line preprocessing and Timoshenko frame response",
+  "migrationType": "mechanical-parity",
+  "implementationStatus": "implemented",
+  "dependencies": ["0020-linear-frame-fem-2d"],
+  "source": {
+    "repository": "https://github.com/claudiopagani/strutture-js",
+    "revision": "6f33baead8b88166c4b2cf94af41763412e3c751"
+  },
+  "normativeCorpusRevision": "41da3faa489600173106935bbcf726119300e48d",
+  "sourceFiles": [
+    {
+      "path": "src/domain/fem/BeamLinePreprocessor2D.js",
+      "gitBlobSha1": "f45c1e72f6aa9243e834509d1676f2386132ade0",
+      "targetPath": "src/domain/fem/BeamLinePreprocessor2D.ts"
+    },
+    {
+      "path": "src/domain/fem/elements/FrameElement2DTimoshenko.js",
+      "gitBlobSha1": "347acf514fb55c183677b70fde15aba0dcc0ef61",
+      "targetPath": "src/domain/fem/elements/FrameElement2DTimoshenko.ts"
+    }
+  ],
+  "sourceOracles": [
+    {
+      "path": "tests/beamLinePreprocessor2D.test.js",
+      "gitBlobSha1": "6345f39410a5630b5318c35aa3394b9b04c8e586"
+    },
+    {
+      "path": "tests/frameElement2DTimoshenko.test.js",
+      "gitBlobSha1": "a08b782d91dc88f606e179bbda2023e9c68f878e"
+    }
+  ],
+  "sourcePublicExport": {
+    "path": "src/index.js",
+    "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
+  },
+  "targetTests": ["tests/fem-beam-preprocessor.test.ts"],
+  "publicExports": ["BeamLinePreprocessor2D", "FrameElement2DTimoshenko"],
+  "normativeReferences": {
+    "resolved": [],
+    "outsideCorpus": [],
+    "normativeConformityClaimed": false
+  },
+  "independentValidation": {
+    "method": "live numerical and serialized comparison with the pinned JavaScript source plus closed-form beam response",
+    "targetTests": ["tests/fem-beam-preprocessor.test.ts"],
+    "parityFixtures": [
+      "node insertion at supports, point loads, uniform-load bounds, and requested subdivisions",
+      "simply supported beam under a generated midspan point-load node",
+      "partial uniform load split across covered elements",
+      "trapezoidal-load rejection",
+      "assigned Timoshenko GA and shear-correction factor",
+      "material- and section-derived Timoshenko shear rigidity",
+      "stocky cantilever bending-plus-shear displacement",
+      "Timoshenko preprocessing with unit conversion"
+    ]
+  },
+  "parityDifferences": [
+    "No numerical, serialized DTO, unit-conversion, or tested error-behavior difference is known for this slice."
+  ],
+  "engineeringFunctionality": "Usable solver-neutral preprocessing of a straight horizontal beam line into a 2D frame model, with nodes at supports and load discontinuities, point and uniform partial-span loads, springs, and explicit discretization. The closed-form Timoshenko element provides linear bending and shear deformation without shear locking. The preprocessor does not support trapezoidal loads. This slice does not yet provide the higher-level SingleBeamAnalysis load-case, combination, station, result-envelope, or section-provider pipeline and is not an RC verification application."
+}

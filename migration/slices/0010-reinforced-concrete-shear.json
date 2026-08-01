@@ -1,0 +1,88 @@
+{
+  "schemaVersion": 1,
+  "sliceId": "0010-reinforced-concrete-shear",
+  "title": "Reinforced-concrete shear resistance",
+  "migrationType": "mechanical-parity-with-traceability-addition",
+  "implementationStatus": "implemented",
+  "dependencies": [
+    "0001-foundation",
+    "0002-reinforced-concrete-sections",
+    "0003-concrete-materials"
+  ],
+  "source": {
+    "repository": "https://github.com/claudiopagani/strutture-js",
+    "revision": "6f33baead8b88166c4b2cf94af41763412e3c751"
+  },
+  "normativeCorpusRevision": "41da3faa489600173106935bbcf726119300e48d",
+  "sourceFiles": [
+    {
+      "path": "src/applications/reinforced-concrete-sections/checks/ReinforcedConcreteShearVerification.js",
+      "gitBlobSha1": "255e09f8b54af35bbfa7be012bf591b428cefa5f",
+      "targetPath": "src/applications/reinforced-concrete-sections/checks/ReinforcedConcreteShearVerification.ts"
+    },
+    {
+      "path": "src/applications/reinforced-concrete-sections/checks/shear/ntc2018ShearResistance.js",
+      "gitBlobSha1": "589ee37adb03629935b681964d20e79838a33e25",
+      "targetPath": "src/applications/reinforced-concrete-sections/checks/shear/ntc2018ShearResistance.ts"
+    },
+    {
+      "path": "src/applications/reinforced-concrete-sections/checks/shear/cosenzaCircularShear.js",
+      "gitBlobSha1": "a8e59b6e0b0ec4178159a9a0862160d5a29c5f75",
+      "targetPath": "src/applications/reinforced-concrete-sections/checks/shear/cosenzaCircularShear.ts"
+    },
+    {
+      "path": "src/applications/reinforced-concrete-sections/checks/shear/shearUtils.js",
+      "gitBlobSha1": "bf54df93a6dbc7042034307a3edc9fe1f9a68390",
+      "targetPath": "src/applications/reinforced-concrete-sections/checks/shear/shearUtils.ts"
+    },
+    {
+      "path": "src/applications/reinforced-concrete-sections/checks/shear/shearParameterResolvers.js",
+      "gitBlobSha1": "d0637867dfd3473d3b909f5ee55452e308d17ff3",
+      "targetPath": "src/applications/reinforced-concrete-sections/checks/shear/shearParameterResolvers.ts"
+    },
+    {
+      "path": "src/norms/ntc2018/normativeReferences.js",
+      "gitBlobSha1": "23ab4d1fbe10f0f363ba6b56b300ea013d856ccf",
+      "targetPath": "src/norms/ntc2018/normativeReferences.ts",
+      "coverage": "Preserves the two NTC 2018 shear units and adds an explicit outside-corpus record for the inherited empirical circular-section equations."
+    }
+  ],
+  "sourceOracles": [
+    {
+      "path": "tests/reinforcedConcreteShearVerification.test.js",
+      "gitBlobSha1": "74170532453972f1a2a17c6f91c9085db00090f0"
+    },
+    {
+      "path": "tests/packageExports.test.js",
+      "gitBlobSha1": "8dde24b4c97dd3dae7100207d07d9d96c52b9c74"
+    }
+  ],
+  "sourcePublicExport": {
+    "path": "src/index.js",
+    "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
+  },
+  "targetTests": ["tests/concrete-shear.test.ts", "tests/baseline-parity.test.ts"],
+  "publicExports": ["ReinforcedConcreteShearVerification"],
+  "normativeReferences": {
+    "resolved": [
+      "urn:structural-codes:it:unit:ntc2018:4.1.2.3.5.1",
+      "urn:structural-codes:it:unit:ntc2018:4.1.2.3.5.2"
+    ],
+    "outsideCorpus": [
+      "E. Cosenza, G. Maddaloni, G. Cuomo, A simplified method for shear capacity assessment of circular RC cross-sections, equations (3) and (5)"
+    ],
+    "normativeConformityClaimed": false
+  },
+  "independentValidation": {
+    "method": "direct independent evaluation of the NTC 2018 no-stirrup shear equations",
+    "targetTest": "tests/concrete-shear.test.ts",
+    "fixture": "300 mm by 500 mm rectangle, d = 450 mm, two 20 mm tension bars, C25/30 concrete, NEd = -100000 N",
+    "referenceEquation": "VRd = max((0.18/gammaC) k (100 rhoL fck)^(1/3) + 0.15 sigmaCp, 0.035 k^(3/2) sqrt(fck) + 0.15 sigmaCp) bw d",
+    "acceptedAbsoluteCapacityDifferenceN": 1e-6
+  },
+  "parityDifferences": [
+    "The NTC 2018 parameter resolution, capacities, checks, warnings, assumptions, metadata and serialized results have no known parity differences.",
+    "The TypeScript circular empirical branch adds metadata.normativeReferences with resolutionStatus outside-corpus and the identified Cosenza-Maddaloni-Cuomo publication. The JavaScript baseline preserved only the author/year label and equation numbers."
+  ],
+  "engineeringFunctionality": "Usable section-level shear verification for NTC 2018 members with or without vertical transverse reinforcement, including axial-compression contribution, variable strut-angle optimization, and safe refusal of missing inputs. The inherited circular-section research formulation is also migrated but remains explicitly empirical, outside the pinned normative corpus, and carries no partial safety factor. Minimum reinforcement, spacing, anchorage, torsion interaction, and complete member detailing are outside this slice."
+}

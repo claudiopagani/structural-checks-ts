@@ -1,0 +1,100 @@
+{
+  "schemaVersion": 1,
+  "sliceId": "0018-reinforced-concrete-isolated-footings",
+  "title": "Reinforced-concrete isolated-footing checks",
+  "migrationType": "mechanical-parity-with-traceability-preservation",
+  "implementationStatus": "implemented",
+  "dependencies": [
+    "0004-ntc2018-uls-uniaxial-section-resistance",
+    "0010-reinforced-concrete-shear",
+    "0012-reinforced-concrete-detailing",
+    "0016-reinforced-concrete-punching"
+  ],
+  "source": {
+    "repository": "https://github.com/claudiopagani/strutture-js",
+    "revision": "6f33baead8b88166c4b2cf94af41763412e3c751"
+  },
+  "normativeCorpusRevision": "41da3faa489600173106935bbcf726119300e48d",
+  "sourceFiles": [
+    {
+      "path": "src/domain/foundations/RectangularFootingContactAnalysis.js",
+      "gitBlobSha1": "2e8166ab0209c86dcfcda3683b31a1c697b0a499",
+      "targetPath": "src/domain/foundations/RectangularFootingContactAnalysis.ts"
+    },
+    {
+      "path": "src/applications/reinforced-concrete-isolated-footings/ReinforcedConcreteIsolatedFootingModel.js",
+      "gitBlobSha1": "a708fafb7d0d9106c81b41191d6a8d8a877fa365",
+      "targetPath": "src/applications/reinforced-concrete-isolated-footings/ReinforcedConcreteIsolatedFootingModel.ts"
+    },
+    {
+      "path": "src/applications/reinforced-concrete-isolated-footings/ReinforcedConcreteIsolatedFootingVerification.js",
+      "gitBlobSha1": "dddc4e0b0a1bcf73bdc33cac97a919ce90380932",
+      "targetPath": "src/applications/reinforced-concrete-isolated-footings/ReinforcedConcreteIsolatedFootingVerification.ts"
+    },
+    {
+      "path": "src/applications/reinforced-concrete-isolated-footings/ReinforcedConcreteIsolatedFootingApplication.js",
+      "gitBlobSha1": "af888cbceb6e7309d2139a02bb3a5bac864f6553",
+      "targetPath": "src/applications/reinforced-concrete-isolated-footings/ReinforcedConcreteIsolatedFootingApplication.ts"
+    },
+    {
+      "path": "src/norms/ntc2018/normativeReferences.js",
+      "gitBlobSha1": "23ab4d1fbe10f0f363ba6b56b300ea013d856ccf",
+      "targetPath": "src/norms/ntc2018/normativeReferences.ts",
+      "coverage": "Adds the explicit outside-corpus NTC 2018 section 6.4 foundation-design reference."
+    }
+  ],
+  "sourceOracles": [
+    {
+      "path": "tests/rectangularFootingContactAnalysis.test.js",
+      "gitBlobSha1": "a45339940ef83e01a95c46f7c480bb56389f9b1d"
+    },
+    {
+      "path": "tests/reinforcedConcreteIsolatedFootingApplication.test.js",
+      "gitBlobSha1": "60dddaa448361db0dde09bff92eeb04d8360b654"
+    }
+  ],
+  "sourcePublicExport": {
+    "path": "src/index.js",
+    "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
+  },
+  "targetTests": ["tests/concrete-isolated-footing.test.ts"],
+  "publicExports": [
+    "RectangularFootingContactAnalysis",
+    "ReinforcedConcreteIsolatedFootingApplication",
+    "ReinforcedConcreteIsolatedFootingModel",
+    "ReinforcedConcreteIsolatedFootingVerification",
+    "integrateFootingPressureStrip"
+  ],
+  "normativeReferences": {
+    "resolved": [
+      "urn:structural-codes:it:unit:ntc2018:4.1.2.3.4.2",
+      "urn:structural-codes:it:unit:ntc2018:4.1.2.3.5.1",
+      "urn:structural-codes:it:unit:ntc2018:4.1.2.3.5.4",
+      "urn:structural-codes:it:unit:ntc2018:4.1.2.3.10"
+    ],
+    "outsideCorpus": [
+      "NTC 2018 § 6.4",
+      "EN 1992-1-1:2004 §§ 8.4.2-8.4.4, espressioni (8.2)-(8.6)",
+      "EN 1992-1-1:2004 § 6.7, espressione (6.63)",
+      "EN 1992-1-1:2004+A1:2014 §§ 6.4.2-6.4.5 e § 9.4.3"
+    ],
+    "normativeConformityClaimed": false
+  },
+  "independentValidation": {
+    "method": "live full-result and DTO comparison with the pinned JavaScript source",
+    "targetTests": ["tests/concrete-isolated-footing.test.ts"],
+    "parityFixtures": [
+      "centered full contact",
+      "uniaxial partial contact",
+      "biaxial partial contact with local bearing and anchorages",
+      "horizontal action without assigned sliding resistance",
+      "punching with enclosed soil reaction",
+      "full, uniaxial, and nonlinear biaxial contact-analysis states",
+      "pressure-strip force and moment integration"
+    ]
+  },
+  "parityDifferences": [
+    "No numerical or serialized result difference is known for the tested isolated-footing workflows."
+  ],
+  "engineeringFunctionality": "Usable local verification for a centered, unrotated rectangular reinforced-concrete isolated footing: compression-only rigid-base contact, assigned bearing and sliding resistance checks, orthogonal strip bending and one-way shear, punching, local bearing, and optional anchorage. Geotechnical bearing capacity, settlement, soil-structure interaction, and solver-specific load extraction remain outside this slice."
+}

@@ -1,0 +1,103 @@
+{
+  "schemaVersion": 1,
+  "sliceId": "0005-ntc2018-uls-uniaxial-domain",
+  "title": "NTC 2018 reinforced-concrete ULS uniaxial N-M interaction domain",
+  "migrationType": "mechanical-parity",
+  "implementationStatus": "implemented",
+  "dependencies": [
+    "0001-foundation",
+    "0002-reinforced-concrete-sections",
+    "0003-concrete-materials",
+    "0004-ntc2018-uls-uniaxial-concrete-resistance"
+  ],
+  "source": {
+    "repository": "https://github.com/claudiopagani/strutture-js",
+    "revision": "6f33baead8b88166c4b2cf94af41763412e3c751"
+  },
+  "normativeCorpusRevision": "41da3faa489600173106935bbcf726119300e48d",
+  "sourceFiles": [
+    {
+      "path": "src/applications/reinforced-concrete-sections/analysis/RCUniaxialDomainBuilder.js",
+      "gitBlobSha1": "db462e079b7ab133391d10fd41fea2621214da45",
+      "targetPath": "src/applications/reinforced-concrete-sections/analysis/RCUniaxialDomainBuilder.ts"
+    },
+    {
+      "path": "src/applications/reinforced-concrete-sections/workflows/ulsUniaxialDomainWorkflow.js",
+      "gitBlobSha1": "efd5828ed7480fb33eb46c0bf12bae0d07aa2b98",
+      "targetPath": "src/applications/reinforced-concrete-sections/workflows/ulsUniaxialDomainWorkflow.ts"
+    },
+    {
+      "path": "src/applications/reinforced-concrete-sections/models/ReinforcedConcreteSectionModel.js",
+      "gitBlobSha1": "7ef4ccf31cb5fade91c452939990805be4f93413",
+      "targetPath": "src/applications/reinforced-concrete-sections/models/ReinforcedConcreteSectionModel.ts",
+      "coverage": "Adds the source-compatible nValues, pointCount, and includeOppositeCurvature inputs used by the uniaxial domain workflow."
+    },
+    {
+      "path": "src/applications/reinforced-concrete-sections/checks/ReinforcedConcreteSectionVerification.js",
+      "gitBlobSha1": "37ad8803cd6630c12e69af9586f6d965e30befd8",
+      "targetPath": "src/applications/reinforced-concrete-sections/checks/ReinforcedConcreteSectionVerification.ts",
+      "coverage": "Dispatches uls-uniaxial-domain in addition to the previously migrated resistance workflow."
+    },
+    {
+      "path": "src/applications/reinforced-concrete-sections/ReinforcedConcreteSectionApplication.js",
+      "gitBlobSha1": "086a35c7d233527a2e32eb07be857f39b9947d6e",
+      "targetPath": "src/applications/reinforced-concrete-sections/ReinforcedConcreteSectionApplication.ts",
+      "coverage": "Application metadata now declares the uniaxial resistance and interaction-domain modes."
+    },
+    {
+      "path": "src/norms/ntc2018/normativeReferences.js",
+      "gitBlobSha1": "23ab4d1fbe10f0f363ba6b56b300ea013d856ccf",
+      "targetPath": "src/norms/ntc2018/normativeReferences.ts",
+      "coverage": "Reuses the resolved flexure-and-axial-force record introduced by slice 0004."
+    }
+  ],
+  "sourceOracles": [
+    {
+      "path": "tests/reinforcedConcreteSectionUniaxialDomainApplication.test.js",
+      "gitBlobSha1": "3bbb4d0c5d3533ddcf92ab35392ff2c52d477f8e"
+    },
+    {
+      "path": "tests/rcUniaxialDomainBuilder.test.js",
+      "gitBlobSha1": "c7a846ee8b561413abaca9db396a3961ef472ec7"
+    }
+  ],
+  "sourcePublicExport": {
+    "path": "src/index.js",
+    "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
+  },
+  "targetTests": [
+    "tests/concrete-uniaxial-domain.test.ts",
+    "tests/concrete-resistance-baseline-parity.test.ts",
+    "tests/baseline-parity.test.ts"
+  ],
+  "publicExports": ["RCUniaxialDomainBuilder"],
+  "publicTypeExports": [
+    "RCUniaxialAxialCapacity",
+    "RCUniaxialDomain",
+    "RCUniaxialDomainBuildOptions",
+    "RCUniaxialDomainBuilderOptions",
+    "RCUniaxialDomainPoint",
+    "UniaxialCompressedEdge",
+    "UniaxialCurvatureSign"
+  ],
+  "normativeReferences": {
+    "resolved": ["urn:structural-codes:it:unit:ntc2018:4.1.2.3.4.2"],
+    "outsideCorpus": [],
+    "normativeConformityClaimed": false
+  },
+  "independentValidation": {
+    "method": "comparison of the NEd = -800000 N domain point with the independently integrated and bisected continuous-section reference established by slice 0004",
+    "targetTest": "tests/concrete-uniaxial-domain.test.ts",
+    "fixture": "300 mm by 500 mm C25/30 section with four 20 mm B450C bars",
+    "referenceMomentNmm": 225901455.6072406,
+    "acceptedRelativeDifference": 0.001,
+    "observedRelativeDifference": 0.00032556165312834024,
+    "additionalCheck": "The automatic tension and capped-compression endpoints are independently reconstructed from As fyd and -(0.8 Ac fcd + As fyd), and the 21-point spacing is checked."
+  },
+  "parityDifferences": [
+    "For uls-uniaxial-domain with assigned axial-force values, the serialized verification result and numerical output have no known parity differences.",
+    "The TypeScript verifier still returns not-implemented for uls-biaxial-domain, service-stress, and moment-curvature until those workflows are migrated.",
+    "The application manifest advertises only the currently implemented NTC 2018 uniaxial scope instead of the broader JavaScript application scope."
+  ],
+  "engineeringFunctionality": "Usable NTC 2018 ULS uniaxial reinforced-concrete N-M interaction-domain generation with assigned or automatically sampled axial-force levels and both curvature signs. The result is a resistance domain, not a direct demand-containment verification, and it is not a biaxial, serviceability, shear, torsion, detailing, member, or conformity verifier."
+}

@@ -1,0 +1,183 @@
+import type {
+  SectionBoundingBox,
+  ReinforcedConcreteSection,
+} from "../../../domain/geometry/ReinforcedConcreteSection.js";
+import type { SectionPoint } from "../../../domain/geometry/CrossSection.js";
+import type { SectionFiber } from "./types.js";
+
+function isPointOnSegment(
+  point: SectionPoint,
+  start: SectionPoint,
+  end: SectionPoint,
+  tolerance = 1e-9,
+): boolean {
+  const cross = (point.y - start.y) * (end.z - start.z) - (point.z - start.z) * (end.y - start.y);
+
+  if (Math.abs(cross) > tolerance) {
+    return false;
+  }
+
+  const dot = (point.y - start.y) * (end.y - start.y) + (point.z - start.z) * (end.z - start.z);
+
+  if (dot < -tolerance) {
+    return false;
+  }
+
+  const squaredLength = (end.y - start.y) ** 2 + (end.z - start.z) ** 2;
+
+  return dot <= squaredLength + tolerance;
+}
+
+function isPointInsidePolygon(point: SectionPoint, polygon: SectionPoint[]): boolean {
+  let inside = false;
+
+  for (let index = 0; index < polygon.length; index += 1) {
+    const current = polygon[index];
+    const next = polygon[(index + 1) % polygon.length];
+
+    if (current === undefined || next === undefined) {
+      continue;
+    }
+
+    if (isPointOnSegment(point, current, next)) {
+      return true;
+    }
+
+    const intersects =
+      current.z > point.z !== next.z > point.z &&
+      point.y < ((next.y - current.y) * (point.z - current.z)) / (next.z - current.z) + current.y;
+
+    if (intersects) {
+      inside = !inside;
+    }
+  }
+
+  return inside;
+}
+
+export type FiberDiscretizationMethod = "grid" | "uniaxial-strips";
+
+export interface FiberDiscretizationOptions {
+  targetCount?: number;
+  method?: FiberDiscretizationMethod;
+}
+
+export interface SectionFiberMesh {
+  method: FiberDiscretizationMethod;
+  targetCount: number;
+  generatedCount: number;
+  grid: {
+    rows: number;
+    cols: number;
+    fiberHeight: number;
+    fiberWidth: number;
+  };
+  bounds: SectionBoundingBox;
+  fibers: SectionFiber[];
+}
+
+export class SectionFiberDiscretizer {
+  discretize(
+    section: ReinforcedConcreteSection,
+    { targetCount = 100, method = "grid" }: FiberDiscretizationOptions = {},
+  ): SectionFiberMesh {
+    if (!section?.concreteSection) {
+      throw new Error("SectionFiberDiscretizer requires a reinforced concrete section.");
+    }
+
+    if (!Number.isInteger(targetCount) || targetCount <= 0) {
+      throw new Error("SectionFiberDiscretizer targetCount must be a positive integer.");
+    }
+
+    if (!["grid", "uniaxial-strips"].includes(method)) {
+      throw new Error(`Unsupported discretization method: ${method}.`);
+    }
+
+    if (method === "uniaxial-strips") {
+      if (section.concreteSection.metadata.shape !== "rectangular") {
+        throw new Error(
+          "SectionFiberDiscretizer uniaxial-strips requires a rectangular concrete section.",
+        );
+      }
+
+      const bounds = section.getBoundingBox();
+      const height = bounds.maxY - bounds.minY;
+      const width = bounds.maxZ - bounds.minZ;
+      const fiberHeight = height / targetCount;
+      const fibers: SectionFiber[] = Array.from({ length: targetCount }, (_, index) => ({
+        id: `concrete-strip-${index + 1}`,
+        area: fiberHeight * width,
+        y: bounds.minY + (index + 0.5) * fiberHeight,
+        z: (bounds.minZ + bounds.maxZ) / 2,
+        height: fiberHeight,
+        width,
+        materialRole: "concrete",
+      }));
+
+      return {
+        method,
+        targetCount,
+        generatedCount: fibers.length,
+        grid: {
+          rows: targetCount,
+          cols: 1,
+          fiberHeight,
+          fiberWidth: width,
+        },
+        bounds,
+        fibers,
+      };
+    }
+
+    const polygon = section.getConcreteOutlinePoints();
+
+    if (polygon.length < 3) {
+      throw new Error("SectionFiberDiscretizer requires at least three outline points.");
+    }
+
+    const bounds = section.getBoundingBox();
+    const spanY = bounds.maxY - bounds.minY;
+    const spanZ = bounds.maxZ - bounds.minZ;
+    const aspectRatio = spanY > 0 && spanZ > 0 ? spanY / spanZ : 1;
+    const rows = Math.max(1, Math.round(Math.sqrt(targetCount * aspectRatio)));
+    const cols = Math.max(1, Math.round(targetCount / rows));
+    const fiberHeight = spanY / rows;
+    const fiberWidth = spanZ / cols;
+    const fibers: SectionFiber[] = [];
+
+    for (let row = 0; row < rows; row += 1) {
+      for (let col = 0; col < cols; col += 1) {
+        const y = bounds.minY + (row + 0.5) * fiberHeight;
+        const z = bounds.minZ + (col + 0.5) * fiberWidth;
+
+        if (!isPointInsidePolygon({ y, z }, polygon)) {
+          continue;
+        }
+
+        fibers.push({
+          id: `concrete-fiber-${row + 1}-${col + 1}`,
+          area: fiberHeight * fiberWidth,
+          y,
+          z,
+          height: fiberHeight,
+          width: fiberWidth,
+          materialRole: "concrete",
+        });
+      }
+    }
+
+    return {
+      method,
+      targetCount,
+      generatedCount: fibers.length,
+      grid: {
+        rows,
+        cols,
+        fiberHeight,
+        fiberWidth,
+      },
+      bounds,
+      fibers,
+    };
+  }
+}

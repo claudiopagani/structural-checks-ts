@@ -18,6 +18,7 @@ const packageJson = JSON.parse(
   private: boolean;
   license: string;
   dependencies?: Record<string, string>;
+  exports?: Record<string, unknown>;
 };
 const lock = JSON.parse(await readFile(path.join(repositoryRoot, "package-lock.json"), "utf8")) as {
   name: string;
@@ -36,6 +37,11 @@ assert.equal(packageJson.name, "structural-checks-ts-migration-workspace");
 assert.equal(packageJson.version, "0.0.0");
 assert.equal(packageJson.private, true, "Publication guard must remain enabled.");
 assert.equal(packageJson.license, "LGPL-2.1-or-later");
+assert.ok(packageJson.exports?.["."], "The package root export is required.");
+assert.ok(
+  packageJson.exports?.["./domain/math"],
+  "The public domain/math subpath export is required.",
+);
 assert.deepEqual(
   packageJson.dependencies,
   undefined,
@@ -83,10 +89,13 @@ for (const expectedPath of [
   "README.md",
   "dist/index.d.ts",
   "dist/index.js",
+  "dist/domain/math/index.d.ts",
+  "dist/domain/math/index.js",
   "docs/licensing.md",
   "migration/baseline.json",
   "scripts/build.ts",
   "src/index.ts",
+  "src/domain/math/index.ts",
   "tsconfig.build.json",
 ]) {
   assert.ok(packedFiles.has(expectedPath), `Package is missing ${expectedPath}.`);

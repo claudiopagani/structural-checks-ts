@@ -1,0 +1,323 @@
+import {
+  createNormativeReference,
+  NORMATIVE_REFERENCE_RELATIONS,
+  NORMATIVE_REFERENCE_RESOLUTION_STATUS,
+} from "../normativeReference.js";
+
+export const NTC2018_NORMATIVE_CORPUS = Object.freeze({
+  corpusId: "structural-codes",
+  corpusRevision: "41da3faa489600173106935bbcf726119300e48d",
+  corpusStatus: "extracted",
+  repository: "https://github.com/claudiopagani/strutture-normative",
+  schemaVersion: "2.0.0-alpha.2",
+  viewer: "https://strutture-normative-viewer.claudiopagani19.chatgpt.site/",
+});
+
+function viewerHref(unitId: string): string {
+  return `${NTC2018_NORMATIVE_CORPUS.viewer}?unit=${encodeURIComponent(unitId)}`;
+}
+
+function resolvedReference({
+  documentId = "ntc2018",
+  unitId,
+  assetIds = [],
+  relation = NORMATIVE_REFERENCE_RELATIONS.IMPLEMENTS,
+  citation,
+}: {
+  documentId?: string;
+  unitId: string;
+  assetIds?: string[];
+  relation?: string;
+  citation: string;
+}) {
+  return createNormativeReference({
+    ...NTC2018_NORMATIVE_CORPUS,
+    documentId,
+    unitId,
+    assetIds,
+    relation,
+    citation,
+    href: viewerHref(unitId),
+  });
+}
+
+function outsideCorpusReference({
+  documentId = "ntc2018",
+  relation = NORMATIVE_REFERENCE_RELATIONS.INFORMS,
+  citation,
+  href = "https://www.gazzettaufficiale.it/eli/id/2018/02/20/18A00716/sg",
+}: {
+  documentId?: string;
+  relation?: string;
+  citation: string;
+  href?: string;
+}) {
+  return createNormativeReference({
+    corpusId: NTC2018_NORMATIVE_CORPUS.corpusId,
+    corpusRevision: NTC2018_NORMATIVE_CORPUS.corpusRevision,
+    corpusStatus: NORMATIVE_REFERENCE_RESOLUTION_STATUS.OUTSIDE_CORPUS,
+    documentId,
+    relation,
+    citation,
+    href,
+    resolutionStatus: NORMATIVE_REFERENCE_RESOLUTION_STATUS.OUTSIDE_CORPUS,
+  });
+}
+
+export const NTC2018_RC_CHAPTER_4_REFERENCES = Object.freeze({
+  concreteDesignCompression: resolvedReference({
+    unitId: "urn:structural-codes:it:unit:ntc2018:4.1.2.1.1.1",
+    assetIds: ["urn:structural-codes:it:asset:formula:ntc2018:4.1.3"],
+    citation: "NTC 2018 § 4.1.2.1.1.1, formula [4.1.3]",
+  }),
+  reinforcementDesignYield: resolvedReference({
+    unitId: "urn:structural-codes:it:unit:ntc2018:4.1.2.1.1.3",
+    assetIds: ["urn:structural-codes:it:asset:formula:ntc2018:4.1.5"],
+    citation: "NTC 2018 § 4.1.2.1.1.3, formula [4.1.5]",
+  }),
+  bondDesignStrength: resolvedReference({
+    unitId: "urn:structural-codes:it:unit:ntc2018:4.1.2.1.1.4",
+    assetIds: [
+      "urn:structural-codes:it:asset:formula:ntc2018:4.1.6",
+      "urn:structural-codes:it:asset:formula:ntc2018:4.1.7",
+    ],
+    citation: "NTC 2018 § 4.1.2.1.1.4, formule [4.1.6]-[4.1.7]",
+  }),
+  deflection: resolvedReference({
+    unitId: "urn:structural-codes:it:unit:ntc2018:4.1.2.2.2",
+    relation: NORMATIVE_REFERENCE_RELATIONS.INFORMS,
+    citation: "NTC 2018 § 4.1.2.2.2",
+  }),
+  crackWidth: resolvedReference({
+    unitId: "urn:structural-codes:it:unit:ntc2018:4.1.2.2.4.5",
+    assetIds: ["urn:structural-codes:it:asset:formula:ntc2018:4.1.14"],
+    citation: "NTC 2018 § 4.1.2.2.4.5, formula [4.1.14]",
+  }),
+  concreteStressCharacteristic: resolvedReference({
+    unitId: "urn:structural-codes:it:unit:ntc2018:4.1.2.2.5.1",
+    assetIds: ["urn:structural-codes:it:asset:formula:ntc2018:4.1.15"],
+    citation: "NTC 2018 § 4.1.2.2.5.1, formula [4.1.15]",
+  }),
+  concreteStressQuasiPermanent: resolvedReference({
+    unitId: "urn:structural-codes:it:unit:ntc2018:4.1.2.2.5.1",
+    assetIds: ["urn:structural-codes:it:asset:formula:ntc2018:4.1.16"],
+    citation: "NTC 2018 § 4.1.2.2.5.1, formula [4.1.16]",
+  }),
+  reinforcementStress: resolvedReference({
+    unitId: "urn:structural-codes:it:unit:ntc2018:4.1.2.2.5.2",
+    assetIds: ["urn:structural-codes:it:asset:formula:ntc2018:4.1.17"],
+    citation: "NTC 2018 § 4.1.2.2.5.2, formula [4.1.17]",
+  }),
+  flexureAndAxialForce: resolvedReference({
+    unitId: "urn:structural-codes:it:unit:ntc2018:4.1.2.3.4.2",
+    assetIds: [
+      "urn:structural-codes:it:asset:formula:ntc2018:4.1.18a",
+      "urn:structural-codes:it:asset:formula:ntc2018:4.1.18b",
+      "urn:structural-codes:it:asset:formula:ntc2018:4.1.19",
+      "urn:structural-codes:it:asset:formula:ntc2018:4.1.20",
+      "urn:structural-codes:it:asset:formula:ntc2018:4.1.21",
+    ],
+    citation: "NTC 2018 § 4.1.2.3.4.2, formule [4.1.18]-[4.1.21]",
+  }),
+  curvatureDuctility: resolvedReference({
+    unitId: "urn:structural-codes:it:unit:ntc2018:4.1.2.3.4.2",
+    assetIds: ["urn:structural-codes:it:asset:formula:ntc2018:4.1.2.3.4.2:phi-yd"],
+    citation: "NTC 2018 § 4.1.2.3.4.2, curvatura convenzionale di prima plasticizzazione",
+  }),
+  shearWithoutTransverseReinforcement: resolvedReference({
+    unitId: "urn:structural-codes:it:unit:ntc2018:4.1.2.3.5.1",
+    assetIds: [
+      "urn:structural-codes:it:asset:formula:ntc2018:4.1.22",
+      "urn:structural-codes:it:asset:formula:ntc2018:4.1.23",
+      "urn:structural-codes:it:asset:formula:ntc2018:4.1.24",
+      "urn:structural-codes:it:asset:formula:ntc2018:4.1.2.3.5.1:parameters",
+    ],
+    citation: "NTC 2018 § 4.1.2.3.5.1, formule [4.1.22]-[4.1.24]",
+  }),
+  shearWithTransverseReinforcement: resolvedReference({
+    unitId: "urn:structural-codes:it:unit:ntc2018:4.1.2.3.5.2",
+    assetIds: [
+      "urn:structural-codes:it:asset:formula:ntc2018:4.1.25",
+      "urn:structural-codes:it:asset:formula:ntc2018:4.1.26",
+      "urn:structural-codes:it:asset:formula:ntc2018:4.1.27",
+      "urn:structural-codes:it:asset:formula:ntc2018:4.1.28",
+      "urn:structural-codes:it:asset:formula:ntc2018:4.1.29",
+      "urn:structural-codes:it:asset:formula:ntc2018:4.1.30",
+      "urn:structural-codes:it:asset:formula:ntc2018:4.1.2.3.5.2:alpha-c",
+    ],
+    citation: "NTC 2018 § 4.1.2.3.5.2, formule [4.1.25]-[4.1.30]",
+  }),
+  punching: resolvedReference({
+    unitId: "urn:structural-codes:it:unit:ntc2018:4.1.2.3.5.4",
+    citation: "NTC 2018 § 4.1.2.3.5.4",
+  }),
+  torsion: resolvedReference({
+    unitId: "urn:structural-codes:it:unit:ntc2018:4.1.2.3.6",
+    assetIds: [
+      "urn:structural-codes:it:asset:formula:ntc2018:4.1.34",
+      "urn:structural-codes:it:asset:formula:ntc2018:4.1.35",
+      "urn:structural-codes:it:asset:formula:ntc2018:4.1.36",
+      "urn:structural-codes:it:asset:formula:ntc2018:4.1.37",
+      "urn:structural-codes:it:asset:formula:ntc2018:4.1.38",
+      "urn:structural-codes:it:asset:formula:ntc2018:4.1.39",
+      "urn:structural-codes:it:asset:formula:ntc2018:4.1.40",
+    ],
+    citation: "NTC 2018 § 4.1.2.3.6, formule [4.1.34]-[4.1.40]",
+  }),
+  anchorage: resolvedReference({
+    unitId: "urn:structural-codes:it:unit:ntc2018:4.1.2.3.10",
+    citation: "NTC 2018 § 4.1.2.3.10",
+  }),
+  columnSlenderness: resolvedReference({
+    unitId: "urn:structural-codes:it:unit:ntc2018:4.1.2.3.9.2",
+    assetIds: [
+      "urn:structural-codes:it:asset:formula:ntc2018:4.1.41",
+      "urn:structural-codes:it:asset:formula:ntc2018:4.1.42",
+      "urn:structural-codes:it:asset:formula:ntc2018:4.1.43",
+    ],
+    citation: "NTC 2018 § 4.1.2.3.9.2, formule [4.1.41]-[4.1.43]",
+  }),
+  nominalStiffness: resolvedReference({
+    unitId: "urn:structural-codes:it:unit:ntc2018:4.1.2.3.9.3",
+    assetIds: ["urn:structural-codes:it:asset:formula:ntc2018:4.1.44"],
+    citation: "NTC 2018 § 4.1.2.3.9.3, formula [4.1.44]",
+  }),
+  beamDetailing: resolvedReference({
+    unitId: "urn:structural-codes:it:unit:ntc2018:4.1.6.1.1",
+    assetIds: ["urn:structural-codes:it:asset:formula:ntc2018:4.1.45"],
+    citation: "NTC 2018 § 4.1.6.1.1, formula [4.1.45]",
+  }),
+  columnDetailing: resolvedReference({
+    unitId: "urn:structural-codes:it:unit:ntc2018:4.1.6.1.2",
+    assetIds: ["urn:structural-codes:it:asset:formula:ntc2018:4.1.46"],
+    citation: "NTC 2018 § 4.1.6.1.2, formula [4.1.46]",
+  }),
+  serviceModularRatio: resolvedReference({
+    documentId: "circ2019",
+    unitId: "urn:structural-codes:it:unit:circ2019:c4.1.2.2.5",
+    assetIds: [],
+    citation:
+      "Circolare 21 gennaio 2019, n. 7 C.S.LL.PP., § C4.1.2.2.5, coefficiente di omogeneizzazione n = 15",
+  }),
+});
+
+export const CIRC2019_RC_REFERENCES = Object.freeze({
+  simplifiedDeflectionSlenderness: resolvedReference({
+    documentId: "circ2019",
+    unitId: "urn:structural-codes:it:unit:circ2019:c4.1.2.2.2",
+    assetIds: ["urn:structural-codes:it:asset:table:circ2019:c4.1.i"],
+    relation: NORMATIVE_REFERENCE_RELATIONS.CLARIFIES,
+    citation: "Circolare 2019 § C4.1.2.2.2, tabella C4.1.I",
+  }),
+  indirectCrackControlDiameter: resolvedReference({
+    documentId: "circ2019",
+    unitId: "urn:structural-codes:it:unit:circ2019:c4.1.2.2.4.5",
+    assetIds: ["urn:structural-codes:it:asset:table:circ2019:c4.1.ii"],
+    relation: NORMATIVE_REFERENCE_RELATIONS.CLARIFIES,
+    citation: "Circolare 2019 § C4.1.2.2.4.5, tabella C4.1.II",
+  }),
+  indirectCrackControlSpacing: resolvedReference({
+    documentId: "circ2019",
+    unitId: "urn:structural-codes:it:unit:circ2019:c4.1.2.2.4.5",
+    assetIds: ["urn:structural-codes:it:asset:table:circ2019:c4.1.iii"],
+    relation: NORMATIVE_REFERENCE_RELATIONS.CLARIFIES,
+    citation: "Circolare 2019 § C4.1.2.2.4.5, tabella C4.1.III",
+  }),
+});
+
+export const NTC2018_RC_CHAPTER_7_4_REFERENCES = Object.freeze({
+  structuralBehavior: resolvedReference({
+    unitId: "urn:structural-codes:it:unit:ntc2018:7.4.1",
+    citation: "NTC 2018 § 7.4.1",
+  }),
+  columnCapacityDesign: resolvedReference({
+    unitId: "urn:structural-codes:it:unit:ntc2018:7.4.4.2.1",
+    assetIds: [
+      "urn:structural-codes:it:asset:formula:ntc2018:7.4.4",
+      "urn:structural-codes:it:asset:formula:ntc2018:7.4.5",
+      "urn:structural-codes:it:asset:formula:ntc2018:7.4.5:mi-d",
+    ],
+    citation: "NTC 2018 § 7.4.4.2.1, formule [7.4.4]-[7.4.5]",
+  }),
+  wall: resolvedReference({
+    unitId: "urn:structural-codes:it:unit:ntc2018:7.4.4.5.1",
+    assetIds: [
+      "urn:structural-codes:it:asset:formula:ntc2018:7.4.13",
+      "urn:structural-codes:it:asset:formula:ntc2018:7.4.14",
+      "urn:structural-codes:it:asset:formula:ntc2018:7.4.15",
+      "urn:structural-codes:it:asset:formula:ntc2018:7.4.16",
+      "urn:structural-codes:it:asset:formula:ntc2018:7.4.17",
+      "urn:structural-codes:it:asset:formula:ntc2018:7.4.18",
+      "urn:structural-codes:it:asset:formula:ntc2018:7.4.19",
+      "urn:structural-codes:it:asset:formula:ntc2018:7.4.20",
+      "urn:structural-codes:it:asset:formula:ntc2018:7.4.21",
+      "urn:structural-codes:it:asset:formula:ntc2018:7.4.22",
+    ],
+    citation: "NTC 2018 § 7.4.4.5.1, formule [7.4.13]-[7.4.22]",
+  }),
+  wallDuctility: resolvedReference({
+    unitId: "urn:structural-codes:it:unit:ntc2018:7.4.4.5.2",
+    citation: "NTC 2018 § 7.4.4.5.2",
+  }),
+  couplingBeam: resolvedReference({
+    unitId: "urn:structural-codes:it:unit:ntc2018:7.4.4.6",
+    assetIds: [
+      "urn:structural-codes:it:asset:formula:ntc2018:7.4.23",
+      "urn:structural-codes:it:asset:formula:ntc2018:7.4.24",
+    ],
+    citation: "NTC 2018 § 7.4.4.6, formule [7.4.23]-[7.4.24]",
+  }),
+  beamGeometry: resolvedReference({
+    unitId: "urn:structural-codes:it:unit:ntc2018:7.4.6.1.1",
+    citation: "NTC 2018 § 7.4.6.1.1",
+  }),
+  columnGeometry: resolvedReference({
+    unitId: "urn:structural-codes:it:unit:ntc2018:7.4.6.1.2",
+    citation: "NTC 2018 § 7.4.6.1.2",
+  }),
+  wallGeometry: resolvedReference({
+    unitId: "urn:structural-codes:it:unit:ntc2018:7.4.6.1.4",
+    citation: "NTC 2018 § 7.4.6.1.4",
+  }),
+  beamDetailing: resolvedReference({
+    unitId: "urn:structural-codes:it:unit:ntc2018:7.4.6.2.1",
+    assetIds: [
+      "urn:structural-codes:it:asset:formula:ntc2018:7.4.26",
+      "urn:structural-codes:it:asset:formula:ntc2018:7.4.27",
+    ],
+    citation: "NTC 2018 § 7.4.6.2.1, formule [7.4.26]-[7.4.27]",
+  }),
+  columnDetailing: resolvedReference({
+    unitId: "urn:structural-codes:it:unit:ntc2018:7.4.6.2.2",
+    assetIds: [
+      "urn:structural-codes:it:asset:formula:ntc2018:7.4.28",
+      "urn:structural-codes:it:asset:formula:ntc2018:7.4.28:staffe-minime",
+      "urn:structural-codes:it:asset:formula:ntc2018:7.4.29",
+      "urn:structural-codes:it:asset:formula:ntc2018:7.4.30",
+      "urn:structural-codes:it:asset:formula:ntc2018:7.4.31a",
+      "urn:structural-codes:it:asset:formula:ntc2018:7.4.31b",
+      "urn:structural-codes:it:asset:formula:ntc2018:7.4.31c",
+      "urn:structural-codes:it:asset:formula:ntc2018:7.4.31d",
+    ],
+    citation: "NTC 2018 § 7.4.6.2.2, formule [7.4.28]-[7.4.31]",
+  }),
+  wallDetailing: resolvedReference({
+    unitId: "urn:structural-codes:it:unit:ntc2018:7.4.6.2.4",
+    citation: "NTC 2018 § 7.4.6.2.4",
+  }),
+});
+
+export const NTC2018_RC_OUTSIDE_CORPUS_REFERENCES = Object.freeze({
+  foundationDesign: outsideCorpusReference({
+    citation: "NTC 2018 § 6.4",
+  }),
+  cosenzaCircularShear: outsideCorpusReference({
+    documentId: "cosenza-et-al-2016",
+    citation:
+      "E. Cosenza, G. Maddaloni, G. Cuomo, A simplified method for shear capacity assessment of circular RC cross-sections, equations (3) and (5)",
+    href: "https://www.associazioneaicap.com/wp-content/uploads/2018/03/109-COSMET.pdf",
+  }),
+  materialQualification: outsideCorpusReference({
+    citation: "NTC 2018, capitolo 11",
+  }),
+});

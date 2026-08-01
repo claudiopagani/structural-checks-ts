@@ -1,0 +1,70 @@
+{
+  "schemaVersion": 1,
+  "sliceId": "0011-reinforced-concrete-torsion",
+  "title": "Reinforced-concrete torsion resistance and shear interaction",
+  "migrationType": "mechanical-parity-with-traceability-preservation",
+  "implementationStatus": "implemented",
+  "dependencies": [
+    "0001-foundation",
+    "0002-reinforced-concrete-sections",
+    "0003-concrete-materials",
+    "0010-reinforced-concrete-shear"
+  ],
+  "source": {
+    "repository": "https://github.com/claudiopagani/strutture-js",
+    "revision": "6f33baead8b88166c4b2cf94af41763412e3c751"
+  },
+  "normativeCorpusRevision": "41da3faa489600173106935bbcf726119300e48d",
+  "sourceFiles": [
+    {
+      "path": "src/applications/reinforced-concrete-sections/checks/ReinforcedConcreteTorsionVerification.js",
+      "gitBlobSha1": "34c0442ebd2f3d2bf73b2c6fc30b8dc66c161358",
+      "targetPath": "src/applications/reinforced-concrete-sections/checks/ReinforcedConcreteTorsionVerification.ts"
+    },
+    {
+      "path": "src/norms/ntc2018/normativeReferences.js",
+      "gitBlobSha1": "23ab4d1fbe10f0f363ba6b56b300ea013d856ccf",
+      "targetPath": "src/norms/ntc2018/normativeReferences.ts",
+      "coverage": "Preserves the canonical NTC 2018 torsion unit and formula asset identifiers."
+    }
+  ],
+  "sourceOracles": [
+    {
+      "path": "tests/reinforcedConcreteTorsionVerification.test.js",
+      "gitBlobSha1": "1a76c1a6c268665828aec37db0264ba74f63c81b"
+    },
+    {
+      "path": "tests/packageExports.test.js",
+      "gitBlobSha1": "8dde24b4c97dd3dae7100207d07d9d96c52b9c74"
+    }
+  ],
+  "sourcePublicExport": {
+    "path": "src/index.js",
+    "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
+  },
+  "targetTests": ["tests/concrete-torsion.test.ts", "tests/baseline-parity.test.ts"],
+  "publicExports": ["ReinforcedConcreteTorsionVerification"],
+  "normativeReferences": {
+    "resolved": [
+      "urn:structural-codes:it:unit:ntc2018:4.1.2.3.6",
+      "urn:structural-codes:it:unit:ntc2018:4.1.2.3.5.2"
+    ],
+    "outsideCorpus": [],
+    "normativeConformityClaimed": false
+  },
+  "independentValidation": {
+    "method": "direct independent evaluation of the three NTC 2018 torsion resistance equations",
+    "targetTest": "tests/concrete-torsion.test.ts",
+    "fixture": "300 mm by 500 mm rectangle, 8 mm closed stirrups at 150 mm, four 20 mm longitudinal bars assigned to torsion, C25/30 concrete, B450C steel, cotTheta = 1.5",
+    "referenceEquations": [
+      "TRcd = 2 Ak t f'cd cotTheta / (1 + cotTheta^2)",
+      "TRsd = 2 Ak (Asw / s) fyd cotTheta",
+      "TRld = 2 Ak Al fyd / (um cotTheta)"
+    ],
+    "acceptedAbsoluteCapacityDifferenceNmm": 1
+  },
+  "parityDifferences": [
+    "The torsion capacities, checks, warnings, assumptions, structured references and serialized results have no known parity differences."
+  ],
+  "engineeringFunctionality": "Usable section-level equilibrium-torsion verification for concrete struts, closed transverse reinforcement, explicitly assigned longitudinal torsion reinforcement, and combined concrete shear-torsion interaction. Compatibility torsion may be explicitly left unanalyzed. Complete detailing and allocation of longitudinal torsion reinforcement relative to flexural reinforcement remain outside this slice."
+}

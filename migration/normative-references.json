@@ -5,7 +5,337 @@
     "revision": "41da3faa489600173106935bbcf726119300e48d",
     "status": "extracted"
   },
-  "references": [],
-  "outsideCorpusReferences": [],
-  "note": "No normative formula has been migrated in slice 0001."
+  "references": [
+    {
+      "citation": "NTC 2018 § 4.1.2.1.1.1, formula [4.1.3]",
+      "unitId": "urn:structural-codes:it:unit:ntc2018:4.1.2.1.1.1",
+      "assetIds": ["urn:structural-codes:it:asset:formula:ntc2018:4.1.3"],
+      "resolutionStatus": "resolved"
+    },
+    {
+      "citation": "NTC 2018 § 4.1.2.1.1.3, formula [4.1.5]",
+      "unitId": "urn:structural-codes:it:unit:ntc2018:4.1.2.1.1.3",
+      "assetIds": ["urn:structural-codes:it:asset:formula:ntc2018:4.1.5"],
+      "resolutionStatus": "resolved"
+    },
+    {
+      "citation": "NTC 2018 § 4.1.2.1.1.4, formule [4.1.6]-[4.1.7]",
+      "unitId": "urn:structural-codes:it:unit:ntc2018:4.1.2.1.1.4",
+      "assetIds": [
+        "urn:structural-codes:it:asset:formula:ntc2018:4.1.6",
+        "urn:structural-codes:it:asset:formula:ntc2018:4.1.7"
+      ],
+      "resolutionStatus": "resolved"
+    },
+    {
+      "citation": "NTC 2018 § 4.1.2.3.4.2, formule [4.1.18]-[4.1.21]",
+      "unitId": "urn:structural-codes:it:unit:ntc2018:4.1.2.3.4.2",
+      "assetIds": [
+        "urn:structural-codes:it:asset:formula:ntc2018:4.1.18a",
+        "urn:structural-codes:it:asset:formula:ntc2018:4.1.18b",
+        "urn:structural-codes:it:asset:formula:ntc2018:4.1.19",
+        "urn:structural-codes:it:asset:formula:ntc2018:4.1.20",
+        "urn:structural-codes:it:asset:formula:ntc2018:4.1.21"
+      ],
+      "resolutionStatus": "resolved"
+    },
+    {
+      "citation": "NTC 2018 § 4.1.2.3.4.2, curvatura convenzionale di prima plasticizzazione",
+      "unitId": "urn:structural-codes:it:unit:ntc2018:4.1.2.3.4.2",
+      "assetIds": ["urn:structural-codes:it:asset:formula:ntc2018:4.1.2.3.4.2:phi-yd"],
+      "resolutionStatus": "resolved"
+    },
+    {
+      "citation": "NTC 2018 § 4.1.2.3.5.1, formule [4.1.22]-[4.1.24]",
+      "unitId": "urn:structural-codes:it:unit:ntc2018:4.1.2.3.5.1",
+      "assetIds": [
+        "urn:structural-codes:it:asset:formula:ntc2018:4.1.22",
+        "urn:structural-codes:it:asset:formula:ntc2018:4.1.23",
+        "urn:structural-codes:it:asset:formula:ntc2018:4.1.24",
+        "urn:structural-codes:it:asset:formula:ntc2018:4.1.2.3.5.1:parameters"
+      ],
+      "resolutionStatus": "resolved"
+    },
+    {
+      "citation": "NTC 2018 § 4.1.2.3.5.2, formule [4.1.25]-[4.1.30]",
+      "unitId": "urn:structural-codes:it:unit:ntc2018:4.1.2.3.5.2",
+      "assetIds": [
+        "urn:structural-codes:it:asset:formula:ntc2018:4.1.25",
+        "urn:structural-codes:it:asset:formula:ntc2018:4.1.26",
+        "urn:structural-codes:it:asset:formula:ntc2018:4.1.27",
+        "urn:structural-codes:it:asset:formula:ntc2018:4.1.28",
+        "urn:structural-codes:it:asset:formula:ntc2018:4.1.29",
+        "urn:structural-codes:it:asset:formula:ntc2018:4.1.30",
+        "urn:structural-codes:it:asset:formula:ntc2018:4.1.2.3.5.2:alpha-c"
+      ],
+      "resolutionStatus": "resolved"
+    },
+    {
+      "citation": "NTC 2018 § 4.1.2.3.6, formule [4.1.34]-[4.1.40]",
+      "unitId": "urn:structural-codes:it:unit:ntc2018:4.1.2.3.6",
+      "assetIds": [
+        "urn:structural-codes:it:asset:formula:ntc2018:4.1.34",
+        "urn:structural-codes:it:asset:formula:ntc2018:4.1.35",
+        "urn:structural-codes:it:asset:formula:ntc2018:4.1.36",
+        "urn:structural-codes:it:asset:formula:ntc2018:4.1.37",
+        "urn:structural-codes:it:asset:formula:ntc2018:4.1.38",
+        "urn:structural-codes:it:asset:formula:ntc2018:4.1.39",
+        "urn:structural-codes:it:asset:formula:ntc2018:4.1.40"
+      ],
+      "resolutionStatus": "resolved"
+    },
+    {
+      "citation": "NTC 2018 § 4.1.2.3.10",
+      "unitId": "urn:structural-codes:it:unit:ntc2018:4.1.2.3.10",
+      "assetIds": [],
+      "resolutionStatus": "resolved"
+    },
+    {
+      "citation": "NTC 2018 § 4.1.2.3.9.2, formule [4.1.41]-[4.1.43]",
+      "unitId": "urn:structural-codes:it:unit:ntc2018:4.1.2.3.9.2",
+      "assetIds": [
+        "urn:structural-codes:it:asset:formula:ntc2018:4.1.41",
+        "urn:structural-codes:it:asset:formula:ntc2018:4.1.42",
+        "urn:structural-codes:it:asset:formula:ntc2018:4.1.43"
+      ],
+      "resolutionStatus": "resolved"
+    },
+    {
+      "citation": "NTC 2018 § 4.1.2.3.9.3, formula [4.1.44]",
+      "unitId": "urn:structural-codes:it:unit:ntc2018:4.1.2.3.9.3",
+      "assetIds": ["urn:structural-codes:it:asset:formula:ntc2018:4.1.44"],
+      "resolutionStatus": "resolved"
+    },
+    {
+      "citation": "NTC 2018 § 4.1.6.1.1, formula [4.1.45]",
+      "unitId": "urn:structural-codes:it:unit:ntc2018:4.1.6.1.1",
+      "assetIds": ["urn:structural-codes:it:asset:formula:ntc2018:4.1.45"],
+      "resolutionStatus": "resolved"
+    },
+    {
+      "citation": "NTC 2018 § 4.1.6.1.2, formula [4.1.46]",
+      "unitId": "urn:structural-codes:it:unit:ntc2018:4.1.6.1.2",
+      "assetIds": ["urn:structural-codes:it:asset:formula:ntc2018:4.1.46"],
+      "resolutionStatus": "resolved"
+    },
+    {
+      "citation": "NTC 2018 § 7.4.6.1.1",
+      "unitId": "urn:structural-codes:it:unit:ntc2018:7.4.6.1.1",
+      "assetIds": [],
+      "resolutionStatus": "resolved"
+    },
+    {
+      "citation": "NTC 2018 § 7.4.4.2.1, formule [7.4.4]-[7.4.5]",
+      "unitId": "urn:structural-codes:it:unit:ntc2018:7.4.4.2.1",
+      "assetIds": [
+        "urn:structural-codes:it:asset:formula:ntc2018:7.4.4",
+        "urn:structural-codes:it:asset:formula:ntc2018:7.4.5",
+        "urn:structural-codes:it:asset:formula:ntc2018:7.4.5:mi-d"
+      ],
+      "resolutionStatus": "resolved"
+    },
+    {
+      "citation": "NTC 2018 § 7.4.6.1.2",
+      "unitId": "urn:structural-codes:it:unit:ntc2018:7.4.6.1.2",
+      "assetIds": [],
+      "resolutionStatus": "resolved"
+    },
+    {
+      "citation": "NTC 2018 § 7.4.6.2.1, formule [7.4.26]-[7.4.27]",
+      "unitId": "urn:structural-codes:it:unit:ntc2018:7.4.6.2.1",
+      "assetIds": [
+        "urn:structural-codes:it:asset:formula:ntc2018:7.4.26",
+        "urn:structural-codes:it:asset:formula:ntc2018:7.4.27"
+      ],
+      "resolutionStatus": "resolved"
+    },
+    {
+      "citation": "NTC 2018 § 7.4.6.2.2, formule [7.4.28]-[7.4.31]",
+      "unitId": "urn:structural-codes:it:unit:ntc2018:7.4.6.2.2",
+      "assetIds": [
+        "urn:structural-codes:it:asset:formula:ntc2018:7.4.28",
+        "urn:structural-codes:it:asset:formula:ntc2018:7.4.28:staffe-minime",
+        "urn:structural-codes:it:asset:formula:ntc2018:7.4.29",
+        "urn:structural-codes:it:asset:formula:ntc2018:7.4.30",
+        "urn:structural-codes:it:asset:formula:ntc2018:7.4.31a",
+        "urn:structural-codes:it:asset:formula:ntc2018:7.4.31b",
+        "urn:structural-codes:it:asset:formula:ntc2018:7.4.31c",
+        "urn:structural-codes:it:asset:formula:ntc2018:7.4.31d"
+      ],
+      "resolutionStatus": "resolved"
+    },
+    {
+      "citation": "NTC 2018 § 4.1.2.2.4.5, formula [4.1.14]",
+      "unitId": "urn:structural-codes:it:unit:ntc2018:4.1.2.2.4.5",
+      "assetIds": ["urn:structural-codes:it:asset:formula:ntc2018:4.1.14"],
+      "resolutionStatus": "resolved"
+    },
+    {
+      "citation": "NTC 2018 § 4.1.2.2.5.1, formula [4.1.15]",
+      "unitId": "urn:structural-codes:it:unit:ntc2018:4.1.2.2.5.1",
+      "assetIds": ["urn:structural-codes:it:asset:formula:ntc2018:4.1.15"],
+      "resolutionStatus": "resolved"
+    },
+    {
+      "citation": "NTC 2018 § 4.1.2.2.5.1, formula [4.1.16]",
+      "unitId": "urn:structural-codes:it:unit:ntc2018:4.1.2.2.5.1",
+      "assetIds": ["urn:structural-codes:it:asset:formula:ntc2018:4.1.16"],
+      "resolutionStatus": "resolved"
+    },
+    {
+      "citation": "NTC 2018 § 4.1.2.2.5.2, formula [4.1.17]",
+      "unitId": "urn:structural-codes:it:unit:ntc2018:4.1.2.2.5.2",
+      "assetIds": ["urn:structural-codes:it:asset:formula:ntc2018:4.1.17"],
+      "resolutionStatus": "resolved"
+    },
+    {
+      "citation": "Circolare 21 gennaio 2019, n. 7 C.S.LL.PP., § C4.1.2.2.5, coefficiente di omogeneizzazione n = 15",
+      "unitId": "urn:structural-codes:it:unit:circ2019:c4.1.2.2.5",
+      "assetIds": [],
+      "resolutionStatus": "resolved"
+    },
+    {
+      "citation": "Circolare 2019 § C4.1.2.2.4.5, tabella C4.1.II",
+      "unitId": "urn:structural-codes:it:unit:circ2019:c4.1.2.2.4.5",
+      "assetIds": ["urn:structural-codes:it:asset:table:circ2019:c4.1.ii"],
+      "resolutionStatus": "resolved"
+    },
+    {
+      "citation": "Circolare 2019 § C4.1.2.2.4.5, tabella C4.1.III",
+      "unitId": "urn:structural-codes:it:unit:circ2019:c4.1.2.2.4.5",
+      "assetIds": ["urn:structural-codes:it:asset:table:circ2019:c4.1.iii"],
+      "resolutionStatus": "resolved"
+    },
+    {
+      "citation": "NTC 2018 § 4.1.2.2.2",
+      "unitId": "urn:structural-codes:it:unit:ntc2018:4.1.2.2.2",
+      "assetIds": [],
+      "resolutionStatus": "resolved"
+    },
+    {
+      "citation": "Circolare 2019 § C4.1.2.2.2, tabella C4.1.I",
+      "unitId": "urn:structural-codes:it:unit:circ2019:c4.1.2.2.2",
+      "assetIds": ["urn:structural-codes:it:asset:table:circ2019:c4.1.i"],
+      "resolutionStatus": "resolved"
+    },
+    {
+      "citation": "NTC 2018 § 4.1.2.3.5.4",
+      "unitId": "urn:structural-codes:it:unit:ntc2018:4.1.2.3.5.4",
+      "assetIds": [],
+      "resolutionStatus": "resolved"
+    },
+    {
+      "citation": "NTC 2018 § 7.4.1",
+      "unitId": "urn:structural-codes:it:unit:ntc2018:7.4.1",
+      "assetIds": [],
+      "resolutionStatus": "resolved"
+    },
+    {
+      "citation": "NTC 2018 § 7.4.4.5.1, formule [7.4.13]-[7.4.22]",
+      "unitId": "urn:structural-codes:it:unit:ntc2018:7.4.4.5.1",
+      "assetIds": [
+        "urn:structural-codes:it:asset:formula:ntc2018:7.4.13",
+        "urn:structural-codes:it:asset:formula:ntc2018:7.4.14",
+        "urn:structural-codes:it:asset:formula:ntc2018:7.4.15",
+        "urn:structural-codes:it:asset:formula:ntc2018:7.4.16",
+        "urn:structural-codes:it:asset:formula:ntc2018:7.4.17",
+        "urn:structural-codes:it:asset:formula:ntc2018:7.4.18",
+        "urn:structural-codes:it:asset:formula:ntc2018:7.4.19",
+        "urn:structural-codes:it:asset:formula:ntc2018:7.4.20",
+        "urn:structural-codes:it:asset:formula:ntc2018:7.4.21",
+        "urn:structural-codes:it:asset:formula:ntc2018:7.4.22"
+      ],
+      "resolutionStatus": "resolved"
+    },
+    {
+      "citation": "NTC 2018 § 7.4.4.5.2",
+      "unitId": "urn:structural-codes:it:unit:ntc2018:7.4.4.5.2",
+      "assetIds": [],
+      "resolutionStatus": "resolved"
+    },
+    {
+      "citation": "NTC 2018 § 7.4.4.6, formule [7.4.23]-[7.4.24]",
+      "unitId": "urn:structural-codes:it:unit:ntc2018:7.4.4.6",
+      "assetIds": [
+        "urn:structural-codes:it:asset:formula:ntc2018:7.4.23",
+        "urn:structural-codes:it:asset:formula:ntc2018:7.4.24"
+      ],
+      "resolutionStatus": "resolved"
+    },
+    {
+      "citation": "NTC 2018 § 7.4.6.1.4",
+      "unitId": "urn:structural-codes:it:unit:ntc2018:7.4.6.1.4",
+      "assetIds": [],
+      "resolutionStatus": "resolved"
+    },
+    {
+      "citation": "NTC 2018 § 7.4.6.2.4",
+      "unitId": "urn:structural-codes:it:unit:ntc2018:7.4.6.2.4",
+      "assetIds": [],
+      "resolutionStatus": "resolved"
+    }
+  ],
+  "outsideCorpusReferences": [
+    {
+      "citation": "EN 1992-1-1:2004 §§ 8.4.2-8.4.4, espressioni (8.2)-(8.6)",
+      "unitId": null,
+      "assetIds": [],
+      "resolutionStatus": "outside-corpus"
+    },
+    {
+      "citation": "EN 1992-1-1:2004 § 6.7, espressione (6.63)",
+      "unitId": null,
+      "assetIds": [],
+      "resolutionStatus": "outside-corpus"
+    },
+    {
+      "citation": "EN 1992-1-1:2004 § 7.4.3(6), espressione (7.21)",
+      "unitId": null,
+      "assetIds": [],
+      "resolutionStatus": "outside-corpus"
+    },
+    {
+      "citation": "EN 1992-1-1:2004 § 7.4.3, espressioni (7.18)-(7.21)",
+      "unitId": null,
+      "assetIds": [],
+      "resolutionStatus": "outside-corpus"
+    },
+    {
+      "citation": "E. Cosenza, G. Maddaloni, G. Cuomo, A simplified method for shear capacity assessment of circular RC cross-sections, equations (3) and (5)",
+      "unitId": null,
+      "assetIds": [],
+      "resolutionStatus": "outside-corpus"
+    },
+    {
+      "citation": "NTC 2018, capitolo 11",
+      "unitId": null,
+      "assetIds": [],
+      "resolutionStatus": "outside-corpus"
+    },
+    {
+      "citation": "NTC 2018 § 6.4",
+      "unitId": null,
+      "assetIds": [],
+      "resolutionStatus": "outside-corpus"
+    },
+    {
+      "citation": "EN 1992-1-1:2004+A1:2014 §§ 6.4.2-6.4.5 e § 9.4.3",
+      "unitId": null,
+      "assetIds": [],
+      "resolutionStatus": "outside-corpus"
+    },
+    {
+      "citation": "EN 1992-1-1:2023 §§ 8.4 e 12.5.1",
+      "unitId": null,
+      "assetIds": [],
+      "resolutionStatus": "outside-corpus"
+    },
+    {
+      "citation": "USACE EM 1110-2-2906 (1991), paragraphs 4-3a(1)-(4), equations for axial pile capacity",
+      "unitId": null,
+      "assetIds": [],
+      "resolutionStatus": "outside-corpus"
+    }
+  ],
+  "note": "Slices 0001, 0002, and 0007 contain no normative formula. Slice 0003 preserves the two resolved NTC design-strength references used by its factories and explicitly classifies the chapter 11 material-property source as outside-corpus. Slice 0004 adds the resolved NTC flexure-and-axial-force reference used by the ULS uniaxial resistance workflow. Slices 0005 and 0006 reuse that same canonical reference for the ULS uniaxial and biaxial interaction-domain workflows. Slice 0008 adds the resolved Circolare 2019 record for the default service modular ratio n = 15. Slice 0009 adds the canonical NTC 2018 conventional first-yield curvature asset used by the moment-curvature ductility output. Slice 0010 adds both NTC 2018 shear units and explicitly records the empirical circular-section research formulation as outside the pinned normative corpus. Slice 0011 adds the resolved NTC 2018 torsion unit. Slice 0012 adds the NTC 2018 beam and column detailing, geometry, bond, and anchorage units, while retaining the inherited EN 1992 calculation helpers as outside-corpus. Slice 0013 adds the NTC 2018 column slenderness, nominal-stiffness, and capacity-design references. Slice 0014 adds the NTC service-stress, crack-width, and Circolare indirect crack-control table references used by the local beam member verifier. Slice 0015 adds the resolved NTC deflection unit and Circolare flat-slab slenderness table, while keeping the inherited EN 1992 deflection reference outside-corpus. Slice 0016 adds the resolved NTC punching unit and preserves the inherited first- and second-generation EN 1992 punching references as outside-corpus. Slice 0017 adds the resolved NTC seismic-wall references. Slice 0018 reuses the resolved RC resistance references and explicitly classifies the NTC 2018 section 6.4 foundation-design source as outside-corpus. Slice 0019 classifies the inherited USACE axial-pile method as outside the pinned normative corpus and adds it to structured result metadata."
 }

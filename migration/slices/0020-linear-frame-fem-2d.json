@@ -1,0 +1,133 @@
+{
+  "schemaVersion": 1,
+  "sliceId": "0020-linear-frame-fem-2d",
+  "title": "Solver-neutral linear 2D frame finite-element kernel",
+  "migrationType": "mechanical-parity",
+  "implementationStatus": "implemented",
+  "dependencies": ["0001-foundation", "0007-domain-math-and-biaxial-demand-capacity"],
+  "source": {
+    "repository": "https://github.com/claudiopagani/strutture-js",
+    "revision": "6f33baead8b88166c4b2cf94af41763412e3c751"
+  },
+  "normativeCorpusRevision": "41da3faa489600173106935bbcf726119300e48d",
+  "sourceFiles": [
+    {
+      "path": "src/domain/geometry/Node.js",
+      "gitBlobSha1": "244043208aa9040a394994ba621ac8892f9d31c1",
+      "targetPath": "src/domain/geometry/Node.ts"
+    },
+    {
+      "path": "src/domain/supports/Support.js",
+      "gitBlobSha1": "66bd8dea912cbf996cb803bb8d2cdd9df3f37df6",
+      "targetPath": "src/domain/supports/Support.ts"
+    },
+    {
+      "path": "src/domain/loads/Load.js",
+      "gitBlobSha1": "bfb925967704de75dcad9a0ac305b6b7087263fb",
+      "targetPath": "src/domain/loads/Load.ts"
+    },
+    {
+      "path": "src/domain/loads/PointLoad.js",
+      "gitBlobSha1": "f79250599ad30238bf6389dd0127af02b4ec6c92",
+      "targetPath": "src/domain/loads/PointLoad.ts"
+    },
+    {
+      "path": "src/domain/loads/NodalLoad.js",
+      "gitBlobSha1": "633bd1553858165f5cd85e293385f571d1465a60",
+      "targetPath": "src/domain/loads/NodalLoad.ts"
+    },
+    {
+      "path": "src/domain/loads/LineLoad.js",
+      "gitBlobSha1": "f42e90b4b8653e1d9d21d087cf7543ac2900eb65",
+      "targetPath": "src/domain/loads/LineLoad.ts"
+    },
+    {
+      "path": "src/domain/loads/DistributedLoad.js",
+      "gitBlobSha1": "41e5b7fb1d787494b20b93e58541e375b42a5ba9",
+      "targetPath": "src/domain/loads/DistributedLoad.ts"
+    },
+    {
+      "path": "src/domain/fem/DofRegistry.js",
+      "gitBlobSha1": "acce6a06a141e418304837dbc8b5680e216415c6",
+      "targetPath": "src/domain/fem/DofRegistry.ts"
+    },
+    {
+      "path": "src/domain/fem/ElementLoadIndex.js",
+      "gitBlobSha1": "2763571f85044b8375aa3e14755e02ed2e138b58",
+      "targetPath": "src/domain/fem/ElementLoadIndex.ts"
+    },
+    {
+      "path": "src/domain/fem/FemAssembler2D.js",
+      "gitBlobSha1": "f461ef7dc2d817b8effb4ed75035355cfe3f95cc",
+      "targetPath": "src/domain/fem/FemAssembler2D.ts"
+    },
+    {
+      "path": "src/domain/fem/KinematicConstraintReducer2D.js",
+      "gitBlobSha1": "d76a4ca9ceed723d243bfb8c768acff52472bd6f",
+      "targetPath": "src/domain/fem/KinematicConstraintReducer2D.ts"
+    },
+    {
+      "path": "src/domain/fem/LinearStaticSolver2D.js",
+      "gitBlobSha1": "66fc1a9078bb968f78728b250347618d4cfd455b",
+      "targetPath": "src/domain/fem/LinearStaticSolver2D.ts"
+    },
+    {
+      "path": "src/domain/fem/elements/FrameElement2DEulerBernoulli.js",
+      "gitBlobSha1": "c78c4bd531835109725b901dd6dabf7418509e6c",
+      "targetPath": "src/domain/fem/elements/FrameElement2DEulerBernoulli.ts"
+    }
+  ],
+  "sourceOracles": [
+    {
+      "path": "tests/femCore2D.test.js",
+      "gitBlobSha1": "f6b11da64fb1b9bc7c1e00c775a9946cdfecc16e"
+    },
+    {
+      "path": "tests/femBeamValidation.test.js",
+      "gitBlobSha1": "2ad1057c764d646ec002f6c7703558003e8b98ca"
+    }
+  ],
+  "sourcePublicExport": {
+    "path": "src/index.js",
+    "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
+  },
+  "targetTests": ["tests/fem-frame-2d.test.ts"],
+  "publicExports": [
+    "DistributedLoad",
+    "DofRegistry",
+    "FemAssembler2D",
+    "FrameElement2DEulerBernoulli",
+    "KinematicConstraintReducer2D",
+    "LineLoad",
+    "LinearStaticSolver2D",
+    "Load",
+    "NodalLoad",
+    "Node",
+    "PointLoad",
+    "Support"
+  ],
+  "normativeReferences": {
+    "resolved": [],
+    "outsideCorpus": [],
+    "normativeConformityClaimed": false
+  },
+  "independentValidation": {
+    "method": "live numerical and serialized comparison with the pinned JavaScript source plus closed-form beam solutions",
+    "targetTests": ["tests/fem-frame-2d.test.ts"],
+    "parityFixtures": [
+      "node, support, and point-load DTO serialization",
+      "stable 2D frame DOF registration and element-load lookup by id",
+      "linear spring assembly, displacement partitioning, and reaction recovery",
+      "support springs and optional dense-solver diagnostics",
+      "equal-DOF condensation with scale and prescribed offset",
+      "conflicting prescribed-displacement rejection",
+      "cantilever under uniform distributed load",
+      "simply supported beam under a midspan point load",
+      "fixed-fixed beam under uniform distributed load"
+    ]
+  },
+  "parityDifferences": [
+    "No numerical, serialized DTO, error-behavior, or tested solver-result difference is known for this slice."
+  ],
+  "engineeringFunctionality": "Usable solver-neutral linear-elastic 2D Euler-Bernoulli frame analysis with three DOFs per node, nodal and uniform full-element loads, nodal springs, prescribed displacements, equal-DOF constraints, displacement and reaction recovery, and internal-force sampling. This is a low-level analysis kernel, not an RC verification feature. Timoshenko elements, rigid offsets, nonlinear response, beam preprocessing, load combinations, member envelopes, cracked-section stiffness iteration, and reinforced-concrete foundation-beam verification remain outside this slice."
+}

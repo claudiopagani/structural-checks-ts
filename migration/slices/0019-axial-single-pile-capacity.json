@@ -1,0 +1,121 @@
+{
+  "schemaVersion": 1,
+  "sliceId": "0019-axial-single-pile-capacity",
+  "title": "Axial single-pile geotechnical capacity",
+  "migrationType": "mechanical-parity-with-structured-traceability-extension",
+  "implementationStatus": "implemented",
+  "dependencies": ["0001-foundation"],
+  "source": {
+    "repository": "https://github.com/claudiopagani/strutture-js",
+    "revision": "6f33baead8b88166c4b2cf94af41763412e3c751"
+  },
+  "normativeCorpusRevision": "41da3faa489600173106935bbcf726119300e48d",
+  "sourceFiles": [
+    {
+      "path": "src/domain/geotechnics/SoilMaterial.js",
+      "gitBlobSha1": "5dfaafe73a7e65586de313e262cacf7e257535b9",
+      "targetPath": "src/domain/geotechnics/SoilMaterial.ts"
+    },
+    {
+      "path": "src/domain/geotechnics/GroundProfile.js",
+      "gitBlobSha1": "6a4f206074bcbda08fefed813bf77e30bf095f41",
+      "targetPath": "src/domain/geotechnics/GroundProfile.ts"
+    },
+    {
+      "path": "src/domain/geotechnics/GroundModel.js",
+      "gitBlobSha1": "c8fd1bab76291e8a8509cb59c6bd079a54c4db4a",
+      "targetPath": "src/domain/geotechnics/GroundModel.ts",
+      "coverage": "Migrates the one-dimensional GroundProfile path required by axial pile capacity. GroundSection2D and PorePressureField2D remain deferred."
+    },
+    {
+      "path": "src/domain/geotechnics/GeotechnicalDesignSituation.js",
+      "gitBlobSha1": "cdae4614bd40f318d57e6b0c3ebc7b1a96b15f00",
+      "targetPath": "src/domain/geotechnics/GeotechnicalDesignSituation.ts",
+      "coverage": "Migrates material- and layer-based parameter selection for GroundProfile analyses. Zone and deformation paths remain deferred."
+    },
+    {
+      "path": "src/domain/geotechnics/VerticalStressProfile.js",
+      "gitBlobSha1": "1333a2dee3bebcf232d7bc17aedf8aec19ad56c1",
+      "targetPath": "src/domain/geotechnics/VerticalStressProfile.ts"
+    },
+    {
+      "path": "src/domain/geotechnics/DeepFoundationModel.js",
+      "gitBlobSha1": "07f2d143e3c8895e8b2bfb34cb270797bfc9c684",
+      "targetPath": "src/domain/geotechnics/DeepFoundationModel.ts"
+    },
+    {
+      "path": "src/domain/geotechnics/AxialPileLoadScenario.js",
+      "gitBlobSha1": "e91abcba148d51425a5086bdaee14fdc57465501",
+      "targetPath": "src/domain/geotechnics/AxialPileLoadScenario.ts"
+    },
+    {
+      "path": "src/domain/geotechnics/AxialPileCapacityAnalysis.js",
+      "gitBlobSha1": "32ffe7a6388956f3fcf0b4acde303590139d9301",
+      "targetPath": "src/norms/geotechnics/AxialPileCapacityAnalysis.ts",
+      "coverage": "Places the inherited method-specific capacity equations in the norms layer while preserving their public root export."
+    },
+    {
+      "path": "src/applications/geotechnical-deep-foundations/GeotechnicalDeepFoundationApplication.js",
+      "gitBlobSha1": "768a4f7e8a345744e984a2ee48a0c3cb6c50881e",
+      "targetPath": "src/applications/geotechnical-deep-foundations/GeotechnicalDeepFoundationApplication.ts"
+    }
+  ],
+  "sourceOracles": [
+    {
+      "path": "tests/geotechnicalDeepFoundations.test.js",
+      "gitBlobSha1": "74ed3de9868e48cce4fdea00b3ed41481dd71813"
+    }
+  ],
+  "sourcePublicExport": {
+    "path": "src/index.js",
+    "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
+  },
+  "targetTests": ["tests/geotechnical-axial-pile.test.ts"],
+  "publicExports": [
+    "AXIAL_PILE_BASE_RESISTANCE_METHODS",
+    "AXIAL_PILE_CAPACITY_REFERENCE",
+    "AXIAL_PILE_CAPACITY_RESULT_SCHEMA_VERSION",
+    "AXIAL_PILE_EFFECTIVE_STRESS_COEFFICIENT_MODELS",
+    "AXIAL_PILE_LOAD_DIRECTIONS",
+    "AXIAL_PILE_LOAD_SCENARIO_SCHEMA_VERSION",
+    "AXIAL_PILE_RESISTANCE_CONVERSION_MODELS",
+    "AXIAL_PILE_SHAFT_RESISTANCE_METHODS",
+    "DEEP_FOUNDATION_DISPLACEMENT_CLASSES",
+    "DEEP_FOUNDATION_ELEMENT_TYPES",
+    "DEEP_FOUNDATION_GEOMETRY_MODELS",
+    "DEEP_FOUNDATION_MODEL_SCHEMA_VERSION",
+    "AxialPileCapacityAnalysis",
+    "AxialPileLoadScenario",
+    "DeepFoundationModel",
+    "GeotechnicalDeepFoundationApplication",
+    "GeotechnicalDesignSituation",
+    "GroundModel",
+    "GroundProfile",
+    "SoilMaterial",
+    "VerticalStressProfile"
+  ],
+  "normativeReferences": {
+    "resolved": [],
+    "outsideCorpus": [
+      "USACE EM 1110-2-2906 (1991), paragraphs 4-3a(1)-(4), equations for axial pile capacity"
+    ],
+    "normativeConformityClaimed": false
+  },
+  "independentValidation": {
+    "method": "live full-result and DTO comparison with the pinned JavaScript source",
+    "targetTests": ["tests/geotechnical-axial-pile.test.ts"],
+    "parityFixtures": [
+      "layered drained pile with hydrostatic groundwater",
+      "effective-stress shaft-resistance ceiling crossing",
+      "undrained compression with alpha shaft and Nc base resistance",
+      "undrained shaft-only tension",
+      "pile, scenario, ground, and design-situation DTO normalization",
+      "application serialization and structural-coupling status"
+    ]
+  },
+  "parityDifferences": [
+    "The TypeScript result adds metadata.normativeReferences with an explicit outside-corpus USACE record; removing that additive field yields exact full-result parity for every migrated fixture.",
+    "The public GroundModel and GeotechnicalDesignSituation exports are partial in this slice: their one-dimensional GroundProfile behavior is migrated, while two-dimensional zones, pore-pressure fields, and deformation-parameter resolution remain deferred."
+  ],
+  "engineeringFunctionality": "Usable method-neutral static ULS axial capacity for one vertical constant-section pile in a layered one-dimensional GroundProfile. It integrates alpha-undrained, beta effective-stress, or assigned shaft resistance and undrained-Nc, effective-stress-Nq, or assigned base resistance. Any design-resistance conversion must be explicitly supplied with provenance. Pile groups, pile-cap load sharing, axial transfer curves, settlement, negative skin friction, cyclic and seismic effects, lateral response, and structural section verification are not implemented by this slice."
+}

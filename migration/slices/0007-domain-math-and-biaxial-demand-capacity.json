@@ -1,0 +1,98 @@
+{
+  "schemaVersion": 1,
+  "sliceId": "0007-domain-math-and-biaxial-demand-capacity",
+  "title": "Public math boundary and radial biaxial demand-capacity classification",
+  "migrationType": "mechanical-parity",
+  "implementationStatus": "implemented",
+  "dependencies": ["0001-foundation", "0006-ntc2018-uls-biaxial-domain"],
+  "source": {
+    "repository": "https://github.com/claudiopagani/strutture-js",
+    "revision": "6f33baead8b88166c4b2cf94af41763412e3c751"
+  },
+  "normativeCorpusRevision": "41da3faa489600173106935bbcf726119300e48d",
+  "sourceFiles": [
+    {
+      "path": "src/domain/math/arrayLinearAlgebra.js",
+      "gitBlobSha1": "8c120997103dfa4e84fc0ca220208c4e52b58580",
+      "targetPath": "src/domain/math/arrayLinearAlgebra.ts"
+    },
+    {
+      "path": "src/domain/math/rayPolygonCapacity.js",
+      "gitBlobSha1": "25710e2d40c13d06983219126a684134fe09a4c9",
+      "targetPath": "src/domain/math/rayPolygonCapacity.ts"
+    },
+    {
+      "path": "src/domain/math/DenseLinearSolver.js",
+      "gitBlobSha1": "46b6461d6a63255abbfcf7a92b22309ad0a47cac",
+      "targetPath": "src/domain/math/DenseLinearSolver.ts"
+    },
+    {
+      "path": "src/domain/math/BandedLinearSolver.js",
+      "gitBlobSha1": "c9fe97de43c93afbc947e6e3145d0aadca6de261",
+      "targetPath": "src/domain/math/BandedLinearSolver.ts"
+    },
+    {
+      "path": "src/domain/math/index.js",
+      "gitBlobSha1": "5657a5145a3569b30385d7a4bd12f212194f22d3",
+      "targetPath": "src/domain/math/index.ts"
+    }
+  ],
+  "sourceOracles": [
+    {
+      "path": "tests/denseLinearSolver.test.js",
+      "gitBlobSha1": "76e913b65d368e7d3da6010f137990d163bee29c"
+    },
+    {
+      "path": "tests/rayPolygonCapacity.test.js",
+      "gitBlobSha1": "6608c0d46576d32c73589ba53e33de3fd85892e1"
+    },
+    {
+      "path": "tests/packageExports.test.js",
+      "gitBlobSha1": "8dde24b4c97dd3dae7100207d07d9d96c52b9c74"
+    }
+  ],
+  "sourcePublicExport": {
+    "path": "src/index.js",
+    "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
+  },
+  "targetTests": [
+    "tests/domain-math.test.ts",
+    "tests/concrete-biaxial-domain.test.ts",
+    "tests/baseline-parity.test.ts"
+  ],
+  "publicExports": ["BandedLinearSolver", "DenseLinearSolver"],
+  "publicSubpathExports": {
+    "./domain/math": [
+      "BandedCholeskyFactorization",
+      "BandedLinearSolver",
+      "DenseLinearSolver",
+      "clamp",
+      "createZeroMatrix",
+      "createZeroVector",
+      "detectMatrixSemiBandwidth",
+      "rayPolygonCapacity",
+      "roundTo",
+      "solveLinearSystem3x3"
+    ]
+  },
+  "normativeReferences": {
+    "resolved": [],
+    "outsideCorpus": [],
+    "normativeConformityClaimed": false
+  },
+  "independentValidation": {
+    "method": "analytic radial intersection with a closed rectangular polygon",
+    "targetTest": "tests/domain-math.test.ts",
+    "fixture": "rectangle x = +/-100 and y = +/-50 with demand (60, 40)",
+    "expectedIntersection": {
+      "x": 75,
+      "y": 50
+    },
+    "expectedUtilizationRatio": 0.8
+  },
+  "parityDifferences": [
+    "The complete public domain/math runtime surface has no known parity differences.",
+    "The radial capacity rule is usable directly with a sampled biaxial domain, but integration into concrete beam, column, wall, and generic member verification remains for later slices."
+  ],
+  "engineeringFunctionality": "Usable radial demand-capacity calculation for a closed sampled two-dimensional resistance domain. A demand is inside or on the radial boundary when utilizationRatio is less than or equal to one. This is a geometric capacity operation, not a normative conformity claim or a complete member verifier."
+}

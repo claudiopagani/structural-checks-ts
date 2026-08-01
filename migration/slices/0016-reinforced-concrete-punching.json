@@ -1,0 +1,157 @@
+{
+  "schemaVersion": 1,
+  "sliceId": "0016-reinforced-concrete-punching",
+  "title": "Reinforced-concrete slab punching verification",
+  "migrationType": "mechanical-parity-with-traceability-preservation",
+  "implementationStatus": "implemented",
+  "dependencies": ["0001-foundation", "0003-concrete-materials", "0015-reinforced-concrete-plates"],
+  "source": {
+    "repository": "https://github.com/claudiopagani/strutture-js",
+    "revision": "6f33baead8b88166c4b2cf94af41763412e3c751"
+  },
+  "normativeCorpusRevision": "41da3faa489600173106935bbcf726119300e48d",
+  "sourceFiles": [
+    {
+      "path": "src/domain/slabs/punching/PunchingActionState.js",
+      "gitBlobSha1": "999ef5889a06509a7714e5e8c4c32bbd149b9f25",
+      "targetPath": "src/domain/slabs/punching/PunchingActionState.ts"
+    },
+    {
+      "path": "src/domain/slabs/punching/PunchingConnectionModel.js",
+      "gitBlobSha1": "fc26bb9fb43d929339b4144608379d79546142fb",
+      "targetPath": "src/domain/slabs/punching/PunchingConnectionModel.ts"
+    },
+    {
+      "path": "src/domain/slabs/punching/PunchingControlPerimeter.js",
+      "gitBlobSha1": "a9692c9ca9ef456dc4cd5cfebf4f82cd13d46b65",
+      "targetPath": "src/domain/slabs/punching/PunchingControlPerimeter.ts"
+    },
+    {
+      "path": "src/domain/slabs/punching/resolvePunchingTransferFromJointActions.js",
+      "gitBlobSha1": "5ab1f6b258487329f1010519182b947cd945f41f",
+      "targetPath": "src/domain/slabs/punching/resolvePunchingTransferFromJointActions.ts"
+    },
+    {
+      "path": "src/domain/slabs/punching/index.js",
+      "gitBlobSha1": "f4acb35701bb4b80533fbef49f7b5ad86382f0dd",
+      "targetPath": "src/domain/slabs/punching/index.ts"
+    },
+    {
+      "path": "src/norms/en1992/punching/en1992Punching2004.js",
+      "gitBlobSha1": "9d350239721a5518efbfb6249099810888011d6d",
+      "targetPath": "src/norms/en1992/punching/en1992Punching2004.ts"
+    },
+    {
+      "path": "src/norms/en1992/punching/en1992Punching2023.js",
+      "gitBlobSha1": "18bdb7bb609dfc3ec70c8dda8974eb4ecbc68ccb",
+      "targetPath": "src/norms/en1992/punching/en1992Punching2023.ts"
+    },
+    {
+      "path": "src/norms/en1992/punching/en1992PunchingConcentration.js",
+      "gitBlobSha1": "8fa0ec75a2f2ad971cf9a4b9457473880fac8d0f",
+      "targetPath": "src/norms/en1992/punching/en1992PunchingConcentration.ts"
+    },
+    {
+      "path": "src/norms/en1992/punching/geometry/generateEn1992PunchingPerimeters.js",
+      "gitBlobSha1": "c944ecff452df837d28b81db6fe64089f99a6fb2",
+      "targetPath": "src/norms/en1992/punching/geometry/generateEn1992PunchingPerimeters.ts"
+    },
+    {
+      "path": "src/norms/en1992/punching/index.js",
+      "gitBlobSha1": "0196975acc9bd2bb27e82f0824896026669e71bb",
+      "targetPath": "src/norms/en1992/punching/index.ts"
+    },
+    {
+      "path": "src/applications/reinforced-concrete-punching/PunchingVerification.js",
+      "gitBlobSha1": "2d0c56353c67eec6d29ee03f735dced706d2f4dc",
+      "targetPath": "src/applications/reinforced-concrete-punching/PunchingVerification.ts"
+    },
+    {
+      "path": "src/applications/reinforced-concrete-punching/PunchingVerificationRequest.js",
+      "gitBlobSha1": "d0c115022daa6fd26c6c895a177fa1ffbe746aff",
+      "targetPath": "src/applications/reinforced-concrete-punching/PunchingVerificationRequest.ts"
+    },
+    {
+      "path": "src/applications/reinforced-concrete-punching/punchingDesignCodes.js",
+      "gitBlobSha1": "8586fad0ed2473a4cb5e9ac60bbbda4c528e83ce",
+      "targetPath": "src/applications/reinforced-concrete-punching/punchingDesignCodes.ts"
+    },
+    {
+      "path": "src/applications/reinforced-concrete-punching/ReinforcedConcretePunchingApplication.js",
+      "gitBlobSha1": "a6a14d15509bc5ce4b141fd12015179d06c2f383",
+      "targetPath": "src/applications/reinforced-concrete-punching/ReinforcedConcretePunchingApplication.ts"
+    },
+    {
+      "path": "src/applications/reinforced-concrete-punching/index.js",
+      "gitBlobSha1": "ef5b391e14fef944035728282f1c841654cbc923",
+      "targetPath": "src/applications/reinforced-concrete-punching/index.ts"
+    },
+    {
+      "path": "src/norms/en1992/normativeReferences.js",
+      "gitBlobSha1": "991a183cdc30a567472ad6ff66736f0cd2eb1a0f",
+      "targetPath": "src/norms/en1992/normativeReferences.ts",
+      "coverage": "Preserves the inherited first- and second-generation EN 1992 punching references as outside-corpus."
+    },
+    {
+      "path": "src/norms/ntc2018/normativeReferences.js",
+      "gitBlobSha1": "23ab4d1fbe10f0f363ba6b56b300ea013d856ccf",
+      "targetPath": "src/norms/ntc2018/normativeReferences.ts",
+      "coverage": "Adds the resolved NTC 2018 punching unit used by every application result and check."
+    }
+  ],
+  "sourceOracles": [
+    {
+      "path": "tests/punchingVerification.test.js",
+      "gitBlobSha1": "0dcde846de4153a37d0cf14bb7024e023be7b758"
+    },
+    {
+      "path": "tests/punchingConnectionContract.test.js",
+      "gitBlobSha1": "84095bc0706408f6909c699e4b651c2d23b1fa34"
+    }
+  ],
+  "sourcePublicExport": {
+    "path": "src/index.js",
+    "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
+  },
+  "targetTests": ["tests/concrete-punching.test.ts"],
+  "publicExports": [
+    "PUNCHING_ACTION_SCHEMA_VERSION",
+    "PUNCHING_CONNECTION_SCHEMA_VERSION",
+    "PUNCHING_CONTROL_PERIMETER_SCHEMA_VERSION",
+    "PUNCHING_VERIFICATION_REQUEST_SCHEMA_VERSION",
+    "PunchingActionState",
+    "PunchingConnectionModel",
+    "PunchingControlPerimeter",
+    "PunchingVerification",
+    "PunchingVerificationRequest",
+    "RC_PUNCHING_DESIGN_CODE_IDS",
+    "RC_PUNCHING_DESIGN_CODE_ID_VALUES",
+    "RC_PUNCHING_PARAMETER_PROFILES",
+    "ReinforcedConcretePunchingApplication",
+    "getRcPunchingDesignCodeManifest",
+    "resolvePunchingTransferFromJointActions",
+    "verifyPunching"
+  ],
+  "normativeReferences": {
+    "resolved": ["urn:structural-codes:it:unit:ntc2018:4.1.2.3.5.4"],
+    "outsideCorpus": [
+      "EN 1992-1-1:2004+A1:2014 §§ 6.4.2-6.4.5 e § 9.4.3",
+      "EN 1992-1-1:2023 §§ 8.4 e 12.5.1"
+    ],
+    "normativeConformityClaimed": false
+  },
+  "independentValidation": {
+    "method": "published worked-example values, DTO normalization invariants, and live full-result comparison with the pinned JavaScript source",
+    "targetTests": ["tests/concrete-punching.test.ts"],
+    "parityFixtures": [
+      "EC2 2004 unreinforced interior column",
+      "EC2 2004 interior column with vertical punching reinforcement",
+      "EC2 2023 unreinforced interior column",
+      "EC2 2023 interior column with vertical studs"
+    ]
+  },
+  "parityDifferences": [
+    "No numerical or serialized result difference is known for the four tested punching workflows."
+  ],
+  "engineeringFunctionality": "Usable local punching verification for constant-thickness reinforced-concrete slabs at interior, edge, and corner columns within the declared geometry scope. It supports first- and second-generation EN 1992 kernels, generated or explicit segment-based perimeters, automatic or assigned concentration factors, explicit punching-force reductions, and vertical studs or links with layout checks. Openings, beams, capitals, drops, wall ends, varying thickness, prestress, membrane compression, and proprietary reinforcement-system enhancements remain outside the implemented scope."
+}

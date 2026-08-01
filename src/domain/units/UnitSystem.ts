@@ -29,24 +29,32 @@ export interface UnitExponents {
   lengthExponent?: number;
 }
 
+export interface UnitConversion {
+  (value: number): number;
+  (value: null): null;
+  (value: undefined): undefined;
+  (value: number | null): number | null;
+  (value: number | null | undefined): number | null | undefined;
+}
+
 export interface UnitResolver {
   unitSystem: UnitSystem;
   sourceUnitSystem: UnitSystem | null;
   targetUnitSystem: UnitSystem;
   convert: (value: number, exponents?: UnitExponents) => number;
-  length: (value: number) => number;
-  area: (value: number) => number;
-  volume: (value: number) => number;
-  force: (value: number) => number;
-  moment: (value: number) => number;
-  lineLoad: (value: number) => number;
-  areaLoad: (value: number) => number;
-  volumeLoad: (value: number) => number;
-  stress: (value: number) => number;
-  translationalStiffness: (value: number) => number;
-  rotationalStiffness: (value: number) => number;
-  inertia: (value: number) => number;
-  sectionModulus: (value: number) => number;
+  length: UnitConversion;
+  area: UnitConversion;
+  volume: UnitConversion;
+  force: UnitConversion;
+  moment: UnitConversion;
+  lineLoad: UnitConversion;
+  areaLoad: UnitConversion;
+  volumeLoad: UnitConversion;
+  stress: UnitConversion;
+  translationalStiffness: UnitConversion;
+  rotationalStiffness: UnitConversion;
+  inertia: UnitConversion;
+  sectionModulus: UnitConversion;
 }
 
 const DEFAULT_TARGET_UNIT_SYSTEM = Object.freeze({
@@ -115,24 +123,29 @@ export function createUnitResolver(
   const target = normalizeUnitSystem(targetUnits, DEFAULT_TARGET_UNIT_SYSTEM);
 
   if (source == null) {
+    const identity =
+      (): UnitConversion =>
+      <TValue extends number | null | undefined>(value: TValue): TValue =>
+        value;
+
     return {
       unitSystem: target,
       sourceUnitSystem: null,
       targetUnitSystem: target,
       convert: (value) => value,
-      length: (value) => value,
-      area: (value) => value,
-      volume: (value) => value,
-      force: (value) => value,
-      moment: (value) => value,
-      lineLoad: (value) => value,
-      areaLoad: (value) => value,
-      volumeLoad: (value) => value,
-      stress: (value) => value,
-      translationalStiffness: (value) => value,
-      rotationalStiffness: (value) => value,
-      inertia: (value) => value,
-      sectionModulus: (value) => value,
+      length: identity(),
+      area: identity(),
+      volume: identity(),
+      force: identity(),
+      moment: identity(),
+      lineLoad: identity(),
+      areaLoad: identity(),
+      volumeLoad: identity(),
+      stress: identity(),
+      translationalStiffness: identity(),
+      rotationalStiffness: identity(),
+      inertia: identity(),
+      sectionModulus: identity(),
     };
   }
 
@@ -154,24 +167,28 @@ export function createUnitResolver(
     return value * (sourceFactor / targetFactor);
   };
 
+  const conversion = (exponents: UnitExponents): UnitConversion =>
+    ((value: number | null | undefined): number | null | undefined =>
+      value == null ? value : convert(value, exponents)) as UnitConversion;
+
   return {
     unitSystem: source,
     sourceUnitSystem: source,
     targetUnitSystem: target,
     convert,
-    length: (value) => convert(value, { lengthExponent: 1 }),
-    area: (value) => convert(value, { lengthExponent: 2 }),
-    volume: (value) => convert(value, { lengthExponent: 3 }),
-    force: (value) => convert(value, { forceExponent: 1 }),
-    moment: (value) => convert(value, { forceExponent: 1, lengthExponent: 1 }),
-    lineLoad: (value) => convert(value, { forceExponent: 1, lengthExponent: -1 }),
-    areaLoad: (value) => convert(value, { forceExponent: 1, lengthExponent: -2 }),
-    volumeLoad: (value) => convert(value, { forceExponent: 1, lengthExponent: -3 }),
-    stress: (value) => convert(value, { forceExponent: 1, lengthExponent: -2 }),
-    translationalStiffness: (value) => convert(value, { forceExponent: 1, lengthExponent: -1 }),
-    rotationalStiffness: (value) => convert(value, { forceExponent: 1, lengthExponent: 1 }),
-    inertia: (value) => convert(value, { lengthExponent: 4 }),
-    sectionModulus: (value) => convert(value, { lengthExponent: 3 }),
+    length: conversion({ lengthExponent: 1 }),
+    area: conversion({ lengthExponent: 2 }),
+    volume: conversion({ lengthExponent: 3 }),
+    force: conversion({ forceExponent: 1 }),
+    moment: conversion({ forceExponent: 1, lengthExponent: 1 }),
+    lineLoad: conversion({ forceExponent: 1, lengthExponent: -1 }),
+    areaLoad: conversion({ forceExponent: 1, lengthExponent: -2 }),
+    volumeLoad: conversion({ forceExponent: 1, lengthExponent: -3 }),
+    stress: conversion({ forceExponent: 1, lengthExponent: -2 }),
+    translationalStiffness: conversion({ forceExponent: 1, lengthExponent: -1 }),
+    rotationalStiffness: conversion({ forceExponent: 1, lengthExponent: 1 }),
+    inertia: conversion({ lengthExponent: 4 }),
+    sectionModulus: conversion({ lengthExponent: 3 }),
   };
 }
 

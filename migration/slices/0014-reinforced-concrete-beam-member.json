@@ -1,0 +1,113 @@
+{
+  "schemaVersion": 1,
+  "sliceId": "0014-reinforced-concrete-beam-member",
+  "title": "Reinforced-concrete local beam-member verification",
+  "migrationType": "mechanical-parity-with-explicit-deflection-exclusion",
+  "implementationStatus": "implemented",
+  "dependencies": [
+    "0001-foundation",
+    "0002-reinforced-concrete-sections",
+    "0003-concrete-materials",
+    "0004-ntc2018-uls-uniaxial-concrete-resistance",
+    "0006-ntc2018-uls-biaxial-domain",
+    "0007-domain-math-and-biaxial-demand-capacity",
+    "0008-reinforced-concrete-service-stress",
+    "0010-reinforced-concrete-shear",
+    "0011-reinforced-concrete-torsion",
+    "0012-reinforced-concrete-detailing"
+  ],
+  "source": {
+    "repository": "https://github.com/claudiopagani/strutture-js",
+    "revision": "6f33baead8b88166c4b2cf94af41763412e3c751"
+  },
+  "normativeCorpusRevision": "41da3faa489600173106935bbcf726119300e48d",
+  "sourceFiles": [
+    {
+      "path": "src/domain/beams/BeamSectionActionVerifier.js",
+      "gitBlobSha1": "88bf110f7bd4944e7cfb28d285885edcfe5d275e",
+      "targetPath": "src/domain/beams/BeamSectionActionVerifier.ts"
+    },
+    {
+      "path": "src/applications/reinforced-concrete-sections/checks/ReinforcedConcreteServiceabilityVerification.js",
+      "gitBlobSha1": "6e855107e5e1d98808ac5bb6d4f1ed44f129fd6c",
+      "targetPath": "src/applications/reinforced-concrete-sections/checks/ReinforcedConcreteServiceabilityVerification.ts"
+    },
+    {
+      "path": "src/applications/reinforced-concrete-sections/checks/serviceability/crackControl.js",
+      "gitBlobSha1": "db480e8296550a4e9dac5b1f9efd5972a51a694d",
+      "targetPath": "src/applications/reinforced-concrete-sections/checks/serviceability/crackControl.ts"
+    },
+    {
+      "path": "src/applications/reinforced-concrete-sections/checks/serviceability/serviceabilityOptions.js",
+      "gitBlobSha1": "40fc35d2374de66de3f6be000755362fbfd1cf26",
+      "targetPath": "src/applications/reinforced-concrete-sections/checks/serviceability/serviceabilityOptions.ts"
+    },
+    {
+      "path": "src/applications/reinforced-concrete-sections/checks/ReinforcedConcreteBeamVerification.js",
+      "gitBlobSha1": "f132e9d4b7faf05651cfc4d808ec858d80616423",
+      "targetPath": "src/applications/reinforced-concrete-sections/checks/ReinforcedConcreteBeamVerification.ts",
+      "coverage": "Migrates the local ULS, SLE stress and crack-control, shear, torsion, detailing, station aggregation, warning, assumption, and metadata paths. The separately scoped cracked-deflection application remains explicitly not implemented."
+    },
+    {
+      "path": "src/norms/ntc2018/normativeReferences.js",
+      "gitBlobSha1": "23ab4d1fbe10f0f363ba6b56b300ea013d856ccf",
+      "targetPath": "src/norms/ntc2018/normativeReferences.ts",
+      "coverage": "Preserves the NTC service stress and crack-control references and the Circolare indirect-control tables."
+    }
+  ],
+  "sourceOracles": [
+    {
+      "path": "tests/reinforcedConcreteBeamSectionProvider.test.js",
+      "gitBlobSha1": "dc08e3931b5fb7e9bc22dc5a55f1b8a494b31bf1"
+    },
+    {
+      "path": "tests/reinforcedConcreteServiceabilityVerification.test.js",
+      "gitBlobSha1": "7e779eeaa7f0b6523235c1fdc2fa2c5b3421ec0d"
+    },
+    {
+      "path": "tests/singleBeamAnalysis.test.js",
+      "gitBlobSha1": "51953d4223895ce3268eaf2a6089729546752fdc"
+    }
+  ],
+  "sourcePublicExport": {
+    "path": "src/index.js",
+    "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
+  },
+  "targetTests": ["tests/concrete-beam-member.test.ts", "tests/baseline-parity.test.ts"],
+  "publicExports": [
+    "BeamSectionActionVerifier",
+    "verifyBeamSectionActions",
+    "ReinforcedConcreteServiceabilityVerification",
+    "ReinforcedConcreteBeamVerification"
+  ],
+  "normativeReferences": {
+    "resolved": [
+      "urn:structural-codes:it:unit:ntc2018:4.1.2.2.4.5",
+      "urn:structural-codes:it:unit:ntc2018:4.1.2.2.5.1",
+      "urn:structural-codes:it:unit:ntc2018:4.1.2.2.5.2",
+      "urn:structural-codes:it:unit:circ2019:c4.1.2.2.4.5",
+      "urn:structural-codes:it:unit:ntc2018:4.1.2.3.4.2",
+      "urn:structural-codes:it:unit:ntc2018:4.1.2.3.5.2",
+      "urn:structural-codes:it:unit:ntc2018:4.1.2.3.6",
+      "urn:structural-codes:it:unit:ntc2018:7.4.6.2.1"
+    ],
+    "outsideCorpus": [],
+    "normativeConformityClaimed": false
+  },
+  "independentValidation": {
+    "method": "composed member result is validated through independently tested section-domain containment, service equilibrium, shear, torsion, and detailing kernels",
+    "targetTests": [
+      "tests/concrete-biaxial-domain.test.ts",
+      "tests/concrete-service-stress.test.ts",
+      "tests/concrete-shear.test.ts",
+      "tests/concrete-torsion.test.ts",
+      "tests/concrete-beam-detailing.test.ts"
+    ],
+    "compositionFixture": "tests/concrete-beam-member.test.ts"
+  },
+  "parityDifferences": [
+    "The local member path has no known parity differences when serviceability.deflection is false.",
+    "The source default cracked-section deflection application is not included in this slice. If requested, the TypeScript beam verifier returns an explicit not-implemented result instead of silently omitting it."
+  ],
+  "engineeringFunctionality": "Usable local beam-member verification for solver-neutral sampled actions, including uniaxial or biaxial flexure, service stresses, indirect crack control, optional shear, optional torsion interaction, optional detailing, and explicit station selection. Cracked-section deflection and global structural analysis remain outside this slice."
+}

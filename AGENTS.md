@@ -16,18 +16,27 @@ Use English for all repository-authored content, including:
 - test names and descriptions;
 - commit messages and pull-request titles and descriptions produced by agents.
 
-The only exceptions are:
+English is the default, not a reason to damage normative traceability or mechanical migration
+parity. Italian or another source language may be preserved when it is materially clearer or safer
+for maintenance, provided the content is directly tied to an identifiable source or compatibility
+contract. This includes:
 
 - official normative titles;
 - verbatim legal or technical excerpts;
 - canonical identifiers and source filenames;
 - terms that must remain in their original language for traceability.
+- public strings mechanically migrated from `strutture-js` when translation would change serialized
+  behavior;
+- NTC- and Circolare-linked terminology, catalog labels, material names, and descriptions where the
+  original Italian keeps the source relationship clearer.
 
-Keep every exception narrow and visibly identifiable as a quotation, identifier, filename, or
-traceability term. Do not use an exception to change the general language of a document.
+Keep these exceptions attributable through nearby metadata, provenance, tests, or an obvious
+normative context. Prefer English for new identifiers, comments, test descriptions, warnings, and
+general documentation, but do not translate stable Italian compatibility data merely to satisfy
+style consistency.
 
-User-facing conversation may follow the user's language. Committed repository content must still
-follow this policy. Never translate, normalize, or otherwise alter a canonical normative identifier.
+User-facing conversation may follow the user's language. Never translate, normalize, or otherwise
+alter a canonical normative identifier.
 
 ## Migration authority
 

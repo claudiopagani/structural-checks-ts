@@ -1,5 +1,5 @@
 import { execFile } from "node:child_process";
-import { access, readFile } from "node:fs/promises";
+import { access, readdir, readFile } from "node:fs/promises";
 import path from "node:path";
 import { promisify } from "node:util";
 
@@ -14,6 +14,7 @@ interface SourceFileRecord {
 }
 
 interface SliceManifest {
+  sliceId: string;
   source: {
     revision: string;
   };
@@ -64,16 +65,30 @@ const sourcePath = parseSourcePath(process.argv.slice(2));
 const baseline = JSON.parse(
   await readFile(path.join(repositoryRoot, "migration", "baseline.json"), "utf8"),
 ) as BaselineManifest;
-const slice = JSON.parse(
-  await readFile(path.join(repositoryRoot, "migration", "slices", "0001-foundation.json"), "utf8"),
-) as SliceManifest;
+const slicesDirectory = path.join(repositoryRoot, "migration", "slices");
+const sliceFiles = (await readdir(slicesDirectory))
+  .filter((fileName) => fileName.endsWith(".json"))
+  .sort();
+const slices = await Promise.all(
+  sliceFiles.map(
+    async (fileName) =>
+      JSON.parse(await readFile(path.join(slicesDirectory, fileName), "utf8")) as SliceManifest,
+  ),
+);
 const errors: string[] = [];
 
 const revision = await git(sourcePath, ["rev-parse", "HEAD"]);
-if (revision !== baseline.source.revision || revision !== slice.source.revision) {
+if (revision !== baseline.source.revision) {
   errors.push(
     `Source revision ${revision} differs from recorded revision ${baseline.source.revision}.`,
   );
+}
+for (const slice of slices) {
+  if (revision !== slice.source.revision) {
+    errors.push(
+      `Source revision ${revision} differs from ${slice.sliceId} revision ${slice.source.revision}.`,
+    );
+  }
 }
 
 const status = await git(sourcePath, ["status", "--porcelain"]);
@@ -96,18 +111,25 @@ for (const [field, expected] of [
   }
 }
 
-const records = [...slice.sourceFiles, ...slice.sourceOracles, slice.sourcePublicExport];
-for (const record of records) {
-  const blob = await git(sourcePath, ["rev-parse", `${slice.source.revision}:${record.path}`]);
-  if (blob !== record.gitBlobSha1) {
-    errors.push(`${record.path} has blob ${blob}, expected ${record.gitBlobSha1}.`);
-  }
+let recordCount = 0;
+for (const slice of slices) {
+  const records = [...slice.sourceFiles, ...slice.sourceOracles, slice.sourcePublicExport];
+  recordCount += records.length;
 
-  if (record.targetPath !== undefined) {
-    try {
-      await access(path.join(repositoryRoot, record.targetPath));
-    } catch {
-      errors.push(`Migrated target is missing: ${record.targetPath}.`);
+  for (const record of records) {
+    const blob = await git(sourcePath, ["rev-parse", `${slice.source.revision}:${record.path}`]);
+    if (blob !== record.gitBlobSha1) {
+      errors.push(
+        `${slice.sliceId}: ${record.path} has blob ${blob}, expected ${record.gitBlobSha1}.`,
+      );
+    }
+
+    if (record.targetPath !== undefined) {
+      try {
+        await access(path.join(repositoryRoot, record.targetPath));
+      } catch {
+        errors.push(`${slice.sliceId}: migrated target is missing: ${record.targetPath}.`);
+      }
     }
   }
 }
@@ -118,5 +140,7 @@ if (errors.length > 0) {
   }
   process.exitCode = 1;
 } else {
-  console.log(`Provenance check passed (${records.length} source artifacts at ${revision}).`);
+  console.log(
+    `Provenance check passed (${slices.length} slices, ${recordCount} source artifacts at ${revision}).`,
+  );
 }

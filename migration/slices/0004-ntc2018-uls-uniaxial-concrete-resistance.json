@@ -1,0 +1,179 @@
+{
+  "schemaVersion": 1,
+  "sliceId": "0004-ntc2018-uls-uniaxial-concrete-resistance",
+  "title": "NTC 2018 reinforced-concrete ULS uniaxial section resistance",
+  "migrationType": "mechanical-parity",
+  "implementationStatus": "implemented",
+  "dependencies": [
+    "0001-foundation",
+    "0002-reinforced-concrete-sections",
+    "0003-concrete-materials"
+  ],
+  "source": {
+    "repository": "https://github.com/claudiopagani/strutture-js",
+    "revision": "6f33baead8b88166c4b2cf94af41763412e3c751"
+  },
+  "normativeCorpusRevision": "41da3faa489600173106935bbcf726119300e48d",
+  "sourceFiles": [
+    {
+      "path": "src/core/applications/StructuralApplication.js",
+      "gitBlobSha1": "673e1f25c22eadc27e111853cc3a8c012f5fcad3",
+      "targetPath": "src/core/applications/StructuralApplication.ts"
+    },
+    {
+      "path": "src/domain/constitutive-laws/ConcreteParabolaRectangleLaw.js",
+      "gitBlobSha1": "a25f2cf285de12c041e788269edf9ac76e8657da",
+      "targetPath": "src/domain/constitutive-laws/ConcreteParabolaRectangleLaw.ts"
+    },
+    {
+      "path": "src/domain/constitutive-laws/ConcreteStressBlockLaw.js",
+      "gitBlobSha1": "81f54f53e48655caaea55efa2eab9712324034cb",
+      "targetPath": "src/domain/constitutive-laws/ConcreteStressBlockLaw.ts"
+    },
+    {
+      "path": "src/domain/constitutive-laws/ConcreteTriangularRectangleLaw.js",
+      "gitBlobSha1": "ecaa4566b860fc184121a7ea5cde7c8f64a6da09",
+      "targetPath": "src/domain/constitutive-laws/ConcreteTriangularRectangleLaw.ts"
+    },
+    {
+      "path": "src/domain/constitutive-laws/SteelElasticPerfectlyPlasticLaw.js",
+      "gitBlobSha1": "e7098c917da7f43e621cb51cf87a7704306bf443",
+      "targetPath": "src/domain/constitutive-laws/SteelElasticPerfectlyPlasticLaw.ts"
+    },
+    {
+      "path": "src/domain/constitutive-laws/SteelElasticPlasticHardeningLaw.js",
+      "gitBlobSha1": "4b040332135c9ac3739835fe91bbb9ce30c38bea",
+      "targetPath": "src/domain/constitutive-laws/SteelElasticPlasticHardeningLaw.ts"
+    },
+    {
+      "path": "src/domain/solvers/IllinoisRootSolver.js",
+      "gitBlobSha1": "102a07ccca7966adbc46a4e23b32d618f283d277",
+      "targetPath": "src/domain/solvers/IllinoisRootSolver.ts"
+    },
+    {
+      "path": "src/applications/reinforced-concrete-sections/models/ReinforcedConcreteSectionModel.js",
+      "gitBlobSha1": "7ef4ccf31cb5fade91c452939990805be4f93413",
+      "targetPath": "src/applications/reinforced-concrete-sections/models/ReinforcedConcreteSectionModel.ts"
+    },
+    {
+      "path": "src/applications/reinforced-concrete-sections/analysis/StrainField.js",
+      "gitBlobSha1": "5d88dc10953c68aaf4280e63e271abfd3804be5d",
+      "targetPath": "src/applications/reinforced-concrete-sections/analysis/StrainField.ts"
+    },
+    {
+      "path": "src/applications/reinforced-concrete-sections/analysis/SectionFiberDiscretizer.js",
+      "gitBlobSha1": "be0b6bda40f442b9833f500c3f3e16fc3b4deded",
+      "targetPath": "src/applications/reinforced-concrete-sections/analysis/SectionFiberDiscretizer.ts"
+    },
+    {
+      "path": "src/applications/reinforced-concrete-sections/analysis/RCSectionStrainExtremes.js",
+      "gitBlobSha1": "3f1f6cd3101bbfdba7541ba1e67c4902cd95eb18",
+      "targetPath": "src/applications/reinforced-concrete-sections/analysis/RCSectionStrainExtremes.ts"
+    },
+    {
+      "path": "src/applications/reinforced-concrete-sections/analysis/RCSectionStateIntegrator.js",
+      "gitBlobSha1": "1d097ae6ede1919dc1464d9f77fa3b23dcc1ffa3",
+      "targetPath": "src/applications/reinforced-concrete-sections/analysis/RCSectionStateIntegrator.ts",
+      "coverage": "Internal extraction limited to the state integration used by the ULS ultimate solver; the integrator is not exported by this slice."
+    },
+    {
+      "path": "src/applications/reinforced-concrete-sections/analysis/RCUltimateSectionSolver.js",
+      "gitBlobSha1": "bfc4064d9f6821c5e7fd3550d0fc530f499fb281",
+      "targetPath": "src/applications/reinforced-concrete-sections/analysis/RCUltimateSectionSolver.ts"
+    },
+    {
+      "path": "src/applications/reinforced-concrete-sections/shared/rcCommon.js",
+      "gitBlobSha1": "ca349af5da2ad6e974f1ae9e7c47e3d08aa3029e",
+      "targetPath": "src/applications/reinforced-concrete-sections/shared/rcCommon.ts",
+      "coverage": "Internal extraction limited to reference-point and result-formatting helpers required by this slice."
+    },
+    {
+      "path": "src/applications/reinforced-concrete-sections/shared/rcConstitutiveLaws.js",
+      "gitBlobSha1": "39a2bc8aaa37ef328a2e0cb236c7715b6c97243d",
+      "targetPath": "src/applications/reinforced-concrete-sections/shared/rcConstitutiveLaws.ts",
+      "coverage": "ULS concrete and reinforcing-steel law resolution only; service laws remain unmigrated."
+    },
+    {
+      "path": "src/applications/reinforced-concrete-sections/shared/RcSectionAnalysisContext.js",
+      "gitBlobSha1": "7f0558f0b1c16ca54c1ff6f4c86bbbad0b3d92f7",
+      "targetPath": "src/applications/reinforced-concrete-sections/shared/RcSectionAnalysisContext.ts",
+      "coverage": "ULS ultimate section context only."
+    },
+    {
+      "path": "src/applications/reinforced-concrete-sections/workflows/ulsUniaxialResistanceWorkflow.js",
+      "gitBlobSha1": "8a6c6592a44c08917aef4ef615ec273b9a4c6b86",
+      "targetPath": "src/applications/reinforced-concrete-sections/workflows/ulsUniaxialResistanceWorkflow.ts"
+    },
+    {
+      "path": "src/applications/reinforced-concrete-sections/checks/ReinforcedConcreteSectionVerification.js",
+      "gitBlobSha1": "37ad8803cd6630c12e69af9586f6d965e30befd8",
+      "targetPath": "src/applications/reinforced-concrete-sections/checks/ReinforcedConcreteSectionVerification.ts",
+      "coverage": "Only uls-uniaxial-resistance is dispatched; other source workflows remain explicitly not-implemented."
+    },
+    {
+      "path": "src/applications/reinforced-concrete-sections/ReinforcedConcreteSectionApplication.js",
+      "gitBlobSha1": "086a35c7d233527a2e32eb07be857f39b9947d6e",
+      "targetPath": "src/applications/reinforced-concrete-sections/ReinforcedConcreteSectionApplication.ts",
+      "coverage": "Application metadata declares the currently migrated NTC 2018 uniaxial scope."
+    },
+    {
+      "path": "src/norms/ntc2018/normativeReferences.js",
+      "gitBlobSha1": "23ab4d1fbe10f0f363ba6b56b300ea013d856ccf",
+      "targetPath": "src/norms/ntc2018/normativeReferences.ts",
+      "coverage": "Internal reference catalog extended with the flexure-and-axial-force record required by this slice."
+    }
+  ],
+  "sourceOracles": [
+    {
+      "path": "tests/reinforcedConcreteSectionApplication.test.js",
+      "gitBlobSha1": "7fd90534d22039aff783adfb33f008673cfaba14"
+    },
+    {
+      "path": "tests/rcConstitutiveLawsAndSolvers.test.js",
+      "gitBlobSha1": "1824f854238feaa90f1d035f376f145b12cb6464"
+    }
+  ],
+  "sourcePublicExport": {
+    "path": "src/index.js",
+    "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
+  },
+  "targetTests": [
+    "tests/concrete-section-resistance.test.ts",
+    "tests/concrete-resistance-baseline-parity.test.ts",
+    "tests/baseline-parity.test.ts"
+  ],
+  "publicExports": [
+    "ConcreteParabolaRectangleLaw",
+    "ConcreteStressBlockLaw",
+    "ConcreteTriangularRectangleLaw",
+    "IllinoisRootSolver",
+    "RCUltimateSectionSolver",
+    "ReinforcedConcreteSectionApplication",
+    "ReinforcedConcreteSectionModel",
+    "ReinforcedConcreteSectionVerification",
+    "SectionFiberDiscretizer",
+    "SteelElasticPerfectlyPlasticLaw",
+    "SteelElasticPlasticHardeningLaw",
+    "StrainField",
+    "StructuralApplication"
+  ],
+  "normativeReferences": {
+    "resolved": ["urn:structural-codes:it:unit:ntc2018:4.1.2.3.4.2"],
+    "outsideCorpus": [],
+    "normativeConformityClaimed": false
+  },
+  "independentValidation": {
+    "method": "continuous rectangular-section midpoint integration with an independent bisection equilibrium solve",
+    "targetTest": "tests/concrete-section-resistance.test.ts",
+    "fixture": "300 mm by 500 mm C25/30 section with four 20 mm B450C bars and NEd = -800000 N",
+    "referenceMomentNmm": 225901455.6072406,
+    "acceptedRelativeDifference": 0.001,
+    "observedRelativeDifference": 0.00032556165312834024
+  },
+  "parityDifferences": [
+    "For uls-uniaxial-resistance, the serialized verification result and numerical output have no known parity differences.",
+    "The TypeScript verifier returns not-implemented for uls-uniaxial-domain, uls-biaxial-domain, service-stress, and moment-curvature until those workflows are migrated.",
+    "The application manifest advertises only the currently implemented NTC 2018 uniaxial scope instead of the broader JavaScript application scope."
+  ],
+  "engineeringFunctionality": "Usable NTC 2018 ULS uniaxial reinforced-concrete section resistance at assigned axial force using strain compatibility, fiber integration, and Illinois axial-equilibrium iteration. It is not a biaxial, serviceability, shear, torsion, detailing, member, or conformity verifier."
+}
