@@ -1092,6 +1092,7 @@
         "SnowAction",
         "SoilMaterial",
         "SteelBeamSectionProvider",
+        "SteelCompoundProfileSection",
         "SteelElasticLaw",
         "SteelElasticPerfectlyPlasticLaw",
         "SteelElasticPlasticHardeningLaw",
@@ -1166,6 +1167,8 @@
         "createCouplingBeamAssessment",
         "createDiaphragmAssessment",
         "createDisplacementAssessment",
+        "createDoubleAngleOpposedSection",
+        "createDoubleUPNBackToBackSection",
         "createElasticBeamSectionProvider",
         "createFemCapabilitiesContract",
         "createFemEntityMappingContract",
@@ -1191,6 +1194,7 @@
         "createScaServiceDeflectionAnalysisResult",
         "createServiceDeflectionAnalysisResult",
         "createSteelBeamSectionProvider",
+        "createSteelCompoundProfileSection",
         "createSteelProfileSection",
         "createTecnariaConnector",
         "createTimberBeamSectionProvider",
@@ -5372,11 +5376,15 @@
       "sourcePath": "src/domain/geometry/SteelCompoundProfileSection.js",
       "sourceBlobSha1": "0a83a49828a9ec8b5ddb93938ddb1611872e60b1",
       "targetPath": "src/domain/geometry/SteelCompoundProfileSection.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0056-domain-steel-compound-profile-section"],
+      "sourceOracles": ["tests/steelCompoundProfileSection.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/steel-compound-profile-section-compile-time.test.ts",
+        "tests/steel-compound-profile-section-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0056-domain-steel-compound-profile-section"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -5386,11 +5394,15 @@
       "sourcePath": "src/domain/geometry/SteelCompoundProfileSection.js",
       "sourceBlobSha1": "0a83a49828a9ec8b5ddb93938ddb1611872e60b1",
       "targetPath": "src/domain/geometry/SteelCompoundProfileSection.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0056-domain-steel-compound-profile-section"],
+      "sourceOracles": ["tests/steelCompoundProfileSection.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/steel-compound-profile-section-compile-time.test.ts",
+        "tests/steel-compound-profile-section-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0056-domain-steel-compound-profile-section"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -6079,11 +6091,15 @@
       "sourcePath": "src/domain/geometry/SteelCompoundProfileSection.js",
       "sourceBlobSha1": "0a83a49828a9ec8b5ddb93938ddb1611872e60b1",
       "targetPath": "src/domain/geometry/SteelCompoundProfileSection.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0056-domain-steel-compound-profile-section"],
+      "sourceOracles": ["tests/steelCompoundProfileSection.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/steel-compound-profile-section-compile-time.test.ts",
+        "tests/steel-compound-profile-section-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0056-domain-steel-compound-profile-section"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -15068,11 +15084,15 @@
       "sourcePath": "src/domain/geometry/SteelCompoundProfileSection.js",
       "sourceBlobSha1": "0a83a49828a9ec8b5ddb93938ddb1611872e60b1",
       "targetPath": "src/domain/geometry/SteelCompoundProfileSection.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0056-domain-steel-compound-profile-section"],
+      "sourceOracles": ["tests/steelCompoundProfileSection.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/steel-compound-profile-section-compile-time.test.ts",
+        "tests/steel-compound-profile-section-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0056-domain-steel-compound-profile-section"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -28900,11 +28920,15 @@
       "sourcePath": "src/domain/geometry/SteelCompoundProfileSection.js",
       "sourceBlobSha1": "0a83a49828a9ec8b5ddb93938ddb1611872e60b1",
       "targetPath": "src/domain/geometry/SteelCompoundProfileSection.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing"
+      "migrationSlices": ["0056-domain-steel-compound-profile-section"],
+      "sourceOracles": ["tests/steelCompoundProfileSection.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/steel-compound-profile-section-compile-time.test.ts",
+        "tests/steel-compound-profile-section-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0056-domain-steel-compound-profile-section"],
+      "status": "exact-parity"
     },
     {
       "id": "src/domain/geometry/SteelProfileSection.js",
@@ -30374,7 +30398,8 @@
         "0052-domain-fem-timoshenko-rigid-offsets",
         "0053-domain-xlam-panel-section",
         "0054-domain-steel-profile-catalog",
-        "0055-domain-steel-profile-section"
+        "0055-domain-steel-profile-section",
+        "0056-domain-steel-compound-profile-section"
       ],
       "sourceOracles": [
         "tests/architecture/applicationRegistry.test.js",
@@ -33308,11 +33333,15 @@
       "sourcePath": "tests/steelCompoundProfileSection.test.js",
       "sourceBlobSha1": "627df8df1dc17b570212c2be70e077e285b4e35b",
       "targetPath": "tests/steelCompoundProfileSection.test.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0056-domain-steel-compound-profile-section"],
+      "sourceOracles": ["tests/steelCompoundProfileSection.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/steel-compound-profile-section-compile-time.test.ts",
+        "tests/steel-compound-profile-section-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0056-domain-steel-compound-profile-section"],
+      "status": "exact-parity",
       "testKind": "test"
     },
     {
@@ -35146,12 +35175,28 @@
         "publicStrings": "exact equality plus Unicode code-point equality",
         "errors": "exact error name and message equality"
       }
+    },
+    {
+      "sliceId": "0056-domain-steel-compound-profile-section",
+      "sourceRevision": "6f33baead8b88166c4b2cf94af41763412e3c751",
+      "method": "Strict declaration consumer coverage and independently executed pinned JavaScript versus built TypeScript compound steel section and factory modules, including CrossSection inheritance isolation, exact enumerable and serialized properties, transformed component geometry, rotation and mirror behavior, factory delegation, Unicode metadata, and incompatible or missing-input errors.",
+      "targetTests": [
+        "tests/steel-compound-profile-section-compile-time.test.ts",
+        "tests/steel-compound-profile-section-live-parity.test.ts"
+      ],
+      "fixture": null,
+      "tolerances": {
+        "serializedParity": "exact JSON serialization",
+        "numericParity": "exact equality for migrated source arithmetic; source oracle tolerances remain unchanged",
+        "publicStrings": "exact equality for public Italian metadata and Unicode code points",
+        "errors": "exact error name and message equality"
+      }
     }
   ],
   "counts": {
     "rootExports": {
       "javascript": 841,
-      "typescript": 420
+      "typescript": 424
     },
     "applicationsExports": {
       "javascript": 309,
@@ -35175,11 +35220,11 @@
     },
     "sourceFiles": {
       "javascript": 480,
-      "typescript": 280
+      "typescript": 281
     },
     "tests": {
       "javascript": 131,
-      "typescript": 98
+      "typescript": 100
     },
     "validationCampaigns": {
       "javascript": 17,
@@ -35211,7 +35256,7 @@
       "statusCounts": {
         "exact-parity": 0,
         "partial": 18,
-        "missing": 242,
+        "missing": 237,
         "intentionally-excluded": 0,
         "decision-required": 0
       },
@@ -35359,7 +35404,6 @@
         "root-export:SlopeSurfaceSurcharge2D",
         "root-export:SoilStructureInterface",
         "root-export:SolidTimberMaterial",
-        "root-export:SteelCompoundProfileSection",
         "root-export:StructuralModel",
         "root-export:SurfaceLoad",
         "root-export:TERRAIN_ELEVATION_GRID_SCHEMA_VERSION",
@@ -35383,10 +35427,7 @@
         "root-export:calculateShallowFoundationVerticalStressInfluence",
         "root-export:coulombActiveEarthPressureCoefficient",
         "root-export:coulombPassiveEarthPressureCoefficient",
-        "root-export:createDoubleAngleOpposedSection",
-        "root-export:createDoubleUPNBackToBackSection",
         "root-export:createMasonryShearStrengthModel",
-        "root-export:createSteelCompoundProfileSection",
         "root-export:cyclicMasonryPierHistoryToCsv",
         "root-export:getGroundAnchorBondCatalogEntry",
         "root-export:groundAnchorDemandFromEmbeddedWallResult",
@@ -35407,7 +35448,6 @@
         "source:src/domain/fem/nonlinear/CyclicMasonryPierAnalysis2D.js",
         "source:src/domain/fem/nonlinear/DisplacementControlNonlinearStaticSolver2D.js",
         "source:src/domain/fem/nonlinear/index.js",
-        "source:src/domain/geometry/SteelCompoundProfileSection.js",
         "source:src/domain/geotechnics/CircularSlipSurface2D.js",
         "source:src/domain/geotechnics/CircularSlopeStabilityAnalysis.js",
         "source:src/domain/geotechnics/EmbeddedRetainingWallAnalysis.js",
@@ -36124,7 +36164,7 @@
       "statusCounts": {
         "exact-parity": 0,
         "partial": 3,
-        "missing": 153,
+        "missing": 152,
         "intentionally-excluded": 0,
         "decision-required": 0
       },
@@ -36280,7 +36320,6 @@
         "test:tests/ntc2018WindLoad.test.js",
         "test:tests/rcFiberAnalysis.test.js",
         "test:tests/run-tests.js",
-        "test:tests/steelCompoundProfileSection.test.js",
         "test:tests/steelFrameAdvancedVerification.test.js",
         "test:tests/steelRingFramePushover.test.js",
         "test:tests/timberConcreteCompositeBeam.test.js",

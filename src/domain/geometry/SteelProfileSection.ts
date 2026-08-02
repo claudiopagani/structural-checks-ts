@@ -44,11 +44,11 @@ interface SteelProfileSectionConvertedData extends SteelProfileSectionData {
 }
 
 export interface SteelProfileSectionOptions {
-  profileName?: string | null;
+  profileName?: string | null | undefined;
   id?: string | null;
   name?: string | null;
   profileData?: SteelProfileSectionData | null;
-  units?: UnitSystemInput | null;
+  units?: UnitSystemInput | null | undefined;
   metadata?: SectionMetadata;
   area?: NumericValue;
   inertiaY?: NumericValue;

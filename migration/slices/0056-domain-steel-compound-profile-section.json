@@ -1,0 +1,83 @@
+{
+  "schemaVersion": 1,
+  "sliceId": "0056-domain-steel-compound-profile-section",
+  "title": "Domain steel compound profile section and factories",
+  "migrationType": "mechanical-parity",
+  "implementationStatus": "implemented",
+  "dependencies": ["0055-domain-steel-profile-section"],
+  "source": {
+    "repository": "https://github.com/claudiopagani/strutture-js",
+    "revision": "6f33baead8b88166c4b2cf94af41763412e3c751"
+  },
+  "normativeCorpusRevision": "41da3faa489600173106935bbcf726119300e48d",
+  "sourceFiles": [
+    {
+      "path": "src/domain/geometry/SteelCompoundProfileSection.js",
+      "gitBlobSha1": "0a83a49828a9ec8b5ddb93938ddb1611872e60b1",
+      "targetPath": "src/domain/geometry/SteelCompoundProfileSection.ts"
+    }
+  ],
+  "supportingSourceFiles": [
+    {
+      "path": "src/index.js",
+      "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7",
+      "targetPath": "src/index.ts",
+      "coverage": "Root public exports for the migrated steel compound section class and factories"
+    }
+  ],
+  "sourceOracles": [
+    {
+      "path": "tests/steelCompoundProfileSection.test.js",
+      "gitBlobSha1": "627df8df1dc17b570212c2be70e077e285b4e35b",
+      "coverage": "Compound UPN and angle factories, generic transformed components and incompatible-family errors"
+    }
+  ],
+  "sourcePublicExport": {
+    "path": "src/index.js",
+    "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
+  },
+  "targetTests": [
+    "tests/baseline-parity.test.ts",
+    "tests/steel-compound-profile-section-compile-time.test.ts",
+    "tests/steel-compound-profile-section-live-parity.test.ts"
+  ],
+  "publicExports": [
+    "SteelCompoundProfileSection",
+    "createDoubleAngleOpposedSection",
+    "createDoubleUPNBackToBackSection",
+    "createSteelCompoundProfileSection"
+  ],
+  "publicTypeExports": [
+    "DoubleAngleOpposedOptions",
+    "DoubleUPNBackToBackOptions",
+    "SteelCompoundComponent",
+    "SteelCompoundComponentInput",
+    "SteelCompoundProfileSectionJson",
+    "SteelCompoundProfileSectionOptions",
+    "SteelCompoundSectionLike"
+  ],
+  "normativeReferences": {
+    "resolved": [],
+    "outsideCorpus": [],
+    "normativeConformityClaimed": false,
+    "status": "classified-for-declared-scope"
+  },
+  "independentValidation": {
+    "method": "Strict declaration consumer coverage and independently executed pinned JavaScript versus built TypeScript compound steel section and factory modules, including CrossSection inheritance isolation, exact enumerable and serialized properties, transformed component geometry, rotation and mirror behavior, factory delegation, Unicode metadata, and incompatible or missing-input errors.",
+    "targetTests": [
+      "tests/steel-compound-profile-section-compile-time.test.ts",
+      "tests/steel-compound-profile-section-live-parity.test.ts"
+    ],
+    "tolerances": {
+      "serializedParity": "exact JSON serialization",
+      "numericParity": "exact equality for migrated source arithmetic; source oracle tolerances remain unchanged",
+      "publicStrings": "exact equality for public Italian metadata and Unicode code points",
+      "errors": "exact error name and message equality"
+    }
+  },
+  "parityDifferences": [
+    "The strict TypeScript declarations describe the existing JavaScript compound section and factory contract without adding runtime behavior.",
+    "Component snapshots in the independent differential test compare each nested source and TypeScript section through its own serialization boundary so prototype identity remains independent while public data remains exact."
+  ],
+  "engineeringFunctionality": "Solver-neutral compound steel profile geometry with transformed component centroids, rotations, mirrors, nominal outlines, composite properties, component metadata and UPN or angle arrangement factories."
+}

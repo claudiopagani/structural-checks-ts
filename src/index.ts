@@ -80,10 +80,25 @@ export { TSection } from "./domain/geometry/TSection.js";
 export { XlamPanelSection } from "./domain/geometry/XlamPanelSection.js";
 export { SteelProfileSection } from "./domain/geometry/SteelProfileSection.js";
 export { createSteelProfileSection } from "./domain/geometry/createSteelProfileSection.js";
+export {
+  SteelCompoundProfileSection,
+  createDoubleAngleOpposedSection,
+  createDoubleUPNBackToBackSection,
+  createSteelCompoundProfileSection,
+} from "./domain/geometry/SteelCompoundProfileSection.js";
 export type {
   SteelProfileSectionJson,
   SteelProfileSectionOptions,
 } from "./domain/geometry/SteelProfileSection.js";
+export type {
+  DoubleAngleOpposedOptions,
+  DoubleUPNBackToBackOptions,
+  SteelCompoundComponent,
+  SteelCompoundComponentInput,
+  SteelCompoundProfileSectionJson,
+  SteelCompoundProfileSectionOptions,
+  SteelCompoundSectionLike,
+} from "./domain/geometry/SteelCompoundProfileSection.js";
 export { createXlamPanelSection } from "./domain/geometry/createXlamPanelSection.js";
 export {
   STEEL_PROFILE_FAMILIES,
