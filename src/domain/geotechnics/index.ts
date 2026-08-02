@@ -332,3 +332,15 @@ export {
   type SlopeSurfaceSurcharge2DJson,
   type SlopeSurfaceSurcharge2DOptions,
 } from "./SlopeSurfaceSurcharge2D.js";
+export {
+  SLOPE_SLICE_DISCRETIZATION_2D_SCHEMA_VERSION,
+  SlopeSliceDiscretizer2D,
+  type SlopeSlice,
+  type SlopeSliceDiscretizationJson,
+  type SlopeSliceDiscretizationMetadata,
+  type SlopeSliceDiscretizationSpan,
+  type SlopeSliceDiscretizeOptions,
+  type SlopeSliceElevations,
+  type SlopeSliceParameterSet,
+  type SlopeSliceWeightCentroid,
+} from "./SlopeSliceDiscretizer2D.js";

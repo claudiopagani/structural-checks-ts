@@ -1,0 +1,87 @@
+{
+  "schemaVersion": 1,
+  "sliceId": "0089-domain-slope-slice-discretizer-2d",
+  "title": "Domain slope slice discretizer",
+  "migrationType": "mechanical-parity",
+  "implementationStatus": "implemented",
+  "dependencies": ["0088-domain-slope-surface-surcharge"],
+  "source": {
+    "repository": "https://github.com/claudiopagani/strutture-js",
+    "revision": "6f33baead8b88166c4b2cf94af41763412e3c751"
+  },
+  "normativeCorpusRevision": "41da3faa489600173106935bbcf726119300e48d",
+  "sourceFiles": [
+    {
+      "path": "src/domain/geotechnics/SlopeSliceDiscretizer2D.js",
+      "gitBlobSha1": "df35605b3e1650c57bad6c94b0001cb7ec66f5ae",
+      "targetPath": "src/domain/geotechnics/SlopeSliceDiscretizer2D.ts"
+    }
+  ],
+  "supportingSourceFiles": [
+    {
+      "path": "src/domain/geotechnics/index.js",
+      "gitBlobSha1": "41ed2053fc2e37dc90da412846609f4050af9668",
+      "targetPath": "src/domain/geotechnics/index.ts",
+      "coverage": "Geotechnics barrel export for the migrated slope-slice discretizer."
+    },
+    {
+      "path": "src/index.js",
+      "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7",
+      "targetPath": "src/index.ts",
+      "coverage": "Root public exports for the migrated slope-slice discretizer."
+    }
+  ],
+  "sourceOracles": [
+    {
+      "path": "tests/geotechnicalSlopeStability.test.js",
+      "gitBlobSha1": "ccb2cab5ccf35b8b35de4d3fcff9d23aed949173",
+      "coverage": "Ground-section, circular-slip, material, surcharge, discretization and error-path behavior."
+    },
+    {
+      "path": "tests/packageExports.test.js",
+      "gitBlobSha1": "8dde24b4c97dd3dae7100207d07d9d96c52b9c74",
+      "coverage": "Root public export behavior."
+    }
+  ],
+  "sourcePublicExport": {
+    "path": "src/index.js",
+    "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
+  },
+  "targetTests": [
+    "tests/baseline-parity.test.ts",
+    "tests/slope-slice-discretizer-compile-time.test.ts",
+    "tests/slope-slice-discretizer-live-parity.test.ts"
+  ],
+  "publicExports": ["SLOPE_SLICE_DISCRETIZATION_2D_SCHEMA_VERSION", "SlopeSliceDiscretizer2D"],
+  "publicTypeExports": [
+    "SlopeSlice",
+    "SlopeSliceDiscretizationJson",
+    "SlopeSliceDiscretizationMetadata",
+    "SlopeSliceDiscretizationSpan",
+    "SlopeSliceDiscretizeOptions",
+    "SlopeSliceElevations",
+    "SlopeSliceParameterSet",
+    "SlopeSliceWeightCentroid"
+  ],
+  "normativeReferences": {
+    "resolved": [],
+    "outsideCorpus": [],
+    "normativeConformityClaimed": false,
+    "status": "classified-for-declared-scope"
+  },
+  "independentValidation": {
+    "method": "Strict public declaration consumer coverage and independently executed pinned JavaScript versus built TypeScript comparison of slope-span resolution, five-point integration, surcharge and seismic behavior, exact JSON serialization, Unicode identifiers and validation error behavior.",
+    "targetTests": [
+      "tests/slope-slice-discretizer-compile-time.test.ts",
+      "tests/slope-slice-discretizer-live-parity.test.ts"
+    ],
+    "tolerances": {
+      "serializedParity": "exact deep equality and JSON serialization",
+      "numericParity": "exact equality for deterministic discretized slice values",
+      "publicStrings": "exact equality plus Unicode code-point preservation",
+      "errors": "exact error name and message equality"
+    }
+  },
+  "parityDifferences": [],
+  "engineeringFunctionality": "Five-point Gauss slope-mass discretization over circular slip surfaces with material-zone weights, pore-pressure-aware saturated weights, surcharge loading, pseudostatic loading metadata and parameter-set traceability."
+}
