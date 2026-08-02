@@ -1,0 +1,132 @@
+{
+  "schemaVersion": 1,
+  "sliceId": "0076-domain-lateral-pile-beam-on-springs-analysis",
+  "title": "Domain lateral pile beam-on-springs analysis",
+  "migrationType": "mechanical-parity",
+  "implementationStatus": "implemented",
+  "dependencies": ["0075-domain-lateral-pile-response-scenario"],
+  "source": {
+    "repository": "https://github.com/claudiopagani/strutture-js",
+    "revision": "6f33baead8b88166c4b2cf94af41763412e3c751"
+  },
+  "normativeCorpusRevision": "41da3faa489600173106935bbcf726119300e48d",
+  "sourceFiles": [
+    {
+      "path": "src/domain/geotechnics/LateralPileBeamOnSpringsAnalysis.js",
+      "gitBlobSha1": "50ec8c6bd6a492b7505c6b05b942f71f21798ae7",
+      "targetPath": "src/domain/geotechnics/LateralPileBeamOnSpringsAnalysis.ts"
+    }
+  ],
+  "supportingSourceFiles": [
+    {
+      "path": "src/domain/math/DenseLinearSolver.js",
+      "gitBlobSha1": "46b6461d6a63255abbfcf7a92b22309ad0a47cac",
+      "targetPath": "src/domain/math/DenseLinearSolver.ts",
+      "coverage": "The analysis preserves the source dense Newton tangent solve and singular-tangent failure path."
+    },
+    {
+      "path": "src/domain/geotechnics/DeepFoundationModel.js",
+      "gitBlobSha1": "07f2d143e3c8895e8b2bfb34cb270797bfc9c684",
+      "targetPath": "src/domain/geotechnics/DeepFoundationModel.ts",
+      "coverage": "Pile geometry, placement, toe, head and soil-contact properties are consumed from the migrated model."
+    },
+    {
+      "path": "src/domain/geotechnics/GeotechnicalDesignSituation.js",
+      "gitBlobSha1": "cdae4614bd40f318d57e6b0c3ebc7b1a96b15f00",
+      "targetPath": "src/domain/geotechnics/GeotechnicalDesignSituation.ts",
+      "coverage": "Profile selection and static-versus-seismic design-situation guards are delegated to the migrated class."
+    },
+    {
+      "path": "src/domain/geotechnics/GroundModel.js",
+      "gitBlobSha1": "c8fd1bab76291e8a8509cb59c6bd079a54c4db4a",
+      "targetPath": "src/domain/geotechnics/GroundModel.ts",
+      "coverage": "Ground profile lookup and serialized ground-model identity use the migrated model."
+    },
+    {
+      "path": "src/domain/geotechnics/GroundProfile.js",
+      "gitBlobSha1": "6a4f206074bcbda08fefed813bf77e30bf095f41",
+      "targetPath": "src/domain/geotechnics/GroundProfile.ts",
+      "coverage": "Layer elevation lookup and profile limits define the p-y mesh boundaries and station validation."
+    },
+    {
+      "path": "src/domain/geotechnics/LateralPileResponseScenario.js",
+      "gitBlobSha1": "1acc8c98fbe4ed2ba35319752307d613d498b632",
+      "targetPath": "src/domain/geotechnics/LateralPileResponseScenario.ts",
+      "coverage": "Action, flexural rigidity, p-y stations, boundary conditions and solver controls are consumed from the migrated scenario."
+    },
+    {
+      "path": "src/domain/geotechnics/SoilMaterial.js",
+      "gitBlobSha1": "5dfaafe73a7e65586de313e262cacf7e257535b9",
+      "targetPath": "src/domain/geotechnics/SoilMaterial.ts",
+      "coverage": "Canonical geotechnical internal units are used in analysis result metadata."
+    },
+    {
+      "path": "src/domain/units/UnitSystem.js",
+      "gitBlobSha1": "b8f2f4926aff645efbf7b9f458b69eba264ed59a",
+      "targetPath": "src/domain/units/UnitSystem.ts",
+      "coverage": "Explicit unit-system validation is preserved at the public analysis boundary."
+    },
+    {
+      "path": "src/domain/geotechnics/index.js",
+      "gitBlobSha1": "41ed2053fc2e37dc90da412846609f4050af9668",
+      "targetPath": "src/domain/geotechnics/index.ts",
+      "coverage": "Geotechnical public exports for the migrated analysis."
+    },
+    {
+      "path": "src/index.js",
+      "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7",
+      "targetPath": "src/index.ts",
+      "coverage": "Root public exports for the migrated analysis."
+    }
+  ],
+  "sourceOracles": [
+    {
+      "path": "tests/geotechnicalLateralPilePy.test.js",
+      "gitBlobSha1": "cbdc2b1946a857a8c7d75301721a70cb65bd311e",
+      "coverage": "Beam kernel, zero and linear p-y response, nonlinear fixed restraints, stratified mesh interface contributions, seismic unsupported behavior, result schema, exact warnings and serialization."
+    }
+  ],
+  "sourcePublicExport": {
+    "path": "src/index.js",
+    "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
+  },
+  "targetTests": [
+    "tests/baseline-parity.test.ts",
+    "tests/lateral-pile-beam-on-springs-compile-time.test.ts",
+    "tests/lateral-pile-beam-on-springs-live-parity.test.ts"
+  ],
+  "publicExports": [
+    "LATERAL_PILE_PY_REFERENCE",
+    "LATERAL_PILE_PY_RESULT_SCHEMA_VERSION",
+    "LateralPileBeamOnSpringsAnalysis"
+  ],
+  "publicTypeExports": [
+    "LateralPileBeamOnSpringsAnalysisInput",
+    "LateralPileBeamOnSpringsAnalysisOptions",
+    "LateralPileBeamOnSpringsResult",
+    "LateralPileLinearSolver"
+  ],
+  "normativeReferences": {
+    "resolved": [],
+    "outsideCorpus": [],
+    "normativeConformityClaimed": false,
+    "status": "classified-for-declared-scope"
+  },
+  "independentValidation": {
+    "method": "Strict public declaration consumer coverage and independently executed pinned JavaScript versus built TypeScript comparison of p-y mesh construction, beam stiffness, spring interpolation, nonlinear Newton increments, cutbacks, support reactions, equilibrium DTOs, exact serialization, Unicode metadata and unsupported/error statuses.",
+    "targetTests": [
+      "tests/lateral-pile-beam-on-springs-compile-time.test.ts",
+      "tests/lateral-pile-beam-on-springs-live-parity.test.ts"
+    ],
+    "tolerances": {
+      "serializedParity": "exact deep equality and JSON serialization",
+      "numericParity": "exact equality for live JavaScript and built TypeScript analysis results",
+      "publicStrings": "exact equality plus Unicode code-point preservation",
+      "errors": "exact error name, summary and warning behavior equality"
+    }
+  },
+  "parityDifferences": [
+    "The strict TypeScript declarations describe the existing JavaScript p-y analysis without adding seismic, cyclic, group, axial or structural resistance behavior."
+  ],
+  "engineeringFunctionality": "One-dimensional static monotonic nonlinear Euler-Bernoulli beam-on-independent-p-y-springs analysis with layer-conforming mesh, incremental damped Newton solution, cutbacks, equilibrium reporting and explicit structural-verification boundary."
+}

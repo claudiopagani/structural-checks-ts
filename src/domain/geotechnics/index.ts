@@ -252,4 +252,13 @@ export {
   type LateralPileSolver,
   type LateralPileSolverInput,
 } from "./LateralPileResponseScenario.js";
+export {
+  LATERAL_PILE_PY_REFERENCE,
+  LATERAL_PILE_PY_RESULT_SCHEMA_VERSION,
+  LateralPileBeamOnSpringsAnalysis,
+  type LateralPileBeamOnSpringsAnalysisInput,
+  type LateralPileBeamOnSpringsAnalysisOptions,
+  type LateralPileBeamOnSpringsResult,
+  type LateralPileLinearSolver,
+} from "./LateralPileBeamOnSpringsAnalysis.js";
 export { VerticalStressProfile } from "./VerticalStressProfile.js";

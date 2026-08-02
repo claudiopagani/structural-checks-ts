@@ -423,6 +423,8 @@ export {
   LATERAL_PILE_RESPONSE_METHODS,
   LATERAL_PILE_RESPONSE_SCENARIO_SCHEMA_VERSION,
   LATERAL_PILE_SOIL_RESPONSE_MODELS,
+  LATERAL_PILE_PY_REFERENCE,
+  LATERAL_PILE_PY_RESULT_SCHEMA_VERSION,
   AxialPileLoadScenario,
   DeepFoundationModel,
   GeotechnicalDesignSituation,
@@ -441,6 +443,7 @@ export {
   LateralPileLoadScenario,
   PileTransferLaw,
   LateralPileResponseScenario,
+  LateralPileBeamOnSpringsAnalysis,
   VerticalStressProfile,
 } from "./domain/geotechnics/index.js";
 export { ReinforcedConcreteSectionVerification } from "./applications/reinforced-concrete-sections/checks/ReinforcedConcreteSectionVerification.js";
@@ -1356,6 +1359,10 @@ export type {
   LateralPileSoilResponseModel,
   LateralPileSolver,
   LateralPileSolverInput,
+  LateralPileBeamOnSpringsAnalysisInput,
+  LateralPileBeamOnSpringsAnalysisOptions,
+  LateralPileBeamOnSpringsResult,
+  LateralPileLinearSolver,
 } from "./domain/geotechnics/index.js";
 export type {
   BiaxialCompressedSide,

@@ -987,12 +987,15 @@
         "LATERAL_PILE_END_RESTRAINTS",
         "LATERAL_PILE_HEAD_CONDITIONS",
         "LATERAL_PILE_LOAD_SCENARIO_SCHEMA_VERSION",
+        "LATERAL_PILE_PY_REFERENCE",
+        "LATERAL_PILE_PY_RESULT_SCHEMA_VERSION",
         "LATERAL_PILE_RESISTANCE_CONVERSION_MODELS",
         "LATERAL_PILE_RESPONSE_METHODS",
         "LATERAL_PILE_RESPONSE_SCENARIO_SCHEMA_VERSION",
         "LATERAL_PILE_SOIL_BRANCHES",
         "LATERAL_PILE_SOIL_RESPONSE_MODELS",
         "LENGTH_UNIT_FACTORS",
+        "LateralPileBeamOnSpringsAnalysis",
         "LateralPileLoadScenario",
         "LateralPileResponseScenario",
         "LineLoad",
@@ -7499,7 +7502,10 @@
       "targetPath": "src/domain/geotechnics/GeotechnicalDesignSituation.ts",
       "migrationSlices": [],
       "sourceOracles": [],
-      "targetTests": ["tests/baseline-parity.test.ts"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/lateral-pile-beam-on-springs-live-parity.test.ts"
+      ],
       "validationEvidence": [],
       "status": "partial",
       "publicEntryPath": "src/index.js",
@@ -8828,7 +8834,10 @@
       "targetPath": "src/domain/geotechnics/GroundModel.ts",
       "migrationSlices": [],
       "sourceOracles": [],
-      "targetTests": ["tests/baseline-parity.test.ts"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/lateral-pile-beam-on-springs-live-parity.test.ts"
+      ],
       "validationEvidence": [],
       "status": "partial",
       "publicEntryPath": "src/index.js",
@@ -9367,11 +9376,15 @@
       "sourcePath": "src/domain/geotechnics/LateralPileBeamOnSpringsAnalysis.js",
       "sourceBlobSha1": "50ec8c6bd6a492b7505c6b05b942f71f21798ae7",
       "targetPath": "src/domain/geotechnics/LateralPileBeamOnSpringsAnalysis.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0076-domain-lateral-pile-beam-on-springs-analysis"],
+      "sourceOracles": ["tests/geotechnicalLateralPilePy.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/lateral-pile-beam-on-springs-compile-time.test.ts",
+        "tests/lateral-pile-beam-on-springs-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0076-domain-lateral-pile-beam-on-springs-analysis"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -9381,11 +9394,15 @@
       "sourcePath": "src/domain/geotechnics/LateralPileBeamOnSpringsAnalysis.js",
       "sourceBlobSha1": "50ec8c6bd6a492b7505c6b05b942f71f21798ae7",
       "targetPath": "src/domain/geotechnics/LateralPileBeamOnSpringsAnalysis.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0076-domain-lateral-pile-beam-on-springs-analysis"],
+      "sourceOracles": ["tests/geotechnicalLateralPilePy.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/lateral-pile-beam-on-springs-compile-time.test.ts",
+        "tests/lateral-pile-beam-on-springs-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0076-domain-lateral-pile-beam-on-springs-analysis"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -9499,11 +9516,15 @@
       "sourcePath": "src/domain/geotechnics/LateralPileBeamOnSpringsAnalysis.js",
       "sourceBlobSha1": "50ec8c6bd6a492b7505c6b05b942f71f21798ae7",
       "targetPath": "src/domain/geotechnics/LateralPileBeamOnSpringsAnalysis.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0076-domain-lateral-pile-beam-on-springs-analysis"],
+      "sourceOracles": ["tests/geotechnicalLateralPilePy.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/lateral-pile-beam-on-springs-compile-time.test.ts",
+        "tests/lateral-pile-beam-on-springs-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0076-domain-lateral-pile-beam-on-springs-analysis"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -19298,11 +19319,15 @@
       "sourcePath": "src/domain/geotechnics/LateralPileBeamOnSpringsAnalysis.js",
       "sourceBlobSha1": "50ec8c6bd6a492b7505c6b05b942f71f21798ae7",
       "targetPath": "src/domain/geotechnics/LateralPileBeamOnSpringsAnalysis.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0076-domain-lateral-pile-beam-on-springs-analysis"],
+      "sourceOracles": ["tests/geotechnicalLateralPilePy.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/lateral-pile-beam-on-springs-compile-time.test.ts",
+        "tests/lateral-pile-beam-on-springs-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0076-domain-lateral-pile-beam-on-springs-analysis"],
+      "status": "exact-parity",
       "publicEntryPath": "src/applications/index.js",
       "publicEntryBlobSha1": "b70179c7cdd2a819f2151dc092c0f59cbce30ba6"
     },
@@ -19312,11 +19337,15 @@
       "sourcePath": "src/domain/geotechnics/LateralPileBeamOnSpringsAnalysis.js",
       "sourceBlobSha1": "50ec8c6bd6a492b7505c6b05b942f71f21798ae7",
       "targetPath": "src/domain/geotechnics/LateralPileBeamOnSpringsAnalysis.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0076-domain-lateral-pile-beam-on-springs-analysis"],
+      "sourceOracles": ["tests/geotechnicalLateralPilePy.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/lateral-pile-beam-on-springs-compile-time.test.ts",
+        "tests/lateral-pile-beam-on-springs-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0076-domain-lateral-pile-beam-on-springs-analysis"],
+      "status": "exact-parity",
       "publicEntryPath": "src/applications/index.js",
       "publicEntryBlobSha1": "b70179c7cdd2a819f2151dc092c0f59cbce30ba6"
     },
@@ -19416,11 +19445,15 @@
       "sourcePath": "src/domain/geotechnics/LateralPileBeamOnSpringsAnalysis.js",
       "sourceBlobSha1": "50ec8c6bd6a492b7505c6b05b942f71f21798ae7",
       "targetPath": "src/domain/geotechnics/LateralPileBeamOnSpringsAnalysis.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0076-domain-lateral-pile-beam-on-springs-analysis"],
+      "sourceOracles": ["tests/geotechnicalLateralPilePy.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/lateral-pile-beam-on-springs-compile-time.test.ts",
+        "tests/lateral-pile-beam-on-springs-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0076-domain-lateral-pile-beam-on-springs-analysis"],
+      "status": "exact-parity",
       "publicEntryPath": "src/applications/index.js",
       "publicEntryBlobSha1": "b70179c7cdd2a819f2151dc092c0f59cbce30ba6"
     },
@@ -24040,7 +24073,10 @@
       "targetPath": "src/domain/geotechnics/GeotechnicalDesignSituation.ts",
       "migrationSlices": [],
       "sourceOracles": [],
-      "targetTests": ["tests/baseline-parity.test.ts"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/lateral-pile-beam-on-springs-live-parity.test.ts"
+      ],
       "validationEvidence": [],
       "status": "partial",
       "publicEntryPath": "src/index.js",
@@ -24206,7 +24242,10 @@
       "targetPath": "src/domain/geotechnics/GroundModel.ts",
       "migrationSlices": [],
       "sourceOracles": [],
-      "targetTests": ["tests/baseline-parity.test.ts"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/lateral-pile-beam-on-springs-live-parity.test.ts"
+      ],
       "validationEvidence": [],
       "status": "partial",
       "publicEntryPath": "src/index.js",
@@ -24287,11 +24326,15 @@
       "sourcePath": "src/domain/geotechnics/LateralPileBeamOnSpringsAnalysis.js",
       "sourceBlobSha1": "50ec8c6bd6a492b7505c6b05b942f71f21798ae7",
       "targetPath": "src/domain/geotechnics/LateralPileBeamOnSpringsAnalysis.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0076-domain-lateral-pile-beam-on-springs-analysis"],
+      "sourceOracles": ["tests/geotechnicalLateralPilePy.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/lateral-pile-beam-on-springs-compile-time.test.ts",
+        "tests/lateral-pile-beam-on-springs-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0076-domain-lateral-pile-beam-on-springs-analysis"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7",
       "value": "lateral-pile-py-result/v1"
@@ -29757,11 +29800,15 @@
       "sourcePath": "src/domain/geotechnics/LateralPileBeamOnSpringsAnalysis.js",
       "sourceBlobSha1": "50ec8c6bd6a492b7505c6b05b942f71f21798ae7",
       "targetPath": "src/domain/geotechnics/LateralPileBeamOnSpringsAnalysis.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing"
+      "migrationSlices": ["0076-domain-lateral-pile-beam-on-springs-analysis"],
+      "sourceOracles": ["tests/geotechnicalLateralPilePy.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/lateral-pile-beam-on-springs-compile-time.test.ts",
+        "tests/lateral-pile-beam-on-springs-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0076-domain-lateral-pile-beam-on-springs-analysis"],
+      "status": "exact-parity"
     },
     {
       "id": "src/domain/geotechnics/LateralPileCapacityAnalysis.js",
@@ -31051,7 +31098,8 @@
         "0072-domain-shallow-foundation-dtos",
         "0073-domain-lateral-pile-load-scenario",
         "0074-domain-pile-transfer-law",
-        "0075-domain-lateral-pile-response-scenario"
+        "0075-domain-lateral-pile-response-scenario",
+        "0076-domain-lateral-pile-beam-on-springs-analysis"
       ],
       "sourceOracles": [
         "tests/architecture/applicationRegistry.test.js",
@@ -32554,11 +32602,14 @@
       "targetPath": "tests/geotechnicalLateralPilePy.test.ts",
       "migrationSlices": [
         "0074-domain-pile-transfer-law",
-        "0075-domain-lateral-pile-response-scenario"
+        "0075-domain-lateral-pile-response-scenario",
+        "0076-domain-lateral-pile-beam-on-springs-analysis"
       ],
       "sourceOracles": ["tests/geotechnicalLateralPilePy.test.js"],
       "targetTests": [
         "tests/baseline-parity.test.ts",
+        "tests/lateral-pile-beam-on-springs-compile-time.test.ts",
+        "tests/lateral-pile-beam-on-springs-live-parity.test.ts",
         "tests/lateral-pile-response-scenario-compile-time.test.ts",
         "tests/lateral-pile-response-scenario-live-parity.test.ts",
         "tests/pile-transfer-law-compile-time.test.ts",
@@ -32566,7 +32617,8 @@
       ],
       "validationEvidence": [
         "0074-domain-pile-transfer-law",
-        "0075-domain-lateral-pile-response-scenario"
+        "0075-domain-lateral-pile-response-scenario",
+        "0076-domain-lateral-pile-beam-on-springs-analysis"
       ],
       "status": "exact-parity",
       "testKind": "test"
@@ -36249,16 +36301,32 @@
         "publicStrings": "exact equality plus Unicode code-point preservation",
         "errors": "exact error name and message equality"
       }
+    },
+    {
+      "sliceId": "0076-domain-lateral-pile-beam-on-springs-analysis",
+      "sourceRevision": "6f33baead8b88166c4b2cf94af41763412e3c751",
+      "method": "Strict public declaration consumer coverage and independently executed pinned JavaScript versus built TypeScript comparison of p-y mesh construction, beam stiffness, spring interpolation, nonlinear Newton increments, cutbacks, support reactions, equilibrium DTOs, exact serialization, Unicode metadata and unsupported/error statuses.",
+      "targetTests": [
+        "tests/lateral-pile-beam-on-springs-compile-time.test.ts",
+        "tests/lateral-pile-beam-on-springs-live-parity.test.ts"
+      ],
+      "fixture": null,
+      "tolerances": {
+        "serializedParity": "exact deep equality and JSON serialization",
+        "numericParity": "exact equality for live JavaScript and built TypeScript analysis results",
+        "publicStrings": "exact equality plus Unicode code-point preservation",
+        "errors": "exact error name, summary and warning behavior equality"
+      }
     }
   ],
   "counts": {
     "rootExports": {
       "javascript": 841,
-      "typescript": 486
+      "typescript": 489
     },
     "applicationsExports": {
       "javascript": 309,
-      "typescript": 141
+      "typescript": 144
     },
     "packageEntryPoints": {
       "javascript": 14,
@@ -36274,15 +36342,15 @@
     },
     "serializedSchemas": {
       "javascript": 49,
-      "typescript": 26
+      "typescript": 27
     },
     "sourceFiles": {
       "javascript": 480,
-      "typescript": 310
+      "typescript": 311
     },
     "tests": {
       "javascript": 131,
-      "typescript": 138
+      "typescript": 140
     },
     "validationCampaigns": {
       "javascript": 17,
@@ -36314,7 +36382,7 @@
       "statusCounts": {
         "exact-parity": 0,
         "partial": 20,
-        "missing": 146,
+        "missing": 142,
         "intentionally-excluded": 0,
         "decision-required": 0
       },
@@ -36366,10 +36434,7 @@
         "root-export:GroundAnchorStabilityAction2D",
         "root-export:LATERAL_PILE_BROMS_REFERENCE",
         "root-export:LATERAL_PILE_CAPACITY_RESULT_SCHEMA_VERSION",
-        "root-export:LATERAL_PILE_PY_REFERENCE",
-        "root-export:LATERAL_PILE_PY_RESULT_SCHEMA_VERSION",
         "root-export:LateralEarthPressureAnalysis",
-        "root-export:LateralPileBeamOnSpringsAnalysis",
         "root-export:LateralPileCapacityAnalysis",
         "root-export:LayerLoad",
         "root-export:LinearLoadFromLineWeight",
@@ -36449,7 +36514,6 @@
         "source:src/domain/geotechnics/GroundAnchorDesignScenario.js",
         "source:src/domain/geotechnics/GroundAnchorStabilityAction2D.js",
         "source:src/domain/geotechnics/LateralEarthPressureAnalysis.js",
-        "source:src/domain/geotechnics/LateralPileBeamOnSpringsAnalysis.js",
         "source:src/domain/geotechnics/LateralPileCapacityAnalysis.js",
         "source:src/domain/geotechnics/LayeredPseudostaticTrialWedge.js",
         "source:src/domain/geotechnics/RetainingWallAnalysis.js",
@@ -36675,7 +36739,7 @@
       "statusCounts": {
         "exact-parity": 0,
         "partial": 16,
-        "missing": 398,
+        "missing": 395,
         "intentionally-excluded": 0,
         "decision-required": 0
       },
@@ -36725,9 +36789,6 @@
         "application-export:GroundAnchorStabilityAction2D",
         "application-export:LATERAL_PILE_BROMS_REFERENCE",
         "application-export:LATERAL_PILE_CAPACITY_RESULT_SCHEMA_VERSION",
-        "application-export:LATERAL_PILE_PY_REFERENCE",
-        "application-export:LATERAL_PILE_PY_RESULT_SCHEMA_VERSION",
-        "application-export:LateralPileBeamOnSpringsAnalysis",
         "application-export:LateralPileCapacityAnalysis",
         "application-export:MASONRY_PIER_CAPACITY_CURVE_COMPARISON_REPORT_SCHEMA_VERSION",
         "application-export:MasonryEquivalentFrameBuilder",
