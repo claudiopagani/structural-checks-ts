@@ -63,6 +63,7 @@ const expectedExports = [
   "BeamElement",
   "BeamLinePreprocessor2D",
   "BeamSectionActionVerifier",
+  "BeamSystem",
   "CalculationResult",
   "Combination",
   "CircularSection",

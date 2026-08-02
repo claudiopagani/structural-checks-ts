@@ -178,6 +178,12 @@ export type {
   BeamElementJson,
   BeamElementNode,
 } from "./domain/elements/BeamElement.js";
+export { BeamSystem } from "./domain/elements/BeamSystem.js";
+export type {
+  BeamSystemBeam,
+  BeamSystemInput,
+  BeamSystemJson,
+} from "./domain/elements/BeamSystem.js";
 export {
   AxialMember2D,
   STRUT_AND_TIE_MEMBER_TYPES,

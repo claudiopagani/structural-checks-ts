@@ -887,6 +887,7 @@
         "BeamElement",
         "BeamLinePreprocessor2D",
         "BeamSectionActionVerifier",
+        "BeamSystem",
         "CalculationResult",
         "CircularSection",
         "ClimaticAction",
@@ -3237,11 +3238,14 @@
       "sourcePath": "src/domain/elements/BeamSystem.js",
       "sourceBlobSha1": "031c2f72a9878ffc3db04fddbca5541cd7a88ac2",
       "targetPath": "src/domain/elements/BeamSystem.ts",
-      "migrationSlices": [],
+      "migrationSlices": ["0051-domain-beam-system"],
       "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "targetTests": [
+        "tests/beam-system-compile-time.test.ts",
+        "tests/beam-system-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0051-domain-beam-system"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -28297,11 +28301,14 @@
       "sourcePath": "src/domain/elements/BeamSystem.js",
       "sourceBlobSha1": "031c2f72a9878ffc3db04fddbca5541cd7a88ac2",
       "targetPath": "src/domain/elements/BeamSystem.ts",
-      "migrationSlices": [],
+      "migrationSlices": ["0051-domain-beam-system"],
       "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing"
+      "targetTests": [
+        "tests/beam-system-compile-time.test.ts",
+        "tests/beam-system-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0051-domain-beam-system"],
+      "status": "exact-parity"
     },
     {
       "id": "src/domain/elements/StructuralElement.js",
@@ -30269,7 +30276,8 @@
         "0047-domain-create-tecnaria-connector",
         "0048-domain-constitutive-laws-index",
         "0049-domain-structural-element",
-        "0050-domain-beam-element"
+        "0050-domain-beam-element",
+        "0051-domain-beam-system"
       ],
       "sourceOracles": [
         "tests/architecture/applicationRegistry.test.js",
@@ -34938,12 +34946,27 @@
         "numericParity": "exact equality for delegated beam length",
         "publicStrings": "exact equality plus Unicode code-point equality"
       }
+    },
+    {
+      "sliceId": "0051-domain-beam-system",
+      "sourceRevision": "6f33baead8b88166c4b2cf94af41763412e3c751",
+      "method": "Strict declaration consumer coverage and independently executed pinned JavaScript versus built TypeScript BeamSystem modules, including root re-export identity, independent constructor behavior, exact JSON serialization, duplicate-node handling, total length, mutation/chaining, defaults, Unicode values and constructor errors.",
+      "targetTests": [
+        "tests/beam-system-compile-time.test.ts",
+        "tests/beam-system-live-parity.test.ts"
+      ],
+      "fixture": null,
+      "tolerances": {
+        "serializedParity": "exact JSON serialization",
+        "numericParity": "exact equality for delegated beam total length",
+        "publicStrings": "exact equality plus Unicode code-point equality"
+      }
     }
   ],
   "counts": {
     "rootExports": {
       "javascript": 841,
-      "typescript": 408
+      "typescript": 409
     },
     "applicationsExports": {
       "javascript": 309,
@@ -34967,11 +34990,11 @@
     },
     "sourceFiles": {
       "javascript": 480,
-      "typescript": 273
+      "typescript": 274
     },
     "tests": {
       "javascript": 131,
-      "typescript": 88
+      "typescript": 90
     },
     "validationCampaigns": {
       "javascript": 17,
@@ -35003,13 +35026,12 @@
       "statusCounts": {
         "exact-parity": 0,
         "partial": 18,
-        "missing": 261,
+        "missing": 259,
         "intentionally-excluded": 0,
         "decision-required": 0
       },
       "itemIds": [
         "root-export:AreaLoad",
-        "root-export:BeamSystem",
         "root-export:CIRCULAR_SLIP_SURFACE_2D_SCHEMA_VERSION",
         "root-export:CIRCULAR_SLOPE_STABILITY_RESULT_SCHEMA_VERSION",
         "root-export:CYCLIC_MASONRY_INTERNAL_UNITS",
@@ -35203,7 +35225,6 @@
         "root-export:rankineEarthPressureCoefficients",
         "root-export:simplifiedBishop",
         "root-export:spencerMethod",
-        "source:src/domain/elements/BeamSystem.js",
         "source:src/domain/fem/elements/FrameElement2DTimoshenkoRigidOffsets.js",
         "source:src/domain/fem/elements/index.js",
         "source:src/domain/fem/elements/masonry/CyclicMasonryPier2D.js",
