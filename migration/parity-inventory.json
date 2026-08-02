@@ -890,6 +890,7 @@
         "BeamSectionActionVerifier",
         "BeamSystem",
         "CIRCULAR_SLIP_SURFACE_2D_SCHEMA_VERSION",
+        "CYCLIC_MASONRY_INTERNAL_UNITS",
         "CalculationResult",
         "CircularSection",
         "CircularSlipSurface2D",
@@ -905,6 +906,7 @@
         "CrackedSectionBeamModel",
         "CrackedSectionDeflectionAnalysis",
         "CrossSection",
+        "CyclicMasonryCompressionMaterial",
         "DEEP_FOUNDATION_DISPLACEMENT_CLASSES",
         "DEEP_FOUNDATION_ELEMENT_TYPES",
         "DEEP_FOUNDATION_GEOMETRY_MODELS",
@@ -6440,11 +6442,18 @@
       "sourcePath": "src/domain/materials/masonry/CyclicMasonryCompressionMaterial.js",
       "sourceBlobSha1": "b048bee36618a45c4b2f371f11f5406ee156ba9d",
       "targetPath": "src/domain/materials/masonry/CyclicMasonryCompressionMaterial.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0083-domain-cyclic-masonry-compression-material"],
+      "sourceOracles": [
+        "tests/cyclicMasonryCompressionMaterial.test.js",
+        "tests/packageExports.test.js"
+      ],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/cyclic-masonry-compression-material-compile-time.test.ts",
+        "tests/cyclic-masonry-compression-material-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0083-domain-cyclic-masonry-compression-material"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -6454,11 +6463,18 @@
       "sourcePath": "src/domain/materials/masonry/CyclicMasonryCompressionMaterial.js",
       "sourceBlobSha1": "b048bee36618a45c4b2f371f11f5406ee156ba9d",
       "targetPath": "src/domain/materials/masonry/CyclicMasonryCompressionMaterial.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0083-domain-cyclic-masonry-compression-material"],
+      "sourceOracles": [
+        "tests/cyclicMasonryCompressionMaterial.test.js",
+        "tests/packageExports.test.js"
+      ],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/cyclic-masonry-compression-material-compile-time.test.ts",
+        "tests/cyclic-masonry-compression-material-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0083-domain-cyclic-masonry-compression-material"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -30769,11 +30785,18 @@
       "sourcePath": "src/domain/materials/masonry/CyclicMasonryCompressionMaterial.js",
       "sourceBlobSha1": "b048bee36618a45c4b2f371f11f5406ee156ba9d",
       "targetPath": "src/domain/materials/masonry/CyclicMasonryCompressionMaterial.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing"
+      "migrationSlices": ["0083-domain-cyclic-masonry-compression-material"],
+      "sourceOracles": [
+        "tests/cyclicMasonryCompressionMaterial.test.js",
+        "tests/packageExports.test.js"
+      ],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/cyclic-masonry-compression-material-compile-time.test.ts",
+        "tests/cyclic-masonry-compression-material-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0083-domain-cyclic-masonry-compression-material"],
+      "status": "exact-parity"
     },
     {
       "id": "src/domain/materials/masonry/CyclicMasonryShearMaterial.js",
@@ -31454,7 +31477,8 @@
         "0079-domain-ground-anchor-bond-catalog",
         "0080-domain-slope-stability-methods",
         "0081-domain-embedded-retaining-wall-scenario",
-        "0082-domain-embedded-retaining-wall-analysis"
+        "0082-domain-embedded-retaining-wall-analysis",
+        "0083-domain-cyclic-masonry-compression-material"
       ],
       "sourceOracles": [
         "tests/architecture/applicationRegistry.test.js",
@@ -32616,11 +32640,15 @@
       "sourcePath": "tests/cyclicMasonryCompressionMaterial.test.js",
       "sourceBlobSha1": "5bea624d5b3c6e99dc0c8ec8196de954dbfb322a",
       "targetPath": "tests/cyclicMasonryCompressionMaterial.test.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0083-domain-cyclic-masonry-compression-material"],
+      "sourceOracles": ["tests/cyclicMasonryCompressionMaterial.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/cyclic-masonry-compression-material-compile-time.test.ts",
+        "tests/cyclic-masonry-compression-material-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0083-domain-cyclic-masonry-compression-material"],
+      "status": "exact-parity",
       "testKind": "test"
     },
     {
@@ -33900,7 +33928,8 @@
         "0079-domain-ground-anchor-bond-catalog",
         "0080-domain-slope-stability-methods",
         "0081-domain-embedded-retaining-wall-scenario",
-        "0082-domain-embedded-retaining-wall-analysis"
+        "0082-domain-embedded-retaining-wall-analysis",
+        "0083-domain-cyclic-masonry-compression-material"
       ],
       "sourceOracles": ["tests/packageExports.test.js"],
       "targetTests": [
@@ -33915,6 +33944,8 @@
         "tests/concrete-shear.test.ts",
         "tests/concrete-torsion.test.ts",
         "tests/concrete-uniaxial-domain.test.ts",
+        "tests/cyclic-masonry-compression-material-compile-time.test.ts",
+        "tests/cyclic-masonry-compression-material-live-parity.test.ts",
         "tests/domain-math.test.ts",
         "tests/earth-pressure-coefficients-compile-time.test.ts",
         "tests/earth-pressure-coefficients-live-parity.test.ts",
@@ -33952,7 +33983,8 @@
         "0079-domain-ground-anchor-bond-catalog",
         "0080-domain-slope-stability-methods",
         "0081-domain-embedded-retaining-wall-scenario",
-        "0082-domain-embedded-retaining-wall-analysis"
+        "0082-domain-embedded-retaining-wall-analysis",
+        "0083-domain-cyclic-masonry-compression-material"
       ],
       "status": "exact-parity",
       "testKind": "test"
@@ -36831,12 +36863,28 @@
         "publicStrings": "exact equality plus Unicode code-point preservation",
         "errors": "exact failure result equality for unsupported and invalid input paths"
       }
+    },
+    {
+      "sliceId": "0083-domain-cyclic-masonry-compression-material",
+      "sourceRevision": "6f33baead8b88166c4b2cf94af41763412e3c751",
+      "method": "Strict public declaration consumer coverage and independently executed pinned JavaScript versus built TypeScript comparison of normalized configuration, cyclic state histories, exact JSON serialization, Unicode metadata, cloning and validation error behavior.",
+      "targetTests": [
+        "tests/cyclic-masonry-compression-material-compile-time.test.ts",
+        "tests/cyclic-masonry-compression-material-live-parity.test.ts"
+      ],
+      "fixture": null,
+      "tolerances": {
+        "serializedParity": "exact deep equality and JSON serialization",
+        "numericParity": "exact equality for the deterministic constitutive history",
+        "publicStrings": "exact equality plus Unicode code-point preservation",
+        "errors": "exact error name and message equality"
+      }
     }
   ],
   "counts": {
     "rootExports": {
       "javascript": 841,
-      "typescript": 514
+      "typescript": 516
     },
     "applicationsExports": {
       "javascript": 309,
@@ -36860,11 +36908,11 @@
     },
     "sourceFiles": {
       "javascript": 480,
-      "typescript": 317
+      "typescript": 318
     },
     "tests": {
       "javascript": 131,
-      "typescript": 152
+      "typescript": 154
     },
     "validationCampaigns": {
       "javascript": 17,
@@ -36896,15 +36944,13 @@
       "statusCounts": {
         "exact-parity": 0,
         "partial": 20,
-        "missing": 111,
+        "missing": 108,
         "intentionally-excluded": 0,
         "decision-required": 0
       },
       "itemIds": [
         "root-export:CIRCULAR_SLOPE_STABILITY_RESULT_SCHEMA_VERSION",
-        "root-export:CYCLIC_MASONRY_INTERNAL_UNITS",
         "root-export:CircularSlopeStabilityAnalysis",
-        "root-export:CyclicMasonryCompressionMaterial",
         "root-export:CyclicMasonryPier2D",
         "root-export:CyclicMasonryPierAnalysis2D",
         "root-export:CyclicMasonryShearMaterial",
@@ -37012,7 +37058,6 @@
         "source:src/domain/geotechnics/SlopeSurfaceSurcharge2D.js",
         "source:src/domain/geotechnics/index.js",
         "source:src/domain/geotechnics/spencerMethod.js",
-        "source:src/domain/materials/masonry/CyclicMasonryCompressionMaterial.js",
         "source:src/domain/materials/masonry/CyclicMasonryShearMaterial.js",
         "source:src/domain/materials/masonry/index.js",
         "source:src/domain/materials/masonry/shearStrength/index.js",
@@ -37627,7 +37672,7 @@
       "statusCounts": {
         "exact-parity": 0,
         "partial": 3,
-        "missing": 139,
+        "missing": 138,
         "intentionally-excluded": 0,
         "decision-required": 0
       },
@@ -37728,7 +37773,6 @@
         "package:./norms/italian-historical",
         "package:./norms/ntc2018",
         "test:tests/beamValidationCampaign.test.js",
-        "test:tests/cyclicMasonryCompressionMaterial.test.js",
         "test:tests/cyclicMasonryPierValidationCampaign.test.js",
         "test:tests/cyclicMasonryShearMaterial.test.js",
         "test:tests/dm522023.test.js",

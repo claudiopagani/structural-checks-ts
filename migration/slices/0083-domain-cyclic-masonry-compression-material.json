@@ -1,0 +1,83 @@
+{
+  "schemaVersion": 1,
+  "sliceId": "0083-domain-cyclic-masonry-compression-material",
+  "title": "Domain cyclic masonry compression material",
+  "migrationType": "mechanical-parity",
+  "implementationStatus": "implemented",
+  "dependencies": ["0019-axial-single-pile-capacity"],
+  "source": {
+    "repository": "https://github.com/claudiopagani/strutture-js",
+    "revision": "6f33baead8b88166c4b2cf94af41763412e3c751"
+  },
+  "normativeCorpusRevision": "41da3faa489600173106935bbcf726119300e48d",
+  "sourceFiles": [
+    {
+      "path": "src/domain/materials/masonry/CyclicMasonryCompressionMaterial.js",
+      "gitBlobSha1": "b048bee36618a45c4b2f371f11f5406ee156ba9d",
+      "targetPath": "src/domain/materials/masonry/CyclicMasonryCompressionMaterial.ts"
+    }
+  ],
+  "supportingSourceFiles": [
+    {
+      "path": "src/domain/materials/masonry/index.js",
+      "gitBlobSha1": "eed5859d86434278ab7585e627f8ce9813392cb8",
+      "targetPath": "src/index.ts",
+      "coverage": "Root export support for the migrated compression material; the unported sibling shear material remains outside this slice."
+    },
+    {
+      "path": "src/index.js",
+      "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7",
+      "targetPath": "src/index.ts",
+      "coverage": "Root public exports for the migrated cyclic masonry compression material."
+    }
+  ],
+  "sourceOracles": [
+    {
+      "path": "tests/cyclicMasonryCompressionMaterial.test.js",
+      "gitBlobSha1": "5bea624d5b3c6e99dc0c8ec8196de954dbfb322a",
+      "coverage": "Monotonic envelope, residual branch, unloading, opening, cyclic state, cloning, energy accumulation and tension softening behavior."
+    },
+    {
+      "path": "tests/packageExports.test.js",
+      "gitBlobSha1": "8dde24b4c97dd3dae7100207d07d9d96c52b9c74",
+      "coverage": "Root public export behavior."
+    }
+  ],
+  "sourcePublicExport": {
+    "path": "src/index.js",
+    "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
+  },
+  "targetTests": [
+    "tests/baseline-parity.test.ts",
+    "tests/cyclic-masonry-compression-material-compile-time.test.ts",
+    "tests/cyclic-masonry-compression-material-live-parity.test.ts"
+  ],
+  "publicExports": ["CYCLIC_MASONRY_INTERNAL_UNITS", "CyclicMasonryCompressionMaterial"],
+  "publicTypeExports": [
+    "CyclicMasonryCompressionConfiguration",
+    "CyclicMasonryCompressionMaterialJson",
+    "CyclicMasonryCompressionMaterialOptions",
+    "CyclicMasonryCompressionState"
+  ],
+  "normativeReferences": {
+    "resolved": [],
+    "outsideCorpus": [],
+    "normativeConformityClaimed": false,
+    "status": "classified-for-declared-scope"
+  },
+  "independentValidation": {
+    "method": "Strict public declaration consumer coverage and independently executed pinned JavaScript versus built TypeScript comparison of normalized configuration, cyclic state histories, exact JSON serialization, Unicode metadata, cloning and validation error behavior.",
+    "targetTests": [
+      "tests/cyclic-masonry-compression-material-compile-time.test.ts",
+      "tests/cyclic-masonry-compression-material-live-parity.test.ts"
+    ],
+    "tolerances": {
+      "serializedParity": "exact deep equality and JSON serialization",
+      "numericParity": "exact equality for the deterministic constitutive history",
+      "publicStrings": "exact equality plus Unicode code-point preservation",
+      "errors": "exact error name and message equality"
+    }
+  },
+  "parityDifferences": [],
+  "engineeringFunctionality": "Cyclic masonry compression/contact constitutive law with monotonic envelope, unloading and reloading, fracture-energy tension softening, damage accumulation, state commit/revert/import, cloning and serializable configuration."
+}

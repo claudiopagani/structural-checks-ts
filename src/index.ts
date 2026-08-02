@@ -259,6 +259,10 @@ export {
   WindAction,
 } from "./domain/actions/index.js";
 export {
+  CYCLIC_MASONRY_INTERNAL_UNITS,
+  CyclicMasonryCompressionMaterial,
+} from "./domain/materials/masonry/CyclicMasonryCompressionMaterial.js";
+export {
   PUNCHING_ACTION_SCHEMA_VERSION,
   PUNCHING_CONNECTION_SCHEMA_VERSION,
   PUNCHING_CONTROL_PERIMETER_SCHEMA_VERSION,
@@ -1233,6 +1237,12 @@ export type {
   SupportInput,
   SupportJson,
 } from "./domain/supports/index.js";
+export type {
+  CyclicMasonryCompressionConfiguration,
+  CyclicMasonryCompressionMaterialJson,
+  CyclicMasonryCompressionMaterialOptions,
+  CyclicMasonryCompressionState,
+} from "./domain/materials/masonry/CyclicMasonryCompressionMaterial.js";
 export type {
   AxialPileCapacityAnalysisInput,
   AxialPileCapacityAnalysisResult,
