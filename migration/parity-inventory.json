@@ -1230,6 +1230,8 @@
         "computeWeaklyReinforcedWallAxialDemandRange",
         "computeWeaklyReinforcedWallShearDemand",
         "convertUnitProperties",
+        "coulombActiveEarthPressureCoefficient",
+        "coulombPassiveEarthPressureCoefficient",
         "createCapacityDesignAssessment",
         "createCouplingBeamAssessment",
         "createDiaphragmAssessment",
@@ -1292,8 +1294,10 @@
         "integratePressureSegments",
         "isFinitePositive",
         "isResultStatus",
+        "jakyAtRestCoefficient",
         "listSteelProfileSectionsByFamily",
         "listXlamPanelProducts",
+        "mononobeOkabeActiveEarthPressureCoefficient",
         "normalizeExistingMaterialKnowledgeLevel",
         "normalizeGlobalFemClassificationPolicy",
         "normalizeNTC2018StructuralBehavior",
@@ -1311,6 +1315,7 @@
         "projectSlabResultantStatesToResistanceAxes",
         "projectSupportReactionStateToResistanceAxes",
         "projectWallSectionCutStatesToResistanceAxes",
+        "rankineEarthPressureCoefficients",
         "registerXlamPanelProduct",
         "resolveBeamSupportPreset",
         "resolveExistingMaterialState",
@@ -5252,11 +5257,15 @@
       "sourcePath": "src/domain/geotechnics/earthPressureCoefficients.js",
       "sourceBlobSha1": "547ce3b54af72f361cb32dfeb8b5ebea795b3d04",
       "targetPath": "src/domain/geotechnics/earthPressureCoefficients.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0078-domain-earth-pressure-coefficients"],
+      "sourceOracles": ["tests/geotechnicalEarthPressure.test.js", "tests/packageExports.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/earth-pressure-coefficients-compile-time.test.ts",
+        "tests/earth-pressure-coefficients-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0078-domain-earth-pressure-coefficients"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -5266,11 +5275,15 @@
       "sourcePath": "src/domain/geotechnics/earthPressureCoefficients.js",
       "sourceBlobSha1": "547ce3b54af72f361cb32dfeb8b5ebea795b3d04",
       "targetPath": "src/domain/geotechnics/earthPressureCoefficients.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0078-domain-earth-pressure-coefficients"],
+      "sourceOracles": ["tests/geotechnicalEarthPressure.test.js", "tests/packageExports.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/earth-pressure-coefficients-compile-time.test.ts",
+        "tests/earth-pressure-coefficients-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0078-domain-earth-pressure-coefficients"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -9216,11 +9229,15 @@
       "sourcePath": "src/domain/geotechnics/earthPressureCoefficients.js",
       "sourceBlobSha1": "547ce3b54af72f361cb32dfeb8b5ebea795b3d04",
       "targetPath": "src/domain/geotechnics/earthPressureCoefficients.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0078-domain-earth-pressure-coefficients"],
+      "sourceOracles": ["tests/geotechnicalEarthPressure.test.js", "tests/packageExports.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/earth-pressure-coefficients-compile-time.test.ts",
+        "tests/earth-pressure-coefficients-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0078-domain-earth-pressure-coefficients"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -10264,11 +10281,15 @@
       "sourcePath": "src/domain/geotechnics/earthPressureCoefficients.js",
       "sourceBlobSha1": "547ce3b54af72f361cb32dfeb8b5ebea795b3d04",
       "targetPath": "src/domain/geotechnics/earthPressureCoefficients.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0078-domain-earth-pressure-coefficients"],
+      "sourceOracles": ["tests/geotechnicalEarthPressure.test.js", "tests/packageExports.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/earth-pressure-coefficients-compile-time.test.ts",
+        "tests/earth-pressure-coefficients-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0078-domain-earth-pressure-coefficients"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -12574,11 +12595,15 @@
       "sourcePath": "src/domain/geotechnics/earthPressureCoefficients.js",
       "sourceBlobSha1": "547ce3b54af72f361cb32dfeb8b5ebea795b3d04",
       "targetPath": "src/domain/geotechnics/earthPressureCoefficients.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0078-domain-earth-pressure-coefficients"],
+      "sourceOracles": ["tests/geotechnicalEarthPressure.test.js", "tests/packageExports.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/earth-pressure-coefficients-compile-time.test.ts",
+        "tests/earth-pressure-coefficients-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0078-domain-earth-pressure-coefficients"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -30126,11 +30151,15 @@
       "sourcePath": "src/domain/geotechnics/earthPressureCoefficients.js",
       "sourceBlobSha1": "547ce3b54af72f361cb32dfeb8b5ebea795b3d04",
       "targetPath": "src/domain/geotechnics/earthPressureCoefficients.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing"
+      "migrationSlices": ["0078-domain-earth-pressure-coefficients"],
+      "sourceOracles": ["tests/geotechnicalEarthPressure.test.js", "tests/packageExports.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/earth-pressure-coefficients-compile-time.test.ts",
+        "tests/earth-pressure-coefficients-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0078-domain-earth-pressure-coefficients"],
+      "status": "exact-parity"
     },
     {
       "id": "src/domain/geotechnics/groundAnchorBondCatalog.js",
@@ -31174,7 +31203,8 @@
         "0074-domain-pile-transfer-law",
         "0075-domain-lateral-pile-response-scenario",
         "0076-domain-lateral-pile-beam-on-springs-analysis",
-        "0077-domain-wall-soil-reaction-law"
+        "0077-domain-wall-soil-reaction-law",
+        "0078-domain-earth-pressure-coefficients"
       ],
       "sourceOracles": [
         "tests/architecture/applicationRegistry.test.js",
@@ -32580,10 +32610,16 @@
       "sourcePath": "tests/geotechnicalEarthPressure.test.js",
       "sourceBlobSha1": "b93b597c670a102925008ba004bf237927113003",
       "targetPath": "tests/geotechnicalEarthPressure.test.ts",
-      "migrationSlices": ["0068-domain-pressure-diagram", "0071-domain-soil-structure-interface"],
+      "migrationSlices": [
+        "0068-domain-pressure-diagram",
+        "0071-domain-soil-structure-interface",
+        "0078-domain-earth-pressure-coefficients"
+      ],
       "sourceOracles": ["tests/geotechnicalEarthPressure.test.js"],
       "targetTests": [
         "tests/baseline-parity.test.ts",
+        "tests/earth-pressure-coefficients-compile-time.test.ts",
+        "tests/earth-pressure-coefficients-live-parity.test.ts",
         "tests/pressure-diagram-2d-compile-time.test.ts",
         "tests/pressure-diagram-2d-live-parity.test.ts",
         "tests/soil-structure-interface-compile-time.test.ts",
@@ -32591,7 +32627,8 @@
       ],
       "validationEvidence": [
         "0068-domain-pressure-diagram",
-        "0071-domain-soil-structure-interface"
+        "0071-domain-soil-structure-interface",
+        "0078-domain-earth-pressure-coefficients"
       ],
       "status": "exact-parity",
       "testKind": "test"
@@ -33584,7 +33621,8 @@
         "0025-standalone-reinforced-concrete-cracked-section-deflection",
         "0026-reinforced-concrete-beam-column-joints",
         "0027-reinforced-concrete-strut-and-tie",
-        "0077-domain-wall-soil-reaction-law"
+        "0077-domain-wall-soil-reaction-law",
+        "0078-domain-earth-pressure-coefficients"
       ],
       "sourceOracles": ["tests/packageExports.test.js"],
       "targetTests": [
@@ -33600,6 +33638,8 @@
         "tests/concrete-torsion.test.ts",
         "tests/concrete-uniaxial-domain.test.ts",
         "tests/domain-math.test.ts",
+        "tests/earth-pressure-coefficients-compile-time.test.ts",
+        "tests/earth-pressure-coefficients-live-parity.test.ts",
         "tests/foundation-beam-analysis.test.ts",
         "tests/rc-cracked-deflection.test.ts",
         "tests/reinforced-concrete-beam-column-joint.test.ts",
@@ -33621,7 +33661,8 @@
         "0025-standalone-reinforced-concrete-cracked-section-deflection",
         "0026-reinforced-concrete-beam-column-joints",
         "0027-reinforced-concrete-strut-and-tie",
-        "0077-domain-wall-soil-reaction-law"
+        "0077-domain-wall-soil-reaction-law",
+        "0078-domain-earth-pressure-coefficients"
       ],
       "status": "exact-parity",
       "testKind": "test"
@@ -36420,12 +36461,28 @@
         "publicStrings": "exact equality plus Unicode code-point preservation",
         "errors": "exact error name and message equality"
       }
+    },
+    {
+      "sliceId": "0078-domain-earth-pressure-coefficients",
+      "sourceRevision": "6f33baead8b88166c4b2cf94af41763412e3c751",
+      "method": "Strict public declaration consumer coverage and independently executed pinned JavaScript versus built TypeScript comparison of exact coefficient values, metadata and Unicode strings, static and seismic branches, warning arrays, JSON serialization and exact error messages.",
+      "targetTests": [
+        "tests/earth-pressure-coefficients-compile-time.test.ts",
+        "tests/earth-pressure-coefficients-live-parity.test.ts"
+      ],
+      "fixture": null,
+      "tolerances": {
+        "serializedParity": "exact deep equality and JSON serialization",
+        "numericParity": "exact equality for live JavaScript and built TypeScript coefficient results",
+        "publicStrings": "exact equality plus Unicode code-point preservation",
+        "errors": "exact error name and message equality"
+      }
     }
   ],
   "counts": {
     "rootExports": {
       "javascript": 841,
-      "typescript": 493
+      "typescript": 498
     },
     "applicationsExports": {
       "javascript": 309,
@@ -36449,11 +36506,11 @@
     },
     "sourceFiles": {
       "javascript": 480,
-      "typescript": 312
+      "typescript": 313
     },
     "tests": {
       "javascript": 131,
-      "typescript": 142
+      "typescript": 144
     },
     "validationCampaigns": {
       "javascript": 17,
@@ -36485,7 +36542,7 @@
       "statusCounts": {
         "exact-parity": 0,
         "partial": 20,
-        "missing": 137,
+        "missing": 131,
         "intentionally-excluded": 0,
         "decision-required": 0
       },
@@ -36587,17 +36644,12 @@
         "root-export:calculateShallowFoundationEffectiveGeometry",
         "root-export:calculateShallowFoundationSlidingResistance",
         "root-export:calculateShallowFoundationVerticalStressInfluence",
-        "root-export:coulombActiveEarthPressureCoefficient",
-        "root-export:coulombPassiveEarthPressureCoefficient",
         "root-export:cyclicMasonryPierHistoryToCsv",
         "root-export:getGroundAnchorBondCatalogEntry",
         "root-export:groundAnchorDemandFromEmbeddedWallResult",
-        "root-export:jakyAtRestCoefficient",
         "root-export:listGroundAnchorBondCatalogEntries",
-        "root-export:mononobeOkabeActiveEarthPressureCoefficient",
         "root-export:normalizeTerrainElevationGrid",
         "root-export:ordinaryMethodOfSlices",
-        "root-export:rankineEarthPressureCoefficients",
         "root-export:simplifiedBishop",
         "root-export:spencerMethod",
         "source:src/domain/fem/elements/index.js",
@@ -36622,7 +36674,6 @@
         "source:src/domain/geotechnics/ShallowFoundationUltimateLimitStateAnalysis.js",
         "source:src/domain/geotechnics/SlopeSliceDiscretizer2D.js",
         "source:src/domain/geotechnics/SlopeSurfaceSurcharge2D.js",
-        "source:src/domain/geotechnics/earthPressureCoefficients.js",
         "source:src/domain/geotechnics/groundAnchorBondCatalog.js",
         "source:src/domain/geotechnics/index.js",
         "source:src/domain/geotechnics/slopeStabilityMethods.js",

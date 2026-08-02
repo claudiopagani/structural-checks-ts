@@ -1,0 +1,94 @@
+{
+  "schemaVersion": 1,
+  "sliceId": "0078-domain-earth-pressure-coefficients",
+  "title": "Domain earth-pressure coefficients",
+  "migrationType": "mechanical-parity",
+  "implementationStatus": "implemented",
+  "dependencies": [],
+  "source": {
+    "repository": "https://github.com/claudiopagani/strutture-js",
+    "revision": "6f33baead8b88166c4b2cf94af41763412e3c751"
+  },
+  "normativeCorpusRevision": "41da3faa489600173106935bbcf726119300e48d",
+  "sourceFiles": [
+    {
+      "path": "src/domain/geotechnics/earthPressureCoefficients.js",
+      "gitBlobSha1": "547ce3b54af72f361cb32dfeb8b5ebea795b3d04",
+      "targetPath": "src/domain/geotechnics/earthPressureCoefficients.ts"
+    }
+  ],
+  "supportingSourceFiles": [
+    {
+      "path": "src/domain/geotechnics/index.js",
+      "gitBlobSha1": "41ed2053fc2e37dc90da412846609f4050af9668",
+      "targetPath": "src/domain/geotechnics/index.ts",
+      "coverage": "Geotechnical public exports for the migrated coefficient functions."
+    },
+    {
+      "path": "src/index.js",
+      "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7",
+      "targetPath": "src/index.ts",
+      "coverage": "Root public exports for the migrated coefficient functions."
+    }
+  ],
+  "sourceOracles": [
+    {
+      "path": "tests/geotechnicalEarthPressure.test.js",
+      "gitBlobSha1": "b93b597c670a102925008ba004bf237927113003",
+      "coverage": "Rankine, Jaky, Coulomb active/passive and Mononobe-Okabe numerical, limiting, warning and error behavior."
+    },
+    {
+      "path": "tests/packageExports.test.js",
+      "gitBlobSha1": "8dde24b4c97dd3dae7100207d07d9d96c52b9c74",
+      "coverage": "Root and geotechnics subpath public export behavior."
+    }
+  ],
+  "sourcePublicExport": {
+    "path": "src/index.js",
+    "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
+  },
+  "targetTests": [
+    "tests/baseline-parity.test.ts",
+    "tests/earth-pressure-coefficients-compile-time.test.ts",
+    "tests/earth-pressure-coefficients-live-parity.test.ts"
+  ],
+  "publicExports": [
+    "coulombActiveEarthPressureCoefficient",
+    "coulombPassiveEarthPressureCoefficient",
+    "jakyAtRestCoefficient",
+    "mononobeOkabeActiveEarthPressureCoefficient",
+    "rankineEarthPressureCoefficients"
+  ],
+  "publicTypeExports": [
+    "CoulombEarthPressureCoefficient",
+    "CoulombEarthPressureOptions",
+    "FrictionAngleOptions",
+    "JakyAtRestCoefficient",
+    "MononobeOkabeActiveEarthPressureCoefficient",
+    "MononobeOkabeEarthPressureOptions",
+    "RankineEarthPressureCoefficients"
+  ],
+  "normativeReferences": {
+    "resolved": [],
+    "outsideCorpus": [],
+    "normativeConformityClaimed": false,
+    "status": "classified-for-declared-scope"
+  },
+  "independentValidation": {
+    "method": "Strict public declaration consumer coverage and independently executed pinned JavaScript versus built TypeScript comparison of exact coefficient values, metadata and Unicode strings, static and seismic branches, warning arrays, JSON serialization and exact error messages.",
+    "targetTests": [
+      "tests/earth-pressure-coefficients-compile-time.test.ts",
+      "tests/earth-pressure-coefficients-live-parity.test.ts"
+    ],
+    "tolerances": {
+      "serializedParity": "exact deep equality and JSON serialization",
+      "numericParity": "exact equality for live JavaScript and built TypeScript coefficient results",
+      "publicStrings": "exact equality plus Unicode code-point preservation",
+      "errors": "exact error name and message equality"
+    }
+  },
+  "parityDifferences": [
+    "The strict TypeScript declarations describe the existing JavaScript coefficient utilities without adding earth-pressure analysis or normative catalog behavior."
+  ],
+  "engineeringFunctionality": "Pure Rankine, Jaky, Coulomb and Mononobe-Okabe earth-pressure coefficient utilities with source-compatible geometry conventions, guarded domains and traceable public result metadata."
+}

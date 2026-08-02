@@ -272,4 +272,18 @@ export {
   type WallSoilReactionPoint,
   type WallSoilReactionPointInput,
 } from "./WallSoilReactionLaw.js";
+export {
+  coulombActiveEarthPressureCoefficient,
+  coulombPassiveEarthPressureCoefficient,
+  jakyAtRestCoefficient,
+  mononobeOkabeActiveEarthPressureCoefficient,
+  rankineEarthPressureCoefficients,
+  type CoulombEarthPressureCoefficient,
+  type CoulombEarthPressureOptions,
+  type FrictionAngleOptions,
+  type JakyAtRestCoefficient,
+  type MononobeOkabeActiveEarthPressureCoefficient,
+  type MononobeOkabeEarthPressureOptions,
+  type RankineEarthPressureCoefficients,
+} from "./earthPressureCoefficients.js";
 export { VerticalStressProfile } from "./VerticalStressProfile.js";
