@@ -1,0 +1,88 @@
+{
+  "schemaVersion": 1,
+  "sliceId": "0085-domain-masonry-fiber-interface",
+  "title": "Domain masonry fiber interface",
+  "migrationType": "mechanical-parity",
+  "implementationStatus": "implemented",
+  "dependencies": ["0083-domain-cyclic-masonry-compression-material"],
+  "source": {
+    "repository": "https://github.com/claudiopagani/strutture-js",
+    "revision": "6f33baead8b88166c4b2cf94af41763412e3c751"
+  },
+  "normativeCorpusRevision": "41da3faa489600173106935bbcf726119300e48d",
+  "sourceFiles": [
+    {
+      "path": "src/domain/sections/masonry/MasonryFiberInterface2D.js",
+      "gitBlobSha1": "bbd0c5ee7e7e6d7672c0d90f62c1c4b3e987946c",
+      "targetPath": "src/domain/sections/masonry/MasonryFiberInterface2D.ts"
+    }
+  ],
+  "supportingSourceFiles": [
+    {
+      "path": "src/domain/sections/masonry/index.js",
+      "gitBlobSha1": "c9468efa4c5cc2b4f0457a32f76cad5c1e8ac0ad",
+      "targetPath": "src/index.ts",
+      "coverage": "Masonry section public export for the migrated fiber interface."
+    },
+    {
+      "path": "src/index.js",
+      "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7",
+      "targetPath": "src/index.ts",
+      "coverage": "Root public export for the migrated masonry fiber interface."
+    }
+  ],
+  "sourceOracles": [
+    {
+      "path": "tests/masonryFiberInterface2D.test.js",
+      "gitBlobSha1": "f69d516f25d59216c334e69dda4fe20b6f3e72e5",
+      "coverage": "Centered compression, elastic resultants, partial contact, rocking, opening symmetry, tangent, commit/revert and clone behavior."
+    },
+    {
+      "path": "tests/packageExports.test.js",
+      "gitBlobSha1": "8dde24b4c97dd3dae7100207d07d9d96c52b9c74",
+      "coverage": "Root public export behavior."
+    }
+  ],
+  "sourcePublicExport": {
+    "path": "src/index.js",
+    "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
+  },
+  "targetTests": [
+    "tests/baseline-parity.test.ts",
+    "tests/masonry-fiber-interface-compile-time.test.ts",
+    "tests/masonry-fiber-interface-live-parity.test.ts"
+  ],
+  "publicExports": ["MasonryFiberInterface2D"],
+  "publicTypeExports": [
+    "MasonryFiberCompressionMaterial",
+    "MasonryFiberDeformationInput",
+    "MasonryFiberInterface2DJson",
+    "MasonryFiberInterface2DOptions",
+    "MasonryFiberInterface2DState",
+    "MasonryFiberInternalFiber",
+    "MasonryFiberResponse",
+    "MasonryFiberResponseFiber",
+    "MasonryFiberResultantTarget"
+  ],
+  "normativeReferences": {
+    "resolved": [],
+    "outsideCorpus": [],
+    "normativeConformityClaimed": false,
+    "status": "classified-for-declared-scope"
+  },
+  "independentValidation": {
+    "method": "Strict public declaration consumer coverage and independently executed pinned JavaScript versus built TypeScript comparison of fiber resultants, contact/rocking responses, tangent, exact state and JSON serialization, Unicode metadata, cloning and validation error behavior.",
+    "targetTests": [
+      "tests/masonry-fiber-interface-compile-time.test.ts",
+      "tests/masonry-fiber-interface-live-parity.test.ts"
+    ],
+    "tolerances": {
+      "serializedParity": "exact deep equality and JSON serialization",
+      "numericParity": "exact equality for the deterministic fiber histories and solved resultants",
+      "publicStrings": "exact equality plus Unicode code-point preservation",
+      "errors": "exact error name and message equality"
+    }
+  },
+  "parityDifferences": [],
+  "engineeringFunctionality": "Two-dimensional masonry N-M interface discretized into independent axial fibers with unilateral contact, rocking diagnostics, tangent/resultant response, local Newton resultants, cyclic compression-material state management, cloning and serializable state."
+}

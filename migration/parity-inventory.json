@@ -1017,6 +1017,7 @@
         "Load",
         "LoadCase",
         "LoadCombination",
+        "MasonryFiberInterface2D",
         "MasonryMaterial",
         "MohrCoulombModel",
         "NTC2018_ACTION_COMBINATION_FACTORS",
@@ -10050,11 +10051,15 @@
       "sourcePath": "src/domain/sections/masonry/MasonryFiberInterface2D.js",
       "sourceBlobSha1": "bbd0c5ee7e7e6d7672c0d90f62c1c4b3e987946c",
       "targetPath": "src/domain/sections/masonry/MasonryFiberInterface2D.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0085-domain-masonry-fiber-interface"],
+      "sourceOracles": ["tests/masonryFiberInterface2D.test.js", "tests/packageExports.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/masonry-fiber-interface-compile-time.test.ts",
+        "tests/masonry-fiber-interface-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0085-domain-masonry-fiber-interface"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -31053,11 +31058,15 @@
       "sourcePath": "src/domain/sections/masonry/MasonryFiberInterface2D.js",
       "sourceBlobSha1": "bbd0c5ee7e7e6d7672c0d90f62c1c4b3e987946c",
       "targetPath": "src/domain/sections/masonry/MasonryFiberInterface2D.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing"
+      "migrationSlices": ["0085-domain-masonry-fiber-interface"],
+      "sourceOracles": ["tests/masonryFiberInterface2D.test.js", "tests/packageExports.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/masonry-fiber-interface-compile-time.test.ts",
+        "tests/masonry-fiber-interface-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0085-domain-masonry-fiber-interface"],
+      "status": "exact-parity"
     },
     {
       "id": "src/domain/sections/masonry/index.js",
@@ -31488,7 +31497,8 @@
         "0081-domain-embedded-retaining-wall-scenario",
         "0082-domain-embedded-retaining-wall-analysis",
         "0083-domain-cyclic-masonry-compression-material",
-        "0084-domain-cyclic-masonry-shear-material"
+        "0084-domain-cyclic-masonry-shear-material",
+        "0085-domain-masonry-fiber-interface"
       ],
       "sourceOracles": [
         "tests/architecture/applicationRegistry.test.js",
@@ -33356,11 +33366,15 @@
       "sourcePath": "tests/masonryFiberInterface2D.test.js",
       "sourceBlobSha1": "f69d516f25d59216c334e69dda4fe20b6f3e72e5",
       "targetPath": "tests/masonryFiberInterface2D.test.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0085-domain-masonry-fiber-interface"],
+      "sourceOracles": ["tests/masonryFiberInterface2D.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/masonry-fiber-interface-compile-time.test.ts",
+        "tests/masonry-fiber-interface-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0085-domain-masonry-fiber-interface"],
+      "status": "exact-parity",
       "testKind": "test"
     },
     {
@@ -33944,7 +33958,8 @@
         "0081-domain-embedded-retaining-wall-scenario",
         "0082-domain-embedded-retaining-wall-analysis",
         "0083-domain-cyclic-masonry-compression-material",
-        "0084-domain-cyclic-masonry-shear-material"
+        "0084-domain-cyclic-masonry-shear-material",
+        "0085-domain-masonry-fiber-interface"
       ],
       "sourceOracles": ["tests/packageExports.test.js"],
       "targetTests": [
@@ -33973,6 +33988,8 @@
         "tests/foundation-beam-analysis.test.ts",
         "tests/ground-anchor-bond-catalog-compile-time.test.ts",
         "tests/ground-anchor-bond-catalog-live-parity.test.ts",
+        "tests/masonry-fiber-interface-compile-time.test.ts",
+        "tests/masonry-fiber-interface-live-parity.test.ts",
         "tests/rc-cracked-deflection.test.ts",
         "tests/reinforced-concrete-beam-column-joint.test.ts",
         "tests/reinforced-concrete-foundation-beam.test.ts",
@@ -34002,7 +34019,8 @@
         "0081-domain-embedded-retaining-wall-scenario",
         "0082-domain-embedded-retaining-wall-analysis",
         "0083-domain-cyclic-masonry-compression-material",
-        "0084-domain-cyclic-masonry-shear-material"
+        "0084-domain-cyclic-masonry-shear-material",
+        "0085-domain-masonry-fiber-interface"
       ],
       "status": "exact-parity",
       "testKind": "test"
@@ -36913,12 +36931,28 @@
         "publicStrings": "exact equality plus Unicode code-point preservation",
         "errors": "exact error name and message equality"
       }
+    },
+    {
+      "sliceId": "0085-domain-masonry-fiber-interface",
+      "sourceRevision": "6f33baead8b88166c4b2cf94af41763412e3c751",
+      "method": "Strict public declaration consumer coverage and independently executed pinned JavaScript versus built TypeScript comparison of fiber resultants, contact/rocking responses, tangent, exact state and JSON serialization, Unicode metadata, cloning and validation error behavior.",
+      "targetTests": [
+        "tests/masonry-fiber-interface-compile-time.test.ts",
+        "tests/masonry-fiber-interface-live-parity.test.ts"
+      ],
+      "fixture": null,
+      "tolerances": {
+        "serializedParity": "exact deep equality and JSON serialization",
+        "numericParity": "exact equality for the deterministic fiber histories and solved resultants",
+        "publicStrings": "exact equality plus Unicode code-point preservation",
+        "errors": "exact error name and message equality"
+      }
     }
   ],
   "counts": {
     "rootExports": {
       "javascript": 841,
-      "typescript": 517
+      "typescript": 518
     },
     "applicationsExports": {
       "javascript": 309,
@@ -36942,11 +36976,11 @@
     },
     "sourceFiles": {
       "javascript": 480,
-      "typescript": 319
+      "typescript": 320
     },
     "tests": {
       "javascript": 131,
-      "typescript": 156
+      "typescript": 158
     },
     "validationCampaigns": {
       "javascript": 17,
@@ -36978,7 +37012,7 @@
       "statusCounts": {
         "exact-parity": 0,
         "partial": 20,
-        "missing": 106,
+        "missing": 104,
         "intentionally-excluded": 0,
         "decision-required": 0
       },
@@ -37021,7 +37055,6 @@
         "root-export:LayerLoad",
         "root-export:LinearLoadFromLineWeight",
         "root-export:LinearLoadFromVolumeWeight",
-        "root-export:MasonryFiberInterface2D",
         "root-export:NTC2018SlabLoadAnalysis",
         "root-export:RETAINING_WALL_ANALYSIS_RESULT_SCHEMA_VERSION",
         "root-export:RETAINING_WALL_BASE_UPLIFT_MODELS",
@@ -37094,7 +37127,6 @@
         "source:src/domain/materials/masonry/index.js",
         "source:src/domain/materials/masonry/shearStrength/index.js",
         "source:src/domain/model/StructuralModel.js",
-        "source:src/domain/sections/masonry/MasonryFiberInterface2D.js",
         "source:src/domain/sections/masonry/index.js",
         "source:src/domain/slabs/FloorSlab.js",
         "source:src/domain/slabs/LayerLoad.js",
@@ -37704,7 +37736,7 @@
       "statusCounts": {
         "exact-parity": 0,
         "partial": 3,
-        "missing": 137,
+        "missing": 136,
         "intentionally-excluded": 0,
         "decision-required": 0
       },
@@ -37821,7 +37853,6 @@
         "test:tests/geotechnicalShallowFoundationValidationCampaign.test.js",
         "test:tests/geotechnicalSlopeStabilityValidationCampaign.test.js",
         "test:tests/geotechnicalValidationCampaign.test.js",
-        "test:tests/masonryFiberInterface2D.test.js",
         "test:tests/masonryPierVerticalVerification.test.js",
         "test:tests/masonryWallOpeningsEquivalentFrameBuilder.test.js",
         "test:tests/masonryWallOpeningsEquivalentFramePushover.test.js",

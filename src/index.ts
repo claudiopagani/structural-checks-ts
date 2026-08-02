@@ -263,6 +263,7 @@ export {
   CyclicMasonryCompressionMaterial,
 } from "./domain/materials/masonry/CyclicMasonryCompressionMaterial.js";
 export { CyclicMasonryShearMaterial } from "./domain/materials/masonry/CyclicMasonryShearMaterial.js";
+export { MasonryFiberInterface2D } from "./domain/sections/masonry/MasonryFiberInterface2D.js";
 export {
   PUNCHING_ACTION_SCHEMA_VERSION,
   PUNCHING_CONNECTION_SCHEMA_VERSION,
@@ -1253,6 +1254,17 @@ export type {
   CyclicMasonryShearPinching,
   CyclicMasonryShearState,
 } from "./domain/materials/masonry/CyclicMasonryShearMaterial.js";
+export type {
+  MasonryFiberCompressionMaterial,
+  MasonryFiberDeformationInput,
+  MasonryFiberInterface2DJson,
+  MasonryFiberInterface2DOptions,
+  MasonryFiberInterface2DState,
+  MasonryFiberInternalFiber,
+  MasonryFiberResponse,
+  MasonryFiberResponseFiber,
+  MasonryFiberResultantTarget,
+} from "./domain/sections/masonry/MasonryFiberInterface2D.js";
 export type {
   AxialPileCapacityAnalysisInput,
   AxialPileCapacityAnalysisResult,
