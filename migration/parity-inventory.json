@@ -1178,6 +1178,10 @@
         "VerticalStressProfile",
         "VolumeLoad",
         "WALL_BIAXIAL_REFERENCE",
+        "WALL_SOIL_REACTION_EXTRAPOLATION_MODELS",
+        "WALL_SOIL_REACTION_LAW_SCHEMA_VERSION",
+        "WALL_SOIL_REACTION_MODELS",
+        "WallSoilReactionLaw",
         "WindAction",
         "XlamBeamSectionProvider",
         "XlamMaterial",
@@ -17025,11 +17029,18 @@
       "sourcePath": "src/domain/geotechnics/WallSoilReactionLaw.js",
       "sourceBlobSha1": "a7a645fc6391fb91b3546786204f05f445bcc193",
       "targetPath": "src/domain/geotechnics/WallSoilReactionLaw.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0077-domain-wall-soil-reaction-law"],
+      "sourceOracles": [
+        "tests/geotechnicalEmbeddedRetainingWalls.test.js",
+        "tests/packageExports.test.js"
+      ],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/wall-soil-reaction-law-compile-time.test.ts",
+        "tests/wall-soil-reaction-law-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0077-domain-wall-soil-reaction-law"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -17039,11 +17050,18 @@
       "sourcePath": "src/domain/geotechnics/WallSoilReactionLaw.js",
       "sourceBlobSha1": "a7a645fc6391fb91b3546786204f05f445bcc193",
       "targetPath": "src/domain/geotechnics/WallSoilReactionLaw.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0077-domain-wall-soil-reaction-law"],
+      "sourceOracles": [
+        "tests/geotechnicalEmbeddedRetainingWalls.test.js",
+        "tests/packageExports.test.js"
+      ],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/wall-soil-reaction-law-compile-time.test.ts",
+        "tests/wall-soil-reaction-law-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0077-domain-wall-soil-reaction-law"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -17053,11 +17071,18 @@
       "sourcePath": "src/domain/geotechnics/WallSoilReactionLaw.js",
       "sourceBlobSha1": "a7a645fc6391fb91b3546786204f05f445bcc193",
       "targetPath": "src/domain/geotechnics/WallSoilReactionLaw.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0077-domain-wall-soil-reaction-law"],
+      "sourceOracles": [
+        "tests/geotechnicalEmbeddedRetainingWalls.test.js",
+        "tests/packageExports.test.js"
+      ],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/wall-soil-reaction-law-compile-time.test.ts",
+        "tests/wall-soil-reaction-law-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0077-domain-wall-soil-reaction-law"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -17081,11 +17106,18 @@
       "sourcePath": "src/domain/geotechnics/WallSoilReactionLaw.js",
       "sourceBlobSha1": "a7a645fc6391fb91b3546786204f05f445bcc193",
       "targetPath": "src/domain/geotechnics/WallSoilReactionLaw.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0077-domain-wall-soil-reaction-law"],
+      "sourceOracles": [
+        "tests/geotechnicalEmbeddedRetainingWalls.test.js",
+        "tests/packageExports.test.js"
+      ],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/wall-soil-reaction-law-compile-time.test.ts",
+        "tests/wall-soil-reaction-law-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0077-domain-wall-soil-reaction-law"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -22191,11 +22223,18 @@
       "sourcePath": "src/domain/geotechnics/WallSoilReactionLaw.js",
       "sourceBlobSha1": "a7a645fc6391fb91b3546786204f05f445bcc193",
       "targetPath": "src/domain/geotechnics/WallSoilReactionLaw.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0077-domain-wall-soil-reaction-law"],
+      "sourceOracles": [
+        "tests/geotechnicalEmbeddedRetainingWalls.test.js",
+        "tests/packageExports.test.js"
+      ],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/wall-soil-reaction-law-compile-time.test.ts",
+        "tests/wall-soil-reaction-law-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0077-domain-wall-soil-reaction-law"],
+      "status": "exact-parity",
       "publicEntryPath": "src/applications/index.js",
       "publicEntryBlobSha1": "b70179c7cdd2a819f2151dc092c0f59cbce30ba6"
     },
@@ -22205,11 +22244,18 @@
       "sourcePath": "src/domain/geotechnics/WallSoilReactionLaw.js",
       "sourceBlobSha1": "a7a645fc6391fb91b3546786204f05f445bcc193",
       "targetPath": "src/domain/geotechnics/WallSoilReactionLaw.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0077-domain-wall-soil-reaction-law"],
+      "sourceOracles": [
+        "tests/geotechnicalEmbeddedRetainingWalls.test.js",
+        "tests/packageExports.test.js"
+      ],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/wall-soil-reaction-law-compile-time.test.ts",
+        "tests/wall-soil-reaction-law-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0077-domain-wall-soil-reaction-law"],
+      "status": "exact-parity",
       "publicEntryPath": "src/applications/index.js",
       "publicEntryBlobSha1": "b70179c7cdd2a819f2151dc092c0f59cbce30ba6"
     },
@@ -22219,11 +22265,18 @@
       "sourcePath": "src/domain/geotechnics/WallSoilReactionLaw.js",
       "sourceBlobSha1": "a7a645fc6391fb91b3546786204f05f445bcc193",
       "targetPath": "src/domain/geotechnics/WallSoilReactionLaw.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0077-domain-wall-soil-reaction-law"],
+      "sourceOracles": [
+        "tests/geotechnicalEmbeddedRetainingWalls.test.js",
+        "tests/packageExports.test.js"
+      ],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/wall-soil-reaction-law-compile-time.test.ts",
+        "tests/wall-soil-reaction-law-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0077-domain-wall-soil-reaction-law"],
+      "status": "exact-parity",
       "publicEntryPath": "src/applications/index.js",
       "publicEntryBlobSha1": "b70179c7cdd2a819f2151dc092c0f59cbce30ba6"
     },
@@ -22233,11 +22286,18 @@
       "sourcePath": "src/domain/geotechnics/WallSoilReactionLaw.js",
       "sourceBlobSha1": "a7a645fc6391fb91b3546786204f05f445bcc193",
       "targetPath": "src/domain/geotechnics/WallSoilReactionLaw.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0077-domain-wall-soil-reaction-law"],
+      "sourceOracles": [
+        "tests/geotechnicalEmbeddedRetainingWalls.test.js",
+        "tests/packageExports.test.js"
+      ],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/wall-soil-reaction-law-compile-time.test.ts",
+        "tests/wall-soil-reaction-law-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0077-domain-wall-soil-reaction-law"],
+      "status": "exact-parity",
       "publicEntryPath": "src/applications/index.js",
       "publicEntryBlobSha1": "b70179c7cdd2a819f2151dc092c0f59cbce30ba6"
     },
@@ -24704,11 +24764,18 @@
       "sourcePath": "src/domain/geotechnics/WallSoilReactionLaw.js",
       "sourceBlobSha1": "a7a645fc6391fb91b3546786204f05f445bcc193",
       "targetPath": "src/domain/geotechnics/WallSoilReactionLaw.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0077-domain-wall-soil-reaction-law"],
+      "sourceOracles": [
+        "tests/geotechnicalEmbeddedRetainingWalls.test.js",
+        "tests/packageExports.test.js"
+      ],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/wall-soil-reaction-law-compile-time.test.ts",
+        "tests/wall-soil-reaction-law-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0077-domain-wall-soil-reaction-law"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7",
       "value": "wall-soil-reaction-law/v1"
@@ -30041,11 +30108,18 @@
       "sourcePath": "src/domain/geotechnics/WallSoilReactionLaw.js",
       "sourceBlobSha1": "a7a645fc6391fb91b3546786204f05f445bcc193",
       "targetPath": "src/domain/geotechnics/WallSoilReactionLaw.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing"
+      "migrationSlices": ["0077-domain-wall-soil-reaction-law"],
+      "sourceOracles": [
+        "tests/geotechnicalEmbeddedRetainingWalls.test.js",
+        "tests/packageExports.test.js"
+      ],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/wall-soil-reaction-law-compile-time.test.ts",
+        "tests/wall-soil-reaction-law-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0077-domain-wall-soil-reaction-law"],
+      "status": "exact-parity"
     },
     {
       "id": "src/domain/geotechnics/earthPressureCoefficients.js",
@@ -31099,7 +31173,8 @@
         "0073-domain-lateral-pile-load-scenario",
         "0074-domain-pile-transfer-law",
         "0075-domain-lateral-pile-response-scenario",
-        "0076-domain-lateral-pile-beam-on-springs-analysis"
+        "0076-domain-lateral-pile-beam-on-springs-analysis",
+        "0077-domain-wall-soil-reaction-law"
       ],
       "sourceOracles": [
         "tests/architecture/applicationRegistry.test.js",
@@ -32538,14 +32613,22 @@
       "sourcePath": "tests/geotechnicalEmbeddedRetainingWalls.test.js",
       "sourceBlobSha1": "4e5ac3cc7b3d0db759c3a7a2dae5b7d9e7ec788a",
       "targetPath": "tests/geotechnicalEmbeddedRetainingWalls.test.ts",
-      "migrationSlices": ["0066-domain-embedded-retaining-wall-model"],
+      "migrationSlices": [
+        "0066-domain-embedded-retaining-wall-model",
+        "0077-domain-wall-soil-reaction-law"
+      ],
       "sourceOracles": ["tests/geotechnicalEmbeddedRetainingWalls.test.js"],
       "targetTests": [
         "tests/baseline-parity.test.ts",
         "tests/embedded-retaining-wall-model-compile-time.test.ts",
-        "tests/embedded-retaining-wall-model-live-parity.test.ts"
+        "tests/embedded-retaining-wall-model-live-parity.test.ts",
+        "tests/wall-soil-reaction-law-compile-time.test.ts",
+        "tests/wall-soil-reaction-law-live-parity.test.ts"
       ],
-      "validationEvidence": ["0066-domain-embedded-retaining-wall-model"],
+      "validationEvidence": [
+        "0066-domain-embedded-retaining-wall-model",
+        "0077-domain-wall-soil-reaction-law"
+      ],
       "status": "exact-parity",
       "testKind": "test"
     },
@@ -33500,7 +33583,8 @@
         "0024-reinforced-concrete-foundation-beams",
         "0025-standalone-reinforced-concrete-cracked-section-deflection",
         "0026-reinforced-concrete-beam-column-joints",
-        "0027-reinforced-concrete-strut-and-tie"
+        "0027-reinforced-concrete-strut-and-tie",
+        "0077-domain-wall-soil-reaction-law"
       ],
       "sourceOracles": ["tests/packageExports.test.js"],
       "targetTests": [
@@ -33520,7 +33604,9 @@
         "tests/rc-cracked-deflection.test.ts",
         "tests/reinforced-concrete-beam-column-joint.test.ts",
         "tests/reinforced-concrete-foundation-beam.test.ts",
-        "tests/reinforced-concrete-strut-and-tie.test.ts"
+        "tests/reinforced-concrete-strut-and-tie.test.ts",
+        "tests/wall-soil-reaction-law-compile-time.test.ts",
+        "tests/wall-soil-reaction-law-live-parity.test.ts"
       ],
       "validationEvidence": [
         "0007-domain-math-and-biaxial-demand-capacity",
@@ -33534,7 +33620,8 @@
         "0024-reinforced-concrete-foundation-beams",
         "0025-standalone-reinforced-concrete-cracked-section-deflection",
         "0026-reinforced-concrete-beam-column-joints",
-        "0027-reinforced-concrete-strut-and-tie"
+        "0027-reinforced-concrete-strut-and-tie",
+        "0077-domain-wall-soil-reaction-law"
       ],
       "status": "exact-parity",
       "testKind": "test"
@@ -36317,16 +36404,32 @@
         "publicStrings": "exact equality plus Unicode code-point preservation",
         "errors": "exact error name, summary and warning behavior equality"
       }
+    },
+    {
+      "sliceId": "0077-domain-wall-soil-reaction-law",
+      "sourceRevision": "6f33baead8b88166c4b2cf94af41763412e3c751",
+      "method": "Strict public declaration consumer coverage and independently executed pinned JavaScript versus built TypeScript comparison of unit normalization, sorted monotone points, interpolation, constant and linear extrapolation, secant and tangent moduli, exact JSON serialization, Unicode metadata, instanceof behavior and exact error messages.",
+      "targetTests": [
+        "tests/wall-soil-reaction-law-compile-time.test.ts",
+        "tests/wall-soil-reaction-law-live-parity.test.ts"
+      ],
+      "fixture": null,
+      "tolerances": {
+        "serializedParity": "exact deep equality and JSON serialization",
+        "numericParity": "exact equality for live JavaScript and built TypeScript evaluations",
+        "publicStrings": "exact equality plus Unicode code-point preservation",
+        "errors": "exact error name and message equality"
+      }
     }
   ],
   "counts": {
     "rootExports": {
       "javascript": 841,
-      "typescript": 489
+      "typescript": 493
     },
     "applicationsExports": {
       "javascript": 309,
-      "typescript": 144
+      "typescript": 148
     },
     "packageEntryPoints": {
       "javascript": 14,
@@ -36342,15 +36445,15 @@
     },
     "serializedSchemas": {
       "javascript": 49,
-      "typescript": 27
+      "typescript": 28
     },
     "sourceFiles": {
       "javascript": 480,
-      "typescript": 311
+      "typescript": 312
     },
     "tests": {
       "javascript": 131,
-      "typescript": 140
+      "typescript": 142
     },
     "validationCampaigns": {
       "javascript": 17,
@@ -36382,7 +36485,7 @@
       "statusCounts": {
         "exact-parity": 0,
         "partial": 20,
-        "missing": 142,
+        "missing": 137,
         "intentionally-excluded": 0,
         "decision-required": 0
       },
@@ -36475,11 +36578,7 @@
         "root-export:SurfaceLoad",
         "root-export:TERRAIN_ELEVATION_GRID_SCHEMA_VERSION",
         "root-export:VariableLoad",
-        "root-export:WALL_SOIL_REACTION_EXTRAPOLATION_MODELS",
-        "root-export:WALL_SOIL_REACTION_LAW_SCHEMA_VERSION",
-        "root-export:WALL_SOIL_REACTION_MODELS",
         "root-export:WallLoad",
-        "root-export:WallSoilReactionLaw",
         "root-export:calculateRetainingWallPolygonProperties",
         "root-export:calculateRigidFoundationElasticStiffness",
         "root-export:calculateSchmertmannStrainInfluence",
@@ -36523,7 +36622,6 @@
         "source:src/domain/geotechnics/ShallowFoundationUltimateLimitStateAnalysis.js",
         "source:src/domain/geotechnics/SlopeSliceDiscretizer2D.js",
         "source:src/domain/geotechnics/SlopeSurfaceSurcharge2D.js",
-        "source:src/domain/geotechnics/WallSoilReactionLaw.js",
         "source:src/domain/geotechnics/earthPressureCoefficients.js",
         "source:src/domain/geotechnics/groundAnchorBondCatalog.js",
         "source:src/domain/geotechnics/index.js",
@@ -36739,7 +36837,7 @@
       "statusCounts": {
         "exact-parity": 0,
         "partial": 16,
-        "missing": 395,
+        "missing": 391,
         "intentionally-excluded": 0,
         "decision-required": 0
       },
@@ -36854,10 +36952,6 @@
         "application-export:TimberXlamCompositeBeamModel",
         "application-export:TimberXlamCompositeBeamSectionProvider",
         "application-export:TimberXlamCompositeBeamVerification",
-        "application-export:WALL_SOIL_REACTION_EXTRAPOLATION_MODELS",
-        "application-export:WALL_SOIL_REACTION_LAW_SCHEMA_VERSION",
-        "application-export:WALL_SOIL_REACTION_MODELS",
-        "application-export:WallSoilReactionLaw",
         "application-export:XlamBeamVerification",
         "application-export:XlamOutOfPlanePanelApplication",
         "application-export:XlamOutOfPlanePanelModel",

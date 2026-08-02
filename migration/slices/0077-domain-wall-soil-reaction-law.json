@@ -1,0 +1,103 @@
+{
+  "schemaVersion": 1,
+  "sliceId": "0077-domain-wall-soil-reaction-law",
+  "title": "Domain wall-soil reaction law",
+  "migrationType": "mechanical-parity",
+  "implementationStatus": "implemented",
+  "dependencies": ["0019-axial-single-pile-capacity"],
+  "source": {
+    "repository": "https://github.com/claudiopagani/strutture-js",
+    "revision": "6f33baead8b88166c4b2cf94af41763412e3c751"
+  },
+  "normativeCorpusRevision": "41da3faa489600173106935bbcf726119300e48d",
+  "sourceFiles": [
+    {
+      "path": "src/domain/geotechnics/WallSoilReactionLaw.js",
+      "gitBlobSha1": "a7a645fc6391fb91b3546786204f05f445bcc193",
+      "targetPath": "src/domain/geotechnics/WallSoilReactionLaw.ts"
+    }
+  ],
+  "supportingSourceFiles": [
+    {
+      "path": "src/domain/geotechnics/SoilMaterial.js",
+      "gitBlobSha1": "5dfaafe73a7e65586de313e262cacf7e257535b9",
+      "targetPath": "src/domain/geotechnics/SoilMaterial.ts",
+      "coverage": "The law uses the migrated geotechnical internal stress and displacement units."
+    },
+    {
+      "path": "src/domain/units/UnitSystem.js",
+      "gitBlobSha1": "b8f2f4926aff645efbf7b9f458b69eba264ed59a",
+      "targetPath": "src/domain/units/UnitSystem.ts",
+      "coverage": "Explicit unit validation and length/stress conversion preserve the source contract."
+    },
+    {
+      "path": "src/domain/geotechnics/index.js",
+      "gitBlobSha1": "41ed2053fc2e37dc90da412846609f4050af9668",
+      "targetPath": "src/domain/geotechnics/index.ts",
+      "coverage": "Geotechnical public exports for the migrated law."
+    },
+    {
+      "path": "src/index.js",
+      "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7",
+      "targetPath": "src/index.ts",
+      "coverage": "Root public exports for the migrated law."
+    }
+  ],
+  "sourceOracles": [
+    {
+      "path": "tests/geotechnicalEmbeddedRetainingWalls.test.js",
+      "gitBlobSha1": "4e5ac3cc7b3d0db759c3a7a2dae5b7d9e7ec788a",
+      "coverage": "Wall-soil law unit conversion, monotonic validation, interpolation, extrapolation, pressure-at-zero and serialization behavior."
+    },
+    {
+      "path": "tests/packageExports.test.js",
+      "gitBlobSha1": "8dde24b4c97dd3dae7100207d07d9d96c52b9c74",
+      "coverage": "Root and geotechnics subpath public export behavior."
+    }
+  ],
+  "sourcePublicExport": {
+    "path": "src/index.js",
+    "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
+  },
+  "targetTests": [
+    "tests/baseline-parity.test.ts",
+    "tests/wall-soil-reaction-law-compile-time.test.ts",
+    "tests/wall-soil-reaction-law-live-parity.test.ts"
+  ],
+  "publicExports": [
+    "WALL_SOIL_REACTION_EXTRAPOLATION_MODELS",
+    "WALL_SOIL_REACTION_LAW_SCHEMA_VERSION",
+    "WALL_SOIL_REACTION_MODELS",
+    "WallSoilReactionLaw"
+  ],
+  "publicTypeExports": [
+    "WallSoilReactionEvaluation",
+    "WallSoilReactionLawJson",
+    "WallSoilReactionLawOptions",
+    "WallSoilReactionPoint",
+    "WallSoilReactionPointInput"
+  ],
+  "normativeReferences": {
+    "resolved": [],
+    "outsideCorpus": [],
+    "normativeConformityClaimed": false,
+    "status": "classified-for-declared-scope"
+  },
+  "independentValidation": {
+    "method": "Strict public declaration consumer coverage and independently executed pinned JavaScript versus built TypeScript comparison of unit normalization, sorted monotone points, interpolation, constant and linear extrapolation, secant and tangent moduli, exact JSON serialization, Unicode metadata, instanceof behavior and exact error messages.",
+    "targetTests": [
+      "tests/wall-soil-reaction-law-compile-time.test.ts",
+      "tests/wall-soil-reaction-law-live-parity.test.ts"
+    ],
+    "tolerances": {
+      "serializedParity": "exact deep equality and JSON serialization",
+      "numericParity": "exact equality for live JavaScript and built TypeScript evaluations",
+      "publicStrings": "exact equality plus Unicode code-point preservation",
+      "errors": "exact error name and message equality"
+    }
+  },
+  "parityDifferences": [
+    "The strict TypeScript declarations describe the existing JavaScript wall-soil reaction law without adding retaining-wall analysis behavior."
+  ],
+  "engineeringFunctionality": "Serializable monotone piecewise-linear effective-soil-pressure versus wall-closure law with explicit unit conversion, constant or linear extrapolation, and pressure/tangent/secant response metadata."
+}

@@ -418,6 +418,9 @@ export {
   PILE_TRANSFER_EXTRAPOLATION_MODELS,
   PILE_TRANSFER_LAW_KINDS,
   PILE_TRANSFER_LAW_SCHEMA_VERSION,
+  WALL_SOIL_REACTION_EXTRAPOLATION_MODELS,
+  WALL_SOIL_REACTION_LAW_SCHEMA_VERSION,
+  WALL_SOIL_REACTION_MODELS,
   LATERAL_PILE_ACTION_REFERENCE_POINTS,
   LATERAL_PILE_END_RESTRAINTS,
   LATERAL_PILE_RESPONSE_METHODS,
@@ -444,6 +447,7 @@ export {
   PileTransferLaw,
   LateralPileResponseScenario,
   LateralPileBeamOnSpringsAnalysis,
+  WallSoilReactionLaw,
   VerticalStressProfile,
 } from "./domain/geotechnics/index.js";
 export { ReinforcedConcreteSectionVerification } from "./applications/reinforced-concrete-sections/checks/ReinforcedConcreteSectionVerification.js";
@@ -1363,6 +1367,11 @@ export type {
   LateralPileBeamOnSpringsAnalysisOptions,
   LateralPileBeamOnSpringsResult,
   LateralPileLinearSolver,
+  WallSoilReactionEvaluation,
+  WallSoilReactionLawJson,
+  WallSoilReactionLawOptions,
+  WallSoilReactionPoint,
+  WallSoilReactionPointInput,
 } from "./domain/geotechnics/index.js";
 export type {
   BiaxialCompressedSide,

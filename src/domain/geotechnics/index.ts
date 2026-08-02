@@ -261,4 +261,15 @@ export {
   type LateralPileBeamOnSpringsResult,
   type LateralPileLinearSolver,
 } from "./LateralPileBeamOnSpringsAnalysis.js";
+export {
+  WALL_SOIL_REACTION_EXTRAPOLATION_MODELS,
+  WALL_SOIL_REACTION_LAW_SCHEMA_VERSION,
+  WALL_SOIL_REACTION_MODELS,
+  WallSoilReactionLaw,
+  type WallSoilReactionEvaluation,
+  type WallSoilReactionLawJson,
+  type WallSoilReactionLawOptions,
+  type WallSoilReactionPoint,
+  type WallSoilReactionPointInput,
+} from "./WallSoilReactionLaw.js";
 export { VerticalStressProfile } from "./VerticalStressProfile.js";
