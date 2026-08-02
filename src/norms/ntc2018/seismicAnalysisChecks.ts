@@ -11,7 +11,7 @@ const ACCIDENTAL_ECCENTRICITY_FACTOR = 0.05;
 export const NTC2018_LINEAR_DYNAMIC_REFERENCES = Object.freeze([
   Object.freeze({
     source: "NTC 2018",
-    citation: "Â§Â§ 7.2.6, 7.3.3, 7.3.3.1 e 7.3.5",
+    citation: "§§ 7.2.6, 7.3.3, 7.3.3.1 e 7.3.5",
   }),
 ]);
 
@@ -56,7 +56,7 @@ export function verifyNTC2018ModalMassParticipation({
       ok: false,
       directions: [],
       reason: "Modal results are required.",
-      reference: "NTC 2018 Â§ 7.3.3.1",
+      reference: "NTC 2018 § 7.3.3.1",
     };
   }
   const seismicDirections = normalizedDirections(directions);
@@ -92,7 +92,7 @@ export function verifyNTC2018ModalMassParticipation({
     status: assessments.every((item) => item.ok) ? "ok" : "not-verified",
     ok: assessments.every((item) => item.ok),
     directions: assessments,
-    reference: "NTC 2018 Â§ 7.3.3.1",
+    reference: "NTC 2018 § 7.3.3.1",
   };
 }
 
@@ -113,7 +113,7 @@ export function verifyNTC2018AccidentalEccentricities({
       ok: false,
       checks: [],
       reason: "Accidental eccentricities, storeys and mean plan dimensions are required.",
-      reference: "NTC 2018 Â§Â§ 7.2.6 e 7.3.3",
+      reference: "NTC 2018 §§ 7.2.6 e 7.3.3",
     };
   }
   const seismicDirections = normalizedDirections(directions);
@@ -168,7 +168,7 @@ export function verifyNTC2018AccidentalEccentricities({
     ok: checks.length > 0 && checks.every((item) => item.ok),
     factor: ACCIDENTAL_ECCENTRICITY_FACTOR,
     checks,
-    reference: "NTC 2018 Â§Â§ 7.2.6 e 7.3.3",
+    reference: "NTC 2018 §§ 7.2.6 e 7.3.3",
   };
 }
 
@@ -205,7 +205,7 @@ export function createNTC2018LinearDynamicAssessment({
       ok: false,
       missing,
       checks: [],
-      reference: "NTC 2018 Â§Â§ 7.2.6, 7.3.3, 7.3.3.1 e 7.3.5",
+      reference: "NTC 2018 §§ 7.2.6, 7.3.3, 7.3.3.1 e 7.3.5",
     };
   }
 
@@ -271,6 +271,6 @@ export function createNTC2018LinearDynamicAssessment({
     massParticipation,
     accidentalEccentricity: eccentricity,
     checks,
-    reference: "NTC 2018 Â§Â§ 7.2.6, 7.3.3, 7.3.3.1 e 7.3.5",
+    reference: "NTC 2018 §§ 7.2.6, 7.3.3, 7.3.3.1 e 7.3.5",
   };
 }

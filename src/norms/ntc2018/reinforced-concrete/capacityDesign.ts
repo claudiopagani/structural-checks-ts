@@ -17,11 +17,11 @@ import { NTC2018_RC_CHAPTER_7_4_REFERENCES } from "../normativeReferences.js";
 export const NTC2018_CAPACITY_DESIGN_REFERENCES = Object.freeze([
   Object.freeze({
     source: "NTC 2018",
-    citation: "Â§Â§ 7.4.4.1.1, 7.4.4.2.1 e 7.4.4.3.1; Eqs. [7.4.4]-[7.4.7]",
+    citation: "§§ 7.4.4.1.1, 7.4.4.2.1 e 7.4.4.3.1; Eqs. [7.4.4]-[7.4.7]",
   }),
   Object.freeze({
     source: "Circolare 21 gennaio 2019, n. 7 C.S.LL.PP.",
-    citation: "Â§ C7.4.4",
+    citation: "§ C7.4.4",
   }),
 ]);
 
@@ -91,7 +91,7 @@ export function verifyBeamColumnHierarchy({
       gammaRd: null,
       discordantColumns: false,
       check: "capacity-design-beam-column-hierarchy",
-      reference: "NTC 2018 Â§ 7.4.4.2.1, Eq. [7.4.4]",
+      reference: "NTC 2018 § 7.4.4.2.1, Eq. [7.4.4]",
       metadata: withNormativeReferences({}, [
         NTC2018_RC_CHAPTER_7_4_REFERENCES.columnCapacityDesign,
       ]),
@@ -130,7 +130,7 @@ export function verifyBeamColumnHierarchy({
     transferredColumnMoment,
     discordantColumns,
     check: "capacity-design-beam-column-hierarchy",
-    reference: "NTC 2018 Â§ 7.4.4.2.1, Eq. [7.4.4]",
+    reference: "NTC 2018 § 7.4.4.2.1, Eq. [7.4.4]",
     metadata: withNormativeReferences({}, [NTC2018_RC_CHAPTER_7_4_REFERENCES.columnCapacityDesign]),
   };
 }
@@ -173,7 +173,7 @@ export function computeBeamCapacityShear({
     shearFromEndMoments,
     gammaRd,
     check: "capacity-design-beam-shear",
-    reference: "NTC 2018 Â§ 7.4.4.1.1 (Taglio)",
+    reference: "NTC 2018 § 7.4.4.1.1 (Taglio)",
     metadata: withNormativeReferences({}, [NTC2018_RC_CHAPTER_7_4_REFERENCES.beamCapacityShear]),
   };
 }
@@ -219,7 +219,7 @@ export function computeColumnCapacityShear({ top, bottom, clearLength, behavior 
     hierarchyFactorTop: topEnd.hierarchyFactor,
     hierarchyFactorBottom: bottomEnd.hierarchyFactor,
     check: "capacity-design-column-shear",
-    reference: "NTC 2018 Â§ 7.4.4.2.1, Eq. [7.4.5]",
+    reference: "NTC 2018 § 7.4.4.2.1, Eq. [7.4.5]",
     metadata: withNormativeReferences({}, [NTC2018_RC_CHAPTER_7_4_REFERENCES.columnCapacityDesign]),
   };
 }
@@ -262,8 +262,8 @@ export function computeJointCapacityShear({
     check: "capacity-design-joint-shear",
     reference:
       jointType === "internal"
-        ? "NTC 2018 Â§ 7.4.4.3.1, Eq. [7.4.7]"
-        : "NTC 2018 Â§ 7.4.4.3.1, Eq. [7.4.6]",
+        ? "NTC 2018 § 7.4.4.3.1, Eq. [7.4.7]"
+        : "NTC 2018 § 7.4.4.3.1, Eq. [7.4.6]",
     metadata: withNormativeReferences({}, [NTC2018_RC_CHAPTER_7_4_REFERENCES.beamColumnJoint]),
   };
 }

@@ -1,7 +1,15 @@
-/* eslint-disable @typescript-eslint/ban-ts-comment, @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-return, @typescript-eslint/no-floating-promises */
 // Mechanical TypeScript migration from strutture-js 6f33baead8b88166c4b2cf94af41763412e3c751.
-// @ts-nocheck
-export const GLOBAL_FEM_CONTRACT_VERSION = 0;
+import type {
+  FemAxes,
+  FemDiagnostic,
+  FemIdentified,
+  FemJsonValue,
+  FemUnitSystem,
+  FemValidationResult,
+  FemVector3,
+} from "./FemContractTypes.js";
+
+export const GLOBAL_FEM_CONTRACT_VERSION = 0 as const;
 
 export const FEM_CONTRACT_SCHEMAS = Object.freeze({
   capabilities: "strutture-js/fem-capabilities",
@@ -9,7 +17,7 @@ export const FEM_CONTRACT_SCHEMAS = Object.freeze({
   analysis: "strutture-js/global-fem-analysis",
   mapping: "strutture-js/fem-entity-mapping",
   result: "strutture-js/global-fem-result",
-});
+} as const);
 
 export const FEM_ANALYSIS_CAPABILITY_KEYS = Object.freeze([
   "linearStatic",
@@ -18,9 +26,14 @@ export const FEM_ANALYSIS_CAPABILITY_KEYS = Object.freeze([
   "responseSpectrum",
   "nonlinearStatic",
   "timeHistory",
-]);
+] as const);
 
-export const FEM_ELEMENT_CAPABILITY_KEYS = Object.freeze(["line", "shell", "solid", "link"]);
+export const FEM_ELEMENT_CAPABILITY_KEYS = Object.freeze([
+  "line",
+  "shell",
+  "solid",
+  "link",
+] as const);
 
 export const FEM_RESULT_CAPABILITY_KEYS = Object.freeze([
   "nodalDisplacements",
@@ -33,7 +46,7 @@ export const FEM_RESULT_CAPABILITY_KEYS = Object.freeze([
   "sectionCuts",
   "storeyResults",
   "equilibriumResiduals",
-]);
+] as const);
 
 export const FEM_ANALYSIS_TYPES = Object.freeze([
   "linear-static",
@@ -42,7 +55,7 @@ export const FEM_ANALYSIS_TYPES = Object.freeze([
   "response-spectrum",
   "nonlinear-static",
   "time-history",
-]);
+] as const);
 
 export const FEM_RESULT_STATUS_VALUES = Object.freeze([
   "completed",
@@ -50,7 +63,7 @@ export const FEM_RESULT_STATUS_VALUES = Object.freeze([
   "partial",
   "failed",
   "not-supported",
-]);
+] as const);
 
 export const GLOBAL_FEM_REQUIRED_UNIT_KEYS = Object.freeze([
   "length",
@@ -65,7 +78,17 @@ export const GLOBAL_FEM_REQUIRED_UNIT_KEYS = Object.freeze([
   "frequency",
   "lineForce",
   "lineMoment",
-]);
+] as const);
+
+type FemErrorList = FemDiagnostic[];
+type FemStringList = readonly string[];
+type FemRecord = Record<string, unknown>;
+type FemNumberOptions = {
+  readonly positive?: boolean;
+  readonly nonNegative?: boolean;
+  readonly integer?: boolean;
+};
+type FemValidationOptions = { readonly required?: boolean };
 
 const AMBIGUOUS_UNIT_TOKENS = new Set([
   "",
@@ -78,28 +101,37 @@ const AMBIGUOUS_UNIT_TOKENS = new Set([
   "unknown",
 ]);
 
-export function diagnostic(code, path, message) {
+export function diagnostic(code: string, path: string, message: string): FemDiagnostic {
   return { code, path, message };
 }
 
-export function addError(errors, code, path, message) {
+export function addError(errors: FemErrorList, code: string, path: string, message: string): void {
   errors.push(diagnostic(code, path, message));
 }
 
-export function addWarning(warnings, code, path, message) {
+export function addWarning(
+  warnings: FemErrorList,
+  code: string,
+  path: string,
+  message: string,
+): void {
   warnings.push(diagnostic(code, path, message));
 }
 
-export function isRecord(value) {
-  if (value === null || typeof value !== "object" || Array.isArray(value)) {
-    return false;
-  }
+export function isRecord(value: unknown): value is FemRecord;
+export function isRecord(value: unknown): value is FemRecord {
+  if (value === null || typeof value !== "object" || Array.isArray(value)) return false;
 
-  const prototype = Object.getPrototypeOf(value);
+  const prototype = Reflect.getPrototypeOf(value);
   return prototype === Object.prototype || prototype === null;
 }
 
-export function validateRecord(value, path, errors, { required = true } = {}) {
+export function validateRecord(
+  value: unknown,
+  path: string,
+  errors: FemErrorList,
+  { required = true }: FemValidationOptions = {},
+): value is FemRecord {
   if (value == null && !required) return false;
   if (isRecord(value)) return true;
 
@@ -107,7 +139,12 @@ export function validateRecord(value, path, errors, { required = true } = {}) {
   return false;
 }
 
-export function validateArray(value, path, errors, { required = true } = {}) {
+export function validateArray<T = unknown>(
+  value: unknown,
+  path: string,
+  errors: FemErrorList,
+  { required = true }: FemValidationOptions = {},
+): value is readonly T[] {
   if (value == null && !required) return false;
   if (Array.isArray(value)) return true;
 
@@ -115,14 +152,19 @@ export function validateArray(value, path, errors, { required = true } = {}) {
   return false;
 }
 
-export function validateId(value, path, errors) {
+export function validateId(value: unknown, path: string, errors: FemErrorList): value is string {
   if (typeof value === "string" && value.trim().length > 0) return true;
 
   addError(errors, "FEM_INVALID_ID", path, `${path} must be a non-empty stable string identifier.`);
   return false;
 }
 
-export function validateString(value, path, errors, { allowed = null } = {}) {
+export function validateString(
+  value: unknown,
+  path: string,
+  errors: FemErrorList,
+  { allowed = null }: { readonly allowed?: FemStringList | null } = {},
+): value is string {
   if (typeof value !== "string" || value.trim().length === 0) {
     addError(errors, "FEM_INVALID_STRING", path, `${path} must be a non-empty string.`);
     return false;
@@ -141,17 +183,24 @@ export function validateString(value, path, errors, { allowed = null } = {}) {
   return true;
 }
 
-export function validateBoolean(value, path, errors) {
+export function validateBoolean(
+  value: unknown,
+  path: string,
+  errors: FemErrorList,
+): value is boolean {
   if (typeof value === "boolean") return true;
 
   addError(errors, "FEM_EXPLICIT_BOOLEAN_REQUIRED", path, `${path} must be true or false.`);
   return false;
 }
 
-export function validateFinite(value, path, errors, options = {}) {
-  const { positive = false, nonNegative = false, integer = false } = options;
-
-  if (!Number.isFinite(value)) {
+export function validateFinite(
+  value: unknown,
+  path: string,
+  errors: FemErrorList,
+  { positive = false, nonNegative = false, integer = false }: FemNumberOptions = {},
+): value is number {
+  if (typeof value !== "number" || !Number.isFinite(value)) {
     addError(errors, "FEM_NON_FINITE_NUMBER", path, `${path} must be finite.`);
     return false;
   }
@@ -171,25 +220,29 @@ export function validateFinite(value, path, errors, options = {}) {
   return true;
 }
 
-export function validateFiniteVector(value, path, errors) {
+export function validateFiniteVector(
+  value: unknown,
+  path: string,
+  errors: FemErrorList,
+): value is FemVector3 {
   if (!validateRecord(value, path, errors)) return false;
 
   let valid = true;
-  for (const component of ["x", "y", "z"]) {
+  for (const component of ["x", "y", "z"] as const) {
     valid = validateFinite(value[component], `${path}.${component}`, errors) && valid;
   }
   return valid;
 }
 
-function vectorNorm(vector) {
+function vectorNorm(vector: FemVector3): number {
   return Math.sqrt(vector.x ** 2 + vector.y ** 2 + vector.z ** 2);
 }
 
-function dot(left, right) {
+function dot(left: FemVector3, right: FemVector3): number {
   return left.x * right.x + left.y * right.y + left.z * right.z;
 }
 
-function cross(left, right) {
+function cross(left: FemVector3, right: FemVector3): FemVector3 {
   return {
     x: left.y * right.z - left.z * right.y,
     y: left.z * right.x - left.x * right.z,
@@ -197,18 +250,31 @@ function cross(left, right) {
   };
 }
 
-export function validateAxes(axes, path, errors, { tolerance = 1e-8 } = {}) {
+export function validateAxes(
+  axes: unknown,
+  path: string,
+  errors: FemErrorList,
+  { tolerance = 1e-8 }: { readonly tolerance?: number } = {},
+): axes is FemAxes {
   if (!validateRecord(axes, path, errors)) return false;
 
-  const validVectors = ["x", "y", "z"].map((axis) =>
-    validateFiniteVector(axes[axis], `${path}.${axis}`, errors),
-  );
+  const x = axes.x;
+  const y = axes.y;
+  const z = axes.z;
+  const validVectors = [
+    validateFiniteVector(x, `${path}.x`, errors),
+    validateFiniteVector(y, `${path}.y`, errors),
+    validateFiniteVector(z, `${path}.z`, errors),
+  ];
 
-  if (validVectors.some((valid) => !valid)) return false;
+  if (validVectors.some((valid) => !valid) || !isVector3(x) || !isVector3(y) || !isVector3(z)) {
+    return false;
+  }
+  const frame: FemAxes = { x, y, z };
 
   let valid = true;
-  for (const axis of ["x", "y", "z"]) {
-    const norm = vectorNorm(axes[axis]);
+  for (const axis of ["x", "y", "z"] as const) {
+    const norm = vectorNorm(frame[axis]);
     if (Math.abs(norm - 1) > tolerance) {
       addError(
         errors,
@@ -224,8 +290,8 @@ export function validateAxes(axes, path, errors, { tolerance = 1e-8 } = {}) {
     ["x", "y"],
     ["y", "z"],
     ["z", "x"],
-  ]) {
-    const scalarProduct = dot(axes[left], axes[right]);
+  ] as const) {
+    const scalarProduct = dot(frame[left], frame[right]);
     if (Math.abs(scalarProduct) > tolerance) {
       addError(
         errors,
@@ -237,7 +303,7 @@ export function validateAxes(axes, path, errors, { tolerance = 1e-8 } = {}) {
     }
   }
 
-  const handedness = dot(cross(axes.x, axes.y), axes.z);
+  const handedness = dot(cross(frame.x, frame.y), frame.z);
   if (Math.abs(handedness - 1) > tolerance) {
     addError(
       errors,
@@ -251,7 +317,23 @@ export function validateAxes(axes, path, errors, { tolerance = 1e-8 } = {}) {
   return valid;
 }
 
-export function validateUnits(units, path, errors) {
+function isVector3(value: unknown): value is FemVector3 {
+  return (
+    isRecord(value) &&
+    typeof value.x === "number" &&
+    Number.isFinite(value.x) &&
+    typeof value.y === "number" &&
+    Number.isFinite(value.y) &&
+    typeof value.z === "number" &&
+    Number.isFinite(value.z)
+  );
+}
+
+export function validateUnits(
+  units: unknown,
+  path: string,
+  errors: FemErrorList,
+): units is FemUnitSystem {
   if (!validateRecord(units, path, errors)) return false;
 
   let valid = true;
@@ -270,7 +352,11 @@ export function validateUnits(units, path, errors) {
   return valid;
 }
 
-export function validateHeader(value, schema, errors) {
+export function validateHeader<T extends object>(
+  value: unknown,
+  schema: string,
+  errors: FemErrorList,
+): value is T {
   if (!validateRecord(value, "$", errors)) return false;
 
   let valid = true;
@@ -290,25 +376,44 @@ export function validateHeader(value, schema, errors) {
   return valid;
 }
 
-export function validateUniqueIds(items, path, errors) {
-  if (!Array.isArray(items)) return new Map();
+export function validateUniqueIds<T extends FemIdentified>(
+  items: readonly T[] | null | undefined,
+  path: string,
+  errors: FemErrorList,
+): Map<string, T>;
+export function validateUniqueIds(
+  items: readonly { readonly id: string }[] | null | undefined,
+  path: string,
+  errors: FemErrorList,
+): Map<string, FemIdentified> {
+  if (!Array.isArray(items)) return new Map<string, FemIdentified>();
 
-  const index = new Map();
-  items.forEach((item, itemIndex) => {
+  const index = new Map<string, { readonly id: string }>();
+  items.forEach((item: { readonly id: string }, itemIndex: number) => {
     const itemPath = `${path}[${itemIndex}]`;
-    if (!validateRecord(item, itemPath, errors)) return;
-    if (!validateId(item.id, `${itemPath}.id`, errors)) return;
-
-    if (index.has(item.id)) {
-      addError(errors, "FEM_DUPLICATE_ID", `${itemPath}.id`, `Duplicate id ${item.id} in ${path}.`);
+    const itemValue: unknown = item;
+    if (!isRecord(itemValue)) {
+      validateRecord(itemValue, itemPath, errors);
       return;
     }
-    index.set(item.id, item);
+    const itemId = item.id;
+    if (!validateId(itemId, `${itemPath}.id`, errors)) return;
+
+    if (index.has(itemId)) {
+      addError(errors, "FEM_DUPLICATE_ID", `${itemPath}.id`, `Duplicate id ${itemId} in ${path}.`);
+      return;
+    }
+    index.set(itemId, item);
   });
   return index;
 }
 
-export function validateIdArray(value, path, errors, { minLength = 0 } = {}) {
+export function validateIdArray(
+  value: unknown,
+  path: string,
+  errors: FemErrorList,
+  { minLength = 0 }: { readonly minLength?: number } = {},
+): value is readonly string[] {
   if (!validateArray(value, path, errors)) return false;
   let valid = true;
   if (value.length < minLength) {
@@ -321,7 +426,7 @@ export function validateIdArray(value, path, errors, { minLength = 0 } = {}) {
     valid = false;
   }
 
-  const seen = new Set();
+  const seen = new Set<string>();
   value.forEach((id, index) => {
     if (!validateId(id, `${path}[${index}]`, errors)) {
       valid = false;
@@ -341,7 +446,13 @@ export function validateIdArray(value, path, errors, { minLength = 0 } = {}) {
   return valid;
 }
 
-export function validateReferences(ids, targetIndex, path, errors, targetLabel) {
+export function validateReferences(
+  ids: readonly unknown[] | null | undefined,
+  targetIndex: ReadonlyMap<string, unknown>,
+  path: string,
+  errors: FemErrorList,
+  targetLabel: string,
+): void {
   if (!Array.isArray(ids)) return;
   ids.forEach((id, index) => {
     if (typeof id === "string" && !targetIndex.has(id)) {
@@ -355,7 +466,12 @@ export function validateReferences(ids, targetIndex, path, errors, targetLabel) 
   });
 }
 
-export function validateSerializable(value, path, errors, ancestors = new Set()) {
+export function validateSerializable(
+  value: unknown,
+  path: string,
+  errors: FemErrorList,
+  ancestors: Set<object> = new Set<object>(),
+): boolean {
   const valueType = typeof value;
   if (value === null || valueType === "string" || valueType === "boolean") return true;
   if (valueType === "number") {
@@ -367,6 +483,7 @@ export function validateSerializable(value, path, errors, ancestors = new Set())
     addError(errors, "FEM_NOT_JSON_SERIALIZABLE", path, `${path} is not JSON-serializable.`);
     return false;
   }
+  if (typeof value !== "object" || value === null) return false;
   if (ancestors.has(value)) {
     addError(errors, "FEM_NOT_JSON_SERIALIZABLE", path, `${path} contains a circular reference.`);
     return false;
@@ -400,21 +517,34 @@ export function validateSerializable(value, path, errors, ancestors = new Set())
   return valid;
 }
 
-export function cloneJson(value) {
-  return JSON.parse(JSON.stringify(value));
+function isJsonValue(value: unknown): value is FemJsonValue {
+  if (value === null || typeof value === "string" || typeof value === "boolean") return true;
+  if (typeof value === "number") return Number.isFinite(value);
+  if (Array.isArray(value)) return value.every(isJsonValue);
+  return isRecord(value) && Object.values(value).every(isJsonValue);
 }
 
-export function finalizeValidation(value, errors, warnings) {
+export function cloneJson(value: unknown): FemJsonValue {
+  const cloned: unknown = JSON.parse(JSON.stringify(value));
+  if (!isJsonValue(cloned)) throw new Error("Expected a JSON-serializable value.");
+  return cloned;
+}
+
+export function finalizeValidation<T>(
+  value: unknown,
+  errors: FemErrorList,
+  warnings: FemErrorList,
+): FemValidationResult<T> {
   const serializable = validateSerializable(value, "$", errors);
   return {
     ok: errors.length === 0,
-    value: serializable ? cloneJson(value) : null,
+    value: serializable ? (cloneJson(value) as T) : null,
     errors,
     warnings,
   };
 }
 
-export function withContractHeader(input, schema) {
+export function withContractHeader(input: unknown, schema: string): FemRecord {
   return {
     ...(isRecord(input) ? input : {}),
     schema,
@@ -422,8 +552,8 @@ export function withContractHeader(input, schema) {
   };
 }
 
-export function throwForInvalidContract(label, validation) {
-  if (validation.ok) return validation.value;
+export function throwForInvalidContract<T>(label: string, validation: FemValidationResult<T>): T {
+  if (validation.ok && validation.value !== null) return validation.value;
 
   const details = validation.errors
     .map((item) => `[${item.code}] ${item.path}: ${item.message}`)
@@ -431,7 +561,7 @@ export function throwForInvalidContract(label, validation) {
   throw new Error(`Invalid ${label}: ${details}`);
 }
 
-export function sameJsonValue(left, right) {
+export function sameJsonValue(left: unknown, right: unknown): boolean {
   if (Object.is(left, right)) return true;
   if (Array.isArray(left) || Array.isArray(right)) {
     return (
@@ -455,28 +585,24 @@ export function sameJsonValue(left, right) {
   return false;
 }
 
-export function indexById(items = []) {
+export function indexById<T extends FemIdentified>(items: readonly T[] = []): Map<string, T> {
   return new Map(items.map((item) => [item.id, item]));
 }
 
-export function vectorBetween(start, end) {
-  return {
-    x: end.x - start.x,
-    y: end.y - start.y,
-    z: end.z - start.z,
-  };
+export function vectorBetween(start: FemVector3, end: FemVector3): FemVector3 {
+  return { x: end.x - start.x, y: end.y - start.y, z: end.z - start.z };
 }
 
-export function normalized(vector) {
+export function normalized(vector: FemVector3): FemVector3 | null {
   const norm = vectorNorm(vector);
   if (!Number.isFinite(norm) || norm <= 0) return null;
   return { x: vector.x / norm, y: vector.y / norm, z: vector.z / norm };
 }
 
-export function dotProduct(left, right) {
+export function dotProduct(left: FemVector3, right: FemVector3): number {
   return dot(left, right);
 }
 
-export function crossProduct(left, right) {
+export function crossProduct(left: FemVector3, right: FemVector3): FemVector3 {
   return cross(left, right);
 }

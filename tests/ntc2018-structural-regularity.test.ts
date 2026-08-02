@@ -65,7 +65,7 @@ function regularElevation(overrides = {}) {
   };
 }
 
-test("regularity references point to NTC 2018 Â§ 7.2.1", () => {
+test("regularity references point to NTC 2018 § 7.2.1", () => {
   assert.equal(Object.isFrozen(NTC2018_REGULARITY_REFERENCES), true);
   assert.match(NTC2018_REGULARITY_REFERENCES[0].citation, /7\.2\.1/);
 });

@@ -18,15 +18,15 @@ function outsideCorpusMetadata(metadata = {}) {
 export const NTC2018_DISPLACEMENT_REFERENCES = Object.freeze([
   Object.freeze({
     source: "NTC 2018",
-    citation: "Â§ 7.2.1 (distanza tra costruzioni contigue)",
+    citation: "§ 7.2.1 (distanza tra costruzioni contigue)",
   }),
   Object.freeze({
     source: "NTC 2018",
-    citation: "Â§ 7.3.1, Eq. [7.3.3] (non linearitÃ  geometriche)",
+    citation: "§ 7.3.1, Eq. [7.3.3] (non linearità geometriche)",
   }),
   Object.freeze({
     source: "NTC 2018",
-    citation: "Â§ 7.3.6.1, Eqs. [7.3.11a], [7.3.11b] e [7.3.12] (spostamenti di interpiano)",
+    citation: "§ 7.3.6.1, Eqs. [7.3.11a], [7.3.11b] e [7.3.12] (spostamenti di interpiano)",
   }),
 ]);
 
@@ -94,7 +94,7 @@ function normalizeInfillCategory(value) {
   if (value === "non-rigidly-connected") return "damage-avoiding";
   if (value === "no-infill") {
     throw new Error(
-      "NTC 2018 Â§ 7.3.6.1 does not define a generic no-infill drift limit; select the applicable non-structural system.",
+      "NTC 2018 § 7.3.6.1 does not define a generic no-infill drift limit; select the applicable non-structural system.",
     );
   }
   if (
@@ -134,7 +134,7 @@ export function verifyStoreyDrift({
   const requiredLimitState = ["I", "II"].includes(normalizedUseClass) ? "SLD" : "SLO";
   if (limitState !== requiredLimitState) {
     throw new Error(
-      `Use class ${normalizedUseClass} requires ${requiredLimitState} for the Â§ 7.3.6.1 drift check; got ${limitState}.`,
+      `Use class ${normalizedUseClass} requires ${requiredLimitState} for the § 7.3.6.1 drift check; got ${limitState}.`,
     );
   }
 
@@ -151,10 +151,10 @@ export function verifyStoreyDrift({
       capacity: limit,
       reference:
         category === "rigidly-connected-fragile"
-          ? "NTC 2018 Â§ 7.3.6.1, Eq. [7.3.11a]"
+          ? "NTC 2018 § 7.3.6.1, Eq. [7.3.11a]"
           : category === "rigidly-connected-ductile"
-            ? "NTC 2018 Â§ 7.3.6.1, Eq. [7.3.11b]"
-            : "NTC 2018 Â§ 7.3.6.1, Eq. [7.3.12]",
+            ? "NTC 2018 § 7.3.6.1, Eq. [7.3.11b]"
+            : "NTC 2018 § 7.3.6.1, Eq. [7.3.12]",
       metadata: outsideCorpusMetadata(),
     },
   ];
@@ -171,7 +171,7 @@ export function verifyStoreyDrift({
       ok: designDriftRatio <= nonStructuralCapacity,
       demand: designDriftRatio,
       capacity: nonStructuralCapacity,
-      reference: "NTC 2018 Â§ 7.3.6.1, Eq. [7.3.12]",
+      reference: "NTC 2018 § 7.3.6.1, Eq. [7.3.12]",
       metadata: outsideCorpusMetadata(),
     });
   }
@@ -227,7 +227,7 @@ export function verifyPDelta(params) {
     ...result,
     ok: result.status === "negligible" || result.status === "amplification-required",
     check: "pdelta",
-    reference: "NTC 2018 Â§ 7.3.1, Eq. [7.3.3]",
+    reference: "NTC 2018 § 7.3.1, Eq. [7.3.3]",
     metadata: outsideCorpusMetadata(result.metadata),
   };
 }
@@ -283,7 +283,7 @@ export function computeSeismicJointWidth({
     geometricMinimum,
     usedEstimatedDisplacements: usedEstimatedDisplacementA || usedEstimatedDisplacementB,
     check: "seismic-joint",
-    reference: "NTC 2018 Â§ 7.2.1, distanza tra costruzioni contigue",
+    reference: "NTC 2018 § 7.2.1, distanza tra costruzioni contigue",
     metadata: outsideCorpusMetadata(),
   };
 }

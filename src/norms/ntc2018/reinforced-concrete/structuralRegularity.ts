@@ -23,11 +23,11 @@ const STRUCTURAL_REGULARITY_NORMATIVE_REFERENCES = Object.freeze([
 export const NTC2018_REGULARITY_REFERENCES = Object.freeze([
   Object.freeze({
     source: "NTC 2018",
-    citation: "Â§ 7.2.1 (regolaritÃ  in pianta e in altezza) e Â§ 7.3.1 (fattore Î·R)",
+    citation: "§ 7.2.1 (regolarità in pianta e in altezza) e § 7.3.1 (fattore ηR)",
   }),
   Object.freeze({
     source: "Circolare 21 gennaio 2019, n. 7 C.S.LL.PP.",
-    citation: "Â§ C7.2.1",
+    citation: "§ C7.2.1",
   }),
 ]);
 
@@ -87,7 +87,7 @@ function normalizeFloorPlans(input) {
 }
 
 /**
- * Evaluate every condition a), b) and c) of NTC 2018 Â§ 7.2.1.
+ * Evaluate every condition a), b) and c) of NTC 2018 § 7.2.1.
  *
  * Missing qualitative assessments are rejected rather than interpreted as
  * compliance.
@@ -103,7 +103,7 @@ export function evaluateNTC2018PlanRegularity(input = {}) {
     regularityCheck({
       check: "plan-mass-stiffness-symmetry",
       ok: symmetry,
-      reference: "NTC 2018 Â§ 7.2.1, lettera a)",
+      reference: "NTC 2018 § 7.2.1, lettera a)",
     }),
   ];
   const floorDetails = [];
@@ -150,7 +150,7 @@ export function evaluateNTC2018PlanRegularity(input = {}) {
         storeyId,
         ok: compactnessOk,
         maximumReentrantAreaRatio,
-        reference: "NTC 2018 Â§ 7.2.1, lettera a)",
+        reference: "NTC 2018 § 7.2.1, lettera a)",
       },
       {
         check: "plan-bounding-rectangle-ratio",
@@ -159,19 +159,19 @@ export function evaluateNTC2018PlanRegularity(input = {}) {
         value: slenderness,
         limit: 4,
         comparison: "<",
-        reference: "NTC 2018 Â§ 7.2.1, lettera b)",
+        reference: "NTC 2018 § 7.2.1, lettera b)",
       },
       {
         check: "plan-diaphragm-in-plane-rigidity",
         storeyId,
         ok: rigidityOk,
-        reference: "NTC 2018 Â§ 7.2.1, lettera c)",
+        reference: "NTC 2018 § 7.2.1, lettera c)",
       },
       {
         check: "plan-diaphragm-in-plane-strength",
         storeyId,
         ok: strengthOk,
-        reference: "NTC 2018 Â§ 7.2.1, lettera c)",
+        reference: "NTC 2018 § 7.2.1, lettera c)",
       },
     ].map(regularityCheck);
     checks.push(...floorChecks);
@@ -227,7 +227,7 @@ function positiveStoreyValue(storey, key, index) {
 }
 
 /**
- * Evaluate conditions d), e), f) and g) of NTC 2018 Â§ 7.2.1.
+ * Evaluate conditions d), e), f) and g) of NTC 2018 § 7.2.1.
  */
 export function evaluateNTC2018ElevationRegularity({
   storeys,
@@ -271,7 +271,7 @@ export function evaluateNTC2018ElevationRegularity({
     regularityCheck({
       check: "elevation-continuous-horizontal-resisting-systems",
       ok: continuousVerticalSystems,
-      reference: "NTC 2018 Â§ 7.2.1, lettera d)",
+      reference: "NTC 2018 § 7.2.1, lettera d)",
     }),
   ];
   const storeyDetails = [];
@@ -290,7 +290,7 @@ export function evaluateNTC2018ElevationRegularity({
         value: current.mass / below.mass,
         minimum: 0.75,
         maximum: 1.25,
-        reference: "NTC 2018 Â§ 7.2.1, lettera e)",
+        reference: "NTC 2018 § 7.2.1, lettera e)",
       }),
     );
 
@@ -304,7 +304,7 @@ export function evaluateNTC2018ElevationRegularity({
             value: current[`stiffness${direction}`] / below[`stiffness${direction}`],
             minimum: 0.7,
             maximum: 1.1,
-            reference: "NTC 2018 Â§ 7.2.1, lettera e)",
+            reference: "NTC 2018 § 7.2.1, lettera e)",
           }),
         );
       }
@@ -323,7 +323,7 @@ export function evaluateNTC2018ElevationRegularity({
               current[`capacityDemandRatio${direction}`] / below[`capacityDemandRatio${direction}`],
             minimum: 0.7,
             maximum: 1.3,
-            reference: "NTC 2018 Â§ 7.2.1, lettera f)",
+            reference: "NTC 2018 § 7.2.1, lettera f)",
           }),
         );
       }
@@ -363,7 +363,7 @@ export function evaluateNTC2018ElevationRegularity({
             fromFirstRatio: firstSetback / first[dimensionKey],
             immediateLimit: 0.1,
             fromFirstLimit: 0.3,
-            reference: "NTC 2018 Â§ 7.2.1, lettera g)",
+            reference: "NTC 2018 § 7.2.1, lettera g)",
           }),
         );
       }

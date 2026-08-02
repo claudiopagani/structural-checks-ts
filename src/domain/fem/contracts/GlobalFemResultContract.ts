@@ -1,6 +1,4 @@
-/* eslint-disable @typescript-eslint/ban-ts-comment, @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-return, @typescript-eslint/no-floating-promises, @typescript-eslint/restrict-template-expressions */
 // Mechanical TypeScript migration from strutture-js 6f33baead8b88166c4b2cf94af41763412e3c751.
-// @ts-nocheck
 import {
   FEM_CONTRACT_SCHEMAS,
   FEM_RESULT_CAPABILITY_KEYS,
@@ -22,8 +20,36 @@ import {
   validateUnits,
   withContractHeader,
 } from "./FemContractValidation.js";
+import type {
+  FemCapabilitiesContract,
+  FemConvergenceEntry,
+  FemDiagnostic,
+  FemEquilibriumResidual,
+  FemLineElementActionResult,
+  FemModeResult,
+  FemProcedure,
+  FemResultCollections,
+  FemResultCaseReference,
+  FemResultLocation,
+  FemPartialCoverage,
+  FemSectionCutResult,
+  FemShellResultantResult,
+  FemStoreyResult,
+  FemTensorResult,
+  FemValidationResult,
+  FemVector3,
+  FemProvenance,
+  FemResultCapabilityKey,
+  FemResultCapabilities,
+  GlobalFemAnalysisContract,
+  GlobalFemModelContract,
+  GlobalFemResultContract,
+  FemEntityMappingContract,
+} from "./FemContractTypes.js";
 
-const RESULT_COLLECTION_BY_OUTPUT = Object.freeze({
+const RESULT_COLLECTION_BY_OUTPUT: Readonly<
+  Record<FemResultCapabilityKey, FemResultCapabilityKey>
+> = Object.freeze({
   nodalDisplacements: "nodalDisplacements",
   reactions: "reactions",
   lineElementActions: "lineElementActions",
@@ -39,18 +65,23 @@ const LINE_ACTION_COMPONENTS = ["N", "Vy", "Vz", "T", "My", "Mz"];
 const SHELL_RESULTANT_COMPONENTS = ["Nx", "Ny", "Nxy", "Mx", "My", "Mxy", "Vx", "Vy"];
 const SIX_COMPONENTS = ["Fx", "Fy", "Fz", "Mx", "My", "Mz"];
 
-function validateResultCollections(results, errors) {
+function validateResultCollections(results: FemResultCollections, errors: FemDiagnostic[]): void {
   if (!validateRecord(results, "$.results", errors)) return;
   for (const name of [...Object.values(RESULT_COLLECTION_BY_OUTPUT), "envelopes"]) {
     validateArray(results[name], `$.results.${name}`, errors, { required: false });
   }
 }
 
-function validateSignConventions(signConventions, results, capabilities, errors) {
+function validateSignConventions(
+  signConventions: Record<string, string>,
+  results: FemResultCollections,
+  capabilities: FemCapabilitiesContract | null,
+  errors: FemDiagnostic[],
+): void {
   if (!validateRecord(signConventions, "$.signConventions", errors)) return;
 
-  const required = new Set();
-  const available = capabilities?.results ?? {};
+  const required = new Set<string>();
+  const available: Partial<FemResultCapabilities> = capabilities?.results ?? {};
   if (
     available.nodalDisplacements ||
     available.modes ||
@@ -81,7 +112,12 @@ function validateSignConventions(signConventions, results, capabilities, errors)
   }
 }
 
-function validateProvenance(provenance, input, context, errors) {
+function validateProvenance(
+  provenance: FemProvenance,
+  input: GlobalFemResultContract,
+  context: { readonly capabilities: FemCapabilitiesContract | null },
+  errors: FemDiagnostic[],
+): void {
   if (!validateRecord(provenance, "$.provenance", errors)) return;
   if (validateRecord(provenance.solver, "$.provenance.solver", errors)) {
     validateId(provenance.solver.id, "$.provenance.solver.id", errors);
@@ -125,7 +161,11 @@ function validateProvenance(provenance, input, context, errors) {
   }
 }
 
-function validateConvergence(convergence, procedureIndex, errors) {
+function validateConvergence(
+  convergence: readonly FemConvergenceEntry[] | undefined,
+  procedureIndex: Map<string, FemProcedure> | null,
+  errors: FemDiagnostic[],
+): void {
   if (!validateArray(convergence, "$.convergence", errors)) return;
   const seen = new Set();
   convergence.forEach((entry, itemIndex) => {
@@ -167,7 +207,13 @@ function validateConvergence(convergence, procedureIndex, errors) {
   });
 }
 
-function validateProcedureReference(entry, path, procedureIndex, errors, allowedTypes = null) {
+function validateProcedureReference(
+  entry: FemResultCaseReferenceLike,
+  path: string,
+  procedureIndex: Map<string, FemProcedure> | null,
+  errors: FemDiagnostic[],
+  allowedTypes: readonly FemProcedure["type"][] | null = null,
+): FemProcedure | null {
   if (!validateId(entry.procedureId, `${path}.procedureId`, errors)) return null;
   const procedure = procedureIndex?.get(entry.procedureId);
   if (procedureIndex && !procedure) {
@@ -187,10 +233,44 @@ function validateProcedureReference(entry, path, procedureIndex, errors, allowed
       `${path} is not valid for procedure type ${procedure.type}.`,
     );
   }
-  return procedure;
+  return procedure ?? null;
 }
 
-function validateStaticCaseReference(entry, path, indices, errors, procedure = null) {
+interface ResultIndices {
+  readonly procedures: Map<string, FemProcedure> | null;
+  readonly loadCases: Map<string, { readonly id: string }> | null;
+  readonly combinations: Map<string, { readonly id: string }> | null;
+  readonly nodes: Map<string, { readonly id: string; readonly coordinates: FemVector3 }> | null;
+  readonly lineElements: Map<
+    string,
+    { readonly id: string; readonly nodeIds: readonly string[] }
+  > | null;
+  readonly shellElements: Map<string, { readonly id: string }> | null;
+  readonly sectionCuts: Map<string, { readonly id: string }> | null;
+  readonly storeys: Map<string, { readonly id: string }> | null;
+  readonly diaphragms: Map<string, { readonly id: string }> | null;
+}
+
+interface FemResultCaseReferenceLike extends FemResultCaseReference {
+  readonly procedureId: string;
+}
+
+interface FemNodalResultLike extends FemResultCaseReferenceLike {
+  readonly nodeId: string;
+  readonly coordinateSystem: string;
+  readonly translations?: FemVector3;
+  readonly rotations?: FemVector3;
+  readonly forces?: FemVector3;
+  readonly moments?: FemVector3;
+}
+
+function validateStaticCaseReference(
+  entry: FemResultCaseReferenceLike,
+  path: string,
+  indices: ResultIndices,
+  errors: FemDiagnostic[],
+  procedure: FemProcedure | null = null,
+): void {
   const hasLoadCase = entry.loadCaseId != null;
   const hasCombination = entry.combinationId != null;
   if (hasLoadCase === hasCombination) {
@@ -205,15 +285,16 @@ function validateStaticCaseReference(entry, path, indices, errors, procedure = n
   const key = hasLoadCase ? "loadCaseId" : "combinationId";
   const target = hasLoadCase ? indices.loadCases : indices.combinations;
   const label = hasLoadCase ? "load case" : "combination";
-  if (validateId(entry[key], `${path}.${key}`, errors) && target && !target.has(entry[key])) {
+  const reference = entry[key];
+  if (validateId(reference, `${path}.${key}`, errors) && target && !target.has(reference)) {
     addError(
       errors,
       "FEM_UNKNOWN_REFERENCE",
       `${path}.${key}`,
-      `${path}.${key} references unknown ${label} ${entry[key]}.`,
+      `${path}.${key} references unknown ${label} ${reference}.`,
     );
   }
-  if (["nonlinear-static", "time-history"].includes(procedure?.type)) {
+  if (procedure && ["nonlinear-static", "time-history"].includes(procedure.type)) {
     validateFinite(entry.step, `${path}.step`, errors, { nonNegative: true, integer: true });
   }
   if (procedure?.type === "time-history") {
@@ -221,12 +302,23 @@ function validateStaticCaseReference(entry, path, indices, errors, procedure = n
   }
 }
 
-function validateVectorComponents(value, keys, path, errors) {
+function validateVectorComponents(
+  value: unknown,
+  keys: readonly string[],
+  path: string,
+  errors: FemDiagnostic[],
+): void {
   if (!validateRecord(value, path, errors)) return;
   keys.forEach((key) => validateFinite(value[key], `${path}.${key}`, errors));
 }
 
-function validateNodalResults(items, path, indices, errors, { reactions = false } = {}) {
+function validateNodalResults(
+  items: readonly FemNodalResultLike[] | undefined,
+  path: string,
+  indices: ResultIndices,
+  errors: FemDiagnostic[],
+  { reactions = false }: { readonly reactions?: boolean } = {},
+): void {
   items?.forEach((entry, itemIndex) => {
     const itemPath = `${path}[${itemIndex}]`;
     if (!validateRecord(entry, itemPath, errors)) return;
@@ -268,16 +360,26 @@ function validateNodalResults(items, path, indices, errors, { reactions = false 
   });
 }
 
-function lineElementLength(element, nodeIndex) {
+function lineElementLength(
+  element: { readonly nodeIds: readonly string[] } | undefined,
+  nodeIndex: Map<string, { readonly coordinates: FemVector3 }> | null,
+): number | null {
   if (!element || !nodeIndex) return null;
-  const start = nodeIndex.get(element.nodeIds[0])?.coordinates;
-  const end = nodeIndex.get(element.nodeIds[1])?.coordinates;
+  const startId = element.nodeIds[0];
+  const endId = element.nodeIds[1];
+  if (startId === undefined || endId === undefined) return null;
+  const start = nodeIndex.get(startId)?.coordinates;
+  const end = nodeIndex.get(endId)?.coordinates;
   if (!start || !end) return null;
   return Math.sqrt((end.x - start.x) ** 2 + (end.y - start.y) ** 2 + (end.z - start.z) ** 2);
 }
 
-function validateLineElementActions(items, indices, errors) {
-  const coveredElements = new Set();
+function validateLineElementActions(
+  items: readonly FemLineElementActionResult[] | undefined,
+  indices: ResultIndices,
+  errors: FemDiagnostic[],
+): Set<string> {
+  const coveredElements = new Set<string>();
   items?.forEach((entry, itemIndex) => {
     const path = `$.results.lineElementActions[${itemIndex}]`;
     if (!validateRecord(entry, path, errors)) return;
@@ -342,6 +444,7 @@ function validateLineElementActions(items, indices, errors) {
       if (
         xiValid &&
         positionValid &&
+        length !== null &&
         Number.isFinite(length) &&
         Math.abs(station.position - station.xi * length) > Math.max(1e-9, length * 1e-8)
       ) {
@@ -366,7 +469,11 @@ function validateLineElementActions(items, indices, errors) {
   return coveredElements;
 }
 
-function validateLocation(location, path, errors) {
+function validateLocation(
+  location: FemResultLocation,
+  path: string,
+  errors: FemDiagnostic[],
+): void {
   if (!validateRecord(location, path, errors)) return;
   validateString(location.kind, `${path}.kind`, errors, {
     allowed: ["centroid", "element-average", "node", "integration-point", "coordinate"],
@@ -393,8 +500,12 @@ function validateLocation(location, path, errors) {
   }
 }
 
-function validateShellResultants(items, indices, errors) {
-  const coveredElements = new Set();
+function validateShellResultants(
+  items: readonly FemShellResultantResult[] | undefined,
+  indices: ResultIndices,
+  errors: FemDiagnostic[],
+): Set<string> {
+  const coveredElements = new Set<string>();
   items?.forEach((entry, itemIndex) => {
     const path = `$.results.shellResultants[${itemIndex}]`;
     if (!validateRecord(entry, path, errors)) return;
@@ -434,7 +545,12 @@ function validateShellResultants(items, indices, errors) {
   return coveredElements;
 }
 
-function validateTensorResults(items, path, indices, errors) {
+function validateTensorResults(
+  items: readonly FemTensorResult[] | undefined,
+  path: string,
+  indices: ResultIndices,
+  errors: FemDiagnostic[],
+): void {
   items?.forEach((entry, itemIndex) => {
     const itemPath = `${path}[${itemIndex}]`;
     if (!validateRecord(entry, itemPath, errors)) return;
@@ -464,7 +580,11 @@ function validateTensorResults(items, path, indices, errors) {
   });
 }
 
-function validateSectionCutResults(items, indices, errors) {
+function validateSectionCutResults(
+  items: readonly FemSectionCutResult[] | undefined,
+  indices: ResultIndices,
+  errors: FemDiagnostic[],
+): void {
   items?.forEach((entry, itemIndex) => {
     const path = `$.results.sectionCuts[${itemIndex}]`;
     if (!validateRecord(entry, path, errors)) return;
@@ -491,18 +611,22 @@ function validateSectionCutResults(items, indices, errors) {
 }
 
 function validateModalMap(
-  map,
-  directions,
-  path,
-  errors,
-  { ratio = false, nonNegative = false } = {},
-) {
+  map: Record<string, number> | undefined,
+  directions: readonly string[] | undefined,
+  path: string,
+  errors: FemDiagnostic[],
+  {
+    ratio = false,
+    nonNegative = false,
+  }: { readonly ratio?: boolean; readonly nonNegative?: boolean } = {},
+): void {
   if (!validateRecord(map, path, errors)) return;
   directions?.forEach((direction) => {
     const valid = validateFinite(map[direction], `${path}.${direction}`, errors, {
       nonNegative: ratio || nonNegative,
     });
-    if (valid && ratio && map[direction] > 1 + 1e-12) {
+    const mappedValue = map[direction];
+    if (valid && ratio && mappedValue !== undefined && mappedValue > 1 + 1e-12) {
       addError(
         errors,
         "FEM_RATIO_OUT_OF_RANGE",
@@ -513,8 +637,12 @@ function validateModalMap(
   });
 }
 
-function validateModes(items, indices, errors) {
-  const countByProcedure = new Map();
+function validateModes(
+  items: readonly FemModeResult[] | undefined,
+  indices: ResultIndices,
+  errors: FemDiagnostic[],
+): Map<string, number> {
+  const countByProcedure = new Map<string, number>();
   const keys = new Set();
   items?.forEach((mode, itemIndex) => {
     const path = `$.results.modes[${itemIndex}]`;
@@ -599,22 +727,27 @@ function validateModes(items, indices, errors) {
   return countByProcedure;
 }
 
-function validateStoreyResults(items, indices, errors) {
+function validateStoreyResults(
+  items: readonly FemStoreyResult[] | undefined,
+  indices: ResultIndices,
+  errors: FemDiagnostic[],
+): void {
   items?.forEach((entry, itemIndex) => {
     const path = `$.results.storeyResults[${itemIndex}]`;
     if (!validateRecord(entry, path, errors)) return;
     const procedure = validateProcedureReference(entry, path, indices.procedures, errors);
     validateStaticCaseReference(entry, path, indices, errors, procedure);
-    for (const [key, target, label] of [
-      ["storeyId", indices.storeys, "storey"],
-      ["diaphragmId", indices.diaphragms, "diaphragm"],
+    for (const { key, target, label } of [
+      { key: "storeyId" as const, target: indices.storeys, label: "storey" },
+      { key: "diaphragmId" as const, target: indices.diaphragms, label: "diaphragm" },
     ]) {
-      if (validateId(entry[key], `${path}.${key}`, errors) && target && !target.has(entry[key])) {
+      const reference = entry[key];
+      if (validateId(reference, `${path}.${key}`, errors) && target && !target.has(reference)) {
         addError(
           errors,
           "FEM_UNKNOWN_REFERENCE",
           `${path}.${key}`,
-          `${path}.${key} references unknown ${label} ${entry[key]}.`,
+          `${path}.${key} references unknown ${label} ${reference}.`,
         );
       }
     }
@@ -632,7 +765,11 @@ function validateStoreyResults(items, indices, errors) {
   });
 }
 
-function validateEquilibriumResiduals(items, indices, errors) {
+function validateEquilibriumResiduals(
+  items: readonly FemEquilibriumResidual[] | undefined,
+  indices: ResultIndices,
+  errors: FemDiagnostic[],
+): void {
   items?.forEach((entry, itemIndex) => {
     const path = `$.results.equilibriumResiduals[${itemIndex}]`;
     if (!validateRecord(entry, path, errors)) return;
@@ -646,7 +783,11 @@ function validateEquilibriumResiduals(items, indices, errors) {
   });
 }
 
-function validateEnvelopes(items, indices, errors) {
+function validateEnvelopes(
+  items: readonly FemResultCollections["envelopes"][number][] | undefined,
+  indices: ResultIndices,
+  errors: FemDiagnostic[],
+): void {
   validateUniqueIds(items, "$.results.envelopes", errors);
   items?.forEach((entry, itemIndex) => {
     const path = `$.results.envelopes[${itemIndex}]`;
@@ -686,7 +827,17 @@ function validateEnvelopes(items, indices, errors) {
   });
 }
 
-function validateCapabilityCompleteness(input, context, coverage, modeCounts, errors) {
+function validateCapabilityCompleteness(
+  input: GlobalFemResultContract,
+  context: {
+    readonly capabilities: FemCapabilitiesContract | null;
+    readonly analysis: GlobalFemAnalysisContract | null;
+    readonly model: GlobalFemModelContract | null;
+  },
+  coverage: FemPartialCoverage,
+  modeCounts: Map<string, number>,
+  errors: FemDiagnostic[],
+): void {
   const { capabilities, analysis, model } = context;
   if (!capabilities || !analysis || !input.results) return;
 
@@ -704,11 +855,12 @@ function validateCapabilityCompleteness(input, context, coverage, modeCounts, er
 
   if (["failed", "not-supported"].includes(input.status)) return;
 
-  const requests = new Map();
+  const requests = new Map<FemResultCapabilityKey, FemProcedure[]>();
   analysis.procedures.forEach((procedure) => {
     procedure.requestedOutputs.forEach((output) => {
-      if (!requests.has(output)) requests.set(output, []);
-      requests.get(output).push(procedure);
+      const procedures = requests.get(output);
+      if (procedures) procedures.push(procedure);
+      else requests.set(output, [procedure]);
     });
   });
   for (const [output, procedures] of requests) {
@@ -731,7 +883,10 @@ function validateCapabilityCompleteness(input, context, coverage, modeCounts, er
 
     if (output === "modes") {
       procedures.forEach((procedure) => {
-        if ((modeCounts.get(procedure.id) ?? 0) < procedure.requestedModes) {
+        if (
+          procedure.requestedModes !== undefined &&
+          (modeCounts.get(procedure.id) ?? 0) < procedure.requestedModes
+        ) {
           addError(
             errors,
             "FEM_DECLARED_RESULT_MISSING",
@@ -770,13 +925,23 @@ function validateCapabilityCompleteness(input, context, coverage, modeCounts, er
 }
 
 export function validateGlobalFemResultContract(
-  input,
-  { model = null, analysis = null, capabilities = null, mapping = null } = {},
-) {
-  const errors = [];
-  const warnings = [];
+  input: unknown,
+  {
+    model = null,
+    analysis = null,
+    capabilities = null,
+    mapping = null,
+  }: {
+    readonly model?: GlobalFemModelContract | null;
+    readonly analysis?: GlobalFemAnalysisContract | null;
+    readonly capabilities?: FemCapabilitiesContract | null;
+    readonly mapping?: FemEntityMappingContract | null;
+  } = {},
+): FemValidationResult<GlobalFemResultContract> {
+  const errors: FemDiagnostic[] = [];
+  const warnings: FemDiagnostic[] = [];
 
-  if (validateHeader(input, FEM_CONTRACT_SCHEMAS.result, errors)) {
+  if (validateHeader<GlobalFemResultContract>(input, FEM_CONTRACT_SCHEMAS.result, errors)) {
     validateId(input.id, "$.id", errors);
     validateId(input.modelId, "$.modelId", errors);
     validateId(input.modelHash, "$.modelHash", errors);
@@ -900,9 +1065,17 @@ export function validateGlobalFemResultContract(
   return finalizeValidation(input, errors, warnings);
 }
 
-export function createGlobalFemResultContract(input, options = {}) {
+export function createGlobalFemResultContract(
+  input: unknown,
+  options: {
+    readonly model?: GlobalFemModelContract | null;
+    readonly analysis?: GlobalFemAnalysisContract | null;
+    readonly capabilities?: FemCapabilitiesContract | null;
+    readonly mapping?: FemEntityMappingContract | null;
+  } = {},
+): GlobalFemResultContract {
   const candidate = withContractHeader(input, FEM_CONTRACT_SCHEMAS.result);
-  return throwForInvalidContract(
+  return throwForInvalidContract<GlobalFemResultContract>(
     "GlobalFemResultContract",
     validateGlobalFemResultContract(candidate, options),
   );

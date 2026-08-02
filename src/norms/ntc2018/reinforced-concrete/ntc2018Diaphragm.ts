@@ -19,7 +19,7 @@ export const NTC2018_DIAPHRAGM_FORCE_FACTOR = 1.3;
 export const NTC2018_DIAPHRAGM_REFERENCES = Object.freeze([
   Object.freeze({
     source: "NTC 2018",
-    citation: "Â§ 7.4.4.4.1 (Verifiche di resistenza dei diaframmi orizzontali)",
+    citation: "§ 7.4.4.4.1 (Verifiche di resistenza dei diaframmi orizzontali)",
   }),
 ]);
 
@@ -61,7 +61,7 @@ export function amplifyNTC2018DiaphragmActions({ analysisActions }: any = {}) {
     analysisActions: { ...analysisActions },
     designActions,
     amplificationFactor: NTC2018_DIAPHRAGM_FORCE_FACTOR,
-    reference: "NTC 2018 Â§ 7.4.4.4.1",
+    reference: "NTC 2018 § 7.4.4.4.1",
     metadata: withNormativeReferences({}, [NTC2018_RC_CHAPTER_7_4_REFERENCES.diaphragm]),
   };
 }
@@ -101,7 +101,7 @@ export function createDiaphragmAssessment({
     warnings: complete
       ? []
       : [
-          "No chapter-4 in-plane resistance checks were supplied; only the Â§ 7.4.4.4.1 demand amplification was performed.",
+          "No chapter-4 in-plane resistance checks were supplied; only the § 7.4.4.4.1 demand amplification was performed.",
         ],
     references: NTC2018_DIAPHRAGM_REFERENCES,
     metadata: withNormativeReferences(demand.metadata, [

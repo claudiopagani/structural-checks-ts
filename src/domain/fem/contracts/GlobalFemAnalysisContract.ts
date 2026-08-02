@@ -1,6 +1,4 @@
-/* eslint-disable @typescript-eslint/ban-ts-comment, @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-return, @typescript-eslint/no-floating-promises */
 // Mechanical TypeScript migration from strutture-js 6f33baead8b88166c4b2cf94af41763412e3c751.
-// @ts-nocheck
 import {
   FEM_ANALYSIS_TYPES,
   FEM_CONTRACT_SCHEMAS,
@@ -22,8 +20,25 @@ import {
   validateUnits,
   withContractHeader,
 } from "./FemContractValidation.js";
+import type {
+  FemAnalysisCapabilityKey,
+  FemCapabilitiesContract,
+  FemCombination,
+  FemDiagnostic,
+  FemLoadCase,
+  FemLoadPattern,
+  FemMassSource,
+  FemProcedure,
+  FemSpectrum,
+  FemTimeSeries,
+  FemValidationResult,
+  GlobalFemAnalysisContract,
+  GlobalFemModelContract,
+} from "./FemContractTypes.js";
 
-const ANALYSIS_CAPABILITY_BY_TYPE = Object.freeze({
+const ANALYSIS_CAPABILITY_BY_TYPE: Readonly<
+  Record<FemProcedure["type"], FemAnalysisCapabilityKey>
+> = Object.freeze({
   "linear-static": "linearStatic",
   "second-order-static": "secondOrder",
   modal: "modal",
@@ -32,7 +47,23 @@ const ANALYSIS_CAPABILITY_BY_TYPE = Object.freeze({
   "time-history": "timeHistory",
 });
 
-function validateLoadPatterns(loadPatterns, errors) {
+interface AnalysisIndices {
+  readonly loadCases: Map<string, FemLoadCase>;
+  readonly combinations: Map<string, FemCombination>;
+  readonly massSources: Map<string, FemMassSource>;
+  readonly spectra: Map<string, FemSpectrum>;
+  readonly timeSeries: Map<string, FemTimeSeries>;
+}
+
+interface AnalysisOptions {
+  readonly model: GlobalFemModelContract | null;
+  readonly capabilities: FemCapabilitiesContract | null;
+}
+
+function validateLoadPatterns(
+  loadPatterns: readonly FemLoadPattern[] | undefined,
+  errors: FemDiagnostic[],
+): Map<string, FemLoadPattern> {
   const index = validateUniqueIds(loadPatterns, "$.loadPatterns", errors);
   loadPatterns?.forEach((loadPattern, itemIndex) => {
     const path = `$.loadPatterns[${itemIndex}]`;
@@ -44,7 +75,11 @@ function validateLoadPatterns(loadPatterns, errors) {
   return index;
 }
 
-function validateLoadCases(loadCases, loadPatternIndex, errors) {
+function validateLoadCases(
+  loadCases: readonly FemLoadCase[] | undefined,
+  loadPatternIndex: Map<string, FemLoadPattern>,
+  errors: FemDiagnostic[],
+): Map<string, FemLoadCase> {
   const index = validateUniqueIds(loadCases, "$.loadCases", errors);
   loadCases?.forEach((loadCase, itemIndex) => {
     const path = `$.loadCases[${itemIndex}]`;
@@ -62,7 +97,11 @@ function validateLoadCases(loadCases, loadPatternIndex, errors) {
   return index;
 }
 
-function validateCombinations(combinations, loadCaseIndex, errors) {
+function validateCombinations(
+  combinations: readonly FemCombination[] | undefined,
+  loadCaseIndex: Map<string, FemLoadCase>,
+  errors: FemDiagnostic[],
+): Map<string, FemCombination> {
   const index = validateUniqueIds(combinations, "$.combinations", errors);
   combinations?.forEach((combination, itemIndex) => {
     const path = `$.combinations[${itemIndex}]`;
@@ -101,7 +140,11 @@ function validateCombinations(combinations, loadCaseIndex, errors) {
   return index;
 }
 
-function validateMassSources(massSources, loadCaseIndex, errors) {
+function validateMassSources(
+  massSources: readonly FemMassSource[] | undefined,
+  loadCaseIndex: Map<string, FemLoadCase>,
+  errors: FemDiagnostic[],
+): Map<string, FemMassSource> {
   const index = validateUniqueIds(massSources, "$.massSources", errors);
   massSources?.forEach((massSource, itemIndex) => {
     const path = `$.massSources[${itemIndex}]`;
@@ -164,7 +207,10 @@ function validateMassSources(massSources, loadCaseIndex, errors) {
   return index;
 }
 
-function validateSpectra(spectra, errors) {
+function validateSpectra(
+  spectra: readonly FemSpectrum[] | undefined,
+  errors: FemDiagnostic[],
+): Map<string, FemSpectrum> {
   const index = validateUniqueIds(spectra, "$.spectra", errors);
   spectra?.forEach((spectrum, itemIndex) => {
     const path = `$.spectra[${itemIndex}]`;
@@ -194,7 +240,10 @@ function validateSpectra(spectra, errors) {
   return index;
 }
 
-function validateTimeSeries(timeSeries, errors) {
+function validateTimeSeries(
+  timeSeries: readonly FemTimeSeries[] | undefined,
+  errors: FemDiagnostic[],
+): Map<string, FemTimeSeries> {
   const index = validateUniqueIds(timeSeries, "$.timeSeries", errors);
   timeSeries?.forEach((series, itemIndex) => {
     const path = `$.timeSeries[${itemIndex}]`;
@@ -214,7 +263,11 @@ function validateTimeSeries(timeSeries, errors) {
   return index;
 }
 
-function validateRequestedOutputs(outputs, path, errors) {
+function validateRequestedOutputs(
+  outputs: readonly string[] | undefined,
+  path: string,
+  errors: FemDiagnostic[],
+): void {
   if (!validateArray(outputs, path, errors)) return;
   if (outputs.length === 0) {
     addError(errors, "FEM_ARRAY_TOO_SHORT", path, `${path} must not be empty.`);
@@ -240,7 +293,12 @@ function validateRequestedOutputs(outputs, path, errors) {
   });
 }
 
-function validateAccidentalEccentricities(procedure, path, model, errors) {
+function validateAccidentalEccentricities(
+  procedure: FemProcedure,
+  path: string,
+  model: GlobalFemModelContract | null,
+  errors: FemDiagnostic[],
+): void {
   if (
     !validateArray(procedure.accidentalEccentricities, `${path}.accidentalEccentricities`, errors)
   )
@@ -268,7 +326,13 @@ function validateAccidentalEccentricities(procedure, path, model, errors) {
   });
 }
 
-function validateStaticProcedure(procedure, path, indices, model, errors) {
+function validateStaticProcedure(
+  procedure: FemProcedure,
+  path: string,
+  indices: AnalysisIndices,
+  model: GlobalFemModelContract | null,
+  errors: FemDiagnostic[],
+): void {
   validateIdArray(procedure.loadCaseIds, `${path}.loadCaseIds`, errors, { minLength: 1 });
   validateReferences(
     procedure.loadCaseIds,
@@ -341,7 +405,12 @@ function validateStaticProcedure(procedure, path, indices, model, errors) {
   validateAccidentalEccentricities(procedure, path, model, errors);
 }
 
-function validateModalProcedure(procedure, path, indices, errors) {
+function validateModalProcedure(
+  procedure: FemProcedure,
+  path: string,
+  indices: AnalysisIndices,
+  errors: FemDiagnostic[],
+): void {
   if (
     validateId(procedure.massSourceId, `${path}.massSourceId`, errors) &&
     !indices.massSources.has(procedure.massSourceId)
@@ -380,18 +449,24 @@ function validateModalProcedure(procedure, path, indices, errors) {
   });
 }
 
-function validateProcedures(procedures, indices, options, errors) {
+function validateProcedures(
+  procedures: readonly FemProcedure[] | undefined,
+  indices: AnalysisIndices,
+  options: AnalysisOptions,
+  errors: FemDiagnostic[],
+): Map<string, FemProcedure> {
   const index = validateUniqueIds(procedures, "$.procedures", errors);
   procedures?.forEach((procedure, itemIndex) => {
     const path = `$.procedures[${itemIndex}]`;
+    const declaredCapabilities = options.capabilities;
     const typeValid = validateString(procedure.type, `${path}.type`, errors, {
       allowed: FEM_ANALYSIS_TYPES,
     });
     validateRequestedOutputs(procedure.requestedOutputs, `${path}.requestedOutputs`, errors);
 
-    if (typeValid && options.capabilities) {
+    if (typeValid && declaredCapabilities) {
       const capability = ANALYSIS_CAPABILITY_BY_TYPE[procedure.type];
-      if (options.capabilities.analyses?.[capability] !== true) {
+      if (declaredCapabilities.analyses?.[capability] !== true) {
         addError(
           errors,
           "FEM_CAPABILITY_REQUIRED",
@@ -400,9 +475,9 @@ function validateProcedures(procedures, indices, options, errors) {
         );
       }
     }
-    if (options.capabilities) {
+    if (declaredCapabilities) {
       procedure.requestedOutputs?.forEach((output, outputIndex) => {
-        if (options.capabilities.results?.[output] !== true) {
+        if (declaredCapabilities.results?.[output] !== true) {
           addError(
             errors,
             "FEM_CAPABILITY_REQUIRED",
@@ -464,23 +539,29 @@ function validateProcedures(procedures, indices, options, errors) {
 }
 
 export function validateGlobalFemAnalysisContract(
-  input,
-  { model = null, capabilities = null } = {},
-) {
-  const errors = [];
-  const warnings = [];
+  input: unknown,
+  {
+    model = null,
+    capabilities = null,
+  }: {
+    readonly model?: GlobalFemModelContract | null;
+    readonly capabilities?: FemCapabilitiesContract | null;
+  } = {},
+): FemValidationResult<GlobalFemAnalysisContract> {
+  const errors: FemDiagnostic[] = [];
+  const warnings: FemDiagnostic[] = [];
 
-  if (validateHeader(input, FEM_CONTRACT_SCHEMAS.analysis, errors)) {
+  if (validateHeader<GlobalFemAnalysisContract>(input, FEM_CONTRACT_SCHEMAS.analysis, errors)) {
     validateId(input.id, "$.id", errors);
     validateId(input.hash, "$.hash", errors);
     validateId(input.modelId, "$.modelId", errors);
     validateId(input.modelHash, "$.modelHash", errors);
     validateUnits(input.units, "$.units", errors);
 
-    for (const collection of ["loadPatterns", "loadCases", "combinations", "procedures"]) {
+    for (const collection of ["loadPatterns", "loadCases", "combinations", "procedures"] as const) {
       validateArray(input[collection], `$.${collection}`, errors);
     }
-    for (const collection of ["massSources", "spectra", "timeSeries"]) {
+    for (const collection of ["massSources", "spectra", "timeSeries"] as const) {
       validateArray(input[collection], `$.${collection}`, errors, { required: false });
     }
 
@@ -524,9 +605,12 @@ export function validateGlobalFemAnalysisContract(
   return finalizeValidation(input, errors, warnings);
 }
 
-export function createGlobalFemAnalysisContract(input, options = {}) {
+export function createGlobalFemAnalysisContract(
+  input: unknown,
+  options: Partial<AnalysisOptions> = {},
+): GlobalFemAnalysisContract {
   const candidate = withContractHeader(input, FEM_CONTRACT_SCHEMAS.analysis);
-  return throwForInvalidContract(
+  return throwForInvalidContract<GlobalFemAnalysisContract>(
     "GlobalFemAnalysisContract",
     validateGlobalFemAnalysisContract(candidate, options),
   );

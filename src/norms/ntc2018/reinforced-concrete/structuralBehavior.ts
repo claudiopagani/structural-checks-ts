@@ -58,11 +58,11 @@ export const NTC2018_ANALYSIS_METHOD = Object.freeze({
 export const NTC2018_STRUCTURAL_BEHAVIOR_REFERENCES = Object.freeze([
   Object.freeze({
     source: "NTC 2018",
-    citation: "Â§Â§ 7.2.2, 7.3.1, 7.3.2, 7.3.3.2, 7.4.1, 7.4.3.1 e 7.4.3.2; Tab. 7.3.II",
+    citation: "§§ 7.2.2, 7.3.1, 7.3.2, 7.3.3.2, 7.4.1, 7.4.3.1 e 7.4.3.2; Tab. 7.3.II",
   }),
   Object.freeze({
     source: "Circolare 21 gennaio 2019, n. 7 C.S.LL.PP.",
-    citation: "Â§Â§ C7.2.2, C7.3.1, C7.3.2 e C7.4.3",
+    citation: "§§ C7.2.2, C7.3.1, C7.3.2 e C7.4.3",
   }),
 ]);
 
@@ -186,10 +186,10 @@ export function normalizeNTC2018StructuralType(value: unknown): Ntc2018Structura
 }
 
 /**
- * Non-dissipative design is a general NTC 2018 design choice (Â§ 7.2.2).
+ * Non-dissipative design is a general NTC 2018 design choice (§ 7.2.2).
  *
  * The `ag*S <= 0.075g` condition belongs to the simplified design regime in
- * Â§ 7.0 and is reported separately. It is not an admissibility condition for
+ * § 7.0 and is reported separately. It is not an admissibility condition for
  * non-dissipative behaviour.
  */
 export function checkNonDissipativeAdmissibility({
@@ -216,7 +216,7 @@ export function checkNonDissipativeAdmissibility({
     simplifiedRegimeEligible = agSOverG <= 0.075 + Number.EPSILON * 10;
   } else {
     warnings.push(
-      "ag was not supplied; eligibility for the simplified Â§ 7.0 regime was not assessed.",
+      "ag was not supplied; eligibility for the simplified § 7.0 regime was not assessed.",
     );
   }
 
@@ -225,7 +225,7 @@ export function checkNonDissipativeAdmissibility({
     simplifiedRegimeEligible,
     agSOverG,
     warnings,
-    reference: "NTC 2018 Â§Â§ 7.0 e 7.2.2",
+    reference: "NTC 2018 §§ 7.0 e 7.2.2",
     metadata: withNormativeReferences({}, [
       NTC2018_RC_CHAPTER_7_4_REFERENCES.structuralBehavior,
       NTC2018_RC_OUTSIDE_CORPUS_REFERENCES.globalSeismicAnalysis,
@@ -252,7 +252,7 @@ export function selectNTC2018OverstrengthFactors({
 }
 
 /**
- * Resolve Î±u/Î±1 from the explicit topology rules in NTC 2018 Â§ 7.4.3.2.
+ * Resolve αu/α1 from the explicit topology rules in NTC 2018 § 7.4.3.2.
  */
 export function resolveNTC2018AlphaRatio({
   structuralType,
@@ -375,8 +375,8 @@ export function computeNTC2018EffectiveQFactor({
  *
  * Modal response-spectrum analysis is the reference linear method. Linear
  * static analysis is admitted only when T1 <= min(2.5*TC, TD) and the
- * construction is regular in elevation (Â§ 7.3.3.2). Nonlinear methods are
- * available for dissipative and non-dissipative systems (Â§Â§ 7.3.1 and 7.3.4).
+ * construction is regular in elevation (§ 7.3.3.2). Nonlinear methods are
+ * available for dissipative and non-dissipative systems (§§ 7.3.1 and 7.3.4).
  */
 export function selectNTC2018AllowedAnalysisMethods({
   behavior,
@@ -422,7 +422,7 @@ export function selectNTC2018AllowedAnalysisMethods({
   checks.push({
     check: "linear-static-elevation-regularity",
     ok: elevationCheck,
-    reference: "NTC 2018 Â§ 7.3.3.2",
+    reference: "NTC 2018 § 7.3.3.2",
   });
   checks.push({
     check: "linear-static-period",
@@ -430,7 +430,7 @@ export function selectNTC2018AllowedAnalysisMethods({
     evaluated: periodLimit != null,
     t1: t1 ?? null,
     limit: periodLimit,
-    reference: "NTC 2018 Â§ 7.3.3.2",
+    reference: "NTC 2018 § 7.3.3.2",
   });
 
   return {

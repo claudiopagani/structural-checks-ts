@@ -18,14 +18,14 @@
  *   6. Joint verifications (kernel locale esistente)
  *   7. Capacity design (WP4)
  *   8. Displacement checks (WP5)
- *   9. Aggregate results â†’ VerificationResult building-level
+ *   9. Aggregate results → VerificationResult building-level
  *
  * Missing project data or local verification families produce a non-positive
  * result. A positive result is possible only when the executable normative
  * coverage inventory is complete and no readiness assessment is blocked.
  *
  * References:
- * - NTC 2018 Â§Â§ 4.1, 7.2-7.4
+ * - NTC 2018 §§ 4.1, 7.2-7.4
  * - GlobalFemDemandSet v0
  * - FemEntityMappingContract v0
  */
@@ -126,9 +126,9 @@ function extractValidationErrors(...results) {
  * StoreyDisplacementData array expected by WP5.
  *
  * @param {Object} params
- * @param {Object} params.model â€“ GlobalFemModelContract.
- * @param {Object} params.mapping â€“ FemEntityMappingContract.
- * @param {Object} [params.result] â€“ GlobalFemResultContract for displacements.
+ * @param {Object} params.model – GlobalFemModelContract.
+ * @param {Object} params.mapping – FemEntityMappingContract.
+ * @param {Object} [params.result] – GlobalFemResultContract for displacements.
  * @returns {Array}
  */
 function buildStoreyDisplacementData({ model, mapping, result }) {
@@ -229,8 +229,8 @@ function buildStoreyDisplacementData({ model, mapping, result }) {
  * Evaluate what verifications are possible given the available data.
  *
  * @param {Object} params
- * @param {Object} params.contracts â€“ Validated contracts.
- * @param {Object} params.input â€“ Raw input.
+ * @param {Object} params.contracts – Validated contracts.
+ * @param {Object} params.input – Raw input.
  * @returns {Array<{ assessment: string, status: string, missing: string[] }>}
  */
 function evaluateReadiness({
@@ -510,15 +510,15 @@ function evaluateReadiness({
  *
  * The library does NOT auto-generate member sections, materials or
  * reinforcement (explicitly out of scope per AGENTS.md). Instead, the
- * consumer injects `memberVerifiers` â€” plain functions that receive the
+ * consumer injects `memberVerifiers` — plain functions that receive the
  * member descriptor and return a VerificationResult-like object. This
  * keeps the local kernels untouched and the orchestrator generic.
  *
  * @param {Object} params
- * @param {Array} params.members â€“ FemEntityMappingContract members.
- * @param {Object} params.memberVerifiers â€“ `{ beam?: fn, column?: fn }`.
- * @param {Object} params.memberData â€“ Optional per-member extra data by id.
- * @param {Object} params.context â€“ Shared context (behavior, q, units).
+ * @param {Array} params.members – FemEntityMappingContract members.
+ * @param {Object} params.memberVerifiers – `{ beam?: fn, column?: fn }`.
+ * @param {Object} params.memberData – Optional per-member extra data by id.
+ * @param {Object} params.context – Shared context (behavior, q, units).
  * @returns {Array}
  */
 function runMemberVerifications({ members, memberVerifiers, memberData, demandSet, context }) {
@@ -657,12 +657,12 @@ function runJointVerifications({ joints, members, jointVerifier, jointData, dema
  * Verify the beam-column hierarchy for each joint with provided data.
  *
  * @param {Object} params
- * @param {Array} params.joints â€“ FemEntityMappingContract joints.
- * @param {Object} params.jointHierarchy â€“ Per-joint hierarchy data by id:
+ * @param {Array} params.joints – FemEntityMappingContract joints.
+ * @param {Object} params.jointHierarchy – Per-joint hierarchy data by id:
  *   `{ [jointId]: { beamMomentResistances: number[],
  *                   columnMomentResistances: number[],
  *                   isTopStoreyColumnJoint?: boolean } }`.
- * @param {string} params.behavior â€“ Structural behavior.
+ * @param {string} params.behavior – Structural behavior.
  * @returns {Array}
  */
 function runJointHierarchyVerifications({ joints, jointHierarchy, behavior }) {
@@ -720,8 +720,8 @@ function runJointHierarchyVerifications({ joints, jointHierarchy, behavior }) {
  * auto-generated (per AGENTS.md boundaries).
  *
  * @param {Object} params
- * @param {Array} params.walls â€“ FemEntityMappingContract walls.
- * @param {Object} params.wallSections â€“ `{ [wallId]: { section, actions:
+ * @param {Array} params.walls – FemEntityMappingContract walls.
+ * @param {Object} params.wallSections – `{ [wallId]: { section, actions:
  *   { axialForce, momentX, momentY }, concreteDesignStrength,
  *   reinforcementDesignStrength, ... } }`.
  * @returns {Array}
@@ -867,15 +867,15 @@ export class RcBuildingVerificationApplication extends StructuralApplication {
    * Run the building verification.
    *
    * @param {Object} input
-   * @param {Object} input.capabilities â€“ FemCapabilitiesContract.
-   * @param {Object} input.model â€“ GlobalFemModelContract.
-   * @param {Object} input.analysis â€“ GlobalFemAnalysisContract.
-   * @param {Object} input.result â€“ GlobalFemResultContract.
-   * @param {Object} input.mapping â€“ FemEntityMappingContract (confirmed).
-   * @param {string} input.behavior â€“ Structural behavior choice.
-   * @param {string} input.structuralType â€“ Explicit structural type.
-   * @param {Object} [input.siteParams] â€“ Site hazard parameters.
-   * @param {Object} [input.metadata] â€“ Consumer metadata.
+   * @param {Object} input.capabilities – FemCapabilitiesContract.
+   * @param {Object} input.model – GlobalFemModelContract.
+   * @param {Object} input.analysis – GlobalFemAnalysisContract.
+   * @param {Object} input.result – GlobalFemResultContract.
+   * @param {Object} input.mapping – FemEntityMappingContract (confirmed).
+   * @param {string} input.behavior – Structural behavior choice.
+   * @param {string} input.structuralType – Explicit structural type.
+   * @param {Object} [input.siteParams] – Site hazard parameters.
+   * @param {Object} [input.metadata] – Consumer metadata.
    * @returns {CalculationResult}
    */
   run(input = {}) {
@@ -981,7 +981,7 @@ export class RcBuildingVerificationApplication extends StructuralApplication {
       result: resultVal?.value ?? input.result,
     });
 
-    // ---- 4b. Linear dynamic analysis checks (NTC 2018 Â§ 7.3.3.1) ----
+    // ---- 4b. Linear dynamic analysis checks (NTC 2018 § 7.3.3.1) ----
     let linearDynamicAssessment = null;
     let linearDynamicError = null;
     if (input.linearDynamicAssessmentInput != null && resultVal?.ok) {

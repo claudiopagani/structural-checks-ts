@@ -60,7 +60,7 @@ test("non-dissipative behaviour is not restricted by seismic zone or ag", () => 
   assert.equal(result.agSOverG, 0.3);
 });
 
-test("the ag*S threshold only classifies the simplified Â§ 7.0 regime", () => {
+test("the ag*S threshold only classifies the simplified § 7.0 regime", () => {
   const result = checkNonDissipativeAdmissibility({
     ag: 0.05,
     soilAmplification: 1.2,
@@ -72,7 +72,7 @@ test("the ag*S threshold only classifies the simplified Â§ 7.0 regime", () => 
   assert.ok(Math.abs(result.agSOverG - 0.075) < 1e-12);
 });
 
-test("Î±u/Î±1 follows the explicit frame topology values in Â§ 7.4.3.2", () => {
+test("αu/α1 follows the explicit frame topology values in § 7.4.3.2", () => {
   assert.equal(
     resolveNTC2018AlphaRatio({
       structuralType: "frame",
@@ -99,7 +99,7 @@ test("Î±u/Î±1 follows the explicit frame topology values in Â§ 7.4.3.2", (
   );
 });
 
-test("Î±u/Î±1 follows uncoupled and coupled wall topology", () => {
+test("αu/α1 follows uncoupled and coupled wall topology", () => {
   assert.equal(
     resolveNTC2018AlphaRatio({
       structuralType: "wall",
@@ -122,7 +122,7 @@ test("Î±u/Î±1 follows uncoupled and coupled wall topology", () => {
   );
 });
 
-test("generic dual systems require an explicit Î±u/Î±1 classification", () => {
+test("generic dual systems require an explicit αu/α1 classification", () => {
   assert.throws(
     () => resolveNTC2018AlphaRatio({ structuralType: "dual" }),
     /alphaRatio is required/,

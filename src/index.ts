@@ -125,6 +125,7 @@ export {
   createGlobalFemContractSet,
   validateGlobalFemContractSet,
 } from "./domain/fem/contracts/index.js";
+export type * from "./domain/fem/contracts/index.js";
 export {
   DEFAULT_GLOBAL_FEM_CLASSIFICATION_POLICY,
   GLOBAL_FEM_CLASSIFICATION_PROPOSAL_VERSION,

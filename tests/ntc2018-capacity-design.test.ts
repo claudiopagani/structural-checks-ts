@@ -53,7 +53,7 @@ test("discordant column moments move the smaller capacity to the beam side", () 
   assert.equal(result.capacity, 300);
 });
 
-test("top-storey column joints are excluded by Â§ 7.4.4.2.1", () => {
+test("top-storey column joints are excluded by § 7.4.4.2.1", () => {
   const result = verifyBeamColumnHierarchy({
     behavior: "cd-a",
     isTopStoreyColumnJoint: true,
@@ -136,7 +136,7 @@ test("joint shear demand implements internal and external equations", () => {
   assert.match(external.reference, /7\.4\.6/);
 });
 
-test("non-dissipative RC joints use the CD B joint rule required by Â§ 7.4.1", () => {
+test("non-dissipative RC joints use the CD B joint rule required by § 7.4.1", () => {
   const result = computeJointCapacityShear({
     behavior: "non-dissipative",
     topReinforcementArea: 10,

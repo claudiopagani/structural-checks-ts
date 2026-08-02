@@ -1,6 +1,4 @@
-/* eslint-disable @typescript-eslint/ban-ts-comment, @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-return, @typescript-eslint/no-floating-promises */
 // Mechanical TypeScript migration from strutture-js 6f33baead8b88166c4b2cf94af41763412e3c751.
-// @ts-nocheck
 import {
   FEM_ANALYSIS_CAPABILITY_KEYS,
   FEM_CONTRACT_SCHEMAS,
@@ -16,8 +14,19 @@ import {
   validateString,
   withContractHeader,
 } from "./FemContractValidation.js";
+import type {
+  FemCapabilitiesContract,
+  FemDiagnostic,
+  FemValidationResult,
+} from "./FemContractTypes.js";
 
-function validateCapabilityGroup(group, keys, path, errors, warnings) {
+function validateCapabilityGroup(
+  group: unknown,
+  keys: readonly string[],
+  path: string,
+  errors: FemDiagnostic[],
+  warnings: FemDiagnostic[],
+): void {
   if (!validateRecord(group, path, errors)) return;
 
   for (const key of keys) {
@@ -35,11 +44,13 @@ function validateCapabilityGroup(group, keys, path, errors, warnings) {
   }
 }
 
-export function validateFemCapabilitiesContract(input) {
-  const errors = [];
-  const warnings = [];
+export function validateFemCapabilitiesContract(
+  input: unknown,
+): FemValidationResult<FemCapabilitiesContract> {
+  const errors: FemDiagnostic[] = [];
+  const warnings: FemDiagnostic[] = [];
 
-  if (validateHeader(input, FEM_CONTRACT_SCHEMAS.capabilities, errors)) {
+  if (validateHeader<FemCapabilitiesContract>(input, FEM_CONTRACT_SCHEMAS.capabilities, errors)) {
     validateId(input.id, "$.id", errors);
 
     if (validateRecord(input.solver, "$.solver", errors)) {
@@ -78,9 +89,9 @@ export function validateFemCapabilitiesContract(input) {
   return finalizeValidation(input, errors, warnings);
 }
 
-export function createFemCapabilitiesContract(input) {
+export function createFemCapabilitiesContract(input: unknown): FemCapabilitiesContract {
   const candidate = withContractHeader(input, FEM_CONTRACT_SCHEMAS.capabilities);
-  return throwForInvalidContract(
+  return throwForInvalidContract<FemCapabilitiesContract>(
     "FemCapabilitiesContract",
     validateFemCapabilitiesContract(candidate),
   );

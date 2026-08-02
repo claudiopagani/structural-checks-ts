@@ -17,7 +17,7 @@
  * direction are deliberately kept distinct.
  *
  * References:
- * - D.M. 17/01/2018 (NTC 2018): Â§ 4.1.2.3.9, Â§ 7.4.4.5.1 (Presso-flessione)
+ * - D.M. 17/01/2018 (NTC 2018): § 4.1.2.3.9, § 7.4.4.5.1 (Presso-flessione)
  */
 
 import { RCBiaxialDomainBuilder } from "../reinforced-concrete-sections/analysis/RCBiaxialDomainBuilder.js";
@@ -33,7 +33,7 @@ import {
 
 /** @readonly */
 export const WALL_BIAXIAL_REFERENCE =
-  "NTC 2018 Â§ 4.1.2.3.9, Â§ 7.4.4.5.1 (Presso-flessione biassiale)";
+  "NTC 2018 § 4.1.2.3.9, § 7.4.4.5.1 (Presso-flessione biassiale)";
 
 function positive(value, label) {
   if (!Number.isFinite(value) || value <= 0) {
@@ -60,19 +60,19 @@ function integerAtLeast(value, minimum, label) {
  * Verify a wall section in biaxial bending at assigned axial force.
  *
  * @param {Object} params
- * @param {Object} params.section â€“ ReinforcedConcreteSection (domain object).
- * @param {number} params.axialForce â€“ N_Ed [force] (solver sign convention).
- * @param {number} params.momentX â€“ M_x,Ed [forceÃ—length].
- * @param {number} params.momentY â€“ M_y,Ed [forceÃ—length].
- * @param {number} params.concreteDesignStrength â€“ f_cd [force/lengthÂ²].
- * @param {number} params.reinforcementDesignStrength â€“ f_yd [force/lengthÂ²].
- * @param {number} [params.concreteEc2=0.002] â€“ Peak compression strain.
- * @param {number} [params.concreteEcu=0.0035] â€“ Ultimate compression strain.
- * @param {number} [params.steelElasticModulus=200000] â€“ E_s [force/lengthÂ²].
- * @param {number} [params.steelUltimateStrain=0.01] â€“ Îµ_su.
- * @param {number} [params.targetFiberCount=400] â€“ Discretization density.
- * @param {number} [params.angleCount=64] â€“ Sample count for the closed Mx-My domain.
- * @param {string} [params.compressedSide="positive"] â€“ Solver compressed side.
+ * @param {Object} params.section – ReinforcedConcreteSection (domain object).
+ * @param {number} params.axialForce – N_Ed [force] (solver sign convention).
+ * @param {number} params.momentX – M_x,Ed [force×length].
+ * @param {number} params.momentY – M_y,Ed [force×length].
+ * @param {number} params.concreteDesignStrength – f_cd [force/length²].
+ * @param {number} params.reinforcementDesignStrength – f_yd [force/length²].
+ * @param {number} [params.concreteEc2=0.002] – Peak compression strain.
+ * @param {number} [params.concreteEcu=0.0035] – Ultimate compression strain.
+ * @param {number} [params.steelElasticModulus=200000] – E_s [force/length²].
+ * @param {number} [params.steelUltimateStrain=0.01] – ε_su.
+ * @param {number} [params.targetFiberCount=400] – Discretization density.
+ * @param {number} [params.angleCount=64] – Sample count for the closed Mx-My domain.
+ * @param {string} [params.compressedSide="positive"] – Solver compressed side.
  * @returns {{
  *   ok: boolean,
  *   utilizationRatio: number|null,

@@ -143,7 +143,7 @@ function pDeltaAt(theta) {
   });
 }
 
-test("P-Delta threshold intervals match NTC 2018 Â§ 7.3.1", () => {
+test("P-Delta threshold intervals match NTC 2018 § 7.3.1", () => {
   assert.equal(pDeltaAt(0.099).status, "negligible");
   assert.equal(pDeltaAt(0.1).status, "amplification-required");
   assert.equal(pDeltaAt(0.2).status, "amplification-required");

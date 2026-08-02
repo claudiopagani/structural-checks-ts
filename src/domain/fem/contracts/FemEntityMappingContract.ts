@@ -1,6 +1,4 @@
-/* eslint-disable @typescript-eslint/ban-ts-comment, @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-return, @typescript-eslint/no-floating-promises */
 // Mechanical TypeScript migration from strutture-js 6f33baead8b88166c4b2cf94af41763412e3c751.
-// @ts-nocheck
 import {
   FEM_CONTRACT_SCHEMAS,
   addError,
@@ -17,10 +15,39 @@ import {
   validateUniqueIds,
   withContractHeader,
 } from "./FemContractValidation.js";
+import type {
+  FemDiagnostic,
+  FemEntityMappingContract,
+  FemFoundation,
+  FemJoint,
+  FemLineElement,
+  FemPunchingConnection,
+  FemResistanceAxisMapping,
+  FemStoreyMapping,
+  FemStructuralMember,
+  FemStructuralSlab,
+  FemStructuralWall,
+  FemValidationResult,
+  GlobalFemModelContract,
+} from "./FemContractTypes.js";
 import {
   validateResistanceAxisTransformation,
   validateSurfaceResistanceAxisTransformation,
 } from "../ResistanceAxisMapping.js";
+
+interface MappingModelIndices {
+  readonly nodes: Map<string, { readonly id: string }>;
+  readonly lineElements: Map<string, FemLineElement>;
+  readonly shellElements: Map<string, { readonly id: string }>;
+  readonly diaphragms: Map<string, { readonly id: string }>;
+  readonly storeys: Map<string, { readonly id: string }>;
+  readonly sectionCuts: Map<string, { readonly id: string }>;
+  readonly supports: Map<string, { readonly id: string; readonly nodeId: string }>;
+}
+
+type MappingAssignments = Map<string, string>;
+type AxisMapping = FemResistanceAxisMapping & Record<string, unknown>;
+type AxisTransformationValidator = (value: unknown) => unknown;
 
 function validateAxisMappings({
   mappings,
@@ -30,7 +57,15 @@ function validateAxisMappings({
   sourceCoordinateSystem,
   transformationValidator = validateResistanceAxisTransformation,
   errors,
-}) {
+}: {
+  readonly mappings: readonly AxisMapping[] | undefined;
+  readonly path: string;
+  readonly sourceIdKey: string;
+  readonly assignedIds: readonly string[];
+  readonly sourceCoordinateSystem: string;
+  readonly transformationValidator?: AxisTransformationValidator;
+  readonly errors: FemDiagnostic[];
+}): void {
   if (mappings == null) return;
   if (!validateArray(mappings, path, errors)) return;
   const mappedIds = new Set();
@@ -70,7 +105,7 @@ function validateAxisMappings({
         errors,
         "FEM_INVALID_AXIS_TRANSFORMATION",
         `${itemPath}.sourceToResistance`,
-        error.message,
+        String(error instanceof Error ? error.message : undefined),
       );
     }
   });
@@ -83,7 +118,12 @@ function validateAxisMappings({
   }
 }
 
-function registerAssignments(ids, assignmentIndex, path, errors) {
+function registerAssignments(
+  ids: readonly string[] | undefined,
+  assignmentIndex: MappingAssignments,
+  path: string,
+  errors: FemDiagnostic[],
+): void {
   ids?.forEach((id, itemIndex) => {
     if (assignmentIndex.has(id)) {
       addError(
@@ -98,9 +138,13 @@ function registerAssignments(ids, assignmentIndex, path, errors) {
   });
 }
 
-function validateMembers(members, modelIndices, errors) {
+function validateMembers(
+  members: readonly FemStructuralMember[] | undefined,
+  modelIndices: MappingModelIndices | null,
+  errors: FemDiagnostic[],
+): { readonly index: Map<string, FemStructuralMember>; readonly assignments: MappingAssignments } {
   const index = validateUniqueIds(members, "$.members", errors);
-  const assignments = new Map();
+  const assignments = new Map<string, string>();
   members?.forEach((member, itemIndex) => {
     const path = `$.members[${itemIndex}]`;
     validateString(member.role, `${path}.role`, errors, {
@@ -129,9 +173,13 @@ function validateMembers(members, modelIndices, errors) {
   return { index, assignments };
 }
 
-function validateWalls(walls, modelIndices, errors) {
+function validateWalls(
+  walls: readonly FemStructuralWall[] | undefined,
+  modelIndices: MappingModelIndices | null,
+  errors: FemDiagnostic[],
+): { readonly index: Map<string, FemStructuralWall>; readonly assignments: MappingAssignments } {
   const index = validateUniqueIds(walls, "$.walls", errors);
-  const assignments = new Map();
+  const assignments = new Map<string, string>();
   walls?.forEach((wall, itemIndex) => {
     const path = `$.walls[${itemIndex}]`;
     validateIdArray(wall.shellElementIds, `${path}.shellElementIds`, errors, { minLength: 1 });
@@ -173,7 +221,12 @@ function validateWalls(walls, modelIndices, errors) {
   return { index, assignments };
 }
 
-function validateSlabs(slabs, modelIndices, shellAssignments, errors) {
+function validateSlabs(
+  slabs: readonly FemStructuralSlab[] | undefined,
+  modelIndices: MappingModelIndices | null,
+  shellAssignments: MappingAssignments,
+  errors: FemDiagnostic[],
+): Map<string, FemStructuralSlab> {
   const index = validateUniqueIds(slabs, "$.slabs", errors);
   slabs?.forEach((slab, itemIndex) => {
     const path = `$.slabs[${itemIndex}]`;
@@ -221,7 +274,17 @@ function validateSlabs(slabs, modelIndices, shellAssignments, errors) {
   return index;
 }
 
-function validatePunchingConnections({ connections, slabIndex, modelIndices, errors }) {
+function validatePunchingConnections({
+  connections,
+  slabIndex,
+  modelIndices,
+  errors,
+}: {
+  readonly connections: readonly FemPunchingConnection[] | undefined;
+  readonly slabIndex: Map<string, FemStructuralSlab>;
+  readonly modelIndices: MappingModelIndices | null;
+  readonly errors: FemDiagnostic[];
+}): Map<string, FemPunchingConnection> {
   if (connections == null) return new Map();
   const index = validateUniqueIds(connections, "$.punchingConnections", errors);
   connections.forEach((connection, itemIndex) => {
@@ -305,12 +368,16 @@ function validatePunchingConnections({ connections, slabIndex, modelIndices, err
   return index;
 }
 
-function validateFoundations(foundations, modelIndices, errors) {
+function validateFoundations(
+  foundations: readonly FemFoundation[] | undefined,
+  modelIndices: MappingModelIndices | null,
+  errors: FemDiagnostic[],
+): { readonly index: Map<string, FemFoundation>; readonly assignments: MappingAssignments } {
   if (foundations == null) {
     return { index: new Map(), assignments: new Map() };
   }
   const index = validateUniqueIds(foundations, "$.foundations", errors);
-  const assignments = new Map();
+  const assignments = new Map<string, string>();
   foundations.forEach((foundation, itemIndex) => {
     const path = `$.foundations[${itemIndex}]`;
     validateString(foundation.type, `${path}.type`, errors, {
@@ -381,9 +448,13 @@ function validateFoundations(foundations, modelIndices, errors) {
   return { index, assignments };
 }
 
-function validateStoreyMappings(storeys, modelIndices, errors) {
+function validateStoreyMappings(
+  storeys: readonly FemStoreyMapping[] | undefined,
+  modelIndices: MappingModelIndices | null,
+  errors: FemDiagnostic[],
+): { readonly index: Map<string, FemStoreyMapping>; readonly mappedStoreys: Set<string> } {
   const index = validateUniqueIds(storeys, "$.storeys", errors);
-  const mappedStoreys = new Set();
+  const mappedStoreys = new Set<string>();
   storeys?.forEach((storey, itemIndex) => {
     const path = `$.storeys[${itemIndex}]`;
     if (validateId(storey.storeyId, `${path}.storeyId`, errors)) {
@@ -406,11 +477,19 @@ function validateStoreyMappings(storeys, modelIndices, errors) {
       }
     }
 
-    for (const [key, targetName, label] of [
-      ["nodeIds", "nodes", "node"],
-      ["diaphragmIds", "diaphragms", "diaphragm"],
-      ["lineElementIds", "lineElements", "line element"],
-      ["shellElementIds", "shellElements", "shell element"],
+    for (const { key, targetName, label } of [
+      { key: "nodeIds" as const, targetName: "nodes" as const, label: "node" },
+      { key: "diaphragmIds" as const, targetName: "diaphragms" as const, label: "diaphragm" },
+      {
+        key: "lineElementIds" as const,
+        targetName: "lineElements" as const,
+        label: "line element",
+      },
+      {
+        key: "shellElementIds" as const,
+        targetName: "shellElements" as const,
+        label: "shell element",
+      },
     ]) {
       validateIdArray(storey[key], `${path}.${key}`, errors);
       if (modelIndices) {
@@ -421,7 +500,11 @@ function validateStoreyMappings(storeys, modelIndices, errors) {
   return { index, mappedStoreys };
 }
 
-function validateJoints(joints, modelIndices, errors) {
+function validateJoints(
+  joints: readonly FemJoint[] | undefined,
+  modelIndices: MappingModelIndices | null,
+  errors: FemDiagnostic[],
+): Map<string, FemJoint> {
   const index = validateUniqueIds(joints, "$.joints", errors);
   const mappedNodes = new Set();
   joints?.forEach((joint, itemIndex) => {
@@ -479,7 +562,15 @@ function validateJoints(joints, modelIndices, errors) {
   return index;
 }
 
-function validateCoverage(model, assignments, mappedStoreys, errors) {
+function validateCoverage(
+  model: GlobalFemModelContract,
+  assignments: {
+    readonly lineElements: MappingAssignments;
+    readonly shellElements: MappingAssignments;
+  },
+  mappedStoreys: ReadonlySet<string>,
+  errors: FemDiagnostic[],
+): void {
   model.lineElements.forEach((element) => {
     if (!assignments.lineElements.has(element.id)) {
       addError(
@@ -512,15 +603,18 @@ function validateCoverage(model, assignments, mappedStoreys, errors) {
   });
 }
 
-export function validateFemEntityMappingContract(input, { model = null } = {}) {
-  const errors = [];
-  const warnings = [];
+export function validateFemEntityMappingContract(
+  input: unknown,
+  { model = null }: { readonly model?: GlobalFemModelContract | null } = {},
+): FemValidationResult<FemEntityMappingContract> {
+  const errors: FemDiagnostic[] = [];
+  const warnings: FemDiagnostic[] = [];
 
-  if (validateHeader(input, FEM_CONTRACT_SCHEMAS.mapping, errors)) {
+  if (validateHeader<FemEntityMappingContract>(input, FEM_CONTRACT_SCHEMAS.mapping, errors)) {
     validateId(input.id, "$.id", errors);
     validateId(input.modelId, "$.modelId", errors);
     validateId(input.modelHash, "$.modelHash", errors);
-    for (const collection of ["members", "walls", "slabs", "storeys", "joints"]) {
+    for (const collection of ["members", "walls", "slabs", "storeys", "joints"] as const) {
       validateArray(input[collection], `$.${collection}`, errors);
     }
     if (input.punchingConnections != null) {
@@ -585,9 +679,12 @@ export function validateFemEntityMappingContract(input, { model = null } = {}) {
   return finalizeValidation(input, errors, warnings);
 }
 
-export function createFemEntityMappingContract(input, options = {}) {
+export function createFemEntityMappingContract(
+  input: unknown,
+  options: { readonly model?: GlobalFemModelContract | null } = {},
+): FemEntityMappingContract {
   const candidate = withContractHeader(input, FEM_CONTRACT_SCHEMAS.mapping);
-  return throwForInvalidContract(
+  return throwForInvalidContract<FemEntityMappingContract>(
     "FemEntityMappingContract",
     validateFemEntityMappingContract(candidate, options),
   );

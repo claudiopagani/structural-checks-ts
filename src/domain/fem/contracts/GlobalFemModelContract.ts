@@ -1,6 +1,4 @@
-/* eslint-disable @typescript-eslint/ban-ts-comment, @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-return, @typescript-eslint/no-floating-promises */
 // Mechanical TypeScript migration from strutture-js 6f33baead8b88166c4b2cf94af41763412e3c751.
-// @ts-nocheck
 import {
   FEM_CONTRACT_SCHEMAS,
   addError,
@@ -25,8 +23,26 @@ import {
   vectorBetween,
   withContractHeader,
 } from "./FemContractValidation.js";
+import type {
+  FemConstraint,
+  FemCoordinateSystem,
+  FemDiagnostic,
+  FemDiaphragm,
+  FemGroup,
+  FemLineElement,
+  FemLink,
+  FemMaterial,
+  FemNode,
+  FemSection,
+  FemSectionCut,
+  FemShellElement,
+  FemStorey,
+  FemSupport,
+  FemValidationResult,
+  GlobalFemModelContract,
+} from "./FemContractTypes.js";
 
-const DOF_NAMES = ["ux", "uy", "uz", "rx", "ry", "rz"];
+const DOF_NAMES = ["ux", "uy", "uz", "rx", "ry", "rz"] as const;
 const GROUP_TARGETS = new Map([
   ["nodes", "nodes"],
   ["line-elements", "lineElements"],
@@ -35,9 +51,23 @@ const GROUP_TARGETS = new Map([
   ["diaphragms", "diaphragms"],
   ["storeys", "storeys"],
   ["section-cuts", "sectionCuts"],
-]);
+] as const);
 
-function requireCollections(input, errors) {
+interface ModelIndices {
+  readonly nodes: Map<string, FemNode>;
+  readonly materials: Map<string, FemMaterial>;
+  readonly sections: Map<string, FemSection>;
+  readonly lineElements: Map<string, FemLineElement>;
+  readonly shellElements: Map<string, FemShellElement>;
+  readonly supports: Map<string, FemSupport>;
+  readonly links: Map<string, FemLink>;
+  readonly constraints: Map<string, FemConstraint>;
+  readonly diaphragms: Map<string, FemDiaphragm>;
+  readonly storeys: Map<string, FemStorey>;
+  readonly sectionCuts: Map<string, FemSectionCut>;
+}
+
+function requireCollections(input: GlobalFemModelContract, errors: FemDiagnostic[]): void {
   const names = [
     "nodes",
     "materials",
@@ -53,12 +83,15 @@ function requireCollections(input, errors) {
     "sectionCuts",
   ];
 
-  for (const name of names) {
+  for (const name of names as readonly (keyof GlobalFemModelContract)[]) {
     validateArray(input[name], `$.${name}`, errors);
   }
 }
 
-function validateGlobalCoordinateSystem(system, errors) {
+function validateGlobalCoordinateSystem(
+  system: FemCoordinateSystem,
+  errors: FemDiagnostic[],
+): void {
   if (!validateRecord(system, "$.globalCoordinateSystem", errors)) return;
 
   validateId(system.id, "$.globalCoordinateSystem.id", errors);
@@ -96,7 +129,10 @@ function validateGlobalCoordinateSystem(system, errors) {
   }
 }
 
-function validateNodes(nodes, errors) {
+function validateNodes(
+  nodes: readonly FemNode[] | undefined,
+  errors: FemDiagnostic[],
+): Map<string, FemNode> {
   const index = validateUniqueIds(nodes, "$.nodes", errors);
   nodes?.forEach((node, itemIndex) => {
     validateFiniteVector(node.coordinates, `$.nodes[${itemIndex}].coordinates`, errors);
@@ -107,7 +143,10 @@ function validateNodes(nodes, errors) {
   return index;
 }
 
-function validateMaterials(materials, errors) {
+function validateMaterials(
+  materials: readonly FemMaterial[] | undefined,
+  errors: FemDiagnostic[],
+): Map<string, FemMaterial> {
   const index = validateUniqueIds(materials, "$.materials", errors);
   materials?.forEach((material, itemIndex) => {
     validateString(material.type, `$.materials[${itemIndex}].type`, errors);
@@ -116,7 +155,11 @@ function validateMaterials(materials, errors) {
   return index;
 }
 
-function validateSections(sections, materialIndex, errors) {
+function validateSections(
+  sections: readonly FemSection[] | undefined,
+  materialIndex: Map<string, FemMaterial>,
+  errors: FemDiagnostic[],
+): Map<string, FemSection> {
   const index = validateUniqueIds(sections, "$.sections", errors);
   sections?.forEach((section, itemIndex) => {
     const path = `$.sections[${itemIndex}]`;
@@ -139,11 +182,15 @@ function validateSections(sections, materialIndex, errors) {
   return index;
 }
 
-function validateOffsets(offsets, path, errors) {
+function validateOffsets(
+  offsets: GlobalFemModelContract["lineElements"][number]["offsets"],
+  path: string,
+  errors: FemDiagnostic[],
+): void {
   if (offsets == null) return;
   if (!validateRecord(offsets, path, errors)) return;
 
-  for (const end of ["start", "end"]) {
+  for (const end of ["start", "end"] as const) {
     const endPath = `${path}.${end}`;
     if (!validateRecord(offsets[end], endPath, errors)) continue;
     validateString(offsets[end].referenceSystem, `${endPath}.referenceSystem`, errors, {
@@ -153,7 +200,11 @@ function validateOffsets(offsets, path, errors) {
   }
 }
 
-function validateLineElements(lineElements, indices, errors) {
+function validateLineElements(
+  lineElements: readonly FemLineElement[] | undefined,
+  indices: Pick<ModelIndices, "nodes" | "materials" | "sections">,
+  errors: FemDiagnostic[],
+): Map<string, FemLineElement> {
   const index = validateUniqueIds(lineElements, "$.lineElements", errors);
 
   lineElements?.forEach((element, itemIndex) => {
@@ -171,9 +222,9 @@ function validateLineElements(lineElements, indices, errors) {
     }
     validateReferences(element.nodeIds, indices.nodes, `${path}.nodeIds`, errors, "node");
 
-    for (const [key, target, label] of [
-      ["sectionId", indices.sections, "section"],
-      ["materialId", indices.materials, "material"],
+    for (const { key, target, label } of [
+      { key: "sectionId" as const, target: indices.sections, label: "section" },
+      { key: "materialId" as const, target: indices.materials, label: "material" },
     ]) {
       if (validateId(element[key], `${path}.${key}`, errors) && !target.has(element[key])) {
         addError(
@@ -207,7 +258,8 @@ function validateLineElements(lineElements, indices, errors) {
 
     const start = indices.nodes.get(element.nodeIds?.[0])?.coordinates;
     const end = indices.nodes.get(element.nodeIds?.[1])?.coordinates;
-    const direction = start && end ? normalized(vectorBetween(start, end)) : null;
+    const direction =
+      start === undefined || end === undefined ? null : normalized(vectorBetween(start, end));
     if (start && end && !direction) {
       addError(
         errors,
@@ -228,7 +280,11 @@ function validateLineElements(lineElements, indices, errors) {
   return index;
 }
 
-function validateShellElements(shellElements, indices, errors) {
+function validateShellElements(
+  shellElements: readonly FemShellElement[] | undefined,
+  indices: Pick<ModelIndices, "nodes" | "materials" | "sections">,
+  errors: FemDiagnostic[],
+): Map<string, FemShellElement> {
   const index = validateUniqueIds(shellElements, "$.shellElements", errors);
 
   shellElements?.forEach((element, itemIndex) => {
@@ -246,9 +302,9 @@ function validateShellElements(shellElements, indices, errors) {
     }
     validateReferences(element.nodeIds, indices.nodes, `${path}.nodeIds`, errors, "node");
 
-    for (const [key, target, label] of [
-      ["sectionId", indices.sections, "section"],
-      ["materialId", indices.materials, "material"],
+    for (const { key, target, label } of [
+      { key: "sectionId" as const, target: indices.sections, label: "section" },
+      { key: "materialId" as const, target: indices.materials, label: "material" },
     ]) {
       if (validateId(element[key], `${path}.${key}`, errors) && !target.has(element[key])) {
         addError(
@@ -285,7 +341,7 @@ function validateShellElements(shellElements, indices, errors) {
     const coordinates = element.nodeIds
       ?.slice(0, 3)
       .map((nodeId) => indices.nodes.get(nodeId)?.coordinates);
-    if (coordinates?.length === 3 && coordinates.every(Boolean)) {
+    if (coordinates?.length === 3 && coordinates[0] && coordinates[1] && coordinates[2]) {
       const firstEdge = vectorBetween(coordinates[0], coordinates[1]);
       const secondEdge = vectorBetween(coordinates[0], coordinates[2]);
       const normal = normalized(crossProduct(firstEdge, secondEdge));
@@ -310,7 +366,11 @@ function validateShellElements(shellElements, indices, errors) {
   return index;
 }
 
-function validateSupports(supports, nodeIndex, errors) {
+function validateSupports(
+  supports: readonly FemSupport[] | undefined,
+  nodeIndex: Map<string, FemNode>,
+  errors: FemDiagnostic[],
+): Map<string, FemSupport> {
   const index = validateUniqueIds(supports, "$.supports", errors);
   supports?.forEach((support, itemIndex) => {
     const path = `$.supports[${itemIndex}]`;
@@ -331,7 +391,11 @@ function validateSupports(supports, nodeIndex, errors) {
   return index;
 }
 
-function validateLinks(links, nodeIndex, errors) {
+function validateLinks(
+  links: readonly FemLink[] | undefined,
+  nodeIndex: Map<string, FemNode>,
+  errors: FemDiagnostic[],
+): Map<string, FemLink> {
   const index = validateUniqueIds(links, "$.links", errors);
   links?.forEach((link, itemIndex) => {
     const path = `$.links[${itemIndex}]`;
@@ -349,7 +413,11 @@ function validateLinks(links, nodeIndex, errors) {
   return index;
 }
 
-function validateConstraints(constraints, nodeIndex, errors) {
+function validateConstraints(
+  constraints: readonly FemConstraint[] | undefined,
+  nodeIndex: Map<string, FemNode>,
+  errors: FemDiagnostic[],
+): Map<string, FemConstraint> {
   const index = validateUniqueIds(constraints, "$.constraints", errors);
   constraints?.forEach((constraint, itemIndex) => {
     const path = `$.constraints[${itemIndex}]`;
@@ -376,7 +444,11 @@ function validateConstraints(constraints, nodeIndex, errors) {
   return index;
 }
 
-function validateDiaphragms(diaphragms, nodeIndex, errors) {
+function validateDiaphragms(
+  diaphragms: readonly FemDiaphragm[] | undefined,
+  nodeIndex: Map<string, FemNode>,
+  errors: FemDiagnostic[],
+): Map<string, FemDiaphragm> {
   const index = validateUniqueIds(diaphragms, "$.diaphragms", errors);
   diaphragms?.forEach((diaphragm, itemIndex) => {
     const path = `$.diaphragms[${itemIndex}]`;
@@ -393,7 +465,11 @@ function validateDiaphragms(diaphragms, nodeIndex, errors) {
   return index;
 }
 
-function validateStoreys(storeys, diaphragmIndex, errors) {
+function validateStoreys(
+  storeys: readonly FemStorey[] | undefined,
+  diaphragmIndex: Map<string, FemDiaphragm>,
+  errors: FemDiagnostic[],
+): Map<string, FemStorey> {
   const index = validateUniqueIds(storeys, "$.storeys", errors);
   const levelIndices = new Set();
   storeys?.forEach((storey, itemIndex) => {
@@ -423,7 +499,11 @@ function validateStoreys(storeys, diaphragmIndex, errors) {
   return index;
 }
 
-function validateSectionCuts(sectionCuts, elementIndices, errors) {
+function validateSectionCuts(
+  sectionCuts: readonly FemSectionCut[] | undefined,
+  elementIndices: Pick<ModelIndices, "lineElements" | "shellElements">,
+  errors: FemDiagnostic[],
+): Map<string, FemSectionCut> {
   const index = validateUniqueIds(sectionCuts, "$.sectionCuts", errors);
   sectionCuts?.forEach((sectionCut, itemIndex) => {
     const path = `$.sectionCuts[${itemIndex}]`;
@@ -451,7 +531,11 @@ function validateSectionCuts(sectionCuts, elementIndices, errors) {
   return index;
 }
 
-function validateGroups(groups, indices, errors) {
+function validateGroups(
+  groups: readonly FemGroup[] | undefined,
+  indices: ModelIndices,
+  errors: FemDiagnostic[],
+): Map<string, FemGroup> {
   const index = validateUniqueIds(groups, "$.groups", errors);
   groups?.forEach((group, itemIndex) => {
     const path = `$.groups[${itemIndex}]`;
@@ -464,6 +548,7 @@ function validateGroups(groups, indices, errors) {
 
     validateIdArray(group.entityIds, `${path}.entityIds`, errors, { minLength: 1 });
     const targetName = GROUP_TARGETS.get(group.entityType);
+    if (targetName === undefined) return;
     validateReferences(
       group.entityIds,
       indices[targetName],
@@ -475,11 +560,13 @@ function validateGroups(groups, indices, errors) {
   return index;
 }
 
-export function validateGlobalFemModelContract(input) {
-  const errors = [];
-  const warnings = [];
+export function validateGlobalFemModelContract(
+  input: unknown,
+): FemValidationResult<GlobalFemModelContract> {
+  const errors: FemDiagnostic[] = [];
+  const warnings: FemDiagnostic[] = [];
 
-  if (validateHeader(input, FEM_CONTRACT_SCHEMAS.model, errors)) {
+  if (validateHeader<GlobalFemModelContract>(input, FEM_CONTRACT_SCHEMAS.model, errors)) {
     validateId(input.id, "$.id", errors);
     validateId(input.hash, "$.hash", errors);
     validateUnits(input.units, "$.units", errors);
@@ -532,9 +619,9 @@ export function validateGlobalFemModelContract(input) {
   return finalizeValidation(input, errors, warnings);
 }
 
-export function createGlobalFemModelContract(input) {
+export function createGlobalFemModelContract(input: unknown): GlobalFemModelContract {
   const candidate = withContractHeader(input, FEM_CONTRACT_SCHEMAS.model);
-  return throwForInvalidContract(
+  return throwForInvalidContract<GlobalFemModelContract>(
     "GlobalFemModelContract",
     validateGlobalFemModelContract(candidate),
   );

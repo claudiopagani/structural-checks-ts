@@ -69,7 +69,7 @@ test("assessment aggregates independently calculated chapter-4 checks", () => {
         demand: 130,
         capacity: 150,
         ok: true,
-        reference: "NTC 2018 Â§ 4.1",
+        reference: "NTC 2018 § 4.1",
       },
     ],
   });
@@ -82,7 +82,7 @@ test("assessment aggregates independently calculated chapter-4 checks", () => {
         demand: 130,
         capacity: 120,
         ok: false,
-        reference: "NTC 2018 Â§ 4.1",
+        reference: "NTC 2018 § 4.1",
       },
     ],
   });
