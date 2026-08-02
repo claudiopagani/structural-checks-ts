@@ -1,0 +1,110 @@
+{
+  "schemaVersion": 1,
+  "sliceId": "0082-domain-embedded-retaining-wall-analysis",
+  "title": "Domain embedded retaining-wall analysis",
+  "migrationType": "mechanical-parity-with-minimal-dependency-support",
+  "implementationStatus": "implemented",
+  "dependencies": [
+    "0019-axial-single-pile-capacity",
+    "0081-domain-embedded-retaining-wall-scenario"
+  ],
+  "source": {
+    "repository": "https://github.com/claudiopagani/strutture-js",
+    "revision": "6f33baead8b88166c4b2cf94af41763412e3c751"
+  },
+  "normativeCorpusRevision": "41da3faa489600173106935bbcf726119300e48d",
+  "sourceFiles": [
+    {
+      "path": "src/domain/geotechnics/EmbeddedRetainingWallAnalysis.js",
+      "gitBlobSha1": "314b70cbe1793c50f4f0d52d3e25588f7ed3ffdf",
+      "targetPath": "src/domain/geotechnics/EmbeddedRetainingWallAnalysis.ts"
+    },
+    {
+      "path": "src/domain/geotechnics/GroundModel.js",
+      "gitBlobSha1": "c8fd1bab76291e8a8509cb59c6bd079a54c4db4a",
+      "targetPath": "src/domain/geotechnics/GroundModel.ts",
+      "coverage": "Minimal prerequisite completion of the source-supported GroundSection2D and PorePressureField2D lookup, construction, factory and serialization paths consumed by the embedded-wall analysis."
+    },
+    {
+      "path": "src/domain/geotechnics/GeotechnicalDesignSituation.js",
+      "gitBlobSha1": "cdae4614bd40f318d57e6b0c3ebc7b1a96b15f00",
+      "targetPath": "src/domain/geotechnics/GeotechnicalDesignSituation.ts",
+      "coverage": "Minimal prerequisite completion of section and pore-pressure-field selection validation consumed by the embedded-wall analysis."
+    }
+  ],
+  "supportingSourceFiles": [
+    {
+      "path": "src/domain/geotechnics/index.js",
+      "gitBlobSha1": "41ed2053fc2e37dc90da412846609f4050af9668",
+      "targetPath": "src/domain/geotechnics/index.ts",
+      "coverage": "Geotechnical public exports for the migrated embedded retaining-wall analysis."
+    },
+    {
+      "path": "src/index.js",
+      "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7",
+      "targetPath": "src/index.ts",
+      "coverage": "Root public exports for the migrated embedded retaining-wall analysis."
+    }
+  ],
+  "sourceOracles": [
+    {
+      "path": "tests/geotechnicalEmbeddedRetainingWalls.test.js",
+      "gitBlobSha1": "4e5ac3cc7b3d0db759c3a7a2dae5b7d9e7ec788a",
+      "coverage": "Embedded retaining-wall analysis benchmarks, staged response, pore-pressure separation, support activation, capacity checks, pseudostatic behavior and exact result serialization."
+    },
+    {
+      "path": "tests/packageExports.test.js",
+      "gitBlobSha1": "8dde24b4c97dd3dae7100207d07d9d96c52b9c74",
+      "coverage": "Root and geotechnics subpath public export behavior."
+    }
+  ],
+  "sourcePublicExport": {
+    "path": "src/index.js",
+    "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
+  },
+  "targetTests": [
+    "tests/baseline-parity.test.ts",
+    "tests/embedded-retaining-wall-analysis-compile-time.test.ts",
+    "tests/embedded-retaining-wall-analysis-live-parity.test.ts"
+  ],
+  "publicExports": [
+    "EMBEDDED_RETAINING_WALL_REFERENCES",
+    "EMBEDDED_RETAINING_WALL_RESULT_SCHEMA_VERSION",
+    "EmbeddedRetainingWallAnalysis"
+  ],
+  "publicTypeExports": [
+    "EmbeddedRetainingWallAnalysisInput",
+    "EmbeddedRetainingWallAnalysisOptions",
+    "EmbeddedRetainingWallAnalysisResult"
+  ],
+  "normativeReferences": {
+    "resolved": [],
+    "outsideCorpus": [
+      {
+        "identifier": "FHWA GEC 4, FHWA-IF-99-015 (1999), chapters 5 and 8",
+        "reason": "The source analysis preserves its non-corpus FHWA traceability string without inventing a corpus identifier."
+      },
+      {
+        "identifier": "FHWA-HRT-10-077 (2013), chapter 6 staged finite-element modeling features",
+        "reason": "The source analysis preserves its non-corpus FHWA traceability string without inventing a corpus identifier."
+      }
+    ],
+    "normativeConformityClaimed": false,
+    "status": "classified-for-declared-scope"
+  },
+  "independentValidation": {
+    "method": "Strict public declaration consumer coverage and independently executed pinned JavaScript versus built TypeScript comparison of analysis metadata, staged numerical response, exact nested JSON serialization, Unicode identifiers and failure-result behavior.",
+    "targetTests": [
+      "tests/embedded-retaining-wall-analysis-compile-time.test.ts",
+      "tests/embedded-retaining-wall-analysis-live-parity.test.ts"
+    ],
+    "tolerances": {
+      "serializedParity": "exact deep equality and JSON serialization",
+      "numericParity": "exact equality for the deterministic staged analysis fixture",
+      "publicStrings": "exact equality plus Unicode code-point preservation",
+      "errors": "exact failure result equality for unsupported and invalid input paths"
+    }
+  },
+  "parityDifferences": [],
+  "engineeringFunctionality": "Serializable staged embedded retaining-wall analysis with beam stiffness, assigned effective-pressure versus closure soil response, pore-pressure contribution, supports, pressure loads, nodal actions, convergence metadata, equilibrium diagnostics and capacity checks."
+}

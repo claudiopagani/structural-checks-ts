@@ -198,12 +198,6 @@ export class GeotechnicalDesignSituation {
     if (groundModel && groundModel.id !== resolvedGroundModelId) {
       throw new Error("groundModelId does not match the supplied GroundModel.");
     }
-    if (sectionId != null || porePressureFieldId != null) {
-      throw new Error(
-        "This axial-pile migration slice supports profileId selection only; 2D sections and pore-pressure fields are deferred.",
-      );
-    }
-
     this.schemaVersion = GEOTECHNICAL_DESIGN_SITUATION_SCHEMA_VERSION;
     this.id = id;
     this.name = name ?? id;
@@ -256,8 +250,10 @@ export class GeotechnicalDesignSituation {
         `Design situation ${this.id} references GroundModel ${this.groundModelId}, not ${groundModel.id}.`,
       );
     }
-    const { profileId } = this.spatialSelection;
+    const { profileId, sectionId, porePressureFieldId } = this.spatialSelection;
     if (profileId != null) groundModel.getProfile(profileId);
+    if (sectionId != null) groundModel.getSection(sectionId);
+    if (porePressureFieldId != null) groundModel.getPorePressureField(porePressureFieldId);
     for (const [materialId, parameterSetId] of Object.entries(this.parameterSelection.byMaterial)) {
       groundModel.getMaterial(materialId).getParameterSet(parameterSetId);
     }

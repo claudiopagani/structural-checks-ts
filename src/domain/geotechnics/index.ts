@@ -306,6 +306,14 @@ export {
   type EmbeddedRetainingWallScenarioOptions,
 } from "./EmbeddedRetainingWallScenario.js";
 export {
+  EMBEDDED_RETAINING_WALL_REFERENCES,
+  EMBEDDED_RETAINING_WALL_RESULT_SCHEMA_VERSION,
+  EmbeddedRetainingWallAnalysis,
+  type EmbeddedRetainingWallAnalysisInput,
+  type EmbeddedRetainingWallAnalysisOptions,
+  type EmbeddedRetainingWallAnalysisResult,
+} from "./EmbeddedRetainingWallAnalysis.js";
+export {
   SLOPE_STABILITY_METHODS,
   ordinaryMethodOfSlices,
   simplifiedBishop,

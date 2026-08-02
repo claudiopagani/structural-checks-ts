@@ -11,6 +11,8 @@ import {
   type SoilMaterialInput,
   type SoilRecord,
 } from "./SoilMaterial.js";
+import { GroundSection2D, type GroundSection2DOptions } from "./GroundSection2D.js";
+import { PorePressureField2D, type PorePressureField2DOptions } from "./PorePressureField2D.js";
 
 export const GROUND_MODEL_SCHEMA_VERSION = "ground-model/v1";
 
@@ -19,8 +21,8 @@ export interface GroundModelInput {
   name?: string | null;
   materials?: Array<SoilMaterial | SoilMaterialInput>;
   profiles?: Array<GroundProfile | GroundProfileInput>;
-  sections?: unknown[];
-  porePressureFields?: unknown[];
+  sections?: Array<GroundSection2D | GroundSection2DOptions>;
+  porePressureFields?: Array<PorePressureField2D | PorePressureField2DOptions>;
   defaultProfileId?: string | null;
   defaultSectionId?: string | null;
   defaultPorePressureFieldId?: string | null;
@@ -58,11 +60,11 @@ export class GroundModel {
   name: string;
   materials: SoilMaterial[];
   profiles: GroundProfile[];
-  sections: never[];
-  porePressureFields: never[];
+  sections: GroundSection2D[];
+  porePressureFields: PorePressureField2D[];
   defaultProfileId: string | null;
-  defaultSectionId: null;
-  defaultPorePressureFieldId: null;
+  defaultSectionId: string | null;
+  defaultPorePressureFieldId: string | null;
   units: UnitSystem;
   metadata: SoilRecord;
 
@@ -85,15 +87,12 @@ export class GroundModel {
     if (materials.length === 0) {
       throw new Error("GroundModel requires at least one material.");
     }
-    if (sections.length > 0 || porePressureFields.length > 0) {
-      throw new Error(
-        "This migrated GroundModel slice currently supports one-dimensional GroundProfile data only.",
-      );
-    }
-    if (defaultSectionId != null || defaultPorePressureFieldId != null) {
-      throw new Error(
-        "GroundModel section and pore-pressure-field defaults require the later two-dimensional geotechnical slice.",
-      );
+    if (
+      !Array.isArray(profiles) ||
+      !Array.isArray(sections) ||
+      !Array.isArray(porePressureFields)
+    ) {
+      throw new Error("GroundModel profiles, sections and porePressureFields must be arrays.");
     }
     const normalizedMaterials = materials.map((material) =>
       material instanceof SoilMaterial
@@ -101,7 +100,7 @@ export class GroundModel {
         : new SoilMaterial({ ...material, units: material.units ?? units }),
     );
     uniqueIds(normalizedMaterials, "material");
-    if (profiles.length === 0) {
+    if (profiles.length === 0 && sections.length === 0) {
       throw new Error("GroundModel requires at least one GroundProfile or GroundSection2D.");
     }
     const normalizedProfiles = profiles.map((profile) => {
@@ -113,7 +112,19 @@ export class GroundModel {
         units: payload.units ?? units,
       });
     });
+    const normalizedSections = sections.map((section) =>
+      section instanceof GroundSection2D
+        ? section
+        : new GroundSection2D({ ...section, units: section.units ?? units }),
+    );
+    const normalizedFields = porePressureFields.map((field) =>
+      field instanceof PorePressureField2D
+        ? field
+        : new PorePressureField2D({ ...field, units: field.units ?? units }),
+    );
     uniqueIds(normalizedProfiles, "profile");
+    uniqueIds(normalizedSections, "section");
+    uniqueIds(normalizedFields, "pore-pressure field");
     const materialIds = new Set(normalizedMaterials.map(({ id: materialId }) => materialId));
     for (const profile of normalizedProfiles) {
       for (const layer of profile.layers) {
@@ -124,23 +135,36 @@ export class GroundModel {
         }
       }
     }
+    for (const section of normalizedSections) {
+      for (const zone of section.zones) {
+        if (!materialIds.has(zone.materialId)) {
+          throw new Error(
+            `GroundModel section ${section.id} references unknown material ${zone.materialId}.`,
+          );
+        }
+      }
+    }
 
     this.schemaVersion = GROUND_MODEL_SCHEMA_VERSION;
     this.id = id;
     this.name = name ?? id;
     this.materials = normalizedMaterials;
     this.profiles = normalizedProfiles;
-    this.sections = [];
-    this.porePressureFields = [];
+    this.sections = normalizedSections;
+    this.porePressureFields = normalizedFields;
     this.defaultProfileId = resolveDefaultId(normalizedProfiles, defaultProfileId, "profile");
-    this.defaultSectionId = null;
-    this.defaultPorePressureFieldId = null;
+    this.defaultSectionId = resolveDefaultId(normalizedSections, defaultSectionId, "section");
+    this.defaultPorePressureFieldId = resolveDefaultId(
+      normalizedFields,
+      defaultPorePressureFieldId,
+      "pore-pressure field",
+    );
     this.units = GEOTECHNICAL_INTERNAL_UNITS;
     this.metadata = {
       ...structuredClone(metadata),
       unitSystem: GEOTECHNICAL_INTERNAL_UNITS,
       sourceUnitSystem: resolver.sourceUnitSystem,
-      spatialModelDimension: "1d",
+      spatialModelDimension: normalizedSections.length > 0 ? "2d" : "1d",
     };
   }
 
@@ -161,20 +185,93 @@ export class GroundModel {
     return selected;
   }
 
-  getSection(): null {
-    return null;
+  getSection(sectionId: string | null = null): GroundSection2D | null {
+    const selectedId = sectionId ?? this.defaultSectionId;
+    if (selectedId == null) {
+      if (this.sections.length === 0) return null;
+      throw new Error("GroundModel requires an explicit section id.");
+    }
+    const selected = this.sections.find(({ id }) => id === selectedId);
+    if (!selected) throw new Error(`Unknown GroundModel section: ${selectedId}.`);
+    return selected;
   }
 
-  getPorePressureField(): null {
-    return null;
+  getPorePressureField(fieldId: string | null = null): PorePressureField2D | null {
+    const selectedId = fieldId ?? this.defaultPorePressureFieldId;
+    if (selectedId == null) {
+      if (this.porePressureFields.length === 0) return null;
+      throw new Error("GroundModel requires an explicit pore-pressure field id.");
+    }
+    const selected = this.porePressureFields.find(({ id }) => id === selectedId);
+    if (!selected) throw new Error(`Unknown GroundModel pore-pressure field: ${selectedId}.`);
+    return selected;
   }
 
-  analysisContext({ profileId = null }: { profileId?: string | null } = {}) {
+  static fromGroundProfile({
+    profile,
+    id = null,
+    name = null,
+    sectionId = null,
+    porePressureFieldId = null,
+    minimumX = 0,
+    maximumX = 1,
+    metadata = {},
+  }: {
+    profile?: GroundProfile;
+    id?: string | null;
+    name?: string | null;
+    sectionId?: string | null;
+    porePressureFieldId?: string | null;
+    minimumX?: number;
+    maximumX?: number;
+    metadata?: Record<string, unknown>;
+  } = {}): GroundModel {
+    if (!(profile instanceof GroundProfile)) {
+      throw new Error("GroundModel.fromGroundProfile requires a GroundProfile.");
+    }
+    const section = GroundSection2D.fromGroundProfile({
+      profile,
+      id: sectionId,
+      minimumX,
+      maximumX,
+    });
+    const field = PorePressureField2D.fromGroundProfile({
+      profile,
+      id: porePressureFieldId,
+    });
+    return new GroundModel({
+      id: id ?? `${profile.id}-ground-model`,
+      name: name ?? `${profile.name} ground model`,
+      materials: profile.materials,
+      profiles: [profile],
+      sections: [section],
+      porePressureFields: [field],
+      defaultProfileId: profile.id,
+      defaultSectionId: section.id,
+      defaultPorePressureFieldId: field.id,
+      units: GEOTECHNICAL_INTERNAL_UNITS,
+      metadata: {
+        ...structuredClone(metadata),
+        sourceProfileId: profile.id,
+        conversion: "ground-model-from-ground-profile",
+      },
+    });
+  }
+
+  analysisContext({
+    profileId = null,
+    sectionId = null,
+    porePressureFieldId = null,
+  }: {
+    profileId?: string | null;
+    sectionId?: string | null;
+    porePressureFieldId?: string | null;
+  } = {}) {
     return {
       groundModelId: this.id,
       profile: this.getProfile(profileId),
-      section: null,
-      porePressureField: null,
+      section: this.getSection(sectionId),
+      porePressureField: this.getPorePressureField(porePressureFieldId),
       materials: [...this.materials],
     };
   }
@@ -186,11 +283,11 @@ export class GroundModel {
       name: this.name,
       materials: this.materials.map((material) => material.toJSON()),
       profiles: this.profiles.map(profilePayload),
-      sections: [],
-      porePressureFields: [],
+      sections: this.sections.map((section) => section.toJSON()),
+      porePressureFields: this.porePressureFields.map((field) => field.toJSON()),
       defaultProfileId: this.defaultProfileId,
-      defaultSectionId: null,
-      defaultPorePressureFieldId: null,
+      defaultSectionId: this.defaultSectionId,
+      defaultPorePressureFieldId: this.defaultPorePressureFieldId,
       units: { ...this.units },
       metadata: structuredClone(this.metadata),
     };
