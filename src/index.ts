@@ -414,6 +414,10 @@ export {
   LATERAL_PILE_LOAD_SCENARIO_SCHEMA_VERSION,
   LATERAL_PILE_RESISTANCE_CONVERSION_MODELS,
   LATERAL_PILE_SOIL_BRANCHES,
+  PILE_TRANSFER_CURVE_MODELS,
+  PILE_TRANSFER_EXTRAPOLATION_MODELS,
+  PILE_TRANSFER_LAW_KINDS,
+  PILE_TRANSFER_LAW_SCHEMA_VERSION,
   AxialPileLoadScenario,
   DeepFoundationModel,
   GeotechnicalDesignSituation,
@@ -430,6 +434,7 @@ export {
   ShallowFoundationActionState,
   ShallowFoundationModel,
   LateralPileLoadScenario,
+  PileTransferLaw,
   VerticalStressProfile,
 } from "./domain/geotechnics/index.js";
 export { ReinforcedConcreteSectionVerification } from "./applications/reinforced-concrete-sections/checks/ReinforcedConcreteSectionVerification.js";
@@ -1313,6 +1318,14 @@ export type {
   LateralPileResistanceConversionInput,
   LateralPileResistanceConversionModel,
   LateralPileSoilBranch,
+  PileTransferCurveModel,
+  PileTransferEvaluation,
+  PileTransferExtrapolationModel,
+  PileTransferLawJson,
+  PileTransferLawKind,
+  PileTransferLawOptions,
+  PileTransferPoint,
+  PileTransferPointInput,
 } from "./domain/geotechnics/index.js";
 export type {
   BiaxialCompressedSide,

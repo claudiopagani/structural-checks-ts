@@ -14,14 +14,14 @@ establish behavioral parity.
 
 | Surface                           | Pinned JavaScript | Current TypeScript |
 | --------------------------------- | ----------------: | -----------------: |
-| Root exports                      |               841 |                475 |
-| Applications exports              |               309 |                130 |
+| Root exports                      |               841 |                480 |
+| Applications exports              |               309 |                135 |
 | Package entry points              |                14 |                  2 |
 | ApplicationRegistry entries       |                30 |                  0 |
 | Application catalog entries       |                30 |                 30 |
-| Serialized schema/version symbols |                49 |                 24 |
-| Source files                      |               480 |                308 |
-| Tests                             |               131 |                134 |
+| Serialized schema/version symbols |                49 |                 25 |
+| Source files                      |               480 |                309 |
+| Tests                             |               131 |                136 |
 | Validation campaigns              |                17 |                  0 |
 | Validation files                  |                27 |                  0 |
 | Examples                          |                32 |                  0 |
@@ -34,10 +34,10 @@ establish behavioral parity.
 The JSON inventory contains the exact item IDs for every non-exact item. The groups below are the
 implementation order required by the repository architecture.
 
-- **domain** — partial: 20, missing: 159.
+- **domain** — partial: 20, missing: 153.
 - **norms** — partial: 16, missing: 157.
-- **applications** — partial: 16, missing: 409.
-- **packageValidation** — partial: 3, missing: 140.
+- **applications** — partial: 16, missing: 404.
+- **packageValidation** — partial: 3, missing: 139.
 
 ## Status semantics
 

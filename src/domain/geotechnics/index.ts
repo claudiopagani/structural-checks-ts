@@ -205,4 +205,19 @@ export {
   type LateralPileResistanceConversionModel,
   type LateralPileSoilBranch,
 } from "./LateralPileLoadScenario.js";
+export {
+  PILE_TRANSFER_CURVE_MODELS,
+  PILE_TRANSFER_EXTRAPOLATION_MODELS,
+  PILE_TRANSFER_LAW_KINDS,
+  PILE_TRANSFER_LAW_SCHEMA_VERSION,
+  PileTransferLaw,
+  type PileTransferCurveModel,
+  type PileTransferEvaluation,
+  type PileTransferExtrapolationModel,
+  type PileTransferLawJson,
+  type PileTransferLawKind,
+  type PileTransferLawOptions,
+  type PileTransferPoint,
+  type PileTransferPointInput,
+} from "./PileTransferLaw.js";
 export { VerticalStressProfile } from "./VerticalStressProfile.js";

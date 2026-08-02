@@ -1032,6 +1032,10 @@
         "NTC2018_WALL_SYSTEM_REFERENCES",
         "NodalLoad",
         "Node",
+        "PILE_TRANSFER_CURVE_MODELS",
+        "PILE_TRANSFER_EXTRAPOLATION_MODELS",
+        "PILE_TRANSFER_LAW_KINDS",
+        "PILE_TRANSFER_LAW_SCHEMA_VERSION",
         "PORE_PRESSURE_FIELD_2D_MODELS",
         "PORE_PRESSURE_FIELD_2D_SCHEMA_VERSION",
         "PRESSURE_DIAGRAM_2D_SCHEMA_VERSION",
@@ -1040,6 +1044,7 @@
         "PUNCHING_CONTROL_PERIMETER_SCHEMA_VERSION",
         "PUNCHING_VERIFICATION_REQUEST_SCHEMA_VERSION",
         "PermanentAction",
+        "PileTransferLaw",
         "PointLoad",
         "PolygonSection",
         "PorePressureField2D",
@@ -11930,11 +11935,15 @@
       "sourcePath": "src/domain/geotechnics/PileTransferLaw.js",
       "sourceBlobSha1": "e3bd7079d93e9c3ddd8b49f2195597c415fb85cd",
       "targetPath": "src/domain/geotechnics/PileTransferLaw.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0074-domain-pile-transfer-law"],
+      "sourceOracles": ["tests/geotechnicalLateralPilePy.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/pile-transfer-law-compile-time.test.ts",
+        "tests/pile-transfer-law-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0074-domain-pile-transfer-law"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -11944,11 +11953,15 @@
       "sourcePath": "src/domain/geotechnics/PileTransferLaw.js",
       "sourceBlobSha1": "e3bd7079d93e9c3ddd8b49f2195597c415fb85cd",
       "targetPath": "src/domain/geotechnics/PileTransferLaw.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0074-domain-pile-transfer-law"],
+      "sourceOracles": ["tests/geotechnicalLateralPilePy.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/pile-transfer-law-compile-time.test.ts",
+        "tests/pile-transfer-law-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0074-domain-pile-transfer-law"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -11958,11 +11971,15 @@
       "sourcePath": "src/domain/geotechnics/PileTransferLaw.js",
       "sourceBlobSha1": "e3bd7079d93e9c3ddd8b49f2195597c415fb85cd",
       "targetPath": "src/domain/geotechnics/PileTransferLaw.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0074-domain-pile-transfer-law"],
+      "sourceOracles": ["tests/geotechnicalLateralPilePy.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/pile-transfer-law-compile-time.test.ts",
+        "tests/pile-transfer-law-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0074-domain-pile-transfer-law"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -11972,11 +11989,15 @@
       "sourcePath": "src/domain/geotechnics/PileTransferLaw.js",
       "sourceBlobSha1": "e3bd7079d93e9c3ddd8b49f2195597c415fb85cd",
       "targetPath": "src/domain/geotechnics/PileTransferLaw.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0074-domain-pile-transfer-law"],
+      "sourceOracles": ["tests/geotechnicalLateralPilePy.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/pile-transfer-law-compile-time.test.ts",
+        "tests/pile-transfer-law-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0074-domain-pile-transfer-law"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -11986,11 +12007,15 @@
       "sourcePath": "src/domain/geotechnics/PileTransferLaw.js",
       "sourceBlobSha1": "e3bd7079d93e9c3ddd8b49f2195597c415fb85cd",
       "targetPath": "src/domain/geotechnics/PileTransferLaw.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0074-domain-pile-transfer-law"],
+      "sourceOracles": ["tests/geotechnicalLateralPilePy.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/pile-transfer-law-compile-time.test.ts",
+        "tests/pile-transfer-law-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0074-domain-pile-transfer-law"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -19834,11 +19859,15 @@
       "sourcePath": "src/domain/geotechnics/PileTransferLaw.js",
       "sourceBlobSha1": "e3bd7079d93e9c3ddd8b49f2195597c415fb85cd",
       "targetPath": "src/domain/geotechnics/PileTransferLaw.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0074-domain-pile-transfer-law"],
+      "sourceOracles": ["tests/geotechnicalLateralPilePy.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/pile-transfer-law-compile-time.test.ts",
+        "tests/pile-transfer-law-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0074-domain-pile-transfer-law"],
+      "status": "exact-parity",
       "publicEntryPath": "src/applications/index.js",
       "publicEntryBlobSha1": "b70179c7cdd2a819f2151dc092c0f59cbce30ba6"
     },
@@ -19848,11 +19877,15 @@
       "sourcePath": "src/domain/geotechnics/PileTransferLaw.js",
       "sourceBlobSha1": "e3bd7079d93e9c3ddd8b49f2195597c415fb85cd",
       "targetPath": "src/domain/geotechnics/PileTransferLaw.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0074-domain-pile-transfer-law"],
+      "sourceOracles": ["tests/geotechnicalLateralPilePy.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/pile-transfer-law-compile-time.test.ts",
+        "tests/pile-transfer-law-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0074-domain-pile-transfer-law"],
+      "status": "exact-parity",
       "publicEntryPath": "src/applications/index.js",
       "publicEntryBlobSha1": "b70179c7cdd2a819f2151dc092c0f59cbce30ba6"
     },
@@ -19862,11 +19895,15 @@
       "sourcePath": "src/domain/geotechnics/PileTransferLaw.js",
       "sourceBlobSha1": "e3bd7079d93e9c3ddd8b49f2195597c415fb85cd",
       "targetPath": "src/domain/geotechnics/PileTransferLaw.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0074-domain-pile-transfer-law"],
+      "sourceOracles": ["tests/geotechnicalLateralPilePy.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/pile-transfer-law-compile-time.test.ts",
+        "tests/pile-transfer-law-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0074-domain-pile-transfer-law"],
+      "status": "exact-parity",
       "publicEntryPath": "src/applications/index.js",
       "publicEntryBlobSha1": "b70179c7cdd2a819f2151dc092c0f59cbce30ba6"
     },
@@ -19876,11 +19913,15 @@
       "sourcePath": "src/domain/geotechnics/PileTransferLaw.js",
       "sourceBlobSha1": "e3bd7079d93e9c3ddd8b49f2195597c415fb85cd",
       "targetPath": "src/domain/geotechnics/PileTransferLaw.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0074-domain-pile-transfer-law"],
+      "sourceOracles": ["tests/geotechnicalLateralPilePy.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/pile-transfer-law-compile-time.test.ts",
+        "tests/pile-transfer-law-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0074-domain-pile-transfer-law"],
+      "status": "exact-parity",
       "publicEntryPath": "src/applications/index.js",
       "publicEntryBlobSha1": "b70179c7cdd2a819f2151dc092c0f59cbce30ba6"
     },
@@ -19890,11 +19931,15 @@
       "sourcePath": "src/domain/geotechnics/PileTransferLaw.js",
       "sourceBlobSha1": "e3bd7079d93e9c3ddd8b49f2195597c415fb85cd",
       "targetPath": "src/domain/geotechnics/PileTransferLaw.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0074-domain-pile-transfer-law"],
+      "sourceOracles": ["tests/geotechnicalLateralPilePy.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/pile-transfer-law-compile-time.test.ts",
+        "tests/pile-transfer-law-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0074-domain-pile-transfer-law"],
+      "status": "exact-parity",
       "publicEntryPath": "src/applications/index.js",
       "publicEntryBlobSha1": "b70179c7cdd2a819f2151dc092c0f59cbce30ba6"
     },
@@ -24252,11 +24297,15 @@
       "sourcePath": "src/domain/geotechnics/PileTransferLaw.js",
       "sourceBlobSha1": "e3bd7079d93e9c3ddd8b49f2195597c415fb85cd",
       "targetPath": "src/domain/geotechnics/PileTransferLaw.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0074-domain-pile-transfer-law"],
+      "sourceOracles": ["tests/geotechnicalLateralPilePy.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/pile-transfer-law-compile-time.test.ts",
+        "tests/pile-transfer-law-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0074-domain-pile-transfer-law"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7",
       "value": "pile-transfer-law/v1"
@@ -29709,11 +29758,15 @@
       "sourcePath": "src/domain/geotechnics/PileTransferLaw.js",
       "sourceBlobSha1": "e3bd7079d93e9c3ddd8b49f2195597c415fb85cd",
       "targetPath": "src/domain/geotechnics/PileTransferLaw.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing"
+      "migrationSlices": ["0074-domain-pile-transfer-law"],
+      "sourceOracles": ["tests/geotechnicalLateralPilePy.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/pile-transfer-law-compile-time.test.ts",
+        "tests/pile-transfer-law-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0074-domain-pile-transfer-law"],
+      "status": "exact-parity"
     },
     {
       "id": "src/domain/geotechnics/PorePressureField2D.js",
@@ -30934,7 +30987,8 @@
         "0070-domain-ground-section",
         "0071-domain-soil-structure-interface",
         "0072-domain-shallow-foundation-dtos",
-        "0073-domain-lateral-pile-load-scenario"
+        "0073-domain-lateral-pile-load-scenario",
+        "0074-domain-pile-transfer-law"
       ],
       "sourceOracles": [
         "tests/architecture/applicationRegistry.test.js",
@@ -32435,11 +32489,15 @@
       "sourcePath": "tests/geotechnicalLateralPilePy.test.js",
       "sourceBlobSha1": "cbdc2b1946a857a8c7d75301721a70cb65bd311e",
       "targetPath": "tests/geotechnicalLateralPilePy.test.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0074-domain-pile-transfer-law"],
+      "sourceOracles": ["tests/geotechnicalLateralPilePy.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/pile-transfer-law-compile-time.test.ts",
+        "tests/pile-transfer-law-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0074-domain-pile-transfer-law"],
+      "status": "exact-parity",
       "testKind": "test"
     },
     {
@@ -36088,16 +36146,32 @@
         "publicStrings": "exact equality plus Unicode code-point preservation",
         "errors": "exact error name and message equality"
       }
+    },
+    {
+      "sliceId": "0074-domain-pile-transfer-law",
+      "sourceRevision": "6f33baead8b88166c4b2cf94af41763412e3c751",
+      "method": "Strict public declaration consumer coverage and independently executed pinned JavaScript versus built TypeScript comparison of curve normalization, linear interpolation, constant and linear extrapolation, signed response, exact serialization, Unicode metadata and error paths.",
+      "targetTests": [
+        "tests/pile-transfer-law-compile-time.test.ts",
+        "tests/pile-transfer-law-live-parity.test.ts"
+      ],
+      "fixture": null,
+      "tolerances": {
+        "serializedParity": "exact deep equality and JSON serialization",
+        "numericParity": "exact equality for curve response, tangent and secant moduli",
+        "publicStrings": "exact equality plus Unicode code-point preservation",
+        "errors": "exact error name and message equality"
+      }
     }
   ],
   "counts": {
     "rootExports": {
       "javascript": 841,
-      "typescript": 475
+      "typescript": 480
     },
     "applicationsExports": {
       "javascript": 309,
-      "typescript": 130
+      "typescript": 135
     },
     "packageEntryPoints": {
       "javascript": 14,
@@ -36113,15 +36187,15 @@
     },
     "serializedSchemas": {
       "javascript": 49,
-      "typescript": 24
+      "typescript": 25
     },
     "sourceFiles": {
       "javascript": 480,
-      "typescript": 308
+      "typescript": 309
     },
     "tests": {
       "javascript": 131,
-      "typescript": 134
+      "typescript": 136
     },
     "validationCampaigns": {
       "javascript": 17,
@@ -36153,7 +36227,7 @@
       "statusCounts": {
         "exact-parity": 0,
         "partial": 20,
-        "missing": 159,
+        "missing": 153,
         "intentionally-excluded": 0,
         "decision-required": 0
       },
@@ -36221,11 +36295,6 @@
         "root-export:LinearLoadFromVolumeWeight",
         "root-export:MasonryFiberInterface2D",
         "root-export:NTC2018SlabLoadAnalysis",
-        "root-export:PILE_TRANSFER_CURVE_MODELS",
-        "root-export:PILE_TRANSFER_EXTRAPOLATION_MODELS",
-        "root-export:PILE_TRANSFER_LAW_KINDS",
-        "root-export:PILE_TRANSFER_LAW_SCHEMA_VERSION",
-        "root-export:PileTransferLaw",
         "root-export:RETAINING_WALL_ANALYSIS_RESULT_SCHEMA_VERSION",
         "root-export:RETAINING_WALL_BASE_UPLIFT_MODELS",
         "root-export:RETAINING_WALL_LOAD_SCENARIO_SCHEMA_VERSION",
@@ -36303,7 +36372,6 @@
         "source:src/domain/geotechnics/LateralPileCapacityAnalysis.js",
         "source:src/domain/geotechnics/LateralPileResponseScenario.js",
         "source:src/domain/geotechnics/LayeredPseudostaticTrialWedge.js",
-        "source:src/domain/geotechnics/PileTransferLaw.js",
         "source:src/domain/geotechnics/RetainingWallAnalysis.js",
         "source:src/domain/geotechnics/RetainingWallLoadScenario.js",
         "source:src/domain/geotechnics/RetainingWallModel.js",
@@ -36527,7 +36595,7 @@
       "statusCounts": {
         "exact-parity": 0,
         "partial": 16,
-        "missing": 409,
+        "missing": 404,
         "intentionally-excluded": 0,
         "decision-required": 0
       },
@@ -36611,11 +36679,6 @@
         "application-export:MicropileBromsModel",
         "application-export:NTC2018MasonryPierAnalysis",
         "application-export:NTC2018MasonryPierModel",
-        "application-export:PILE_TRANSFER_CURVE_MODELS",
-        "application-export:PILE_TRANSFER_EXTRAPOLATION_MODELS",
-        "application-export:PILE_TRANSFER_LAW_KINDS",
-        "application-export:PILE_TRANSFER_LAW_SCHEMA_VERSION",
-        "application-export:PileTransferLaw",
         "application-export:RCSectionStateIntegrator",
         "application-export:RETAINING_WALL_ANALYSIS_RESULT_SCHEMA_VERSION",
         "application-export:RETAINING_WALL_BASE_UPLIFT_MODELS",
@@ -36963,7 +37026,7 @@
       "statusCounts": {
         "exact-parity": 0,
         "partial": 3,
-        "missing": 140,
+        "missing": 139,
         "intentionally-excluded": 0,
         "decision-required": 0
       },
@@ -37073,7 +37136,6 @@
         "test:tests/geotechnicalDeepFoundationValidationCampaign.test.js",
         "test:tests/geotechnicalEmbeddedRetainingWallValidationCampaign.test.js",
         "test:tests/geotechnicalGroundAnchorValidationCampaign.test.js",
-        "test:tests/geotechnicalLateralPilePy.test.js",
         "test:tests/geotechnicalLateralPilePyValidationCampaign.test.js",
         "test:tests/geotechnicalLateralPileValidationCampaign.test.js",
         "test:tests/geotechnicalRetainingWallValidationCampaign.test.js",

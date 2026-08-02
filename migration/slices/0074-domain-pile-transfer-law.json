@@ -1,0 +1,102 @@
+{
+  "schemaVersion": 1,
+  "sliceId": "0074-domain-pile-transfer-law",
+  "title": "Domain pile transfer law",
+  "migrationType": "mechanical-parity",
+  "implementationStatus": "implemented",
+  "dependencies": ["0061-domain-masonry-material"],
+  "source": {
+    "repository": "https://github.com/claudiopagani/strutture-js",
+    "revision": "6f33baead8b88166c4b2cf94af41763412e3c751"
+  },
+  "normativeCorpusRevision": "41da3faa489600173106935bbcf726119300e48d",
+  "sourceFiles": [
+    {
+      "path": "src/domain/geotechnics/PileTransferLaw.js",
+      "gitBlobSha1": "e3bd7079d93e9c3ddd8b49f2195597c415fb85cd",
+      "targetPath": "src/domain/geotechnics/PileTransferLaw.ts"
+    }
+  ],
+  "supportingSourceFiles": [
+    {
+      "path": "src/domain/geotechnics/SoilMaterial.js",
+      "gitBlobSha1": "5dfaafe73a7e65586de313e262cacf7e257535b9",
+      "targetPath": "src/domain/geotechnics/SoilMaterial.ts",
+      "coverage": "The transfer law uses the migrated geotechnical internal units"
+    },
+    {
+      "path": "src/domain/units/UnitSystem.js",
+      "gitBlobSha1": "b8f2f4926aff645efbf7b9f458b69eba264ed59a",
+      "targetPath": "src/domain/units/UnitSystem.ts",
+      "coverage": "Pile displacement and resistance-per-length curves use the migrated unit resolver"
+    },
+    {
+      "path": "src/domain/geotechnics/index.js",
+      "gitBlobSha1": "41ed2053fc2e37dc90da412846609f4050af9668",
+      "targetPath": "src/domain/geotechnics/index.ts",
+      "coverage": "Geotechnical public exports for the migrated pile transfer law"
+    },
+    {
+      "path": "src/index.js",
+      "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7",
+      "targetPath": "src/index.ts",
+      "coverage": "Root public exports for the migrated pile transfer law"
+    }
+  ],
+  "sourceOracles": [
+    {
+      "path": "tests/geotechnicalLateralPilePy.test.js",
+      "gitBlobSha1": "cbdc2b1946a857a8c7d75301721a70cb65bd311e",
+      "coverage": "Piecewise-linear p-y curve normalization, unit conversion, symmetric positive/negative evaluation, extrapolation, reconstruction and validation behavior"
+    }
+  ],
+  "sourcePublicExport": {
+    "path": "src/index.js",
+    "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
+  },
+  "targetTests": [
+    "tests/baseline-parity.test.ts",
+    "tests/pile-transfer-law-compile-time.test.ts",
+    "tests/pile-transfer-law-live-parity.test.ts"
+  ],
+  "publicExports": [
+    "PILE_TRANSFER_CURVE_MODELS",
+    "PILE_TRANSFER_EXTRAPOLATION_MODELS",
+    "PILE_TRANSFER_LAW_KINDS",
+    "PILE_TRANSFER_LAW_SCHEMA_VERSION",
+    "PileTransferLaw"
+  ],
+  "publicTypeExports": [
+    "PileTransferCurveModel",
+    "PileTransferEvaluation",
+    "PileTransferExtrapolationModel",
+    "PileTransferLawJson",
+    "PileTransferLawKind",
+    "PileTransferLawOptions",
+    "PileTransferPoint",
+    "PileTransferPointInput"
+  ],
+  "normativeReferences": {
+    "resolved": [],
+    "outsideCorpus": [],
+    "normativeConformityClaimed": false,
+    "status": "classified-for-declared-scope"
+  },
+  "independentValidation": {
+    "method": "Strict public declaration consumer coverage and independently executed pinned JavaScript versus built TypeScript comparison of curve normalization, linear interpolation, constant and linear extrapolation, signed response, exact serialization, Unicode metadata and error paths.",
+    "targetTests": [
+      "tests/pile-transfer-law-compile-time.test.ts",
+      "tests/pile-transfer-law-live-parity.test.ts"
+    ],
+    "tolerances": {
+      "serializedParity": "exact deep equality and JSON serialization",
+      "numericParity": "exact equality for curve response, tangent and secant moduli",
+      "publicStrings": "exact equality plus Unicode code-point preservation",
+      "errors": "exact error name and message equality"
+    }
+  },
+  "parityDifferences": [
+    "The strict TypeScript declarations describe the existing JavaScript pile transfer law without adding p-y analysis behavior."
+  ],
+  "engineeringFunctionality": "Serializable symmetric piecewise-linear p-y transfer law with monotonic curve validation, constant or linear extrapolation, signed displacement response and explicit resistance sign conventions."
+}
