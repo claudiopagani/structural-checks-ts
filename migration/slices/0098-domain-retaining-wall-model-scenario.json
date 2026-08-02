@@ -1,0 +1,117 @@
+{
+  "schemaVersion": 1,
+  "sliceId": "0098-domain-retaining-wall-model-scenario",
+  "title": "Domain retaining-wall model and load scenario",
+  "migrationType": "mechanical-parity-with-minimal-dependency-support",
+  "implementationStatus": "implemented",
+  "dependencies": ["0096-domain-lateral-earth-pressure-analysis"],
+  "source": {
+    "repository": "https://github.com/claudiopagani/strutture-js",
+    "revision": "6f33baead8b88166c4b2cf94af41763412e3c751"
+  },
+  "normativeCorpusRevision": "41da3faa489600173106935bbcf726119300e48d",
+  "sourceFiles": [
+    {
+      "path": "src/domain/geotechnics/RetainingWallModel.js",
+      "gitBlobSha1": "adbfc7591c1700375ca1447cc852860189769414",
+      "targetPath": "src/domain/geotechnics/RetainingWallModel.ts"
+    },
+    {
+      "path": "src/domain/geotechnics/RetainingWallLoadScenario.js",
+      "gitBlobSha1": "98f7133ec5b5a827283d4d75f22b279c5dda6fb8",
+      "targetPath": "src/domain/geotechnics/RetainingWallLoadScenario.ts"
+    }
+  ],
+  "supportingSourceFiles": [
+    {
+      "path": "src/domain/geotechnics/index.js",
+      "gitBlobSha1": "41ed2053fc2e37dc90da412846609f4050af9668",
+      "targetPath": "src/domain/geotechnics/index.ts",
+      "coverage": "Geotechnics barrel exports for the migrated retaining-wall model and load scenario."
+    },
+    {
+      "path": "src/index.js",
+      "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7",
+      "targetPath": "src/index.ts",
+      "coverage": "Root public exports for the migrated retaining-wall model and load scenario."
+    }
+  ],
+  "sourceOracles": [
+    {
+      "path": "tests/geotechnicalRetainingWalls.test.js",
+      "gitBlobSha1": "53b83cf67c933e63475ff4b9e054d508a4429125",
+      "coverage": "Retaining-wall geometry factory, component properties, scenario normalization and validation behavior."
+    },
+    {
+      "path": "tests/packageExports.test.js",
+      "gitBlobSha1": "8dde24b4c97dd3dae7100207d07d9d96c52b9c74",
+      "coverage": "Root public export behavior."
+    }
+  ],
+  "sourcePublicExport": {
+    "path": "src/index.js",
+    "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
+  },
+  "targetTests": [
+    "tests/baseline-parity.test.ts",
+    "tests/retaining-wall-model-scenario-compile-time.test.ts",
+    "tests/retaining-wall-model-scenario-live-parity.test.ts"
+  ],
+  "publicExports": [
+    "RETAINING_WALL_BASE_UPLIFT_MODELS",
+    "RETAINING_WALL_LOAD_SCENARIO_SCHEMA_VERSION",
+    "RETAINING_WALL_MODEL_SCHEMA_VERSION",
+    "RETAINING_WALL_SEISMIC_DIRECTIONS",
+    "RETAINING_WALL_TYPES",
+    "RetainingWallLoadScenario",
+    "RetainingWallModel",
+    "calculateRetainingWallPolygonProperties"
+  ],
+  "publicTypeExports": [
+    "RetainingWallAppliedLoadInput",
+    "RetainingWallBaseInput",
+    "RetainingWallBaseUpliftInput",
+    "RetainingWallBaseUpliftModel",
+    "RetainingWallCantileverOptions",
+    "RetainingWallComponent",
+    "RetainingWallComponentInput",
+    "RetainingWallCriteriaInput",
+    "RetainingWallFace",
+    "RetainingWallFaceInput",
+    "RetainingWallFoundationInput",
+    "RetainingWallFrontSideInput",
+    "RetainingWallGeometryInput",
+    "RetainingWallGlobalStabilityInput",
+    "RetainingWallLoadScenarioJson",
+    "RetainingWallLoadScenarioOptions",
+    "RetainingWallModelJson",
+    "RetainingWallModelOptions",
+    "RetainingWallPlacementInput",
+    "RetainingWallPoint",
+    "RetainingWallPointInput",
+    "RetainingWallRetainedSideInput",
+    "RetainingWallSeismicDirection",
+    "RetainingWallType"
+  ],
+  "normativeReferences": {
+    "resolved": [],
+    "outsideCorpus": [],
+    "normativeConformityClaimed": false,
+    "status": "not-applicable-for-declared-structural-dto-scope"
+  },
+  "independentValidation": {
+    "method": "Strict public declaration consumer coverage and independently executed pinned JavaScript versus built TypeScript comparison of exact serialized retaining-wall geometry, polygon properties, global-coordinate helpers, shallow-foundation bridge, scenario normalization, Unicode metadata and validation errors.",
+    "targetTests": [
+      "tests/retaining-wall-model-scenario-compile-time.test.ts",
+      "tests/retaining-wall-model-scenario-live-parity.test.ts"
+    ],
+    "tolerances": {
+      "serializedParity": "exact deep equality and JSON serialization",
+      "numericParity": "exact equality for deterministic geometry and normalized values",
+      "publicStrings": "exact equality plus Unicode code-point preservation",
+      "errors": "exact error name and message equality"
+    }
+  },
+  "parityDifferences": [],
+  "engineeringFunctionality": "Serializable retaining-wall geometry/model and load-scenario DTOs with cantilever factory, interfaces, loads, foundation settings, uplift, seismic direction and criteria normalization."
+}
