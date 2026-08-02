@@ -149,6 +149,7 @@ const expectedExports = [
   "ConcreteStressBlockLaw",
   "ConcreteTriangularRectangleLaw",
   "CyclicMasonryCompressionMaterial",
+  "CyclicMasonryPier2D",
   "CyclicMasonryShearMaterial",
   "MasonryFiberInterface2D",
   "CrackedSectionBeamModel",

@@ -8,6 +8,7 @@ export { DisplacementControlNonlinearStaticSolver2D } from "./nonlinear/index.js
 export { FrameElement2DEulerBernoulli } from "./elements/index.js";
 export { FrameElement2DTimoshenko } from "./elements/index.js";
 export { FrameElement2DTimoshenkoRigidOffsets } from "./elements/index.js";
+export { CyclicMasonryPier2D } from "./elements/index.js";
 export {
   GLOBAL_FEM_LINE_ACTION_COMPONENTS,
   GLOBAL_FEM_SHELL_RESULTANT_COMPONENTS,

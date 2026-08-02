@@ -1,0 +1,106 @@
+{
+  "schemaVersion": 1,
+  "sliceId": "0086-domain-cyclic-masonry-pier-2d",
+  "title": "Domain cyclic masonry pier element",
+  "migrationType": "mechanical-parity",
+  "implementationStatus": "implemented",
+  "dependencies": [
+    "0084-domain-cyclic-masonry-shear-material",
+    "0085-domain-masonry-fiber-interface"
+  ],
+  "source": {
+    "repository": "https://github.com/claudiopagani/strutture-js",
+    "revision": "6f33baead8b88166c4b2cf94af41763412e3c751"
+  },
+  "normativeCorpusRevision": "41da3faa489600173106935bbcf726119300e48d",
+  "sourceFiles": [
+    {
+      "path": "src/domain/fem/elements/masonry/CyclicMasonryPier2D.js",
+      "gitBlobSha1": "717e4982aeeda04324d9e6b595e9ce1011b6eec1",
+      "targetPath": "src/domain/fem/elements/masonry/CyclicMasonryPier2D.ts"
+    }
+  ],
+  "supportingSourceFiles": [
+    {
+      "path": "src/domain/fem/elements/masonry/index.js",
+      "gitBlobSha1": "27f2e41e82d4ec656f195eb6ab80df9fcbb3a73b",
+      "targetPath": "src/domain/fem/elements/index.ts",
+      "coverage": "Masonry FEM element public export for the migrated cyclic pier."
+    },
+    {
+      "path": "src/domain/fem/elements/index.js",
+      "gitBlobSha1": "01bc9064c8484d7ac39e9195f66e4ccfcb6a667f",
+      "targetPath": "src/domain/fem/elements/index.ts",
+      "coverage": "FEM element barrel export for the migrated cyclic pier."
+    },
+    {
+      "path": "src/domain/fem/index.js",
+      "gitBlobSha1": "500ed76831bf15f757c0ed2c7eff05844c39511c",
+      "targetPath": "src/domain/fem/index.ts",
+      "coverage": "FEM public export for the migrated cyclic pier."
+    },
+    {
+      "path": "src/index.js",
+      "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7",
+      "targetPath": "src/index.ts",
+      "coverage": "Root public export for the migrated cyclic pier."
+    }
+  ],
+  "sourceOracles": [
+    {
+      "path": "tests/cyclicMasonryPier2D.test.js",
+      "gitBlobSha1": "286b6e2168c8d551e0603ba08d2b8bd8e205f589",
+      "coverage": "Pier equilibrium, compatibility, condensed tangent, state history and error behavior."
+    },
+    {
+      "path": "tests/packageExports.test.js",
+      "gitBlobSha1": "8dde24b4c97dd3dae7100207d07d9d96c52b9c74",
+      "coverage": "Root public export behavior."
+    }
+  ],
+  "sourcePublicExport": {
+    "path": "src/index.js",
+    "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
+  },
+  "targetTests": [
+    "tests/baseline-parity.test.ts",
+    "tests/cyclic-masonry-pier-compile-time.test.ts",
+    "tests/cyclic-masonry-pier-live-parity.test.ts"
+  ],
+  "publicExports": ["CyclicMasonryPier2D"],
+  "publicTypeExports": [
+    "CyclicMasonryPier2DOptions",
+    "CyclicMasonryPierComponentEvaluation",
+    "CyclicMasonryPierCoupling",
+    "CyclicMasonryPierCouplingInput",
+    "CyclicMasonryPierEvaluateInput",
+    "CyclicMasonryPierEvaluation",
+    "CyclicMasonryPierJson",
+    "CyclicMasonryPierLocalState",
+    "CyclicMasonryPierNode",
+    "CyclicMasonryPierShearMaterial",
+    "CyclicMasonryPierState",
+    "CyclicMasonryPierStateExport"
+  ],
+  "normativeReferences": {
+    "resolved": [],
+    "outsideCorpus": [],
+    "normativeConformityClaimed": false,
+    "status": "classified-for-declared-scope"
+  },
+  "independentValidation": {
+    "method": "Strict public declaration consumer coverage and independently executed pinned JavaScript versus built TypeScript comparison of pier equilibrium, condensed tangent, exact state and JSON serialization, Unicode metadata, clone behavior and validation error behavior.",
+    "targetTests": [
+      "tests/cyclic-masonry-pier-compile-time.test.ts",
+      "tests/cyclic-masonry-pier-live-parity.test.ts"
+    ],
+    "tolerances": {
+      "serializedParity": "exact deep equality and JSON serialization",
+      "numericParity": "exact equality for deterministic pier histories and global stiffness",
+      "publicStrings": "exact equality plus Unicode code-point preservation",
+      "errors": "exact error name and message equality"
+    }
+  },
+  "parityDifferences": [],
+  "engineeringFunctionality": "Two-node, six-DOF masonry pier macroelement with an elastic axial/flexural core, two cyclic fiber N-M interfaces, a central nonlinear shear spring, local Newton condensation, global transformation, state management and serializable response metadata."
+}

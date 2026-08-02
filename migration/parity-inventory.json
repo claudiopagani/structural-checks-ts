@@ -907,6 +907,7 @@
         "CrackedSectionDeflectionAnalysis",
         "CrossSection",
         "CyclicMasonryCompressionMaterial",
+        "CyclicMasonryPier2D",
         "CyclicMasonryShearMaterial",
         "DEEP_FOUNDATION_DISPLACEMENT_CLASSES",
         "DEEP_FOUNDATION_ELEMENT_TYPES",
@@ -6486,11 +6487,15 @@
       "sourcePath": "src/domain/fem/elements/masonry/CyclicMasonryPier2D.js",
       "sourceBlobSha1": "717e4982aeeda04324d9e6b595e9ce1011b6eec1",
       "targetPath": "src/domain/fem/elements/masonry/CyclicMasonryPier2D.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0086-domain-cyclic-masonry-pier-2d"],
+      "sourceOracles": ["tests/cyclicMasonryPier2D.test.js", "tests/packageExports.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/cyclic-masonry-pier-compile-time.test.ts",
+        "tests/cyclic-masonry-pier-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0086-domain-cyclic-masonry-pier-2d"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -29513,11 +29518,15 @@
       "sourcePath": "src/domain/fem/elements/masonry/CyclicMasonryPier2D.js",
       "sourceBlobSha1": "717e4982aeeda04324d9e6b595e9ce1011b6eec1",
       "targetPath": "src/domain/fem/elements/masonry/CyclicMasonryPier2D.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing"
+      "migrationSlices": ["0086-domain-cyclic-masonry-pier-2d"],
+      "sourceOracles": ["tests/cyclicMasonryPier2D.test.js", "tests/packageExports.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/cyclic-masonry-pier-compile-time.test.ts",
+        "tests/cyclic-masonry-pier-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0086-domain-cyclic-masonry-pier-2d"],
+      "status": "exact-parity"
     },
     {
       "id": "src/domain/fem/elements/masonry/MasonryPierKinematics.js",
@@ -31498,7 +31507,8 @@
         "0082-domain-embedded-retaining-wall-analysis",
         "0083-domain-cyclic-masonry-compression-material",
         "0084-domain-cyclic-masonry-shear-material",
-        "0085-domain-masonry-fiber-interface"
+        "0085-domain-masonry-fiber-interface",
+        "0086-domain-cyclic-masonry-pier-2d"
       ],
       "sourceOracles": [
         "tests/architecture/applicationRegistry.test.js",
@@ -32678,11 +32688,14 @@
       "targetPath": "tests/cyclicMasonryPier2D.test.ts",
       "migrationSlices": [
         "0058-domain-masonry-pier-kinematics",
-        "0059-domain-masonry-shear-strength-strategies"
+        "0059-domain-masonry-shear-strength-strategies",
+        "0086-domain-cyclic-masonry-pier-2d"
       ],
       "sourceOracles": ["tests/cyclicMasonryPier2D.test.js"],
       "targetTests": [
         "tests/baseline-parity.test.ts",
+        "tests/cyclic-masonry-pier-compile-time.test.ts",
+        "tests/cyclic-masonry-pier-live-parity.test.ts",
         "tests/masonry-pier-kinematics-compile-time.test.ts",
         "tests/masonry-pier-kinematics-live-parity.test.ts",
         "tests/masonry-shear-strength-compile-time.test.ts",
@@ -32690,7 +32703,8 @@
       ],
       "validationEvidence": [
         "0058-domain-masonry-pier-kinematics",
-        "0059-domain-masonry-shear-strength-strategies"
+        "0059-domain-masonry-shear-strength-strategies",
+        "0086-domain-cyclic-masonry-pier-2d"
       ],
       "status": "exact-parity",
       "testKind": "test"
@@ -33959,7 +33973,8 @@
         "0082-domain-embedded-retaining-wall-analysis",
         "0083-domain-cyclic-masonry-compression-material",
         "0084-domain-cyclic-masonry-shear-material",
-        "0085-domain-masonry-fiber-interface"
+        "0085-domain-masonry-fiber-interface",
+        "0086-domain-cyclic-masonry-pier-2d"
       ],
       "sourceOracles": ["tests/packageExports.test.js"],
       "targetTests": [
@@ -33976,6 +33991,8 @@
         "tests/concrete-uniaxial-domain.test.ts",
         "tests/cyclic-masonry-compression-material-compile-time.test.ts",
         "tests/cyclic-masonry-compression-material-live-parity.test.ts",
+        "tests/cyclic-masonry-pier-compile-time.test.ts",
+        "tests/cyclic-masonry-pier-live-parity.test.ts",
         "tests/cyclic-masonry-shear-material-compile-time.test.ts",
         "tests/cyclic-masonry-shear-material-live-parity.test.ts",
         "tests/domain-math.test.ts",
@@ -34020,7 +34037,8 @@
         "0082-domain-embedded-retaining-wall-analysis",
         "0083-domain-cyclic-masonry-compression-material",
         "0084-domain-cyclic-masonry-shear-material",
-        "0085-domain-masonry-fiber-interface"
+        "0085-domain-masonry-fiber-interface",
+        "0086-domain-cyclic-masonry-pier-2d"
       ],
       "status": "exact-parity",
       "testKind": "test"
@@ -36947,12 +36965,28 @@
         "publicStrings": "exact equality plus Unicode code-point preservation",
         "errors": "exact error name and message equality"
       }
+    },
+    {
+      "sliceId": "0086-domain-cyclic-masonry-pier-2d",
+      "sourceRevision": "6f33baead8b88166c4b2cf94af41763412e3c751",
+      "method": "Strict public declaration consumer coverage and independently executed pinned JavaScript versus built TypeScript comparison of pier equilibrium, condensed tangent, exact state and JSON serialization, Unicode metadata, clone behavior and validation error behavior.",
+      "targetTests": [
+        "tests/cyclic-masonry-pier-compile-time.test.ts",
+        "tests/cyclic-masonry-pier-live-parity.test.ts"
+      ],
+      "fixture": null,
+      "tolerances": {
+        "serializedParity": "exact deep equality and JSON serialization",
+        "numericParity": "exact equality for deterministic pier histories and global stiffness",
+        "publicStrings": "exact equality plus Unicode code-point preservation",
+        "errors": "exact error name and message equality"
+      }
     }
   ],
   "counts": {
     "rootExports": {
       "javascript": 841,
-      "typescript": 518
+      "typescript": 519
     },
     "applicationsExports": {
       "javascript": 309,
@@ -36976,11 +37010,11 @@
     },
     "sourceFiles": {
       "javascript": 480,
-      "typescript": 320
+      "typescript": 321
     },
     "tests": {
       "javascript": 131,
-      "typescript": 158
+      "typescript": 160
     },
     "validationCampaigns": {
       "javascript": 17,
@@ -37012,14 +37046,13 @@
       "statusCounts": {
         "exact-parity": 0,
         "partial": 20,
-        "missing": 104,
+        "missing": 102,
         "intentionally-excluded": 0,
         "decision-required": 0
       },
       "itemIds": [
         "root-export:CIRCULAR_SLOPE_STABILITY_RESULT_SCHEMA_VERSION",
         "root-export:CircularSlopeStabilityAnalysis",
-        "root-export:CyclicMasonryPier2D",
         "root-export:CyclicMasonryPierAnalysis2D",
         "root-export:EARTH_PRESSURE_METHODS",
         "root-export:EARTH_PRESSURE_STATES",
@@ -37103,7 +37136,6 @@
         "root-export:normalizeTerrainElevationGrid",
         "root-export:spencerMethod",
         "source:src/domain/fem/elements/index.js",
-        "source:src/domain/fem/elements/masonry/CyclicMasonryPier2D.js",
         "source:src/domain/fem/elements/masonry/index.js",
         "source:src/domain/fem/index.js",
         "source:src/domain/fem/nonlinear/CyclicMasonryPierAnalysis2D.js",

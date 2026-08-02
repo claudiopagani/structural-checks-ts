@@ -135,6 +135,7 @@ export { BandedLinearSolver } from "./domain/math/BandedLinearSolver.js";
 export { DenseLinearSolver } from "./domain/math/DenseLinearSolver.js";
 export {
   BeamLinePreprocessor2D,
+  CyclicMasonryPier2D,
   DofRegistry,
   FemAssembler2D,
   FrameElement2DEulerBernoulli,
@@ -1254,6 +1255,20 @@ export type {
   CyclicMasonryShearPinching,
   CyclicMasonryShearState,
 } from "./domain/materials/masonry/CyclicMasonryShearMaterial.js";
+export type {
+  CyclicMasonryPier2DOptions,
+  CyclicMasonryPierComponentEvaluation,
+  CyclicMasonryPierCoupling,
+  CyclicMasonryPierCouplingInput,
+  CyclicMasonryPierEvaluateInput,
+  CyclicMasonryPierEvaluation,
+  CyclicMasonryPierJson,
+  CyclicMasonryPierLocalState,
+  CyclicMasonryPierNode,
+  CyclicMasonryPierShearMaterial,
+  CyclicMasonryPierState,
+  CyclicMasonryPierStateExport,
+} from "./domain/fem/elements/masonry/CyclicMasonryPier2D.js";
 export type {
   MasonryFiberCompressionMaterial,
   MasonryFiberDeformationInput,
