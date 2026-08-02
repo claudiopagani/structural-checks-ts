@@ -173,6 +173,15 @@ export {
   type UltimateTransferLoadBondResistance,
 } from "./GroundAnchorDesignScenario.js";
 export {
+  GROUND_ANCHOR_DESIGN_REFERENCE,
+  GROUND_ANCHOR_DESIGN_RESULT_SCHEMA_VERSION,
+  GROUND_ANCHOR_FHWA_CRITERIA,
+  GroundAnchorAnalysis,
+  groundAnchorDemandFromEmbeddedWallResult,
+  type GroundAnchorAnalysisOptions,
+  type GroundAnchorAnalysisResult,
+} from "./GroundAnchorAnalysis.js";
+export {
   PRESSURE_DIAGRAM_2D_SCHEMA_VERSION,
   PressureDiagram2D,
   integratePressureSegments,

@@ -1,0 +1,89 @@
+{
+  "schemaVersion": 1,
+  "sliceId": "0092-domain-ground-anchor-analysis",
+  "title": "Domain ground-anchor analysis",
+  "migrationType": "mechanical-parity-with-minimal-dependency-support",
+  "implementationStatus": "implemented",
+  "dependencies": ["0091-domain-ground-anchor-design-scenario"],
+  "source": {
+    "repository": "https://github.com/claudiopagani/strutture-js",
+    "revision": "6f33baead8b88166c4b2cf94af41763412e3c751"
+  },
+  "normativeCorpusRevision": "41da3faa489600173106935bbcf726119300e48d",
+  "sourceFiles": [
+    {
+      "path": "src/domain/geotechnics/GroundAnchorAnalysis.js",
+      "gitBlobSha1": "336c25953c55a204b06cb9548fa20cb8afd716a8",
+      "targetPath": "src/domain/geotechnics/GroundAnchorAnalysis.ts"
+    }
+  ],
+  "supportingSourceFiles": [
+    {
+      "path": "src/domain/geotechnics/index.js",
+      "gitBlobSha1": "41ed2053fc2e37dc90da412846609f4050af9668",
+      "targetPath": "src/domain/geotechnics/index.ts",
+      "coverage": "Geotechnical public exports for the migrated ground-anchor analysis."
+    },
+    {
+      "path": "src/index.js",
+      "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7",
+      "targetPath": "src/index.ts",
+      "coverage": "Root public exports for the migrated ground-anchor analysis."
+    }
+  ],
+  "sourceOracles": [
+    {
+      "path": "tests/geotechnicalGroundAnchors.test.js",
+      "gitBlobSha1": "e18bd13b5f6910266435fc3cc3f24cf8502dc3a7",
+      "coverage": "Ground-anchor geometry, demand conversion, bond capacity, corrosion, testing, couplings and failure-result behavior."
+    },
+    {
+      "path": "tests/packageExports.test.js",
+      "gitBlobSha1": "8dde24b4c97dd3dae7100207d07d9d96c52b9c74",
+      "coverage": "Root and geotechnics public export behavior."
+    }
+  ],
+  "sourcePublicExport": {
+    "path": "src/index.js",
+    "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
+  },
+  "targetTests": [
+    "tests/baseline-parity.test.ts",
+    "tests/ground-anchor-analysis-compile-time.test.ts",
+    "tests/ground-anchor-analysis-live-parity.test.ts"
+  ],
+  "publicExports": [
+    "GROUND_ANCHOR_DESIGN_REFERENCE",
+    "GROUND_ANCHOR_DESIGN_RESULT_SCHEMA_VERSION",
+    "GROUND_ANCHOR_FHWA_CRITERIA",
+    "GroundAnchorAnalysis",
+    "groundAnchorDemandFromEmbeddedWallResult"
+  ],
+  "publicTypeExports": ["GroundAnchorAnalysisOptions", "GroundAnchorAnalysisResult"],
+  "normativeReferences": {
+    "resolved": [],
+    "outsideCorpus": [
+      {
+        "identifier": "FHWA GEC 4, FHWA-IF-99-015 (1999), chapters 5, 6 and 7",
+        "reason": "The source analysis preserves its non-corpus FHWA traceability without inventing a corpus identifier."
+      }
+    ],
+    "normativeConformityClaimed": false,
+    "status": "classified-for-declared-scope"
+  },
+  "independentValidation": {
+    "method": "Strict public declaration consumer coverage and independently executed pinned JavaScript versus built TypeScript comparison of ground-anchor geometry, demand conversion, bond capacity, corrosion, field testing, exact nested JSON serialization, Unicode identifiers and failure behavior.",
+    "targetTests": [
+      "tests/ground-anchor-analysis-compile-time.test.ts",
+      "tests/ground-anchor-analysis-live-parity.test.ts"
+    ],
+    "tolerances": {
+      "serializedParity": "exact deep equality and JSON serialization",
+      "numericParity": "exact equality for deterministic normalized analysis and demand fixtures",
+      "publicStrings": "exact equality plus Unicode code-point preservation",
+      "errors": "exact error name and message equality for direct demand rejection and failure-result behavior"
+    }
+  },
+  "parityDifferences": [],
+  "engineeringFunctionality": "Serializable FHWA GEC 4 ground-anchor geometry, demand, bond, corrosion and acceptance-testing analysis with embedded-wall demand coupling, structural/FEM/global-stability coupling metadata and exact check results."
+}

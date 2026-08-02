@@ -980,8 +980,11 @@
         "GROUND_ANCHOR_BOND_RESISTANCE_MODELS",
         "GROUND_ANCHOR_CORROSION_CLASSES",
         "GROUND_ANCHOR_DEMAND_SOURCES",
+        "GROUND_ANCHOR_DESIGN_REFERENCE",
+        "GROUND_ANCHOR_DESIGN_RESULT_SCHEMA_VERSION",
         "GROUND_ANCHOR_DESIGN_SCENARIO_SCHEMA_VERSION",
         "GROUND_ANCHOR_FAILURE_SURFACE_MODELS",
+        "GROUND_ANCHOR_FHWA_CRITERIA",
         "GROUND_ANCHOR_GROUND_CLASSES",
         "GROUND_ANCHOR_HORIZONTAL_DIRECTIONS",
         "GROUND_ANCHOR_MODEL_SCHEMA_VERSION",
@@ -997,6 +1000,7 @@
         "GeotechnicalDesignSituation",
         "GlobalFemPostProcessingApplication",
         "GlulamTimberMaterial",
+        "GroundAnchorAnalysis",
         "GroundAnchorDesignScenario",
         "GroundAnchorModel",
         "GroundAnchorStabilityAction2D",
@@ -1325,6 +1329,7 @@
         "getTecnariaConnectorData",
         "getXlamPanelProduct",
         "governingCheck",
+        "groundAnchorDemandFromEmbeddedWallResult",
         "integrateFootingPressureStrip",
         "integratePressureSegments",
         "isFinitePositive",
@@ -8803,11 +8808,15 @@
       "sourcePath": "src/domain/geotechnics/GroundAnchorAnalysis.js",
       "sourceBlobSha1": "336c25953c55a204b06cb9548fa20cb8afd716a8",
       "targetPath": "src/domain/geotechnics/GroundAnchorAnalysis.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0092-domain-ground-anchor-analysis"],
+      "sourceOracles": ["tests/geotechnicalGroundAnchors.test.js", "tests/packageExports.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/ground-anchor-analysis-compile-time.test.ts",
+        "tests/ground-anchor-analysis-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0092-domain-ground-anchor-analysis"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -8817,11 +8826,15 @@
       "sourcePath": "src/domain/geotechnics/GroundAnchorAnalysis.js",
       "sourceBlobSha1": "336c25953c55a204b06cb9548fa20cb8afd716a8",
       "targetPath": "src/domain/geotechnics/GroundAnchorAnalysis.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0092-domain-ground-anchor-analysis"],
+      "sourceOracles": ["tests/geotechnicalGroundAnchors.test.js", "tests/packageExports.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/ground-anchor-analysis-compile-time.test.ts",
+        "tests/ground-anchor-analysis-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0092-domain-ground-anchor-analysis"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -8867,11 +8880,15 @@
       "sourcePath": "src/domain/geotechnics/GroundAnchorAnalysis.js",
       "sourceBlobSha1": "336c25953c55a204b06cb9548fa20cb8afd716a8",
       "targetPath": "src/domain/geotechnics/GroundAnchorAnalysis.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0092-domain-ground-anchor-analysis"],
+      "sourceOracles": ["tests/geotechnicalGroundAnchors.test.js", "tests/packageExports.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/ground-anchor-analysis-compile-time.test.ts",
+        "tests/ground-anchor-analysis-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0092-domain-ground-anchor-analysis"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -9086,11 +9103,15 @@
       "sourcePath": "src/domain/geotechnics/GroundAnchorAnalysis.js",
       "sourceBlobSha1": "336c25953c55a204b06cb9548fa20cb8afd716a8",
       "targetPath": "src/domain/geotechnics/GroundAnchorAnalysis.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0092-domain-ground-anchor-analysis"],
+      "sourceOracles": ["tests/geotechnicalGroundAnchors.test.js", "tests/packageExports.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/ground-anchor-analysis-compile-time.test.ts",
+        "tests/ground-anchor-analysis-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0092-domain-ground-anchor-analysis"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -9100,11 +9121,15 @@
       "sourcePath": "src/domain/geotechnics/GroundAnchorAnalysis.js",
       "sourceBlobSha1": "336c25953c55a204b06cb9548fa20cb8afd716a8",
       "targetPath": "src/domain/geotechnics/GroundAnchorAnalysis.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0092-domain-ground-anchor-analysis"],
+      "sourceOracles": ["tests/geotechnicalGroundAnchors.test.js", "tests/packageExports.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/ground-anchor-analysis-compile-time.test.ts",
+        "tests/ground-anchor-analysis-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0092-domain-ground-anchor-analysis"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -19257,11 +19282,15 @@
       "sourcePath": "src/domain/geotechnics/GroundAnchorAnalysis.js",
       "sourceBlobSha1": "336c25953c55a204b06cb9548fa20cb8afd716a8",
       "targetPath": "src/domain/geotechnics/GroundAnchorAnalysis.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0092-domain-ground-anchor-analysis"],
+      "sourceOracles": ["tests/geotechnicalGroundAnchors.test.js", "tests/packageExports.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/ground-anchor-analysis-compile-time.test.ts",
+        "tests/ground-anchor-analysis-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0092-domain-ground-anchor-analysis"],
+      "status": "exact-parity",
       "publicEntryPath": "src/applications/index.js",
       "publicEntryBlobSha1": "b70179c7cdd2a819f2151dc092c0f59cbce30ba6"
     },
@@ -19271,11 +19300,15 @@
       "sourcePath": "src/domain/geotechnics/GroundAnchorAnalysis.js",
       "sourceBlobSha1": "336c25953c55a204b06cb9548fa20cb8afd716a8",
       "targetPath": "src/domain/geotechnics/GroundAnchorAnalysis.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0092-domain-ground-anchor-analysis"],
+      "sourceOracles": ["tests/geotechnicalGroundAnchors.test.js", "tests/packageExports.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/ground-anchor-analysis-compile-time.test.ts",
+        "tests/ground-anchor-analysis-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0092-domain-ground-anchor-analysis"],
+      "status": "exact-parity",
       "publicEntryPath": "src/applications/index.js",
       "publicEntryBlobSha1": "b70179c7cdd2a819f2151dc092c0f59cbce30ba6"
     },
@@ -19321,11 +19354,15 @@
       "sourcePath": "src/domain/geotechnics/GroundAnchorAnalysis.js",
       "sourceBlobSha1": "336c25953c55a204b06cb9548fa20cb8afd716a8",
       "targetPath": "src/domain/geotechnics/GroundAnchorAnalysis.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0092-domain-ground-anchor-analysis"],
+      "sourceOracles": ["tests/geotechnicalGroundAnchors.test.js", "tests/packageExports.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/ground-anchor-analysis-compile-time.test.ts",
+        "tests/ground-anchor-analysis-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0092-domain-ground-anchor-analysis"],
+      "status": "exact-parity",
       "publicEntryPath": "src/applications/index.js",
       "publicEntryBlobSha1": "b70179c7cdd2a819f2151dc092c0f59cbce30ba6"
     },
@@ -19491,11 +19528,15 @@
       "sourcePath": "src/domain/geotechnics/GroundAnchorAnalysis.js",
       "sourceBlobSha1": "336c25953c55a204b06cb9548fa20cb8afd716a8",
       "targetPath": "src/domain/geotechnics/GroundAnchorAnalysis.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0092-domain-ground-anchor-analysis"],
+      "sourceOracles": ["tests/geotechnicalGroundAnchors.test.js", "tests/packageExports.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/ground-anchor-analysis-compile-time.test.ts",
+        "tests/ground-anchor-analysis-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0092-domain-ground-anchor-analysis"],
+      "status": "exact-parity",
       "publicEntryPath": "src/applications/index.js",
       "publicEntryBlobSha1": "b70179c7cdd2a819f2151dc092c0f59cbce30ba6"
     },
@@ -19505,11 +19546,15 @@
       "sourcePath": "src/domain/geotechnics/GroundAnchorAnalysis.js",
       "sourceBlobSha1": "336c25953c55a204b06cb9548fa20cb8afd716a8",
       "targetPath": "src/domain/geotechnics/GroundAnchorAnalysis.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0092-domain-ground-anchor-analysis"],
+      "sourceOracles": ["tests/geotechnicalGroundAnchors.test.js", "tests/packageExports.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/ground-anchor-analysis-compile-time.test.ts",
+        "tests/ground-anchor-analysis-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0092-domain-ground-anchor-analysis"],
+      "status": "exact-parity",
       "publicEntryPath": "src/applications/index.js",
       "publicEntryBlobSha1": "b70179c7cdd2a819f2151dc092c0f59cbce30ba6"
     },
@@ -24647,11 +24692,15 @@
       "sourcePath": "src/domain/geotechnics/GroundAnchorAnalysis.js",
       "sourceBlobSha1": "336c25953c55a204b06cb9548fa20cb8afd716a8",
       "targetPath": "src/domain/geotechnics/GroundAnchorAnalysis.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0092-domain-ground-anchor-analysis"],
+      "sourceOracles": ["tests/geotechnicalGroundAnchors.test.js", "tests/packageExports.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/ground-anchor-analysis-compile-time.test.ts",
+        "tests/ground-anchor-analysis-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0092-domain-ground-anchor-analysis"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7",
       "value": "ground-anchor-design-result/v1"
@@ -30239,11 +30288,15 @@
       "sourcePath": "src/domain/geotechnics/GroundAnchorAnalysis.js",
       "sourceBlobSha1": "336c25953c55a204b06cb9548fa20cb8afd716a8",
       "targetPath": "src/domain/geotechnics/GroundAnchorAnalysis.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing"
+      "migrationSlices": ["0092-domain-ground-anchor-analysis"],
+      "sourceOracles": ["tests/geotechnicalGroundAnchors.test.js", "tests/packageExports.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/ground-anchor-analysis-compile-time.test.ts",
+        "tests/ground-anchor-analysis-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0092-domain-ground-anchor-analysis"],
+      "status": "exact-parity"
     },
     {
       "id": "src/domain/geotechnics/GroundAnchorDesignScenario.js",
@@ -31718,7 +31771,8 @@
         "0088-domain-slope-surface-surcharge",
         "0089-domain-slope-slice-discretizer-2d",
         "0090-domain-ground-anchor-stability-action-2d",
-        "0091-domain-ground-anchor-design-scenario"
+        "0091-domain-ground-anchor-design-scenario",
+        "0092-domain-ground-anchor-analysis"
       ],
       "sourceOracles": [
         "tests/architecture/applicationRegistry.test.js",
@@ -33228,11 +33282,14 @@
         "0067-domain-ground-anchor-model",
         "0079-domain-ground-anchor-bond-catalog",
         "0090-domain-ground-anchor-stability-action-2d",
-        "0091-domain-ground-anchor-design-scenario"
+        "0091-domain-ground-anchor-design-scenario",
+        "0092-domain-ground-anchor-analysis"
       ],
       "sourceOracles": ["tests/geotechnicalGroundAnchors.test.js"],
       "targetTests": [
         "tests/baseline-parity.test.ts",
+        "tests/ground-anchor-analysis-compile-time.test.ts",
+        "tests/ground-anchor-analysis-live-parity.test.ts",
         "tests/ground-anchor-bond-catalog-compile-time.test.ts",
         "tests/ground-anchor-bond-catalog-live-parity.test.ts",
         "tests/ground-anchor-design-scenario-compile-time.test.ts",
@@ -33246,7 +33303,8 @@
         "0067-domain-ground-anchor-model",
         "0079-domain-ground-anchor-bond-catalog",
         "0090-domain-ground-anchor-stability-action-2d",
-        "0091-domain-ground-anchor-design-scenario"
+        "0091-domain-ground-anchor-design-scenario",
+        "0092-domain-ground-anchor-analysis"
       ],
       "status": "exact-parity",
       "testKind": "test"
@@ -34213,7 +34271,8 @@
         "0088-domain-slope-surface-surcharge",
         "0089-domain-slope-slice-discretizer-2d",
         "0090-domain-ground-anchor-stability-action-2d",
-        "0091-domain-ground-anchor-design-scenario"
+        "0091-domain-ground-anchor-design-scenario",
+        "0092-domain-ground-anchor-analysis"
       ],
       "sourceOracles": ["tests/packageExports.test.js"],
       "targetTests": [
@@ -34244,6 +34303,8 @@
         "tests/embedded-retaining-wall-scenario-compile-time.test.ts",
         "tests/embedded-retaining-wall-scenario-live-parity.test.ts",
         "tests/foundation-beam-analysis.test.ts",
+        "tests/ground-anchor-analysis-compile-time.test.ts",
+        "tests/ground-anchor-analysis-live-parity.test.ts",
         "tests/ground-anchor-bond-catalog-compile-time.test.ts",
         "tests/ground-anchor-bond-catalog-live-parity.test.ts",
         "tests/ground-anchor-design-scenario-compile-time.test.ts",
@@ -34292,7 +34353,8 @@
         "0088-domain-slope-surface-surcharge",
         "0089-domain-slope-slice-discretizer-2d",
         "0090-domain-ground-anchor-stability-action-2d",
-        "0091-domain-ground-anchor-design-scenario"
+        "0091-domain-ground-anchor-design-scenario",
+        "0092-domain-ground-anchor-analysis"
       ],
       "status": "exact-parity",
       "testKind": "test"
@@ -37315,16 +37377,32 @@
         "publicStrings": "exact equality plus Unicode code-point preservation",
         "errors": "exact error name and message equality"
       }
+    },
+    {
+      "sliceId": "0092-domain-ground-anchor-analysis",
+      "sourceRevision": "6f33baead8b88166c4b2cf94af41763412e3c751",
+      "method": "Strict public declaration consumer coverage and independently executed pinned JavaScript versus built TypeScript comparison of ground-anchor geometry, demand conversion, bond capacity, corrosion, field testing, exact nested JSON serialization, Unicode identifiers and failure behavior.",
+      "targetTests": [
+        "tests/ground-anchor-analysis-compile-time.test.ts",
+        "tests/ground-anchor-analysis-live-parity.test.ts"
+      ],
+      "fixture": null,
+      "tolerances": {
+        "serializedParity": "exact deep equality and JSON serialization",
+        "numericParity": "exact equality for deterministic normalized analysis and demand fixtures",
+        "publicStrings": "exact equality plus Unicode code-point preservation",
+        "errors": "exact error name and message equality for direct demand rejection and failure-result behavior"
+      }
     }
   ],
   "counts": {
     "rootExports": {
       "javascript": 841,
-      "typescript": 536
+      "typescript": 541
     },
     "applicationsExports": {
       "javascript": 309,
-      "typescript": 172
+      "typescript": 177
     },
     "packageEntryPoints": {
       "javascript": 14,
@@ -37340,15 +37418,15 @@
     },
     "serializedSchemas": {
       "javascript": 49,
-      "typescript": 34
+      "typescript": 35
     },
     "sourceFiles": {
       "javascript": 480,
-      "typescript": 326
+      "typescript": 327
     },
     "tests": {
       "javascript": 131,
-      "typescript": 170
+      "typescript": 172
     },
     "validationCampaigns": {
       "javascript": 17,
@@ -37380,7 +37458,7 @@
       "statusCounts": {
         "exact-parity": 0,
         "partial": 20,
-        "missing": 80,
+        "missing": 74,
         "intentionally-excluded": 0,
         "decision-required": 0
       },
@@ -37397,12 +37475,8 @@
         "root-export:GEOTECHNICAL_LIMIT_STATES",
         "root-export:GEOTECHNICAL_SEISMIC_MODELS",
         "root-export:GEOTECHNICAL_TIME_CONDITIONS",
-        "root-export:GROUND_ANCHOR_DESIGN_REFERENCE",
-        "root-export:GROUND_ANCHOR_DESIGN_RESULT_SCHEMA_VERSION",
-        "root-export:GROUND_ANCHOR_FHWA_CRITERIA",
         "root-export:GROUND_MODEL_SCHEMA_VERSION",
         "root-export:GROUND_PROFILE_SCHEMA_VERSION",
-        "root-export:GroundAnchorAnalysis",
         "root-export:LATERAL_PILE_BROMS_REFERENCE",
         "root-export:LATERAL_PILE_CAPACITY_RESULT_SCHEMA_VERSION",
         "root-export:LateralEarthPressureAnalysis",
@@ -37449,7 +37523,6 @@
         "root-export:calculateShallowFoundationEffectiveGeometry",
         "root-export:calculateShallowFoundationSlidingResistance",
         "root-export:calculateShallowFoundationVerticalStressInfluence",
-        "root-export:groundAnchorDemandFromEmbeddedWallResult",
         "root-export:normalizeTerrainElevationGrid",
         "root-export:spencerMethod",
         "source:src/domain/fem/elements/index.js",
@@ -37457,7 +37530,6 @@
         "source:src/domain/fem/index.js",
         "source:src/domain/fem/nonlinear/index.js",
         "source:src/domain/geotechnics/CircularSlopeStabilityAnalysis.js",
-        "source:src/domain/geotechnics/GroundAnchorAnalysis.js",
         "source:src/domain/geotechnics/LateralEarthPressureAnalysis.js",
         "source:src/domain/geotechnics/LateralPileCapacityAnalysis.js",
         "source:src/domain/geotechnics/LayeredPseudostaticTrialWedge.js",
@@ -37675,7 +37747,7 @@
       "statusCounts": {
         "exact-parity": 0,
         "partial": 16,
-        "missing": 367,
+        "missing": 362,
         "intentionally-excluded": 0,
         "decision-required": 0
       },
@@ -37690,9 +37762,6 @@
         "application-export:BEAM_REPORT_SCHEMA_VERSION",
         "application-export:BeamReportBuilder",
         "application-export:BeamReportMarkdownRenderer",
-        "application-export:GROUND_ANCHOR_DESIGN_REFERENCE",
-        "application-export:GROUND_ANCHOR_DESIGN_RESULT_SCHEMA_VERSION",
-        "application-export:GROUND_ANCHOR_FHWA_CRITERIA",
         "application-export:GeotechnicalEarthPressureApplication",
         "application-export:GeotechnicalEmbeddedRetainingWallApplication",
         "application-export:GeotechnicalGroundAnchorApplication",
@@ -37700,7 +37769,6 @@
         "application-export:GeotechnicalRetainingWallApplication",
         "application-export:GeotechnicalShallowFoundationApplication",
         "application-export:GeotechnicalSlopeStabilityApplication",
-        "application-export:GroundAnchorAnalysis",
         "application-export:LATERAL_PILE_BROMS_REFERENCE",
         "application-export:LATERAL_PILE_CAPACITY_RESULT_SCHEMA_VERSION",
         "application-export:LateralPileCapacityAnalysis",
@@ -37798,7 +37866,6 @@
         "application-export:createTimberXlamCompositeBeamSectionProvider",
         "application-export:extractEquivalentFrameMembers",
         "application-export:getSteelVerificationCapabilities",
-        "application-export:groundAnchorDemandFromEmbeddedWallResult",
         "application-export:inferSteelCompressionBucklingCurves",
         "application-export:resolveAlignmentMechanicalState",
         "application-export:resolveMasonryStageMaterial",
