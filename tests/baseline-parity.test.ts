@@ -113,6 +113,8 @@ const expectedExports = [
   "RETAINING_WALL_TYPES",
   "RetainingWallLoadScenario",
   "RetainingWallModel",
+  "RETAINING_WALL_ANALYSIS_RESULT_SCHEMA_VERSION",
+  "RetainingWallAnalysis",
   "calculateRetainingWallPolygonProperties",
   "PileTransferLaw",
   "LateralPileResponseScenario",

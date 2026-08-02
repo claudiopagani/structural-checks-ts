@@ -1,0 +1,95 @@
+{
+  "schemaVersion": 1,
+  "sliceId": "0100-domain-retaining-wall-analysis",
+  "title": "Domain retaining-wall analysis",
+  "migrationType": "mechanical-parity-with-minimal-dependency-support",
+  "implementationStatus": "implemented",
+  "dependencies": [
+    "0096-domain-lateral-earth-pressure-analysis",
+    "0098-domain-retaining-wall-model-scenario",
+    "0099-domain-shallow-foundation-ultimate-limit-state-analysis"
+  ],
+  "source": {
+    "repository": "https://github.com/claudiopagani/strutture-js",
+    "revision": "6f33baead8b88166c4b2cf94af41763412e3c751"
+  },
+  "normativeCorpusRevision": "41da3faa489600173106935bbcf726119300e48d",
+  "sourceFiles": [
+    {
+      "path": "src/domain/geotechnics/RetainingWallAnalysis.js",
+      "gitBlobSha1": "0c21f6664fb68b1150e89f8b8375acf27e768f35",
+      "targetPath": "src/domain/geotechnics/RetainingWallAnalysis.ts"
+    }
+  ],
+  "supportingSourceFiles": [
+    {
+      "path": "src/domain/geotechnics/index.js",
+      "gitBlobSha1": "41ed2053fc2e37dc90da412846609f4050af9668",
+      "targetPath": "src/domain/geotechnics/index.ts",
+      "coverage": "Geotechnics barrel export for RetainingWallAnalysis."
+    },
+    {
+      "path": "src/index.js",
+      "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7",
+      "targetPath": "src/index.ts",
+      "coverage": "Root public exports for RetainingWallAnalysis."
+    }
+  ],
+  "sourceOracles": [
+    {
+      "path": "tests/geotechnicalRetainingWalls.test.js",
+      "gitBlobSha1": "53b83cf67c933e63475ff4b9e054d508a4429125",
+      "coverage": "Retaining-wall rigid-body equilibrium, earth-pressure load transfer, uplift, passive resistance, seismic inertia, resultant-only wedge behavior, foundation coupling and global-stability coupling."
+    },
+    {
+      "path": "tests/packageExports.test.js",
+      "gitBlobSha1": "8dde24b4c97dd3dae7100207d07d9d96c52b9c74",
+      "coverage": "Root public export behavior."
+    }
+  ],
+  "sourcePublicExport": {
+    "path": "src/index.js",
+    "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
+  },
+  "targetTests": [
+    "tests/baseline-parity.test.ts",
+    "tests/retaining-wall-analysis-compile-time.test.ts",
+    "tests/retaining-wall-analysis-live-parity.test.ts"
+  ],
+  "publicExports": ["RETAINING_WALL_ANALYSIS_RESULT_SCHEMA_VERSION", "RetainingWallAnalysis"],
+  "publicTypeExports": ["RetainingWallAnalysisInput", "RetainingWallAnalysisResult"],
+  "normativeReferences": {
+    "resolved": [],
+    "outsideCorpus": [
+      {
+        "identifier": "USACE EM 1110-2-2502 (2022), Retaining and Flood Walls",
+        "reason": "The source analysis preserves the engineering reference and resolver URL; this slice does not add a normative corpus runtime dependency."
+      },
+      {
+        "identifier": "USACE EM 1110-2-2502 (1989), Chapter 4, Stability Analysis",
+        "reason": "The source analysis preserves the engineering reference and resolver URL; this slice does not add a normative corpus runtime dependency."
+      }
+    ],
+    "normativeConformityClaimed": false,
+    "status": "outside-corpus-reference-preserved"
+  },
+  "independentValidation": {
+    "method": "Strict public declaration consumer coverage and independently executed pinned JavaScript versus built TypeScript comparison of exact rigid-body loads, numerical equilibrium, serialized metadata, Unicode identifiers, unsupported modes and global-stability slip-surface provenance.",
+    "targetTests": [
+      "tests/retaining-wall-analysis-compile-time.test.ts",
+      "tests/retaining-wall-analysis-live-parity.test.ts"
+    ],
+    "tolerances": {
+      "serializedParity": "exact deep equality and JSON serialization",
+      "numericParity": "exact equality for deterministic analysis outputs",
+      "publicStrings": "exact equality plus Unicode code-point preservation",
+      "errors": "exact error name and message equality"
+    }
+  },
+  "parityDifferences": [],
+  "engineeringFunctionality": "Serializable method-neutral retaining-wall rigid-body equilibrium with earth-pressure action transfer, soil-over-heel and wall self-weight loads, hydrostatic uplift, compression-only base contact, sliding and overturning checks, pseudostatic inertia, shallow-foundation coupling and equivalent-surcharge global-stability screening.",
+  "notes": [
+    "The retaining-wall structural verifier and retaining-wall application wrapper remain outside this bounded domain slice.",
+    "The preserved USACE references are not presented as a legal or regulatory conformity claim."
+  ]
+}

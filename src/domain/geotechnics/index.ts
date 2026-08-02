@@ -329,6 +329,12 @@ export {
   type ShallowFoundationUltimateLimitStateAnalysisResult,
 } from "./ShallowFoundationUltimateLimitStateAnalysis.js";
 export {
+  RETAINING_WALL_ANALYSIS_RESULT_SCHEMA_VERSION,
+  RetainingWallAnalysis,
+  type RetainingWallAnalysisInput,
+  type RetainingWallAnalysisResult,
+} from "./RetainingWallAnalysis.js";
+export {
   LATERAL_PILE_BEHAVIOR_CLASSIFICATIONS,
   LATERAL_PILE_CAPACITY_METHODS,
   LATERAL_PILE_HEAD_CONDITIONS,
