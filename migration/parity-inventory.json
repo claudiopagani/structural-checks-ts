@@ -981,14 +981,20 @@
         "IllinoisRootSolver",
         "ImposedAction",
         "KinematicConstraintReducer2D",
+        "LATERAL_PILE_ACTION_REFERENCE_POINTS",
         "LATERAL_PILE_BEHAVIOR_CLASSIFICATIONS",
         "LATERAL_PILE_CAPACITY_METHODS",
+        "LATERAL_PILE_END_RESTRAINTS",
         "LATERAL_PILE_HEAD_CONDITIONS",
         "LATERAL_PILE_LOAD_SCENARIO_SCHEMA_VERSION",
         "LATERAL_PILE_RESISTANCE_CONVERSION_MODELS",
+        "LATERAL_PILE_RESPONSE_METHODS",
+        "LATERAL_PILE_RESPONSE_SCENARIO_SCHEMA_VERSION",
         "LATERAL_PILE_SOIL_BRANCHES",
+        "LATERAL_PILE_SOIL_RESPONSE_MODELS",
         "LENGTH_UNIT_FACTORS",
         "LateralPileLoadScenario",
+        "LateralPileResponseScenario",
         "LineLoad",
         "LinearStaticSolver2D",
         "Load",
@@ -9225,11 +9231,15 @@
       "sourcePath": "src/domain/geotechnics/LateralPileResponseScenario.js",
       "sourceBlobSha1": "1acc8c98fbe4ed2ba35319752307d613d498b632",
       "targetPath": "src/domain/geotechnics/LateralPileResponseScenario.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0075-domain-lateral-pile-response-scenario"],
+      "sourceOracles": ["tests/geotechnicalLateralPilePy.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/lateral-pile-response-scenario-compile-time.test.ts",
+        "tests/lateral-pile-response-scenario-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0075-domain-lateral-pile-response-scenario"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -9303,11 +9313,15 @@
       "sourcePath": "src/domain/geotechnics/LateralPileResponseScenario.js",
       "sourceBlobSha1": "1acc8c98fbe4ed2ba35319752307d613d498b632",
       "targetPath": "src/domain/geotechnics/LateralPileResponseScenario.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0075-domain-lateral-pile-response-scenario"],
+      "sourceOracles": ["tests/geotechnicalLateralPilePy.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/lateral-pile-response-scenario-compile-time.test.ts",
+        "tests/lateral-pile-response-scenario-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0075-domain-lateral-pile-response-scenario"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -9399,11 +9413,15 @@
       "sourcePath": "src/domain/geotechnics/LateralPileResponseScenario.js",
       "sourceBlobSha1": "1acc8c98fbe4ed2ba35319752307d613d498b632",
       "targetPath": "src/domain/geotechnics/LateralPileResponseScenario.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0075-domain-lateral-pile-response-scenario"],
+      "sourceOracles": ["tests/geotechnicalLateralPilePy.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/lateral-pile-response-scenario-compile-time.test.ts",
+        "tests/lateral-pile-response-scenario-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0075-domain-lateral-pile-response-scenario"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -9413,11 +9431,15 @@
       "sourcePath": "src/domain/geotechnics/LateralPileResponseScenario.js",
       "sourceBlobSha1": "1acc8c98fbe4ed2ba35319752307d613d498b632",
       "targetPath": "src/domain/geotechnics/LateralPileResponseScenario.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0075-domain-lateral-pile-response-scenario"],
+      "sourceOracles": ["tests/geotechnicalLateralPilePy.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/lateral-pile-response-scenario-compile-time.test.ts",
+        "tests/lateral-pile-response-scenario-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0075-domain-lateral-pile-response-scenario"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -9445,11 +9467,15 @@
       "sourcePath": "src/domain/geotechnics/LateralPileResponseScenario.js",
       "sourceBlobSha1": "1acc8c98fbe4ed2ba35319752307d613d498b632",
       "targetPath": "src/domain/geotechnics/LateralPileResponseScenario.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0075-domain-lateral-pile-response-scenario"],
+      "sourceOracles": ["tests/geotechnicalLateralPilePy.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/lateral-pile-response-scenario-compile-time.test.ts",
+        "tests/lateral-pile-response-scenario-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0075-domain-lateral-pile-response-scenario"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -9519,11 +9545,15 @@
       "sourcePath": "src/domain/geotechnics/LateralPileResponseScenario.js",
       "sourceBlobSha1": "1acc8c98fbe4ed2ba35319752307d613d498b632",
       "targetPath": "src/domain/geotechnics/LateralPileResponseScenario.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0075-domain-lateral-pile-response-scenario"],
+      "sourceOracles": ["tests/geotechnicalLateralPilePy.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/lateral-pile-response-scenario-compile-time.test.ts",
+        "tests/lateral-pile-response-scenario-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0075-domain-lateral-pile-response-scenario"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -19132,11 +19162,15 @@
       "sourcePath": "src/domain/geotechnics/LateralPileResponseScenario.js",
       "sourceBlobSha1": "1acc8c98fbe4ed2ba35319752307d613d498b632",
       "targetPath": "src/domain/geotechnics/LateralPileResponseScenario.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0075-domain-lateral-pile-response-scenario"],
+      "sourceOracles": ["tests/geotechnicalLateralPilePy.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/lateral-pile-response-scenario-compile-time.test.ts",
+        "tests/lateral-pile-response-scenario-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0075-domain-lateral-pile-response-scenario"],
+      "status": "exact-parity",
       "publicEntryPath": "src/applications/index.js",
       "publicEntryBlobSha1": "b70179c7cdd2a819f2151dc092c0f59cbce30ba6"
     },
@@ -19210,11 +19244,15 @@
       "sourcePath": "src/domain/geotechnics/LateralPileResponseScenario.js",
       "sourceBlobSha1": "1acc8c98fbe4ed2ba35319752307d613d498b632",
       "targetPath": "src/domain/geotechnics/LateralPileResponseScenario.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0075-domain-lateral-pile-response-scenario"],
+      "sourceOracles": ["tests/geotechnicalLateralPilePy.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/lateral-pile-response-scenario-compile-time.test.ts",
+        "tests/lateral-pile-response-scenario-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0075-domain-lateral-pile-response-scenario"],
+      "status": "exact-parity",
       "publicEntryPath": "src/applications/index.js",
       "publicEntryBlobSha1": "b70179c7cdd2a819f2151dc092c0f59cbce30ba6"
     },
@@ -19306,11 +19344,15 @@
       "sourcePath": "src/domain/geotechnics/LateralPileResponseScenario.js",
       "sourceBlobSha1": "1acc8c98fbe4ed2ba35319752307d613d498b632",
       "targetPath": "src/domain/geotechnics/LateralPileResponseScenario.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0075-domain-lateral-pile-response-scenario"],
+      "sourceOracles": ["tests/geotechnicalLateralPilePy.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/lateral-pile-response-scenario-compile-time.test.ts",
+        "tests/lateral-pile-response-scenario-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0075-domain-lateral-pile-response-scenario"],
+      "status": "exact-parity",
       "publicEntryPath": "src/applications/index.js",
       "publicEntryBlobSha1": "b70179c7cdd2a819f2151dc092c0f59cbce30ba6"
     },
@@ -19320,11 +19362,15 @@
       "sourcePath": "src/domain/geotechnics/LateralPileResponseScenario.js",
       "sourceBlobSha1": "1acc8c98fbe4ed2ba35319752307d613d498b632",
       "targetPath": "src/domain/geotechnics/LateralPileResponseScenario.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0075-domain-lateral-pile-response-scenario"],
+      "sourceOracles": ["tests/geotechnicalLateralPilePy.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/lateral-pile-response-scenario-compile-time.test.ts",
+        "tests/lateral-pile-response-scenario-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0075-domain-lateral-pile-response-scenario"],
+      "status": "exact-parity",
       "publicEntryPath": "src/applications/index.js",
       "publicEntryBlobSha1": "b70179c7cdd2a819f2151dc092c0f59cbce30ba6"
     },
@@ -19352,11 +19398,15 @@
       "sourcePath": "src/domain/geotechnics/LateralPileResponseScenario.js",
       "sourceBlobSha1": "1acc8c98fbe4ed2ba35319752307d613d498b632",
       "targetPath": "src/domain/geotechnics/LateralPileResponseScenario.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0075-domain-lateral-pile-response-scenario"],
+      "sourceOracles": ["tests/geotechnicalLateralPilePy.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/lateral-pile-response-scenario-compile-time.test.ts",
+        "tests/lateral-pile-response-scenario-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0075-domain-lateral-pile-response-scenario"],
+      "status": "exact-parity",
       "publicEntryPath": "src/applications/index.js",
       "publicEntryBlobSha1": "b70179c7cdd2a819f2151dc092c0f59cbce30ba6"
     },
@@ -19412,11 +19462,15 @@
       "sourcePath": "src/domain/geotechnics/LateralPileResponseScenario.js",
       "sourceBlobSha1": "1acc8c98fbe4ed2ba35319752307d613d498b632",
       "targetPath": "src/domain/geotechnics/LateralPileResponseScenario.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0075-domain-lateral-pile-response-scenario"],
+      "sourceOracles": ["tests/geotechnicalLateralPilePy.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/lateral-pile-response-scenario-compile-time.test.ts",
+        "tests/lateral-pile-response-scenario-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0075-domain-lateral-pile-response-scenario"],
+      "status": "exact-parity",
       "publicEntryPath": "src/applications/index.js",
       "publicEntryBlobSha1": "b70179c7cdd2a819f2151dc092c0f59cbce30ba6"
     },
@@ -24267,11 +24321,15 @@
       "sourcePath": "src/domain/geotechnics/LateralPileResponseScenario.js",
       "sourceBlobSha1": "1acc8c98fbe4ed2ba35319752307d613d498b632",
       "targetPath": "src/domain/geotechnics/LateralPileResponseScenario.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0075-domain-lateral-pile-response-scenario"],
+      "sourceOracles": ["tests/geotechnicalLateralPilePy.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/lateral-pile-response-scenario-compile-time.test.ts",
+        "tests/lateral-pile-response-scenario-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0075-domain-lateral-pile-response-scenario"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7",
       "value": "lateral-pile-response-scenario/v1"
@@ -29736,11 +29794,15 @@
       "sourcePath": "src/domain/geotechnics/LateralPileResponseScenario.js",
       "sourceBlobSha1": "1acc8c98fbe4ed2ba35319752307d613d498b632",
       "targetPath": "src/domain/geotechnics/LateralPileResponseScenario.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing"
+      "migrationSlices": ["0075-domain-lateral-pile-response-scenario"],
+      "sourceOracles": ["tests/geotechnicalLateralPilePy.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/lateral-pile-response-scenario-compile-time.test.ts",
+        "tests/lateral-pile-response-scenario-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0075-domain-lateral-pile-response-scenario"],
+      "status": "exact-parity"
     },
     {
       "id": "src/domain/geotechnics/LayeredPseudostaticTrialWedge.js",
@@ -30988,7 +31050,8 @@
         "0071-domain-soil-structure-interface",
         "0072-domain-shallow-foundation-dtos",
         "0073-domain-lateral-pile-load-scenario",
-        "0074-domain-pile-transfer-law"
+        "0074-domain-pile-transfer-law",
+        "0075-domain-lateral-pile-response-scenario"
       ],
       "sourceOracles": [
         "tests/architecture/applicationRegistry.test.js",
@@ -32489,14 +32552,22 @@
       "sourcePath": "tests/geotechnicalLateralPilePy.test.js",
       "sourceBlobSha1": "cbdc2b1946a857a8c7d75301721a70cb65bd311e",
       "targetPath": "tests/geotechnicalLateralPilePy.test.ts",
-      "migrationSlices": ["0074-domain-pile-transfer-law"],
+      "migrationSlices": [
+        "0074-domain-pile-transfer-law",
+        "0075-domain-lateral-pile-response-scenario"
+      ],
       "sourceOracles": ["tests/geotechnicalLateralPilePy.test.js"],
       "targetTests": [
         "tests/baseline-parity.test.ts",
+        "tests/lateral-pile-response-scenario-compile-time.test.ts",
+        "tests/lateral-pile-response-scenario-live-parity.test.ts",
         "tests/pile-transfer-law-compile-time.test.ts",
         "tests/pile-transfer-law-live-parity.test.ts"
       ],
-      "validationEvidence": ["0074-domain-pile-transfer-law"],
+      "validationEvidence": [
+        "0074-domain-pile-transfer-law",
+        "0075-domain-lateral-pile-response-scenario"
+      ],
       "status": "exact-parity",
       "testKind": "test"
     },
@@ -36162,16 +36233,32 @@
         "publicStrings": "exact equality plus Unicode code-point preservation",
         "errors": "exact error name and message equality"
       }
+    },
+    {
+      "sliceId": "0075-domain-lateral-pile-response-scenario",
+      "sourceRevision": "6f33baead8b88166c4b2cf94af41763412e3c751",
+      "method": "Strict public declaration consumer coverage and independently executed pinned JavaScript versus built TypeScript comparison of action normalization, unit conversion, boundary conditions, p-y station delegation, exact serialization, reconstruction, Unicode metadata and error paths.",
+      "targetTests": [
+        "tests/lateral-pile-response-scenario-compile-time.test.ts",
+        "tests/lateral-pile-response-scenario-live-parity.test.ts"
+      ],
+      "fixture": null,
+      "tolerances": {
+        "serializedParity": "exact deep equality and JSON serialization",
+        "numericParity": "exact equality for unit-normalized actions, flexural rigidity, depths, discretization and solver controls",
+        "publicStrings": "exact equality plus Unicode code-point preservation",
+        "errors": "exact error name and message equality"
+      }
     }
   ],
   "counts": {
     "rootExports": {
       "javascript": 841,
-      "typescript": 480
+      "typescript": 486
     },
     "applicationsExports": {
       "javascript": 309,
-      "typescript": 135
+      "typescript": 141
     },
     "packageEntryPoints": {
       "javascript": 14,
@@ -36187,15 +36274,15 @@
     },
     "serializedSchemas": {
       "javascript": 49,
-      "typescript": 25
+      "typescript": 26
     },
     "sourceFiles": {
       "javascript": 480,
-      "typescript": 309
+      "typescript": 310
     },
     "tests": {
       "javascript": 131,
-      "typescript": 136
+      "typescript": 138
     },
     "validationCampaigns": {
       "javascript": 17,
@@ -36227,7 +36314,7 @@
       "statusCounts": {
         "exact-parity": 0,
         "partial": 20,
-        "missing": 153,
+        "missing": 146,
         "intentionally-excluded": 0,
         "decision-required": 0
       },
@@ -36277,19 +36364,13 @@
         "root-export:GroundAnchorAnalysis",
         "root-export:GroundAnchorDesignScenario",
         "root-export:GroundAnchorStabilityAction2D",
-        "root-export:LATERAL_PILE_ACTION_REFERENCE_POINTS",
         "root-export:LATERAL_PILE_BROMS_REFERENCE",
         "root-export:LATERAL_PILE_CAPACITY_RESULT_SCHEMA_VERSION",
-        "root-export:LATERAL_PILE_END_RESTRAINTS",
         "root-export:LATERAL_PILE_PY_REFERENCE",
         "root-export:LATERAL_PILE_PY_RESULT_SCHEMA_VERSION",
-        "root-export:LATERAL_PILE_RESPONSE_METHODS",
-        "root-export:LATERAL_PILE_RESPONSE_SCENARIO_SCHEMA_VERSION",
-        "root-export:LATERAL_PILE_SOIL_RESPONSE_MODELS",
         "root-export:LateralEarthPressureAnalysis",
         "root-export:LateralPileBeamOnSpringsAnalysis",
         "root-export:LateralPileCapacityAnalysis",
-        "root-export:LateralPileResponseScenario",
         "root-export:LayerLoad",
         "root-export:LinearLoadFromLineWeight",
         "root-export:LinearLoadFromVolumeWeight",
@@ -36370,7 +36451,6 @@
         "source:src/domain/geotechnics/LateralEarthPressureAnalysis.js",
         "source:src/domain/geotechnics/LateralPileBeamOnSpringsAnalysis.js",
         "source:src/domain/geotechnics/LateralPileCapacityAnalysis.js",
-        "source:src/domain/geotechnics/LateralPileResponseScenario.js",
         "source:src/domain/geotechnics/LayeredPseudostaticTrialWedge.js",
         "source:src/domain/geotechnics/RetainingWallAnalysis.js",
         "source:src/domain/geotechnics/RetainingWallLoadScenario.js",
@@ -36595,7 +36675,7 @@
       "statusCounts": {
         "exact-parity": 0,
         "partial": 16,
-        "missing": 404,
+        "missing": 398,
         "intentionally-excluded": 0,
         "decision-required": 0
       },
@@ -36643,18 +36723,12 @@
         "application-export:GroundAnchorAnalysis",
         "application-export:GroundAnchorDesignScenario",
         "application-export:GroundAnchorStabilityAction2D",
-        "application-export:LATERAL_PILE_ACTION_REFERENCE_POINTS",
         "application-export:LATERAL_PILE_BROMS_REFERENCE",
         "application-export:LATERAL_PILE_CAPACITY_RESULT_SCHEMA_VERSION",
-        "application-export:LATERAL_PILE_END_RESTRAINTS",
         "application-export:LATERAL_PILE_PY_REFERENCE",
         "application-export:LATERAL_PILE_PY_RESULT_SCHEMA_VERSION",
-        "application-export:LATERAL_PILE_RESPONSE_METHODS",
-        "application-export:LATERAL_PILE_RESPONSE_SCENARIO_SCHEMA_VERSION",
-        "application-export:LATERAL_PILE_SOIL_RESPONSE_MODELS",
         "application-export:LateralPileBeamOnSpringsAnalysis",
         "application-export:LateralPileCapacityAnalysis",
-        "application-export:LateralPileResponseScenario",
         "application-export:MASONRY_PIER_CAPACITY_CURVE_COMPARISON_REPORT_SCHEMA_VERSION",
         "application-export:MasonryEquivalentFrameBuilder",
         "application-export:MasonryOutOfPlaneApplication",

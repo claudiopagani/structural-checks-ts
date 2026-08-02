@@ -1,0 +1,125 @@
+{
+  "schemaVersion": 1,
+  "sliceId": "0075-domain-lateral-pile-response-scenario",
+  "title": "Domain lateral pile response scenario",
+  "migrationType": "mechanical-parity",
+  "implementationStatus": "implemented",
+  "dependencies": ["0074-domain-pile-transfer-law"],
+  "source": {
+    "repository": "https://github.com/claudiopagani/strutture-js",
+    "revision": "6f33baead8b88166c4b2cf94af41763412e3c751"
+  },
+  "normativeCorpusRevision": "41da3faa489600173106935bbcf726119300e48d",
+  "sourceFiles": [
+    {
+      "path": "src/domain/geotechnics/LateralPileResponseScenario.js",
+      "gitBlobSha1": "1acc8c98fbe4ed2ba35319752307d613d498b632",
+      "targetPath": "src/domain/geotechnics/LateralPileResponseScenario.ts"
+    }
+  ],
+  "supportingSourceFiles": [
+    {
+      "path": "src/domain/geotechnics/PileTransferLaw.js",
+      "gitBlobSha1": "e3bd7079d93e9c3ddd8b49f2195597c415fb85cd",
+      "targetPath": "src/domain/geotechnics/PileTransferLaw.ts",
+      "coverage": "Response stations delegate to the migrated p-y transfer law without changing its identity or serialization."
+    },
+    {
+      "path": "src/domain/geotechnics/SoilMaterial.js",
+      "gitBlobSha1": "5dfaafe73a7e65586de313e262cacf7e257535b9",
+      "targetPath": "src/domain/geotechnics/SoilMaterial.ts",
+      "coverage": "The scenario uses the migrated geotechnical internal units and serializable record contract."
+    },
+    {
+      "path": "src/domain/units/UnitSystem.js",
+      "gitBlobSha1": "b8f2f4926aff645efbf7b9f458b69eba264ed59a",
+      "targetPath": "src/domain/units/UnitSystem.ts",
+      "coverage": "Actions, flexural rigidity, station depths, discretization and solver tolerances use the migrated unit resolver."
+    },
+    {
+      "path": "src/domain/geotechnics/index.js",
+      "gitBlobSha1": "41ed2053fc2e37dc90da412846609f4050af9668",
+      "targetPath": "src/domain/geotechnics/index.ts",
+      "coverage": "Geotechnical public exports for the response scenario."
+    },
+    {
+      "path": "src/index.js",
+      "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7",
+      "targetPath": "src/index.ts",
+      "coverage": "Root public exports for the response scenario."
+    }
+  ],
+  "sourceOracles": [
+    {
+      "path": "tests/geotechnicalLateralPilePy.test.js",
+      "gitBlobSha1": "cbdc2b1946a857a8c7d75301721a70cb65bd311e",
+      "coverage": "Response scenario defaults, unit normalization, station sorting and uniqueness, p-y law delegation, boundary conditions, solver controls, reconstruction, serialization and error behavior."
+    }
+  ],
+  "sourcePublicExport": {
+    "path": "src/index.js",
+    "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
+  },
+  "targetTests": [
+    "tests/baseline-parity.test.ts",
+    "tests/lateral-pile-response-scenario-compile-time.test.ts",
+    "tests/lateral-pile-response-scenario-live-parity.test.ts"
+  ],
+  "publicExports": [
+    "LATERAL_PILE_ACTION_REFERENCE_POINTS",
+    "LATERAL_PILE_END_RESTRAINTS",
+    "LATERAL_PILE_RESPONSE_METHODS",
+    "LATERAL_PILE_RESPONSE_SCENARIO_SCHEMA_VERSION",
+    "LATERAL_PILE_SOIL_RESPONSE_MODELS",
+    "LateralPileResponseScenario"
+  ],
+  "publicTypeExports": [
+    "LateralPileActionReferencePoint",
+    "LateralPileBoundaryCondition",
+    "LateralPileBoundaryConditionInput",
+    "LateralPileCurveStation",
+    "LateralPileCurveStationInput",
+    "LateralPileDiscretization",
+    "LateralPileDiscretizationInput",
+    "LateralPileEndRestraint",
+    "LateralPileFlexuralRigidity",
+    "LateralPileFlexuralRigidityInput",
+    "LateralPileLayerCurve",
+    "LateralPileLayerCurveInput",
+    "LateralPileLayerCurveJson",
+    "LateralPileResponseAction",
+    "LateralPileResponseActionInput",
+    "LateralPileResponseMethod",
+    "LateralPileResponseScenarioJson",
+    "LateralPileResponseScenarioOptions",
+    "LateralPileSoilResponse",
+    "LateralPileSoilResponseInput",
+    "LateralPileSoilResponseJson",
+    "LateralPileSoilResponseModel",
+    "LateralPileSolver",
+    "LateralPileSolverInput"
+  ],
+  "normativeReferences": {
+    "resolved": [],
+    "outsideCorpus": [],
+    "normativeConformityClaimed": false,
+    "status": "classified-for-declared-scope"
+  },
+  "independentValidation": {
+    "method": "Strict public declaration consumer coverage and independently executed pinned JavaScript versus built TypeScript comparison of action normalization, unit conversion, boundary conditions, p-y station delegation, exact serialization, reconstruction, Unicode metadata and error paths.",
+    "targetTests": [
+      "tests/lateral-pile-response-scenario-compile-time.test.ts",
+      "tests/lateral-pile-response-scenario-live-parity.test.ts"
+    ],
+    "tolerances": {
+      "serializedParity": "exact deep equality and JSON serialization",
+      "numericParity": "exact equality for unit-normalized actions, flexural rigidity, depths, discretization and solver controls",
+      "publicStrings": "exact equality plus Unicode code-point preservation",
+      "errors": "exact error name and message equality"
+    }
+  },
+  "parityDifferences": [
+    "The strict TypeScript declarations describe the existing JavaScript response-scenario DTO without adding lateral pile analysis behavior."
+  ],
+  "engineeringFunctionality": "Serializable lateral pile beam-on-p-y-springs response scenario with assigned layer curves, boundary conditions, discretization and incremental damped-Newton solver controls."
+}
