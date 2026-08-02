@@ -47,6 +47,7 @@ export { TecnariaConnector } from "./domain/connectors/TecnariaConnector.js";
 export { createTecnariaConnector } from "./domain/connectors/createTecnariaConnector.js";
 export { BaseMaterial } from "./domain/materials/BaseMaterial.js";
 export { ConcreteMaterial } from "./domain/materials/ConcreteMaterial.js";
+export { ExistingMaterial } from "./domain/materials/ExistingMaterial.js";
 export { SteelMaterial } from "./domain/materials/SteelMaterial.js";
 export {
   MohrCoulombModel,
@@ -618,6 +619,10 @@ export type {
   BaseMaterialOptions,
   MaterialMetadata,
 } from "./domain/materials/BaseMaterial.js";
+export type {
+  ExistingMaterialJson,
+  ExistingMaterialOptions,
+} from "./domain/materials/ExistingMaterial.js";
 export type {
   ConcreteMaterialJson,
   ConcreteMaterialOptions,

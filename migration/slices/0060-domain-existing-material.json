@@ -1,0 +1,75 @@
+{
+  "schemaVersion": 1,
+  "sliceId": "0060-domain-existing-material",
+  "title": "Domain existing material base class",
+  "migrationType": "mechanical-parity",
+  "implementationStatus": "implemented",
+  "dependencies": ["0020-linear-frame-fem-2d"],
+  "source": {
+    "repository": "https://github.com/claudiopagani/strutture-js",
+    "revision": "6f33baead8b88166c4b2cf94af41763412e3c751"
+  },
+  "normativeCorpusRevision": "41da3faa489600173106935bbcf726119300e48d",
+  "sourceFiles": [
+    {
+      "path": "src/domain/materials/ExistingMaterial.js",
+      "gitBlobSha1": "40d1c8fcf90d7c48696682966f8e380613dd4694",
+      "targetPath": "src/domain/materials/ExistingMaterial.ts"
+    }
+  ],
+  "supportingSourceFiles": [
+    {
+      "path": "src/domain/materials/BaseMaterial.js",
+      "gitBlobSha1": "863b59f075a9a12dc636bd2adc8f08b554caf062",
+      "targetPath": "src/domain/materials/BaseMaterial.ts",
+      "coverage": "ExistingMaterial extends the already migrated BaseMaterial contract"
+    },
+    {
+      "path": "src/index.js",
+      "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7",
+      "targetPath": "src/index.ts",
+      "coverage": "Root public export for the migrated ExistingMaterial class"
+    }
+  ],
+  "sourceOracles": [
+    {
+      "path": "tests/italianHistoricalReinforcementSteel.test.js",
+      "gitBlobSha1": "5cbe9ebbb37c7040eba53a32442a7f3eeeab197f",
+      "coverage": "Existing-material classification and confidence-factor behavior exercised through a source existing-material subclass"
+    }
+  ],
+  "sourcePublicExport": {
+    "path": "src/index.js",
+    "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
+  },
+  "targetTests": [
+    "tests/baseline-parity.test.ts",
+    "tests/existing-material-compile-time.test.ts",
+    "tests/existing-material-live-parity.test.ts"
+  ],
+  "publicExports": ["ExistingMaterial"],
+  "publicTypeExports": ["ExistingMaterialJson", "ExistingMaterialOptions"],
+  "normativeReferences": {
+    "resolved": [],
+    "outsideCorpus": [],
+    "normativeConformityClaimed": false,
+    "status": "classified-for-declared-scope"
+  },
+  "independentValidation": {
+    "method": "Strict public declaration consumer coverage and independently executed pinned JavaScript versus built TypeScript comparison of ExistingMaterial inheritance, enumerable-property order, clone and mutation behavior, exact serialization, Unicode metadata, design-value calculation and missing-unit errors.",
+    "targetTests": [
+      "tests/existing-material-compile-time.test.ts",
+      "tests/existing-material-live-parity.test.ts"
+    ],
+    "tolerances": {
+      "serializedParity": "exact JSON serialization and enumerable-key order",
+      "numericParity": "exact equality for design values",
+      "publicStrings": "exact equality plus Unicode code-point equality",
+      "errors": "exact error name and message equality"
+    }
+  },
+  "parityDifferences": [
+    "The strict TypeScript declarations describe the existing JavaScript material subclass without adding runtime behavior."
+  ],
+  "engineeringFunctionality": "Existing-material base behavior with condition and knowledge descriptors, confidence-factor design values, test and intervention history, BaseMaterial inheritance and serializable metadata."
+}

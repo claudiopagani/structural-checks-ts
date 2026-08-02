@@ -919,6 +919,7 @@
         "EXISTING_MATERIAL_CONFIDENCE_LEVELS",
         "ElasticBeamSectionProvider",
         "ElementPointLoad",
+        "ExistingMaterial",
         "FEM_ANALYSIS_CAPABILITY_KEYS",
         "FEM_ANALYSIS_TYPES",
         "FEM_CONTRACT_SCHEMAS",
@@ -7111,11 +7112,15 @@
       "sourcePath": "src/domain/materials/ExistingMaterial.js",
       "sourceBlobSha1": "40d1c8fcf90d7c48696682966f8e380613dd4694",
       "targetPath": "src/domain/materials/ExistingMaterial.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0060-domain-existing-material"],
+      "sourceOracles": ["tests/italianHistoricalReinforcementSteel.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/existing-material-compile-time.test.ts",
+        "tests/existing-material-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0060-domain-existing-material"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -29694,11 +29699,15 @@
       "sourcePath": "src/domain/materials/ExistingMaterial.js",
       "sourceBlobSha1": "40d1c8fcf90d7c48696682966f8e380613dd4694",
       "targetPath": "src/domain/materials/ExistingMaterial.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing"
+      "migrationSlices": ["0060-domain-existing-material"],
+      "sourceOracles": ["tests/italianHistoricalReinforcementSteel.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/existing-material-compile-time.test.ts",
+        "tests/existing-material-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0060-domain-existing-material"],
+      "status": "exact-parity"
     },
     {
       "id": "src/domain/materials/GlulamTimberMaterial.js",
@@ -30468,7 +30477,8 @@
         "0056-domain-steel-compound-profile-section",
         "0057-domain-area-element-volume-loads",
         "0058-domain-masonry-pier-kinematics",
-        "0059-domain-masonry-shear-strength-strategies"
+        "0059-domain-masonry-shear-strength-strategies",
+        "0060-domain-existing-material"
       ],
       "sourceOracles": [
         "tests/architecture/applicationRegistry.test.js",
@@ -32171,16 +32181,18 @@
       "sourcePath": "tests/italianHistoricalReinforcementSteel.test.js",
       "sourceBlobSha1": "5cbe9ebbb37c7040eba53a32442a7f3eeeab197f",
       "targetPath": "tests/italianHistoricalReinforcementSteel.test.ts",
-      "migrationSlices": ["0003-concrete-materials"],
+      "migrationSlices": ["0003-concrete-materials", "0060-domain-existing-material"],
       "sourceOracles": ["tests/italianHistoricalReinforcementSteel.test.js"],
       "targetTests": [
         "tests/baseline-parity.test.ts",
         "tests/concrete-materials.test.ts",
         "tests/concrete-sections.test.ts",
+        "tests/existing-material-compile-time.test.ts",
+        "tests/existing-material-live-parity.test.ts",
         "tests/material-baseline-parity.test.ts",
         "tests/reinforcement-layout.test.ts"
       ],
-      "validationEvidence": [],
+      "validationEvidence": ["0060-domain-existing-material"],
       "status": "exact-parity",
       "testKind": "test"
     },
@@ -35328,12 +35340,28 @@
         "publicStrings": "exact equality plus Unicode code-point equality",
         "errors": "exact error name and message equality"
       }
+    },
+    {
+      "sliceId": "0060-domain-existing-material",
+      "sourceRevision": "6f33baead8b88166c4b2cf94af41763412e3c751",
+      "method": "Strict public declaration consumer coverage and independently executed pinned JavaScript versus built TypeScript comparison of ExistingMaterial inheritance, enumerable-property order, clone and mutation behavior, exact serialization, Unicode metadata, design-value calculation and missing-unit errors.",
+      "targetTests": [
+        "tests/existing-material-compile-time.test.ts",
+        "tests/existing-material-live-parity.test.ts"
+      ],
+      "fixture": null,
+      "tolerances": {
+        "serializedParity": "exact JSON serialization and enumerable-key order",
+        "numericParity": "exact equality for design values",
+        "publicStrings": "exact equality plus Unicode code-point equality",
+        "errors": "exact error name and message equality"
+      }
     }
   ],
   "counts": {
     "rootExports": {
       "javascript": 841,
-      "typescript": 431
+      "typescript": 432
     },
     "applicationsExports": {
       "javascript": 309,
@@ -35357,11 +35385,11 @@
     },
     "sourceFiles": {
       "javascript": 480,
-      "typescript": 290
+      "typescript": 291
     },
     "tests": {
       "javascript": 131,
-      "typescript": 106
+      "typescript": 108
     },
     "validationCampaigns": {
       "javascript": 17,
@@ -35393,7 +35421,7 @@
       "statusCounts": {
         "exact-parity": 0,
         "partial": 19,
-        "missing": 221,
+        "missing": 219,
         "intentionally-excluded": 0,
         "decision-required": 0
       },
@@ -35423,7 +35451,6 @@
         "root-export:EmbeddedRetainingWallModel",
         "root-export:EmbeddedRetainingWallScenario",
         "root-export:ExistingMasonryMaterial",
-        "root-export:ExistingMaterial",
         "root-export:FloorSlab",
         "root-export:GEOTECHNICAL_DESIGN_SITUATION_SCHEMA_VERSION",
         "root-export:GEOTECHNICAL_DESIGN_SITUATION_TYPES",
@@ -35612,7 +35639,6 @@
         "source:src/domain/geotechnics/slopeStabilityMethods.js",
         "source:src/domain/geotechnics/spencerMethod.js",
         "source:src/domain/materials/ExistingMasonryMaterial.js",
-        "source:src/domain/materials/ExistingMaterial.js",
         "source:src/domain/materials/GlulamTimberMaterial.js",
         "source:src/domain/materials/MasonryMaterial.js",
         "source:src/domain/materials/SolidTimberMaterial.js",

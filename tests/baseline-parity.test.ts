@@ -92,6 +92,7 @@ const expectedExports = [
   "DofRegistry",
   "DEFAULT_SECTION_ROTATION",
   "ElasticBeamSectionProvider",
+  "ExistingMaterial",
   "FEM_ANALYSIS_CAPABILITY_KEYS",
   "FEM_ANALYSIS_TYPES",
   "FEM_CONTRACT_SCHEMAS",
