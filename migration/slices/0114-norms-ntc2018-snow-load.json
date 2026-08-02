@@ -1,0 +1,135 @@
+{
+  "schemaVersion": 1,
+  "sliceId": "0114-norms-ntc2018-snow-load",
+  "title": "NTC 2018 snow ground, roof, and area-load workflow",
+  "migrationType": "mechanical-parity",
+  "implementationStatus": "implemented",
+  "dependencies": [
+    "0039-ntc2018-action-parameters-and-factories",
+    "0001-foundation",
+    "0057-domain-area-element-volume-loads"
+  ],
+  "source": {
+    "repository": "https://github.com/claudiopagani/strutture-js",
+    "revision": "6f33baead8b88166c4b2cf94af41763412e3c751"
+  },
+  "normativeCorpusRevision": "41da3faa489600173106935bbcf726119300e48d",
+  "sourceFiles": [
+    {
+      "path": "src/norms/ntc2018/actions/ntc2018SnowLoad.js",
+      "gitBlobSha1": "3f232767f98eeffbb7f5c3a0753a2064b975ac67",
+      "targetPath": "src/norms/ntc2018/actions/ntc2018SnowLoad.ts"
+    }
+  ],
+  "supportingSourceFiles": [
+    {
+      "path": "src/core/results/CalculationResult.js",
+      "gitBlobSha1": "de58f9d2a201435dd955cbfd4c4981d0b78610d4",
+      "targetPath": "src/core/results/CalculationResult.ts",
+      "coverage": "Already-migrated serializable result DTO consumed by the snow workflow."
+    },
+    {
+      "path": "src/domain/loads/AreaLoad.js",
+      "gitBlobSha1": "591691e6d11c49a34b6a645b579a4e590d958ca8",
+      "targetPath": "src/domain/loads/AreaLoad.ts",
+      "coverage": "Already-migrated area-load class used by the roof snow result."
+    },
+    {
+      "path": "src/domain/units/UnitSystem.js",
+      "gitBlobSha1": "b8f2f4926aff645efbf7b9f458b69eba264ed59a",
+      "targetPath": "src/domain/units/UnitSystem.ts",
+      "coverage": "Already-migrated explicit unit validation and conversion dependency."
+    },
+    {
+      "path": "src/norms/ntc2018/actions/createNTC2018Action.js",
+      "gitBlobSha1": "06c4c6a75e2482bdf3e6d3288c7153aa72738c8a",
+      "targetPath": "src/norms/ntc2018/actions/createNTC2018Action.ts",
+      "coverage": "Already-migrated NTC 2018 snow action factory consumed by the area-load workflow."
+    },
+    {
+      "path": "src/norms/ntc2018/index.js",
+      "gitBlobSha1": "0ac4cf551c455ec2a57d9bf8849db46fb14e0dcc",
+      "targetPath": "src/index.ts",
+      "coverage": "Source norm index export context; only migrated snow symbols receive root support."
+    },
+    {
+      "path": "src/index.js",
+      "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7",
+      "targetPath": "src/index.ts",
+      "coverage": "Root public exports for the migrated snow catalogs and calculation workflow."
+    }
+  ],
+  "sourceOracles": [
+    {
+      "path": "tests/ntc2018SnowLoad.test.js",
+      "gitBlobSha1": "9d34f91b46d202d5517917f92d9208edf79ad48f",
+      "coverage": "Snow catalogs, unit conversion, altitude equations, roof coefficients, action/load serialization, unsupported altitude, documented coefficients, and errors."
+    },
+    {
+      "path": "tests/packageExports.test.js",
+      "gitBlobSha1": "8dde24b4c97dd3dae7100207d07d9d96c52b9c74",
+      "coverage": "Root public export behavior."
+    }
+  ],
+  "sourcePublicExport": {
+    "path": "src/index.js",
+    "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
+  },
+  "targetTests": [
+    "tests/baseline-parity.test.ts",
+    "tests/ntc2018-snow-load-compile-time.test.ts",
+    "tests/ntc2018-snow-load-live-parity.test.ts"
+  ],
+  "publicExports": [
+    "NTC2018_SNOW_EXPOSURE_CLASSES",
+    "NTC2018_SNOW_GROUND_ZONES",
+    "NTC2018_SNOW_REFERENCES",
+    "calculateNTC2018GroundSnowLoad",
+    "calculateNTC2018PitchedRoofShapeCoefficient",
+    "calculateNTC2018RoofSnowLoad",
+    "calculateNTC2018SnowAreaLoad",
+    "getNTC2018SnowExposureClassDefinition",
+    "getNTC2018SnowGroundZoneDefinition"
+  ],
+  "publicTypeExports": [
+    "CalculateNTC2018GroundSnowLoadOptions",
+    "CalculateNTC2018PitchedRoofShapeCoefficientOptions",
+    "CalculateNTC2018RoofSnowLoadOptions",
+    "CalculateNTC2018SnowAreaLoadOptions",
+    "Ntc2018GroundSnowLoadResult",
+    "Ntc2018PitchedRoofShapeCoefficientResult",
+    "Ntc2018RoofSnowLoadResult",
+    "Ntc2018SnowExposureClassDefinition",
+    "Ntc2018SnowGroundZoneDefinition"
+  ],
+  "normativeReferences": {
+    "resolved": [],
+    "outsideCorpus": [
+      "D.M. 17/01/2018, NTC 2018, section 2.5.2, Table 2.5.I",
+      "D.M. 17/01/2018, NTC 2018, section 3.4.1, equation [3.4.1]",
+      "D.M. 17/01/2018, NTC 2018, section 3.4.2, equations [3.4.2]-[3.4.5]",
+      "D.M. 17/01/2018, NTC 2018, section 3.4.3, Table 3.4.II",
+      "D.M. 17/01/2018, NTC 2018, section 3.4.4, Table 3.4.I",
+      "D.M. 17/01/2018, NTC 2018, section 3.4.5"
+    ],
+    "normativeConformityClaimed": false,
+    "status": "classified-for-declared-scope"
+  },
+  "independentValidation": {
+    "method": "Strict declaration consumer coverage and independently executed pinned JavaScript versus built TypeScript comparison of the complete snow module, exact export order and JSON serialization, numerical unit conversions and altitude branches, Unicode-safe public strings, immutable catalogs, root aliases, unsupported altitude result, and error paths.",
+    "targetTests": [
+      "tests/ntc2018-snow-load-compile-time.test.ts",
+      "tests/ntc2018-snow-load-live-parity.test.ts"
+    ],
+    "tolerances": {
+      "serializedParity": "exact catalog, coefficient, action/load, and CalculationResult JSON",
+      "numericParity": "exact equality for converted loads and calculated values",
+      "publicStrings": "exact equality plus Unicode code-point preservation",
+      "errors": "exact error name and message equality for missing units, unsupported zones, ambiguous coefficients, missing sources, and floors"
+    }
+  },
+  "parityDifferences": [
+    "The TypeScript module adds strict declarations and the root export support required by the migrated snow behavior; runtime module exports match the pinned source module."
+  ],
+  "engineeringFunctionality": "Source-compatible NTC 2018 zonal ground snow load, pitched-roof shape coefficient, roof snow load, and serializable snow area-load workflow."
+}

@@ -1086,6 +1086,9 @@
         "NTC2018_SEISMIC_REFERENCES",
         "NTC2018_SHEAR_WALL_REFERENCES",
         "NTC2018_SITE_HAZARD_SOURCE_KINDS",
+        "NTC2018_SNOW_EXPOSURE_CLASSES",
+        "NTC2018_SNOW_GROUND_ZONES",
+        "NTC2018_SNOW_REFERENCES",
         "NTC2018_STRUCTURAL_BEHAVIOR",
         "NTC2018_STRUCTURAL_BEHAVIOR_REFERENCES",
         "NTC2018_STRUCTURAL_TYPE",
@@ -1282,11 +1285,15 @@
         "calculateEn1992StrutDesignStrength",
         "calculateEn1992TieResistance",
         "calculateNTC2018EffectiveJointWidth",
+        "calculateNTC2018GroundSnowLoad",
         "calculateNTC2018HorizontalElasticSpectrum",
         "calculateNTC2018HorizontalSpectrumParameters",
         "calculateNTC2018JointCompressionCapacity",
         "calculateNTC2018JointShearDemand",
         "calculateNTC2018JointTensionReinforcement",
+        "calculateNTC2018PitchedRoofShapeCoefficient",
+        "calculateNTC2018RoofSnowLoad",
+        "calculateNTC2018SnowAreaLoad",
         "calculateNTC2018StratigraphicSpectrumCoefficients",
         "calculateRetainingWallPolygonProperties",
         "calculateRigidFoundationElasticStiffness",
@@ -1383,6 +1390,8 @@
         "getNTC2018LoadDurationDefinition",
         "getNTC2018RcBuildingCoverage",
         "getNTC2018SeismicLimitStateDefinition",
+        "getNTC2018SnowExposureClassDefinition",
+        "getNTC2018SnowGroundZoneDefinition",
         "getNTC2018SubsoilSpectrumCoefficientDefinition",
         "getNTC2018TimberKmod",
         "getNTC2018TopographicAmplificationDefinition",
@@ -3765,11 +3774,15 @@
       "sourcePath": "src/norms/ntc2018/actions/ntc2018SnowLoad.js",
       "sourceBlobSha1": "3f232767f98eeffbb7f5c3a0753a2064b975ac67",
       "targetPath": "src/norms/ntc2018/actions/ntc2018SnowLoad.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0114-norms-ntc2018-snow-load"],
+      "sourceOracles": ["tests/ntc2018SnowLoad.test.js", "tests/packageExports.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/ntc2018-snow-load-compile-time.test.ts",
+        "tests/ntc2018-snow-load-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0114-norms-ntc2018-snow-load"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -4029,11 +4042,15 @@
       "sourcePath": "src/norms/ntc2018/actions/ntc2018SnowLoad.js",
       "sourceBlobSha1": "3f232767f98eeffbb7f5c3a0753a2064b975ac67",
       "targetPath": "src/norms/ntc2018/actions/ntc2018SnowLoad.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0114-norms-ntc2018-snow-load"],
+      "sourceOracles": ["tests/ntc2018SnowLoad.test.js", "tests/packageExports.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/ntc2018-snow-load-compile-time.test.ts",
+        "tests/ntc2018-snow-load-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0114-norms-ntc2018-snow-load"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -4085,11 +4102,15 @@
       "sourcePath": "src/norms/ntc2018/actions/ntc2018SnowLoad.js",
       "sourceBlobSha1": "3f232767f98eeffbb7f5c3a0753a2064b975ac67",
       "targetPath": "src/norms/ntc2018/actions/ntc2018SnowLoad.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0114-norms-ntc2018-snow-load"],
+      "sourceOracles": ["tests/ntc2018SnowLoad.test.js", "tests/packageExports.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/ntc2018-snow-load-compile-time.test.ts",
+        "tests/ntc2018-snow-load-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0114-norms-ntc2018-snow-load"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -4113,11 +4134,15 @@
       "sourcePath": "src/norms/ntc2018/actions/ntc2018SnowLoad.js",
       "sourceBlobSha1": "3f232767f98eeffbb7f5c3a0753a2064b975ac67",
       "targetPath": "src/norms/ntc2018/actions/ntc2018SnowLoad.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0114-norms-ntc2018-snow-load"],
+      "sourceOracles": ["tests/ntc2018SnowLoad.test.js", "tests/packageExports.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/ntc2018-snow-load-compile-time.test.ts",
+        "tests/ntc2018-snow-load-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0114-norms-ntc2018-snow-load"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -8293,11 +8318,15 @@
       "sourcePath": "src/norms/ntc2018/actions/ntc2018SnowLoad.js",
       "sourceBlobSha1": "3f232767f98eeffbb7f5c3a0753a2064b975ac67",
       "targetPath": "src/norms/ntc2018/actions/ntc2018SnowLoad.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0114-norms-ntc2018-snow-load"],
+      "sourceOracles": ["tests/ntc2018SnowLoad.test.js", "tests/packageExports.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/ntc2018-snow-load-compile-time.test.ts",
+        "tests/ntc2018-snow-load-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0114-norms-ntc2018-snow-load"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -8307,11 +8336,15 @@
       "sourcePath": "src/norms/ntc2018/actions/ntc2018SnowLoad.js",
       "sourceBlobSha1": "3f232767f98eeffbb7f5c3a0753a2064b975ac67",
       "targetPath": "src/norms/ntc2018/actions/ntc2018SnowLoad.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0114-norms-ntc2018-snow-load"],
+      "sourceOracles": ["tests/ntc2018SnowLoad.test.js", "tests/packageExports.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/ntc2018-snow-load-compile-time.test.ts",
+        "tests/ntc2018-snow-load-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0114-norms-ntc2018-snow-load"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -12050,11 +12083,15 @@
       "sourcePath": "src/norms/ntc2018/actions/ntc2018SnowLoad.js",
       "sourceBlobSha1": "3f232767f98eeffbb7f5c3a0753a2064b975ac67",
       "targetPath": "src/norms/ntc2018/actions/ntc2018SnowLoad.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0114-norms-ntc2018-snow-load"],
+      "sourceOracles": ["tests/ntc2018SnowLoad.test.js", "tests/packageExports.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/ntc2018-snow-load-compile-time.test.ts",
+        "tests/ntc2018-snow-load-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0114-norms-ntc2018-snow-load"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -12064,11 +12101,15 @@
       "sourcePath": "src/norms/ntc2018/actions/ntc2018SnowLoad.js",
       "sourceBlobSha1": "3f232767f98eeffbb7f5c3a0753a2064b975ac67",
       "targetPath": "src/norms/ntc2018/actions/ntc2018SnowLoad.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0114-norms-ntc2018-snow-load"],
+      "sourceOracles": ["tests/ntc2018SnowLoad.test.js", "tests/packageExports.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/ntc2018-snow-load-compile-time.test.ts",
+        "tests/ntc2018-snow-load-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0114-norms-ntc2018-snow-load"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -12078,11 +12119,15 @@
       "sourcePath": "src/norms/ntc2018/actions/ntc2018SnowLoad.js",
       "sourceBlobSha1": "3f232767f98eeffbb7f5c3a0753a2064b975ac67",
       "targetPath": "src/norms/ntc2018/actions/ntc2018SnowLoad.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0114-norms-ntc2018-snow-load"],
+      "sourceOracles": ["tests/ntc2018SnowLoad.test.js", "tests/packageExports.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/ntc2018-snow-load-compile-time.test.ts",
+        "tests/ntc2018-snow-load-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0114-norms-ntc2018-snow-load"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -32643,7 +32688,8 @@
         "0110-domain-terrain-public-index",
         "0111-norms-en1992-public-index",
         "0112-norms-italian-historical-reinforcement-steel",
-        "0113-norms-ntc2018-seismic-action"
+        "0113-norms-ntc2018-seismic-action",
+        "0114-norms-ntc2018-snow-load"
       ],
       "sourceOracles": [
         "tests/architecture/applicationRegistry.test.js",
@@ -33004,11 +33050,15 @@
       "sourcePath": "src/norms/ntc2018/actions/ntc2018SnowLoad.js",
       "sourceBlobSha1": "3f232767f98eeffbb7f5c3a0753a2064b975ac67",
       "targetPath": "src/norms/ntc2018/actions/ntc2018SnowLoad.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing"
+      "migrationSlices": ["0114-norms-ntc2018-snow-load"],
+      "sourceOracles": ["tests/ntc2018SnowLoad.test.js", "tests/packageExports.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/ntc2018-snow-load-compile-time.test.ts",
+        "tests/ntc2018-snow-load-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0114-norms-ntc2018-snow-load"],
+      "status": "exact-parity"
     },
     {
       "id": "src/norms/ntc2018/actions/ntc2018ThermalAction.js",
@@ -35167,11 +35217,15 @@
       "sourcePath": "tests/ntc2018SnowLoad.test.js",
       "sourceBlobSha1": "9d34f91b46d202d5517917f92d9208edf79ad48f",
       "targetPath": "tests/ntc2018SnowLoad.test.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0114-norms-ntc2018-snow-load"],
+      "sourceOracles": ["tests/ntc2018SnowLoad.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/ntc2018-snow-load-compile-time.test.ts",
+        "tests/ntc2018-snow-load-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0114-norms-ntc2018-snow-load"],
+      "status": "exact-parity",
       "testKind": "test"
     },
     {
@@ -35325,7 +35379,8 @@
         "0110-domain-terrain-public-index",
         "0111-norms-en1992-public-index",
         "0112-norms-italian-historical-reinforcement-steel",
-        "0113-norms-ntc2018-seismic-action"
+        "0113-norms-ntc2018-seismic-action",
+        "0114-norms-ntc2018-snow-load"
       ],
       "sourceOracles": ["tests/packageExports.test.js"],
       "targetTests": [
@@ -35384,6 +35439,8 @@
         "tests/masonry-section-index-live-parity.test.ts",
         "tests/ntc2018-seismic-action-compile-time.test.ts",
         "tests/ntc2018-seismic-action-live-parity.test.ts",
+        "tests/ntc2018-snow-load-compile-time.test.ts",
+        "tests/ntc2018-snow-load-live-parity.test.ts",
         "tests/rc-cracked-deflection.test.ts",
         "tests/reinforced-concrete-beam-column-joint.test.ts",
         "tests/reinforced-concrete-foundation-beam.test.ts",
@@ -35467,7 +35524,8 @@
         "0110-domain-terrain-public-index",
         "0111-norms-en1992-public-index",
         "0112-norms-italian-historical-reinforcement-steel",
-        "0113-norms-ntc2018-seismic-action"
+        "0113-norms-ntc2018-seismic-action",
+        "0114-norms-ntc2018-snow-load"
       ],
       "status": "exact-parity",
       "testKind": "test"
@@ -38874,12 +38932,28 @@
         "publicStrings": "exact equality plus Unicode code-point preservation",
         "errors": "exact error name and message equality for invalid units, unsupported categories, and missing inputs"
       }
+    },
+    {
+      "sliceId": "0114-norms-ntc2018-snow-load",
+      "sourceRevision": "6f33baead8b88166c4b2cf94af41763412e3c751",
+      "method": "Strict declaration consumer coverage and independently executed pinned JavaScript versus built TypeScript comparison of the complete snow module, exact export order and JSON serialization, numerical unit conversions and altitude branches, Unicode-safe public strings, immutable catalogs, root aliases, unsupported altitude result, and error paths.",
+      "targetTests": [
+        "tests/ntc2018-snow-load-compile-time.test.ts",
+        "tests/ntc2018-snow-load-live-parity.test.ts"
+      ],
+      "fixture": null,
+      "tolerances": {
+        "serializedParity": "exact catalog, coefficient, action/load, and CalculationResult JSON",
+        "numericParity": "exact equality for converted loads and calculated values",
+        "publicStrings": "exact equality plus Unicode code-point preservation",
+        "errors": "exact error name and message equality for missing units, unsupported zones, ambiguous coefficients, missing sources, and floors"
+      }
     }
   ],
   "counts": {
     "rootExports": {
       "javascript": 841,
-      "typescript": 608
+      "typescript": 617
     },
     "applicationsExports": {
       "javascript": 309,
@@ -38903,11 +38977,11 @@
     },
     "sourceFiles": {
       "javascript": 480,
-      "typescript": 359
+      "typescript": 360
     },
     "tests": {
       "javascript": 131,
-      "typescript": 214
+      "typescript": 216
     },
     "validationCampaigns": {
       "javascript": 17,
@@ -38966,7 +39040,7 @@
       "statusCounts": {
         "exact-parity": 0,
         "partial": 15,
-        "missing": 133,
+        "missing": 123,
         "intentionally-excluded": 0,
         "decision-required": 0
       },
@@ -38997,9 +39071,6 @@
         "root-export:NTC2018_SIMPLIFIED_BUILDING_TEMPERATURE_CHANGES",
         "root-export:NTC2018_SLAB_MATERIAL_WEIGHT_DATABASE",
         "root-export:NTC2018_SLAB_VARIABLE_ACTIONS_DATABASE",
-        "root-export:NTC2018_SNOW_EXPOSURE_CLASSES",
-        "root-export:NTC2018_SNOW_GROUND_ZONES",
-        "root-export:NTC2018_SNOW_REFERENCES",
         "root-export:NTC2018_SOLID_TIMBER_STRENGTH_CLASSES",
         "root-export:NTC2018_STRUCTURAL_STEEL_GRADES",
         "root-export:NTC2018_SUMMER_SOLAR_TEMPERATURE_INCREMENTS",
@@ -39024,7 +39095,6 @@
         "root-export:calculateNTC2018EquivalentPartitionAreaLoad",
         "root-export:calculateNTC2018ExternalAirTemperatures",
         "root-export:calculateNTC2018FreeThermalStrain",
-        "root-export:calculateNTC2018GroundSnowLoad",
         "root-export:calculateNTC2018ImposedLoadAreaReduction",
         "root-export:calculateNTC2018ImposedLoadMultiStoreyReduction",
         "root-export:calculateNTC2018LineSelfWeight",
@@ -39036,13 +39106,10 @@
         "root-export:calculateNTC2018MasonryPierUltimateDisplacement",
         "root-export:calculateNTC2018MeanElementTemperature",
         "root-export:calculateNTC2018PermanentAreaLoads",
-        "root-export:calculateNTC2018PitchedRoofShapeCoefficient",
         "root-export:calculateNTC2018ReferenceWindPressure",
         "root-export:calculateNTC2018ReferenceWindSpeed",
         "root-export:calculateNTC2018RetainingWallSeismicCoefficients",
-        "root-export:calculateNTC2018RoofSnowLoad",
         "root-export:calculateNTC2018SelfWeight",
-        "root-export:calculateNTC2018SnowAreaLoad",
         "root-export:calculateNTC2018UniformTemperatureChange",
         "root-export:calculateNTC2018WindAreaLoad",
         "root-export:calculateNTC2018WindExposureCoefficient",
@@ -39068,8 +39135,6 @@
         "root-export:getNTC2018SimplifiedBuildingTemperatureChange",
         "root-export:getNTC2018SlabVariableAction",
         "root-export:getNTC2018SlabWeightValue",
-        "root-export:getNTC2018SnowExposureClassDefinition",
-        "root-export:getNTC2018SnowGroundZoneDefinition",
         "root-export:getNTC2018SolarTemperatureIncrement",
         "root-export:getNTC2018TabulatedMasonryProperties",
         "root-export:getNTC2018ThermalExpansionCoefficientDefinition",
@@ -39095,7 +39160,6 @@
         "root-export:selectNTC2018MasonryPierGoverningCapacity",
         "root-export:toggleNTC2018ExistingMasonryModifier",
         "root-export:updateNTC2018ExistingMasonryMaltaBuona",
-        "source:src/norms/ntc2018/actions/ntc2018SnowLoad.js",
         "source:src/norms/ntc2018/actions/ntc2018ThermalAction.js",
         "source:src/norms/ntc2018/actions/ntc2018TopographicClassification.js",
         "source:src/norms/ntc2018/actions/ntc2018WindLoad.js",
@@ -39486,7 +39550,7 @@
       "statusCounts": {
         "exact-parity": 0,
         "partial": 4,
-        "missing": 130,
+        "missing": 129,
         "intentionally-excluded": 0,
         "decision-required": 0
       },
@@ -39616,7 +39680,6 @@
         "test:tests/ntc2018MasonryPierModel.test.js",
         "test:tests/ntc2018NormativeReferences.test.js",
         "test:tests/ntc2018PermanentLoads.test.js",
-        "test:tests/ntc2018SnowLoad.test.js",
         "test:tests/ntc2018ThermalAction.test.js",
         "test:tests/ntc2018TopographicClassification.test.js",
         "test:tests/ntc2018WindLoad.test.js",

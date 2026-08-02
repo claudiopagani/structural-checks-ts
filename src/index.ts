@@ -608,6 +608,17 @@ export {
   resolveNTC2018TopographicAmplification,
 } from "./norms/ntc2018/actions/ntc2018SeismicAction.js";
 export {
+  NTC2018_SNOW_EXPOSURE_CLASSES,
+  NTC2018_SNOW_GROUND_ZONES,
+  NTC2018_SNOW_REFERENCES,
+  calculateNTC2018GroundSnowLoad,
+  calculateNTC2018PitchedRoofShapeCoefficient,
+  calculateNTC2018RoofSnowLoad,
+  calculateNTC2018SnowAreaLoad,
+  getNTC2018SnowExposureClassDefinition,
+  getNTC2018SnowGroundZoneDefinition,
+} from "./norms/ntc2018/actions/ntc2018SnowLoad.js";
+export {
   NTC2018_CONCRETE_CLASSES,
   NTC2018_EXISTING_MATERIAL_KNOWLEDGE_LEVELS,
   NTC2018_REINFORCEMENT_STEEL_GRADES,
@@ -1785,6 +1796,17 @@ export type {
   NTC2018CombinationFactorsSource,
   NTC2018ExplicitCombinationFactors,
 } from "./norms/ntc2018/actions/createNTC2018Action.js";
+export type {
+  CalculateNTC2018GroundSnowLoadOptions,
+  CalculateNTC2018PitchedRoofShapeCoefficientOptions,
+  CalculateNTC2018RoofSnowLoadOptions,
+  CalculateNTC2018SnowAreaLoadOptions,
+  Ntc2018GroundSnowLoadResult,
+  Ntc2018PitchedRoofShapeCoefficientResult,
+  Ntc2018RoofSnowLoadResult,
+  Ntc2018SnowExposureClassDefinition,
+  Ntc2018SnowGroundZoneDefinition,
+} from "./norms/ntc2018/actions/ntc2018SnowLoad.js";
 export type {
   NTC2018ConcreteClassPreset,
   NTC2018ConcreteStrengthClass,
