@@ -1104,6 +1104,8 @@
         "SOIL_PARAMETER_BASES",
         "SOIL_SETTLEMENT_COMPONENTS",
         "SOIL_STRENGTH_MODELS",
+        "SOIL_STRUCTURE_INTERFACE_MODELS",
+        "SOIL_STRUCTURE_INTERFACE_SCHEMA_VERSION",
         "STEEL_PROFILE_CATALOG_UNITS",
         "STEEL_PROFILE_FAMILIES",
         "STEEL_PROFILE_SECTION_DATABASE",
@@ -1119,6 +1121,7 @@
         "SlidingStrengthModel",
         "SnowAction",
         "SoilMaterial",
+        "SoilStructureInterface",
         "SolidTimberMaterial",
         "SteelBeamSectionProvider",
         "SteelCompoundProfileSection",
@@ -15006,11 +15009,15 @@
       "sourcePath": "src/domain/geotechnics/SoilStructureInterface.js",
       "sourceBlobSha1": "54e3301ce5fd819f7a06eecff9adb0b7cc1ee93d",
       "targetPath": "src/domain/geotechnics/SoilStructureInterface.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0071-domain-soil-structure-interface"],
+      "sourceOracles": ["tests/geotechnicalEarthPressure.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/soil-structure-interface-compile-time.test.ts",
+        "tests/soil-structure-interface-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0071-domain-soil-structure-interface"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -15020,11 +15027,15 @@
       "sourcePath": "src/domain/geotechnics/SoilStructureInterface.js",
       "sourceBlobSha1": "54e3301ce5fd819f7a06eecff9adb0b7cc1ee93d",
       "targetPath": "src/domain/geotechnics/SoilStructureInterface.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0071-domain-soil-structure-interface"],
+      "sourceOracles": ["tests/geotechnicalEarthPressure.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/soil-structure-interface-compile-time.test.ts",
+        "tests/soil-structure-interface-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0071-domain-soil-structure-interface"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -15076,11 +15087,15 @@
       "sourcePath": "src/domain/geotechnics/SoilStructureInterface.js",
       "sourceBlobSha1": "54e3301ce5fd819f7a06eecff9adb0b7cc1ee93d",
       "targetPath": "src/domain/geotechnics/SoilStructureInterface.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0071-domain-soil-structure-interface"],
+      "sourceOracles": ["tests/geotechnicalEarthPressure.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/soil-structure-interface-compile-time.test.ts",
+        "tests/soil-structure-interface-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0071-domain-soil-structure-interface"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -24372,11 +24387,15 @@
       "sourcePath": "src/domain/geotechnics/SoilStructureInterface.js",
       "sourceBlobSha1": "54e3301ce5fd819f7a06eecff9adb0b7cc1ee93d",
       "targetPath": "src/domain/geotechnics/SoilStructureInterface.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0071-domain-soil-structure-interface"],
+      "sourceOracles": ["tests/geotechnicalEarthPressure.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/soil-structure-interface-compile-time.test.ts",
+        "tests/soil-structure-interface-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0071-domain-soil-structure-interface"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7",
       "value": "soil-structure-interface/v1"
@@ -29693,11 +29712,15 @@
       "sourcePath": "src/domain/geotechnics/SoilStructureInterface.js",
       "sourceBlobSha1": "54e3301ce5fd819f7a06eecff9adb0b7cc1ee93d",
       "targetPath": "src/domain/geotechnics/SoilStructureInterface.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing"
+      "migrationSlices": ["0071-domain-soil-structure-interface"],
+      "sourceOracles": ["tests/geotechnicalEarthPressure.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/soil-structure-interface-compile-time.test.ts",
+        "tests/soil-structure-interface-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0071-domain-soil-structure-interface"],
+      "status": "exact-parity"
     },
     {
       "id": "src/domain/geotechnics/VerticalStressProfile.js",
@@ -30767,7 +30790,8 @@
         "0067-domain-ground-anchor-model",
         "0068-domain-pressure-diagram",
         "0069-domain-pore-pressure-field",
-        "0070-domain-ground-section"
+        "0070-domain-ground-section",
+        "0071-domain-soil-structure-interface"
       ],
       "sourceOracles": [
         "tests/architecture/applicationRegistry.test.js",
@@ -32173,14 +32197,19 @@
       "sourcePath": "tests/geotechnicalEarthPressure.test.js",
       "sourceBlobSha1": "b93b597c670a102925008ba004bf237927113003",
       "targetPath": "tests/geotechnicalEarthPressure.test.ts",
-      "migrationSlices": ["0068-domain-pressure-diagram"],
+      "migrationSlices": ["0068-domain-pressure-diagram", "0071-domain-soil-structure-interface"],
       "sourceOracles": ["tests/geotechnicalEarthPressure.test.js"],
       "targetTests": [
         "tests/baseline-parity.test.ts",
         "tests/pressure-diagram-2d-compile-time.test.ts",
-        "tests/pressure-diagram-2d-live-parity.test.ts"
+        "tests/pressure-diagram-2d-live-parity.test.ts",
+        "tests/soil-structure-interface-compile-time.test.ts",
+        "tests/soil-structure-interface-live-parity.test.ts"
       ],
-      "validationEvidence": ["0068-domain-pressure-diagram"],
+      "validationEvidence": [
+        "0068-domain-pressure-diagram",
+        "0071-domain-soil-structure-interface"
+      ],
       "status": "exact-parity",
       "testKind": "test"
     },
@@ -35860,12 +35889,28 @@
         "publicStrings": "exact equality plus Unicode code-point preservation",
         "errors": "exact error name and message equality"
       }
+    },
+    {
+      "sliceId": "0071-domain-soil-structure-interface",
+      "sourceRevision": "6f33baead8b88166c4b2cf94af41763412e3c751",
+      "method": "Strict public declaration consumer coverage and independently executed pinned JavaScript versus built TypeScript comparison of assigned-angle and soil-friction-ratio interface models, capped friction resolution, exact serialization, Unicode metadata and constructor/method error paths.",
+      "targetTests": [
+        "tests/soil-structure-interface-compile-time.test.ts",
+        "tests/soil-structure-interface-live-parity.test.ts"
+      ],
+      "fixture": null,
+      "tolerances": {
+        "serializedParity": "exact deep equality and JSON serialization",
+        "numericParity": "exact equality for normalized and resolved friction angles",
+        "publicStrings": "exact equality plus Unicode code-point preservation",
+        "errors": "exact error name and message equality"
+      }
     }
   ],
   "counts": {
     "rootExports": {
       "javascript": 841,
-      "typescript": 459
+      "typescript": 462
     },
     "applicationsExports": {
       "javascript": 309,
@@ -35885,15 +35930,15 @@
     },
     "serializedSchemas": {
       "javascript": 49,
-      "typescript": 19
+      "typescript": 20
     },
     "sourceFiles": {
       "javascript": 480,
-      "typescript": 305
+      "typescript": 306
     },
     "tests": {
       "javascript": 131,
-      "typescript": 128
+      "typescript": 130
     },
     "validationCampaigns": {
       "javascript": 17,
@@ -35925,7 +35970,7 @@
       "statusCounts": {
         "exact-parity": 0,
         "partial": 20,
-        "missing": 178,
+        "missing": 174,
         "intentionally-excluded": 0,
         "decision-required": 0
       },
@@ -36034,8 +36079,6 @@
         "root-export:SOIL_PARAMETER_BASES",
         "root-export:SOIL_SETTLEMENT_COMPONENTS",
         "root-export:SOIL_STRENGTH_MODELS",
-        "root-export:SOIL_STRUCTURE_INTERFACE_MODELS",
-        "root-export:SOIL_STRUCTURE_INTERFACE_SCHEMA_VERSION",
         "root-export:ShallowFoundationActionState",
         "root-export:ShallowFoundationModel",
         "root-export:ShallowFoundationServiceabilityAnalysis",
@@ -36043,7 +36086,6 @@
         "root-export:SlabLoad",
         "root-export:SlopeSliceDiscretizer2D",
         "root-export:SlopeSurfaceSurcharge2D",
-        "root-export:SoilStructureInterface",
         "root-export:StructuralModel",
         "root-export:SurfaceLoad",
         "root-export:TERRAIN_ELEVATION_GRID_SCHEMA_VERSION",
@@ -36101,7 +36143,6 @@
         "source:src/domain/geotechnics/ShallowFoundationUltimateLimitStateAnalysis.js",
         "source:src/domain/geotechnics/SlopeSliceDiscretizer2D.js",
         "source:src/domain/geotechnics/SlopeSurfaceSurcharge2D.js",
-        "source:src/domain/geotechnics/SoilStructureInterface.js",
         "source:src/domain/geotechnics/WallSoilReactionLaw.js",
         "source:src/domain/geotechnics/earthPressureCoefficients.js",
         "source:src/domain/geotechnics/groundAnchorBondCatalog.js",

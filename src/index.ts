@@ -402,6 +402,8 @@ export {
   SOIL_PARAMETER_BASES,
   SOIL_SETTLEMENT_COMPONENTS,
   SOIL_STRENGTH_MODELS,
+  SOIL_STRUCTURE_INTERFACE_MODELS,
+  SOIL_STRUCTURE_INTERFACE_SCHEMA_VERSION,
   AxialPileLoadScenario,
   DeepFoundationModel,
   GeotechnicalDesignSituation,
@@ -414,6 +416,7 @@ export {
   integratePressureSegments,
   PorePressureField2D,
   SoilMaterial,
+  SoilStructureInterface,
   VerticalStressProfile,
 } from "./domain/geotechnics/index.js";
 export { ReinforcedConcreteSectionVerification } from "./applications/reinforced-concrete-sections/checks/ReinforcedConcreteSectionVerification.js";
@@ -1260,6 +1263,14 @@ export type {
   SoilParameterSet,
   SoilParameterSetInput,
   SoilRecord,
+  SoilStructureInterfaceJson,
+  SoilStructureInterfaceModel,
+  SoilStructureInterfaceOptions,
+  SoilStructureInterfaceParameterSet,
+  SoilStructureInterfaceParameterSetInput,
+  SoilStructureInterfaceResolution,
+  SoilStructureInterfaceWallSurface,
+  SoilStructureInterfaceWallSurfaceInput,
 } from "./domain/geotechnics/index.js";
 export type {
   BiaxialCompressedSide,

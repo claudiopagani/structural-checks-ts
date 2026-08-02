@@ -146,4 +146,17 @@ export {
   type SoilParameterSetInput,
   type SoilRecord,
 } from "./SoilMaterial.js";
+export {
+  SOIL_STRUCTURE_INTERFACE_MODELS,
+  SOIL_STRUCTURE_INTERFACE_SCHEMA_VERSION,
+  SoilStructureInterface,
+  type SoilStructureInterfaceJson,
+  type SoilStructureInterfaceModel,
+  type SoilStructureInterfaceOptions,
+  type SoilStructureInterfaceParameterSet,
+  type SoilStructureInterfaceParameterSetInput,
+  type SoilStructureInterfaceResolution,
+  type SoilStructureInterfaceWallSurface,
+  type SoilStructureInterfaceWallSurfaceInput,
+} from "./SoilStructureInterface.js";
 export { VerticalStressProfile } from "./VerticalStressProfile.js";
