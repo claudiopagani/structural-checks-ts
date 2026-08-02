@@ -88,6 +88,21 @@ export {
   type GroundAnchorTendonType,
 } from "./GroundAnchorModel.js";
 export {
+  PRESSURE_DIAGRAM_2D_SCHEMA_VERSION,
+  PressureDiagram2D,
+  integratePressureSegments,
+  type PressureComponentResult,
+  type PressureComponentValues,
+  type PressureDiagram2DJson,
+  type PressureDiagram2DOptions,
+  type PressureDiagramMethod,
+  type PressureDiagramReferenceLine,
+  type PressureDiagramSegment,
+  type PressureDiagramUnits,
+  type PressureIntegrationOptions,
+  type PressureIntegrationResults,
+} from "./PressureDiagram2D.js";
+export {
   GEOTECHNICAL_INTERNAL_UNITS,
   SOIL_DEFORMATION_MODELS,
   SOIL_DRAINAGE_CONDITIONS,

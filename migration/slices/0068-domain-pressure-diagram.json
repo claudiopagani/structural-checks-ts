@@ -1,0 +1,90 @@
+{
+  "schemaVersion": 1,
+  "sliceId": "0068-domain-pressure-diagram",
+  "title": "Domain pressure diagram",
+  "migrationType": "mechanical-parity",
+  "implementationStatus": "implemented",
+  "dependencies": ["0067-domain-ground-anchor-model"],
+  "source": {
+    "repository": "https://github.com/claudiopagani/strutture-js",
+    "revision": "6f33baead8b88166c4b2cf94af41763412e3c751"
+  },
+  "normativeCorpusRevision": "41da3faa489600173106935bbcf726119300e48d",
+  "sourceFiles": [
+    {
+      "path": "src/domain/geotechnics/PressureDiagram2D.js",
+      "gitBlobSha1": "c24fbe968ec46ebbb3597f0a35008e8dd0142b44",
+      "targetPath": "src/domain/geotechnics/PressureDiagram2D.ts"
+    }
+  ],
+  "supportingSourceFiles": [
+    {
+      "path": "src/domain/geotechnics/index.js",
+      "gitBlobSha1": "41ed2053fc2e37dc90da412846609f4050af9668",
+      "targetPath": "src/domain/geotechnics/index.ts",
+      "coverage": "Geotechnical public export for the migrated pressure diagram model and integration helper"
+    },
+    {
+      "path": "src/index.js",
+      "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7",
+      "targetPath": "src/index.ts",
+      "coverage": "Root public exports for the migrated pressure diagram model and integration helper"
+    }
+  ],
+  "sourceOracles": [
+    {
+      "path": "tests/geotechnicalEarthPressure.test.js",
+      "gitBlobSha1": "b93b597c670a102925008ba004bf237927113003",
+      "coverage": "Pressure diagram resultants, component coverage, application elevations, serialized metadata and exact error behavior"
+    }
+  ],
+  "sourcePublicExport": {
+    "path": "src/index.js",
+    "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
+  },
+  "targetTests": [
+    "tests/baseline-parity.test.ts",
+    "tests/pressure-diagram-2d-compile-time.test.ts",
+    "tests/pressure-diagram-2d-live-parity.test.ts"
+  ],
+  "publicExports": [
+    "PRESSURE_DIAGRAM_2D_SCHEMA_VERSION",
+    "PressureDiagram2D",
+    "integratePressureSegments"
+  ],
+  "publicTypeExports": [
+    "PressureComponentResult",
+    "PressureComponentValues",
+    "PressureDiagram2DJson",
+    "PressureDiagram2DOptions",
+    "PressureDiagramMethod",
+    "PressureDiagramReferenceLine",
+    "PressureDiagramSegment",
+    "PressureDiagramUnits",
+    "PressureIntegrationOptions",
+    "PressureIntegrationResults"
+  ],
+  "normativeReferences": {
+    "resolved": [],
+    "outsideCorpus": [],
+    "normativeConformityClaimed": false,
+    "status": "classified-for-declared-scope"
+  },
+  "independentValidation": {
+    "method": "Strict public declaration consumer coverage and independently executed pinned JavaScript versus built TypeScript comparison of pressure-segment integration, component coverage states, application elevations, exact serialization, Unicode metadata and constructor error paths.",
+    "targetTests": [
+      "tests/pressure-diagram-2d-compile-time.test.ts",
+      "tests/pressure-diagram-2d-live-parity.test.ts"
+    ],
+    "tolerances": {
+      "serializedParity": "exact deep equality and JSON serialization",
+      "numericParity": "exact equality for integrated forces, moments and application elevations",
+      "publicStrings": "exact equality plus Unicode code-point preservation",
+      "errors": "exact error name and message equality"
+    }
+  },
+  "parityDifferences": [
+    "The strict TypeScript declarations describe the existing JavaScript pressure diagram model and integration helper without adding runtime behavior."
+  ],
+  "engineeringFunctionality": "Serializable two-dimensional pressure diagram with component-wise linear integration, resultant force and moment per unit width, application elevation and explicit coverage classification."
+}

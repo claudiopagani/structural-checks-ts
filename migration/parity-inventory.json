@@ -1023,6 +1023,7 @@
         "NTC2018_WALL_SYSTEM_REFERENCES",
         "NodalLoad",
         "Node",
+        "PRESSURE_DIAGRAM_2D_SCHEMA_VERSION",
         "PUNCHING_ACTION_SCHEMA_VERSION",
         "PUNCHING_CONNECTION_SCHEMA_VERSION",
         "PUNCHING_CONTROL_PERIMETER_SCHEMA_VERSION",
@@ -1030,6 +1031,7 @@
         "PermanentAction",
         "PointLoad",
         "PolygonSection",
+        "PressureDiagram2D",
         "PunchingActionState",
         "PunchingConnectionModel",
         "PunchingControlPerimeter",
@@ -1248,6 +1250,7 @@
         "getXlamPanelProduct",
         "governingCheck",
         "integrateFootingPressureStrip",
+        "integratePressureSegments",
         "isFinitePositive",
         "isResultStatus",
         "listSteelProfileSectionsByFamily",
@@ -9056,11 +9059,15 @@
       "sourcePath": "src/domain/geotechnics/PressureDiagram2D.js",
       "sourceBlobSha1": "c24fbe968ec46ebbb3597f0a35008e8dd0142b44",
       "targetPath": "src/domain/geotechnics/PressureDiagram2D.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0068-domain-pressure-diagram"],
+      "sourceOracles": ["tests/geotechnicalEarthPressure.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/pressure-diagram-2d-compile-time.test.ts",
+        "tests/pressure-diagram-2d-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0068-domain-pressure-diagram"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -12016,11 +12023,15 @@
       "sourcePath": "src/domain/geotechnics/PressureDiagram2D.js",
       "sourceBlobSha1": "c24fbe968ec46ebbb3597f0a35008e8dd0142b44",
       "targetPath": "src/domain/geotechnics/PressureDiagram2D.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0068-domain-pressure-diagram"],
+      "sourceOracles": ["tests/geotechnicalEarthPressure.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/pressure-diagram-2d-compile-time.test.ts",
+        "tests/pressure-diagram-2d-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0068-domain-pressure-diagram"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -12030,11 +12041,15 @@
       "sourcePath": "src/domain/geotechnics/PressureDiagram2D.js",
       "sourceBlobSha1": "c24fbe968ec46ebbb3597f0a35008e8dd0142b44",
       "targetPath": "src/domain/geotechnics/PressureDiagram2D.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0068-domain-pressure-diagram"],
+      "sourceOracles": ["tests/geotechnicalEarthPressure.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/pressure-diagram-2d-compile-time.test.ts",
+        "tests/pressure-diagram-2d-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0068-domain-pressure-diagram"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -24098,11 +24113,15 @@
       "sourcePath": "src/domain/geotechnics/PressureDiagram2D.js",
       "sourceBlobSha1": "c24fbe968ec46ebbb3597f0a35008e8dd0142b44",
       "targetPath": "src/domain/geotechnics/PressureDiagram2D.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0068-domain-pressure-diagram"],
+      "sourceOracles": ["tests/geotechnicalEarthPressure.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/pressure-diagram-2d-compile-time.test.ts",
+        "tests/pressure-diagram-2d-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0068-domain-pressure-diagram"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7",
       "value": "geotechnical-pressure-diagram-2d/v1"
@@ -29519,11 +29538,15 @@
       "sourcePath": "src/domain/geotechnics/PressureDiagram2D.js",
       "sourceBlobSha1": "c24fbe968ec46ebbb3597f0a35008e8dd0142b44",
       "targetPath": "src/domain/geotechnics/PressureDiagram2D.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing"
+      "migrationSlices": ["0068-domain-pressure-diagram"],
+      "sourceOracles": ["tests/geotechnicalEarthPressure.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/pressure-diagram-2d-compile-time.test.ts",
+        "tests/pressure-diagram-2d-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0068-domain-pressure-diagram"],
+      "status": "exact-parity"
     },
     {
       "id": "src/domain/geotechnics/RetainingWallAnalysis.js",
@@ -30700,7 +30723,8 @@
         "0064-domain-timber-material-hierarchy",
         "0065-domain-circular-slip-surface",
         "0066-domain-embedded-retaining-wall-model",
-        "0067-domain-ground-anchor-model"
+        "0067-domain-ground-anchor-model",
+        "0068-domain-pressure-diagram"
       ],
       "sourceOracles": [
         "tests/architecture/applicationRegistry.test.js",
@@ -32106,11 +32130,15 @@
       "sourcePath": "tests/geotechnicalEarthPressure.test.js",
       "sourceBlobSha1": "b93b597c670a102925008ba004bf237927113003",
       "targetPath": "tests/geotechnicalEarthPressure.test.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0068-domain-pressure-diagram"],
+      "sourceOracles": ["tests/geotechnicalEarthPressure.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/pressure-diagram-2d-compile-time.test.ts",
+        "tests/pressure-diagram-2d-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0068-domain-pressure-diagram"],
+      "status": "exact-parity",
       "testKind": "test"
     },
     {
@@ -35735,12 +35763,28 @@
         "publicStrings": "exact equality plus Unicode code-point preservation",
         "errors": "exact error name and message equality"
       }
+    },
+    {
+      "sliceId": "0068-domain-pressure-diagram",
+      "sourceRevision": "6f33baead8b88166c4b2cf94af41763412e3c751",
+      "method": "Strict public declaration consumer coverage and independently executed pinned JavaScript versus built TypeScript comparison of pressure-segment integration, component coverage states, application elevations, exact serialization, Unicode metadata and constructor error paths.",
+      "targetTests": [
+        "tests/pressure-diagram-2d-compile-time.test.ts",
+        "tests/pressure-diagram-2d-live-parity.test.ts"
+      ],
+      "fixture": null,
+      "tolerances": {
+        "serializedParity": "exact deep equality and JSON serialization",
+        "numericParity": "exact equality for integrated forces, moments and application elevations",
+        "publicStrings": "exact equality plus Unicode code-point preservation",
+        "errors": "exact error name and message equality"
+      }
     }
   ],
   "counts": {
     "rootExports": {
       "javascript": 841,
-      "typescript": 451
+      "typescript": 454
     },
     "applicationsExports": {
       "javascript": 309,
@@ -35760,15 +35804,15 @@
     },
     "serializedSchemas": {
       "javascript": 49,
-      "typescript": 16
+      "typescript": 17
     },
     "sourceFiles": {
       "javascript": 480,
-      "typescript": 302
+      "typescript": 303
     },
     "tests": {
       "javascript": 131,
-      "typescript": 122
+      "typescript": 124
     },
     "validationCampaigns": {
       "javascript": 17,
@@ -35800,7 +35844,7 @@
       "statusCounts": {
         "exact-parity": 0,
         "partial": 20,
-        "missing": 189,
+        "missing": 185,
         "intentionally-excluded": 0,
         "decision-required": 0
       },
@@ -35883,10 +35927,8 @@
         "root-export:PILE_TRANSFER_LAW_SCHEMA_VERSION",
         "root-export:PORE_PRESSURE_FIELD_2D_MODELS",
         "root-export:PORE_PRESSURE_FIELD_2D_SCHEMA_VERSION",
-        "root-export:PRESSURE_DIAGRAM_2D_SCHEMA_VERSION",
         "root-export:PileTransferLaw",
         "root-export:PorePressureField2D",
-        "root-export:PressureDiagram2D",
         "root-export:RETAINING_WALL_ANALYSIS_RESULT_SCHEMA_VERSION",
         "root-export:RETAINING_WALL_BASE_UPLIFT_MODELS",
         "root-export:RETAINING_WALL_LOAD_SCENARIO_SCHEMA_VERSION",
@@ -35948,7 +35990,6 @@
         "root-export:cyclicMasonryPierHistoryToCsv",
         "root-export:getGroundAnchorBondCatalogEntry",
         "root-export:groundAnchorDemandFromEmbeddedWallResult",
-        "root-export:integratePressureSegments",
         "root-export:jakyAtRestCoefficient",
         "root-export:listGroundAnchorBondCatalogEntries",
         "root-export:mononobeOkabeActiveEarthPressureCoefficient",
@@ -35978,7 +36019,6 @@
         "source:src/domain/geotechnics/LayeredPseudostaticTrialWedge.js",
         "source:src/domain/geotechnics/PileTransferLaw.js",
         "source:src/domain/geotechnics/PorePressureField2D.js",
-        "source:src/domain/geotechnics/PressureDiagram2D.js",
         "source:src/domain/geotechnics/RetainingWallAnalysis.js",
         "source:src/domain/geotechnics/RetainingWallLoadScenario.js",
         "source:src/domain/geotechnics/RetainingWallModel.js",
@@ -36653,7 +36693,7 @@
       "statusCounts": {
         "exact-parity": 0,
         "partial": 3,
-        "missing": 144,
+        "missing": 143,
         "intentionally-excluded": 0,
         "decision-required": 0
       },
@@ -36761,7 +36801,6 @@
         "test:tests/fixtures/strutture-js-web-worker-entry.js",
         "test:tests/frameElement2DEulerBernoulli.test.js",
         "test:tests/geotechnicalDeepFoundationValidationCampaign.test.js",
-        "test:tests/geotechnicalEarthPressure.test.js",
         "test:tests/geotechnicalEmbeddedRetainingWallValidationCampaign.test.js",
         "test:tests/geotechnicalGroundAnchorValidationCampaign.test.js",
         "test:tests/geotechnicalGroundModel.test.js",
