@@ -970,6 +970,7 @@
         "Load",
         "LoadCase",
         "LoadCombination",
+        "MohrCoulombModel",
         "NTC2018_ACTION_COMBINATION_FACTORS",
         "NTC2018_ACTION_PARTIAL_FACTORS",
         "NTC2018_ANALYSIS_METHOD",
@@ -1091,6 +1092,7 @@
         "SingleBeamAnalysis",
         "SingleBeamFemBuilder",
         "SingleBeamModel",
+        "SlidingStrengthModel",
         "SnowAction",
         "SoilMaterial",
         "SteelBeamSectionProvider",
@@ -1114,6 +1116,7 @@
         "TimberBeamSectionProvider",
         "TimberDowelConnector",
         "TrafficAction",
+        "TurnsekSheppardModel",
         "VariableAction",
         "VerificationResult",
         "VerticalStressProfile",
@@ -1180,6 +1183,7 @@
         "createGlobalFemModelContract",
         "createGlobalFemResultContract",
         "createLongitudinalReinforcementLayout",
+        "createMasonryShearStrengthModel",
         "createNTC2018AccidentalAction",
         "createNTC2018ConcreteMaterial",
         "createNTC2018LinearDynamicAssessment",
@@ -5572,11 +5576,15 @@
       "sourcePath": "src/domain/materials/masonry/shearStrength/createMasonryShearStrengthModel.js",
       "sourceBlobSha1": "0ab775315d5d6aa1d4e75cdbb7333082d16641d2",
       "targetPath": "src/domain/materials/masonry/shearStrength/createMasonryShearStrengthModel.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0059-domain-masonry-shear-strength-strategies"],
+      "sourceOracles": ["tests/cyclicMasonryPier2D.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/masonry-shear-strength-compile-time.test.ts",
+        "tests/masonry-shear-strength-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0059-domain-masonry-shear-strength-strategies"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -10026,11 +10034,15 @@
       "sourcePath": "src/domain/materials/masonry/shearStrength/MohrCoulombModel.js",
       "sourceBlobSha1": "cdef32f0dba0a3d845a571633337d1e4790a37c4",
       "targetPath": "src/domain/materials/masonry/shearStrength/MohrCoulombModel.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0059-domain-masonry-shear-strength-strategies"],
+      "sourceOracles": ["tests/cyclicMasonryPier2D.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/masonry-shear-strength-compile-time.test.ts",
+        "tests/masonry-shear-strength-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0059-domain-masonry-shear-strength-strategies"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -14644,11 +14656,15 @@
       "sourcePath": "src/domain/materials/masonry/shearStrength/SlidingStrengthModel.js",
       "sourceBlobSha1": "d826e8c854aae0593644ad8171f494deb7d7f44f",
       "targetPath": "src/domain/materials/masonry/shearStrength/SlidingStrengthModel.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0059-domain-masonry-shear-strength-strategies"],
+      "sourceOracles": ["tests/cyclicMasonryPier2D.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/masonry-shear-strength-compile-time.test.ts",
+        "tests/masonry-shear-strength-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0059-domain-masonry-shear-strength-strategies"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -15912,11 +15928,15 @@
       "sourcePath": "src/domain/materials/masonry/shearStrength/TurnsekSheppardModel.js",
       "sourceBlobSha1": "8a7e9027bb8999576b2f2a87ca3cc9dc868aa8b6",
       "targetPath": "src/domain/materials/masonry/shearStrength/TurnsekSheppardModel.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0059-domain-masonry-shear-strength-strategies"],
+      "sourceOracles": ["tests/cyclicMasonryPier2D.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/masonry-shear-strength-compile-time.test.ts",
+        "tests/masonry-shear-strength-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0059-domain-masonry-shear-strength-strategies"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -29819,44 +29839,60 @@
       "sourcePath": "src/domain/materials/masonry/shearStrength/MohrCoulombModel.js",
       "sourceBlobSha1": "cdef32f0dba0a3d845a571633337d1e4790a37c4",
       "targetPath": "src/domain/materials/masonry/shearStrength/MohrCoulombModel.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing"
+      "migrationSlices": ["0059-domain-masonry-shear-strength-strategies"],
+      "sourceOracles": ["tests/cyclicMasonryPier2D.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/masonry-shear-strength-compile-time.test.ts",
+        "tests/masonry-shear-strength-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0059-domain-masonry-shear-strength-strategies"],
+      "status": "exact-parity"
     },
     {
       "id": "src/domain/materials/masonry/shearStrength/SlidingStrengthModel.js",
       "sourcePath": "src/domain/materials/masonry/shearStrength/SlidingStrengthModel.js",
       "sourceBlobSha1": "d826e8c854aae0593644ad8171f494deb7d7f44f",
       "targetPath": "src/domain/materials/masonry/shearStrength/SlidingStrengthModel.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing"
+      "migrationSlices": ["0059-domain-masonry-shear-strength-strategies"],
+      "sourceOracles": ["tests/cyclicMasonryPier2D.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/masonry-shear-strength-compile-time.test.ts",
+        "tests/masonry-shear-strength-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0059-domain-masonry-shear-strength-strategies"],
+      "status": "exact-parity"
     },
     {
       "id": "src/domain/materials/masonry/shearStrength/TurnsekSheppardModel.js",
       "sourcePath": "src/domain/materials/masonry/shearStrength/TurnsekSheppardModel.js",
       "sourceBlobSha1": "8a7e9027bb8999576b2f2a87ca3cc9dc868aa8b6",
       "targetPath": "src/domain/materials/masonry/shearStrength/TurnsekSheppardModel.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing"
+      "migrationSlices": ["0059-domain-masonry-shear-strength-strategies"],
+      "sourceOracles": ["tests/cyclicMasonryPier2D.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/masonry-shear-strength-compile-time.test.ts",
+        "tests/masonry-shear-strength-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0059-domain-masonry-shear-strength-strategies"],
+      "status": "exact-parity"
     },
     {
       "id": "src/domain/materials/masonry/shearStrength/createMasonryShearStrengthModel.js",
       "sourcePath": "src/domain/materials/masonry/shearStrength/createMasonryShearStrengthModel.js",
       "sourceBlobSha1": "0ab775315d5d6aa1d4e75cdbb7333082d16641d2",
       "targetPath": "src/domain/materials/masonry/shearStrength/createMasonryShearStrengthModel.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing"
+      "migrationSlices": ["0059-domain-masonry-shear-strength-strategies"],
+      "sourceOracles": ["tests/cyclicMasonryPier2D.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/masonry-shear-strength-compile-time.test.ts",
+        "tests/masonry-shear-strength-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0059-domain-masonry-shear-strength-strategies"],
+      "status": "exact-parity"
     },
     {
       "id": "src/domain/materials/masonry/shearStrength/index.js",
@@ -29867,7 +29903,7 @@
       "sourceOracles": [],
       "targetTests": [],
       "validationEvidence": [],
-      "status": "missing"
+      "status": "partial"
     },
     {
       "id": "src/domain/math/BandedLinearSolver.js",
@@ -30431,7 +30467,8 @@
         "0055-domain-steel-profile-section",
         "0056-domain-steel-compound-profile-section",
         "0057-domain-area-element-volume-loads",
-        "0058-domain-masonry-pier-kinematics"
+        "0058-domain-masonry-pier-kinematics",
+        "0059-domain-masonry-shear-strength-strategies"
       ],
       "sourceOracles": [
         "tests/architecture/applicationRegistry.test.js",
@@ -31605,13 +31642,22 @@
       "sourcePath": "tests/cyclicMasonryPier2D.test.js",
       "sourceBlobSha1": "286b6e2168c8d551e0603ba08d2b8bd8e205f589",
       "targetPath": "tests/cyclicMasonryPier2D.test.ts",
-      "migrationSlices": ["0058-domain-masonry-pier-kinematics"],
+      "migrationSlices": [
+        "0058-domain-masonry-pier-kinematics",
+        "0059-domain-masonry-shear-strength-strategies"
+      ],
       "sourceOracles": ["tests/cyclicMasonryPier2D.test.js"],
       "targetTests": [
+        "tests/baseline-parity.test.ts",
         "tests/masonry-pier-kinematics-compile-time.test.ts",
-        "tests/masonry-pier-kinematics-live-parity.test.ts"
+        "tests/masonry-pier-kinematics-live-parity.test.ts",
+        "tests/masonry-shear-strength-compile-time.test.ts",
+        "tests/masonry-shear-strength-live-parity.test.ts"
       ],
-      "validationEvidence": ["0058-domain-masonry-pier-kinematics"],
+      "validationEvidence": [
+        "0058-domain-masonry-pier-kinematics",
+        "0059-domain-masonry-shear-strength-strategies"
+      ],
       "status": "exact-parity",
       "testKind": "test"
     },
@@ -35266,12 +35312,28 @@
         "publicStrings": "not applicable",
         "errors": "exact TypeError message equality"
       }
+    },
+    {
+      "sliceId": "0059-domain-masonry-shear-strength-strategies",
+      "sourceRevision": "6f33baead8b88166c4b2cf94af41763412e3c751",
+      "method": "Strict public declaration consumer coverage and independently executed pinned JavaScript versus built TypeScript comparisons of all three shear-strength strategies and factory aliases, including exact metadata, Unicode, serialized output, cloned state, numerical evaluations, inheritance and unsupported, user-defined and missing-input errors.",
+      "targetTests": [
+        "tests/masonry-shear-strength-compile-time.test.ts",
+        "tests/masonry-shear-strength-live-parity.test.ts"
+      ],
+      "fixture": null,
+      "tolerances": {
+        "serializedParity": "exact JSON serialization and enumerable-key order",
+        "numericParity": "exact equality for capacities and all returned evaluation fields",
+        "publicStrings": "exact equality plus Unicode code-point equality",
+        "errors": "exact error name and message equality"
+      }
     }
   ],
   "counts": {
     "rootExports": {
       "javascript": 841,
-      "typescript": 427
+      "typescript": 431
     },
     "applicationsExports": {
       "javascript": 309,
@@ -35295,11 +35357,11 @@
     },
     "sourceFiles": {
       "javascript": 480,
-      "typescript": 285
+      "typescript": 290
     },
     "tests": {
       "javascript": 131,
-      "typescript": 104
+      "typescript": 106
     },
     "validationCampaigns": {
       "javascript": 17,
@@ -35330,8 +35392,8 @@
     "domain": {
       "statusCounts": {
         "exact-parity": 0,
-        "partial": 18,
-        "missing": 230,
+        "partial": 19,
+        "missing": 221,
         "intentionally-excluded": 0,
         "decision-required": 0
       },
@@ -35423,7 +35485,6 @@
         "root-export:LinearLoadFromVolumeWeight",
         "root-export:MasonryFiberInterface2D",
         "root-export:MasonryMaterial",
-        "root-export:MohrCoulombModel",
         "root-export:NTC2018SlabLoadAnalysis",
         "root-export:PILE_TRANSFER_CURVE_MODELS",
         "root-export:PILE_TRANSFER_EXTRAPOLATION_MODELS",
@@ -35472,7 +35533,6 @@
         "root-export:ShallowFoundationServiceabilityAnalysis",
         "root-export:ShallowFoundationUltimateLimitStateAnalysis",
         "root-export:SlabLoad",
-        "root-export:SlidingStrengthModel",
         "root-export:SlopeSliceDiscretizer2D",
         "root-export:SlopeSurfaceSurcharge2D",
         "root-export:SoilStructureInterface",
@@ -35481,7 +35541,6 @@
         "root-export:SurfaceLoad",
         "root-export:TERRAIN_ELEVATION_GRID_SCHEMA_VERSION",
         "root-export:TimberMaterial",
-        "root-export:TurnsekSheppardModel",
         "root-export:VariableLoad",
         "root-export:WALL_SOIL_REACTION_EXTRAPOLATION_MODELS",
         "root-export:WALL_SOIL_REACTION_LAW_SCHEMA_VERSION",
@@ -35499,7 +35558,6 @@
         "root-export:calculateShallowFoundationVerticalStressInfluence",
         "root-export:coulombActiveEarthPressureCoefficient",
         "root-export:coulombPassiveEarthPressureCoefficient",
-        "root-export:createMasonryShearStrengthModel",
         "root-export:cyclicMasonryPierHistoryToCsv",
         "root-export:getGroundAnchorBondCatalogEntry",
         "root-export:groundAnchorDemandFromEmbeddedWallResult",
@@ -35563,10 +35621,6 @@
         "source:src/domain/materials/masonry/CyclicMasonryCompressionMaterial.js",
         "source:src/domain/materials/masonry/CyclicMasonryShearMaterial.js",
         "source:src/domain/materials/masonry/index.js",
-        "source:src/domain/materials/masonry/shearStrength/MohrCoulombModel.js",
-        "source:src/domain/materials/masonry/shearStrength/SlidingStrengthModel.js",
-        "source:src/domain/materials/masonry/shearStrength/TurnsekSheppardModel.js",
-        "source:src/domain/materials/masonry/shearStrength/createMasonryShearStrengthModel.js",
         "source:src/domain/materials/masonry/shearStrength/index.js",
         "source:src/domain/model/StructuralModel.js",
         "source:src/domain/sections/masonry/MasonryFiberInterface2D.js",

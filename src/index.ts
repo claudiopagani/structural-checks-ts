@@ -49,6 +49,12 @@ export { BaseMaterial } from "./domain/materials/BaseMaterial.js";
 export { ConcreteMaterial } from "./domain/materials/ConcreteMaterial.js";
 export { SteelMaterial } from "./domain/materials/SteelMaterial.js";
 export {
+  MohrCoulombModel,
+  SlidingStrengthModel,
+  TurnsekSheppardModel,
+  createMasonryShearStrengthModel,
+} from "./domain/materials/masonry/shearStrength/index.js";
+export {
   ConcreteNoTensionLaw,
   ConcreteParabolaRectangleLaw,
   ConcreteStressBlockLaw,
@@ -619,6 +625,18 @@ export type {
   ConcreteMeanPropertiesInput,
 } from "./domain/materials/ConcreteMaterial.js";
 export type { SteelMaterialJson, SteelMaterialOptions } from "./domain/materials/SteelMaterial.js";
+export type {
+  MasonryShearStrengthContext,
+  MasonryShearStrengthEvaluation,
+  MasonryShearStrengthModel,
+  MasonryShearStrengthModelInput,
+  MohrCoulombModelInput,
+  MohrCoulombModelJson,
+  SlidingStrengthModelInput,
+  SlidingStrengthModelJson,
+  TurnsekSheppardModelInput,
+  TurnsekSheppardModelJson,
+} from "./domain/materials/masonry/shearStrength/index.js";
 export type {
   ConstitutiveLaw,
   ConcreteUltimateConstitutiveLaw,

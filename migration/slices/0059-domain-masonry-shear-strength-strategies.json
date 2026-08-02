@@ -1,0 +1,106 @@
+{
+  "schemaVersion": 1,
+  "sliceId": "0059-domain-masonry-shear-strength-strategies",
+  "title": "Domain masonry shear-strength strategies",
+  "migrationType": "mechanical-parity",
+  "implementationStatus": "implemented",
+  "dependencies": ["0020-linear-frame-fem-2d"],
+  "source": {
+    "repository": "https://github.com/claudiopagani/strutture-js",
+    "revision": "6f33baead8b88166c4b2cf94af41763412e3c751"
+  },
+  "normativeCorpusRevision": "41da3faa489600173106935bbcf726119300e48d",
+  "sourceFiles": [
+    {
+      "path": "src/domain/materials/masonry/shearStrength/MohrCoulombModel.js",
+      "gitBlobSha1": "cdef32f0dba0a3d845a571633337d1e4790a37c4",
+      "targetPath": "src/domain/materials/masonry/shearStrength/MohrCoulombModel.ts"
+    },
+    {
+      "path": "src/domain/materials/masonry/shearStrength/SlidingStrengthModel.js",
+      "gitBlobSha1": "d826e8c854aae0593644ad8171f494deb7d7f44f",
+      "targetPath": "src/domain/materials/masonry/shearStrength/SlidingStrengthModel.ts"
+    },
+    {
+      "path": "src/domain/materials/masonry/shearStrength/TurnsekSheppardModel.js",
+      "gitBlobSha1": "8a7e9027bb8999576b2f2a87ca3cc9dc868aa8b6",
+      "targetPath": "src/domain/materials/masonry/shearStrength/TurnsekSheppardModel.ts"
+    },
+    {
+      "path": "src/domain/materials/masonry/shearStrength/createMasonryShearStrengthModel.js",
+      "gitBlobSha1": "0ab775315d5d6aa1d4e75cdbb7333082d16641d2",
+      "targetPath": "src/domain/materials/masonry/shearStrength/createMasonryShearStrengthModel.ts"
+    }
+  ],
+  "supportingSourceFiles": [
+    {
+      "path": "src/domain/materials/masonry/shearStrength/index.js",
+      "gitBlobSha1": "630669ce30cc0b4b7cefe4b30188754006064516",
+      "targetPath": "src/domain/materials/masonry/shearStrength/index.ts",
+      "coverage": "Subpath exports for the migrated masonry shear-strength strategies and factory"
+    },
+    {
+      "path": "src/index.js",
+      "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7",
+      "targetPath": "src/index.ts",
+      "coverage": "Root public exports for the migrated masonry shear-strength strategies and factory"
+    }
+  ],
+  "sourceOracles": [
+    {
+      "path": "tests/cyclicMasonryPier2D.test.js",
+      "gitBlobSha1": "286b6e2168c8d551e0603ba08d2b8bd8e205f589",
+      "coverage": "Turnsek-Sheppard and sliding strategy construction and evaluation in the cyclic masonry shear material setup"
+    }
+  ],
+  "sourcePublicExport": {
+    "path": "src/index.js",
+    "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
+  },
+  "targetTests": [
+    "tests/baseline-parity.test.ts",
+    "tests/masonry-shear-strength-compile-time.test.ts",
+    "tests/masonry-shear-strength-live-parity.test.ts"
+  ],
+  "publicExports": [
+    "MohrCoulombModel",
+    "SlidingStrengthModel",
+    "TurnsekSheppardModel",
+    "createMasonryShearStrengthModel"
+  ],
+  "publicTypeExports": [
+    "MasonryShearStrengthContext",
+    "MasonryShearStrengthEvaluation",
+    "MasonryShearStrengthModel",
+    "MasonryShearStrengthModelInput",
+    "MohrCoulombModelInput",
+    "MohrCoulombModelJson",
+    "SlidingStrengthModelInput",
+    "SlidingStrengthModelJson",
+    "TurnsekSheppardModelInput",
+    "TurnsekSheppardModelJson"
+  ],
+  "normativeReferences": {
+    "resolved": [],
+    "outsideCorpus": [],
+    "normativeConformityClaimed": false,
+    "status": "classified-for-declared-scope"
+  },
+  "independentValidation": {
+    "method": "Strict public declaration consumer coverage and independently executed pinned JavaScript versus built TypeScript comparisons of all three shear-strength strategies and factory aliases, including exact metadata, Unicode, serialized output, cloned state, numerical evaluations, inheritance and unsupported, user-defined and missing-input errors.",
+    "targetTests": [
+      "tests/masonry-shear-strength-compile-time.test.ts",
+      "tests/masonry-shear-strength-live-parity.test.ts"
+    ],
+    "tolerances": {
+      "serializedParity": "exact JSON serialization and enumerable-key order",
+      "numericParity": "exact equality for capacities and all returned evaluation fields",
+      "publicStrings": "exact equality plus Unicode code-point equality",
+      "errors": "exact error name and message equality"
+    }
+  },
+  "parityDifferences": [
+    "The strict TypeScript declarations describe the existing JavaScript strategies and factory without adding runtime behavior."
+  ],
+  "engineeringFunctionality": "Solver-neutral masonry diagonal-tension and bed-joint shear-strength strategies with explicit unit conversion, damage factors, cloning, evaluation DTOs and executable factory aliases."
+}
