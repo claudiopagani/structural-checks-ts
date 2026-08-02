@@ -329,6 +329,26 @@ export {
   type ShallowFoundationUltimateLimitStateAnalysisResult,
 } from "./ShallowFoundationUltimateLimitStateAnalysis.js";
 export {
+  SHALLOW_FOUNDATION_SETTLEMENT_METHODS,
+  SHALLOW_FOUNDATION_SLS_RESULT_SCHEMA_VERSION,
+  ShallowFoundationServiceabilityAnalysis,
+  calculateRigidFoundationElasticStiffness,
+  calculateSchmertmannStrainInfluence,
+  calculateShallowFoundationDifferentialMovement,
+  calculateShallowFoundationVerticalStressInfluence,
+  type RigidFoundationElasticStiffnessInput,
+  type RigidFoundationElasticStiffnessResult,
+  type ShallowFoundationDifferentialMovementInput,
+  type ShallowFoundationSchmertmannStrainInfluenceInput,
+  type ShallowFoundationSchmertmannStrainInfluenceResult,
+  type ShallowFoundationServiceabilityAnalysisInput,
+  type ShallowFoundationServiceabilityAnalysisResult,
+  type ShallowFoundationServiceabilityCriteriaInput,
+  type ShallowFoundationServiceabilitySettingsInput,
+  type ShallowFoundationSettlementMethod,
+  type ShallowFoundationVerticalStressInfluenceInput,
+} from "./ShallowFoundationServiceabilityAnalysis.js";
+export {
   RETAINING_WALL_ANALYSIS_RESULT_SCHEMA_VERSION,
   RetainingWallAnalysis,
   type RetainingWallAnalysisInput,

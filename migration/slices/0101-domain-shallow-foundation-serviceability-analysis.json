@@ -1,0 +1,111 @@
+{
+  "schemaVersion": 1,
+  "sliceId": "0101-domain-shallow-foundation-serviceability-analysis",
+  "title": "Domain shallow-foundation serviceability analysis",
+  "migrationType": "mechanical-parity-with-minimal-dependency-support",
+  "implementationStatus": "implemented",
+  "dependencies": ["0099-domain-shallow-foundation-ultimate-limit-state-analysis"],
+  "source": {
+    "repository": "https://github.com/claudiopagani/strutture-js",
+    "revision": "6f33baead8b88166c4b2cf94af41763412e3c751"
+  },
+  "normativeCorpusRevision": "41da3faa489600173106935bbcf726119300e48d",
+  "sourceFiles": [
+    {
+      "path": "src/domain/geotechnics/ShallowFoundationServiceabilityAnalysis.js",
+      "gitBlobSha1": "c2775e92603111988109c4e282a21f45bf3481f0",
+      "targetPath": "src/domain/geotechnics/ShallowFoundationServiceabilityAnalysis.ts"
+    }
+  ],
+  "supportingSourceFiles": [
+    {
+      "path": "src/domain/geotechnics/index.js",
+      "gitBlobSha1": "41ed2053fc2e37dc90da412846609f4050af9668",
+      "targetPath": "src/domain/geotechnics/index.ts",
+      "coverage": "Geotechnics barrel exports for the migrated shallow-foundation serviceability analysis and helper functions."
+    },
+    {
+      "path": "src/index.js",
+      "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7",
+      "targetPath": "src/index.ts",
+      "coverage": "Root public exports for the migrated shallow-foundation serviceability analysis and helper functions."
+    }
+  ],
+  "sourceOracles": [
+    {
+      "path": "tests/geotechnicalShallowFoundationServiceability.test.js",
+      "gitBlobSha1": "821802912a8e114e4a47cf91f643aeef1d98ed3e",
+      "coverage": "Typed deformation sets, USACE stress and Schmertmann influence equations, CPT settlement, constrained-modulus settlement, NIST/Pais-Kausel elastic stiffness, embedment contact, differential movement and unsupported time-dependent behavior."
+    },
+    {
+      "path": "tests/packageExports.test.js",
+      "gitBlobSha1": "8dde24b4c97dd3dae7100207d07d9d96c52b9c74",
+      "coverage": "Root public export behavior."
+    }
+  ],
+  "sourcePublicExport": {
+    "path": "src/index.js",
+    "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
+  },
+  "targetTests": [
+    "tests/baseline-parity.test.ts",
+    "tests/shallow-foundation-serviceability-compile-time.test.ts",
+    "tests/shallow-foundation-serviceability-live-parity.test.ts"
+  ],
+  "publicExports": [
+    "SHALLOW_FOUNDATION_SETTLEMENT_METHODS",
+    "SHALLOW_FOUNDATION_SLS_RESULT_SCHEMA_VERSION",
+    "ShallowFoundationServiceabilityAnalysis",
+    "calculateRigidFoundationElasticStiffness",
+    "calculateSchmertmannStrainInfluence",
+    "calculateShallowFoundationDifferentialMovement",
+    "calculateShallowFoundationVerticalStressInfluence"
+  ],
+  "publicTypeExports": [
+    "RigidFoundationElasticStiffnessInput",
+    "RigidFoundationElasticStiffnessResult",
+    "ShallowFoundationDifferentialMovementInput",
+    "ShallowFoundationSchmertmannStrainInfluenceInput",
+    "ShallowFoundationSchmertmannStrainInfluenceResult",
+    "ShallowFoundationServiceabilityAnalysisInput",
+    "ShallowFoundationServiceabilityAnalysisResult",
+    "ShallowFoundationServiceabilityCriteriaInput",
+    "ShallowFoundationServiceabilitySettingsInput",
+    "ShallowFoundationSettlementMethod",
+    "ShallowFoundationVerticalStressInfluenceInput"
+  ],
+  "normativeReferences": {
+    "resolved": [],
+    "outsideCorpus": [
+      {
+        "identifier": "USACE EM 1110-1-1905 (31 July 2025)",
+        "reason": "The source analysis preserves the human-readable engineering reference; this slice does not add a normative corpus runtime dependency."
+      },
+      {
+        "identifier": "NIST GCR 12-917-21 (2012), Section 2.2.1",
+        "reason": "The source analysis preserves the human-readable engineering reference; this slice does not add a normative corpus runtime dependency."
+      }
+    ],
+    "normativeConformityClaimed": false,
+    "status": "outside-corpus-reference-preserved"
+  },
+  "independentValidation": {
+    "method": "Strict public declaration consumer coverage and independently executed pinned JavaScript versus built TypeScript comparison of exact influence factors, stiffness and differential-movement JSON, layered settlement outputs, Unicode identifiers, unsupported methods and error name/message pairs.",
+    "targetTests": [
+      "tests/shallow-foundation-serviceability-compile-time.test.ts",
+      "tests/shallow-foundation-serviceability-live-parity.test.ts"
+    ],
+    "tolerances": {
+      "serializedParity": "exact deep equality and JSON serialization",
+      "numericParity": "exact equality for deterministic helper and analysis outputs",
+      "publicStrings": "exact equality plus Unicode code-point preservation",
+      "errors": "exact error name and message equality"
+    }
+  },
+  "parityDifferences": [],
+  "engineeringFunctionality": "Serializable static shallow-foundation SLS movement analysis using USACE Schmertmann CPT, incremental constrained-modulus and NIST/Pais-Kausel rigid elastic branches, plus differential movement checks and explicit unsupported behavior.",
+  "notes": [
+    "NTC action catalogs, domain loads, application wrappers and long-term consolidation/creep workflows remain outside this bounded slice.",
+    "The preserved USACE and NIST references are not presented as a legal or regulatory conformity claim."
+  ]
+}

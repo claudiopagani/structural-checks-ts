@@ -1173,7 +1173,9 @@
         "SHALLOW_FOUNDATION_BEARING_METHODS",
         "SHALLOW_FOUNDATION_BEARING_SELECTIONS",
         "SHALLOW_FOUNDATION_MODEL_SCHEMA_VERSION",
+        "SHALLOW_FOUNDATION_SETTLEMENT_METHODS",
         "SHALLOW_FOUNDATION_SHAPES",
+        "SHALLOW_FOUNDATION_SLS_RESULT_SCHEMA_VERSION",
         "SHALLOW_FOUNDATION_ULS_RESULT_SCHEMA_VERSION",
         "SLOPE_MOVEMENT_DIRECTIONS",
         "SLOPE_SLICE_DISCRETIZATION_2D_SCHEMA_VERSION",
@@ -1198,6 +1200,7 @@
         "SeismicAction",
         "ShallowFoundationActionState",
         "ShallowFoundationModel",
+        "ShallowFoundationServiceabilityAnalysis",
         "ShallowFoundationUltimateLimitStateAnalysis",
         "ShearConnector",
         "SingleBeamAnalysis",
@@ -1263,10 +1266,14 @@
         "calculateNTC2018JointShearDemand",
         "calculateNTC2018JointTensionReinforcement",
         "calculateRetainingWallPolygonProperties",
+        "calculateRigidFoundationElasticStiffness",
+        "calculateSchmertmannStrainInfluence",
         "calculateSectionMassProperties",
         "calculateShallowFoundationBearingCapacity",
+        "calculateShallowFoundationDifferentialMovement",
         "calculateShallowFoundationEffectiveGeometry",
         "calculateShallowFoundationSlidingResistance",
+        "calculateShallowFoundationVerticalStressInfluence",
         "characteristicValueFromExistingMean",
         "checkNonDissipativeAdmissibility",
         "classifyGlobalFemStructuralEntities",
@@ -4175,11 +4182,18 @@
       "sourcePath": "src/domain/geotechnics/ShallowFoundationServiceabilityAnalysis.js",
       "sourceBlobSha1": "c2775e92603111988109c4e282a21f45bf3481f0",
       "targetPath": "src/domain/geotechnics/ShallowFoundationServiceabilityAnalysis.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0101-domain-shallow-foundation-serviceability-analysis"],
+      "sourceOracles": [
+        "tests/geotechnicalShallowFoundationServiceability.test.js",
+        "tests/packageExports.test.js"
+      ],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/shallow-foundation-serviceability-compile-time.test.ts",
+        "tests/shallow-foundation-serviceability-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0101-domain-shallow-foundation-serviceability-analysis"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -4189,11 +4203,18 @@
       "sourcePath": "src/domain/geotechnics/ShallowFoundationServiceabilityAnalysis.js",
       "sourceBlobSha1": "c2775e92603111988109c4e282a21f45bf3481f0",
       "targetPath": "src/domain/geotechnics/ShallowFoundationServiceabilityAnalysis.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0101-domain-shallow-foundation-serviceability-analysis"],
+      "sourceOracles": [
+        "tests/geotechnicalShallowFoundationServiceability.test.js",
+        "tests/packageExports.test.js"
+      ],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/shallow-foundation-serviceability-compile-time.test.ts",
+        "tests/shallow-foundation-serviceability-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0101-domain-shallow-foundation-serviceability-analysis"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -4248,11 +4269,18 @@
       "sourcePath": "src/domain/geotechnics/ShallowFoundationServiceabilityAnalysis.js",
       "sourceBlobSha1": "c2775e92603111988109c4e282a21f45bf3481f0",
       "targetPath": "src/domain/geotechnics/ShallowFoundationServiceabilityAnalysis.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0101-domain-shallow-foundation-serviceability-analysis"],
+      "sourceOracles": [
+        "tests/geotechnicalShallowFoundationServiceability.test.js",
+        "tests/packageExports.test.js"
+      ],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/shallow-foundation-serviceability-compile-time.test.ts",
+        "tests/shallow-foundation-serviceability-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0101-domain-shallow-foundation-serviceability-analysis"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -4304,11 +4332,18 @@
       "sourcePath": "src/domain/geotechnics/ShallowFoundationServiceabilityAnalysis.js",
       "sourceBlobSha1": "c2775e92603111988109c4e282a21f45bf3481f0",
       "targetPath": "src/domain/geotechnics/ShallowFoundationServiceabilityAnalysis.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0101-domain-shallow-foundation-serviceability-analysis"],
+      "sourceOracles": [
+        "tests/geotechnicalShallowFoundationServiceability.test.js",
+        "tests/packageExports.test.js"
+      ],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/shallow-foundation-serviceability-compile-time.test.ts",
+        "tests/shallow-foundation-serviceability-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0101-domain-shallow-foundation-serviceability-analysis"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -15059,11 +15094,18 @@
       "sourcePath": "src/domain/geotechnics/ShallowFoundationServiceabilityAnalysis.js",
       "sourceBlobSha1": "c2775e92603111988109c4e282a21f45bf3481f0",
       "targetPath": "src/domain/geotechnics/ShallowFoundationServiceabilityAnalysis.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0101-domain-shallow-foundation-serviceability-analysis"],
+      "sourceOracles": [
+        "tests/geotechnicalShallowFoundationServiceability.test.js",
+        "tests/packageExports.test.js"
+      ],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/shallow-foundation-serviceability-compile-time.test.ts",
+        "tests/shallow-foundation-serviceability-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0101-domain-shallow-foundation-serviceability-analysis"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -15091,11 +15133,18 @@
       "sourcePath": "src/domain/geotechnics/ShallowFoundationServiceabilityAnalysis.js",
       "sourceBlobSha1": "c2775e92603111988109c4e282a21f45bf3481f0",
       "targetPath": "src/domain/geotechnics/ShallowFoundationServiceabilityAnalysis.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0101-domain-shallow-foundation-serviceability-analysis"],
+      "sourceOracles": [
+        "tests/geotechnicalShallowFoundationServiceability.test.js",
+        "tests/packageExports.test.js"
+      ],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/shallow-foundation-serviceability-compile-time.test.ts",
+        "tests/shallow-foundation-serviceability-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0101-domain-shallow-foundation-serviceability-analysis"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -15162,11 +15211,18 @@
       "sourcePath": "src/domain/geotechnics/ShallowFoundationServiceabilityAnalysis.js",
       "sourceBlobSha1": "c2775e92603111988109c4e282a21f45bf3481f0",
       "targetPath": "src/domain/geotechnics/ShallowFoundationServiceabilityAnalysis.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0101-domain-shallow-foundation-serviceability-analysis"],
+      "sourceOracles": [
+        "tests/geotechnicalShallowFoundationServiceability.test.js",
+        "tests/packageExports.test.js"
+      ],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/shallow-foundation-serviceability-compile-time.test.ts",
+        "tests/shallow-foundation-serviceability-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0101-domain-shallow-foundation-serviceability-analysis"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -18105,11 +18161,18 @@
       "sourcePath": "src/domain/geotechnics/ShallowFoundationServiceabilityAnalysis.js",
       "sourceBlobSha1": "c2775e92603111988109c4e282a21f45bf3481f0",
       "targetPath": "src/domain/geotechnics/ShallowFoundationServiceabilityAnalysis.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0101-domain-shallow-foundation-serviceability-analysis"],
+      "sourceOracles": [
+        "tests/geotechnicalShallowFoundationServiceability.test.js",
+        "tests/packageExports.test.js"
+      ],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/shallow-foundation-serviceability-compile-time.test.ts",
+        "tests/shallow-foundation-serviceability-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0101-domain-shallow-foundation-serviceability-analysis"],
+      "status": "exact-parity",
       "publicEntryPath": "src/applications/index.js",
       "publicEntryBlobSha1": "b70179c7cdd2a819f2151dc092c0f59cbce30ba6"
     },
@@ -18119,11 +18182,18 @@
       "sourcePath": "src/domain/geotechnics/ShallowFoundationServiceabilityAnalysis.js",
       "sourceBlobSha1": "c2775e92603111988109c4e282a21f45bf3481f0",
       "targetPath": "src/domain/geotechnics/ShallowFoundationServiceabilityAnalysis.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0101-domain-shallow-foundation-serviceability-analysis"],
+      "sourceOracles": [
+        "tests/geotechnicalShallowFoundationServiceability.test.js",
+        "tests/packageExports.test.js"
+      ],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/shallow-foundation-serviceability-compile-time.test.ts",
+        "tests/shallow-foundation-serviceability-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0101-domain-shallow-foundation-serviceability-analysis"],
+      "status": "exact-parity",
       "publicEntryPath": "src/applications/index.js",
       "publicEntryBlobSha1": "b70179c7cdd2a819f2151dc092c0f59cbce30ba6"
     },
@@ -18154,11 +18224,18 @@
       "sourcePath": "src/domain/geotechnics/ShallowFoundationServiceabilityAnalysis.js",
       "sourceBlobSha1": "c2775e92603111988109c4e282a21f45bf3481f0",
       "targetPath": "src/domain/geotechnics/ShallowFoundationServiceabilityAnalysis.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0101-domain-shallow-foundation-serviceability-analysis"],
+      "sourceOracles": [
+        "tests/geotechnicalShallowFoundationServiceability.test.js",
+        "tests/packageExports.test.js"
+      ],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/shallow-foundation-serviceability-compile-time.test.ts",
+        "tests/shallow-foundation-serviceability-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0101-domain-shallow-foundation-serviceability-analysis"],
+      "status": "exact-parity",
       "publicEntryPath": "src/applications/index.js",
       "publicEntryBlobSha1": "b70179c7cdd2a819f2151dc092c0f59cbce30ba6"
     },
@@ -18210,11 +18287,18 @@
       "sourcePath": "src/domain/geotechnics/ShallowFoundationServiceabilityAnalysis.js",
       "sourceBlobSha1": "c2775e92603111988109c4e282a21f45bf3481f0",
       "targetPath": "src/domain/geotechnics/ShallowFoundationServiceabilityAnalysis.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0101-domain-shallow-foundation-serviceability-analysis"],
+      "sourceOracles": [
+        "tests/geotechnicalShallowFoundationServiceability.test.js",
+        "tests/packageExports.test.js"
+      ],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/shallow-foundation-serviceability-compile-time.test.ts",
+        "tests/shallow-foundation-serviceability-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0101-domain-shallow-foundation-serviceability-analysis"],
+      "status": "exact-parity",
       "publicEntryPath": "src/applications/index.js",
       "publicEntryBlobSha1": "b70179c7cdd2a819f2151dc092c0f59cbce30ba6"
     },
@@ -22173,11 +22257,18 @@
       "sourcePath": "src/domain/geotechnics/ShallowFoundationServiceabilityAnalysis.js",
       "sourceBlobSha1": "c2775e92603111988109c4e282a21f45bf3481f0",
       "targetPath": "src/domain/geotechnics/ShallowFoundationServiceabilityAnalysis.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0101-domain-shallow-foundation-serviceability-analysis"],
+      "sourceOracles": [
+        "tests/geotechnicalShallowFoundationServiceability.test.js",
+        "tests/packageExports.test.js"
+      ],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/shallow-foundation-serviceability-compile-time.test.ts",
+        "tests/shallow-foundation-serviceability-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0101-domain-shallow-foundation-serviceability-analysis"],
+      "status": "exact-parity",
       "publicEntryPath": "src/applications/index.js",
       "publicEntryBlobSha1": "b70179c7cdd2a819f2151dc092c0f59cbce30ba6"
     },
@@ -22205,11 +22296,18 @@
       "sourcePath": "src/domain/geotechnics/ShallowFoundationServiceabilityAnalysis.js",
       "sourceBlobSha1": "c2775e92603111988109c4e282a21f45bf3481f0",
       "targetPath": "src/domain/geotechnics/ShallowFoundationServiceabilityAnalysis.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0101-domain-shallow-foundation-serviceability-analysis"],
+      "sourceOracles": [
+        "tests/geotechnicalShallowFoundationServiceability.test.js",
+        "tests/packageExports.test.js"
+      ],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/shallow-foundation-serviceability-compile-time.test.ts",
+        "tests/shallow-foundation-serviceability-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0101-domain-shallow-foundation-serviceability-analysis"],
+      "status": "exact-parity",
       "publicEntryPath": "src/applications/index.js",
       "publicEntryBlobSha1": "b70179c7cdd2a819f2151dc092c0f59cbce30ba6"
     },
@@ -22276,11 +22374,18 @@
       "sourcePath": "src/domain/geotechnics/ShallowFoundationServiceabilityAnalysis.js",
       "sourceBlobSha1": "c2775e92603111988109c4e282a21f45bf3481f0",
       "targetPath": "src/domain/geotechnics/ShallowFoundationServiceabilityAnalysis.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0101-domain-shallow-foundation-serviceability-analysis"],
+      "sourceOracles": [
+        "tests/geotechnicalShallowFoundationServiceability.test.js",
+        "tests/packageExports.test.js"
+      ],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/shallow-foundation-serviceability-compile-time.test.ts",
+        "tests/shallow-foundation-serviceability-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0101-domain-shallow-foundation-serviceability-analysis"],
+      "status": "exact-parity",
       "publicEntryPath": "src/applications/index.js",
       "publicEntryBlobSha1": "b70179c7cdd2a819f2151dc092c0f59cbce30ba6"
     },
@@ -25434,11 +25539,18 @@
       "sourcePath": "src/domain/geotechnics/ShallowFoundationServiceabilityAnalysis.js",
       "sourceBlobSha1": "c2775e92603111988109c4e282a21f45bf3481f0",
       "targetPath": "src/domain/geotechnics/ShallowFoundationServiceabilityAnalysis.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0101-domain-shallow-foundation-serviceability-analysis"],
+      "sourceOracles": [
+        "tests/geotechnicalShallowFoundationServiceability.test.js",
+        "tests/packageExports.test.js"
+      ],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/shallow-foundation-serviceability-compile-time.test.ts",
+        "tests/shallow-foundation-serviceability-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0101-domain-shallow-foundation-serviceability-analysis"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7",
       "value": "shallow-foundation-sls-result/v1"
@@ -30904,11 +31016,18 @@
       "sourcePath": "src/domain/geotechnics/ShallowFoundationServiceabilityAnalysis.js",
       "sourceBlobSha1": "c2775e92603111988109c4e282a21f45bf3481f0",
       "targetPath": "src/domain/geotechnics/ShallowFoundationServiceabilityAnalysis.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing"
+      "migrationSlices": ["0101-domain-shallow-foundation-serviceability-analysis"],
+      "sourceOracles": [
+        "tests/geotechnicalShallowFoundationServiceability.test.js",
+        "tests/packageExports.test.js"
+      ],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/shallow-foundation-serviceability-compile-time.test.ts",
+        "tests/shallow-foundation-serviceability-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0101-domain-shallow-foundation-serviceability-analysis"],
+      "status": "exact-parity"
     },
     {
       "id": "src/domain/geotechnics/ShallowFoundationUltimateLimitStateAnalysis.js",
@@ -32120,7 +32239,8 @@
         "0097-domain-lateral-pile-capacity-analysis",
         "0098-domain-retaining-wall-model-scenario",
         "0099-domain-shallow-foundation-ultimate-limit-state-analysis",
-        "0100-domain-retaining-wall-analysis"
+        "0100-domain-retaining-wall-analysis",
+        "0101-domain-shallow-foundation-serviceability-analysis"
       ],
       "sourceOracles": [
         "tests/architecture/applicationRegistry.test.js",
@@ -33804,11 +33924,15 @@
       "sourcePath": "tests/geotechnicalShallowFoundationServiceability.test.js",
       "sourceBlobSha1": "821802912a8e114e4a47cf91f643aeef1d98ed3e",
       "targetPath": "tests/geotechnicalShallowFoundationServiceability.test.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0101-domain-shallow-foundation-serviceability-analysis"],
+      "sourceOracles": ["tests/geotechnicalShallowFoundationServiceability.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/shallow-foundation-serviceability-compile-time.test.ts",
+        "tests/shallow-foundation-serviceability-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0101-domain-shallow-foundation-serviceability-analysis"],
+      "status": "exact-parity",
       "testKind": "test"
     },
     {
@@ -34675,7 +34799,8 @@
         "0097-domain-lateral-pile-capacity-analysis",
         "0098-domain-retaining-wall-model-scenario",
         "0099-domain-shallow-foundation-ultimate-limit-state-analysis",
-        "0100-domain-retaining-wall-analysis"
+        "0100-domain-retaining-wall-analysis",
+        "0101-domain-shallow-foundation-serviceability-analysis"
       ],
       "sourceOracles": ["tests/packageExports.test.js"],
       "targetTests": [
@@ -34730,6 +34855,8 @@
         "tests/retaining-wall-analysis-live-parity.test.ts",
         "tests/retaining-wall-model-scenario-compile-time.test.ts",
         "tests/retaining-wall-model-scenario-live-parity.test.ts",
+        "tests/shallow-foundation-serviceability-compile-time.test.ts",
+        "tests/shallow-foundation-serviceability-live-parity.test.ts",
         "tests/shallow-foundation-uls-compile-time.test.ts",
         "tests/shallow-foundation-uls-live-parity.test.ts",
         "tests/slope-slice-discretizer-compile-time.test.ts",
@@ -34778,7 +34905,8 @@
         "0097-domain-lateral-pile-capacity-analysis",
         "0098-domain-retaining-wall-model-scenario",
         "0099-domain-shallow-foundation-ultimate-limit-state-analysis",
-        "0100-domain-retaining-wall-analysis"
+        "0100-domain-retaining-wall-analysis",
+        "0101-domain-shallow-foundation-serviceability-analysis"
       ],
       "status": "exact-parity",
       "testKind": "test"
@@ -37945,16 +38073,32 @@
         "publicStrings": "exact equality plus Unicode code-point preservation",
         "errors": "exact error name and message equality"
       }
+    },
+    {
+      "sliceId": "0101-domain-shallow-foundation-serviceability-analysis",
+      "sourceRevision": "6f33baead8b88166c4b2cf94af41763412e3c751",
+      "method": "Strict public declaration consumer coverage and independently executed pinned JavaScript versus built TypeScript comparison of exact influence factors, stiffness and differential-movement JSON, layered settlement outputs, Unicode identifiers, unsupported methods and error name/message pairs.",
+      "targetTests": [
+        "tests/shallow-foundation-serviceability-compile-time.test.ts",
+        "tests/shallow-foundation-serviceability-live-parity.test.ts"
+      ],
+      "fixture": null,
+      "tolerances": {
+        "serializedParity": "exact deep equality and JSON serialization",
+        "numericParity": "exact equality for deterministic helper and analysis outputs",
+        "publicStrings": "exact equality plus Unicode code-point preservation",
+        "errors": "exact error name and message equality"
+      }
     }
   ],
   "counts": {
     "rootExports": {
       "javascript": 841,
-      "typescript": 569
+      "typescript": 576
     },
     "applicationsExports": {
       "javascript": 309,
-      "typescript": 198
+      "typescript": 205
     },
     "packageEntryPoints": {
       "javascript": 14,
@@ -37970,15 +38114,15 @@
     },
     "serializedSchemas": {
       "javascript": 49,
-      "typescript": 41
+      "typescript": 42
     },
     "sourceFiles": {
       "javascript": 480,
-      "typescript": 336
+      "typescript": 337
     },
     "tests": {
       "javascript": 131,
-      "typescript": 188
+      "typescript": 190
     },
     "validationCampaigns": {
       "javascript": 17,
@@ -38010,7 +38154,7 @@
       "statusCounts": {
         "exact-parity": 0,
         "partial": 20,
-        "missing": 37,
+        "missing": 29,
         "intentionally-excluded": 0,
         "decision-required": 0
       },
@@ -38029,31 +38173,23 @@
         "root-export:LinearLoadFromLineWeight",
         "root-export:LinearLoadFromVolumeWeight",
         "root-export:NTC2018SlabLoadAnalysis",
-        "root-export:SHALLOW_FOUNDATION_SETTLEMENT_METHODS",
-        "root-export:SHALLOW_FOUNDATION_SLS_RESULT_SCHEMA_VERSION",
         "root-export:SOIL_DEFORMATION_MODELS",
         "root-export:SOIL_DRAINAGE_CONDITIONS",
         "root-export:SOIL_MODULUS_DEFINITIONS",
         "root-export:SOIL_PARAMETER_BASES",
         "root-export:SOIL_SETTLEMENT_COMPONENTS",
         "root-export:SOIL_STRENGTH_MODELS",
-        "root-export:ShallowFoundationServiceabilityAnalysis",
         "root-export:SlabLoad",
         "root-export:StructuralModel",
         "root-export:SurfaceLoad",
         "root-export:TERRAIN_ELEVATION_GRID_SCHEMA_VERSION",
         "root-export:VariableLoad",
         "root-export:WallLoad",
-        "root-export:calculateRigidFoundationElasticStiffness",
-        "root-export:calculateSchmertmannStrainInfluence",
-        "root-export:calculateShallowFoundationDifferentialMovement",
-        "root-export:calculateShallowFoundationVerticalStressInfluence",
         "root-export:normalizeTerrainElevationGrid",
         "source:src/domain/fem/elements/index.js",
         "source:src/domain/fem/elements/masonry/index.js",
         "source:src/domain/fem/index.js",
         "source:src/domain/fem/nonlinear/index.js",
-        "source:src/domain/geotechnics/ShallowFoundationServiceabilityAnalysis.js",
         "source:src/domain/geotechnics/index.js",
         "source:src/domain/materials/masonry/index.js",
         "source:src/domain/materials/masonry/shearStrength/index.js",
@@ -38262,7 +38398,7 @@
       "statusCounts": {
         "exact-parity": 0,
         "partial": 16,
-        "missing": 341,
+        "missing": 334,
         "intentionally-excluded": 0,
         "decision-required": 0
       },
@@ -38309,9 +38445,6 @@
         "application-export:NTC2018MasonryPierAnalysis",
         "application-export:NTC2018MasonryPierModel",
         "application-export:RCSectionStateIntegrator",
-        "application-export:SHALLOW_FOUNDATION_SETTLEMENT_METHODS",
-        "application-export:SHALLOW_FOUNDATION_SLS_RESULT_SCHEMA_VERSION",
-        "application-export:ShallowFoundationServiceabilityAnalysis",
         "application-export:SingleBeamDesignApplication",
         "application-export:SingleBeamDesignModel",
         "application-export:SteelDisplacementControlPushoverSolver2D",
@@ -38340,10 +38473,6 @@
         "application-export:XlamOutOfPlanePanelVerification",
         "application-export:bilinearizeCapacityCurve",
         "application-export:calculateElasticCriticalMomentLT",
-        "application-export:calculateRigidFoundationElasticStiffness",
-        "application-export:calculateSchmertmannStrainInfluence",
-        "application-export:calculateShallowFoundationDifferentialMovement",
-        "application-export:calculateShallowFoundationVerticalStressInfluence",
         "application-export:calculateSteelCompressionBucklingAxis",
         "application-export:calculateSteelMethodBInteractionCoefficients",
         "application-export:calculateSteelMethodBInteractionCoefficientsMyMz",
@@ -38630,7 +38759,7 @@
       "statusCounts": {
         "exact-parity": 0,
         "partial": 3,
-        "missing": 135,
+        "missing": 134,
         "intentionally-excluded": 0,
         "decision-required": 0
       },
@@ -38741,7 +38870,6 @@
         "test:tests/geotechnicalLateralPilePyValidationCampaign.test.js",
         "test:tests/geotechnicalLateralPileValidationCampaign.test.js",
         "test:tests/geotechnicalRetainingWallValidationCampaign.test.js",
-        "test:tests/geotechnicalShallowFoundationServiceability.test.js",
         "test:tests/geotechnicalShallowFoundationServiceabilityValidationCampaign.test.js",
         "test:tests/geotechnicalShallowFoundationValidationCampaign.test.js",
         "test:tests/geotechnicalSlopeStabilityValidationCampaign.test.js",
