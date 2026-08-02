@@ -294,6 +294,13 @@ export {
   type LateralPileSoilBranch,
 } from "./LateralPileLoadScenario.js";
 export {
+  LATERAL_PILE_BROMS_REFERENCE,
+  LATERAL_PILE_CAPACITY_RESULT_SCHEMA_VERSION,
+  LateralPileCapacityAnalysis,
+  type LateralPileCapacityAnalysisInput,
+  type LateralPileCapacityAnalysisResult,
+} from "./LateralPileCapacityAnalysis.js";
+export {
   PILE_TRANSFER_CURVE_MODELS,
   PILE_TRANSFER_EXTRAPOLATION_MODELS,
   PILE_TRANSFER_LAW_KINDS,

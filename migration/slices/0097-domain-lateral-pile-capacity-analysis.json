@@ -1,0 +1,87 @@
+{
+  "schemaVersion": 1,
+  "sliceId": "0097-domain-lateral-pile-capacity-analysis",
+  "title": "Domain lateral pile capacity analysis",
+  "migrationType": "mechanical-parity-with-minimal-dependency-support",
+  "implementationStatus": "implemented",
+  "dependencies": ["0096-domain-lateral-earth-pressure-analysis"],
+  "source": {
+    "repository": "https://github.com/claudiopagani/strutture-js",
+    "revision": "6f33baead8b88166c4b2cf94af41763412e3c751"
+  },
+  "normativeCorpusRevision": "41da3faa489600173106935bbcf726119300e48d",
+  "sourceFiles": [
+    {
+      "path": "src/domain/geotechnics/LateralPileCapacityAnalysis.js",
+      "gitBlobSha1": "a3c32ebb96a49d8c40fe091ced10baab07647371",
+      "targetPath": "src/domain/geotechnics/LateralPileCapacityAnalysis.ts"
+    }
+  ],
+  "supportingSourceFiles": [
+    {
+      "path": "src/domain/geotechnics/index.js",
+      "gitBlobSha1": "41ed2053fc2e37dc90da412846609f4050af9668",
+      "targetPath": "src/domain/geotechnics/index.ts",
+      "coverage": "Geotechnics barrel exports for the migrated lateral pile capacity analysis."
+    },
+    {
+      "path": "src/index.js",
+      "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7",
+      "targetPath": "src/index.ts",
+      "coverage": "Root public exports for the migrated lateral pile capacity analysis."
+    }
+  ],
+  "sourceOracles": [
+    {
+      "path": "tests/geotechnicalLateralPiles.test.js",
+      "gitBlobSha1": "4fb4df49422b449fee8307a02c8e98c4416160e4",
+      "coverage": "Cohesive and cohesionless Broms capacity, groundwater, conversion, serializable output and unsupported guardrails."
+    },
+    {
+      "path": "tests/packageExports.test.js",
+      "gitBlobSha1": "8dde24b4c97dd3dae7100207d07d9d96c52b9c74",
+      "coverage": "Root public export behavior."
+    }
+  ],
+  "sourcePublicExport": {
+    "path": "src/index.js",
+    "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
+  },
+  "targetTests": [
+    "tests/baseline-parity.test.ts",
+    "tests/lateral-pile-capacity-compile-time.test.ts",
+    "tests/lateral-pile-capacity-live-parity.test.ts"
+  ],
+  "publicExports": [
+    "LATERAL_PILE_BROMS_REFERENCE",
+    "LATERAL_PILE_CAPACITY_RESULT_SCHEMA_VERSION",
+    "LateralPileCapacityAnalysis"
+  ],
+  "publicTypeExports": ["LateralPileCapacityAnalysisInput", "LateralPileCapacityAnalysisResult"],
+  "normativeReferences": {
+    "resolved": [],
+    "outsideCorpus": [
+      {
+        "identifier": "FHWA GEC 9, FHWA-HIF-18-031 (2018), section 6.5, equations 6-8 through 6-17",
+        "reason": "The analysis preserves the source Broms reference without inventing a corpus identifier."
+      }
+    ],
+    "normativeConformityClaimed": false,
+    "status": "classified-for-declared-scope"
+  },
+  "independentValidation": {
+    "method": "Strict public declaration consumer coverage and independently executed pinned JavaScript versus built TypeScript comparison of exact serialized cohesive and cohesionless Broms results, groundwater branches, resistance conversion, Unicode metadata, unsupported guardrails and failed-input results.",
+    "targetTests": [
+      "tests/lateral-pile-capacity-compile-time.test.ts",
+      "tests/lateral-pile-capacity-live-parity.test.ts"
+    ],
+    "tolerances": {
+      "serializedParity": "exact deep equality and JSON serialization",
+      "numericParity": "exact equality for deterministic analysis results",
+      "publicStrings": "exact equality plus Unicode code-point preservation",
+      "errors": "exact failed-result structure and warning message equality"
+    }
+  },
+  "parityDifferences": [],
+  "engineeringFunctionality": "Static Broms short, rigid, free-head lateral pile capacity for cohesive-undrained and cohesionless-drained homogeneous profiles, including optional soil-reaction conversion and groundwater branches."
+}
