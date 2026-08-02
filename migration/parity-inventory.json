@@ -1141,6 +1141,7 @@
         "SHALLOW_FOUNDATION_SHAPES",
         "SLOPE_MOVEMENT_DIRECTIONS",
         "SLOPE_STABILITY_METHODS",
+        "SLOPE_SURFACE_SURCHARGE_2D_SCHEMA_VERSION",
         "SOIL_DEFORMATION_MODELS",
         "SOIL_DRAINAGE_CONDITIONS",
         "SOIL_MODULUS_DEFINITIONS",
@@ -1164,6 +1165,7 @@
         "SingleBeamFemBuilder",
         "SingleBeamModel",
         "SlidingStrengthModel",
+        "SlopeSurfaceSurcharge2D",
         "SnowAction",
         "SoilMaterial",
         "SoilStructureInterface",
@@ -15180,11 +15182,15 @@
       "sourcePath": "src/domain/geotechnics/SlopeSurfaceSurcharge2D.js",
       "sourceBlobSha1": "922580dc6c51f89e348ec1f9d55e88925a270396",
       "targetPath": "src/domain/geotechnics/SlopeSurfaceSurcharge2D.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0088-domain-slope-surface-surcharge"],
+      "sourceOracles": ["tests/geotechnicalSlopeStability.test.js", "tests/packageExports.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/slope-surface-surcharge-compile-time.test.ts",
+        "tests/slope-surface-surcharge-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0088-domain-slope-surface-surcharge"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -15208,11 +15214,15 @@
       "sourcePath": "src/domain/geotechnics/SlopeSurfaceSurcharge2D.js",
       "sourceBlobSha1": "922580dc6c51f89e348ec1f9d55e88925a270396",
       "targetPath": "src/domain/geotechnics/SlopeSurfaceSurcharge2D.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0088-domain-slope-surface-surcharge"],
+      "sourceOracles": ["tests/geotechnicalSlopeStability.test.js", "tests/packageExports.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/slope-surface-surcharge-compile-time.test.ts",
+        "tests/slope-surface-surcharge-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0088-domain-slope-surface-surcharge"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -24975,11 +24985,15 @@
       "sourcePath": "src/domain/geotechnics/SlopeSurfaceSurcharge2D.js",
       "sourceBlobSha1": "922580dc6c51f89e348ec1f9d55e88925a270396",
       "targetPath": "src/domain/geotechnics/SlopeSurfaceSurcharge2D.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0088-domain-slope-surface-surcharge"],
+      "sourceOracles": ["tests/geotechnicalSlopeStability.test.js", "tests/packageExports.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/slope-surface-surcharge-compile-time.test.ts",
+        "tests/slope-surface-surcharge-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0088-domain-slope-surface-surcharge"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7",
       "value": "slope-surface-surcharge-2d/v1"
@@ -30372,11 +30386,15 @@
       "sourcePath": "src/domain/geotechnics/SlopeSurfaceSurcharge2D.js",
       "sourceBlobSha1": "922580dc6c51f89e348ec1f9d55e88925a270396",
       "targetPath": "src/domain/geotechnics/SlopeSurfaceSurcharge2D.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing"
+      "migrationSlices": ["0088-domain-slope-surface-surcharge"],
+      "sourceOracles": ["tests/geotechnicalSlopeStability.test.js", "tests/packageExports.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/slope-surface-surcharge-compile-time.test.ts",
+        "tests/slope-surface-surcharge-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0088-domain-slope-surface-surcharge"],
+      "status": "exact-parity"
     },
     {
       "id": "src/domain/geotechnics/SoilMaterial.js",
@@ -31523,7 +31541,8 @@
         "0084-domain-cyclic-masonry-shear-material",
         "0085-domain-masonry-fiber-interface",
         "0086-domain-cyclic-masonry-pier-2d",
-        "0087-domain-cyclic-masonry-pier-analysis-2d"
+        "0087-domain-cyclic-masonry-pier-analysis-2d",
+        "0088-domain-slope-surface-surcharge"
       ],
       "sourceOracles": [
         "tests/architecture/applicationRegistry.test.js",
@@ -33217,7 +33236,8 @@
       "targetPath": "tests/geotechnicalSlopeStability.test.ts",
       "migrationSlices": [
         "0065-domain-circular-slip-surface",
-        "0080-domain-slope-stability-methods"
+        "0080-domain-slope-stability-methods",
+        "0088-domain-slope-surface-surcharge"
       ],
       "sourceOracles": ["tests/geotechnicalSlopeStability.test.js"],
       "targetTests": [
@@ -33225,11 +33245,14 @@
         "tests/circular-slip-surface-compile-time.test.ts",
         "tests/circular-slip-surface-live-parity.test.ts",
         "tests/slope-stability-methods-compile-time.test.ts",
-        "tests/slope-stability-methods-live-parity.test.ts"
+        "tests/slope-stability-methods-live-parity.test.ts",
+        "tests/slope-surface-surcharge-compile-time.test.ts",
+        "tests/slope-surface-surcharge-live-parity.test.ts"
       ],
       "validationEvidence": [
         "0065-domain-circular-slip-surface",
-        "0080-domain-slope-stability-methods"
+        "0080-domain-slope-stability-methods",
+        "0088-domain-slope-surface-surcharge"
       ],
       "status": "exact-parity",
       "testKind": "test"
@@ -33994,7 +34017,8 @@
         "0084-domain-cyclic-masonry-shear-material",
         "0085-domain-masonry-fiber-interface",
         "0086-domain-cyclic-masonry-pier-2d",
-        "0087-domain-cyclic-masonry-pier-analysis-2d"
+        "0087-domain-cyclic-masonry-pier-analysis-2d",
+        "0088-domain-slope-surface-surcharge"
       ],
       "sourceOracles": ["tests/packageExports.test.js"],
       "targetTests": [
@@ -34035,6 +34059,8 @@
         "tests/reinforced-concrete-strut-and-tie.test.ts",
         "tests/slope-stability-methods-compile-time.test.ts",
         "tests/slope-stability-methods-live-parity.test.ts",
+        "tests/slope-surface-surcharge-compile-time.test.ts",
+        "tests/slope-surface-surcharge-live-parity.test.ts",
         "tests/wall-soil-reaction-law-compile-time.test.ts",
         "tests/wall-soil-reaction-law-live-parity.test.ts"
       ],
@@ -34061,7 +34087,8 @@
         "0084-domain-cyclic-masonry-shear-material",
         "0085-domain-masonry-fiber-interface",
         "0086-domain-cyclic-masonry-pier-2d",
-        "0087-domain-cyclic-masonry-pier-analysis-2d"
+        "0087-domain-cyclic-masonry-pier-analysis-2d",
+        "0088-domain-slope-surface-surcharge"
       ],
       "status": "exact-parity",
       "testKind": "test"
@@ -37020,12 +37047,28 @@
         "publicStrings": "exact equality plus Unicode code-point preservation",
         "errors": "exact error name and message equality"
       }
+    },
+    {
+      "sliceId": "0088-domain-slope-surface-surcharge",
+      "sourceRevision": "6f33baead8b88166c4b2cf94af41763412e3c751",
+      "method": "Strict public declaration consumer coverage and independently executed pinned JavaScript versus built TypeScript comparison of unit normalization, force-per-width integration, exact JSON serialization, Unicode metadata and validation error behavior.",
+      "targetTests": [
+        "tests/slope-surface-surcharge-compile-time.test.ts",
+        "tests/slope-surface-surcharge-live-parity.test.ts"
+      ],
+      "fixture": null,
+      "tolerances": {
+        "serializedParity": "exact deep equality and JSON serialization",
+        "numericParity": "exact equality for deterministic unit conversion and force integration",
+        "publicStrings": "exact equality plus Unicode code-point preservation",
+        "errors": "exact error name and message equality"
+      }
     }
   ],
   "counts": {
     "rootExports": {
       "javascript": 841,
-      "typescript": 521
+      "typescript": 523
     },
     "applicationsExports": {
       "javascript": 309,
@@ -37045,15 +37088,15 @@
     },
     "serializedSchemas": {
       "javascript": 49,
-      "typescript": 30
+      "typescript": 31
     },
     "sourceFiles": {
       "javascript": 480,
-      "typescript": 322
+      "typescript": 323
     },
     "tests": {
       "javascript": 131,
-      "typescript": 162
+      "typescript": 164
     },
     "validationCampaigns": {
       "javascript": 17,
@@ -37085,7 +37128,7 @@
       "statusCounts": {
         "exact-parity": 0,
         "partial": 20,
-        "missing": 99,
+        "missing": 96,
         "intentionally-excluded": 0,
         "decision-required": 0
       },
@@ -37144,7 +37187,6 @@
         "root-export:SHALLOW_FOUNDATION_ULS_RESULT_SCHEMA_VERSION",
         "root-export:SLOPE_SLICE_DISCRETIZATION_2D_SCHEMA_VERSION",
         "root-export:SLOPE_STABILITY_ANALYSIS_MODES",
-        "root-export:SLOPE_SURFACE_SURCHARGE_2D_SCHEMA_VERSION",
         "root-export:SOIL_DEFORMATION_MODELS",
         "root-export:SOIL_DRAINAGE_CONDITIONS",
         "root-export:SOIL_MODULUS_DEFINITIONS",
@@ -37155,7 +37197,6 @@
         "root-export:ShallowFoundationUltimateLimitStateAnalysis",
         "root-export:SlabLoad",
         "root-export:SlopeSliceDiscretizer2D",
-        "root-export:SlopeSurfaceSurcharge2D",
         "root-export:StructuralModel",
         "root-export:SurfaceLoad",
         "root-export:TERRAIN_ELEVATION_GRID_SCHEMA_VERSION",
@@ -37189,7 +37230,6 @@
         "source:src/domain/geotechnics/ShallowFoundationServiceabilityAnalysis.js",
         "source:src/domain/geotechnics/ShallowFoundationUltimateLimitStateAnalysis.js",
         "source:src/domain/geotechnics/SlopeSliceDiscretizer2D.js",
-        "source:src/domain/geotechnics/SlopeSurfaceSurcharge2D.js",
         "source:src/domain/geotechnics/index.js",
         "source:src/domain/geotechnics/spencerMethod.js",
         "source:src/domain/materials/masonry/index.js",

@@ -456,8 +456,10 @@ export {
   EmbeddedRetainingWallAnalysis,
   EmbeddedRetainingWallScenario,
   SLOPE_STABILITY_METHODS,
+  SLOPE_SURFACE_SURCHARGE_2D_SCHEMA_VERSION,
   ordinaryMethodOfSlices,
   simplifiedBishop,
+  SlopeSurfaceSurcharge2D,
   AxialPileLoadScenario,
   DeepFoundationModel,
   GeotechnicalDesignSituation,
@@ -1473,6 +1475,8 @@ export type {
   SimplifiedBishopSliceContribution,
   SlopeSliceInput,
   SlopeStressBasis,
+  SlopeSurfaceSurcharge2DJson,
+  SlopeSurfaceSurcharge2DOptions,
 } from "./domain/geotechnics/index.js";
 export type {
   BiaxialCompressedSide,

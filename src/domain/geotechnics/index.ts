@@ -326,3 +326,9 @@ export {
   type SlopeStressBasis,
 } from "./slopeStabilityMethods.js";
 export { VerticalStressProfile } from "./VerticalStressProfile.js";
+export {
+  SLOPE_SURFACE_SURCHARGE_2D_SCHEMA_VERSION,
+  SlopeSurfaceSurcharge2D,
+  type SlopeSurfaceSurcharge2DJson,
+  type SlopeSurfaceSurcharge2DOptions,
+} from "./SlopeSurfaceSurcharge2D.js";

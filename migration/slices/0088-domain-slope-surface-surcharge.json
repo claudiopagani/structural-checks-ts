@@ -1,0 +1,78 @@
+{
+  "schemaVersion": 1,
+  "sliceId": "0088-domain-slope-surface-surcharge",
+  "title": "Domain slope surface surcharge",
+  "migrationType": "mechanical-parity",
+  "implementationStatus": "implemented",
+  "dependencies": [],
+  "source": {
+    "repository": "https://github.com/claudiopagani/strutture-js",
+    "revision": "6f33baead8b88166c4b2cf94af41763412e3c751"
+  },
+  "normativeCorpusRevision": "41da3faa489600173106935bbcf726119300e48d",
+  "sourceFiles": [
+    {
+      "path": "src/domain/geotechnics/SlopeSurfaceSurcharge2D.js",
+      "gitBlobSha1": "922580dc6c51f89e348ec1f9d55e88925a270396",
+      "targetPath": "src/domain/geotechnics/SlopeSurfaceSurcharge2D.ts"
+    }
+  ],
+  "supportingSourceFiles": [
+    {
+      "path": "src/domain/geotechnics/index.js",
+      "gitBlobSha1": "41ed2053fc2e37dc90da412846609f4050af9668",
+      "targetPath": "src/domain/geotechnics/index.ts",
+      "coverage": "Geotechnics barrel export for the migrated surcharge."
+    },
+    {
+      "path": "src/index.js",
+      "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7",
+      "targetPath": "src/index.ts",
+      "coverage": "Root public exports for the migrated surcharge."
+    }
+  ],
+  "sourceOracles": [
+    {
+      "path": "tests/geotechnicalSlopeStability.test.js",
+      "gitBlobSha1": "ccb2cab5ccf35b8b35de4d3fcff9d23aed949173",
+      "coverage": "N-mm unit conversion, intensity, force-per-width integration and schema behavior."
+    },
+    {
+      "path": "tests/packageExports.test.js",
+      "gitBlobSha1": "8dde24b4c97dd3dae7100207d07d9d96c52b9c74",
+      "coverage": "Root public export behavior."
+    }
+  ],
+  "sourcePublicExport": {
+    "path": "src/index.js",
+    "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
+  },
+  "targetTests": [
+    "tests/baseline-parity.test.ts",
+    "tests/slope-surface-surcharge-compile-time.test.ts",
+    "tests/slope-surface-surcharge-live-parity.test.ts"
+  ],
+  "publicExports": ["SLOPE_SURFACE_SURCHARGE_2D_SCHEMA_VERSION", "SlopeSurfaceSurcharge2D"],
+  "publicTypeExports": ["SlopeSurfaceSurcharge2DJson", "SlopeSurfaceSurcharge2DOptions"],
+  "normativeReferences": {
+    "resolved": [],
+    "outsideCorpus": [],
+    "normativeConformityClaimed": false,
+    "status": "classified-for-declared-scope"
+  },
+  "independentValidation": {
+    "method": "Strict public declaration consumer coverage and independently executed pinned JavaScript versus built TypeScript comparison of unit normalization, force-per-width integration, exact JSON serialization, Unicode metadata and validation error behavior.",
+    "targetTests": [
+      "tests/slope-surface-surcharge-compile-time.test.ts",
+      "tests/slope-surface-surcharge-live-parity.test.ts"
+    ],
+    "tolerances": {
+      "serializedParity": "exact deep equality and JSON serialization",
+      "numericParity": "exact equality for deterministic unit conversion and force integration",
+      "publicStrings": "exact equality plus Unicode code-point preservation",
+      "errors": "exact error name and message equality"
+    }
+  },
+  "parityDifferences": [],
+  "engineeringFunctionality": "Uniform vertical surcharge on a horizontal projection with explicit units, interval overlap integration, schema metadata and serializable public state."
+}
