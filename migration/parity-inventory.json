@@ -32367,11 +32367,15 @@
       "sourcePath": "src/domain/terrain/index.js",
       "sourceBlobSha1": "7f603da8d378a3569c506844d42f847edd84bd22",
       "targetPath": "src/domain/terrain/index.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "partial"
+      "migrationSlices": ["0110-domain-terrain-public-index"],
+      "sourceOracles": ["tests/packageExports.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/terrain-public-index-compile-time.test.ts",
+        "tests/terrain-public-index-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0110-domain-terrain-public-index"],
+      "status": "exact-parity"
     },
     {
       "id": "src/domain/units/UnitSystem.js",
@@ -32506,7 +32510,8 @@
         "0106-domain-masonry-material-public-indexes",
         "0107-domain-masonry-section-public-index",
         "0108-domain-slab-public-index",
-        "0109-domain-solvers-public-index"
+        "0109-domain-solvers-public-index",
+        "0110-domain-terrain-public-index"
       ],
       "sourceOracles": [
         "tests/architecture/applicationRegistry.test.js",
@@ -35138,7 +35143,8 @@
         "0106-domain-masonry-material-public-indexes",
         "0107-domain-masonry-section-public-index",
         "0108-domain-slab-public-index",
-        "0109-domain-solvers-public-index"
+        "0109-domain-solvers-public-index",
+        "0110-domain-terrain-public-index"
       ],
       "sourceOracles": ["tests/packageExports.test.js"],
       "targetTests": [
@@ -35221,6 +35227,8 @@
         "tests/structural-model-live-parity.test.ts",
         "tests/terrain-elevation-grid-compile-time.test.ts",
         "tests/terrain-elevation-grid-live-parity.test.ts",
+        "tests/terrain-public-index-compile-time.test.ts",
+        "tests/terrain-public-index-live-parity.test.ts",
         "tests/wall-soil-reaction-law-compile-time.test.ts",
         "tests/wall-soil-reaction-law-live-parity.test.ts"
       ],
@@ -35268,7 +35276,8 @@
         "0106-domain-masonry-material-public-indexes",
         "0107-domain-masonry-section-public-index",
         "0108-domain-slab-public-index",
-        "0109-domain-solvers-public-index"
+        "0109-domain-solvers-public-index",
+        "0110-domain-terrain-public-index"
       ],
       "status": "exact-parity",
       "testKind": "test"
@@ -38593,6 +38602,22 @@
         "publicStrings": "exact source-compatible public naming",
         "errors": "underlying solver validation errors remain covered by the dependency slice"
       }
+    },
+    {
+      "sliceId": "0110-domain-terrain-public-index",
+      "sourceRevision": "6f33baead8b88166c4b2cf94af41763412e3c751",
+      "method": "Strict declaration consumer coverage and independently executed pinned JavaScript versus built TypeScript comparison of the terrain barrel, exact export keys, serialized schema identifier, Unicode code points, function identity and root aliases; detailed normalization behavior remains covered by the dependency slice.",
+      "targetTests": [
+        "tests/terrain-public-index-compile-time.test.ts",
+        "tests/terrain-public-index-live-parity.test.ts"
+      ],
+      "fixture": null,
+      "tolerances": {
+        "serializedParity": "exact export keys, order and JSON serialization",
+        "numericParity": "underlying terrain normalization behavior remains covered by the dependency slice",
+        "publicStrings": "exact equality plus Unicode code-point preservation",
+        "errors": "underlying terrain normalization errors remain covered by the dependency slice"
+      }
     }
   ],
   "counts": {
@@ -38626,7 +38651,7 @@
     },
     "tests": {
       "javascript": 131,
-      "typescript": 206
+      "typescript": 208
     },
     "validationCampaigns": {
       "javascript": 17,
@@ -38657,7 +38682,7 @@
     "domain": {
       "statusCounts": {
         "exact-parity": 0,
-        "partial": 17,
+        "partial": 16,
         "missing": 0,
         "intentionally-excluded": 0,
         "decision-required": 0
@@ -38678,8 +38703,7 @@
         "root-export:SOIL_PARAMETER_BASES",
         "root-export:SOIL_SETTLEMENT_COMPONENTS",
         "root-export:SOIL_STRENGTH_MODELS",
-        "source:src/domain/geotechnics/index.js",
-        "source:src/domain/terrain/index.js"
+        "source:src/domain/geotechnics/index.js"
       ]
     },
     "norms": {

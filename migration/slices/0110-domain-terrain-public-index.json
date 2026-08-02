@@ -1,0 +1,69 @@
+{
+  "schemaVersion": 1,
+  "sliceId": "0110-domain-terrain-public-index",
+  "title": "Domain terrain public index",
+  "migrationType": "mechanical-parity-with-minimal-dependency-support",
+  "implementationStatus": "implemented",
+  "dependencies": ["0104-domain-terrain-elevation-grid"],
+  "source": {
+    "repository": "https://github.com/claudiopagani/strutture-js",
+    "revision": "6f33baead8b88166c4b2cf94af41763412e3c751"
+  },
+  "normativeCorpusRevision": "41da3faa489600173106935bbcf726119300e48d",
+  "sourceFiles": [
+    {
+      "path": "src/domain/terrain/index.js",
+      "gitBlobSha1": "7f603da8d378a3569c506844d42f847edd84bd22",
+      "targetPath": "src/domain/terrain/index.ts"
+    }
+  ],
+  "supportingSourceFiles": [
+    {
+      "path": "src/index.js",
+      "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7",
+      "targetPath": "src/index.ts",
+      "coverage": "Root terrain elevation-grid exports remain wired through the migrated terrain index."
+    }
+  ],
+  "sourceOracles": [
+    {
+      "path": "tests/packageExports.test.js",
+      "gitBlobSha1": "8dde24b4c97dd3dae7100207d07d9d96c52b9c74",
+      "coverage": "Root public export behavior; no dedicated terrain index oracle exists in the pinned test suite."
+    }
+  ],
+  "sourcePublicExport": {
+    "path": "src/index.js",
+    "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
+  },
+  "targetTests": [
+    "tests/baseline-parity.test.ts",
+    "tests/terrain-public-index-compile-time.test.ts",
+    "tests/terrain-public-index-live-parity.test.ts"
+  ],
+  "publicExports": [],
+  "publicTypeExports": [],
+  "normativeReferences": {
+    "resolved": [],
+    "outsideCorpus": [],
+    "normativeConformityClaimed": false,
+    "status": "not-applicable"
+  },
+  "independentValidation": {
+    "method": "Strict declaration consumer coverage and independently executed pinned JavaScript versus built TypeScript comparison of the terrain barrel, exact export keys, serialized schema identifier, Unicode code points, function identity and root aliases; detailed normalization behavior remains covered by the dependency slice.",
+    "targetTests": [
+      "tests/terrain-public-index-compile-time.test.ts",
+      "tests/terrain-public-index-live-parity.test.ts"
+    ],
+    "tolerances": {
+      "serializedParity": "exact export keys, order and JSON serialization",
+      "numericParity": "underlying terrain normalization behavior remains covered by the dependency slice",
+      "publicStrings": "exact equality plus Unicode code-point preservation",
+      "errors": "underlying terrain normalization errors remain covered by the dependency slice"
+    }
+  },
+  "parityDifferences": [
+    "No root runtime export is added; this slice completes the terrain barrel for the already-migrated elevation-grid implementation."
+  ],
+  "engineeringFunctionality": "Source-compatible public composition for terrain elevation-grid normalization."
+}
