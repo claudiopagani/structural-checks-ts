@@ -32147,11 +32147,20 @@
       "sourcePath": "src/domain/slabs/index.js",
       "sourceBlobSha1": "95c776a1e0b615ee748ec1f3e0a78b14ce87fbc1",
       "targetPath": "src/domain/slabs/index.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "partial"
+      "migrationSlices": ["0108-domain-slab-public-index"],
+      "sourceOracles": [
+        "tests/ntc2018SlabLoadAnalysis.test.js",
+        "tests/packageExports.test.js",
+        "tests/punchingConnectionContract.test.js",
+        "tests/punchingVerification.test.js"
+      ],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/slab-public-index-compile-time.test.ts",
+        "tests/slab-public-index-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0108-domain-slab-public-index"],
+      "status": "exact-parity"
     },
     {
       "id": "src/domain/slabs/punching/PunchingActionState.js",
@@ -32488,7 +32497,8 @@
         "0104-domain-terrain-elevation-grid",
         "0105-domain-fem-public-indexes",
         "0106-domain-masonry-material-public-indexes",
-        "0107-domain-masonry-section-public-index"
+        "0107-domain-masonry-section-public-index",
+        "0108-domain-slab-public-index"
       ],
       "sourceOracles": [
         "tests/architecture/applicationRegistry.test.js",
@@ -34948,14 +34958,16 @@
       "sourcePath": "tests/ntc2018SlabLoadAnalysis.test.js",
       "sourceBlobSha1": "c1e9fb9eada0babea7488194244b68c3107e8bd4",
       "targetPath": "tests/ntc2018SlabLoadAnalysis.test.ts",
-      "migrationSlices": ["0103-domain-slab-load-hierarchy"],
+      "migrationSlices": ["0103-domain-slab-load-hierarchy", "0108-domain-slab-public-index"],
       "sourceOracles": ["tests/ntc2018SlabLoadAnalysis.test.js"],
       "targetTests": [
         "tests/baseline-parity.test.ts",
         "tests/slab-loads-compile-time.test.ts",
-        "tests/slab-loads-live-parity.test.ts"
+        "tests/slab-loads-live-parity.test.ts",
+        "tests/slab-public-index-compile-time.test.ts",
+        "tests/slab-public-index-live-parity.test.ts"
       ],
-      "validationEvidence": ["0103-domain-slab-load-hierarchy"],
+      "validationEvidence": ["0103-domain-slab-load-hierarchy", "0108-domain-slab-public-index"],
       "status": "exact-parity",
       "testKind": "test"
     },
@@ -35116,7 +35128,8 @@
         "0104-domain-terrain-elevation-grid",
         "0105-domain-fem-public-indexes",
         "0106-domain-masonry-material-public-indexes",
-        "0107-domain-masonry-section-public-index"
+        "0107-domain-masonry-section-public-index",
+        "0108-domain-slab-public-index"
       ],
       "sourceOracles": ["tests/packageExports.test.js"],
       "targetTests": [
@@ -35183,6 +35196,8 @@
         "tests/shallow-foundation-uls-live-parity.test.ts",
         "tests/slab-loads-compile-time.test.ts",
         "tests/slab-loads-live-parity.test.ts",
+        "tests/slab-public-index-compile-time.test.ts",
+        "tests/slab-public-index-live-parity.test.ts",
         "tests/slope-slice-discretizer-compile-time.test.ts",
         "tests/slope-slice-discretizer-live-parity.test.ts",
         "tests/slope-stability-methods-compile-time.test.ts",
@@ -35240,7 +35255,8 @@
         "0104-domain-terrain-elevation-grid",
         "0105-domain-fem-public-indexes",
         "0106-domain-masonry-material-public-indexes",
-        "0107-domain-masonry-section-public-index"
+        "0107-domain-masonry-section-public-index",
+        "0108-domain-slab-public-index"
       ],
       "status": "exact-parity",
       "testKind": "test"
@@ -35250,10 +35266,15 @@
       "sourcePath": "tests/punchingConnectionContract.test.js",
       "sourceBlobSha1": "84095bc0706408f6909c699e4b651c2d23b1fa34",
       "targetPath": "tests/punchingConnectionContract.test.ts",
-      "migrationSlices": ["0016-reinforced-concrete-punching"],
+      "migrationSlices": ["0016-reinforced-concrete-punching", "0108-domain-slab-public-index"],
       "sourceOracles": ["tests/punchingConnectionContract.test.js"],
-      "targetTests": ["tests/concrete-punching.test.ts"],
-      "validationEvidence": ["0016-reinforced-concrete-punching"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/concrete-punching.test.ts",
+        "tests/slab-public-index-compile-time.test.ts",
+        "tests/slab-public-index-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0016-reinforced-concrete-punching", "0108-domain-slab-public-index"],
       "status": "exact-parity",
       "testKind": "test"
     },
@@ -35262,10 +35283,15 @@
       "sourcePath": "tests/punchingVerification.test.js",
       "sourceBlobSha1": "0dcde846de4153a37d0cf14bb7024e023be7b758",
       "targetPath": "tests/punchingVerification.test.ts",
-      "migrationSlices": ["0016-reinforced-concrete-punching"],
+      "migrationSlices": ["0016-reinforced-concrete-punching", "0108-domain-slab-public-index"],
       "sourceOracles": ["tests/punchingVerification.test.js"],
-      "targetTests": ["tests/concrete-punching.test.ts"],
-      "validationEvidence": ["0016-reinforced-concrete-punching"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/concrete-punching.test.ts",
+        "tests/slab-public-index-compile-time.test.ts",
+        "tests/slab-public-index-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0016-reinforced-concrete-punching", "0108-domain-slab-public-index"],
       "status": "exact-parity",
       "testKind": "test"
     },
@@ -38519,6 +38545,22 @@
         "publicStrings": "exact source-compatible public naming",
         "errors": "underlying fiber interface errors remain covered by the dependency slice"
       }
+    },
+    {
+      "sliceId": "0108-domain-slab-public-index",
+      "sourceRevision": "6f33baead8b88166c4b2cf94af41763412e3c751",
+      "method": "Strict declaration consumer coverage and independently executed pinned JavaScript versus built TypeScript comparison of the complete slab and punching public index, exact export order, serialized constants, Unicode strings and root alias identity; detailed numerical and error behavior remains covered by dependency-slice tests.",
+      "targetTests": [
+        "tests/slab-public-index-compile-time.test.ts",
+        "tests/slab-public-index-live-parity.test.ts"
+      ],
+      "fixture": null,
+      "tolerances": {
+        "serializedParity": "exact export keys, order and JSON serialization",
+        "numericParity": "underlying slab and punching numerical behavior remains covered by dependency slices",
+        "publicStrings": "exact equality plus Unicode code-point preservation",
+        "errors": "underlying slab and punching errors remain covered by dependency slices"
+      }
     }
   ],
   "counts": {
@@ -38552,7 +38594,7 @@
     },
     "tests": {
       "javascript": 131,
-      "typescript": 202
+      "typescript": 204
     },
     "validationCampaigns": {
       "javascript": 17,
@@ -38583,7 +38625,7 @@
     "domain": {
       "statusCounts": {
         "exact-parity": 0,
-        "partial": 18,
+        "partial": 17,
         "missing": 1,
         "intentionally-excluded": 0,
         "decision-required": 0
@@ -38605,7 +38647,6 @@
         "root-export:SOIL_SETTLEMENT_COMPONENTS",
         "root-export:SOIL_STRENGTH_MODELS",
         "source:src/domain/geotechnics/index.js",
-        "source:src/domain/slabs/index.js",
         "source:src/domain/solvers/index.js",
         "source:src/domain/terrain/index.js"
       ]

@@ -271,24 +271,22 @@ export {
 } from "./domain/actions/index.js";
 export { MasonryFiberInterface2D } from "./domain/sections/masonry/index.js";
 export {
+  FloorSlab,
+  LayerLoad,
+  LinearLoadFromLineWeight,
+  LinearLoadFromVolumeWeight,
+  NTC2018SlabLoadAnalysis,
   PUNCHING_ACTION_SCHEMA_VERSION,
   PUNCHING_CONNECTION_SCHEMA_VERSION,
   PUNCHING_CONTROL_PERIMETER_SCHEMA_VERSION,
   PunchingActionState,
   PunchingConnectionModel,
   PunchingControlPerimeter,
-  resolvePunchingTransferFromJointActions,
-} from "./domain/slabs/punching/index.js";
-export {
-  FloorSlab,
-  LayerLoad,
-  LinearLoadFromLineWeight,
-  LinearLoadFromVolumeWeight,
-  NTC2018SlabLoadAnalysis,
   SlabLoad,
   SurfaceLoad,
   VariableLoad,
   WallLoad,
+  resolvePunchingTransferFromJointActions,
 } from "./domain/slabs/index.js";
 export {
   TERRAIN_ELEVATION_GRID_SCHEMA_VERSION,

@@ -1,0 +1,84 @@
+{
+  "schemaVersion": 1,
+  "sliceId": "0108-domain-slab-public-index",
+  "title": "Domain slab public index composition",
+  "migrationType": "mechanical-parity-with-minimal-dependency-support",
+  "implementationStatus": "implemented",
+  "dependencies": ["0016-reinforced-concrete-punching", "0103-domain-slab-load-hierarchy"],
+  "source": {
+    "repository": "https://github.com/claudiopagani/strutture-js",
+    "revision": "6f33baead8b88166c4b2cf94af41763412e3c751"
+  },
+  "normativeCorpusRevision": "41da3faa489600173106935bbcf726119300e48d",
+  "sourceFiles": [
+    {
+      "path": "src/domain/slabs/index.js",
+      "gitBlobSha1": "95c776a1e0b615ee748ec1f3e0a78b14ce87fbc1",
+      "targetPath": "src/domain/slabs/index.ts"
+    }
+  ],
+  "supportingSourceFiles": [
+    {
+      "path": "src/index.js",
+      "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7",
+      "targetPath": "src/index.ts",
+      "coverage": "Root slab and punching exports are composed through the migrated domain slab index."
+    }
+  ],
+  "sourceOracles": [
+    {
+      "path": "tests/ntc2018SlabLoadAnalysis.test.js",
+      "gitBlobSha1": "c1e9fb9eada0babea7488194244b68c3107e8bd4",
+      "coverage": "NTC 2018 slab-load public behavior and errors."
+    },
+    {
+      "path": "tests/punchingConnectionContract.test.js",
+      "gitBlobSha1": "84095bc0706408f6909c699e4b651c2d23b1fa34",
+      "coverage": "Punching connection public DTO behavior."
+    },
+    {
+      "path": "tests/punchingVerification.test.js",
+      "gitBlobSha1": "0dcde846de4153a37d0cf14bb7024e023be7b758",
+      "coverage": "Punching public verification paths."
+    },
+    {
+      "path": "tests/packageExports.test.js",
+      "gitBlobSha1": "8dde24b4c97dd3dae7100207d07d9d96c52b9c74",
+      "coverage": "Root public export behavior."
+    }
+  ],
+  "sourcePublicExport": {
+    "path": "src/index.js",
+    "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
+  },
+  "targetTests": [
+    "tests/baseline-parity.test.ts",
+    "tests/slab-public-index-compile-time.test.ts",
+    "tests/slab-public-index-live-parity.test.ts"
+  ],
+  "publicExports": [],
+  "publicTypeExports": [],
+  "normativeReferences": {
+    "resolved": [],
+    "outsideCorpus": [],
+    "normativeConformityClaimed": false,
+    "status": "not-applicable"
+  },
+  "independentValidation": {
+    "method": "Strict declaration consumer coverage and independently executed pinned JavaScript versus built TypeScript comparison of the complete slab and punching public index, exact export order, serialized constants, Unicode strings and root alias identity; detailed numerical and error behavior remains covered by dependency-slice tests.",
+    "targetTests": [
+      "tests/slab-public-index-compile-time.test.ts",
+      "tests/slab-public-index-live-parity.test.ts"
+    ],
+    "tolerances": {
+      "serializedParity": "exact export keys, order and JSON serialization",
+      "numericParity": "underlying slab and punching numerical behavior remains covered by dependency slices",
+      "publicStrings": "exact equality plus Unicode code-point preservation",
+      "errors": "underlying slab and punching errors remain covered by dependency slices"
+    }
+  },
+  "parityDifferences": [
+    "No root runtime export is added; this slice routes the existing slab and punching exports through the source-compatible slab barrel."
+  ],
+  "engineeringFunctionality": "Source-compatible public composition for slab loads, NTC slab analysis and punching DTOs."
+}
