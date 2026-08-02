@@ -1194,10 +1194,12 @@
         "getNTC2018RcBuildingCoverage",
         "getNTC2018TimberKmod",
         "getRcPunchingDesignCodeManifest",
+        "getXlamPanelProduct",
         "governingCheck",
         "integrateFootingPressureStrip",
         "isFinitePositive",
         "isResultStatus",
+        "listXlamPanelProducts",
         "normalizeExistingMaterialKnowledgeLevel",
         "normalizeGlobalFemClassificationPolicy",
         "normalizeNTC2018StructuralBehavior",
@@ -1215,6 +1217,7 @@
         "projectSlabResultantStatesToResistanceAxes",
         "projectSupportReactionStateToResistanceAxes",
         "projectWallSectionCutStatesToResistanceAxes",
+        "registerXlamPanelProduct",
         "resolveBeamSupportPreset",
         "resolveExistingMaterialState",
         "resolveNTC2018AlphaRatio",
@@ -7986,11 +7989,15 @@
       "sourcePath": "src/domain/catalogs/xlamPanelCatalog.js",
       "sourceBlobSha1": "c09d831e99177ec47e29be566018ce8ba0e9d16f",
       "targetPath": "src/domain/catalogs/xlamPanelCatalog.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0042-domain-xlam-panel-catalog"],
+      "sourceOracles": ["tests/xlamOutOfPlanePanel.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/xlam-panel-catalog-compile-time.test.ts",
+        "tests/xlam-panel-catalog-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0042-domain-xlam-panel-catalog"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -9484,11 +9491,15 @@
       "sourcePath": "src/domain/catalogs/xlamPanelCatalog.js",
       "sourceBlobSha1": "c09d831e99177ec47e29be566018ce8ba0e9d16f",
       "targetPath": "src/domain/catalogs/xlamPanelCatalog.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0042-domain-xlam-panel-catalog"],
+      "sourceOracles": ["tests/xlamOutOfPlanePanel.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/xlam-panel-catalog-compile-time.test.ts",
+        "tests/xlam-panel-catalog-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0042-domain-xlam-panel-catalog"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -12524,11 +12535,15 @@
       "sourcePath": "src/domain/catalogs/xlamPanelCatalog.js",
       "sourceBlobSha1": "c09d831e99177ec47e29be566018ce8ba0e9d16f",
       "targetPath": "src/domain/catalogs/xlamPanelCatalog.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0042-domain-xlam-panel-catalog"],
+      "sourceOracles": ["tests/xlamOutOfPlanePanel.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/xlam-panel-catalog-compile-time.test.ts",
+        "tests/xlam-panel-catalog-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0042-domain-xlam-panel-catalog"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -27891,11 +27906,15 @@
       "sourcePath": "src/domain/catalogs/xlamPanelCatalog.js",
       "sourceBlobSha1": "c09d831e99177ec47e29be566018ce8ba0e9d16f",
       "targetPath": "src/domain/catalogs/xlamPanelCatalog.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing"
+      "migrationSlices": ["0042-domain-xlam-panel-catalog"],
+      "sourceOracles": ["tests/xlamOutOfPlanePanel.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/xlam-panel-catalog-compile-time.test.ts",
+        "tests/xlam-panel-catalog-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0042-domain-xlam-panel-catalog"],
+      "status": "exact-parity"
     },
     {
       "id": "src/domain/composite/CompositeSection.js",
@@ -30111,7 +30130,8 @@
         "0038-domain-actions-hierarchy",
         "0039-ntc2018-action-parameters-and-factories",
         "0040-domain-analysis-load-cases-and-combinations",
-        "0041-domain-beam-section-providers"
+        "0041-domain-beam-section-providers",
+        "0042-domain-xlam-panel-catalog"
       ],
       "sourceOracles": [
         "tests/architecture/applicationRegistry.test.js",
@@ -33151,11 +33171,15 @@
       "sourcePath": "tests/xlamOutOfPlanePanel.test.js",
       "sourceBlobSha1": "3ade818fb4c2023fd76db27340c9b7fa12c7f13a",
       "targetPath": "tests/xlamOutOfPlanePanel.test.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0042-domain-xlam-panel-catalog"],
+      "sourceOracles": ["tests/xlamOutOfPlanePanel.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/xlam-panel-catalog-compile-time.test.ts",
+        "tests/xlam-panel-catalog-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0042-domain-xlam-panel-catalog"],
+      "status": "exact-parity",
       "testKind": "test"
     }
   ],
@@ -34609,12 +34633,27 @@
         "numericParity": "exact equality for all finite provider properties and stiffness branches",
         "publicStrings": "exact equality plus Unicode code-point equality"
       }
+    },
+    {
+      "sliceId": "0042-domain-xlam-panel-catalog",
+      "sourceRevision": "6f33baead8b88166c4b2cf94af41763412e3c751",
+      "method": "Strict declaration consumer coverage and independently executed pinned JavaScript versus built TypeScript XLAM catalog modules, including exact JSON, cloning, Unicode and error-path comparisons.",
+      "targetTests": [
+        "tests/xlam-panel-catalog-compile-time.test.ts",
+        "tests/xlam-panel-catalog-live-parity.test.ts"
+      ],
+      "fixture": null,
+      "tolerances": {
+        "serializedParity": "exact JSON serialization for default, registered, listed and cloned products",
+        "numericParity": "exact equality for layer thickness and active-layer values",
+        "publicStrings": "exact equality plus Unicode code-point equality"
+      }
     }
   ],
   "counts": {
     "rootExports": {
       "javascript": 841,
-      "typescript": 396
+      "typescript": 399
     },
     "applicationsExports": {
       "javascript": 309,
@@ -34638,11 +34677,11 @@
     },
     "sourceFiles": {
       "javascript": 480,
-      "typescript": 264
+      "typescript": 265
     },
     "tests": {
       "javascript": 131,
-      "typescript": 70
+      "typescript": 72
     },
     "validationCampaigns": {
       "javascript": 17,
@@ -34674,7 +34713,7 @@
       "statusCounts": {
         "exact-parity": 0,
         "partial": 18,
-        "missing": 282,
+        "missing": 278,
         "intentionally-excluded": 0,
         "decision-required": 0
       },
@@ -34872,21 +34911,17 @@
         "root-export:getGroundAnchorBondCatalogEntry",
         "root-export:getSteelProfileSectionData",
         "root-export:getTecnariaConnectorData",
-        "root-export:getXlamPanelProduct",
         "root-export:groundAnchorDemandFromEmbeddedWallResult",
         "root-export:integratePressureSegments",
         "root-export:jakyAtRestCoefficient",
         "root-export:listGroundAnchorBondCatalogEntries",
         "root-export:listSteelProfileSectionsByFamily",
-        "root-export:listXlamPanelProducts",
         "root-export:mononobeOkabeActiveEarthPressureCoefficient",
         "root-export:normalizeTerrainElevationGrid",
         "root-export:ordinaryMethodOfSlices",
         "root-export:rankineEarthPressureCoefficients",
-        "root-export:registerXlamPanelProduct",
         "root-export:simplifiedBishop",
         "root-export:spencerMethod",
-        "source:src/domain/catalogs/xlamPanelCatalog.js",
         "source:src/domain/connectors/ShearConnector.js",
         "source:src/domain/connectors/TecnariaConnector.js",
         "source:src/domain/connectors/TimberDowelConnector.js",
@@ -35627,7 +35662,7 @@
       "statusCounts": {
         "exact-parity": 0,
         "partial": 3,
-        "missing": 157,
+        "missing": 156,
         "intentionally-excluded": 0,
         "decision-required": 0
       },
@@ -35790,8 +35825,7 @@
         "test:tests/steelRingFramePushover.test.js",
         "test:tests/timberConcreteCompositeBeam.test.js",
         "test:tests/timberMaterialHierarchy.test.js",
-        "test:tests/timberXlamCompositeBeam.test.js",
-        "test:tests/xlamOutOfPlanePanel.test.js"
+        "test:tests/timberXlamCompositeBeam.test.js"
       ]
     }
   },

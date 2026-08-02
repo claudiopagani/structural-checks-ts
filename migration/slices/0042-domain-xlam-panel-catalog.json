@@ -1,0 +1,69 @@
+{
+  "schemaVersion": 1,
+  "sliceId": "0042-domain-xlam-panel-catalog",
+  "title": "Domain XLAM panel product catalog",
+  "migrationType": "mechanical-parity",
+  "implementationStatus": "implemented",
+  "dependencies": ["0041-domain-beam-section-providers"],
+  "source": {
+    "repository": "https://github.com/claudiopagani/strutture-js",
+    "revision": "6f33baead8b88166c4b2cf94af41763412e3c751"
+  },
+  "normativeCorpusRevision": "41da3faa489600173106935bbcf726119300e48d",
+  "sourceFiles": [
+    {
+      "path": "src/domain/catalogs/xlamPanelCatalog.js",
+      "gitBlobSha1": "c09d831e99177ec47e29be566018ce8ba0e9d16f",
+      "targetPath": "src/domain/catalogs/xlamPanelCatalog.ts"
+    }
+  ],
+  "supportingSourceFiles": [
+    {
+      "path": "src/index.js",
+      "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7",
+      "targetPath": "src/index.ts",
+      "coverage": "Root public exports for the migrated XLAM panel catalog functions"
+    }
+  ],
+  "sourceOracles": [
+    {
+      "path": "tests/xlamOutOfPlanePanel.test.js",
+      "gitBlobSha1": "3ade818fb4c2023fd76db27340c9b7fa12c7f13a",
+      "coverage": "XLAM panel catalog registration, retrieval and listing; downstream out-of-plane application coverage remains outside this slice"
+    }
+  ],
+  "sourcePublicExport": {
+    "path": "src/index.js",
+    "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
+  },
+  "targetTests": [
+    "tests/baseline-parity.test.ts",
+    "tests/xlam-panel-catalog-compile-time.test.ts",
+    "tests/xlam-panel-catalog-live-parity.test.ts"
+  ],
+  "publicExports": ["getXlamPanelProduct", "listXlamPanelProducts", "registerXlamPanelProduct"],
+  "publicTypeExports": ["XlamPanelProduct", "XlamPanelProductInput"],
+  "normativeReferences": {
+    "resolved": [],
+    "outsideCorpus": [],
+    "normativeConformityClaimed": false,
+    "status": "classified-for-declared-scope"
+  },
+  "independentValidation": {
+    "method": "Strict declaration consumer coverage and independently executed pinned JavaScript versus built TypeScript XLAM catalog modules, including exact JSON, cloning, Unicode and error-path comparisons.",
+    "targetTests": [
+      "tests/xlam-panel-catalog-compile-time.test.ts",
+      "tests/xlam-panel-catalog-live-parity.test.ts"
+    ],
+    "tolerances": {
+      "serializedParity": "exact JSON serialization for default, registered, listed and cloned products",
+      "numericParity": "exact equality for layer thickness and active-layer values",
+      "publicStrings": "exact equality plus Unicode code-point equality"
+    }
+  },
+  "parityDifferences": [
+    "The slice preserves the source module-level generic product, registration keys, shallow product cloning, layer-thickness and metadata copies, listing order and missing-id errors.",
+    "XLAM panel sections, materials, beam or panel applications and engineering verification formulas remain outside this bounded slice."
+  ],
+  "engineeringFunctionality": "Generic XLAM panel product catalog storage and cloning only; no panel section, material catalog or out-of-plane verification implementation is introduced."
+}

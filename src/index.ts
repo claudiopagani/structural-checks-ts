@@ -31,6 +31,11 @@ export {
   createUnitResolver,
   normalizeUnitSystem,
 } from "./domain/units/UnitSystem.js";
+export {
+  getXlamPanelProduct,
+  listXlamPanelProducts,
+  registerXlamPanelProduct,
+} from "./domain/catalogs/xlamPanelCatalog.js";
 export { BaseMaterial } from "./domain/materials/BaseMaterial.js";
 export { ConcreteMaterial } from "./domain/materials/ConcreteMaterial.js";
 export { SteelMaterial } from "./domain/materials/SteelMaterial.js";
@@ -507,6 +512,10 @@ export type {
   UnitSystem,
   UnitSystemInput,
 } from "./domain/units/UnitSystem.js";
+export type {
+  XlamPanelProduct,
+  XlamPanelProductInput,
+} from "./domain/catalogs/xlamPanelCatalog.js";
 export type * from "./domain/actions/index.js";
 export type * from "./domain/slabs/punching/types.js";
 export type * from "./applications/reinforced-concrete-punching/index.js";
