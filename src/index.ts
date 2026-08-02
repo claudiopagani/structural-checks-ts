@@ -95,6 +95,7 @@ export {
   FemAssembler2D,
   FrameElement2DEulerBernoulli,
   FrameElement2DTimoshenko,
+  FrameElement2DTimoshenkoRigidOffsets,
   KinematicConstraintReducer2D,
   LinearStaticSolver2D,
 } from "./domain/fem/index.js";
@@ -921,6 +922,8 @@ export type {
   FrameElement2DSampleInput,
   FrameElement2DConstructor,
   FrameElement2DTimoshenkoInput,
+  FrameElement2DTimoshenkoRigidOffsetsInput,
+  FrameElement2DTimoshenkoRigidOffsetsJson,
   IndexedElementLoad,
   KinematicConstraintLike,
   KinematicConstraintReducer2DLike,

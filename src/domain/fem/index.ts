@@ -6,6 +6,7 @@ export { KinematicConstraintReducer2D } from "./KinematicConstraintReducer2D.js"
 export { LinearStaticSolver2D } from "./LinearStaticSolver2D.js";
 export { FrameElement2DEulerBernoulli } from "./elements/index.js";
 export { FrameElement2DTimoshenko } from "./elements/index.js";
+export { FrameElement2DTimoshenkoRigidOffsets } from "./elements/index.js";
 export {
   GLOBAL_FEM_LINE_ACTION_COMPONENTS,
   GLOBAL_FEM_SHELL_RESULTANT_COMPONENTS,
@@ -144,5 +145,7 @@ export type {
   FrameElement2DLocalLoadComponents,
   FrameElement2DSampleInput,
   FrameElement2DTimoshenkoInput,
+  FrameElement2DTimoshenkoRigidOffsetsInput,
+  FrameElement2DTimoshenkoRigidOffsetsJson,
   TimoshenkoLockingDiagnostics,
 } from "./elements/index.js";

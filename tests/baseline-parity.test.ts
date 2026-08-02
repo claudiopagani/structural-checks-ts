@@ -110,6 +110,7 @@ const expectedExports = [
   "FemAssembler2D",
   "FrameElement2DEulerBernoulli",
   "FrameElement2DTimoshenko",
+  "FrameElement2DTimoshenkoRigidOffsets",
   "GlobalFemPostProcessingApplication",
   "IllinoisRootSolver",
   "ImposedAction",

@@ -1,0 +1,83 @@
+{
+  "schemaVersion": 1,
+  "sliceId": "0052-domain-fem-timoshenko-rigid-offsets",
+  "title": "Domain rigid-offset Timoshenko frame element",
+  "migrationType": "mechanical-parity",
+  "implementationStatus": "implemented",
+  "dependencies": ["0021-beam-line-preprocessing-and-timoshenko"],
+  "source": {
+    "repository": "https://github.com/claudiopagani/strutture-js",
+    "revision": "6f33baead8b88166c4b2cf94af41763412e3c751"
+  },
+  "normativeCorpusRevision": "41da3faa489600173106935bbcf726119300e48d",
+  "sourceFiles": [
+    {
+      "path": "src/domain/fem/elements/FrameElement2DTimoshenkoRigidOffsets.js",
+      "gitBlobSha1": "1c041b844eec76ebcda7267809f61c6c417fc01a",
+      "targetPath": "src/domain/fem/elements/FrameElement2DTimoshenkoRigidOffsets.ts"
+    }
+  ],
+  "supportingSourceFiles": [
+    {
+      "path": "src/domain/fem/elements/index.js",
+      "gitBlobSha1": "01bc9064c8484d7ac39e9195f66e4ccfcb6a667f",
+      "targetPath": "src/domain/fem/elements/index.ts",
+      "coverage": "Element-level public export for FrameElement2DTimoshenkoRigidOffsets"
+    },
+    {
+      "path": "src/domain/fem/index.js",
+      "gitBlobSha1": "500ed76831bf15f757c0ed2c7eff05844c39511c",
+      "targetPath": "src/domain/fem/index.ts",
+      "coverage": "FEM public export for FrameElement2DTimoshenkoRigidOffsets"
+    },
+    {
+      "path": "src/index.js",
+      "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7",
+      "targetPath": "src/index.ts",
+      "coverage": "Root FrameElement2DTimoshenkoRigidOffsets export is re-exported from the migrated implementation"
+    }
+  ],
+  "sourceOracles": [
+    {
+      "path": "tests/frameElement2DTimoshenkoRigidOffsets.test.js",
+      "gitBlobSha1": "ba913c72b4821b94714489a5b84df501814d6b61"
+    }
+  ],
+  "sourcePublicExport": {
+    "path": "src/index.js",
+    "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
+  },
+  "targetTests": [
+    "tests/frame-element-timoshenko-rigid-offsets-compile-time.test.ts",
+    "tests/frame-element-timoshenko-rigid-offsets-live-parity.test.ts"
+  ],
+  "publicExports": ["FrameElement2DTimoshenkoRigidOffsets"],
+  "publicTypeExports": [
+    "FrameElement2DTimoshenkoRigidOffsetsInput",
+    "FrameElement2DTimoshenkoRigidOffsetsJson"
+  ],
+  "normativeReferences": {
+    "resolved": [],
+    "outsideCorpus": [],
+    "normativeConformityClaimed": false,
+    "status": "classified-for-declared-scope"
+  },
+  "independentValidation": {
+    "method": "Strict declaration consumer coverage and independently executed pinned JavaScript versus built TypeScript rigid-offset Timoshenko modules, including root export identity, inheritance isolation, exact matrices and vectors, exact JSON serialization, Unicode metadata, defaults, and constructor and unsupported-input errors.",
+    "targetTests": [
+      "tests/frame-element-timoshenko-rigid-offsets-compile-time.test.ts",
+      "tests/frame-element-timoshenko-rigid-offsets-live-parity.test.ts"
+    ],
+    "tolerances": {
+      "serializedParity": "exact JSON serialization",
+      "numericParity": "exact equality for matrices, vectors and lengths",
+      "publicStrings": "exact equality plus Unicode code-point equality",
+      "errors": "exact error name and message equality"
+    }
+  },
+  "parityDifferences": [
+    "The strict TypeScript declarations describe the existing JavaScript rigid-offset Timoshenko element contract without adding runtime behavior.",
+    "Element loads with non-zero rigid offsets remain unsupported exactly as in the pinned JavaScript source."
+  ],
+  "engineeringFunctionality": "Solver-neutral 2D Timoshenko frame stiffness and displacement transformation with rigid end offsets, explicit or derived deformable reference nodes, exact serialization, and the source-defined unsupported element-load behavior."
+}

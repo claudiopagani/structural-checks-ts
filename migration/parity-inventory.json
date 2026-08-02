@@ -930,6 +930,7 @@
         "FoundationBeamModel",
         "FrameElement2DEulerBernoulli",
         "FrameElement2DTimoshenko",
+        "FrameElement2DTimoshenkoRigidOffsets",
         "GEOTECHNICAL_DESIGN_SITUATION_SCHEMA_VERSION",
         "GEOTECHNICAL_DESIGN_SITUATION_TYPES",
         "GEOTECHNICAL_DRAINAGE_CONDITIONS",
@@ -7332,11 +7333,14 @@
       "sourcePath": "src/domain/fem/elements/FrameElement2DTimoshenkoRigidOffsets.js",
       "sourceBlobSha1": "1c041b844eec76ebcda7267809f61c6c417fc01a",
       "targetPath": "src/domain/fem/elements/FrameElement2DTimoshenkoRigidOffsets.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0052-domain-fem-timoshenko-rigid-offsets"],
+      "sourceOracles": ["tests/frameElement2DTimoshenkoRigidOffsets.test.js"],
+      "targetTests": [
+        "tests/frame-element-timoshenko-rigid-offsets-compile-time.test.ts",
+        "tests/frame-element-timoshenko-rigid-offsets-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0052-domain-fem-timoshenko-rigid-offsets"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -28539,11 +28543,14 @@
       "sourcePath": "src/domain/fem/elements/FrameElement2DTimoshenkoRigidOffsets.js",
       "sourceBlobSha1": "1c041b844eec76ebcda7267809f61c6c417fc01a",
       "targetPath": "src/domain/fem/elements/FrameElement2DTimoshenkoRigidOffsets.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing"
+      "migrationSlices": ["0052-domain-fem-timoshenko-rigid-offsets"],
+      "sourceOracles": ["tests/frameElement2DTimoshenkoRigidOffsets.test.js"],
+      "targetTests": [
+        "tests/frame-element-timoshenko-rigid-offsets-compile-time.test.ts",
+        "tests/frame-element-timoshenko-rigid-offsets-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0052-domain-fem-timoshenko-rigid-offsets"],
+      "status": "exact-parity"
     },
     {
       "id": "src/domain/fem/elements/index.js",
@@ -30277,7 +30284,8 @@
         "0048-domain-constitutive-laws-index",
         "0049-domain-structural-element",
         "0050-domain-beam-element",
-        "0051-domain-beam-system"
+        "0051-domain-beam-system",
+        "0052-domain-fem-timoshenko-rigid-offsets"
       ],
       "sourceOracles": [
         "tests/architecture/applicationRegistry.test.js",
@@ -31611,11 +31619,14 @@
       "sourcePath": "tests/frameElement2DTimoshenkoRigidOffsets.test.js",
       "sourceBlobSha1": "ba913c72b4821b94714489a5b84df501814d6b61",
       "targetPath": "tests/frameElement2DTimoshenkoRigidOffsets.test.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0052-domain-fem-timoshenko-rigid-offsets"],
+      "sourceOracles": ["tests/frameElement2DTimoshenkoRigidOffsets.test.js"],
+      "targetTests": [
+        "tests/frame-element-timoshenko-rigid-offsets-compile-time.test.ts",
+        "tests/frame-element-timoshenko-rigid-offsets-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0052-domain-fem-timoshenko-rigid-offsets"],
+      "status": "exact-parity",
       "testKind": "test"
     },
     {
@@ -34961,12 +34972,28 @@
         "numericParity": "exact equality for delegated beam total length",
         "publicStrings": "exact equality plus Unicode code-point equality"
       }
+    },
+    {
+      "sliceId": "0052-domain-fem-timoshenko-rigid-offsets",
+      "sourceRevision": "6f33baead8b88166c4b2cf94af41763412e3c751",
+      "method": "Strict declaration consumer coverage and independently executed pinned JavaScript versus built TypeScript rigid-offset Timoshenko modules, including root export identity, inheritance isolation, exact matrices and vectors, exact JSON serialization, Unicode metadata, defaults, and constructor and unsupported-input errors.",
+      "targetTests": [
+        "tests/frame-element-timoshenko-rigid-offsets-compile-time.test.ts",
+        "tests/frame-element-timoshenko-rigid-offsets-live-parity.test.ts"
+      ],
+      "fixture": null,
+      "tolerances": {
+        "serializedParity": "exact JSON serialization",
+        "numericParity": "exact equality for matrices, vectors and lengths",
+        "publicStrings": "exact equality plus Unicode code-point equality",
+        "errors": "exact error name and message equality"
+      }
     }
   ],
   "counts": {
     "rootExports": {
       "javascript": 841,
-      "typescript": 409
+      "typescript": 410
     },
     "applicationsExports": {
       "javascript": 309,
@@ -34990,11 +35017,11 @@
     },
     "sourceFiles": {
       "javascript": 480,
-      "typescript": 274
+      "typescript": 275
     },
     "tests": {
       "javascript": 131,
-      "typescript": 90
+      "typescript": 92
     },
     "validationCampaigns": {
       "javascript": 17,
@@ -35026,7 +35053,7 @@
       "statusCounts": {
         "exact-parity": 0,
         "partial": 18,
-        "missing": 259,
+        "missing": 257,
         "intentionally-excluded": 0,
         "decision-required": 0
       },
@@ -35060,7 +35087,6 @@
         "root-export:ExistingMasonryMaterial",
         "root-export:ExistingMaterial",
         "root-export:FloorSlab",
-        "root-export:FrameElement2DTimoshenkoRigidOffsets",
         "root-export:GEOTECHNICAL_DESIGN_SITUATION_SCHEMA_VERSION",
         "root-export:GEOTECHNICAL_DESIGN_SITUATION_TYPES",
         "root-export:GEOTECHNICAL_DRAINAGE_CONDITIONS",
@@ -35225,7 +35251,6 @@
         "root-export:rankineEarthPressureCoefficients",
         "root-export:simplifiedBishop",
         "root-export:spencerMethod",
-        "source:src/domain/fem/elements/FrameElement2DTimoshenkoRigidOffsets.js",
         "source:src/domain/fem/elements/index.js",
         "source:src/domain/fem/elements/masonry/CyclicMasonryPier2D.js",
         "source:src/domain/fem/elements/masonry/MasonryPierKinematics.js",
@@ -35956,7 +35981,7 @@
       "statusCounts": {
         "exact-parity": 0,
         "partial": 3,
-        "missing": 155,
+        "missing": 154,
         "intentionally-excluded": 0,
         "decision-required": 0
       },
@@ -36065,7 +36090,6 @@
         "test:tests/dm522023.test.js",
         "test:tests/fixtures/strutture-js-web-worker-entry.js",
         "test:tests/frameElement2DEulerBernoulli.test.js",
-        "test:tests/frameElement2DTimoshenkoRigidOffsets.test.js",
         "test:tests/geotechnicalDeepFoundationValidationCampaign.test.js",
         "test:tests/geotechnicalEarthPressure.test.js",
         "test:tests/geotechnicalEmbeddedRetainingWallValidationCampaign.test.js",
