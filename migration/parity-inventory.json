@@ -1023,6 +1023,8 @@
         "NTC2018_WALL_SYSTEM_REFERENCES",
         "NodalLoad",
         "Node",
+        "PORE_PRESSURE_FIELD_2D_MODELS",
+        "PORE_PRESSURE_FIELD_2D_SCHEMA_VERSION",
         "PRESSURE_DIAGRAM_2D_SCHEMA_VERSION",
         "PUNCHING_ACTION_SCHEMA_VERSION",
         "PUNCHING_CONNECTION_SCHEMA_VERSION",
@@ -1031,6 +1033,7 @@
         "PermanentAction",
         "PointLoad",
         "PolygonSection",
+        "PorePressureField2D",
         "PressureDiagram2D",
         "PunchingActionState",
         "PunchingConnectionModel",
@@ -11981,11 +11984,15 @@
       "sourcePath": "src/domain/geotechnics/PorePressureField2D.js",
       "sourceBlobSha1": "99e6291a28dcc534a09a6d275a81ea561280554c",
       "targetPath": "src/domain/geotechnics/PorePressureField2D.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0069-domain-pore-pressure-field"],
+      "sourceOracles": ["tests/geotechnicalGroundModel.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/pore-pressure-field-2d-compile-time.test.ts",
+        "tests/pore-pressure-field-2d-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0069-domain-pore-pressure-field"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -11995,11 +12002,15 @@
       "sourcePath": "src/domain/geotechnics/PorePressureField2D.js",
       "sourceBlobSha1": "99e6291a28dcc534a09a6d275a81ea561280554c",
       "targetPath": "src/domain/geotechnics/PorePressureField2D.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0069-domain-pore-pressure-field"],
+      "sourceOracles": ["tests/geotechnicalGroundModel.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/pore-pressure-field-2d-compile-time.test.ts",
+        "tests/pore-pressure-field-2d-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0069-domain-pore-pressure-field"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -12009,11 +12020,15 @@
       "sourcePath": "src/domain/geotechnics/PorePressureField2D.js",
       "sourceBlobSha1": "99e6291a28dcc534a09a6d275a81ea561280554c",
       "targetPath": "src/domain/geotechnics/PorePressureField2D.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0069-domain-pore-pressure-field"],
+      "sourceOracles": ["tests/geotechnicalGroundModel.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/pore-pressure-field-2d-compile-time.test.ts",
+        "tests/pore-pressure-field-2d-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0069-domain-pore-pressure-field"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -24098,11 +24113,15 @@
       "sourcePath": "src/domain/geotechnics/PorePressureField2D.js",
       "sourceBlobSha1": "99e6291a28dcc534a09a6d275a81ea561280554c",
       "targetPath": "src/domain/geotechnics/PorePressureField2D.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0069-domain-pore-pressure-field"],
+      "sourceOracles": ["tests/geotechnicalGroundModel.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/pore-pressure-field-2d-compile-time.test.ts",
+        "tests/pore-pressure-field-2d-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0069-domain-pore-pressure-field"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7",
       "value": "pore-pressure-field-2d/v1"
@@ -29527,11 +29546,15 @@
       "sourcePath": "src/domain/geotechnics/PorePressureField2D.js",
       "sourceBlobSha1": "99e6291a28dcc534a09a6d275a81ea561280554c",
       "targetPath": "src/domain/geotechnics/PorePressureField2D.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing"
+      "migrationSlices": ["0069-domain-pore-pressure-field"],
+      "sourceOracles": ["tests/geotechnicalGroundModel.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/pore-pressure-field-2d-compile-time.test.ts",
+        "tests/pore-pressure-field-2d-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0069-domain-pore-pressure-field"],
+      "status": "exact-parity"
     },
     {
       "id": "src/domain/geotechnics/PressureDiagram2D.js",
@@ -30724,7 +30747,8 @@
         "0065-domain-circular-slip-surface",
         "0066-domain-embedded-retaining-wall-model",
         "0067-domain-ground-anchor-model",
-        "0068-domain-pressure-diagram"
+        "0068-domain-pressure-diagram",
+        "0069-domain-pore-pressure-field"
       ],
       "sourceOracles": [
         "tests/architecture/applicationRegistry.test.js",
@@ -32202,11 +32226,15 @@
       "sourcePath": "tests/geotechnicalGroundModel.test.js",
       "sourceBlobSha1": "430775c7d7077ac71dbc3f8b03e8cd2f4a6bb289",
       "targetPath": "tests/geotechnicalGroundModel.test.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0069-domain-pore-pressure-field"],
+      "sourceOracles": ["tests/geotechnicalGroundModel.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/pore-pressure-field-2d-compile-time.test.ts",
+        "tests/pore-pressure-field-2d-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0069-domain-pore-pressure-field"],
+      "status": "exact-parity",
       "testKind": "test"
     },
     {
@@ -35779,12 +35807,28 @@
         "publicStrings": "exact equality plus Unicode code-point preservation",
         "errors": "exact error name and message equality"
       }
+    },
+    {
+      "sliceId": "0069-domain-pore-pressure-field",
+      "sourceRevision": "6f33baead8b88166c4b2cf94af41763412e3c751",
+      "method": "Strict public declaration consumer coverage and independently executed pinned JavaScript versus built TypeScript comparison of hydrostatic, phreatic-line and assigned-grid pressure fields, interpolation and clamping, ground-profile conversion, exact serialization, Unicode metadata and error paths.",
+      "targetTests": [
+        "tests/pore-pressure-field-2d-compile-time.test.ts",
+        "tests/pore-pressure-field-2d-live-parity.test.ts"
+      ],
+      "fixture": null,
+      "tolerances": {
+        "serializedParity": "exact deep equality and JSON serialization",
+        "numericParity": "exact equality for pressure, water elevation and bilinear interpolation",
+        "publicStrings": "exact equality plus Unicode code-point preservation",
+        "errors": "exact error name and message equality"
+      }
     }
   ],
   "counts": {
     "rootExports": {
       "javascript": 841,
-      "typescript": 454
+      "typescript": 457
     },
     "applicationsExports": {
       "javascript": 309,
@@ -35804,15 +35848,15 @@
     },
     "serializedSchemas": {
       "javascript": 49,
-      "typescript": 17
+      "typescript": 18
     },
     "sourceFiles": {
       "javascript": 480,
-      "typescript": 303
+      "typescript": 304
     },
     "tests": {
       "javascript": 131,
-      "typescript": 124
+      "typescript": 126
     },
     "validationCampaigns": {
       "javascript": 17,
@@ -35844,7 +35888,7 @@
       "statusCounts": {
         "exact-parity": 0,
         "partial": 20,
-        "missing": 185,
+        "missing": 181,
         "intentionally-excluded": 0,
         "decision-required": 0
       },
@@ -35925,10 +35969,7 @@
         "root-export:PILE_TRANSFER_EXTRAPOLATION_MODELS",
         "root-export:PILE_TRANSFER_LAW_KINDS",
         "root-export:PILE_TRANSFER_LAW_SCHEMA_VERSION",
-        "root-export:PORE_PRESSURE_FIELD_2D_MODELS",
-        "root-export:PORE_PRESSURE_FIELD_2D_SCHEMA_VERSION",
         "root-export:PileTransferLaw",
-        "root-export:PorePressureField2D",
         "root-export:RETAINING_WALL_ANALYSIS_RESULT_SCHEMA_VERSION",
         "root-export:RETAINING_WALL_BASE_UPLIFT_MODELS",
         "root-export:RETAINING_WALL_LOAD_SCENARIO_SCHEMA_VERSION",
@@ -36018,7 +36059,6 @@
         "source:src/domain/geotechnics/LateralPileResponseScenario.js",
         "source:src/domain/geotechnics/LayeredPseudostaticTrialWedge.js",
         "source:src/domain/geotechnics/PileTransferLaw.js",
-        "source:src/domain/geotechnics/PorePressureField2D.js",
         "source:src/domain/geotechnics/RetainingWallAnalysis.js",
         "source:src/domain/geotechnics/RetainingWallLoadScenario.js",
         "source:src/domain/geotechnics/RetainingWallModel.js",
@@ -36693,7 +36733,7 @@
       "statusCounts": {
         "exact-parity": 0,
         "partial": 3,
-        "missing": 143,
+        "missing": 142,
         "intentionally-excluded": 0,
         "decision-required": 0
       },
@@ -36803,7 +36843,6 @@
         "test:tests/geotechnicalDeepFoundationValidationCampaign.test.js",
         "test:tests/geotechnicalEmbeddedRetainingWallValidationCampaign.test.js",
         "test:tests/geotechnicalGroundAnchorValidationCampaign.test.js",
-        "test:tests/geotechnicalGroundModel.test.js",
         "test:tests/geotechnicalLateralPilePy.test.js",
         "test:tests/geotechnicalLateralPilePyValidationCampaign.test.js",
         "test:tests/geotechnicalLateralPileValidationCampaign.test.js",

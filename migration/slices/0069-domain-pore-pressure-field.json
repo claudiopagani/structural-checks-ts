@@ -1,0 +1,106 @@
+{
+  "schemaVersion": 1,
+  "sliceId": "0069-domain-pore-pressure-field",
+  "title": "Domain pore-pressure field",
+  "migrationType": "mechanical-parity",
+  "implementationStatus": "implemented",
+  "dependencies": ["0068-domain-pressure-diagram"],
+  "source": {
+    "repository": "https://github.com/claudiopagani/strutture-js",
+    "revision": "6f33baead8b88166c4b2cf94af41763412e3c751"
+  },
+  "normativeCorpusRevision": "41da3faa489600173106935bbcf726119300e48d",
+  "sourceFiles": [
+    {
+      "path": "src/domain/geotechnics/PorePressureField2D.js",
+      "gitBlobSha1": "99e6291a28dcc534a09a6d275a81ea561280554c",
+      "targetPath": "src/domain/geotechnics/PorePressureField2D.ts"
+    }
+  ],
+  "supportingSourceFiles": [
+    {
+      "path": "src/domain/geotechnics/GroundProfile.js",
+      "gitBlobSha1": "6a4f206074bcbda08fefed813bf77e30bf095f41",
+      "targetPath": "src/domain/geotechnics/GroundProfile.ts",
+      "coverage": "Pore-pressure fields construct from already migrated ground profiles"
+    },
+    {
+      "path": "src/domain/geotechnics/SoilMaterial.js",
+      "gitBlobSha1": "5dfaafe73a7e65586de313e262cacf7e257535b9",
+      "targetPath": "src/domain/geotechnics/SoilMaterial.ts",
+      "coverage": "Pore-pressure fields use the already migrated canonical geotechnical internal units"
+    },
+    {
+      "path": "src/domain/units/UnitSystem.js",
+      "gitBlobSha1": "b8f2f4926aff645efbf7b9f458b69eba264ed59a",
+      "targetPath": "src/domain/units/UnitSystem.ts",
+      "coverage": "Pore-pressure field dimensions and stresses use the migrated unit resolver"
+    },
+    {
+      "path": "src/domain/geotechnics/index.js",
+      "gitBlobSha1": "41ed2053fc2e37dc90da412846609f4050af9668",
+      "targetPath": "src/domain/geotechnics/index.ts",
+      "coverage": "Geotechnical public export for the migrated pore-pressure field"
+    },
+    {
+      "path": "src/index.js",
+      "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7",
+      "targetPath": "src/index.ts",
+      "coverage": "Root public exports for the migrated pore-pressure field"
+    }
+  ],
+  "sourceOracles": [
+    {
+      "path": "tests/geotechnicalGroundModel.test.js",
+      "gitBlobSha1": "430775c7d7077ac71dbc3f8b03e8cd2f4a6bb289",
+      "coverage": "Hydrostatic, phreatic-line and assigned-grid pressure fields, interpolation, clamping, unit conversion, profile conversion and validation"
+    }
+  ],
+  "sourcePublicExport": {
+    "path": "src/index.js",
+    "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
+  },
+  "targetTests": [
+    "tests/baseline-parity.test.ts",
+    "tests/pore-pressure-field-2d-compile-time.test.ts",
+    "tests/pore-pressure-field-2d-live-parity.test.ts"
+  ],
+  "publicExports": [
+    "PORE_PRESSURE_FIELD_2D_MODELS",
+    "PORE_PRESSURE_FIELD_2D_SCHEMA_VERSION",
+    "PorePressureField2D"
+  ],
+  "publicTypeExports": [
+    "PorePressureAssignedGrid",
+    "PorePressureAssignedGridInput",
+    "PorePressureField2DJson",
+    "PorePressureField2DOptions",
+    "PorePressurePhreaticLine",
+    "PorePressurePhreaticLineInput",
+    "PorePressurePoint",
+    "PorePressurePointInput"
+  ],
+  "normativeReferences": {
+    "resolved": [],
+    "outsideCorpus": [],
+    "normativeConformityClaimed": false,
+    "status": "classified-for-declared-scope"
+  },
+  "independentValidation": {
+    "method": "Strict public declaration consumer coverage and independently executed pinned JavaScript versus built TypeScript comparison of hydrostatic, phreatic-line and assigned-grid pressure fields, interpolation and clamping, ground-profile conversion, exact serialization, Unicode metadata and error paths.",
+    "targetTests": [
+      "tests/pore-pressure-field-2d-compile-time.test.ts",
+      "tests/pore-pressure-field-2d-live-parity.test.ts"
+    ],
+    "tolerances": {
+      "serializedParity": "exact deep equality and JSON serialization",
+      "numericParity": "exact equality for pressure, water elevation and bilinear interpolation",
+      "publicStrings": "exact equality plus Unicode code-point preservation",
+      "errors": "exact error name and message equality"
+    }
+  },
+  "parityDifferences": [
+    "The strict TypeScript declarations describe the existing JavaScript pore-pressure field without adding runtime behavior."
+  ],
+  "engineeringFunctionality": "Serializable two-dimensional pore-pressure field supporting no-water, horizontal hydrostatic, piecewise-linear phreatic and assigned bilinear-grid models with explicit outside-domain policies and ground-profile conversion."
+}

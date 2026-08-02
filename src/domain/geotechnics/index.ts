@@ -36,6 +36,19 @@ export {
   type GroundwaterModel,
 } from "./GroundProfile.js";
 export {
+  PORE_PRESSURE_FIELD_2D_MODELS,
+  PORE_PRESSURE_FIELD_2D_SCHEMA_VERSION,
+  PorePressureField2D,
+  type PorePressureAssignedGrid,
+  type PorePressureAssignedGridInput,
+  type PorePressureField2DJson,
+  type PorePressureField2DOptions,
+  type PorePressurePhreaticLine,
+  type PorePressurePhreaticLineInput,
+  type PorePressurePoint,
+  type PorePressurePointInput,
+} from "./PorePressureField2D.js";
+export {
   CIRCULAR_SLIP_SURFACE_2D_SCHEMA_VERSION,
   CircularSlipSurface2D,
   SLOPE_MOVEMENT_DIRECTIONS,
