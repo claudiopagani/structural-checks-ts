@@ -920,6 +920,7 @@
         "EXISTING_MATERIAL_CONFIDENCE_LEVELS",
         "ElasticBeamSectionProvider",
         "ElementPointLoad",
+        "ExistingMasonryMaterial",
         "ExistingMaterial",
         "FEM_ANALYSIS_CAPABILITY_KEYS",
         "FEM_ANALYSIS_TYPES",
@@ -7104,11 +7105,15 @@
       "sourcePath": "src/domain/materials/ExistingMasonryMaterial.js",
       "sourceBlobSha1": "6c63465480b82a8db624157567b7c9f118631b15",
       "targetPath": "src/domain/materials/ExistingMasonryMaterial.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0063-domain-existing-masonry-material"],
+      "sourceOracles": ["tests/ntc2018ExistingMasonryMaterial.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/existing-masonry-material-compile-time.test.ts",
+        "tests/existing-masonry-material-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0063-domain-existing-masonry-material"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -29702,11 +29707,15 @@
       "sourcePath": "src/domain/materials/ExistingMasonryMaterial.js",
       "sourceBlobSha1": "6c63465480b82a8db624157567b7c9f118631b15",
       "targetPath": "src/domain/materials/ExistingMasonryMaterial.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing"
+      "migrationSlices": ["0063-domain-existing-masonry-material"],
+      "sourceOracles": ["tests/ntc2018ExistingMasonryMaterial.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/existing-masonry-material-compile-time.test.ts",
+        "tests/existing-masonry-material-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0063-domain-existing-masonry-material"],
+      "status": "exact-parity"
     },
     {
       "id": "src/domain/materials/ExistingMaterial.js",
@@ -30498,7 +30507,8 @@
         "0059-domain-masonry-shear-strength-strategies",
         "0060-domain-existing-material",
         "0061-domain-masonry-material",
-        "0062-domain-displacement-control-nonlinear-solver"
+        "0062-domain-displacement-control-nonlinear-solver",
+        "0063-domain-existing-masonry-material"
       ],
       "sourceOracles": [
         "tests/architecture/applicationRegistry.test.js",
@@ -32527,11 +32537,15 @@
       "sourcePath": "tests/ntc2018ExistingMasonryMaterial.test.js",
       "sourceBlobSha1": "97810815818fd9d74fb1bd8d77959e504ac97af2",
       "targetPath": "tests/ntc2018ExistingMasonryMaterial.test.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0063-domain-existing-masonry-material"],
+      "sourceOracles": ["tests/ntc2018ExistingMasonryMaterial.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/existing-masonry-material-compile-time.test.ts",
+        "tests/existing-masonry-material-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0063-domain-existing-masonry-material"],
+      "status": "exact-parity",
       "testKind": "test"
     },
     {
@@ -35416,12 +35430,28 @@
         "publicStrings": "exact equality plus Unicode code-point preservation",
         "errors": "exact error name and message equality"
       }
+    },
+    {
+      "sliceId": "0063-domain-existing-masonry-material",
+      "sourceRevision": "6f33baead8b88166c4b2cf94af41763412e3c751",
+      "method": "Strict public declaration consumer coverage and independently executed pinned JavaScript versus built TypeScript comparison of explicit unit conversion, correction and improvement factors, adjusted masonry properties, inheritance, clone serialization, Unicode metadata, enumerable order and missing-unit errors.",
+      "targetTests": [
+        "tests/existing-masonry-material-compile-time.test.ts",
+        "tests/existing-masonry-material-live-parity.test.ts"
+      ],
+      "fixture": null,
+      "tolerances": {
+        "serializedParity": "exact deep equality and JSON serialization",
+        "numericParity": "exact equality for converted and adjusted properties",
+        "publicStrings": "exact equality plus Unicode code-point preservation",
+        "errors": "exact error name and message equality"
+      }
     }
   ],
   "counts": {
     "rootExports": {
       "javascript": 841,
-      "typescript": 434
+      "typescript": 435
     },
     "applicationsExports": {
       "javascript": 309,
@@ -35445,11 +35475,11 @@
     },
     "sourceFiles": {
       "javascript": 480,
-      "typescript": 294
+      "typescript": 295
     },
     "tests": {
       "javascript": 131,
-      "typescript": 112
+      "typescript": 114
     },
     "validationCampaigns": {
       "javascript": 17,
@@ -35481,7 +35511,7 @@
       "statusCounts": {
         "exact-parity": 0,
         "partial": 20,
-        "missing": 214,
+        "missing": 212,
         "intentionally-excluded": 0,
         "decision-required": 0
       },
@@ -35509,7 +35539,6 @@
         "root-export:EmbeddedRetainingWallAnalysis",
         "root-export:EmbeddedRetainingWallModel",
         "root-export:EmbeddedRetainingWallScenario",
-        "root-export:ExistingMasonryMaterial",
         "root-export:FloorSlab",
         "root-export:GEOTECHNICAL_DESIGN_SITUATION_SCHEMA_VERSION",
         "root-export:GEOTECHNICAL_DESIGN_SITUATION_TYPES",
@@ -35695,7 +35724,6 @@
         "source:src/domain/geotechnics/index.js",
         "source:src/domain/geotechnics/slopeStabilityMethods.js",
         "source:src/domain/geotechnics/spencerMethod.js",
-        "source:src/domain/materials/ExistingMasonryMaterial.js",
         "source:src/domain/materials/GlulamTimberMaterial.js",
         "source:src/domain/materials/SolidTimberMaterial.js",
         "source:src/domain/materials/TimberMaterial.js",
@@ -36368,7 +36396,7 @@
       "statusCounts": {
         "exact-parity": 0,
         "partial": 3,
-        "missing": 149,
+        "missing": 148,
         "intentionally-excluded": 0,
         "decision-required": 0
       },
@@ -36507,7 +36535,6 @@
         "test:tests/masonryWallOpeningsStateComparisonReport.test.js",
         "test:tests/masonryWallOpeningsStaticAnalysis.test.js",
         "test:tests/ntc2018BeamCombinations.test.js",
-        "test:tests/ntc2018ExistingMasonryMaterial.test.js",
         "test:tests/ntc2018ExistingMasonryWorkflow.test.js",
         "test:tests/ntc2018ImposedLoads.test.js",
         "test:tests/ntc2018MasonryPierModel.test.js",

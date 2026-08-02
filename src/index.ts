@@ -48,6 +48,7 @@ export { createTecnariaConnector } from "./domain/connectors/createTecnariaConne
 export { BaseMaterial } from "./domain/materials/BaseMaterial.js";
 export { ConcreteMaterial } from "./domain/materials/ConcreteMaterial.js";
 export { ExistingMaterial } from "./domain/materials/ExistingMaterial.js";
+export { ExistingMasonryMaterial } from "./domain/materials/ExistingMasonryMaterial.js";
 export { MasonryMaterial } from "./domain/materials/MasonryMaterial.js";
 export { SteelMaterial } from "./domain/materials/SteelMaterial.js";
 export {
@@ -625,6 +626,13 @@ export type {
   ExistingMaterialJson,
   ExistingMaterialOptions,
 } from "./domain/materials/ExistingMaterial.js";
+export type {
+  ExistingMasonryFactors,
+  ExistingMasonryMaterialJson,
+  ExistingMasonryMaterialOptions,
+  ExistingMasonryProperties,
+  ExistingMasonryPropertyValue,
+} from "./domain/materials/ExistingMasonryMaterial.js";
 export type {
   MasonryMaterialJson,
   MasonryMaterialOptions,

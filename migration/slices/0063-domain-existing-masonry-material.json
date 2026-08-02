@@ -1,0 +1,87 @@
+{
+  "schemaVersion": 1,
+  "sliceId": "0063-domain-existing-masonry-material",
+  "title": "Domain existing masonry material",
+  "migrationType": "mechanical-parity",
+  "implementationStatus": "implemented",
+  "dependencies": ["0060-domain-existing-material"],
+  "source": {
+    "repository": "https://github.com/claudiopagani/strutture-js",
+    "revision": "6f33baead8b88166c4b2cf94af41763412e3c751"
+  },
+  "normativeCorpusRevision": "41da3faa489600173106935bbcf726119300e48d",
+  "sourceFiles": [
+    {
+      "path": "src/domain/materials/ExistingMasonryMaterial.js",
+      "gitBlobSha1": "6c63465480b82a8db624157567b7c9f118631b15",
+      "targetPath": "src/domain/materials/ExistingMasonryMaterial.ts"
+    }
+  ],
+  "supportingSourceFiles": [
+    {
+      "path": "src/domain/materials/ExistingMaterial.js",
+      "gitBlobSha1": "40d1c8fcf90d7c48696682966f8e380613dd4694",
+      "targetPath": "src/domain/materials/ExistingMaterial.ts",
+      "coverage": "ExistingMasonryMaterial extends the already migrated ExistingMaterial contract"
+    },
+    {
+      "path": "src/domain/units/UnitSystem.js",
+      "gitBlobSha1": "b8f2f4926aff645efbf7b9f458b69eba264ed59a",
+      "targetPath": "src/domain/units/UnitSystem.ts",
+      "coverage": "Existing masonry material preserves the already migrated explicit unit conversion boundary"
+    },
+    {
+      "path": "src/index.js",
+      "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7",
+      "targetPath": "src/index.ts",
+      "coverage": "Root public export for the migrated ExistingMasonryMaterial class"
+    }
+  ],
+  "sourceOracles": [
+    {
+      "path": "tests/ntc2018ExistingMasonryMaterial.test.js",
+      "gitBlobSha1": "97810815818fd9d74fb1bd8d77959e504ac97af2",
+      "coverage": "Pinned existing-masonry material construction, serialization inputs, and exact missing-input error contract"
+    }
+  ],
+  "sourcePublicExport": {
+    "path": "src/index.js",
+    "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
+  },
+  "targetTests": [
+    "tests/baseline-parity.test.ts",
+    "tests/existing-masonry-material-compile-time.test.ts",
+    "tests/existing-masonry-material-live-parity.test.ts"
+  ],
+  "publicExports": ["ExistingMasonryMaterial"],
+  "publicTypeExports": [
+    "ExistingMasonryFactors",
+    "ExistingMasonryMaterialJson",
+    "ExistingMasonryMaterialOptions",
+    "ExistingMasonryProperties",
+    "ExistingMasonryPropertyValue"
+  ],
+  "normativeReferences": {
+    "resolved": [],
+    "outsideCorpus": [],
+    "normativeConformityClaimed": false,
+    "status": "classified-for-declared-scope"
+  },
+  "independentValidation": {
+    "method": "Strict public declaration consumer coverage and independently executed pinned JavaScript versus built TypeScript comparison of explicit unit conversion, correction and improvement factors, adjusted masonry properties, inheritance, clone serialization, Unicode metadata, enumerable order and missing-unit errors.",
+    "targetTests": [
+      "tests/existing-masonry-material-compile-time.test.ts",
+      "tests/existing-masonry-material-live-parity.test.ts"
+    ],
+    "tolerances": {
+      "serializedParity": "exact deep equality and JSON serialization",
+      "numericParity": "exact equality for converted and adjusted properties",
+      "publicStrings": "exact equality plus Unicode code-point preservation",
+      "errors": "exact error name and message equality"
+    }
+  },
+  "parityDifferences": [
+    "The strict TypeScript declarations describe the existing JavaScript existing-masonry material without adding runtime behavior."
+  ],
+  "engineeringFunctionality": "Existing masonry material with explicit unit-normalized mechanical properties, survey and intervention correction factors, adjusted-property accessors, NTC reference metadata and serializable existing-material inheritance."
+}
