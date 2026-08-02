@@ -1,0 +1,107 @@
+{
+  "schemaVersion": 1,
+  "sliceId": "0120-norms-ntc2018-existing-masonry-catalogs",
+  "title": "NTC 2018 existing-masonry catalogs",
+  "migrationType": "mechanical-parity",
+  "implementationStatus": "implemented",
+  "dependencies": ["0001-foundation", "0119-norms-ntc2018-dm522023"],
+  "source": {
+    "repository": "https://github.com/claudiopagani/strutture-js",
+    "revision": "6f33baead8b88166c4b2cf94af41763412e3c751"
+  },
+  "normativeCorpusRevision": "41da3faa489600173106935bbcf726119300e48d",
+  "sourceFiles": [
+    {
+      "path": "src/norms/ntc2018/materials/ntc2018ExistingMasonryCatalogs.js",
+      "gitBlobSha1": "1fa5560f0d9956099ff5b3e5da890579b89c59c8",
+      "targetPath": "src/norms/ntc2018/materials/ntc2018ExistingMasonryCatalogs.ts"
+    }
+  ],
+  "supportingSourceFiles": [
+    {
+      "path": "src/norms/ntc2018/materials/ntc2018MaterialCatalogs.js",
+      "gitBlobSha1": "db88567dee5a0f1e95cfdf081960e5c1d6d7be1a",
+      "targetPath": "src/norms/ntc2018/materials/ntc2018MaterialCatalogs.ts",
+      "coverage": "Existing material-catalog context and the source alias for existing-masonry knowledge levels; only the migrated catalog aliases receive target support."
+    },
+    {
+      "path": "src/norms/ntc2018/index.js",
+      "gitBlobSha1": "0ac4cf551c455ec2a57d9bf8849db46fb14e0dcc",
+      "targetPath": "src/index.ts",
+      "coverage": "Pinned NTC 2018 norm-index export context for the existing-masonry catalogs."
+    },
+    {
+      "path": "src/index.js",
+      "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7",
+      "targetPath": "src/index.ts",
+      "coverage": "Root public exports for the migrated existing-masonry catalogs and lookup functions."
+    }
+  ],
+  "sourceOracles": [
+    {
+      "path": "tests/ntc2018ExistingMasonryMaterial.test.js",
+      "gitBlobSha1": "97810815818fd9d74fb1bd8d77959e504ac97af2",
+      "coverage": "Existing-masonry typology, tabulated-property, and knowledge-level behavior consumed by the material oracle."
+    },
+    {
+      "path": "tests/ntc2018ExistingMasonryWorkflow.test.js",
+      "gitBlobSha1": "88fedc826667ba32bea9bd8e1da92df395586812",
+      "coverage": "Existing-masonry catalog lookup, modifier-definition, parameter-level, Unicode, and unsupported-input behavior consumed by the workflow oracle."
+    },
+    {
+      "path": "tests/packageExports.test.js",
+      "gitBlobSha1": "8dde24b4c97dd3dae7100207d07d9d96c52b9c74",
+      "coverage": "Root public export behavior."
+    }
+  ],
+  "sourcePublicExport": {
+    "path": "src/index.js",
+    "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
+  },
+  "targetTests": [
+    "tests/baseline-parity.test.ts",
+    "tests/ntc2018-existing-masonry-catalogs-compile-time.test.ts",
+    "tests/ntc2018-existing-masonry-catalogs-live-parity.test.ts"
+  ],
+  "publicExports": [
+    "NTC2018_EXISTING_MASONRY_KNOWLEDGE_LEVELS",
+    "NTC2018_EXISTING_MASONRY_MODIFIER_DEFINITIONS",
+    "NTC2018_EXISTING_MASONRY_PARAMETER_LEVELS",
+    "NTC2018_EXISTING_MASONRY_TYPOLOGIES",
+    "getNTC2018TabulatedMasonryProperties",
+    "resolveNTC2018MasonryTypology"
+  ],
+  "publicTypeExports": [
+    "Ntc2018ExistingMasonryMechanicalProperties",
+    "Ntc2018ExistingMasonryModifierDefinition",
+    "Ntc2018ExistingMasonryParameterLevel",
+    "Ntc2018ExistingMasonryParameterLevels",
+    "Ntc2018ExistingMasonryTypology"
+  ],
+  "normativeReferences": {
+    "resolved": [],
+    "outsideCorpus": [
+      "NTC 2018 Section 11.10 existing masonry tabulated mechanical properties",
+      "NTC 2018 Section 8.5 existing masonry knowledge levels and confidence factors"
+    ],
+    "normativeConformityClaimed": false,
+    "status": "classified-for-declared-scope"
+  },
+  "independentValidation": {
+    "method": "Strict declaration consumer coverage and independently executed pinned JavaScript versus built TypeScript comparison of the complete existing-masonry catalog module, exact catalog and lookup JSON, numerical level selection, mutable source data, Italian Unicode strings, root aliases, unsupported inputs, and native errors.",
+    "targetTests": [
+      "tests/ntc2018-existing-masonry-catalogs-compile-time.test.ts",
+      "tests/ntc2018-existing-masonry-catalogs-live-parity.test.ts"
+    ],
+    "tolerances": {
+      "serializedParity": "exact typology, modifier-definition, parameter-level, lookup-result, and root-alias JSON",
+      "numericParity": "exact equality for every tabulated mechanical property and modifier factor at parameter levels 1, 2, 0, and 3",
+      "publicStrings": "exact equality plus Unicode code-point preservation for typology names and notes",
+      "errors": "exact native error name and message equality for null, undefined, empty-object, and malformed-range inputs"
+    }
+  },
+  "parityDifferences": [
+    "The TypeScript module adds strict declarations and the public export support required by the migrated existing-masonry catalogs; runtime exports, mutable data, values, aliases, serialization, lookup behavior, and native errors match the pinned source module exactly."
+  ],
+  "engineeringFunctionality": "Source-compatible NTC 2018 existing-masonry typology, modifier, parameter-level, and tabulated mechanical-property catalogs with exact public lookup behavior."
+}

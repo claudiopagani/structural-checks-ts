@@ -683,7 +683,13 @@ export {
 export {
   NTC2018_CONCRETE_CLASSES,
   NTC2018_EXISTING_MATERIAL_KNOWLEDGE_LEVELS,
+  NTC2018_EXISTING_MASONRY_KNOWLEDGE_LEVELS,
+  NTC2018_EXISTING_MASONRY_MODIFIER_DEFINITIONS,
+  NTC2018_EXISTING_MASONRY_PARAMETER_LEVELS,
+  NTC2018_EXISTING_MASONRY_TYPOLOGIES,
   NTC2018_REINFORCEMENT_STEEL_GRADES,
+  getNTC2018TabulatedMasonryProperties,
+  resolveNTC2018MasonryTypology,
 } from "./norms/ntc2018/materials/ntc2018MaterialCatalogs.js";
 export {
   NTC2018_ANALYSIS_METHOD,
@@ -1918,6 +1924,13 @@ export type {
   NTC2018ReinforcementSteelGrade,
   NTC2018ReinforcementSteelPreset,
 } from "./norms/ntc2018/materials/ntc2018MaterialCatalogs.js";
+export type {
+  Ntc2018ExistingMasonryMechanicalProperties,
+  Ntc2018ExistingMasonryModifierDefinition,
+  Ntc2018ExistingMasonryParameterLevel,
+  Ntc2018ExistingMasonryParameterLevels,
+  Ntc2018ExistingMasonryTypology,
+} from "./norms/ntc2018/materials/ntc2018ExistingMasonryCatalogs.js";
 export type {
   En1992AnchorageLength,
   En1992AnchorageLengthOptions,

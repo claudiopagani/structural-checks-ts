@@ -53,5 +53,15 @@ export const NTC2018_EXISTING_MATERIAL_KNOWLEDGE_LEVELS = {
   LC3: { confidenceFactor: 1, description: "conoscenza accurata" },
 };
 
+export const NTC2018_EXISTING_MASONRY_KNOWLEDGE_LEVELS = NTC2018_EXISTING_MATERIAL_KNOWLEDGE_LEVELS;
+
+export {
+  NTC2018_EXISTING_MASONRY_MODIFIER_DEFINITIONS,
+  NTC2018_EXISTING_MASONRY_PARAMETER_LEVELS,
+  NTC2018_EXISTING_MASONRY_TYPOLOGIES,
+  getTabulatedMechanicalProperties as getNTC2018TabulatedMasonryProperties,
+  resolveMasonryTypology as resolveNTC2018MasonryTypology,
+} from "./ntc2018ExistingMasonryCatalogs.js";
+
 export type NTC2018ConcreteStrengthClass = keyof typeof NTC2018_CONCRETE_CLASSES;
 export type NTC2018ReinforcementSteelGrade = keyof typeof NTC2018_REINFORCEMENT_STEEL_GRADES;
