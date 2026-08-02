@@ -1077,6 +1077,10 @@
         "SOIL_PARAMETER_BASES",
         "SOIL_SETTLEMENT_COMPONENTS",
         "SOIL_STRENGTH_MODELS",
+        "STEEL_PROFILE_CATALOG_UNITS",
+        "STEEL_PROFILE_FAMILIES",
+        "STEEL_PROFILE_SECTION_DATABASE",
+        "STEEL_PROFILE_SECTION_NAMES",
         "STRUT_AND_TIE_MEMBER_TYPES",
         "SectionFiberDiscretizer",
         "SectionMomentCurvatureCurve",
@@ -1206,12 +1210,14 @@
         "getNTC2018RcBuildingCoverage",
         "getNTC2018TimberKmod",
         "getRcPunchingDesignCodeManifest",
+        "getSteelProfileSectionData",
         "getTecnariaConnectorData",
         "getXlamPanelProduct",
         "governingCheck",
         "integrateFootingPressureStrip",
         "isFinitePositive",
         "isResultStatus",
+        "listSteelProfileSectionsByFamily",
         "listXlamPanelProducts",
         "normalizeExistingMaterialKnowledgeLevel",
         "normalizeGlobalFemClassificationPolicy",
@@ -8013,11 +8019,15 @@
       "sourcePath": "src/domain/geometry/steelProfileCatalog.js",
       "sourceBlobSha1": "8f7654f951d6d5cad737e452ab6642350e8395ee",
       "targetPath": "src/domain/geometry/steelProfileCatalog.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0054-domain-steel-profile-catalog"],
+      "sourceOracles": ["tests/steelProfileSection.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/steel-profile-catalog-compile-time.test.ts",
+        "tests/steel-profile-catalog-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0054-domain-steel-profile-catalog"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -9547,11 +9557,15 @@
       "sourcePath": "src/domain/geometry/steelProfileCatalog.js",
       "sourceBlobSha1": "8f7654f951d6d5cad737e452ab6642350e8395ee",
       "targetPath": "src/domain/geometry/steelProfileCatalog.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0054-domain-steel-profile-catalog"],
+      "sourceOracles": ["tests/steelProfileSection.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/steel-profile-catalog-compile-time.test.ts",
+        "tests/steel-profile-catalog-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0054-domain-steel-profile-catalog"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -14940,11 +14954,15 @@
       "sourcePath": "src/domain/geometry/steelProfileCatalog.js",
       "sourceBlobSha1": "8f7654f951d6d5cad737e452ab6642350e8395ee",
       "targetPath": "src/domain/geometry/steelProfileCatalog.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0054-domain-steel-profile-catalog"],
+      "sourceOracles": ["tests/steelProfileSection.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/steel-profile-catalog-compile-time.test.ts",
+        "tests/steel-profile-catalog-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0054-domain-steel-profile-catalog"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -14954,11 +14972,15 @@
       "sourcePath": "src/domain/geometry/steelProfileCatalog.js",
       "sourceBlobSha1": "8f7654f951d6d5cad737e452ab6642350e8395ee",
       "targetPath": "src/domain/geometry/steelProfileCatalog.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0054-domain-steel-profile-catalog"],
+      "sourceOracles": ["tests/steelProfileSection.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/steel-profile-catalog-compile-time.test.ts",
+        "tests/steel-profile-catalog-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0054-domain-steel-profile-catalog"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -14968,11 +14990,15 @@
       "sourcePath": "src/domain/geometry/steelProfileCatalog.js",
       "sourceBlobSha1": "8f7654f951d6d5cad737e452ab6642350e8395ee",
       "targetPath": "src/domain/geometry/steelProfileCatalog.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0054-domain-steel-profile-catalog"],
+      "sourceOracles": ["tests/steelProfileSection.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/steel-profile-catalog-compile-time.test.ts",
+        "tests/steel-profile-catalog-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0054-domain-steel-profile-catalog"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -14982,11 +15008,15 @@
       "sourcePath": "src/domain/geometry/steelProfileCatalog.js",
       "sourceBlobSha1": "8f7654f951d6d5cad737e452ab6642350e8395ee",
       "targetPath": "src/domain/geometry/steelProfileCatalog.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0054-domain-steel-profile-catalog"],
+      "sourceOracles": ["tests/steelProfileSection.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/steel-profile-catalog-compile-time.test.ts",
+        "tests/steel-profile-catalog-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0054-domain-steel-profile-catalog"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -27565,11 +27595,15 @@
       "sourcePath": "src/data/section_database.json",
       "sourceBlobSha1": "3356f4d5c9391b2e35ccf4fb17c5a2d6819e23f3",
       "targetPath": "src/data/section_database.json",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing"
+      "migrationSlices": ["0054-domain-steel-profile-catalog"],
+      "sourceOracles": ["tests/steelProfileSection.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/steel-profile-catalog-compile-time.test.ts",
+        "tests/steel-profile-catalog-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0054-domain-steel-profile-catalog"],
+      "status": "exact-parity"
     },
     {
       "id": "src/domain/actions/AccidentalAction.js",
@@ -28946,11 +28980,15 @@
       "sourcePath": "src/domain/geometry/steelProfileCatalog.js",
       "sourceBlobSha1": "8f7654f951d6d5cad737e452ab6642350e8395ee",
       "targetPath": "src/domain/geometry/steelProfileCatalog.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing"
+      "migrationSlices": ["0054-domain-steel-profile-catalog"],
+      "sourceOracles": ["tests/steelProfileSection.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/steel-profile-catalog-compile-time.test.ts",
+        "tests/steel-profile-catalog-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0054-domain-steel-profile-catalog"],
+      "status": "exact-parity"
     },
     {
       "id": "src/domain/geotechnics/AxialPileCapacityAnalysis.js",
@@ -30316,7 +30354,8 @@
         "0050-domain-beam-element",
         "0051-domain-beam-system",
         "0052-domain-fem-timoshenko-rigid-offsets",
-        "0053-domain-xlam-panel-section"
+        "0053-domain-xlam-panel-section",
+        "0054-domain-steel-profile-catalog"
       ],
       "sourceOracles": [
         "tests/architecture/applicationRegistry.test.js",
@@ -33274,11 +33313,15 @@
       "sourcePath": "tests/steelProfileSection.test.js",
       "sourceBlobSha1": "5efc3c77bec5ac81a8b2b748f0a0bd04f6a36f76",
       "targetPath": "tests/steelProfileSection.test.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0054-domain-steel-profile-catalog"],
+      "sourceOracles": ["tests/steelProfileSection.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/steel-profile-catalog-compile-time.test.ts",
+        "tests/steel-profile-catalog-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0054-domain-steel-profile-catalog"],
+      "status": "exact-parity",
       "testKind": "test"
     },
     {
@@ -35047,12 +35090,28 @@
         "publicStrings": "exact equality plus Unicode code-point equality",
         "errors": "exact error name and message equality"
       }
+    },
+    {
+      "sliceId": "0054-domain-steel-profile-catalog",
+      "sourceRevision": "6f33baead8b88166c4b2cf94af41763412e3c751",
+      "method": "Strict declaration consumer coverage and independently executed pinned JavaScript versus built TypeScript steel profile catalog modules, including exact copied JSON database equality, frozen catalog values, sorted names and families, lookup and unsupported-input behavior, and root export identity.",
+      "targetTests": [
+        "tests/steel-profile-catalog-compile-time.test.ts",
+        "tests/steel-profile-catalog-live-parity.test.ts"
+      ],
+      "fixture": null,
+      "tolerances": {
+        "serializedParity": "exact JSON serialization",
+        "numericParity": "exact equality for catalog numeric values",
+        "publicStrings": "exact equality for profile names, families, units and Unicode code points",
+        "errors": "no new error path; null and unsupported family behavior compared exactly"
+      }
     }
   ],
   "counts": {
     "rootExports": {
       "javascript": 841,
-      "typescript": 412
+      "typescript": 418
     },
     "applicationsExports": {
       "javascript": 309,
@@ -35076,11 +35135,11 @@
     },
     "sourceFiles": {
       "javascript": 480,
-      "typescript": 277
+      "typescript": 278
     },
     "tests": {
       "javascript": 131,
-      "typescript": 94
+      "typescript": 96
     },
     "validationCampaigns": {
       "javascript": 17,
@@ -35112,7 +35171,7 @@
       "statusCounts": {
         "exact-parity": 0,
         "partial": 18,
-        "missing": 253,
+        "missing": 246,
         "intentionally-excluded": 0,
         "decision-required": 0
       },
@@ -35250,10 +35309,6 @@
         "root-export:SOIL_STRENGTH_MODELS",
         "root-export:SOIL_STRUCTURE_INTERFACE_MODELS",
         "root-export:SOIL_STRUCTURE_INTERFACE_SCHEMA_VERSION",
-        "root-export:STEEL_PROFILE_CATALOG_UNITS",
-        "root-export:STEEL_PROFILE_FAMILIES",
-        "root-export:STEEL_PROFILE_SECTION_DATABASE",
-        "root-export:STEEL_PROFILE_SECTION_NAMES",
         "root-export:ShallowFoundationActionState",
         "root-export:ShallowFoundationModel",
         "root-export:ShallowFoundationServiceabilityAnalysis",
@@ -35296,12 +35351,10 @@
         "root-export:createSteelProfileSection",
         "root-export:cyclicMasonryPierHistoryToCsv",
         "root-export:getGroundAnchorBondCatalogEntry",
-        "root-export:getSteelProfileSectionData",
         "root-export:groundAnchorDemandFromEmbeddedWallResult",
         "root-export:integratePressureSegments",
         "root-export:jakyAtRestCoefficient",
         "root-export:listGroundAnchorBondCatalogEntries",
-        "root-export:listSteelProfileSectionsByFamily",
         "root-export:mononobeOkabeActiveEarthPressureCoefficient",
         "root-export:normalizeTerrainElevationGrid",
         "root-export:ordinaryMethodOfSlices",
@@ -35319,7 +35372,6 @@
         "source:src/domain/geometry/SteelCompoundProfileSection.js",
         "source:src/domain/geometry/SteelProfileSection.js",
         "source:src/domain/geometry/createSteelProfileSection.js",
-        "source:src/domain/geometry/steelProfileCatalog.js",
         "source:src/domain/geotechnics/CircularSlipSurface2D.js",
         "source:src/domain/geotechnics/CircularSlopeStabilityAnalysis.js",
         "source:src/domain/geotechnics/EmbeddedRetainingWallAnalysis.js",
@@ -36036,7 +36088,7 @@
       "statusCounts": {
         "exact-parity": 0,
         "partial": 3,
-        "missing": 154,
+        "missing": 153,
         "intentionally-excluded": 0,
         "decision-required": 0
       },
@@ -36194,7 +36246,6 @@
         "test:tests/run-tests.js",
         "test:tests/steelCompoundProfileSection.test.js",
         "test:tests/steelFrameAdvancedVerification.test.js",
-        "test:tests/steelProfileSection.test.js",
         "test:tests/steelRingFramePushover.test.js",
         "test:tests/timberConcreteCompositeBeam.test.js",
         "test:tests/timberMaterialHierarchy.test.js"

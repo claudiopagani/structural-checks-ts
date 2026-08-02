@@ -1,0 +1,82 @@
+{
+  "schemaVersion": 1,
+  "sliceId": "0054-domain-steel-profile-catalog",
+  "title": "Domain steel profile catalog and data",
+  "migrationType": "mechanical-parity",
+  "implementationStatus": "implemented",
+  "dependencies": [],
+  "source": {
+    "repository": "https://github.com/claudiopagani/strutture-js",
+    "revision": "6f33baead8b88166c4b2cf94af41763412e3c751"
+  },
+  "normativeCorpusRevision": "41da3faa489600173106935bbcf726119300e48d",
+  "sourceFiles": [
+    {
+      "path": "src/data/section_database.json",
+      "gitBlobSha1": "3356f4d5c9391b2e35ccf4fb17c5a2d6819e23f3",
+      "targetPath": "src/data/section_database.json"
+    },
+    {
+      "path": "src/domain/geometry/steelProfileCatalog.js",
+      "gitBlobSha1": "8f7654f951d6d5cad737e452ab6642350e8395ee",
+      "targetPath": "src/domain/geometry/steelProfileCatalog.ts"
+    }
+  ],
+  "supportingSourceFiles": [
+    {
+      "path": "src/index.js",
+      "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7",
+      "targetPath": "src/index.ts",
+      "coverage": "Root public exports for the migrated steel profile catalog constants, data and lookup functions"
+    }
+  ],
+  "sourceOracles": [
+    {
+      "path": "tests/steelProfileSection.test.js",
+      "gitBlobSha1": "5efc3c77bec5ac81a8b2b748f0a0bd04f6a36f76",
+      "coverage": "Steel profile catalog data, family listing and lookup behavior"
+    }
+  ],
+  "sourcePublicExport": {
+    "path": "src/index.js",
+    "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
+  },
+  "targetTests": [
+    "tests/baseline-parity.test.ts",
+    "tests/steel-profile-catalog-compile-time.test.ts",
+    "tests/steel-profile-catalog-live-parity.test.ts"
+  ],
+  "publicExports": [
+    "STEEL_PROFILE_CATALOG_UNITS",
+    "STEEL_PROFILE_FAMILIES",
+    "STEEL_PROFILE_SECTION_DATABASE",
+    "STEEL_PROFILE_SECTION_NAMES",
+    "getSteelProfileSectionData",
+    "listSteelProfileSectionsByFamily"
+  ],
+  "publicTypeExports": ["SteelProfileCatalogUnits", "SteelProfileSectionData"],
+  "normativeReferences": {
+    "resolved": [],
+    "outsideCorpus": [],
+    "normativeConformityClaimed": false,
+    "status": "classified-for-declared-scope"
+  },
+  "independentValidation": {
+    "method": "Strict declaration consumer coverage and independently executed pinned JavaScript versus built TypeScript steel profile catalog modules, including exact copied JSON database equality, frozen catalog values, sorted names and families, lookup and unsupported-input behavior, and root export identity.",
+    "targetTests": [
+      "tests/steel-profile-catalog-compile-time.test.ts",
+      "tests/steel-profile-catalog-live-parity.test.ts"
+    ],
+    "tolerances": {
+      "serializedParity": "exact JSON serialization",
+      "numericParity": "exact equality for catalog numeric values",
+      "publicStrings": "exact equality for profile names, families, units and Unicode code points",
+      "errors": "no new error path; null and unsupported family behavior compared exactly"
+    }
+  },
+  "parityDifferences": [
+    "The strict TypeScript declarations describe the existing JavaScript catalog contract without adding runtime behavior.",
+    "The build copies the source JSON data asset into dist/data so the emitted ESM module resolves the same catalog at runtime; the asset bytes are unchanged."
+  ],
+  "engineeringFunctionality": "Solver-neutral steel profile catalog units, exact section database data, sorted profile and family indexes, and catalog lookup by profile name or family."
+}

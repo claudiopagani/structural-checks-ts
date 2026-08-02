@@ -1,5 +1,5 @@
 import { execFile } from "node:child_process";
-import { rm } from "node:fs/promises";
+import { copyFile, mkdir, rm } from "node:fs/promises";
 import { createRequire } from "node:module";
 import path from "node:path";
 import { promisify } from "node:util";
@@ -31,5 +31,13 @@ if (stdout.trim().length > 0) {
 if (stderr.trim().length > 0) {
   process.stderr.write(stderr);
 }
+
+const dataDirectory = path.join(repositoryRoot, "src", "data");
+const outputDataDirectory = path.join(outputDirectory, "data");
+await mkdir(outputDataDirectory, { recursive: true });
+await copyFile(
+  path.join(dataDirectory, "section_database.json"),
+  path.join(outputDataDirectory, "section_database.json"),
+);
 
 console.log("Built ESM JavaScript, source maps, and TypeScript declarations in dist/.");

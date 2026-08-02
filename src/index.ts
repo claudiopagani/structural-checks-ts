@@ -79,6 +79,14 @@ export {
 export { TSection } from "./domain/geometry/TSection.js";
 export { XlamPanelSection } from "./domain/geometry/XlamPanelSection.js";
 export { createXlamPanelSection } from "./domain/geometry/createXlamPanelSection.js";
+export {
+  STEEL_PROFILE_FAMILIES,
+  STEEL_PROFILE_CATALOG_UNITS,
+  STEEL_PROFILE_SECTION_DATABASE,
+  STEEL_PROFILE_SECTION_NAMES,
+  getSteelProfileSectionData,
+  listSteelProfileSectionsByFamily,
+} from "./domain/geometry/steelProfileCatalog.js";
 export { Node } from "./domain/geometry/Node.js";
 export { ReinforcementBar } from "./domain/reinforcement/ReinforcementBar.js";
 export { createLongitudinalReinforcementLayout } from "./domain/reinforcement/createLongitudinalReinforcementLayout.js";
@@ -653,6 +661,10 @@ export type {
   XlamPanelShearStiffness,
 } from "./domain/geometry/XlamPanelSection.js";
 export type { CreateXlamPanelSectionOptions } from "./domain/geometry/createXlamPanelSection.js";
+export type {
+  SteelProfileCatalogUnits,
+  SteelProfileSectionData,
+} from "./domain/geometry/steelProfileCatalog.js";
 export type {
   ReinforcementBarJson,
   ReinforcementBarOptions,
