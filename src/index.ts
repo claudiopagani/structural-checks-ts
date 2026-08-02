@@ -262,6 +262,7 @@ export {
   CYCLIC_MASONRY_INTERNAL_UNITS,
   CyclicMasonryCompressionMaterial,
 } from "./domain/materials/masonry/CyclicMasonryCompressionMaterial.js";
+export { CyclicMasonryShearMaterial } from "./domain/materials/masonry/CyclicMasonryShearMaterial.js";
 export {
   PUNCHING_ACTION_SCHEMA_VERSION,
   PUNCHING_CONNECTION_SCHEMA_VERSION,
@@ -1243,6 +1244,15 @@ export type {
   CyclicMasonryCompressionMaterialOptions,
   CyclicMasonryCompressionState,
 } from "./domain/materials/masonry/CyclicMasonryCompressionMaterial.js";
+export type {
+  CyclicMasonryShearConfiguration,
+  CyclicMasonryShearContext,
+  CyclicMasonryShearDegradation,
+  CyclicMasonryShearMaterialJson,
+  CyclicMasonryShearMaterialOptions,
+  CyclicMasonryShearPinching,
+  CyclicMasonryShearState,
+} from "./domain/materials/masonry/CyclicMasonryShearMaterial.js";
 export type {
   AxialPileCapacityAnalysisInput,
   AxialPileCapacityAnalysisResult,

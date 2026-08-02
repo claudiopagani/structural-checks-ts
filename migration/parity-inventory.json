@@ -907,6 +907,7 @@
         "CrackedSectionDeflectionAnalysis",
         "CrossSection",
         "CyclicMasonryCompressionMaterial",
+        "CyclicMasonryShearMaterial",
         "DEEP_FOUNDATION_DISPLACEMENT_CLASSES",
         "DEEP_FOUNDATION_ELEMENT_TYPES",
         "DEEP_FOUNDATION_GEOMETRY_MODELS",
@@ -6526,11 +6527,15 @@
       "sourcePath": "src/domain/materials/masonry/CyclicMasonryShearMaterial.js",
       "sourceBlobSha1": "e9406503234bf65ef66af742742cd38a41c70aa2",
       "targetPath": "src/domain/materials/masonry/CyclicMasonryShearMaterial.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0084-domain-cyclic-masonry-shear-material"],
+      "sourceOracles": ["tests/cyclicMasonryShearMaterial.test.js", "tests/packageExports.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/cyclic-masonry-shear-material-compile-time.test.ts",
+        "tests/cyclic-masonry-shear-material-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0084-domain-cyclic-masonry-shear-material"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -30803,11 +30808,15 @@
       "sourcePath": "src/domain/materials/masonry/CyclicMasonryShearMaterial.js",
       "sourceBlobSha1": "e9406503234bf65ef66af742742cd38a41c70aa2",
       "targetPath": "src/domain/materials/masonry/CyclicMasonryShearMaterial.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing"
+      "migrationSlices": ["0084-domain-cyclic-masonry-shear-material"],
+      "sourceOracles": ["tests/cyclicMasonryShearMaterial.test.js", "tests/packageExports.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/cyclic-masonry-shear-material-compile-time.test.ts",
+        "tests/cyclic-masonry-shear-material-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0084-domain-cyclic-masonry-shear-material"],
+      "status": "exact-parity"
     },
     {
       "id": "src/domain/materials/masonry/index.js",
@@ -31478,7 +31487,8 @@
         "0080-domain-slope-stability-methods",
         "0081-domain-embedded-retaining-wall-scenario",
         "0082-domain-embedded-retaining-wall-analysis",
-        "0083-domain-cyclic-masonry-compression-material"
+        "0083-domain-cyclic-masonry-compression-material",
+        "0084-domain-cyclic-masonry-shear-material"
       ],
       "sourceOracles": [
         "tests/architecture/applicationRegistry.test.js",
@@ -32692,11 +32702,15 @@
       "sourcePath": "tests/cyclicMasonryShearMaterial.test.js",
       "sourceBlobSha1": "0afa6a4def231651e1a8406abf88cebdef8cc3dc",
       "targetPath": "tests/cyclicMasonryShearMaterial.test.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0084-domain-cyclic-masonry-shear-material"],
+      "sourceOracles": ["tests/cyclicMasonryShearMaterial.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/cyclic-masonry-shear-material-compile-time.test.ts",
+        "tests/cyclic-masonry-shear-material-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0084-domain-cyclic-masonry-shear-material"],
+      "status": "exact-parity",
       "testKind": "test"
     },
     {
@@ -33929,7 +33943,8 @@
         "0080-domain-slope-stability-methods",
         "0081-domain-embedded-retaining-wall-scenario",
         "0082-domain-embedded-retaining-wall-analysis",
-        "0083-domain-cyclic-masonry-compression-material"
+        "0083-domain-cyclic-masonry-compression-material",
+        "0084-domain-cyclic-masonry-shear-material"
       ],
       "sourceOracles": ["tests/packageExports.test.js"],
       "targetTests": [
@@ -33946,6 +33961,8 @@
         "tests/concrete-uniaxial-domain.test.ts",
         "tests/cyclic-masonry-compression-material-compile-time.test.ts",
         "tests/cyclic-masonry-compression-material-live-parity.test.ts",
+        "tests/cyclic-masonry-shear-material-compile-time.test.ts",
+        "tests/cyclic-masonry-shear-material-live-parity.test.ts",
         "tests/domain-math.test.ts",
         "tests/earth-pressure-coefficients-compile-time.test.ts",
         "tests/earth-pressure-coefficients-live-parity.test.ts",
@@ -33984,7 +34001,8 @@
         "0080-domain-slope-stability-methods",
         "0081-domain-embedded-retaining-wall-scenario",
         "0082-domain-embedded-retaining-wall-analysis",
-        "0083-domain-cyclic-masonry-compression-material"
+        "0083-domain-cyclic-masonry-compression-material",
+        "0084-domain-cyclic-masonry-shear-material"
       ],
       "status": "exact-parity",
       "testKind": "test"
@@ -36879,12 +36897,28 @@
         "publicStrings": "exact equality plus Unicode code-point preservation",
         "errors": "exact error name and message equality"
       }
+    },
+    {
+      "sliceId": "0084-domain-cyclic-masonry-shear-material",
+      "sourceRevision": "6f33baead8b88166c4b2cf94af41763412e3c751",
+      "method": "Strict public declaration consumer coverage and independently executed pinned JavaScript versus built TypeScript comparison of coupled cyclic state histories, exact JSON serialization, numerical diagnostics, Unicode metadata, cloning and validation/unsupported-input error behavior.",
+      "targetTests": [
+        "tests/cyclic-masonry-shear-material-compile-time.test.ts",
+        "tests/cyclic-masonry-shear-material-live-parity.test.ts"
+      ],
+      "fixture": null,
+      "tolerances": {
+        "serializedParity": "exact deep equality and JSON serialization",
+        "numericParity": "exact equality for the deterministic cyclic history",
+        "publicStrings": "exact equality plus Unicode code-point preservation",
+        "errors": "exact error name and message equality"
+      }
     }
   ],
   "counts": {
     "rootExports": {
       "javascript": 841,
-      "typescript": 516
+      "typescript": 517
     },
     "applicationsExports": {
       "javascript": 309,
@@ -36908,11 +36942,11 @@
     },
     "sourceFiles": {
       "javascript": 480,
-      "typescript": 318
+      "typescript": 319
     },
     "tests": {
       "javascript": 131,
-      "typescript": 154
+      "typescript": 156
     },
     "validationCampaigns": {
       "javascript": 17,
@@ -36944,7 +36978,7 @@
       "statusCounts": {
         "exact-parity": 0,
         "partial": 20,
-        "missing": 108,
+        "missing": 106,
         "intentionally-excluded": 0,
         "decision-required": 0
       },
@@ -36953,7 +36987,6 @@
         "root-export:CircularSlopeStabilityAnalysis",
         "root-export:CyclicMasonryPier2D",
         "root-export:CyclicMasonryPierAnalysis2D",
-        "root-export:CyclicMasonryShearMaterial",
         "root-export:EARTH_PRESSURE_METHODS",
         "root-export:EARTH_PRESSURE_STATES",
         "root-export:FloorSlab",
@@ -37058,7 +37091,6 @@
         "source:src/domain/geotechnics/SlopeSurfaceSurcharge2D.js",
         "source:src/domain/geotechnics/index.js",
         "source:src/domain/geotechnics/spencerMethod.js",
-        "source:src/domain/materials/masonry/CyclicMasonryShearMaterial.js",
         "source:src/domain/materials/masonry/index.js",
         "source:src/domain/materials/masonry/shearStrength/index.js",
         "source:src/domain/model/StructuralModel.js",
@@ -37672,7 +37704,7 @@
       "statusCounts": {
         "exact-parity": 0,
         "partial": 3,
-        "missing": 138,
+        "missing": 137,
         "intentionally-excluded": 0,
         "decision-required": 0
       },
@@ -37774,7 +37806,6 @@
         "package:./norms/ntc2018",
         "test:tests/beamValidationCampaign.test.js",
         "test:tests/cyclicMasonryPierValidationCampaign.test.js",
-        "test:tests/cyclicMasonryShearMaterial.test.js",
         "test:tests/dm522023.test.js",
         "test:tests/fixtures/strutture-js-web-worker-entry.js",
         "test:tests/frameElement2DEulerBernoulli.test.js",

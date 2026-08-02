@@ -27,6 +27,7 @@ export interface MasonryShearStrengthModel {
   readonly type?: string;
   evaluate(context?: MasonryShearStrengthContext): MasonryShearStrengthEvaluation;
   clone?(): MasonryShearStrengthModel;
+  toJSON?(): object;
 }
 
 export interface MohrCoulombModelInput {

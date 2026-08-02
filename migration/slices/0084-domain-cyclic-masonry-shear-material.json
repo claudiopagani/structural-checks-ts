@@ -1,0 +1,86 @@
+{
+  "schemaVersion": 1,
+  "sliceId": "0084-domain-cyclic-masonry-shear-material",
+  "title": "Domain cyclic masonry shear material",
+  "migrationType": "mechanical-parity",
+  "implementationStatus": "implemented",
+  "dependencies": ["0083-domain-cyclic-masonry-compression-material"],
+  "source": {
+    "repository": "https://github.com/claudiopagani/strutture-js",
+    "revision": "6f33baead8b88166c4b2cf94af41763412e3c751"
+  },
+  "normativeCorpusRevision": "41da3faa489600173106935bbcf726119300e48d",
+  "sourceFiles": [
+    {
+      "path": "src/domain/materials/masonry/CyclicMasonryShearMaterial.js",
+      "gitBlobSha1": "e9406503234bf65ef66af742742cd38a41c70aa2",
+      "targetPath": "src/domain/materials/masonry/CyclicMasonryShearMaterial.ts"
+    }
+  ],
+  "supportingSourceFiles": [
+    {
+      "path": "src/domain/materials/masonry/index.js",
+      "gitBlobSha1": "eed5859d86434278ab7585e627f8ce9813392cb8",
+      "targetPath": "src/index.ts",
+      "coverage": "Masonry public exports for the migrated cyclic shear material."
+    },
+    {
+      "path": "src/index.js",
+      "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7",
+      "targetPath": "src/index.ts",
+      "coverage": "Root public export for the migrated cyclic masonry shear material."
+    }
+  ],
+  "sourceOracles": [
+    {
+      "path": "tests/cyclicMasonryShearMaterial.test.js",
+      "gitBlobSha1": "0afa6a4def231651e1a8406abf88cebdef8cc3dc",
+      "coverage": "Strength strategies, cyclic envelope branches, pinching, degradation, mechanism diagnostics, state rollback, cloning and residual sliding-floor behavior."
+    },
+    {
+      "path": "tests/packageExports.test.js",
+      "gitBlobSha1": "8dde24b4c97dd3dae7100207d07d9d96c52b9c74",
+      "coverage": "Root public export behavior."
+    }
+  ],
+  "sourcePublicExport": {
+    "path": "src/index.js",
+    "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
+  },
+  "targetTests": [
+    "tests/baseline-parity.test.ts",
+    "tests/cyclic-masonry-shear-material-compile-time.test.ts",
+    "tests/cyclic-masonry-shear-material-live-parity.test.ts"
+  ],
+  "publicExports": ["CyclicMasonryShearMaterial"],
+  "publicTypeExports": [
+    "CyclicMasonryShearConfiguration",
+    "CyclicMasonryShearContext",
+    "CyclicMasonryShearDegradation",
+    "CyclicMasonryShearMaterialJson",
+    "CyclicMasonryShearMaterialOptions",
+    "CyclicMasonryShearPinching",
+    "CyclicMasonryShearState"
+  ],
+  "normativeReferences": {
+    "resolved": [],
+    "outsideCorpus": [],
+    "normativeConformityClaimed": false,
+    "status": "classified-for-declared-scope"
+  },
+  "independentValidation": {
+    "method": "Strict public declaration consumer coverage and independently executed pinned JavaScript versus built TypeScript comparison of coupled cyclic state histories, exact JSON serialization, numerical diagnostics, Unicode metadata, cloning and validation/unsupported-input error behavior.",
+    "targetTests": [
+      "tests/cyclic-masonry-shear-material-compile-time.test.ts",
+      "tests/cyclic-masonry-shear-material-live-parity.test.ts"
+    ],
+    "tolerances": {
+      "serializedParity": "exact deep equality and JSON serialization",
+      "numericParity": "exact equality for the deterministic cyclic history",
+      "publicStrings": "exact equality plus Unicode code-point preservation",
+      "errors": "exact error name and message equality"
+    }
+  },
+  "parityDifferences": [],
+  "engineeringFunctionality": "Coupled cyclic masonry shear material with independent diagonal-tension and sliding strength strategies, hysteretic envelope, pinching memory, stiffness and strength degradation, mechanism diagnostics, state commit/revert/import, cloning and serializable configuration."
+}
