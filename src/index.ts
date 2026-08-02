@@ -48,13 +48,15 @@ export { createTecnariaConnector } from "./domain/connectors/createTecnariaConne
 export { BaseMaterial } from "./domain/materials/BaseMaterial.js";
 export { ConcreteMaterial } from "./domain/materials/ConcreteMaterial.js";
 export { SteelMaterial } from "./domain/materials/SteelMaterial.js";
-export { ConcreteParabolaRectangleLaw } from "./domain/constitutive-laws/ConcreteParabolaRectangleLaw.js";
-export { ConcreteNoTensionLaw } from "./domain/constitutive-laws/ConcreteNoTensionLaw.js";
-export { ConcreteStressBlockLaw } from "./domain/constitutive-laws/ConcreteStressBlockLaw.js";
-export { ConcreteTriangularRectangleLaw } from "./domain/constitutive-laws/ConcreteTriangularRectangleLaw.js";
-export { SteelElasticPlasticHardeningLaw } from "./domain/constitutive-laws/SteelElasticPlasticHardeningLaw.js";
-export { SteelElasticLaw } from "./domain/constitutive-laws/SteelElasticLaw.js";
-export { SteelElasticPerfectlyPlasticLaw } from "./domain/constitutive-laws/SteelElasticPerfectlyPlasticLaw.js";
+export {
+  ConcreteNoTensionLaw,
+  ConcreteParabolaRectangleLaw,
+  ConcreteStressBlockLaw,
+  ConcreteTriangularRectangleLaw,
+  SteelElasticLaw,
+  SteelElasticPlasticHardeningLaw,
+  SteelElasticPerfectlyPlasticLaw,
+} from "./domain/constitutive-laws/index.js";
 export {
   EXISTING_MATERIAL_CONFIDENCE_LEVELS,
   characteristicValueFromExistingMean,

@@ -5006,9 +5006,13 @@
       "sourcePath": "src/domain/constitutive-laws/ConcreteNoTensionLaw.js",
       "sourceBlobSha1": "855a564b16d64bc55c0848a72fd8f2789f73633c",
       "targetPath": "src/domain/constitutive-laws/ConcreteNoTensionLaw.ts",
-      "migrationSlices": ["0008-reinforced-concrete-service-stress"],
+      "migrationSlices": [
+        "0008-reinforced-concrete-service-stress",
+        "0048-domain-constitutive-laws-index"
+      ],
       "sourceOracles": [
         "tests/packageExports.test.js",
+        "tests/rcConstitutiveLawsAndSolvers.test.js",
         "tests/rcServiceStressSolver.test.js",
         "tests/reinforcedConcreteSectionServiceApplication.test.js"
       ],
@@ -5016,9 +5020,14 @@
         "tests/baseline-parity.test.ts",
         "tests/concrete-section-resistance.test.ts",
         "tests/concrete-service-stress.test.ts",
-        "tests/concrete-uniaxial-domain.test.ts"
+        "tests/concrete-uniaxial-domain.test.ts",
+        "tests/constitutive-laws-index-compile-time.test.ts",
+        "tests/constitutive-laws-index-live-parity.test.ts"
       ],
-      "validationEvidence": ["0008-reinforced-concrete-service-stress"],
+      "validationEvidence": [
+        "0008-reinforced-concrete-service-stress",
+        "0048-domain-constitutive-laws-index"
+      ],
       "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
@@ -5029,7 +5038,10 @@
       "sourcePath": "src/domain/constitutive-laws/ConcreteParabolaRectangleLaw.js",
       "sourceBlobSha1": "a25f2cf285de12c041e788269edf9ac76e8657da",
       "targetPath": "src/domain/constitutive-laws/ConcreteParabolaRectangleLaw.ts",
-      "migrationSlices": ["0004-ntc2018-uls-uniaxial-concrete-resistance"],
+      "migrationSlices": [
+        "0004-ntc2018-uls-uniaxial-concrete-resistance",
+        "0048-domain-constitutive-laws-index"
+      ],
       "sourceOracles": [
         "tests/rcConstitutiveLawsAndSolvers.test.js",
         "tests/reinforcedConcreteSectionApplication.test.js"
@@ -5037,9 +5049,14 @@
       "targetTests": [
         "tests/baseline-parity.test.ts",
         "tests/concrete-resistance-baseline-parity.test.ts",
-        "tests/concrete-section-resistance.test.ts"
+        "tests/concrete-section-resistance.test.ts",
+        "tests/constitutive-laws-index-compile-time.test.ts",
+        "tests/constitutive-laws-index-live-parity.test.ts"
       ],
-      "validationEvidence": ["0004-ntc2018-uls-uniaxial-concrete-resistance"],
+      "validationEvidence": [
+        "0004-ntc2018-uls-uniaxial-concrete-resistance",
+        "0048-domain-constitutive-laws-index"
+      ],
       "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
@@ -5050,7 +5067,10 @@
       "sourcePath": "src/domain/constitutive-laws/ConcreteStressBlockLaw.js",
       "sourceBlobSha1": "81f54f53e48655caaea55efa2eab9712324034cb",
       "targetPath": "src/domain/constitutive-laws/ConcreteStressBlockLaw.ts",
-      "migrationSlices": ["0004-ntc2018-uls-uniaxial-concrete-resistance"],
+      "migrationSlices": [
+        "0004-ntc2018-uls-uniaxial-concrete-resistance",
+        "0048-domain-constitutive-laws-index"
+      ],
       "sourceOracles": [
         "tests/rcConstitutiveLawsAndSolvers.test.js",
         "tests/reinforcedConcreteSectionApplication.test.js"
@@ -5058,9 +5078,14 @@
       "targetTests": [
         "tests/baseline-parity.test.ts",
         "tests/concrete-resistance-baseline-parity.test.ts",
-        "tests/concrete-section-resistance.test.ts"
+        "tests/concrete-section-resistance.test.ts",
+        "tests/constitutive-laws-index-compile-time.test.ts",
+        "tests/constitutive-laws-index-live-parity.test.ts"
       ],
-      "validationEvidence": ["0004-ntc2018-uls-uniaxial-concrete-resistance"],
+      "validationEvidence": [
+        "0004-ntc2018-uls-uniaxial-concrete-resistance",
+        "0048-domain-constitutive-laws-index"
+      ],
       "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
@@ -5071,7 +5096,10 @@
       "sourcePath": "src/domain/constitutive-laws/ConcreteTriangularRectangleLaw.js",
       "sourceBlobSha1": "ecaa4566b860fc184121a7ea5cde7c8f64a6da09",
       "targetPath": "src/domain/constitutive-laws/ConcreteTriangularRectangleLaw.ts",
-      "migrationSlices": ["0004-ntc2018-uls-uniaxial-concrete-resistance"],
+      "migrationSlices": [
+        "0004-ntc2018-uls-uniaxial-concrete-resistance",
+        "0048-domain-constitutive-laws-index"
+      ],
       "sourceOracles": [
         "tests/rcConstitutiveLawsAndSolvers.test.js",
         "tests/reinforcedConcreteSectionApplication.test.js"
@@ -5079,9 +5107,14 @@
       "targetTests": [
         "tests/baseline-parity.test.ts",
         "tests/concrete-resistance-baseline-parity.test.ts",
-        "tests/concrete-section-resistance.test.ts"
+        "tests/concrete-section-resistance.test.ts",
+        "tests/constitutive-laws-index-compile-time.test.ts",
+        "tests/constitutive-laws-index-live-parity.test.ts"
       ],
-      "validationEvidence": ["0004-ntc2018-uls-uniaxial-concrete-resistance"],
+      "validationEvidence": [
+        "0004-ntc2018-uls-uniaxial-concrete-resistance",
+        "0048-domain-constitutive-laws-index"
+      ],
       "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
@@ -15005,9 +15038,13 @@
       "sourcePath": "src/domain/constitutive-laws/SteelElasticLaw.js",
       "sourceBlobSha1": "178ce17facae6531c3795591e89e7190245fbd0d",
       "targetPath": "src/domain/constitutive-laws/SteelElasticLaw.ts",
-      "migrationSlices": ["0008-reinforced-concrete-service-stress"],
+      "migrationSlices": [
+        "0008-reinforced-concrete-service-stress",
+        "0048-domain-constitutive-laws-index"
+      ],
       "sourceOracles": [
         "tests/packageExports.test.js",
+        "tests/rcConstitutiveLawsAndSolvers.test.js",
         "tests/rcServiceStressSolver.test.js",
         "tests/reinforcedConcreteSectionServiceApplication.test.js"
       ],
@@ -15015,9 +15052,14 @@
         "tests/baseline-parity.test.ts",
         "tests/concrete-section-resistance.test.ts",
         "tests/concrete-service-stress.test.ts",
-        "tests/concrete-uniaxial-domain.test.ts"
+        "tests/concrete-uniaxial-domain.test.ts",
+        "tests/constitutive-laws-index-compile-time.test.ts",
+        "tests/constitutive-laws-index-live-parity.test.ts"
       ],
-      "validationEvidence": ["0008-reinforced-concrete-service-stress"],
+      "validationEvidence": [
+        "0008-reinforced-concrete-service-stress",
+        "0048-domain-constitutive-laws-index"
+      ],
       "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
@@ -15028,7 +15070,10 @@
       "sourcePath": "src/domain/constitutive-laws/SteelElasticPerfectlyPlasticLaw.js",
       "sourceBlobSha1": "e7098c917da7f43e621cb51cf87a7704306bf443",
       "targetPath": "src/domain/constitutive-laws/SteelElasticPerfectlyPlasticLaw.ts",
-      "migrationSlices": ["0004-ntc2018-uls-uniaxial-concrete-resistance"],
+      "migrationSlices": [
+        "0004-ntc2018-uls-uniaxial-concrete-resistance",
+        "0048-domain-constitutive-laws-index"
+      ],
       "sourceOracles": [
         "tests/rcConstitutiveLawsAndSolvers.test.js",
         "tests/reinforcedConcreteSectionApplication.test.js"
@@ -15036,9 +15081,14 @@
       "targetTests": [
         "tests/baseline-parity.test.ts",
         "tests/concrete-resistance-baseline-parity.test.ts",
-        "tests/concrete-section-resistance.test.ts"
+        "tests/concrete-section-resistance.test.ts",
+        "tests/constitutive-laws-index-compile-time.test.ts",
+        "tests/constitutive-laws-index-live-parity.test.ts"
       ],
-      "validationEvidence": ["0004-ntc2018-uls-uniaxial-concrete-resistance"],
+      "validationEvidence": [
+        "0004-ntc2018-uls-uniaxial-concrete-resistance",
+        "0048-domain-constitutive-laws-index"
+      ],
       "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
@@ -15049,7 +15099,10 @@
       "sourcePath": "src/domain/constitutive-laws/SteelElasticPlasticHardeningLaw.js",
       "sourceBlobSha1": "4b040332135c9ac3739835fe91bbb9ce30c38bea",
       "targetPath": "src/domain/constitutive-laws/SteelElasticPlasticHardeningLaw.ts",
-      "migrationSlices": ["0004-ntc2018-uls-uniaxial-concrete-resistance"],
+      "migrationSlices": [
+        "0004-ntc2018-uls-uniaxial-concrete-resistance",
+        "0048-domain-constitutive-laws-index"
+      ],
       "sourceOracles": [
         "tests/rcConstitutiveLawsAndSolvers.test.js",
         "tests/reinforcedConcreteSectionApplication.test.js"
@@ -15057,9 +15110,14 @@
       "targetTests": [
         "tests/baseline-parity.test.ts",
         "tests/concrete-resistance-baseline-parity.test.ts",
-        "tests/concrete-section-resistance.test.ts"
+        "tests/concrete-section-resistance.test.ts",
+        "tests/constitutive-laws-index-compile-time.test.ts",
+        "tests/constitutive-laws-index-live-parity.test.ts"
       ],
-      "validationEvidence": ["0004-ntc2018-uls-uniaxial-concrete-resistance"],
+      "validationEvidence": [
+        "0004-ntc2018-uls-uniaxial-concrete-resistance",
+        "0048-domain-constitutive-laws-index"
+      ],
       "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
@@ -28203,11 +28261,14 @@
       "sourcePath": "src/domain/constitutive-laws/index.js",
       "sourceBlobSha1": "affbf14efc302a880587f53461d2e0ea94786c34",
       "targetPath": "src/domain/constitutive-laws/index.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing"
+      "migrationSlices": ["0048-domain-constitutive-laws-index"],
+      "sourceOracles": ["tests/rcConstitutiveLawsAndSolvers.test.js"],
+      "targetTests": [
+        "tests/constitutive-laws-index-compile-time.test.ts",
+        "tests/constitutive-laws-index-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0048-domain-constitutive-laws-index"],
+      "status": "exact-parity"
     },
     {
       "id": "src/domain/elements/BeamElement.js",
@@ -30191,7 +30252,8 @@
         "0044-domain-timber-dowel-connector",
         "0045-domain-tecnaria-connector-catalog",
         "0046-domain-tecnaria-connector",
-        "0047-domain-create-tecnaria-connector"
+        "0047-domain-create-tecnaria-connector",
+        "0048-domain-constitutive-laws-index"
       ],
       "sourceOracles": [
         "tests/architecture/applicationRegistry.test.js",
@@ -32640,14 +32702,22 @@
       "sourcePath": "tests/rcConstitutiveLawsAndSolvers.test.js",
       "sourceBlobSha1": "1824f854238feaa90f1d035f376f145b12cb6464",
       "targetPath": "tests/rcConstitutiveLawsAndSolvers.test.ts",
-      "migrationSlices": ["0004-ntc2018-uls-uniaxial-concrete-resistance"],
+      "migrationSlices": [
+        "0004-ntc2018-uls-uniaxial-concrete-resistance",
+        "0048-domain-constitutive-laws-index"
+      ],
       "sourceOracles": ["tests/rcConstitutiveLawsAndSolvers.test.js"],
       "targetTests": [
         "tests/baseline-parity.test.ts",
         "tests/concrete-resistance-baseline-parity.test.ts",
-        "tests/concrete-section-resistance.test.ts"
+        "tests/concrete-section-resistance.test.ts",
+        "tests/constitutive-laws-index-compile-time.test.ts",
+        "tests/constitutive-laws-index-live-parity.test.ts"
       ],
-      "validationEvidence": ["0004-ntc2018-uls-uniaxial-concrete-resistance"],
+      "validationEvidence": [
+        "0004-ntc2018-uls-uniaxial-concrete-resistance",
+        "0048-domain-constitutive-laws-index"
+      ],
       "status": "exact-parity",
       "testKind": "test"
     },
@@ -34807,6 +34877,21 @@
         "numericParity": "exact equality of all delegated normalized connector values",
         "publicStrings": "exact equality plus Unicode code-point equality"
       }
+    },
+    {
+      "sliceId": "0048-domain-constitutive-laws-index",
+      "sourceRevision": "6f33baead8b88166c4b2cf94af41763412e3c751",
+      "method": "Strict declaration consumer coverage and independently executed pinned JavaScript versus built TypeScript constitutive-law barrel modules, including exact export namespace and order, re-export identity, representative numerical behavior, Unicode names, missing-input errors and unsupported exports.",
+      "targetTests": [
+        "tests/constitutive-laws-index-compile-time.test.ts",
+        "tests/constitutive-laws-index-live-parity.test.ts"
+      ],
+      "fixture": null,
+      "tolerances": {
+        "serializedParity": "exact JSON serialization of the export namespace",
+        "numericParity": "exact equality for representative constitutive-law stress values",
+        "publicStrings": "exact equality plus Unicode code-point equality for exported names"
+      }
     }
   ],
   "counts": {
@@ -34836,11 +34921,11 @@
     },
     "sourceFiles": {
       "javascript": 480,
-      "typescript": 270
+      "typescript": 271
     },
     "tests": {
       "javascript": 131,
-      "typescript": 82
+      "typescript": 84
     },
     "validationCampaigns": {
       "javascript": 17,
@@ -34872,7 +34957,7 @@
       "statusCounts": {
         "exact-parity": 0,
         "partial": 18,
-        "missing": 266,
+        "missing": 265,
         "intentionally-excluded": 0,
         "decision-required": 0
       },
@@ -35074,7 +35159,6 @@
         "root-export:rankineEarthPressureCoefficients",
         "root-export:simplifiedBishop",
         "root-export:spencerMethod",
-        "source:src/domain/constitutive-laws/index.js",
         "source:src/domain/elements/BeamElement.js",
         "source:src/domain/elements/BeamSystem.js",
         "source:src/domain/elements/StructuralElement.js",

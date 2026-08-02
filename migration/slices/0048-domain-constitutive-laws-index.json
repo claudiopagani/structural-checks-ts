@@ -1,0 +1,79 @@
+{
+  "schemaVersion": 1,
+  "sliceId": "0048-domain-constitutive-laws-index",
+  "title": "Domain constitutive-law barrel exports",
+  "migrationType": "mechanical-parity",
+  "implementationStatus": "implemented",
+  "dependencies": [
+    "0004-ntc2018-uls-uniaxial-concrete-resistance",
+    "0008-reinforced-concrete-service-stress"
+  ],
+  "source": {
+    "repository": "https://github.com/claudiopagani/strutture-js",
+    "revision": "6f33baead8b88166c4b2cf94af41763412e3c751"
+  },
+  "normativeCorpusRevision": "41da3faa489600173106935bbcf726119300e48d",
+  "sourceFiles": [
+    {
+      "path": "src/domain/constitutive-laws/index.js",
+      "gitBlobSha1": "affbf14efc302a880587f53461d2e0ea94786c34",
+      "targetPath": "src/domain/constitutive-laws/index.ts"
+    }
+  ],
+  "supportingSourceFiles": [
+    {
+      "path": "src/index.js",
+      "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7",
+      "targetPath": "src/index.ts",
+      "coverage": "Root public constitutive-law exports are re-exported through the migrated barrel"
+    }
+  ],
+  "sourceOracles": [
+    {
+      "path": "tests/rcConstitutiveLawsAndSolvers.test.js",
+      "gitBlobSha1": "1824f854238feaa90f1d035f376f145b12cb6464",
+      "coverage": "Direct use of all seven constitutive-law exports and representative numerical/error behavior"
+    }
+  ],
+  "sourcePublicExport": {
+    "path": "src/index.js",
+    "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
+  },
+  "targetTests": [
+    "tests/constitutive-laws-index-compile-time.test.ts",
+    "tests/constitutive-laws-index-live-parity.test.ts"
+  ],
+  "publicExports": [
+    "ConcreteStressBlockLaw",
+    "ConcreteParabolaRectangleLaw",
+    "ConcreteTriangularRectangleLaw",
+    "ConcreteNoTensionLaw",
+    "SteelElasticLaw",
+    "SteelElasticPlasticHardeningLaw",
+    "SteelElasticPerfectlyPlasticLaw"
+  ],
+  "publicTypeExports": [],
+  "normativeReferences": {
+    "resolved": [],
+    "outsideCorpus": [],
+    "normativeConformityClaimed": false,
+    "status": "classified-for-declared-scope"
+  },
+  "independentValidation": {
+    "method": "Strict declaration consumer coverage and independently executed pinned JavaScript versus built TypeScript constitutive-law barrel modules, including exact export namespace and order, re-export identity, representative numerical behavior, Unicode names, missing-input errors and unsupported exports.",
+    "targetTests": [
+      "tests/constitutive-laws-index-compile-time.test.ts",
+      "tests/constitutive-laws-index-live-parity.test.ts"
+    ],
+    "tolerances": {
+      "serializedParity": "exact JSON serialization of the export namespace",
+      "numericParity": "exact equality for representative constitutive-law stress values",
+      "publicStrings": "exact equality plus Unicode code-point equality for exported names"
+    }
+  },
+  "parityDifferences": [
+    "The slice preserves the source barrel export names, order, re-export identity and delegated constructor behavior.",
+    "No constitutive-law formulas, material behavior, solvers or new public symbols are introduced."
+  ],
+  "engineeringFunctionality": "Constitutive-law barrel exports only; all underlying constitutive-law implementations were already migrated."
+}
