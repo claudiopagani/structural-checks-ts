@@ -917,11 +917,15 @@
         "DisplacementControlNonlinearStaticSolver2D",
         "DistributedLoad",
         "DofRegistry",
+        "EMBEDDED_RETAINING_WALL_END_RESTRAINTS",
+        "EMBEDDED_RETAINING_WALL_MODEL_SCHEMA_VERSION",
+        "EMBEDDED_RETAINING_WALL_TYPES",
         "EN1992_STRUT_AND_TIE_NODE_TYPES",
         "EN1992_STRUT_STRENGTH_MODELS",
         "EXISTING_MATERIAL_CONFIDENCE_LEVELS",
         "ElasticBeamSectionProvider",
         "ElementPointLoad",
+        "EmbeddedRetainingWallModel",
         "ExistingMasonryMaterial",
         "ExistingMaterial",
         "FEM_ANALYSIS_CAPABILITY_KEYS",
@@ -6745,11 +6749,15 @@
       "sourcePath": "src/domain/geotechnics/EmbeddedRetainingWallModel.js",
       "sourceBlobSha1": "ca178caab8ce37dbc37ad237838840d80c91ab20",
       "targetPath": "src/domain/geotechnics/EmbeddedRetainingWallModel.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0066-domain-embedded-retaining-wall-model"],
+      "sourceOracles": ["tests/geotechnicalEmbeddedRetainingWalls.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/embedded-retaining-wall-model-compile-time.test.ts",
+        "tests/embedded-retaining-wall-model-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0066-domain-embedded-retaining-wall-model"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -6773,11 +6781,15 @@
       "sourcePath": "src/domain/geotechnics/EmbeddedRetainingWallModel.js",
       "sourceBlobSha1": "ca178caab8ce37dbc37ad237838840d80c91ab20",
       "targetPath": "src/domain/geotechnics/EmbeddedRetainingWallModel.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0066-domain-embedded-retaining-wall-model"],
+      "sourceOracles": ["tests/geotechnicalEmbeddedRetainingWalls.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/embedded-retaining-wall-model-compile-time.test.ts",
+        "tests/embedded-retaining-wall-model-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0066-domain-embedded-retaining-wall-model"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -6857,11 +6869,15 @@
       "sourcePath": "src/domain/geotechnics/EmbeddedRetainingWallModel.js",
       "sourceBlobSha1": "ca178caab8ce37dbc37ad237838840d80c91ab20",
       "targetPath": "src/domain/geotechnics/EmbeddedRetainingWallModel.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0066-domain-embedded-retaining-wall-model"],
+      "sourceOracles": ["tests/geotechnicalEmbeddedRetainingWalls.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/embedded-retaining-wall-model-compile-time.test.ts",
+        "tests/embedded-retaining-wall-model-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0066-domain-embedded-retaining-wall-model"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -6885,11 +6901,15 @@
       "sourcePath": "src/domain/geotechnics/EmbeddedRetainingWallModel.js",
       "sourceBlobSha1": "ca178caab8ce37dbc37ad237838840d80c91ab20",
       "targetPath": "src/domain/geotechnics/EmbeddedRetainingWallModel.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0066-domain-embedded-retaining-wall-model"],
+      "sourceOracles": ["tests/geotechnicalEmbeddedRetainingWalls.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/embedded-retaining-wall-model-compile-time.test.ts",
+        "tests/embedded-retaining-wall-model-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0066-domain-embedded-retaining-wall-model"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -17870,11 +17890,15 @@
       "sourcePath": "src/domain/geotechnics/EmbeddedRetainingWallModel.js",
       "sourceBlobSha1": "ca178caab8ce37dbc37ad237838840d80c91ab20",
       "targetPath": "src/domain/geotechnics/EmbeddedRetainingWallModel.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0066-domain-embedded-retaining-wall-model"],
+      "sourceOracles": ["tests/geotechnicalEmbeddedRetainingWalls.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/embedded-retaining-wall-model-compile-time.test.ts",
+        "tests/embedded-retaining-wall-model-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0066-domain-embedded-retaining-wall-model"],
+      "status": "exact-parity",
       "publicEntryPath": "src/applications/index.js",
       "publicEntryBlobSha1": "b70179c7cdd2a819f2151dc092c0f59cbce30ba6"
     },
@@ -17898,11 +17922,15 @@
       "sourcePath": "src/domain/geotechnics/EmbeddedRetainingWallModel.js",
       "sourceBlobSha1": "ca178caab8ce37dbc37ad237838840d80c91ab20",
       "targetPath": "src/domain/geotechnics/EmbeddedRetainingWallModel.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0066-domain-embedded-retaining-wall-model"],
+      "sourceOracles": ["tests/geotechnicalEmbeddedRetainingWalls.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/embedded-retaining-wall-model-compile-time.test.ts",
+        "tests/embedded-retaining-wall-model-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0066-domain-embedded-retaining-wall-model"],
+      "status": "exact-parity",
       "publicEntryPath": "src/applications/index.js",
       "publicEntryBlobSha1": "b70179c7cdd2a819f2151dc092c0f59cbce30ba6"
     },
@@ -17982,11 +18010,15 @@
       "sourcePath": "src/domain/geotechnics/EmbeddedRetainingWallModel.js",
       "sourceBlobSha1": "ca178caab8ce37dbc37ad237838840d80c91ab20",
       "targetPath": "src/domain/geotechnics/EmbeddedRetainingWallModel.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0066-domain-embedded-retaining-wall-model"],
+      "sourceOracles": ["tests/geotechnicalEmbeddedRetainingWalls.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/embedded-retaining-wall-model-compile-time.test.ts",
+        "tests/embedded-retaining-wall-model-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0066-domain-embedded-retaining-wall-model"],
+      "status": "exact-parity",
       "publicEntryPath": "src/applications/index.js",
       "publicEntryBlobSha1": "b70179c7cdd2a819f2151dc092c0f59cbce30ba6"
     },
@@ -18010,11 +18042,15 @@
       "sourcePath": "src/domain/geotechnics/EmbeddedRetainingWallModel.js",
       "sourceBlobSha1": "ca178caab8ce37dbc37ad237838840d80c91ab20",
       "targetPath": "src/domain/geotechnics/EmbeddedRetainingWallModel.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0066-domain-embedded-retaining-wall-model"],
+      "sourceOracles": ["tests/geotechnicalEmbeddedRetainingWalls.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/embedded-retaining-wall-model-compile-time.test.ts",
+        "tests/embedded-retaining-wall-model-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0066-domain-embedded-retaining-wall-model"],
+      "status": "exact-parity",
       "publicEntryPath": "src/applications/index.js",
       "publicEntryBlobSha1": "b70179c7cdd2a819f2151dc092c0f59cbce30ba6"
     },
@@ -23622,11 +23658,15 @@
       "sourcePath": "src/domain/geotechnics/EmbeddedRetainingWallModel.js",
       "sourceBlobSha1": "ca178caab8ce37dbc37ad237838840d80c91ab20",
       "targetPath": "src/domain/geotechnics/EmbeddedRetainingWallModel.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0066-domain-embedded-retaining-wall-model"],
+      "sourceOracles": ["tests/geotechnicalEmbeddedRetainingWalls.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/embedded-retaining-wall-model-compile-time.test.ts",
+        "tests/embedded-retaining-wall-model-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0066-domain-embedded-retaining-wall-model"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7",
       "value": "embedded-retaining-wall-model/v1"
@@ -29224,11 +29264,15 @@
       "sourcePath": "src/domain/geotechnics/EmbeddedRetainingWallModel.js",
       "sourceBlobSha1": "ca178caab8ce37dbc37ad237838840d80c91ab20",
       "targetPath": "src/domain/geotechnics/EmbeddedRetainingWallModel.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing"
+      "migrationSlices": ["0066-domain-embedded-retaining-wall-model"],
+      "sourceOracles": ["tests/geotechnicalEmbeddedRetainingWalls.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/embedded-retaining-wall-model-compile-time.test.ts",
+        "tests/embedded-retaining-wall-model-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0066-domain-embedded-retaining-wall-model"],
+      "status": "exact-parity"
     },
     {
       "id": "src/domain/geotechnics/EmbeddedRetainingWallScenario.js",
@@ -30601,7 +30645,8 @@
         "0062-domain-displacement-control-nonlinear-solver",
         "0063-domain-existing-masonry-material",
         "0064-domain-timber-material-hierarchy",
-        "0065-domain-circular-slip-surface"
+        "0065-domain-circular-slip-surface",
+        "0066-domain-embedded-retaining-wall-model"
       ],
       "sourceOracles": [
         "tests/architecture/applicationRegistry.test.js",
@@ -32031,11 +32076,15 @@
       "sourcePath": "tests/geotechnicalEmbeddedRetainingWalls.test.js",
       "sourceBlobSha1": "4e5ac3cc7b3d0db759c3a7a2dae5b7d9e7ec788a",
       "targetPath": "tests/geotechnicalEmbeddedRetainingWalls.test.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0066-domain-embedded-retaining-wall-model"],
+      "sourceOracles": ["tests/geotechnicalEmbeddedRetainingWalls.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/embedded-retaining-wall-model-compile-time.test.ts",
+        "tests/embedded-retaining-wall-model-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0066-domain-embedded-retaining-wall-model"],
+      "status": "exact-parity",
       "testKind": "test"
     },
     {
@@ -35596,16 +35645,32 @@
         "publicStrings": "exact equality plus Unicode code-point preservation",
         "errors": "exact error name and message equality"
       }
+    },
+    {
+      "sliceId": "0066-domain-embedded-retaining-wall-model",
+      "sourceRevision": "6f33baead8b88166c4b2cf94af41763412e3c751",
+      "method": "Strict public declaration consumer coverage and independently executed pinned JavaScript versus built TypeScript comparison of embedded wall geometry and flexural-rigidity segment normalization, provenance, restraints, unit conversion, elevation lookup, exact serialization, Unicode metadata and error paths.",
+      "targetTests": [
+        "tests/embedded-retaining-wall-model-compile-time.test.ts",
+        "tests/embedded-retaining-wall-model-live-parity.test.ts"
+      ],
+      "fixture": null,
+      "tolerances": {
+        "serializedParity": "exact deep equality and JSON serialization",
+        "numericParity": "exact equality for normalized elevations and rigidity values",
+        "publicStrings": "exact equality plus Unicode code-point preservation",
+        "errors": "exact error name and message equality"
+      }
     }
   ],
   "counts": {
     "rootExports": {
       "javascript": 841,
-      "typescript": 442
+      "typescript": 446
     },
     "applicationsExports": {
       "javascript": 309,
-      "typescript": 108
+      "typescript": 112
     },
     "packageEntryPoints": {
       "javascript": 14,
@@ -35621,15 +35686,15 @@
     },
     "serializedSchemas": {
       "javascript": 49,
-      "typescript": 14
+      "typescript": 15
     },
     "sourceFiles": {
       "javascript": 480,
-      "typescript": 300
+      "typescript": 301
     },
     "tests": {
       "javascript": 131,
-      "typescript": 118
+      "typescript": 120
     },
     "validationCampaigns": {
       "javascript": 17,
@@ -35661,7 +35726,7 @@
       "statusCounts": {
         "exact-parity": 0,
         "partial": 20,
-        "missing": 200,
+        "missing": 195,
         "intentionally-excluded": 0,
         "decision-required": 0
       },
@@ -35675,17 +35740,13 @@
         "root-export:CyclicMasonryShearMaterial",
         "root-export:EARTH_PRESSURE_METHODS",
         "root-export:EARTH_PRESSURE_STATES",
-        "root-export:EMBEDDED_RETAINING_WALL_END_RESTRAINTS",
         "root-export:EMBEDDED_RETAINING_WALL_LOADING_CONDITIONS",
-        "root-export:EMBEDDED_RETAINING_WALL_MODEL_SCHEMA_VERSION",
         "root-export:EMBEDDED_RETAINING_WALL_REFERENCES",
         "root-export:EMBEDDED_RETAINING_WALL_RESULT_SCHEMA_VERSION",
         "root-export:EMBEDDED_RETAINING_WALL_SCENARIO_SCHEMA_VERSION",
         "root-export:EMBEDDED_RETAINING_WALL_SUPPORT_BEHAVIORS",
         "root-export:EMBEDDED_RETAINING_WALL_SUPPORT_TYPES",
-        "root-export:EMBEDDED_RETAINING_WALL_TYPES",
         "root-export:EmbeddedRetainingWallAnalysis",
-        "root-export:EmbeddedRetainingWallModel",
         "root-export:EmbeddedRetainingWallScenario",
         "root-export:FloorSlab",
         "root-export:GEOTECHNICAL_DESIGN_SITUATION_SCHEMA_VERSION",
@@ -35835,7 +35896,6 @@
         "source:src/domain/fem/nonlinear/index.js",
         "source:src/domain/geotechnics/CircularSlopeStabilityAnalysis.js",
         "source:src/domain/geotechnics/EmbeddedRetainingWallAnalysis.js",
-        "source:src/domain/geotechnics/EmbeddedRetainingWallModel.js",
         "source:src/domain/geotechnics/EmbeddedRetainingWallScenario.js",
         "source:src/domain/geotechnics/GroundAnchorAnalysis.js",
         "source:src/domain/geotechnics/GroundAnchorDesignScenario.js",
@@ -36076,7 +36136,7 @@
       "statusCounts": {
         "exact-parity": 0,
         "partial": 16,
-        "missing": 431,
+        "missing": 427,
         "intentionally-excluded": 0,
         "decision-required": 0
       },
@@ -36091,17 +36151,13 @@
         "application-export:BEAM_REPORT_SCHEMA_VERSION",
         "application-export:BeamReportBuilder",
         "application-export:BeamReportMarkdownRenderer",
-        "application-export:EMBEDDED_RETAINING_WALL_END_RESTRAINTS",
         "application-export:EMBEDDED_RETAINING_WALL_LOADING_CONDITIONS",
-        "application-export:EMBEDDED_RETAINING_WALL_MODEL_SCHEMA_VERSION",
         "application-export:EMBEDDED_RETAINING_WALL_REFERENCES",
         "application-export:EMBEDDED_RETAINING_WALL_RESULT_SCHEMA_VERSION",
         "application-export:EMBEDDED_RETAINING_WALL_SCENARIO_SCHEMA_VERSION",
         "application-export:EMBEDDED_RETAINING_WALL_SUPPORT_BEHAVIORS",
         "application-export:EMBEDDED_RETAINING_WALL_SUPPORT_TYPES",
-        "application-export:EMBEDDED_RETAINING_WALL_TYPES",
         "application-export:EmbeddedRetainingWallAnalysis",
-        "application-export:EmbeddedRetainingWallModel",
         "application-export:EmbeddedRetainingWallScenario",
         "application-export:GROUND_ANCHOR_BOND_CATALOG",
         "application-export:GROUND_ANCHOR_BOND_CATALOG_IDS",
@@ -36534,7 +36590,7 @@
       "statusCounts": {
         "exact-parity": 0,
         "partial": 3,
-        "missing": 146,
+        "missing": 145,
         "intentionally-excluded": 0,
         "decision-required": 0
       },
@@ -36644,7 +36700,6 @@
         "test:tests/geotechnicalDeepFoundationValidationCampaign.test.js",
         "test:tests/geotechnicalEarthPressure.test.js",
         "test:tests/geotechnicalEmbeddedRetainingWallValidationCampaign.test.js",
-        "test:tests/geotechnicalEmbeddedRetainingWalls.test.js",
         "test:tests/geotechnicalGroundAnchorValidationCampaign.test.js",
         "test:tests/geotechnicalGroundAnchors.test.js",
         "test:tests/geotechnicalGroundModel.test.js",

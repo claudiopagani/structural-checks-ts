@@ -1,0 +1,96 @@
+{
+  "schemaVersion": 1,
+  "sliceId": "0066-domain-embedded-retaining-wall-model",
+  "title": "Domain embedded retaining wall model",
+  "migrationType": "mechanical-parity",
+  "implementationStatus": "implemented",
+  "dependencies": ["0065-domain-circular-slip-surface"],
+  "source": {
+    "repository": "https://github.com/claudiopagani/strutture-js",
+    "revision": "6f33baead8b88166c4b2cf94af41763412e3c751"
+  },
+  "normativeCorpusRevision": "41da3faa489600173106935bbcf726119300e48d",
+  "sourceFiles": [
+    {
+      "path": "src/domain/geotechnics/EmbeddedRetainingWallModel.js",
+      "gitBlobSha1": "ca178caab8ce37dbc37ad237838840d80c91ab20",
+      "targetPath": "src/domain/geotechnics/EmbeddedRetainingWallModel.ts"
+    }
+  ],
+  "supportingSourceFiles": [
+    {
+      "path": "src/domain/geotechnics/SoilMaterial.js",
+      "gitBlobSha1": "5dfaafe73a7e65586de313e262cacf7e257535b9",
+      "targetPath": "src/domain/geotechnics/SoilMaterial.ts",
+      "coverage": "Embedded retaining wall model uses the already migrated canonical geotechnical internal units"
+    },
+    {
+      "path": "src/domain/geotechnics/index.js",
+      "gitBlobSha1": "41ed2053fc2e37dc90da412846609f4050af9668",
+      "targetPath": "src/domain/geotechnics/index.ts",
+      "coverage": "Geotechnical public export for the migrated embedded retaining wall model"
+    },
+    {
+      "path": "src/index.js",
+      "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7",
+      "targetPath": "src/index.ts",
+      "coverage": "Root public exports for the migrated embedded retaining wall model"
+    }
+  ],
+  "sourceOracles": [
+    {
+      "path": "tests/geotechnicalEmbeddedRetainingWalls.test.js",
+      "gitBlobSha1": "4e5ac3cc7b3d0db759c3a7a2dae5b7d9e7ec788a",
+      "coverage": "Embedded wall model unit conversion, flexural-rigidity segment coverage, end restraints, serialization and validation"
+    }
+  ],
+  "sourcePublicExport": {
+    "path": "src/index.js",
+    "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
+  },
+  "targetTests": [
+    "tests/baseline-parity.test.ts",
+    "tests/embedded-retaining-wall-model-compile-time.test.ts",
+    "tests/embedded-retaining-wall-model-live-parity.test.ts"
+  ],
+  "publicExports": [
+    "EMBEDDED_RETAINING_WALL_END_RESTRAINTS",
+    "EMBEDDED_RETAINING_WALL_MODEL_SCHEMA_VERSION",
+    "EMBEDDED_RETAINING_WALL_TYPES",
+    "EmbeddedRetainingWallModel"
+  ],
+  "publicTypeExports": [
+    "EmbeddedRetainingWallEndCondition",
+    "EmbeddedRetainingWallEndConditionInput",
+    "EmbeddedRetainingWallEndRestraint",
+    "EmbeddedRetainingWallModelJson",
+    "EmbeddedRetainingWallModelOptions",
+    "EmbeddedRetainingWallProvenance",
+    "EmbeddedRetainingWallType",
+    "FlexuralRigiditySegment",
+    "FlexuralRigiditySegmentInput"
+  ],
+  "normativeReferences": {
+    "resolved": [],
+    "outsideCorpus": [],
+    "normativeConformityClaimed": false,
+    "status": "classified-for-declared-scope"
+  },
+  "independentValidation": {
+    "method": "Strict public declaration consumer coverage and independently executed pinned JavaScript versus built TypeScript comparison of embedded wall geometry and flexural-rigidity segment normalization, provenance, restraints, unit conversion, elevation lookup, exact serialization, Unicode metadata and error paths.",
+    "targetTests": [
+      "tests/embedded-retaining-wall-model-compile-time.test.ts",
+      "tests/embedded-retaining-wall-model-live-parity.test.ts"
+    ],
+    "tolerances": {
+      "serializedParity": "exact deep equality and JSON serialization",
+      "numericParity": "exact equality for normalized elevations and rigidity values",
+      "publicStrings": "exact equality plus Unicode code-point preservation",
+      "errors": "exact error name and message equality"
+    }
+  },
+  "parityDifferences": [
+    "The strict TypeScript declarations describe the existing JavaScript embedded retaining wall model without adding runtime behavior."
+  ],
+  "engineeringFunctionality": "Serializable embedded retaining wall model with unit-normalized geometry, contiguous flexural-rigidity segments, explicit provenance, end restraints, elevation lookup and axis-convention metadata."
+}

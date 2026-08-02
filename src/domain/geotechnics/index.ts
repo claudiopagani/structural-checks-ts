@@ -48,6 +48,21 @@ export {
   type SlopeMovementDirection,
 } from "./CircularSlipSurface2D.js";
 export {
+  EMBEDDED_RETAINING_WALL_END_RESTRAINTS,
+  EMBEDDED_RETAINING_WALL_MODEL_SCHEMA_VERSION,
+  EMBEDDED_RETAINING_WALL_TYPES,
+  EmbeddedRetainingWallModel,
+  type EmbeddedRetainingWallEndCondition,
+  type EmbeddedRetainingWallEndConditionInput,
+  type EmbeddedRetainingWallEndRestraint,
+  type EmbeddedRetainingWallModelJson,
+  type EmbeddedRetainingWallModelOptions,
+  type EmbeddedRetainingWallProvenance,
+  type EmbeddedRetainingWallType,
+  type FlexuralRigiditySegment,
+  type FlexuralRigiditySegmentInput,
+} from "./EmbeddedRetainingWallModel.js";
+export {
   GEOTECHNICAL_INTERNAL_UNITS,
   SOIL_DEFORMATION_MODELS,
   SOIL_DRAINAGE_CONDITIONS,
