@@ -1015,6 +1015,9 @@
         "GroundSection2D",
         "HyperstaticDeflectionIteration",
         "IDENTITY_RESISTANCE_AXIS_TRANSFORMATION",
+        "ITALIAN_HISTORICAL_REINFORCEMENT_STEEL_GRADES",
+        "ITALIAN_HISTORICAL_REINFORCEMENT_STEEL_GRADE_NAMES",
+        "ITALIAN_HISTORICAL_REINFORCEMENT_STEEL_STANDARDS",
         "IllinoisRootSolver",
         "ImposedAction",
         "KinematicConstraintReducer2D",
@@ -1328,6 +1331,7 @@
         "createGlobalFemContractSet",
         "createGlobalFemModelContract",
         "createGlobalFemResultContract",
+        "createItalianHistoricalReinforcementSteelMaterial",
         "createLongitudinalReinforcementLayout",
         "createMasonryShearStrengthModel",
         "createNTC2018AccidentalAction",
@@ -1364,6 +1368,7 @@
         "extractGlobalFemDemands",
         "filterConcurrentFemStates",
         "getGroundAnchorBondCatalogEntry",
+        "getItalianHistoricalReinforcementSteelGrade",
         "getNTC2018ActionCombinationFactors",
         "getNTC2018ActionPartialFactors",
         "getNTC2018LoadDurationClass",
@@ -1382,6 +1387,7 @@
         "isResultStatus",
         "jakyAtRestCoefficient",
         "listGroundAnchorBondCatalogEntries",
+        "listItalianHistoricalReinforcementSteelGrades",
         "listSteelProfileSectionsByFamily",
         "listXlamPanelProducts",
         "mononobeOkabeActiveEarthPressureCoefficient",
@@ -2509,9 +2515,16 @@
         "getItalianHistoricalReinforcementSteelGrade",
         "listItalianHistoricalReinforcementSteelGrades"
       ],
-      "targetPath": null,
-      "targetExportNames": [],
-      "status": "missing"
+      "targetPath": "src/norms/italian-historical/index.ts",
+      "targetExportNames": [
+        "ITALIAN_HISTORICAL_REINFORCEMENT_STEEL_GRADES",
+        "ITALIAN_HISTORICAL_REINFORCEMENT_STEEL_GRADE_NAMES",
+        "ITALIAN_HISTORICAL_REINFORCEMENT_STEEL_STANDARDS",
+        "createItalianHistoricalReinforcementSteelMaterial",
+        "getItalianHistoricalReinforcementSteelGrade",
+        "listItalianHistoricalReinforcementSteelGrades"
+      ],
+      "status": "exact-parity"
     },
     {
       "id": "./norms/ntc2018",
@@ -5759,11 +5772,18 @@
       "sourcePath": "src/norms/italian-historical/materials/createItalianHistoricalMaterial.js",
       "sourceBlobSha1": "03023810fd4cf0e35f6efeed4c409ffec84ebd1b",
       "targetPath": "src/norms/italian-historical/materials/createItalianHistoricalMaterial.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0112-norms-italian-historical-reinforcement-steel"],
+      "sourceOracles": [
+        "tests/italianHistoricalReinforcementSteel.test.js",
+        "tests/packageExports.test.js"
+      ],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/italian-historical-public-index-compile-time.test.ts",
+        "tests/italian-historical-public-index-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0112-norms-italian-historical-reinforcement-steel"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -8024,11 +8044,18 @@
       "sourcePath": "src/norms/italian-historical/materials/historicalReinforcementSteelCatalogs.js",
       "sourceBlobSha1": "2cb8755db89fcd9377b81672d4b93130b7c7e331",
       "targetPath": "src/norms/italian-historical/materials/historicalReinforcementSteelCatalogs.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0112-norms-italian-historical-reinforcement-steel"],
+      "sourceOracles": [
+        "tests/italianHistoricalReinforcementSteel.test.js",
+        "tests/packageExports.test.js"
+      ],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/italian-historical-public-index-compile-time.test.ts",
+        "tests/italian-historical-public-index-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0112-norms-italian-historical-reinforcement-steel"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -9545,11 +9572,18 @@
       "sourcePath": "src/norms/italian-historical/materials/historicalReinforcementSteelCatalogs.js",
       "sourceBlobSha1": "2cb8755db89fcd9377b81672d4b93130b7c7e331",
       "targetPath": "src/norms/italian-historical/materials/historicalReinforcementSteelCatalogs.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0112-norms-italian-historical-reinforcement-steel"],
+      "sourceOracles": [
+        "tests/italianHistoricalReinforcementSteel.test.js",
+        "tests/packageExports.test.js"
+      ],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/italian-historical-public-index-compile-time.test.ts",
+        "tests/italian-historical-public-index-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0112-norms-italian-historical-reinforcement-steel"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -9559,11 +9593,18 @@
       "sourcePath": "src/norms/italian-historical/materials/historicalReinforcementSteelCatalogs.js",
       "sourceBlobSha1": "2cb8755db89fcd9377b81672d4b93130b7c7e331",
       "targetPath": "src/norms/italian-historical/materials/historicalReinforcementSteelCatalogs.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0112-norms-italian-historical-reinforcement-steel"],
+      "sourceOracles": [
+        "tests/italianHistoricalReinforcementSteel.test.js",
+        "tests/packageExports.test.js"
+      ],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/italian-historical-public-index-compile-time.test.ts",
+        "tests/italian-historical-public-index-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0112-norms-italian-historical-reinforcement-steel"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -9573,11 +9614,18 @@
       "sourcePath": "src/norms/italian-historical/materials/historicalReinforcementSteelCatalogs.js",
       "sourceBlobSha1": "2cb8755db89fcd9377b81672d4b93130b7c7e331",
       "targetPath": "src/norms/italian-historical/materials/historicalReinforcementSteelCatalogs.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0112-norms-italian-historical-reinforcement-steel"],
+      "sourceOracles": [
+        "tests/italianHistoricalReinforcementSteel.test.js",
+        "tests/packageExports.test.js"
+      ],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/italian-historical-public-index-compile-time.test.ts",
+        "tests/italian-historical-public-index-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0112-norms-italian-historical-reinforcement-steel"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -10113,11 +10161,18 @@
       "sourcePath": "src/norms/italian-historical/materials/historicalReinforcementSteelCatalogs.js",
       "sourceBlobSha1": "2cb8755db89fcd9377b81672d4b93130b7c7e331",
       "targetPath": "src/norms/italian-historical/materials/historicalReinforcementSteelCatalogs.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0112-norms-italian-historical-reinforcement-steel"],
+      "sourceOracles": [
+        "tests/italianHistoricalReinforcementSteel.test.js",
+        "tests/packageExports.test.js"
+      ],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/italian-historical-public-index-compile-time.test.ts",
+        "tests/italian-historical-public-index-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0112-norms-italian-historical-reinforcement-steel"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -32521,7 +32576,8 @@
         "0108-domain-slab-public-index",
         "0109-domain-solvers-public-index",
         "0110-domain-terrain-public-index",
-        "0111-norms-en1992-public-index"
+        "0111-norms-en1992-public-index",
+        "0112-norms-italian-historical-reinforcement-steel"
       ],
       "sourceOracles": [
         "tests/architecture/applicationRegistry.test.js",
@@ -32760,33 +32816,54 @@
       "sourcePath": "src/norms/italian-historical/index.js",
       "sourceBlobSha1": "07cc1d987fdef4b24dcc11e67e1d11c85151807a",
       "targetPath": "src/norms/italian-historical/index.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing"
+      "migrationSlices": ["0112-norms-italian-historical-reinforcement-steel"],
+      "sourceOracles": [
+        "tests/italianHistoricalReinforcementSteel.test.js",
+        "tests/packageExports.test.js"
+      ],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/italian-historical-public-index-compile-time.test.ts",
+        "tests/italian-historical-public-index-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0112-norms-italian-historical-reinforcement-steel"],
+      "status": "exact-parity"
     },
     {
       "id": "src/norms/italian-historical/materials/createItalianHistoricalMaterial.js",
       "sourcePath": "src/norms/italian-historical/materials/createItalianHistoricalMaterial.js",
       "sourceBlobSha1": "03023810fd4cf0e35f6efeed4c409ffec84ebd1b",
       "targetPath": "src/norms/italian-historical/materials/createItalianHistoricalMaterial.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing"
+      "migrationSlices": ["0112-norms-italian-historical-reinforcement-steel"],
+      "sourceOracles": [
+        "tests/italianHistoricalReinforcementSteel.test.js",
+        "tests/packageExports.test.js"
+      ],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/italian-historical-public-index-compile-time.test.ts",
+        "tests/italian-historical-public-index-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0112-norms-italian-historical-reinforcement-steel"],
+      "status": "exact-parity"
     },
     {
       "id": "src/norms/italian-historical/materials/historicalReinforcementSteelCatalogs.js",
       "sourcePath": "src/norms/italian-historical/materials/historicalReinforcementSteelCatalogs.js",
       "sourceBlobSha1": "2cb8755db89fcd9377b81672d4b93130b7c7e331",
       "targetPath": "src/norms/italian-historical/materials/historicalReinforcementSteelCatalogs.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing"
+      "migrationSlices": ["0112-norms-italian-historical-reinforcement-steel"],
+      "sourceOracles": [
+        "tests/italianHistoricalReinforcementSteel.test.js",
+        "tests/packageExports.test.js"
+      ],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/italian-historical-public-index-compile-time.test.ts",
+        "tests/italian-historical-public-index-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0112-norms-italian-historical-reinforcement-steel"],
+      "status": "exact-parity"
     },
     {
       "id": "src/norms/normativeReference.js",
@@ -34464,7 +34541,11 @@
       "sourcePath": "tests/italianHistoricalReinforcementSteel.test.js",
       "sourceBlobSha1": "5cbe9ebbb37c7040eba53a32442a7f3eeeab197f",
       "targetPath": "tests/italianHistoricalReinforcementSteel.test.ts",
-      "migrationSlices": ["0003-concrete-materials", "0060-domain-existing-material"],
+      "migrationSlices": [
+        "0003-concrete-materials",
+        "0060-domain-existing-material",
+        "0112-norms-italian-historical-reinforcement-steel"
+      ],
       "sourceOracles": ["tests/italianHistoricalReinforcementSteel.test.js"],
       "targetTests": [
         "tests/baseline-parity.test.ts",
@@ -34472,10 +34553,15 @@
         "tests/concrete-sections.test.ts",
         "tests/existing-material-compile-time.test.ts",
         "tests/existing-material-live-parity.test.ts",
+        "tests/italian-historical-public-index-compile-time.test.ts",
+        "tests/italian-historical-public-index-live-parity.test.ts",
         "tests/material-baseline-parity.test.ts",
         "tests/reinforcement-layout.test.ts"
       ],
-      "validationEvidence": ["0060-domain-existing-material"],
+      "validationEvidence": [
+        "0060-domain-existing-material",
+        "0112-norms-italian-historical-reinforcement-steel"
+      ],
       "status": "exact-parity",
       "testKind": "test"
     },
@@ -35163,7 +35249,8 @@
         "0108-domain-slab-public-index",
         "0109-domain-solvers-public-index",
         "0110-domain-terrain-public-index",
-        "0111-norms-en1992-public-index"
+        "0111-norms-en1992-public-index",
+        "0112-norms-italian-historical-reinforcement-steel"
       ],
       "sourceOracles": ["tests/packageExports.test.js"],
       "targetTests": [
@@ -35208,6 +35295,8 @@
         "tests/ground-anchor-design-scenario-live-parity.test.ts",
         "tests/ground-anchor-stability-action-compile-time.test.ts",
         "tests/ground-anchor-stability-action-live-parity.test.ts",
+        "tests/italian-historical-public-index-compile-time.test.ts",
+        "tests/italian-historical-public-index-live-parity.test.ts",
         "tests/lateral-earth-pressure-analysis-compile-time.test.ts",
         "tests/lateral-earth-pressure-analysis-live-parity.test.ts",
         "tests/lateral-pile-capacity-compile-time.test.ts",
@@ -35299,7 +35388,8 @@
         "0108-domain-slab-public-index",
         "0109-domain-solvers-public-index",
         "0110-domain-terrain-public-index",
-        "0111-norms-en1992-public-index"
+        "0111-norms-en1992-public-index",
+        "0112-norms-italian-historical-reinforcement-steel"
       ],
       "status": "exact-parity",
       "testKind": "test"
@@ -38674,12 +38764,28 @@
         "publicStrings": "exact equality plus Unicode code-point preservation",
         "errors": "underlying EN 1992 errors remain covered by dependency slices"
       }
+    },
+    {
+      "sliceId": "0112-norms-italian-historical-reinforcement-steel",
+      "sourceRevision": "6f33baead8b88166c4b2cf94af41763412e3c751",
+      "method": "Strict declaration consumer coverage and independently executed pinned JavaScript versus built TypeScript comparison of the complete catalog and factory, exact JSON and numeric material parity, Unicode code-point comparison, frozen catalog behavior, root aliases, unsupported lookup, and error paths.",
+      "targetTests": [
+        "tests/italian-historical-public-index-compile-time.test.ts",
+        "tests/italian-historical-public-index-live-parity.test.ts"
+      ],
+      "fixture": null,
+      "tolerances": {
+        "serializedParity": "exact catalog, list, material JSON, and metadata equality",
+        "numericParity": "exact equality for catalog and normalized material values",
+        "publicStrings": "exact equality plus Unicode code-point preservation",
+        "errors": "exact error name and message equality for unsupported grades and missing units"
+      }
     }
   ],
   "counts": {
     "rootExports": {
       "javascript": 841,
-      "typescript": 589
+      "typescript": 595
     },
     "applicationsExports": {
       "javascript": 309,
@@ -38687,7 +38793,7 @@
     },
     "packageEntryPoints": {
       "javascript": 14,
-      "typescript": 3
+      "typescript": 4
     },
     "applicationRegistryEntries": {
       "javascript": 30,
@@ -38703,11 +38809,11 @@
     },
     "sourceFiles": {
       "javascript": 480,
-      "typescript": 355
+      "typescript": 358
     },
     "tests": {
       "javascript": 131,
-      "typescript": 210
+      "typescript": 212
     },
     "validationCampaigns": {
       "javascript": 17,
@@ -38766,7 +38872,7 @@
       "statusCounts": {
         "exact-parity": 0,
         "partial": 15,
-        "missing": 156,
+        "missing": 147,
         "intentionally-excluded": 0,
         "decision-required": 0
       },
@@ -38774,9 +38880,6 @@
         "root-export:CIRC2019_RC_REFERENCES",
         "root-export:DM522023_AMENDMENTS",
         "root-export:DM522023_REFERENCES",
-        "root-export:ITALIAN_HISTORICAL_REINFORCEMENT_STEEL_GRADES",
-        "root-export:ITALIAN_HISTORICAL_REINFORCEMENT_STEEL_GRADE_NAMES",
-        "root-export:ITALIAN_HISTORICAL_REINFORCEMENT_STEEL_STANDARDS",
         "root-export:NORMATIVE_REFERENCE_RELATIONS",
         "root-export:NORMATIVE_REFERENCE_RESOLUTION_STATUS",
         "root-export:NTC2018ExistingMasonryMaterial",
@@ -38860,7 +38963,6 @@
         "root-export:calculateNTC2018WindPressure",
         "root-export:calculateNTC2018WindReturnCoefficient",
         "root-export:classifyNTC2018Topography",
-        "root-export:createItalianHistoricalReinforcementSteelMaterial",
         "root-export:createNTC2018BeamCombinations",
         "root-export:createNTC2018ExistingMasonryMaterial",
         "root-export:createNTC2018ExistingMasonryModifierState",
@@ -38874,7 +38976,6 @@
         "root-export:describeDM522023Amendment",
         "root-export:evaluateNTC2018ExistingMasonryWorkflow",
         "root-export:evaluateNTC2018MasonryPier",
-        "root-export:getItalianHistoricalReinforcementSteelGrade",
         "root-export:getNTC2018ExistingMasonryModifierDefinition",
         "root-export:getNTC2018ExternalAirTemperatureZoneDefinition",
         "root-export:getNTC2018ImposedLoadDefinition",
@@ -38893,7 +38994,6 @@
         "root-export:getNTC2018WindExposureCategoryDefinition",
         "root-export:getNTC2018WindZoneDefinition",
         "root-export:getSlabMaterialWeightPresetValue",
-        "root-export:listItalianHistoricalReinforcementSteelGrades",
         "root-export:listNTC2018ImposedLoadDefinitions",
         "root-export:listNTC2018SlabWeightCategories",
         "root-export:listNTC2018SlabWeightEntries",
@@ -38914,9 +39014,6 @@
         "root-export:selectNTC2018MasonryPierGoverningCapacity",
         "root-export:toggleNTC2018ExistingMasonryModifier",
         "root-export:updateNTC2018ExistingMasonryMaltaBuona",
-        "source:src/norms/italian-historical/index.js",
-        "source:src/norms/italian-historical/materials/createItalianHistoricalMaterial.js",
-        "source:src/norms/italian-historical/materials/historicalReinforcementSteelCatalogs.js",
         "source:src/norms/ntc2018/actions/ntc2018SeismicAction.js",
         "source:src/norms/ntc2018/actions/ntc2018SnowLoad.js",
         "source:src/norms/ntc2018/actions/ntc2018ThermalAction.js",
@@ -39309,7 +39406,7 @@
       "statusCounts": {
         "exact-parity": 0,
         "partial": 4,
-        "missing": 132,
+        "missing": 131,
         "intentionally-excluded": 0,
         "decision-required": 0
       },
@@ -39407,7 +39504,6 @@
         "package:./domain/strut-and-tie",
         "package:./domain/terrain",
         "package:./norms/en1992",
-        "package:./norms/italian-historical",
         "package:./norms/ntc2018",
         "test:tests/beamValidationCampaign.test.js",
         "test:tests/cyclicMasonryPierValidationCampaign.test.js",

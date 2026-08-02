@@ -720,6 +720,14 @@ export {
   EN1992_STRUT_AND_TIE_NODE_TYPES,
   EN1992_STRUT_STRENGTH_MODELS,
 } from "./norms/en1992/strut-and-tie/index.js";
+export {
+  ITALIAN_HISTORICAL_REINFORCEMENT_STEEL_GRADE_NAMES,
+  ITALIAN_HISTORICAL_REINFORCEMENT_STEEL_GRADES,
+  ITALIAN_HISTORICAL_REINFORCEMENT_STEEL_STANDARDS,
+  createItalianHistoricalReinforcementSteelMaterial,
+  getItalianHistoricalReinforcementSteelGrade,
+  listItalianHistoricalReinforcementSteelGrades,
+} from "./norms/italian-historical/index.js";
 
 export type {
   CalculationResultJson,

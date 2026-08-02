@@ -26,6 +26,11 @@
       "types": "./dist/norms/en1992/index.d.ts",
       "import": "./dist/norms/en1992/index.js",
       "default": "./dist/norms/en1992/index.js"
+    },
+    "./norms/italian-historical": {
+      "types": "./dist/norms/italian-historical/index.d.ts",
+      "import": "./dist/norms/italian-historical/index.js",
+      "default": "./dist/norms/italian-historical/index.js"
     }
   },
   "files": [

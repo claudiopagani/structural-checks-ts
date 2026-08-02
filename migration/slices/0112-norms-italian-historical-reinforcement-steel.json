@@ -1,0 +1,104 @@
+{
+  "schemaVersion": 1,
+  "sliceId": "0112-norms-italian-historical-reinforcement-steel",
+  "title": "Italian historical reinforcement steel catalogs and material factory",
+  "migrationType": "mechanical-parity",
+  "implementationStatus": "implemented",
+  "dependencies": ["0001-foundation", "0003-concrete-materials"],
+  "source": {
+    "repository": "https://github.com/claudiopagani/strutture-js",
+    "revision": "6f33baead8b88166c4b2cf94af41763412e3c751"
+  },
+  "normativeCorpusRevision": "41da3faa489600173106935bbcf726119300e48d",
+  "sourceFiles": [
+    {
+      "path": "src/norms/italian-historical/index.js",
+      "gitBlobSha1": "07cc1d987fdef4b24dcc11e67e1d11c85151807a",
+      "targetPath": "src/norms/italian-historical/index.ts"
+    },
+    {
+      "path": "src/norms/italian-historical/materials/historicalReinforcementSteelCatalogs.js",
+      "gitBlobSha1": "2cb8755db89fcd9377b81672d4b93130b7c7e331",
+      "targetPath": "src/norms/italian-historical/materials/historicalReinforcementSteelCatalogs.ts"
+    },
+    {
+      "path": "src/norms/italian-historical/materials/createItalianHistoricalMaterial.js",
+      "gitBlobSha1": "03023810fd4cf0e35f6efeed4c409ffec84ebd1b",
+      "targetPath": "src/norms/italian-historical/materials/createItalianHistoricalMaterial.ts"
+    }
+  ],
+  "supportingSourceFiles": [
+    {
+      "path": "src/index.js",
+      "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7",
+      "targetPath": "src/index.ts",
+      "coverage": "Root public exports for all six Italian historical reinforcement symbols."
+    },
+    {
+      "path": "package.json",
+      "gitBlobSha1": "9133db99ac7e23988ba0dfc569cabc26db7426cb",
+      "targetPath": "package.json",
+      "coverage": "Source-compatible ./norms/italian-historical package subpath; package identity remains unchanged."
+    }
+  ],
+  "sourceOracles": [
+    {
+      "path": "tests/italianHistoricalReinforcementSteel.test.js",
+      "gitBlobSha1": "5cbe9ebbb37c7040eba53a32442a7f3eeeab197f",
+      "coverage": "Historical reinforcement steel catalog, material defaults, existing-material derivation, metadata, and Unicode-sensitive grade names."
+    },
+    {
+      "path": "tests/packageExports.test.js",
+      "gitBlobSha1": "8dde24b4c97dd3dae7100207d07d9d96c52b9c74",
+      "coverage": "Italian historical package subpath and root public export behavior."
+    }
+  ],
+  "sourcePublicExport": {
+    "path": "src/index.js",
+    "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
+  },
+  "targetTests": [
+    "tests/baseline-parity.test.ts",
+    "tests/italian-historical-public-index-compile-time.test.ts",
+    "tests/italian-historical-public-index-live-parity.test.ts"
+  ],
+  "publicExports": [
+    "ITALIAN_HISTORICAL_REINFORCEMENT_STEEL_GRADE_NAMES",
+    "ITALIAN_HISTORICAL_REINFORCEMENT_STEEL_GRADES",
+    "ITALIAN_HISTORICAL_REINFORCEMENT_STEEL_STANDARDS",
+    "createItalianHistoricalReinforcementSteelMaterial",
+    "getItalianHistoricalReinforcementSteelGrade",
+    "listItalianHistoricalReinforcementSteelGrades"
+  ],
+  "publicTypeExports": [
+    "CreateItalianHistoricalReinforcementSteelMaterialOptions",
+    "ItalianHistoricalReinforcementSteelGrade",
+    "ItalianHistoricalReinforcementSteelGradeListing",
+    "ItalianHistoricalReinforcementSteelGradeName",
+    "ItalianHistoricalReinforcementSteelStandard"
+  ],
+  "normativeReferences": {
+    "resolved": [],
+    "outsideCorpus": ["R.D.L. n.2229/1939", "LL.PP. n.1472/1957", "D.M. 30/05/1972"],
+    "normativeConformityClaimed": false,
+    "status": "classified-for-declared-scope"
+  },
+  "independentValidation": {
+    "method": "Strict declaration consumer coverage and independently executed pinned JavaScript versus built TypeScript comparison of the complete catalog and factory, exact JSON and numeric material parity, Unicode code-point comparison, frozen catalog behavior, root aliases, unsupported lookup, and error paths.",
+    "targetTests": [
+      "tests/italian-historical-public-index-compile-time.test.ts",
+      "tests/italian-historical-public-index-live-parity.test.ts"
+    ],
+    "tolerances": {
+      "serializedParity": "exact catalog, list, material JSON, and metadata equality",
+      "numericParity": "exact equality for catalog and normalized material values",
+      "publicStrings": "exact equality plus Unicode code-point preservation",
+      "errors": "exact error name and message equality for unsupported grades and missing units"
+    }
+  },
+  "parityDifferences": [
+    "The TypeScript index adds type-only re-exports for strict consumer declarations; runtime exports match the pinned source index.",
+    "The source-compatible ./norms/italian-historical package subpath is added without changing package identity or version."
+  ],
+  "engineeringFunctionality": "Source-compatible historical Italian reinforcement steel catalog lookup and material construction, including existing-material confidence-factor derivation and preserved normative display metadata."
+}
