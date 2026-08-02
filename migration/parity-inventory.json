@@ -919,6 +919,8 @@
         "DEEP_FOUNDATION_MODEL_SCHEMA_VERSION",
         "DEFAULT_GLOBAL_FEM_CLASSIFICATION_POLICY",
         "DEFAULT_SECTION_ROTATION",
+        "DM522023_AMENDMENTS",
+        "DM522023_REFERENCES",
         "DeepFoundationModel",
         "DenseLinearSolver",
         "DesignCodeContext",
@@ -1406,6 +1408,7 @@
         "createXlamBeamSectionProvider",
         "createXlamPanelSection",
         "cyclicMasonryPierHistoryToCsv",
+        "describeDM522023Amendment",
         "evaluateGlobalFemVerificationReadiness",
         "evaluateNTC2018ElevationRegularity",
         "evaluateNTC2018PlanRegularity",
@@ -6990,11 +6993,15 @@
       "sourcePath": "src/norms/ntc2018/reinforced-concrete/dm522023.js",
       "sourceBlobSha1": "5b9de8c9256b90ba1b76c9a22b0434f8dc5fb582",
       "targetPath": "src/norms/ntc2018/reinforced-concrete/dm522023.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0119-norms-ntc2018-dm522023"],
+      "sourceOracles": ["tests/dm522023.test.js", "tests/packageExports.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/dm522023-compile-time.test.ts",
+        "tests/dm522023-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0119-norms-ntc2018-dm522023"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -7054,11 +7061,15 @@
       "sourcePath": "src/norms/ntc2018/reinforced-concrete/dm522023.js",
       "sourceBlobSha1": "5b9de8c9256b90ba1b76c9a22b0434f8dc5fb582",
       "targetPath": "src/norms/ntc2018/reinforced-concrete/dm522023.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0119-norms-ntc2018-dm522023"],
+      "sourceOracles": ["tests/dm522023.test.js", "tests/packageExports.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/dm522023-compile-time.test.ts",
+        "tests/dm522023-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0119-norms-ntc2018-dm522023"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -7068,11 +7079,15 @@
       "sourcePath": "src/norms/ntc2018/reinforced-concrete/dm522023.js",
       "sourceBlobSha1": "5b9de8c9256b90ba1b76c9a22b0434f8dc5fb582",
       "targetPath": "src/norms/ntc2018/reinforced-concrete/dm522023.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0119-norms-ntc2018-dm522023"],
+      "sourceOracles": ["tests/dm522023.test.js", "tests/packageExports.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/dm522023-compile-time.test.ts",
+        "tests/dm522023-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0119-norms-ntc2018-dm522023"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -32897,7 +32912,8 @@
         "0115-norms-ntc2018-thermal-action",
         "0116-norms-ntc2018-wind-load",
         "0117-norms-ntc2018-topographic-classification",
-        "0118-norms-ntc2018-normative-references"
+        "0118-norms-ntc2018-normative-references",
+        "0119-norms-ntc2018-dm522023"
       ],
       "sourceOracles": [
         "tests/architecture/applicationRegistry.test.js",
@@ -33769,11 +33785,15 @@
       "sourcePath": "src/norms/ntc2018/reinforced-concrete/dm522023.js",
       "sourceBlobSha1": "5b9de8c9256b90ba1b76c9a22b0434f8dc5fb582",
       "targetPath": "src/norms/ntc2018/reinforced-concrete/dm522023.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing"
+      "migrationSlices": ["0119-norms-ntc2018-dm522023"],
+      "sourceOracles": ["tests/dm522023.test.js", "tests/packageExports.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/dm522023-compile-time.test.ts",
+        "tests/dm522023-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0119-norms-ntc2018-dm522023"],
+      "status": "exact-parity"
     },
     {
       "id": "src/norms/ntc2018/reinforced-concrete/ntc2018BeamColumnJoint.js",
@@ -34270,11 +34290,15 @@
       "sourcePath": "tests/dm522023.test.js",
       "sourceBlobSha1": "fd97141634bea77cc7d42d970aad1173875bf130",
       "targetPath": "tests/dm522023.test.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0119-norms-ntc2018-dm522023"],
+      "sourceOracles": ["tests/dm522023.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/dm522023-compile-time.test.ts",
+        "tests/dm522023-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0119-norms-ntc2018-dm522023"],
+      "status": "exact-parity",
       "testKind": "test"
     },
     {
@@ -35642,7 +35666,8 @@
         "0115-norms-ntc2018-thermal-action",
         "0116-norms-ntc2018-wind-load",
         "0117-norms-ntc2018-topographic-classification",
-        "0118-norms-ntc2018-normative-references"
+        "0118-norms-ntc2018-normative-references",
+        "0119-norms-ntc2018-dm522023"
       ],
       "sourceOracles": ["tests/packageExports.test.js"],
       "targetTests": [
@@ -35667,6 +35692,8 @@
         "tests/cyclic-masonry-pier-live-parity.test.ts",
         "tests/cyclic-masonry-shear-material-compile-time.test.ts",
         "tests/cyclic-masonry-shear-material-live-parity.test.ts",
+        "tests/dm522023-compile-time.test.ts",
+        "tests/dm522023-live-parity.test.ts",
         "tests/domain-math.test.ts",
         "tests/earth-pressure-coefficients-compile-time.test.ts",
         "tests/earth-pressure-coefficients-live-parity.test.ts",
@@ -35799,7 +35826,8 @@
         "0115-norms-ntc2018-thermal-action",
         "0116-norms-ntc2018-wind-load",
         "0117-norms-ntc2018-topographic-classification",
-        "0118-norms-ntc2018-normative-references"
+        "0118-norms-ntc2018-normative-references",
+        "0119-norms-ntc2018-dm522023"
       ],
       "status": "exact-parity",
       "testKind": "test"
@@ -39286,12 +39314,25 @@
         "publicStrings": "exact equality plus Unicode code-point preservation",
         "errors": "exact error name and message equality for malformed unit identities and unsupported relations"
       }
+    },
+    {
+      "sliceId": "0119-norms-ntc2018-dm522023",
+      "sourceRevision": "6f33baead8b88166c4b2cf94af41763412e3c751",
+      "method": "Strict declaration consumer coverage and independently executed pinned JavaScript versus built TypeScript comparison of the complete D.M. 52/2023 module, exact catalog and lookup JSON, immutable nested data, public URLs and dates, Unicode code points, unsupported clause behavior, and missing-input errors.",
+      "targetTests": ["tests/dm522023-compile-time.test.ts", "tests/dm522023-live-parity.test.ts"],
+      "fixture": null,
+      "tolerances": {
+        "serializedParity": "exact references, amendment metadata, lookup result, null amendment, and root-export JSON",
+        "numericParity": "exact equality for transitionalDeliveryDeadlineYears",
+        "publicStrings": "exact equality plus Unicode code-point preservation",
+        "errors": "exact error name and message equality for empty, whitespace, null, and undefined clauses"
+      }
     }
   ],
   "counts": {
     "rootExports": {
       "javascript": 841,
-      "typescript": 656
+      "typescript": 659
     },
     "applicationsExports": {
       "javascript": 309,
@@ -39315,11 +39356,11 @@
     },
     "sourceFiles": {
       "javascript": 480,
-      "typescript": 365
+      "typescript": 366
     },
     "tests": {
       "javascript": 131,
-      "typescript": 224
+      "typescript": 226
     },
     "validationCampaigns": {
       "javascript": 17,
@@ -39378,13 +39419,11 @@
       "statusCounts": {
         "exact-parity": 0,
         "partial": 8,
-        "missing": 86,
+        "missing": 82,
         "intentionally-excluded": 0,
         "decision-required": 0
       },
       "itemIds": [
-        "root-export:DM522023_AMENDMENTS",
-        "root-export:DM522023_REFERENCES",
         "root-export:NTC2018ExistingMasonryMaterial",
         "root-export:NTC2018_EXISTING_MASONRY_KNOWLEDGE_LEVELS",
         "root-export:NTC2018_EXISTING_MASONRY_MODIFIER_DEFINITIONS",
@@ -39434,7 +39473,6 @@
         "root-export:createNTC2018StructuralSteelMaterial",
         "root-export:createNTC2018TimberMaterial",
         "root-export:createNTC2018ULSFundamentalCombination",
-        "root-export:describeDM522023Amendment",
         "root-export:evaluateNTC2018ExistingMasonryWorkflow",
         "root-export:evaluateNTC2018MasonryPier",
         "root-export:getNTC2018ExistingMasonryModifierDefinition",
@@ -39475,8 +39513,7 @@
         "source:src/norms/ntc2018/masonry/ntc2018MasonryPierStiffness.js",
         "source:src/norms/ntc2018/materials/NTC2018ExistingMasonryMaterial.js",
         "source:src/norms/ntc2018/materials/ntc2018ExistingMasonryCatalogs.js",
-        "source:src/norms/ntc2018/materials/ntc2018ExistingMasonryWorkflow.js",
-        "source:src/norms/ntc2018/reinforced-concrete/dm522023.js"
+        "source:src/norms/ntc2018/materials/ntc2018ExistingMasonryWorkflow.js"
       ]
     },
     "applications": {
@@ -39844,7 +39881,7 @@
       "statusCounts": {
         "exact-parity": 0,
         "partial": 4,
-        "missing": 125,
+        "missing": 124,
         "intentionally-excluded": 0,
         "decision-required": 0
       },
@@ -39945,7 +39982,6 @@
         "package:./norms/ntc2018",
         "test:tests/beamValidationCampaign.test.js",
         "test:tests/cyclicMasonryPierValidationCampaign.test.js",
-        "test:tests/dm522023.test.js",
         "test:tests/fixtures/strutture-js-web-worker-entry.js",
         "test:tests/frameElement2DEulerBernoulli.test.js",
         "test:tests/geotechnicalDeepFoundationValidationCampaign.test.js",

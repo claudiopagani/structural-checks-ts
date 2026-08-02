@@ -1,0 +1,87 @@
+{
+  "schemaVersion": 1,
+  "sliceId": "0119-norms-ntc2018-dm522023",
+  "title": "D.M. 52/2023 NTC 2018 amendment metadata",
+  "migrationType": "mechanical-parity",
+  "implementationStatus": "implemented",
+  "dependencies": ["0001-foundation", "0118-norms-ntc2018-normative-references"],
+  "source": {
+    "repository": "https://github.com/claudiopagani/strutture-js",
+    "revision": "6f33baead8b88166c4b2cf94af41763412e3c751"
+  },
+  "normativeCorpusRevision": "41da3faa489600173106935bbcf726119300e48d",
+  "sourceFiles": [
+    {
+      "path": "src/norms/ntc2018/reinforced-concrete/dm522023.js",
+      "gitBlobSha1": "5b9de8c9256b90ba1b76c9a22b0434f8dc5fb582",
+      "targetPath": "src/norms/ntc2018/reinforced-concrete/dm522023.ts"
+    }
+  ],
+  "supportingSourceFiles": [
+    {
+      "path": "src/norms/ntc2018/index.js",
+      "gitBlobSha1": "0ac4cf551c455ec2a57d9bf8849db46fb14e0dcc",
+      "targetPath": "src/index.ts",
+      "coverage": "Pinned NTC 2018 norm-index export context; only D.M. 52/2023 symbols receive root support."
+    },
+    {
+      "path": "src/index.js",
+      "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7",
+      "targetPath": "src/index.ts",
+      "coverage": "Root public exports for the migrated D.M. 52/2023 metadata module."
+    }
+  ],
+  "sourceOracles": [
+    {
+      "path": "tests/dm522023.test.js",
+      "gitBlobSha1": "fd97141634bea77cc7d42d970aad1173875bf130",
+      "coverage": "Exact decree dates, immutable references, suspended clauses, no reinforced-concrete overrides, lookup behavior, and missing-input error behavior."
+    },
+    {
+      "path": "tests/packageExports.test.js",
+      "gitBlobSha1": "8dde24b4c97dd3dae7100207d07d9d96c52b9c74",
+      "coverage": "Root public export behavior."
+    }
+  ],
+  "sourcePublicExport": {
+    "path": "src/index.js",
+    "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
+  },
+  "targetTests": [
+    "tests/baseline-parity.test.ts",
+    "tests/dm522023-compile-time.test.ts",
+    "tests/dm522023-live-parity.test.ts"
+  ],
+  "publicExports": ["DM522023_AMENDMENTS", "DM522023_REFERENCES", "describeDM522023Amendment"],
+  "publicTypeExports": [
+    "Dm522023AmendmentDescription",
+    "Dm522023Amendments",
+    "Dm522023Reference",
+    "Dm522023TemporarySuspension"
+  ],
+  "normativeReferences": {
+    "resolved": [],
+    "outsideCorpus": [
+      "D.M. 9 marzo 2023, n. 52",
+      "D.M. 17 gennaio 2018, articolo 2, come modificato dal D.M. 52/2023",
+      "NTC 2018 § 11.4.2",
+      "NTC 2018 § 11.5.2"
+    ],
+    "normativeConformityClaimed": false,
+    "status": "classified-for-declared-scope"
+  },
+  "independentValidation": {
+    "method": "Strict declaration consumer coverage and independently executed pinned JavaScript versus built TypeScript comparison of the complete D.M. 52/2023 module, exact catalog and lookup JSON, immutable nested data, public URLs and dates, Unicode code points, unsupported clause behavior, and missing-input errors.",
+    "targetTests": ["tests/dm522023-compile-time.test.ts", "tests/dm522023-live-parity.test.ts"],
+    "tolerances": {
+      "serializedParity": "exact references, amendment metadata, lookup result, null amendment, and root-export JSON",
+      "numericParity": "exact equality for transitionalDeliveryDeadlineYears",
+      "publicStrings": "exact equality plus Unicode code-point preservation",
+      "errors": "exact error name and message equality for empty, whitespace, null, and undefined clauses"
+    }
+  },
+  "parityDifferences": [
+    "The TypeScript module adds strict declarations and the root export support required by the migrated D.M. 52/2023 behavior; runtime exports, values, serialization, and lookup behavior match the pinned source module."
+  ],
+  "engineeringFunctionality": "Source-compatible descriptive D.M. 52/2023 amendment metadata for NTC 2018, including suspended product-qualification clauses and an explicit non-mutating clause lookup."
+}

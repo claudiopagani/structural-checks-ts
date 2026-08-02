@@ -591,6 +591,17 @@ export type {
   Ntc2018NormativeReferenceCatalog,
 } from "./norms/ntc2018/normativeReferences.js";
 export {
+  DM522023_AMENDMENTS,
+  DM522023_REFERENCES,
+  describeDM522023Amendment,
+} from "./norms/ntc2018/reinforced-concrete/dm522023.js";
+export type {
+  Dm522023AmendmentDescription,
+  Dm522023Amendments,
+  Dm522023Reference,
+  Dm522023TemporarySuspension,
+} from "./norms/ntc2018/reinforced-concrete/dm522023.js";
+export {
   createNTC2018AccidentalAction,
   createNTC2018PermanentAction,
   createNTC2018SeismicAction,
