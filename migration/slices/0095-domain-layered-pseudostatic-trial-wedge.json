@@ -1,0 +1,76 @@
+{
+  "schemaVersion": 1,
+  "sliceId": "0095-domain-layered-pseudostatic-trial-wedge",
+  "title": "Domain layered pseudostatic trial-wedge helper",
+  "migrationType": "mechanical-parity-with-minimal-dependency-support",
+  "implementationStatus": "implemented",
+  "dependencies": ["0094-domain-circular-slope-stability-analysis"],
+  "source": {
+    "repository": "https://github.com/claudiopagani/strutture-js",
+    "revision": "6f33baead8b88166c4b2cf94af41763412e3c751"
+  },
+  "normativeCorpusRevision": "41da3faa489600173106935bbcf726119300e48d",
+  "sourceFiles": [
+    {
+      "path": "src/domain/geotechnics/LayeredPseudostaticTrialWedge.js",
+      "gitBlobSha1": "d91f4519ceafd30acb73df593d69742d219acc33",
+      "targetPath": "src/domain/geotechnics/LayeredPseudostaticTrialWedge.ts"
+    }
+  ],
+  "sourceOracles": [
+    {
+      "path": "tests/geotechnicalEarthPressure.test.js",
+      "gitBlobSha1": "b93b597c670a102925008ba004bf237927113003",
+      "coverage": "Layered pseudostatic wedge analysis, exact segment behavior and unsupported trial-wedge cases."
+    },
+    {
+      "path": "tests/geotechnicalRetainingWalls.test.js",
+      "gitBlobSha1": "53b83cf67c933e63475ff4b9e054d508a4429125",
+      "coverage": "Resultant-only layered trial-wedge wall integration and required assigned application height."
+    }
+  ],
+  "sourcePublicExport": {
+    "path": "src/index.js",
+    "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
+  },
+  "targetTests": [
+    "tests/layered-pseudostatic-trial-wedge-compile-time.test.ts",
+    "tests/layered-pseudostatic-trial-wedge-live-parity.test.ts"
+  ],
+  "publicExports": [],
+  "publicTypeExports": [],
+  "normativeReferences": {
+    "resolved": [],
+    "outsideCorpus": [
+      {
+        "identifier": "USACE EM 1110-2-2502 (1989), section 3-13c(4)(b)",
+        "reason": "The source helper preserves this trial-wedge reference without inventing a corpus identifier."
+      },
+      {
+        "identifier": "FHWA-HRT-05-067 (2006), Part 2, section 6.4.2.1",
+        "reason": "The source helper preserves this pseudostatic force-polygon reference without inventing a corpus identifier."
+      },
+      {
+        "identifier": "Caltrans Trenching and Shoring Manual (2025), chapter 4, section 4-5.01",
+        "reason": "The source helper preserves this general trial-wedge reference without inventing a corpus identifier."
+      }
+    ],
+    "normativeConformityClaimed": false,
+    "status": "classified-for-declared-scope"
+  },
+  "independentValidation": {
+    "method": "Strict internal declaration consumer coverage and independently executed pinned JavaScript versus built TypeScript comparison of valid candidates, optimized envelopes, exact nested JSON serialization, Unicode references and errors/unsupported results.",
+    "targetTests": [
+      "tests/layered-pseudostatic-trial-wedge-compile-time.test.ts",
+      "tests/layered-pseudostatic-trial-wedge-live-parity.test.ts"
+    ],
+    "tolerances": {
+      "serializedParity": "exact deep equality and JSON serialization",
+      "numericParity": "exact equality for deterministic candidate and search outputs",
+      "publicStrings": "exact equality plus Unicode code-point preservation",
+      "errors": "exact error name and message equality"
+    }
+  },
+  "parityDifferences": [],
+  "engineeringFunctionality": "Import-free layered pseudostatic trial-wedge evaluation and angle-envelope optimization used by the later lateral earth-pressure analysis."
+}

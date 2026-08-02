@@ -30499,11 +30499,17 @@
       "sourcePath": "src/domain/geotechnics/LayeredPseudostaticTrialWedge.js",
       "sourceBlobSha1": "d91f4519ceafd30acb73df593d69742d219acc33",
       "targetPath": "src/domain/geotechnics/LayeredPseudostaticTrialWedge.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing"
+      "migrationSlices": ["0095-domain-layered-pseudostatic-trial-wedge"],
+      "sourceOracles": [
+        "tests/geotechnicalEarthPressure.test.js",
+        "tests/geotechnicalRetainingWalls.test.js"
+      ],
+      "targetTests": [
+        "tests/layered-pseudostatic-trial-wedge-compile-time.test.ts",
+        "tests/layered-pseudostatic-trial-wedge-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0095-domain-layered-pseudostatic-trial-wedge"],
+      "status": "exact-parity"
     },
     {
       "id": "src/domain/geotechnics/PileTransferLaw.js",
@@ -31806,7 +31812,8 @@
         "0091-domain-ground-anchor-design-scenario",
         "0092-domain-ground-anchor-analysis",
         "0093-domain-spencer-method",
-        "0094-domain-circular-slope-stability-analysis"
+        "0094-domain-circular-slope-stability-analysis",
+        "0095-domain-layered-pseudostatic-trial-wedge"
       ],
       "sourceOracles": [
         "tests/architecture/applicationRegistry.test.js",
@@ -33231,13 +33238,16 @@
       "migrationSlices": [
         "0068-domain-pressure-diagram",
         "0071-domain-soil-structure-interface",
-        "0078-domain-earth-pressure-coefficients"
+        "0078-domain-earth-pressure-coefficients",
+        "0095-domain-layered-pseudostatic-trial-wedge"
       ],
       "sourceOracles": ["tests/geotechnicalEarthPressure.test.js"],
       "targetTests": [
         "tests/baseline-parity.test.ts",
         "tests/earth-pressure-coefficients-compile-time.test.ts",
         "tests/earth-pressure-coefficients-live-parity.test.ts",
+        "tests/layered-pseudostatic-trial-wedge-compile-time.test.ts",
+        "tests/layered-pseudostatic-trial-wedge-live-parity.test.ts",
         "tests/pressure-diagram-2d-compile-time.test.ts",
         "tests/pressure-diagram-2d-live-parity.test.ts",
         "tests/soil-structure-interface-compile-time.test.ts",
@@ -33246,7 +33256,8 @@
       "validationEvidence": [
         "0068-domain-pressure-diagram",
         "0071-domain-soil-structure-interface",
-        "0078-domain-earth-pressure-coefficients"
+        "0078-domain-earth-pressure-coefficients",
+        "0095-domain-layered-pseudostatic-trial-wedge"
       ],
       "status": "exact-parity",
       "testKind": "test"
@@ -33446,11 +33457,14 @@
       "sourcePath": "tests/geotechnicalRetainingWalls.test.js",
       "sourceBlobSha1": "53b83cf67c933e63475ff4b9e054d508a4429125",
       "targetPath": "tests/geotechnicalRetainingWalls.test.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0095-domain-layered-pseudostatic-trial-wedge"],
+      "sourceOracles": ["tests/geotechnicalRetainingWalls.test.js"],
+      "targetTests": [
+        "tests/layered-pseudostatic-trial-wedge-compile-time.test.ts",
+        "tests/layered-pseudostatic-trial-wedge-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0095-domain-layered-pseudostatic-trial-wedge"],
+      "status": "exact-parity",
       "testKind": "test"
     },
     {
@@ -37475,6 +37489,22 @@
         "publicStrings": "exact equality plus Unicode code-point preservation",
         "errors": "exact error-result structure and warning message equality"
       }
+    },
+    {
+      "sliceId": "0095-domain-layered-pseudostatic-trial-wedge",
+      "sourceRevision": "6f33baead8b88166c4b2cf94af41763412e3c751",
+      "method": "Strict internal declaration consumer coverage and independently executed pinned JavaScript versus built TypeScript comparison of valid candidates, optimized envelopes, exact nested JSON serialization, Unicode references and errors/unsupported results.",
+      "targetTests": [
+        "tests/layered-pseudostatic-trial-wedge-compile-time.test.ts",
+        "tests/layered-pseudostatic-trial-wedge-live-parity.test.ts"
+      ],
+      "fixture": null,
+      "tolerances": {
+        "serializedParity": "exact deep equality and JSON serialization",
+        "numericParity": "exact equality for deterministic candidate and search outputs",
+        "publicStrings": "exact equality plus Unicode code-point preservation",
+        "errors": "exact error name and message equality"
+      }
     }
   ],
   "counts": {
@@ -37504,11 +37534,11 @@
     },
     "sourceFiles": {
       "javascript": 480,
-      "typescript": 329
+      "typescript": 330
     },
     "tests": {
       "javascript": 131,
-      "typescript": 176
+      "typescript": 178
     },
     "validationCampaigns": {
       "javascript": 17,
@@ -37540,7 +37570,7 @@
       "statusCounts": {
         "exact-parity": 0,
         "partial": 20,
-        "missing": 68,
+        "missing": 67,
         "intentionally-excluded": 0,
         "decision-required": 0
       },
@@ -37609,7 +37639,6 @@
         "source:src/domain/fem/nonlinear/index.js",
         "source:src/domain/geotechnics/LateralEarthPressureAnalysis.js",
         "source:src/domain/geotechnics/LateralPileCapacityAnalysis.js",
-        "source:src/domain/geotechnics/LayeredPseudostaticTrialWedge.js",
         "source:src/domain/geotechnics/RetainingWallAnalysis.js",
         "source:src/domain/geotechnics/RetainingWallLoadScenario.js",
         "source:src/domain/geotechnics/RetainingWallModel.js",
@@ -38212,7 +38241,7 @@
       "statusCounts": {
         "exact-parity": 0,
         "partial": 3,
-        "missing": 136,
+        "missing": 135,
         "intentionally-excluded": 0,
         "decision-required": 0
       },
@@ -38323,7 +38352,6 @@
         "test:tests/geotechnicalLateralPilePyValidationCampaign.test.js",
         "test:tests/geotechnicalLateralPileValidationCampaign.test.js",
         "test:tests/geotechnicalRetainingWallValidationCampaign.test.js",
-        "test:tests/geotechnicalRetainingWalls.test.js",
         "test:tests/geotechnicalShallowFoundationServiceability.test.js",
         "test:tests/geotechnicalShallowFoundationServiceabilityValidationCampaign.test.js",
         "test:tests/geotechnicalShallowFoundationValidationCampaign.test.js",
