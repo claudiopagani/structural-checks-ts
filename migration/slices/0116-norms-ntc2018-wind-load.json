@@ -1,0 +1,146 @@
+{
+  "schemaVersion": 1,
+  "sliceId": "0116-norms-ntc2018-wind-load",
+  "title": "NTC 2018 wind speed, pressure, exposure, and area-load workflow",
+  "migrationType": "mechanical-parity",
+  "implementationStatus": "implemented",
+  "dependencies": [
+    "0039-ntc2018-action-parameters-and-factories",
+    "0001-foundation",
+    "0057-domain-area-element-volume-loads"
+  ],
+  "source": {
+    "repository": "https://github.com/claudiopagani/strutture-js",
+    "revision": "6f33baead8b88166c4b2cf94af41763412e3c751"
+  },
+  "normativeCorpusRevision": "41da3faa489600173106935bbcf726119300e48d",
+  "sourceFiles": [
+    {
+      "path": "src/norms/ntc2018/actions/ntc2018WindLoad.js",
+      "gitBlobSha1": "6bab63cb9cc5cb9d13c736e8159bba97df8f967d",
+      "targetPath": "src/norms/ntc2018/actions/ntc2018WindLoad.ts"
+    }
+  ],
+  "supportingSourceFiles": [
+    {
+      "path": "src/core/results/CalculationResult.js",
+      "gitBlobSha1": "de58f9d2a201435dd955cbfd4c4981d0b78610d4",
+      "targetPath": "src/core/results/CalculationResult.ts",
+      "coverage": "Already-migrated serializable result DTO consumed by the wind workflow."
+    },
+    {
+      "path": "src/domain/loads/AreaLoad.js",
+      "gitBlobSha1": "591691e6d11c49a34b6a645b579a4e590d958ca8",
+      "targetPath": "src/domain/loads/AreaLoad.ts",
+      "coverage": "Already-migrated area-load class used by the static-equivalent wind result."
+    },
+    {
+      "path": "src/domain/units/UnitSystem.js",
+      "gitBlobSha1": "b8f2f4926aff645efbf7b9f458b69eba264ed59a",
+      "targetPath": "src/domain/units/UnitSystem.ts",
+      "coverage": "Already-migrated explicit unit validation and conversion dependency."
+    },
+    {
+      "path": "src/norms/ntc2018/actions/createNTC2018Action.js",
+      "gitBlobSha1": "06c4c6a75e2482bdf3e6d3288c7153aa72738c8a",
+      "targetPath": "src/norms/ntc2018/actions/createNTC2018Action.ts",
+      "coverage": "Already-migrated NTC 2018 wind action factory consumed by the area-load workflow."
+    },
+    {
+      "path": "src/norms/ntc2018/index.js",
+      "gitBlobSha1": "0ac4cf551c455ec2a57d9bf8849db46fb14e0dcc",
+      "targetPath": "src/index.ts",
+      "coverage": "Source norm index export context; only migrated wind symbols receive root support."
+    },
+    {
+      "path": "src/index.js",
+      "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7",
+      "targetPath": "src/index.ts",
+      "coverage": "Root public exports for the migrated wind catalogs and calculation workflow."
+    }
+  ],
+  "sourceOracles": [
+    {
+      "path": "tests/ntc2018WindLoad.test.js",
+      "gitBlobSha1": "87cd3ac364cd78f6cb69da7fd5d7e33a0626ece8",
+      "coverage": "Wind catalogs, altitude and return-period equations, pressure and exposure coefficients, area-load serialization, unsupported branches, documented coefficients, and errors."
+    },
+    {
+      "path": "tests/packageExports.test.js",
+      "gitBlobSha1": "8dde24b4c97dd3dae7100207d07d9d96c52b9c74",
+      "coverage": "Root public export behavior."
+    }
+  ],
+  "sourcePublicExport": {
+    "path": "src/index.js",
+    "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
+  },
+  "targetTests": [
+    "tests/baseline-parity.test.ts",
+    "tests/ntc2018-wind-load-compile-time.test.ts",
+    "tests/ntc2018-wind-load-live-parity.test.ts"
+  ],
+  "publicExports": [
+    "NTC2018_WIND_EXPOSURE_CATEGORIES",
+    "NTC2018_WIND_REFERENCES",
+    "NTC2018_WIND_ZONES",
+    "calculateNTC2018BaseWindSpeed",
+    "calculateNTC2018ReferenceWindPressure",
+    "calculateNTC2018ReferenceWindSpeed",
+    "calculateNTC2018WindAreaLoad",
+    "calculateNTC2018WindExposureCoefficient",
+    "calculateNTC2018WindPressure",
+    "calculateNTC2018WindReturnCoefficient",
+    "getNTC2018WindExposureCategoryDefinition",
+    "getNTC2018WindZoneDefinition"
+  ],
+  "publicTypeExports": [
+    "CalculateNTC2018BaseWindSpeedOptions",
+    "CalculateNTC2018ReferenceWindPressureOptions",
+    "CalculateNTC2018ReferenceWindSpeedOptions",
+    "CalculateNTC2018WindAreaLoadOptions",
+    "CalculateNTC2018WindExposureCoefficientOptions",
+    "CalculateNTC2018WindPressureOptions",
+    "CalculateNTC2018WindReturnCoefficientOptions",
+    "Ntc2018BaseWindSpeedResult",
+    "Ntc2018ReferenceWindPressureResult",
+    "Ntc2018ReferenceWindSpeedResult",
+    "Ntc2018WindExposureCategoryDefinition",
+    "Ntc2018WindExposureCoefficientResult",
+    "Ntc2018WindPressureResult",
+    "Ntc2018WindReturnCoefficientResult",
+    "Ntc2018WindZoneDefinition"
+  ],
+  "normativeReferences": {
+    "resolved": [],
+    "outsideCorpus": [
+      "D.M. 17/01/2018, NTC 2018, section 2.5.2, Table 2.5.I",
+      "D.M. 17/01/2018, NTC 2018, section 3.3.1, equations [3.3.1] and [3.3.1.b], Table 3.3.I",
+      "D.M. 17/01/2018, NTC 2018, section 3.3.2, equations [3.3.2] and [3.3.3]",
+      "D.M. 17/01/2018, NTC 2018, section 3.3.4, equation [3.3.4]",
+      "D.M. 17/01/2018, NTC 2018, section 3.3.6, equation [3.3.6]",
+      "D.M. 17/01/2018, NTC 2018, section 3.3.7, equation [3.3.7], Table 3.3.II",
+      "D.M. 17/01/2018, NTC 2018, section 3.3.8",
+      "D.M. 17/01/2018, NTC 2018, section 3.3.9"
+    ],
+    "normativeConformityClaimed": false,
+    "status": "classified-for-declared-scope"
+  },
+  "independentValidation": {
+    "method": "Strict declaration consumer coverage and independently executed pinned JavaScript versus built TypeScript comparison of the complete wind module, exact export order and JSON serialization, numerical unit conversions and wind equations, Unicode-safe public strings, immutable catalogs, root aliases, unsupported branches, and error paths.",
+    "targetTests": [
+      "tests/ntc2018-wind-load-compile-time.test.ts",
+      "tests/ntc2018-wind-load-live-parity.test.ts"
+    ],
+    "tolerances": {
+      "serializedParity": "exact catalog, coefficient, action/load, and CalculationResult JSON",
+      "numericParity": "exact equality for converted wind values and calculated pressures",
+      "publicStrings": "exact equality plus Unicode code-point preservation",
+      "errors": "exact error name and message equality for unsupported zones, units, floors, ambiguous coefficients, and height limits"
+    }
+  },
+  "parityDifferences": [
+    "The TypeScript module adds strict declarations and the root export support required by the migrated wind behavior; runtime module exports match the pinned source module."
+  ],
+  "engineeringFunctionality": "Source-compatible NTC 2018 zonal base wind speed, return and reference speed, kinetic pressure, exposure coefficient, static-equivalent wind pressure, and serializable wind area-load workflow."
+}

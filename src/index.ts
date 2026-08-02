@@ -638,6 +638,20 @@ export {
   resolveNTC2018ThermalExpansionCoefficient,
 } from "./norms/ntc2018/actions/ntc2018ThermalAction.js";
 export {
+  NTC2018_WIND_EXPOSURE_CATEGORIES,
+  NTC2018_WIND_REFERENCES,
+  NTC2018_WIND_ZONES,
+  calculateNTC2018BaseWindSpeed,
+  calculateNTC2018ReferenceWindPressure,
+  calculateNTC2018ReferenceWindSpeed,
+  calculateNTC2018WindAreaLoad,
+  calculateNTC2018WindExposureCoefficient,
+  calculateNTC2018WindPressure,
+  calculateNTC2018WindReturnCoefficient,
+  getNTC2018WindExposureCategoryDefinition,
+  getNTC2018WindZoneDefinition,
+} from "./norms/ntc2018/actions/ntc2018WindLoad.js";
+export {
   NTC2018_CONCRETE_CLASSES,
   NTC2018_EXISTING_MATERIAL_KNOWLEDGE_LEVELS,
   NTC2018_REINFORCEMENT_STEEL_GRADES,
@@ -1846,6 +1860,23 @@ export type {
   ResolveNTC2018InternalAirTemperatureOptions,
   ResolveNTC2018ThermalExpansionCoefficientOptions,
 } from "./norms/ntc2018/actions/ntc2018ThermalAction.js";
+export type {
+  CalculateNTC2018BaseWindSpeedOptions,
+  CalculateNTC2018ReferenceWindPressureOptions,
+  CalculateNTC2018ReferenceWindSpeedOptions,
+  CalculateNTC2018WindAreaLoadOptions,
+  CalculateNTC2018WindExposureCoefficientOptions,
+  CalculateNTC2018WindPressureOptions,
+  CalculateNTC2018WindReturnCoefficientOptions,
+  Ntc2018BaseWindSpeedResult,
+  Ntc2018ReferenceWindPressureResult,
+  Ntc2018ReferenceWindSpeedResult,
+  Ntc2018WindExposureCategoryDefinition,
+  Ntc2018WindExposureCoefficientResult,
+  Ntc2018WindPressureResult,
+  Ntc2018WindReturnCoefficientResult,
+  Ntc2018WindZoneDefinition,
+} from "./norms/ntc2018/actions/ntc2018WindLoad.js";
 export type {
   NTC2018ConcreteClassPreset,
   NTC2018ConcreteStrengthClass,
