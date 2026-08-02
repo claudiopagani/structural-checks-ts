@@ -159,4 +159,28 @@ export {
   type SoilStructureInterfaceWallSurface,
   type SoilStructureInterfaceWallSurfaceInput,
 } from "./SoilStructureInterface.js";
+export {
+  SHALLOW_FOUNDATION_ACTION_BASES,
+  SHALLOW_FOUNDATION_ACTION_STATE_SCHEMA_VERSION,
+  SHALLOW_FOUNDATION_MODEL_SCHEMA_VERSION,
+  SHALLOW_FOUNDATION_SHAPES,
+  ShallowFoundationActionState,
+  ShallowFoundationModel,
+  type ShallowFoundationActionBasis,
+  type ShallowFoundationActionStateJson,
+  type ShallowFoundationActionStateOptions,
+  type ShallowFoundationActions,
+  type ShallowFoundationActionsInput,
+  type ShallowFoundationGeometry,
+  type ShallowFoundationGeometryInput,
+  type ShallowFoundationModelJson,
+  type ShallowFoundationModelOptions,
+  type ShallowFoundationPerUnitLengthActions,
+  type ShallowFoundationPerUnitLengthActionsInput,
+  type ShallowFoundationPlacement,
+  type ShallowFoundationPlacementInput,
+  type ShallowFoundationShape,
+  type ShallowFoundationTotalActions,
+  type ShallowFoundationTotalActionsInput,
+} from "./ShallowFoundationModel.js";
 export { VerticalStressProfile } from "./VerticalStressProfile.js";
