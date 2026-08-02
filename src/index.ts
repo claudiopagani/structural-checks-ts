@@ -691,6 +691,7 @@ export {
   getNTC2018TabulatedMasonryProperties,
   resolveNTC2018MasonryTypology,
 } from "./norms/ntc2018/materials/ntc2018MaterialCatalogs.js";
+export { NTC2018ExistingMasonryMaterial } from "./norms/ntc2018/materials/NTC2018ExistingMasonryMaterial.js";
 export {
   NTC2018_ANALYSIS_METHOD,
   NTC2018_BASE_Q_FACTORS,
@@ -1931,6 +1932,12 @@ export type {
   Ntc2018ExistingMasonryParameterLevels,
   Ntc2018ExistingMasonryTypology,
 } from "./norms/ntc2018/materials/ntc2018ExistingMasonryCatalogs.js";
+export type {
+  Ntc2018ExistingMasonryAvailableModifier,
+  Ntc2018ExistingMasonryMaterialJson,
+  Ntc2018ExistingMasonryMaterialOptions,
+  Ntc2018ExistingMasonryMultiplierSet,
+} from "./norms/ntc2018/materials/NTC2018ExistingMasonryMaterial.js";
 export type {
   En1992AnchorageLength,
   En1992AnchorageLengthOptions,

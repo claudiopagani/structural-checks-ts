@@ -1058,6 +1058,7 @@
         "MohrCoulombModel",
         "NORMATIVE_REFERENCE_RELATIONS",
         "NORMATIVE_REFERENCE_RESOLUTION_STATUS",
+        "NTC2018ExistingMasonryMaterial",
         "NTC2018SlabLoadAnalysis",
         "NTC2018_ACTION_COMBINATION_FACTORS",
         "NTC2018_ACTION_PARTIAL_FACTORS",
@@ -12727,11 +12728,18 @@
       "sourcePath": "src/norms/ntc2018/materials/NTC2018ExistingMasonryMaterial.js",
       "sourceBlobSha1": "48c1e3539531375d37b4a7443e2e3ade535b8049",
       "targetPath": "src/norms/ntc2018/materials/NTC2018ExistingMasonryMaterial.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0121-norms-ntc2018-existing-masonry-material"],
+      "sourceOracles": [
+        "tests/ntc2018ExistingMasonryMaterial.test.js",
+        "tests/packageExports.test.js"
+      ],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/ntc2018-existing-masonry-material-compile-time.test.ts",
+        "tests/ntc2018-existing-masonry-material-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0121-norms-ntc2018-existing-masonry-material"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -32968,7 +32976,8 @@
         "0117-norms-ntc2018-topographic-classification",
         "0118-norms-ntc2018-normative-references",
         "0119-norms-ntc2018-dm522023",
-        "0120-norms-ntc2018-existing-masonry-catalogs"
+        "0120-norms-ntc2018-existing-masonry-catalogs",
+        "0121-norms-ntc2018-existing-masonry-material"
       ],
       "sourceOracles": [
         "tests/architecture/applicationRegistry.test.js",
@@ -33582,11 +33591,18 @@
       "sourcePath": "src/norms/ntc2018/materials/NTC2018ExistingMasonryMaterial.js",
       "sourceBlobSha1": "48c1e3539531375d37b4a7443e2e3ade535b8049",
       "targetPath": "src/norms/ntc2018/materials/NTC2018ExistingMasonryMaterial.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing"
+      "migrationSlices": ["0121-norms-ntc2018-existing-masonry-material"],
+      "sourceOracles": [
+        "tests/ntc2018ExistingMasonryMaterial.test.js",
+        "tests/packageExports.test.js"
+      ],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/ntc2018-existing-masonry-material-compile-time.test.ts",
+        "tests/ntc2018-existing-masonry-material-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0121-norms-ntc2018-existing-masonry-material"],
+      "status": "exact-parity"
     },
     {
       "id": "src/norms/ntc2018/materials/createNTC2018Material.js",
@@ -35339,7 +35355,8 @@
       "targetPath": "tests/ntc2018ExistingMasonryMaterial.test.ts",
       "migrationSlices": [
         "0063-domain-existing-masonry-material",
-        "0120-norms-ntc2018-existing-masonry-catalogs"
+        "0120-norms-ntc2018-existing-masonry-catalogs",
+        "0121-norms-ntc2018-existing-masonry-material"
       ],
       "sourceOracles": ["tests/ntc2018ExistingMasonryMaterial.test.js"],
       "targetTests": [
@@ -35347,11 +35364,14 @@
         "tests/existing-masonry-material-compile-time.test.ts",
         "tests/existing-masonry-material-live-parity.test.ts",
         "tests/ntc2018-existing-masonry-catalogs-compile-time.test.ts",
-        "tests/ntc2018-existing-masonry-catalogs-live-parity.test.ts"
+        "tests/ntc2018-existing-masonry-catalogs-live-parity.test.ts",
+        "tests/ntc2018-existing-masonry-material-compile-time.test.ts",
+        "tests/ntc2018-existing-masonry-material-live-parity.test.ts"
       ],
       "validationEvidence": [
         "0063-domain-existing-masonry-material",
-        "0120-norms-ntc2018-existing-masonry-catalogs"
+        "0120-norms-ntc2018-existing-masonry-catalogs",
+        "0121-norms-ntc2018-existing-masonry-material"
       ],
       "status": "exact-parity",
       "testKind": "test"
@@ -35743,7 +35763,8 @@
         "0117-norms-ntc2018-topographic-classification",
         "0118-norms-ntc2018-normative-references",
         "0119-norms-ntc2018-dm522023",
-        "0120-norms-ntc2018-existing-masonry-catalogs"
+        "0120-norms-ntc2018-existing-masonry-catalogs",
+        "0121-norms-ntc2018-existing-masonry-material"
       ],
       "sourceOracles": ["tests/packageExports.test.js"],
       "targetTests": [
@@ -35804,6 +35825,8 @@
         "tests/masonry-section-index-live-parity.test.ts",
         "tests/ntc2018-existing-masonry-catalogs-compile-time.test.ts",
         "tests/ntc2018-existing-masonry-catalogs-live-parity.test.ts",
+        "tests/ntc2018-existing-masonry-material-compile-time.test.ts",
+        "tests/ntc2018-existing-masonry-material-live-parity.test.ts",
         "tests/ntc2018-normative-references-compile-time.test.ts",
         "tests/ntc2018-normative-references-live-parity.test.ts",
         "tests/ntc2018-seismic-action-compile-time.test.ts",
@@ -35906,7 +35929,8 @@
         "0117-norms-ntc2018-topographic-classification",
         "0118-norms-ntc2018-normative-references",
         "0119-norms-ntc2018-dm522023",
-        "0120-norms-ntc2018-existing-masonry-catalogs"
+        "0120-norms-ntc2018-existing-masonry-catalogs",
+        "0121-norms-ntc2018-existing-masonry-material"
       ],
       "status": "exact-parity",
       "testKind": "test"
@@ -39422,12 +39446,28 @@
         "publicStrings": "exact equality plus Unicode code-point preservation for typology names and notes",
         "errors": "exact native error name and message equality for null, undefined, empty-object, and malformed-range inputs"
       }
+    },
+    {
+      "sliceId": "0121-norms-ntc2018-existing-masonry-material",
+      "sourceRevision": "6f33baead8b88166c4b2cf94af41763412e3c751",
+      "method": "Strict declaration consumer coverage and independently executed pinned JavaScript versus built TypeScript comparison of the complete NTC2018ExistingMasonryMaterial class, inherited instanceof behavior, static modifier workflows, exact serialized JSON, numerical factors, Italian Unicode labels and notes, legacy factor mapping, unsupported inputs, and native errors.",
+      "targetTests": [
+        "tests/ntc2018-existing-masonry-material-compile-time.test.ts",
+        "tests/ntc2018-existing-masonry-material-live-parity.test.ts"
+      ],
+      "fixture": null,
+      "tolerances": {
+        "serializedParity": "exact material, typology, parameter-level, modifier, multiplier, and inherited JSON",
+        "numericParity": "exact equality for tabulated properties, rounded mechanical multipliers, and adjusted properties",
+        "publicStrings": "exact equality plus Unicode code-point preservation for typology names, notes, and error text",
+        "errors": "exact error name and message equality for unknown typologies, invalid levels, incompatible and unavailable coefficients, unknown coefficients, and missing options"
+      }
     }
   ],
   "counts": {
     "rootExports": {
       "javascript": 841,
-      "typescript": 665
+      "typescript": 666
     },
     "applicationsExports": {
       "javascript": 309,
@@ -39451,11 +39491,11 @@
     },
     "sourceFiles": {
       "javascript": 480,
-      "typescript": 367
+      "typescript": 368
     },
     "tests": {
       "javascript": 131,
-      "typescript": 228
+      "typescript": 230
     },
     "validationCampaigns": {
       "javascript": 17,
@@ -39514,12 +39554,11 @@
       "statusCounts": {
         "exact-parity": 0,
         "partial": 7,
-        "missing": 76,
+        "missing": 74,
         "intentionally-excluded": 0,
         "decision-required": 0
       },
       "itemIds": [
-        "root-export:NTC2018ExistingMasonryMaterial",
         "root-export:NTC2018_GLULAM_TIMBER_STRENGTH_CLASSES",
         "root-export:NTC2018_IMPOSED_LOAD_CATALOG",
         "root-export:NTC2018_IMPOSED_LOAD_REFERENCES",
@@ -39600,7 +39639,6 @@
         "source:src/norms/ntc2018/masonry/ntc2018MasonryPierCapacity.js",
         "source:src/norms/ntc2018/masonry/ntc2018MasonryPierDeformation.js",
         "source:src/norms/ntc2018/masonry/ntc2018MasonryPierStiffness.js",
-        "source:src/norms/ntc2018/materials/NTC2018ExistingMasonryMaterial.js",
         "source:src/norms/ntc2018/materials/ntc2018ExistingMasonryWorkflow.js"
       ]
     },

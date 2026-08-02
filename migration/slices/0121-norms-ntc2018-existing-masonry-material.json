@@ -1,0 +1,105 @@
+{
+  "schemaVersion": 1,
+  "sliceId": "0121-norms-ntc2018-existing-masonry-material",
+  "title": "NTC 2018 existing-masonry material",
+  "migrationType": "mechanical-parity",
+  "implementationStatus": "implemented",
+  "dependencies": [
+    "0001-foundation",
+    "0063-domain-existing-masonry-material",
+    "0120-norms-ntc2018-existing-masonry-catalogs"
+  ],
+  "source": {
+    "repository": "https://github.com/claudiopagani/strutture-js",
+    "revision": "6f33baead8b88166c4b2cf94af41763412e3c751"
+  },
+  "normativeCorpusRevision": "41da3faa489600173106935bbcf726119300e48d",
+  "sourceFiles": [
+    {
+      "path": "src/norms/ntc2018/materials/NTC2018ExistingMasonryMaterial.js",
+      "gitBlobSha1": "48c1e3539531375d37b4a7443e2e3ade535b8049",
+      "targetPath": "src/norms/ntc2018/materials/NTC2018ExistingMasonryMaterial.ts"
+    }
+  ],
+  "supportingSourceFiles": [
+    {
+      "path": "src/domain/materials/ExistingMasonryMaterial.js",
+      "gitBlobSha1": "6c63465480b82a8db624157567b7c9f118631b15",
+      "targetPath": "src/domain/materials/ExistingMasonryMaterial.ts",
+      "coverage": "Already-migrated inheritance dependency; only its serializable adjusted-property declaration is widened to represent the derived source class's observable undefined entry."
+    },
+    {
+      "path": "src/norms/ntc2018/materials/ntc2018ExistingMasonryCatalogs.js",
+      "gitBlobSha1": "1fa5560f0d9956099ff5b3e5da890579b89c59c8",
+      "targetPath": "src/norms/ntc2018/materials/ntc2018ExistingMasonryCatalogs.ts",
+      "coverage": "Already-migrated typology, modifier, parameter-level, lookup, and tabulated-property dependency from slice 0120."
+    },
+    {
+      "path": "src/norms/ntc2018/index.js",
+      "gitBlobSha1": "0ac4cf551c455ec2a57d9bf8849db46fb14e0dcc",
+      "targetPath": "src/index.ts",
+      "coverage": "Pinned NTC 2018 norm-index export context; only NTC2018ExistingMasonryMaterial receives target support."
+    },
+    {
+      "path": "src/index.js",
+      "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7",
+      "targetPath": "src/index.ts",
+      "coverage": "Root public export for the migrated NTC2018ExistingMasonryMaterial class."
+    }
+  ],
+  "sourceOracles": [
+    {
+      "path": "tests/ntc2018ExistingMasonryMaterial.test.js",
+      "gitBlobSha1": "97810815818fd9d74fb1bd8d77959e504ac97af2",
+      "coverage": "Tabulated properties, modifier multipliers, inheritance, and incompatible or unavailable modifier errors."
+    },
+    {
+      "path": "tests/packageExports.test.js",
+      "gitBlobSha1": "8dde24b4c97dd3dae7100207d07d9d96c52b9c74",
+      "coverage": "Root public export behavior."
+    }
+  ],
+  "sourcePublicExport": {
+    "path": "src/index.js",
+    "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
+  },
+  "targetTests": [
+    "tests/baseline-parity.test.ts",
+    "tests/ntc2018-existing-masonry-material-compile-time.test.ts",
+    "tests/ntc2018-existing-masonry-material-live-parity.test.ts"
+  ],
+  "publicExports": ["NTC2018ExistingMasonryMaterial"],
+  "publicTypeExports": [
+    "Ntc2018ExistingMasonryAvailableModifier",
+    "Ntc2018ExistingMasonryMaterialJson",
+    "Ntc2018ExistingMasonryMaterialOptions",
+    "Ntc2018ExistingMasonryMultiplierSet"
+  ],
+  "normativeReferences": {
+    "resolved": [],
+    "outsideCorpus": [
+      "NTC 2018 Section 8.5 existing masonry material assessment",
+      "NTC 2018 Section 11.10 existing masonry tabulated mechanical properties"
+    ],
+    "normativeConformityClaimed": false,
+    "status": "classified-for-declared-scope"
+  },
+  "independentValidation": {
+    "method": "Strict declaration consumer coverage and independently executed pinned JavaScript versus built TypeScript comparison of the complete NTC2018ExistingMasonryMaterial class, inherited instanceof behavior, static modifier workflows, exact serialized JSON, numerical factors, Italian Unicode labels and notes, legacy factor mapping, unsupported inputs, and native errors.",
+    "targetTests": [
+      "tests/ntc2018-existing-masonry-material-compile-time.test.ts",
+      "tests/ntc2018-existing-masonry-material-live-parity.test.ts"
+    ],
+    "tolerances": {
+      "serializedParity": "exact material, typology, parameter-level, modifier, multiplier, and inherited JSON",
+      "numericParity": "exact equality for tabulated properties, rounded mechanical multipliers, and adjusted properties",
+      "publicStrings": "exact equality plus Unicode code-point preservation for typology names, notes, and error text",
+      "errors": "exact error name and message equality for unknown typologies, invalid levels, incompatible and unavailable coefficients, unknown coefficients, and missing options"
+    }
+  },
+  "parityDifferences": [
+    "The TypeScript class adds strict declarations and the root export support required by the migrated source class; runtime inheritance, static workflows, values, serialization, strings, and errors match the pinned source class exactly.",
+    "The already-migrated generic existing-masonry material declaration widens adjustedProperties to include undefined because the pinned derived class exposes undefined optional tabulated properties; runtime behavior is unchanged."
+  ],
+  "engineeringFunctionality": "Source-compatible NTC 2018 existing-masonry material specialization with typology resolution, knowledge-level parameter selection, legacy and explicit modifier selections, tabulated and adjusted mechanical properties, and serializable material metadata."
+}

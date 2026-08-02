@@ -33,7 +33,7 @@ export interface ExistingMasonryMaterialJson extends ExistingMaterialJson {
   surveyFactors: ExistingMasonryFactors;
   improvementFactors: ExistingMasonryFactors;
   ntcReference: string;
-  adjustedProperties: Record<string, number | null>;
+  adjustedProperties: Record<string, number | null | undefined>;
 }
 
 function multiplyFactors(factors: ExistingMasonryFactors): number {
@@ -116,8 +116,8 @@ export class ExistingMasonryMaterial extends ExistingMaterial {
     return value * this.correctionFactor() * this.improvementFactor();
   }
 
-  adjustedProperties(): Record<string, number | null> {
-    return Object.keys(this.baseProperties).reduce<Record<string, number | null>>(
+  adjustedProperties(): Record<string, number | null | undefined> {
+    return Object.keys(this.baseProperties).reduce<Record<string, number | null | undefined>>(
       (accumulator, key) => {
         accumulator[key] = this.adjustedProperty(key);
         return accumulator;
