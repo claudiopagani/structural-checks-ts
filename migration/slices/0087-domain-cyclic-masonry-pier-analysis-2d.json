@@ -1,0 +1,92 @@
+{
+  "schemaVersion": 1,
+  "sliceId": "0087-domain-cyclic-masonry-pier-analysis-2d",
+  "title": "Domain cyclic masonry pier analysis protocol",
+  "migrationType": "mechanical-parity",
+  "implementationStatus": "implemented",
+  "dependencies": ["0086-domain-cyclic-masonry-pier-2d"],
+  "source": {
+    "repository": "https://github.com/claudiopagani/strutture-js",
+    "revision": "6f33baead8b88166c4b2cf94af41763412e3c751"
+  },
+  "normativeCorpusRevision": "41da3faa489600173106935bbcf726119300e48d",
+  "sourceFiles": [
+    {
+      "path": "src/domain/fem/nonlinear/CyclicMasonryPierAnalysis2D.js",
+      "gitBlobSha1": "90236b02e6c101f01a7268d33643bb63bb9aa8ce",
+      "targetPath": "src/domain/fem/nonlinear/CyclicMasonryPierAnalysis2D.ts"
+    }
+  ],
+  "supportingSourceFiles": [
+    {
+      "path": "src/domain/fem/nonlinear/index.js",
+      "gitBlobSha1": "e3b6ebfc8d7e8eba91dd1311b6a82c1657eaf8a5",
+      "targetPath": "src/domain/fem/nonlinear/index.ts",
+      "coverage": "Nonlinear FEM public export for the migrated cyclic pier analysis and CSV helper."
+    },
+    {
+      "path": "src/domain/fem/index.js",
+      "gitBlobSha1": "500ed76831bf15f757c0ed2c7eff05844c39511c",
+      "targetPath": "src/domain/fem/index.ts",
+      "coverage": "FEM public export for the migrated cyclic pier analysis protocol."
+    },
+    {
+      "path": "src/index.js",
+      "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7",
+      "targetPath": "src/index.ts",
+      "coverage": "Root public exports for the migrated cyclic pier analysis protocol."
+    }
+  ],
+  "sourceOracles": [
+    {
+      "path": "tests/cyclicMasonryPier2D.test.js",
+      "gitBlobSha1": "286b6e2168c8d551e0603ba08d2b8bd8e205f589",
+      "coverage": "Standalone cantilever protocol equilibrium, convergence and failed external rollback behavior."
+    },
+    {
+      "path": "tests/packageExports.test.js",
+      "gitBlobSha1": "8dde24b4c97dd3dae7100207d07d9d96c52b9c74",
+      "coverage": "Root public export behavior."
+    }
+  ],
+  "sourcePublicExport": {
+    "path": "src/index.js",
+    "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
+  },
+  "targetTests": [
+    "tests/baseline-parity.test.ts",
+    "tests/cyclic-masonry-pier-analysis-compile-time.test.ts",
+    "tests/cyclic-masonry-pier-analysis-live-parity.test.ts"
+  ],
+  "publicExports": ["CyclicMasonryPierAnalysis2D", "cyclicMasonryPierHistoryToCsv"],
+  "publicTypeExports": [
+    "CyclicMasonryPierAnalysis2DOptions",
+    "CyclicMasonryPierAnalysisElement",
+    "CyclicMasonryPierAnalysisLinearSolver",
+    "CyclicMasonryPierAnalysisResult",
+    "CyclicMasonryPierAnalysisSolveOptions",
+    "CyclicMasonryPierAnalysisTermination",
+    "CyclicMasonryPierHistoryPoint"
+  ],
+  "normativeReferences": {
+    "resolved": [],
+    "outsideCorpus": [],
+    "normativeConformityClaimed": false,
+    "status": "classified-for-declared-scope"
+  },
+  "independentValidation": {
+    "method": "Strict public declaration consumer coverage and independently executed pinned JavaScript versus built TypeScript comparison of the cyclic displacement protocol, exact analysis points and CSV serialization, Unicode metadata and validation error behavior.",
+    "targetTests": [
+      "tests/cyclic-masonry-pier-analysis-compile-time.test.ts",
+      "tests/cyclic-masonry-pier-analysis-live-parity.test.ts"
+    ],
+    "tolerances": {
+      "serializedParity": "exact deep equality and JSON serialization",
+      "numericParity": "exact equality for deterministic protocol points and equilibrium history",
+      "publicStrings": "exact equality plus Unicode code-point preservation",
+      "errors": "exact error name and message equality"
+    }
+  },
+  "parityDifferences": [],
+  "engineeringFunctionality": "Standalone cantilever or fixed-fixed cyclic displacement protocol that solves assigned axial compression and cantilever top-moment equilibrium, commits only converged targets, rolls back failed targets and exports serializable history points and CSV."
+}
