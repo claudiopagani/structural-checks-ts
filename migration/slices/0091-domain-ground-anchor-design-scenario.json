@@ -1,0 +1,115 @@
+{
+  "schemaVersion": 1,
+  "sliceId": "0091-domain-ground-anchor-design-scenario",
+  "title": "Domain ground-anchor design scenario",
+  "migrationType": "mechanical-parity",
+  "implementationStatus": "implemented",
+  "dependencies": ["0090-domain-ground-anchor-stability-action-2d"],
+  "source": {
+    "repository": "https://github.com/claudiopagani/strutture-js",
+    "revision": "6f33baead8b88166c4b2cf94af41763412e3c751"
+  },
+  "normativeCorpusRevision": "41da3faa489600173106935bbcf726119300e48d",
+  "sourceFiles": [
+    {
+      "path": "src/domain/geotechnics/GroundAnchorDesignScenario.js",
+      "gitBlobSha1": "6cc1114f6f8337f68eda2cd503399b4adc912faa",
+      "targetPath": "src/domain/geotechnics/GroundAnchorDesignScenario.ts"
+    }
+  ],
+  "supportingSourceFiles": [
+    {
+      "path": "src/domain/geotechnics/index.js",
+      "gitBlobSha1": "41ed2053fc2e37dc90da412846609f4050af9668",
+      "targetPath": "src/domain/geotechnics/index.ts",
+      "coverage": "Geotechnics barrel export for the migrated ground-anchor design scenario."
+    },
+    {
+      "path": "src/index.js",
+      "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7",
+      "targetPath": "src/index.ts",
+      "coverage": "Root public exports for the migrated ground-anchor design scenario."
+    }
+  ],
+  "sourceOracles": [
+    {
+      "path": "tests/geotechnicalGroundAnchors.test.js",
+      "gitBlobSha1": "e18bd13b5f6910266435fc3cc3f24cf8502dc3a7",
+      "coverage": "Ground-anchor demand, failure surfaces, bond resistance, corrosion and testing scenario inputs."
+    },
+    {
+      "path": "tests/packageExports.test.js",
+      "gitBlobSha1": "8dde24b4c97dd3dae7100207d07d9d96c52b9c74",
+      "coverage": "Root public export behavior."
+    }
+  ],
+  "sourcePublicExport": {
+    "path": "src/index.js",
+    "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
+  },
+  "targetTests": [
+    "tests/baseline-parity.test.ts",
+    "tests/ground-anchor-design-scenario-compile-time.test.ts",
+    "tests/ground-anchor-design-scenario-live-parity.test.ts"
+  ],
+  "publicExports": [
+    "GROUND_ANCHOR_BOND_RESISTANCE_MODELS",
+    "GROUND_ANCHOR_DEMAND_SOURCES",
+    "GROUND_ANCHOR_DESIGN_SCENARIO_SCHEMA_VERSION",
+    "GROUND_ANCHOR_FAILURE_SURFACE_MODELS",
+    "GROUND_ANCHOR_GROUND_CLASSES",
+    "GROUND_ANCHOR_TEST_TYPES",
+    "GroundAnchorDesignScenario"
+  ],
+  "publicTypeExports": [
+    "GroundAnchorDemand",
+    "GroundAnchorDemandInput",
+    "GroundAnchorDemandSelection",
+    "GroundAnchorDemandSource",
+    "GroundAnchorDesignScenarioJson",
+    "GroundAnchorDesignScenarioOptions",
+    "GroundAnchorFailureSurface",
+    "GroundAnchorFailureSurfaceInput",
+    "GroundAnchorFailureSurfaceModel",
+    "GroundAnchorBondResistance",
+    "GroundAnchorBondResistanceInput",
+    "GroundAnchorBondResistanceModel",
+    "GroundAnchorCorrosionEnvironment",
+    "GroundAnchorCorrosionEnvironmentInput",
+    "GroundAnchorCorrosionMeasurements",
+    "GroundAnchorCorrosionMeasurementsInput",
+    "GroundAnchorTesting",
+    "GroundAnchorTestingInput",
+    "GroundAnchorTestRecord",
+    "GroundAnchorTestRecordInput",
+    "GroundAnchorTestHold",
+    "GroundAnchorTestHoldInput",
+    "GroundAnchorTestObservation",
+    "GroundAnchorTestObservationInput",
+    "GroundAnchorScenarioPoint",
+    "FhwaPresumptiveBondResistance",
+    "UltimateTransferLoadBondResistance",
+    "UltimateBondStressResistance"
+  ],
+  "normativeReferences": {
+    "resolved": [],
+    "outsideCorpus": [],
+    "normativeConformityClaimed": false,
+    "status": "classified-for-declared-scope"
+  },
+  "independentValidation": {
+    "method": "Strict public declaration consumer coverage and independently executed pinned JavaScript versus built TypeScript comparison of demand, critical-failure-surface, bond-resistance, corrosion and field-testing normalization, exact JSON serialization, Unicode identifiers and validation error behavior.",
+    "targetTests": [
+      "tests/ground-anchor-design-scenario-compile-time.test.ts",
+      "tests/ground-anchor-design-scenario-live-parity.test.ts"
+    ],
+    "tolerances": {
+      "serializedParity": "exact deep equality and JSON serialization",
+      "numericParity": "exact equality for deterministic unit conversion and normalized scenario values",
+      "publicStrings": "exact equality plus Unicode code-point preservation",
+      "errors": "exact error name and message equality"
+    }
+  },
+  "parityDifferences": [],
+  "engineeringFunctionality": "Serializable FHWA GEC 4 ground-anchor design scenario normalization covering demand selection, critical failure-surface models, bond resistance maps, corrosion environment, testing records, explicit units and degree/radian serialization."
+}
