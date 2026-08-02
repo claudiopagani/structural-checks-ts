@@ -578,6 +578,19 @@ export {
   NTC2018_TIMBER_KMOD,
 } from "./norms/ntc2018/actions/ntc2018ActionParameters.js";
 export {
+  CIRC2019_RC_REFERENCES,
+  NORMATIVE_REFERENCE_RELATIONS,
+  NORMATIVE_REFERENCE_RESOLUTION_STATUS,
+  NTC2018_NORMATIVE_CORPUS,
+  NTC2018_RC_CHAPTER_4_REFERENCES,
+  NTC2018_RC_CHAPTER_7_4_REFERENCES,
+  NTC2018_RC_OUTSIDE_CORPUS_REFERENCES,
+} from "./norms/ntc2018/normativeReferences.js";
+export type {
+  Ntc2018NormativeCorpus,
+  Ntc2018NormativeReferenceCatalog,
+} from "./norms/ntc2018/normativeReferences.js";
+export {
   createNTC2018AccidentalAction,
   createNTC2018PermanentAction,
   createNTC2018SeismicAction,

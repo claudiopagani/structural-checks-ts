@@ -889,6 +889,7 @@
         "BeamLinePreprocessor2D",
         "BeamSectionActionVerifier",
         "BeamSystem",
+        "CIRC2019_RC_REFERENCES",
         "CIRCULAR_SLIP_SURFACE_2D_SCHEMA_VERSION",
         "CIRCULAR_SLOPE_STABILITY_RESULT_SCHEMA_VERSION",
         "CYCLIC_MASONRY_INTERNAL_UNITS",
@@ -1053,6 +1054,8 @@
         "MasonryFiberInterface2D",
         "MasonryMaterial",
         "MohrCoulombModel",
+        "NORMATIVE_REFERENCE_RELATIONS",
+        "NORMATIVE_REFERENCE_RESOLUTION_STATUS",
         "NTC2018SlabLoadAnalysis",
         "NTC2018_ACTION_COMBINATION_FACTORS",
         "NTC2018_ACTION_PARTIAL_FACTORS",
@@ -1074,11 +1077,15 @@
         "NTC2018_EXTERNAL_AIR_TEMPERATURE_ZONES",
         "NTC2018_LINEAR_DYNAMIC_REFERENCES",
         "NTC2018_LOAD_DURATION_CLASSES",
+        "NTC2018_NORMATIVE_CORPUS",
         "NTC2018_OVERSTRENGTH_FACTORS",
         "NTC2018_PDELTA_THRESHOLDS",
         "NTC2018_PLAN_REGULARITY",
         "NTC2018_RC_BUILDING_CAPABILITIES",
+        "NTC2018_RC_CHAPTER_4_REFERENCES",
+        "NTC2018_RC_CHAPTER_7_4_REFERENCES",
         "NTC2018_RC_COVERAGE_STATUS",
+        "NTC2018_RC_OUTSIDE_CORPUS_REFERENCES",
         "NTC2018_RC_TRACEABILITY_STATUS",
         "NTC2018_REGULARITY_REDUCTION",
         "NTC2018_REGULARITY_REFERENCES",
@@ -4669,11 +4676,15 @@
       "sourcePath": "src/norms/ntc2018/normativeReferences.js",
       "sourceBlobSha1": "23ab4d1fbe10f0f363ba6b56b300ea013d856ccf",
       "targetPath": "src/norms/ntc2018/normativeReferences.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "partial",
+      "migrationSlices": ["0118-norms-ntc2018-normative-references"],
+      "sourceOracles": ["tests/ntc2018NormativeReferences.test.js", "tests/packageExports.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/ntc2018-normative-references-compile-time.test.ts",
+        "tests/ntc2018-normative-references-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0118-norms-ntc2018-normative-references"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -11138,11 +11149,15 @@
       "sourcePath": "src/norms/ntc2018/normativeReferences.js",
       "sourceBlobSha1": "23ab4d1fbe10f0f363ba6b56b300ea013d856ccf",
       "targetPath": "src/norms/ntc2018/normativeReferences.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "partial",
+      "migrationSlices": ["0118-norms-ntc2018-normative-references"],
+      "sourceOracles": ["tests/ntc2018NormativeReferences.test.js", "tests/packageExports.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/ntc2018-normative-references-compile-time.test.ts",
+        "tests/ntc2018-normative-references-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0118-norms-ntc2018-normative-references"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -11152,11 +11167,15 @@
       "sourcePath": "src/norms/ntc2018/normativeReferences.js",
       "sourceBlobSha1": "23ab4d1fbe10f0f363ba6b56b300ea013d856ccf",
       "targetPath": "src/norms/ntc2018/normativeReferences.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "partial",
+      "migrationSlices": ["0118-norms-ntc2018-normative-references"],
+      "sourceOracles": ["tests/ntc2018NormativeReferences.test.js", "tests/packageExports.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/ntc2018-normative-references-compile-time.test.ts",
+        "tests/ntc2018-normative-references-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0118-norms-ntc2018-normative-references"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -11789,11 +11808,15 @@
       "sourcePath": "src/norms/ntc2018/normativeReferences.js",
       "sourceBlobSha1": "23ab4d1fbe10f0f363ba6b56b300ea013d856ccf",
       "targetPath": "src/norms/ntc2018/normativeReferences.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "partial",
+      "migrationSlices": ["0118-norms-ntc2018-normative-references"],
+      "sourceOracles": ["tests/ntc2018NormativeReferences.test.js", "tests/packageExports.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/ntc2018-normative-references-compile-time.test.ts",
+        "tests/ntc2018-normative-references-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0118-norms-ntc2018-normative-references"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -11910,11 +11933,15 @@
       "sourcePath": "src/norms/ntc2018/normativeReferences.js",
       "sourceBlobSha1": "23ab4d1fbe10f0f363ba6b56b300ea013d856ccf",
       "targetPath": "src/norms/ntc2018/normativeReferences.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "partial",
+      "migrationSlices": ["0118-norms-ntc2018-normative-references"],
+      "sourceOracles": ["tests/ntc2018NormativeReferences.test.js", "tests/packageExports.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/ntc2018-normative-references-compile-time.test.ts",
+        "tests/ntc2018-normative-references-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0118-norms-ntc2018-normative-references"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -11924,11 +11951,15 @@
       "sourcePath": "src/norms/ntc2018/normativeReferences.js",
       "sourceBlobSha1": "23ab4d1fbe10f0f363ba6b56b300ea013d856ccf",
       "targetPath": "src/norms/ntc2018/normativeReferences.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "partial",
+      "migrationSlices": ["0118-norms-ntc2018-normative-references"],
+      "sourceOracles": ["tests/ntc2018NormativeReferences.test.js", "tests/packageExports.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/ntc2018-normative-references-compile-time.test.ts",
+        "tests/ntc2018-normative-references-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0118-norms-ntc2018-normative-references"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -11958,11 +11989,15 @@
       "sourcePath": "src/norms/ntc2018/normativeReferences.js",
       "sourceBlobSha1": "23ab4d1fbe10f0f363ba6b56b300ea013d856ccf",
       "targetPath": "src/norms/ntc2018/normativeReferences.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "partial",
+      "migrationSlices": ["0118-norms-ntc2018-normative-references"],
+      "sourceOracles": ["tests/ntc2018NormativeReferences.test.js", "tests/packageExports.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/ntc2018-normative-references-compile-time.test.ts",
+        "tests/ntc2018-normative-references-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0118-norms-ntc2018-normative-references"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -32861,7 +32896,8 @@
         "0114-norms-ntc2018-snow-load",
         "0115-norms-ntc2018-thermal-action",
         "0116-norms-ntc2018-wind-load",
-        "0117-norms-ntc2018-topographic-classification"
+        "0117-norms-ntc2018-topographic-classification",
+        "0118-norms-ntc2018-normative-references"
       ],
       "sourceOracles": [
         "tests/architecture/applicationRegistry.test.js",
@@ -33571,12 +33607,14 @@
         "0017-reinforced-concrete-seismic-walls",
         "0018-reinforced-concrete-isolated-footings",
         "0026-reinforced-concrete-beam-column-joints",
-        "0027-reinforced-concrete-strut-and-tie"
+        "0027-reinforced-concrete-strut-and-tie",
+        "0118-norms-ntc2018-normative-references"
       ],
       "sourceOracles": [
         "tests/compositeSections.test.js",
         "tests/italianHistoricalReinforcementSteel.test.js",
         "tests/longitudinalReinforcementLayout.test.js",
+        "tests/ntc2018NormativeReferences.test.js",
         "tests/ntc2018ShearWall.test.js",
         "tests/ntc2018WallSystemChecks.test.js",
         "tests/packageExports.test.js",
@@ -33629,6 +33667,8 @@
         "tests/concrete-uniaxial-domain.test.ts",
         "tests/concrete-wall.test.ts",
         "tests/material-baseline-parity.test.ts",
+        "tests/ntc2018-normative-references-compile-time.test.ts",
+        "tests/ntc2018-normative-references-live-parity.test.ts",
         "tests/reinforced-concrete-beam-column-joint.test.ts",
         "tests/reinforced-concrete-strut-and-tie.test.ts",
         "tests/reinforcement-layout.test.ts"
@@ -33649,7 +33689,8 @@
         "0017-reinforced-concrete-seismic-walls",
         "0018-reinforced-concrete-isolated-footings",
         "0026-reinforced-concrete-beam-column-joints",
-        "0027-reinforced-concrete-strut-and-tie"
+        "0027-reinforced-concrete-strut-and-tie",
+        "0118-norms-ntc2018-normative-references"
       ],
       "status": "exact-parity"
     },
@@ -35261,11 +35302,15 @@
       "sourcePath": "tests/ntc2018NormativeReferences.test.js",
       "sourceBlobSha1": "83f001123b809fcd9e54eb31009ab1ef35afee27",
       "targetPath": "tests/ntc2018NormativeReferences.test.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0118-norms-ntc2018-normative-references"],
+      "sourceOracles": ["tests/ntc2018NormativeReferences.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/ntc2018-normative-references-compile-time.test.ts",
+        "tests/ntc2018-normative-references-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0118-norms-ntc2018-normative-references"],
+      "status": "exact-parity",
       "testKind": "test"
     },
     {
@@ -35596,7 +35641,8 @@
         "0114-norms-ntc2018-snow-load",
         "0115-norms-ntc2018-thermal-action",
         "0116-norms-ntc2018-wind-load",
-        "0117-norms-ntc2018-topographic-classification"
+        "0117-norms-ntc2018-topographic-classification",
+        "0118-norms-ntc2018-normative-references"
       ],
       "sourceOracles": ["tests/packageExports.test.js"],
       "targetTests": [
@@ -35653,6 +35699,8 @@
         "tests/masonry-material-indexes-live-parity.test.ts",
         "tests/masonry-section-index-compile-time.test.ts",
         "tests/masonry-section-index-live-parity.test.ts",
+        "tests/ntc2018-normative-references-compile-time.test.ts",
+        "tests/ntc2018-normative-references-live-parity.test.ts",
         "tests/ntc2018-seismic-action-compile-time.test.ts",
         "tests/ntc2018-seismic-action-live-parity.test.ts",
         "tests/ntc2018-snow-load-compile-time.test.ts",
@@ -35750,7 +35798,8 @@
         "0114-norms-ntc2018-snow-load",
         "0115-norms-ntc2018-thermal-action",
         "0116-norms-ntc2018-wind-load",
-        "0117-norms-ntc2018-topographic-classification"
+        "0117-norms-ntc2018-topographic-classification",
+        "0118-norms-ntc2018-normative-references"
       ],
       "status": "exact-parity",
       "testKind": "test"
@@ -39221,12 +39270,28 @@
         "publicStrings": "exact equality plus Unicode code-point preservation",
         "errors": "exact error name and message equality for unsupported preprocessing modes"
       }
+    },
+    {
+      "sliceId": "0118-norms-ntc2018-normative-references",
+      "sourceRevision": "6f33baead8b88166c4b2cf94af41763412e3c751",
+      "method": "Strict declaration consumer coverage and independently executed pinned JavaScript versus built TypeScript comparison of the complete normative-reference module, exact source-defined catalog JSON and key order, canonical identifiers, outside-corpus null behavior, frozen metadata, Unicode strings, root exports, factory errors, and metadata cloning.",
+      "targetTests": [
+        "tests/ntc2018-normative-references-compile-time.test.ts",
+        "tests/ntc2018-normative-references-live-parity.test.ts"
+      ],
+      "fixture": null,
+      "tolerances": {
+        "serializedParity": "exact source-defined catalog, relation/status, corpus, and metadata JSON",
+        "numericParity": "not applicable; this slice contains no numerical calculation",
+        "publicStrings": "exact equality plus Unicode code-point preservation",
+        "errors": "exact error name and message equality for malformed unit identities and unsupported relations"
+      }
     }
   ],
   "counts": {
     "rootExports": {
       "javascript": 841,
-      "typescript": 649
+      "typescript": 656
     },
     "applicationsExports": {
       "javascript": 309,
@@ -39254,7 +39319,7 @@
     },
     "tests": {
       "javascript": 131,
-      "typescript": 222
+      "typescript": 224
     },
     "validationCampaigns": {
       "javascript": 17,
@@ -39312,17 +39377,14 @@
     "norms": {
       "statusCounts": {
         "exact-parity": 0,
-        "partial": 15,
+        "partial": 8,
         "missing": 86,
         "intentionally-excluded": 0,
         "decision-required": 0
       },
       "itemIds": [
-        "root-export:CIRC2019_RC_REFERENCES",
         "root-export:DM522023_AMENDMENTS",
         "root-export:DM522023_REFERENCES",
-        "root-export:NORMATIVE_REFERENCE_RELATIONS",
-        "root-export:NORMATIVE_REFERENCE_RESOLUTION_STATUS",
         "root-export:NTC2018ExistingMasonryMaterial",
         "root-export:NTC2018_EXISTING_MASONRY_KNOWLEDGE_LEVELS",
         "root-export:NTC2018_EXISTING_MASONRY_MODIFIER_DEFINITIONS",
@@ -39334,11 +39396,7 @@
         "root-export:NTC2018_MASONRY_PIER_CAPACITY_REFERENCES",
         "root-export:NTC2018_MASONRY_PIER_DEFORMATION_REFERENCES",
         "root-export:NTC2018_MASONRY_PIER_STIFFNESS_REFERENCE",
-        "root-export:NTC2018_NORMATIVE_CORPUS",
         "root-export:NTC2018_PERMANENT_LOAD_REFERENCES",
-        "root-export:NTC2018_RC_CHAPTER_4_REFERENCES",
-        "root-export:NTC2018_RC_CHAPTER_7_4_REFERENCES",
-        "root-export:NTC2018_RC_OUTSIDE_CORPUS_REFERENCES",
         "root-export:NTC2018_RETAINING_WALL_SEISMIC_REFERENCE",
         "root-export:NTC2018_SLAB_MATERIAL_WEIGHT_DATABASE",
         "root-export:NTC2018_SLAB_VARIABLE_ACTIONS_DATABASE",
@@ -39786,7 +39844,7 @@
       "statusCounts": {
         "exact-parity": 0,
         "partial": 4,
-        "missing": 126,
+        "missing": 125,
         "intentionally-excluded": 0,
         "decision-required": 0
       },
@@ -39914,7 +39972,6 @@
         "test:tests/ntc2018ExistingMasonryWorkflow.test.js",
         "test:tests/ntc2018ImposedLoads.test.js",
         "test:tests/ntc2018MasonryPierModel.test.js",
-        "test:tests/ntc2018NormativeReferences.test.js",
         "test:tests/ntc2018PermanentLoads.test.js",
         "test:tests/rcFiberAnalysis.test.js",
         "test:tests/run-tests.js",

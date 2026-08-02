@@ -1,0 +1,104 @@
+{
+  "schemaVersion": 1,
+  "sliceId": "0118-norms-ntc2018-normative-references",
+  "title": "NTC 2018 normative-reference catalogs and public metadata exports",
+  "migrationType": "mechanical-parity",
+  "implementationStatus": "implemented",
+  "dependencies": ["0001-foundation", "0117-norms-ntc2018-topographic-classification"],
+  "source": {
+    "repository": "https://github.com/claudiopagani/strutture-js",
+    "revision": "6f33baead8b88166c4b2cf94af41763412e3c751"
+  },
+  "normativeCorpusRevision": "41da3faa489600173106935bbcf726119300e48d",
+  "sourceFiles": [
+    {
+      "path": "src/norms/ntc2018/normativeReferences.js",
+      "gitBlobSha1": "23ab4d1fbe10f0f363ba6b56b300ea013d856ccf",
+      "targetPath": "src/norms/ntc2018/normativeReferences.ts"
+    }
+  ],
+  "supportingSourceFiles": [
+    {
+      "path": "src/norms/normativeReference.js",
+      "gitBlobSha1": "2a68007dafc2011a086a142dff263e9dd12b8393",
+      "targetPath": "src/norms/normativeReference.ts",
+      "coverage": "Already-migrated strict normative-reference factory, validation, cloning, and metadata merge dependency."
+    },
+    {
+      "path": "src/norms/ntc2018/index.js",
+      "gitBlobSha1": "0ac4cf551c455ec2a57d9bf8849db46fb14e0dcc",
+      "targetPath": "src/index.ts",
+      "coverage": "Pinned NTC 2018 norm-index export context; only migrated normative-reference symbols receive root support."
+    },
+    {
+      "path": "src/index.js",
+      "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7",
+      "targetPath": "src/index.ts",
+      "coverage": "Root public exports for the migrated normative-reference catalogs and relation/status constants."
+    }
+  ],
+  "sourceOracles": [
+    {
+      "path": "tests/ntc2018NormativeReferences.test.js",
+      "gitBlobSha1": "83f001123b809fcd9e54eb31009ab1ef35afee27",
+      "coverage": "Canonical unit and asset identifiers, outside-corpus behavior, factory errors, serializable metadata merging, and Unicode citations."
+    },
+    {
+      "path": "tests/packageExports.test.js",
+      "gitBlobSha1": "8dde24b4c97dd3dae7100207d07d9d96c52b9c74",
+      "coverage": "Root public export behavior."
+    }
+  ],
+  "sourcePublicExport": {
+    "path": "src/index.js",
+    "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
+  },
+  "targetTests": [
+    "tests/baseline-parity.test.ts",
+    "tests/ntc2018-normative-references-compile-time.test.ts",
+    "tests/ntc2018-normative-references-live-parity.test.ts"
+  ],
+  "publicExports": [
+    "CIRC2019_RC_REFERENCES",
+    "NORMATIVE_REFERENCE_RELATIONS",
+    "NORMATIVE_REFERENCE_RESOLUTION_STATUS",
+    "NTC2018_NORMATIVE_CORPUS",
+    "NTC2018_RC_CHAPTER_4_REFERENCES",
+    "NTC2018_RC_CHAPTER_7_4_REFERENCES",
+    "NTC2018_RC_OUTSIDE_CORPUS_REFERENCES"
+  ],
+  "publicTypeExports": ["Ntc2018NormativeCorpus", "Ntc2018NormativeReferenceCatalog"],
+  "normativeReferences": {
+    "resolved": [
+      "Canonical NTC 2018 and Circolare 2019 unit and asset URNs are preserved exactly from the pinned catalog."
+    ],
+    "outsideCorpus": [
+      "NTC 2018 § 6.4",
+      "NTC 2018 §§ 7.2-7.3",
+      "NTC 2018 § 7.2.1",
+      "Circolare 2019 § C7.2.1",
+      "NTC 2018 § 7.11",
+      "NTC 2018, capitolo 11"
+    ],
+    "normativeConformityClaimed": false,
+    "status": "classified-for-declared-scope"
+  },
+  "independentValidation": {
+    "method": "Strict declaration consumer coverage and independently executed pinned JavaScript versus built TypeScript comparison of the complete normative-reference module, exact source-defined catalog JSON and key order, canonical identifiers, outside-corpus null behavior, frozen metadata, Unicode strings, root exports, factory errors, and metadata cloning.",
+    "targetTests": [
+      "tests/ntc2018-normative-references-compile-time.test.ts",
+      "tests/ntc2018-normative-references-live-parity.test.ts"
+    ],
+    "tolerances": {
+      "serializedParity": "exact source-defined catalog, relation/status, corpus, and metadata JSON",
+      "numericParity": "not applicable; this slice contains no numerical calculation",
+      "publicStrings": "exact equality plus Unicode code-point preservation",
+      "errors": "exact error name and message equality for malformed unit identities and unsupported relations"
+    }
+  },
+  "parityDifferences": [
+    "The TypeScript module adds strict declarations and the root export support required by the migrated normative-reference behavior; all source-defined runtime exports and catalog entries match the pinned source exactly.",
+    "Two pre-existing target-only compatibility entries, serviceModularRatio and cosenzaCircularShear, remain because already-migrated TypeScript consumers depend on them; parity tests compare the complete pinned source-defined catalog projection exactly."
+  ],
+  "engineeringFunctionality": "Source-compatible NTC 2018 and Circolare 2019 normative-reference catalogs, canonical corpus metadata, outside-corpus classification, relation/status constants, immutable serializable references, and public root exports."
+}

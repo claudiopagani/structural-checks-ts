@@ -3,6 +3,7 @@ import {
   NORMATIVE_REFERENCE_RELATIONS,
   NORMATIVE_REFERENCE_RESOLUTION_STATUS,
 } from "../normativeReference.js";
+import type { NormativeReference } from "../normativeReference.js";
 
 export const NTC2018_NORMATIVE_CORPUS = Object.freeze({
   corpusId: "structural-codes",
@@ -70,6 +71,11 @@ export const NTC2018_RC_CHAPTER_4_REFERENCES = Object.freeze({
     assetIds: ["urn:structural-codes:it:asset:formula:ntc2018:4.1.3"],
     citation: "NTC 2018 § 4.1.2.1.1.1, formula [4.1.3]",
   }),
+  concreteDesignTension: resolvedReference({
+    unitId: "urn:structural-codes:it:unit:ntc2018:4.1.2.1.1.2",
+    assetIds: ["urn:structural-codes:it:asset:formula:ntc2018:4.1.4"],
+    citation: "NTC 2018 § 4.1.2.1.1.2, formula [4.1.4]",
+  }),
   reinforcementDesignYield: resolvedReference({
     unitId: "urn:structural-codes:it:unit:ntc2018:4.1.2.1.1.3",
     assetIds: ["urn:structural-codes:it:asset:formula:ntc2018:4.1.5"],
@@ -82,6 +88,14 @@ export const NTC2018_RC_CHAPTER_4_REFERENCES = Object.freeze({
       "urn:structural-codes:it:asset:formula:ntc2018:4.1.7",
     ],
     citation: "NTC 2018 § 4.1.2.1.1.4, formule [4.1.6]-[4.1.7]",
+  }),
+  concreteConstitutiveParameters: resolvedReference({
+    unitId: "urn:structural-codes:it:unit:ntc2018:4.1.2.1.2.1",
+    assetIds: [
+      "urn:structural-codes:it:asset:formula:ntc2018:4.1.2.1.2.1:material-parameters-up-to-c50-60",
+      "urn:structural-codes:it:asset:formula:ntc2018:4.1.2.1.2.1:material-parameters-over-c50-60",
+    ],
+    citation: "NTC 2018 § 4.1.2.1.2.1",
   }),
   deflection: resolvedReference({
     unitId: "urn:structural-codes:it:unit:ntc2018:4.1.2.2.2",
@@ -151,6 +165,10 @@ export const NTC2018_RC_CHAPTER_4_REFERENCES = Object.freeze({
     unitId: "urn:structural-codes:it:unit:ntc2018:4.1.2.3.5.4",
     citation: "NTC 2018 § 4.1.2.3.5.4",
   }),
+  anchorage: resolvedReference({
+    unitId: "urn:structural-codes:it:unit:ntc2018:4.1.2.3.10",
+    citation: "NTC 2018 § 4.1.2.3.10",
+  }),
   torsion: resolvedReference({
     unitId: "urn:structural-codes:it:unit:ntc2018:4.1.2.3.6",
     assetIds: [
@@ -167,10 +185,6 @@ export const NTC2018_RC_CHAPTER_4_REFERENCES = Object.freeze({
   strutAndTie: resolvedReference({
     unitId: "urn:structural-codes:it:unit:ntc2018:4.1.2.3.7",
     citation: "NTC 2018 § 4.1.2.3.7",
-  }),
-  anchorage: resolvedReference({
-    unitId: "urn:structural-codes:it:unit:ntc2018:4.1.2.3.10",
-    citation: "NTC 2018 § 4.1.2.3.10",
   }),
   columnSlenderness: resolvedReference({
     unitId: "urn:structural-codes:it:unit:ntc2018:4.1.2.3.9.2",
@@ -245,6 +259,11 @@ export const NTC2018_RC_CHAPTER_7_4_REFERENCES = Object.freeze({
       "urn:structural-codes:it:asset:formula:ntc2018:7.4.2",
     ],
     citation: "NTC 2018 § 7.4.4.1.1, formule [7.4.1]-[7.4.2]",
+  }),
+  beamDuctility: resolvedReference({
+    unitId: "urn:structural-codes:it:unit:ntc2018:7.4.4.1.2",
+    assetIds: ["urn:structural-codes:it:asset:formula:ntc2018:7.4.3"],
+    citation: "NTC 2018 § 7.4.4.1.2, formula [7.4.3]",
   }),
   columnCapacityDesign: resolvedReference({
     unitId: "urn:structural-codes:it:unit:ntc2018:7.4.4.2.1",
@@ -346,6 +365,14 @@ export const NTC2018_RC_CHAPTER_7_4_REFERENCES = Object.freeze({
     unitId: "urn:structural-codes:it:unit:ntc2018:7.4.6.2.4",
     citation: "NTC 2018 § 7.4.6.2.4",
   }),
+  couplingBeamDetailing: resolvedReference({
+    unitId: "urn:structural-codes:it:unit:ntc2018:7.4.4.6",
+    assetIds: [
+      "urn:structural-codes:it:asset:formula:ntc2018:7.4.23",
+      "urn:structural-codes:it:asset:formula:ntc2018:7.4.24",
+    ],
+    citation: "NTC 2018 § 7.4.4.6, formule [7.4.23]-[7.4.24]",
+  }),
 });
 
 export const NTC2018_RC_OUTSIDE_CORPUS_REFERENCES = Object.freeze({
@@ -376,3 +403,10 @@ export const NTC2018_RC_OUTSIDE_CORPUS_REFERENCES = Object.freeze({
     citation: "NTC 2018, capitolo 11",
   }),
 });
+
+export { NORMATIVE_REFERENCE_RELATIONS, NORMATIVE_REFERENCE_RESOLUTION_STATUS };
+
+export type Ntc2018NormativeCorpus = typeof NTC2018_NORMATIVE_CORPUS;
+export type Ntc2018NormativeReferenceCatalog = Readonly<
+  Record<string, Readonly<NormativeReference>>
+>;
