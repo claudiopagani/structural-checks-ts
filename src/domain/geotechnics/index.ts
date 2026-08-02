@@ -116,6 +116,20 @@ export {
   type GroundAnchorTendonType,
 } from "./GroundAnchorModel.js";
 export {
+  GROUND_ANCHOR_STABILITY_ACTION_2D_SCHEMA_VERSION,
+  GROUND_ANCHOR_STABILITY_FORCE_MODELS,
+  GROUND_ANCHOR_STABILITY_REFERENCE,
+  GroundAnchorStabilityAction2D,
+  type GroundAnchorPoint as GroundAnchorStabilityPoint,
+  type GroundAnchorPointInput as GroundAnchorStabilityPointInput,
+  type GroundAnchorSourceVerificationStatus,
+  type GroundAnchorStabilityAction2DJson,
+  type GroundAnchorStabilityAction2DOptions,
+  type GroundAnchorStabilityEvaluation,
+  type GroundAnchorStabilityForceModel,
+  type GroundAnchorStabilityRelation,
+} from "./GroundAnchorStabilityAction2D.js";
+export {
   PRESSURE_DIAGRAM_2D_SCHEMA_VERSION,
   PressureDiagram2D,
   integratePressureSegments,

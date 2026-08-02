@@ -980,6 +980,9 @@
         "GROUND_ANCHOR_CORROSION_CLASSES",
         "GROUND_ANCHOR_HORIZONTAL_DIRECTIONS",
         "GROUND_ANCHOR_MODEL_SCHEMA_VERSION",
+        "GROUND_ANCHOR_STABILITY_ACTION_2D_SCHEMA_VERSION",
+        "GROUND_ANCHOR_STABILITY_FORCE_MODELS",
+        "GROUND_ANCHOR_STABILITY_REFERENCE",
         "GROUND_ANCHOR_TENDON_TYPES",
         "GROUND_MODEL_SCHEMA_VERSION",
         "GROUND_PROFILE_SCHEMA_VERSION",
@@ -989,6 +992,7 @@
         "GlobalFemPostProcessingApplication",
         "GlulamTimberMaterial",
         "GroundAnchorModel",
+        "GroundAnchorStabilityAction2D",
         "GroundModel",
         "GroundProfile",
         "GroundSection2D",
@@ -8904,11 +8908,19 @@
       "sourcePath": "src/domain/geotechnics/GroundAnchorStabilityAction2D.js",
       "sourceBlobSha1": "ac025cd5b971af3b5ba70c99dcf5bb2bac869d29",
       "targetPath": "src/domain/geotechnics/GroundAnchorStabilityAction2D.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0090-domain-ground-anchor-stability-action-2d"],
+      "sourceOracles": [
+        "tests/geotechnicalGroundAnchors.test.js",
+        "tests/geotechnicalSlopeStability.test.js",
+        "tests/packageExports.test.js"
+      ],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/ground-anchor-stability-action-compile-time.test.ts",
+        "tests/ground-anchor-stability-action-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0090-domain-ground-anchor-stability-action-2d"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -8918,11 +8930,19 @@
       "sourcePath": "src/domain/geotechnics/GroundAnchorStabilityAction2D.js",
       "sourceBlobSha1": "ac025cd5b971af3b5ba70c99dcf5bb2bac869d29",
       "targetPath": "src/domain/geotechnics/GroundAnchorStabilityAction2D.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0090-domain-ground-anchor-stability-action-2d"],
+      "sourceOracles": [
+        "tests/geotechnicalGroundAnchors.test.js",
+        "tests/geotechnicalSlopeStability.test.js",
+        "tests/packageExports.test.js"
+      ],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/ground-anchor-stability-action-compile-time.test.ts",
+        "tests/ground-anchor-stability-action-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0090-domain-ground-anchor-stability-action-2d"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -8932,11 +8952,19 @@
       "sourcePath": "src/domain/geotechnics/GroundAnchorStabilityAction2D.js",
       "sourceBlobSha1": "ac025cd5b971af3b5ba70c99dcf5bb2bac869d29",
       "targetPath": "src/domain/geotechnics/GroundAnchorStabilityAction2D.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0090-domain-ground-anchor-stability-action-2d"],
+      "sourceOracles": [
+        "tests/geotechnicalGroundAnchors.test.js",
+        "tests/geotechnicalSlopeStability.test.js",
+        "tests/packageExports.test.js"
+      ],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/ground-anchor-stability-action-compile-time.test.ts",
+        "tests/ground-anchor-stability-action-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0090-domain-ground-anchor-stability-action-2d"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -9087,11 +9115,19 @@
       "sourcePath": "src/domain/geotechnics/GroundAnchorStabilityAction2D.js",
       "sourceBlobSha1": "ac025cd5b971af3b5ba70c99dcf5bb2bac869d29",
       "targetPath": "src/domain/geotechnics/GroundAnchorStabilityAction2D.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0090-domain-ground-anchor-stability-action-2d"],
+      "sourceOracles": [
+        "tests/geotechnicalGroundAnchors.test.js",
+        "tests/geotechnicalSlopeStability.test.js",
+        "tests/packageExports.test.js"
+      ],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/ground-anchor-stability-action-compile-time.test.ts",
+        "tests/ground-anchor-stability-action-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0090-domain-ground-anchor-stability-action-2d"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -19298,11 +19334,19 @@
       "sourcePath": "src/domain/geotechnics/GroundAnchorStabilityAction2D.js",
       "sourceBlobSha1": "ac025cd5b971af3b5ba70c99dcf5bb2bac869d29",
       "targetPath": "src/domain/geotechnics/GroundAnchorStabilityAction2D.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0090-domain-ground-anchor-stability-action-2d"],
+      "sourceOracles": [
+        "tests/geotechnicalGroundAnchors.test.js",
+        "tests/geotechnicalSlopeStability.test.js",
+        "tests/packageExports.test.js"
+      ],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/ground-anchor-stability-action-compile-time.test.ts",
+        "tests/ground-anchor-stability-action-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0090-domain-ground-anchor-stability-action-2d"],
+      "status": "exact-parity",
       "publicEntryPath": "src/applications/index.js",
       "publicEntryBlobSha1": "b70179c7cdd2a819f2151dc092c0f59cbce30ba6"
     },
@@ -19312,11 +19356,19 @@
       "sourcePath": "src/domain/geotechnics/GroundAnchorStabilityAction2D.js",
       "sourceBlobSha1": "ac025cd5b971af3b5ba70c99dcf5bb2bac869d29",
       "targetPath": "src/domain/geotechnics/GroundAnchorStabilityAction2D.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0090-domain-ground-anchor-stability-action-2d"],
+      "sourceOracles": [
+        "tests/geotechnicalGroundAnchors.test.js",
+        "tests/geotechnicalSlopeStability.test.js",
+        "tests/packageExports.test.js"
+      ],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/ground-anchor-stability-action-compile-time.test.ts",
+        "tests/ground-anchor-stability-action-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0090-domain-ground-anchor-stability-action-2d"],
+      "status": "exact-parity",
       "publicEntryPath": "src/applications/index.js",
       "publicEntryBlobSha1": "b70179c7cdd2a819f2151dc092c0f59cbce30ba6"
     },
@@ -19326,11 +19378,19 @@
       "sourcePath": "src/domain/geotechnics/GroundAnchorStabilityAction2D.js",
       "sourceBlobSha1": "ac025cd5b971af3b5ba70c99dcf5bb2bac869d29",
       "targetPath": "src/domain/geotechnics/GroundAnchorStabilityAction2D.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0090-domain-ground-anchor-stability-action-2d"],
+      "sourceOracles": [
+        "tests/geotechnicalGroundAnchors.test.js",
+        "tests/geotechnicalSlopeStability.test.js",
+        "tests/packageExports.test.js"
+      ],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/ground-anchor-stability-action-compile-time.test.ts",
+        "tests/ground-anchor-stability-action-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0090-domain-ground-anchor-stability-action-2d"],
+      "status": "exact-parity",
       "publicEntryPath": "src/applications/index.js",
       "publicEntryBlobSha1": "b70179c7cdd2a819f2151dc092c0f59cbce30ba6"
     },
@@ -19432,11 +19492,19 @@
       "sourcePath": "src/domain/geotechnics/GroundAnchorStabilityAction2D.js",
       "sourceBlobSha1": "ac025cd5b971af3b5ba70c99dcf5bb2bac869d29",
       "targetPath": "src/domain/geotechnics/GroundAnchorStabilityAction2D.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0090-domain-ground-anchor-stability-action-2d"],
+      "sourceOracles": [
+        "tests/geotechnicalGroundAnchors.test.js",
+        "tests/geotechnicalSlopeStability.test.js",
+        "tests/packageExports.test.js"
+      ],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/ground-anchor-stability-action-compile-time.test.ts",
+        "tests/ground-anchor-stability-action-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0090-domain-ground-anchor-stability-action-2d"],
+      "status": "exact-parity",
       "publicEntryPath": "src/applications/index.js",
       "publicEntryBlobSha1": "b70179c7cdd2a819f2151dc092c0f59cbce30ba6"
     },
@@ -24565,11 +24633,19 @@
       "sourcePath": "src/domain/geotechnics/GroundAnchorStabilityAction2D.js",
       "sourceBlobSha1": "ac025cd5b971af3b5ba70c99dcf5bb2bac869d29",
       "targetPath": "src/domain/geotechnics/GroundAnchorStabilityAction2D.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0090-domain-ground-anchor-stability-action-2d"],
+      "sourceOracles": [
+        "tests/geotechnicalGroundAnchors.test.js",
+        "tests/geotechnicalSlopeStability.test.js",
+        "tests/packageExports.test.js"
+      ],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/ground-anchor-stability-action-compile-time.test.ts",
+        "tests/ground-anchor-stability-action-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0090-domain-ground-anchor-stability-action-2d"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7",
       "value": "ground-anchor-stability-action-2d/v1"
@@ -30133,11 +30209,19 @@
       "sourcePath": "src/domain/geotechnics/GroundAnchorStabilityAction2D.js",
       "sourceBlobSha1": "ac025cd5b971af3b5ba70c99dcf5bb2bac869d29",
       "targetPath": "src/domain/geotechnics/GroundAnchorStabilityAction2D.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing"
+      "migrationSlices": ["0090-domain-ground-anchor-stability-action-2d"],
+      "sourceOracles": [
+        "tests/geotechnicalGroundAnchors.test.js",
+        "tests/geotechnicalSlopeStability.test.js",
+        "tests/packageExports.test.js"
+      ],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/ground-anchor-stability-action-compile-time.test.ts",
+        "tests/ground-anchor-stability-action-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0090-domain-ground-anchor-stability-action-2d"],
+      "status": "exact-parity"
     },
     {
       "id": "src/domain/geotechnics/GroundModel.js",
@@ -31561,7 +31645,8 @@
         "0086-domain-cyclic-masonry-pier-2d",
         "0087-domain-cyclic-masonry-pier-analysis-2d",
         "0088-domain-slope-surface-surcharge",
-        "0089-domain-slope-slice-discretizer-2d"
+        "0089-domain-slope-slice-discretizer-2d",
+        "0090-domain-ground-anchor-stability-action-2d"
       ],
       "sourceOracles": [
         "tests/architecture/applicationRegistry.test.js",
@@ -33069,7 +33154,8 @@
       "targetPath": "tests/geotechnicalGroundAnchors.test.ts",
       "migrationSlices": [
         "0067-domain-ground-anchor-model",
-        "0079-domain-ground-anchor-bond-catalog"
+        "0079-domain-ground-anchor-bond-catalog",
+        "0090-domain-ground-anchor-stability-action-2d"
       ],
       "sourceOracles": ["tests/geotechnicalGroundAnchors.test.js"],
       "targetTests": [
@@ -33077,11 +33163,14 @@
         "tests/ground-anchor-bond-catalog-compile-time.test.ts",
         "tests/ground-anchor-bond-catalog-live-parity.test.ts",
         "tests/ground-anchor-model-compile-time.test.ts",
-        "tests/ground-anchor-model-live-parity.test.ts"
+        "tests/ground-anchor-model-live-parity.test.ts",
+        "tests/ground-anchor-stability-action-compile-time.test.ts",
+        "tests/ground-anchor-stability-action-live-parity.test.ts"
       ],
       "validationEvidence": [
         "0067-domain-ground-anchor-model",
-        "0079-domain-ground-anchor-bond-catalog"
+        "0079-domain-ground-anchor-bond-catalog",
+        "0090-domain-ground-anchor-stability-action-2d"
       ],
       "status": "exact-parity",
       "testKind": "test"
@@ -33257,13 +33346,16 @@
         "0065-domain-circular-slip-surface",
         "0080-domain-slope-stability-methods",
         "0088-domain-slope-surface-surcharge",
-        "0089-domain-slope-slice-discretizer-2d"
+        "0089-domain-slope-slice-discretizer-2d",
+        "0090-domain-ground-anchor-stability-action-2d"
       ],
       "sourceOracles": ["tests/geotechnicalSlopeStability.test.js"],
       "targetTests": [
         "tests/baseline-parity.test.ts",
         "tests/circular-slip-surface-compile-time.test.ts",
         "tests/circular-slip-surface-live-parity.test.ts",
+        "tests/ground-anchor-stability-action-compile-time.test.ts",
+        "tests/ground-anchor-stability-action-live-parity.test.ts",
         "tests/slope-slice-discretizer-compile-time.test.ts",
         "tests/slope-slice-discretizer-live-parity.test.ts",
         "tests/slope-stability-methods-compile-time.test.ts",
@@ -33275,7 +33367,8 @@
         "0065-domain-circular-slip-surface",
         "0080-domain-slope-stability-methods",
         "0088-domain-slope-surface-surcharge",
-        "0089-domain-slope-slice-discretizer-2d"
+        "0089-domain-slope-slice-discretizer-2d",
+        "0090-domain-ground-anchor-stability-action-2d"
       ],
       "status": "exact-parity",
       "testKind": "test"
@@ -34042,7 +34135,8 @@
         "0086-domain-cyclic-masonry-pier-2d",
         "0087-domain-cyclic-masonry-pier-analysis-2d",
         "0088-domain-slope-surface-surcharge",
-        "0089-domain-slope-slice-discretizer-2d"
+        "0089-domain-slope-slice-discretizer-2d",
+        "0090-domain-ground-anchor-stability-action-2d"
       ],
       "sourceOracles": ["tests/packageExports.test.js"],
       "targetTests": [
@@ -34075,6 +34169,8 @@
         "tests/foundation-beam-analysis.test.ts",
         "tests/ground-anchor-bond-catalog-compile-time.test.ts",
         "tests/ground-anchor-bond-catalog-live-parity.test.ts",
+        "tests/ground-anchor-stability-action-compile-time.test.ts",
+        "tests/ground-anchor-stability-action-live-parity.test.ts",
         "tests/masonry-fiber-interface-compile-time.test.ts",
         "tests/masonry-fiber-interface-live-parity.test.ts",
         "tests/rc-cracked-deflection.test.ts",
@@ -34115,7 +34211,8 @@
         "0086-domain-cyclic-masonry-pier-2d",
         "0087-domain-cyclic-masonry-pier-analysis-2d",
         "0088-domain-slope-surface-surcharge",
-        "0089-domain-slope-slice-discretizer-2d"
+        "0089-domain-slope-slice-discretizer-2d",
+        "0090-domain-ground-anchor-stability-action-2d"
       ],
       "status": "exact-parity",
       "testKind": "test"
@@ -37106,16 +37203,32 @@
         "publicStrings": "exact equality plus Unicode code-point preservation",
         "errors": "exact error name and message equality"
       }
+    },
+    {
+      "sliceId": "0090-domain-ground-anchor-stability-action-2d",
+      "sourceRevision": "6f33baead8b88166c4b2cf94af41763412e3c751",
+      "method": "Strict public declaration consumer coverage and independently executed pinned JavaScript versus built TypeScript comparison of unit normalization, anchor-axis geometry, single-crossing mobilization, verified-result construction, exact JSON serialization, Unicode metadata and validation error behavior.",
+      "targetTests": [
+        "tests/ground-anchor-stability-action-compile-time.test.ts",
+        "tests/ground-anchor-stability-action-live-parity.test.ts"
+      ],
+      "fixture": null,
+      "tolerances": {
+        "serializedParity": "exact deep equality and JSON serialization",
+        "numericParity": "exact equality for deterministic geometry and mobilization values",
+        "publicStrings": "exact equality plus Unicode code-point preservation",
+        "errors": "exact error name and message equality"
+      }
     }
   ],
   "counts": {
     "rootExports": {
       "javascript": 841,
-      "typescript": 525
+      "typescript": 529
     },
     "applicationsExports": {
       "javascript": 309,
-      "typescript": 161
+      "typescript": 165
     },
     "packageEntryPoints": {
       "javascript": 14,
@@ -37131,15 +37244,15 @@
     },
     "serializedSchemas": {
       "javascript": 49,
-      "typescript": 32
+      "typescript": 33
     },
     "sourceFiles": {
       "javascript": 480,
-      "typescript": 324
+      "typescript": 325
     },
     "tests": {
       "javascript": 131,
-      "typescript": 166
+      "typescript": 168
     },
     "validationCampaigns": {
       "javascript": 17,
@@ -37171,7 +37284,7 @@
       "statusCounts": {
         "exact-parity": 0,
         "partial": 20,
-        "missing": 93,
+        "missing": 88,
         "intentionally-excluded": 0,
         "decision-required": 0
       },
@@ -37196,15 +37309,11 @@
         "root-export:GROUND_ANCHOR_FAILURE_SURFACE_MODELS",
         "root-export:GROUND_ANCHOR_FHWA_CRITERIA",
         "root-export:GROUND_ANCHOR_GROUND_CLASSES",
-        "root-export:GROUND_ANCHOR_STABILITY_ACTION_2D_SCHEMA_VERSION",
-        "root-export:GROUND_ANCHOR_STABILITY_FORCE_MODELS",
-        "root-export:GROUND_ANCHOR_STABILITY_REFERENCE",
         "root-export:GROUND_ANCHOR_TEST_TYPES",
         "root-export:GROUND_MODEL_SCHEMA_VERSION",
         "root-export:GROUND_PROFILE_SCHEMA_VERSION",
         "root-export:GroundAnchorAnalysis",
         "root-export:GroundAnchorDesignScenario",
-        "root-export:GroundAnchorStabilityAction2D",
         "root-export:LATERAL_PILE_BROMS_REFERENCE",
         "root-export:LATERAL_PILE_CAPACITY_RESULT_SCHEMA_VERSION",
         "root-export:LateralEarthPressureAnalysis",
@@ -37261,7 +37370,6 @@
         "source:src/domain/geotechnics/CircularSlopeStabilityAnalysis.js",
         "source:src/domain/geotechnics/GroundAnchorAnalysis.js",
         "source:src/domain/geotechnics/GroundAnchorDesignScenario.js",
-        "source:src/domain/geotechnics/GroundAnchorStabilityAction2D.js",
         "source:src/domain/geotechnics/LateralEarthPressureAnalysis.js",
         "source:src/domain/geotechnics/LateralPileCapacityAnalysis.js",
         "source:src/domain/geotechnics/LayeredPseudostaticTrialWedge.js",
@@ -37479,7 +37587,7 @@
       "statusCounts": {
         "exact-parity": 0,
         "partial": 16,
-        "missing": 378,
+        "missing": 374,
         "intentionally-excluded": 0,
         "decision-required": 0
       },
@@ -37502,9 +37610,6 @@
         "application-export:GROUND_ANCHOR_FAILURE_SURFACE_MODELS",
         "application-export:GROUND_ANCHOR_FHWA_CRITERIA",
         "application-export:GROUND_ANCHOR_GROUND_CLASSES",
-        "application-export:GROUND_ANCHOR_STABILITY_ACTION_2D_SCHEMA_VERSION",
-        "application-export:GROUND_ANCHOR_STABILITY_FORCE_MODELS",
-        "application-export:GROUND_ANCHOR_STABILITY_REFERENCE",
         "application-export:GROUND_ANCHOR_TEST_TYPES",
         "application-export:GeotechnicalEarthPressureApplication",
         "application-export:GeotechnicalEmbeddedRetainingWallApplication",
@@ -37515,7 +37620,6 @@
         "application-export:GeotechnicalSlopeStabilityApplication",
         "application-export:GroundAnchorAnalysis",
         "application-export:GroundAnchorDesignScenario",
-        "application-export:GroundAnchorStabilityAction2D",
         "application-export:LATERAL_PILE_BROMS_REFERENCE",
         "application-export:LATERAL_PILE_CAPACITY_RESULT_SCHEMA_VERSION",
         "application-export:LateralPileCapacityAnalysis",
