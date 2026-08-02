@@ -1167,8 +1167,12 @@
         "RetainingWallModel",
         "SHALLOW_FOUNDATION_ACTION_BASES",
         "SHALLOW_FOUNDATION_ACTION_STATE_SCHEMA_VERSION",
+        "SHALLOW_FOUNDATION_BASE_UPLIFT_TREATMENTS",
+        "SHALLOW_FOUNDATION_BEARING_METHODS",
+        "SHALLOW_FOUNDATION_BEARING_SELECTIONS",
         "SHALLOW_FOUNDATION_MODEL_SCHEMA_VERSION",
         "SHALLOW_FOUNDATION_SHAPES",
+        "SHALLOW_FOUNDATION_ULS_RESULT_SCHEMA_VERSION",
         "SLOPE_MOVEMENT_DIRECTIONS",
         "SLOPE_SLICE_DISCRETIZATION_2D_SCHEMA_VERSION",
         "SLOPE_STABILITY_ANALYSIS_MODES",
@@ -1192,6 +1196,7 @@
         "SeismicAction",
         "ShallowFoundationActionState",
         "ShallowFoundationModel",
+        "ShallowFoundationUltimateLimitStateAnalysis",
         "ShearConnector",
         "SingleBeamAnalysis",
         "SingleBeamFemBuilder",
@@ -1257,6 +1262,9 @@
         "calculateNTC2018JointTensionReinforcement",
         "calculateRetainingWallPolygonProperties",
         "calculateSectionMassProperties",
+        "calculateShallowFoundationBearingCapacity",
+        "calculateShallowFoundationEffectiveGeometry",
+        "calculateShallowFoundationSlidingResistance",
         "characteristicValueFromExistingMean",
         "checkNonDissipativeAdmissibility",
         "classifyGlobalFemStructuralEntities",
@@ -4217,11 +4225,18 @@
       "sourcePath": "src/domain/geotechnics/ShallowFoundationUltimateLimitStateAnalysis.js",
       "sourceBlobSha1": "bf51a272733a7d2ee28bda6abbd389d7ab343f68",
       "targetPath": "src/domain/geotechnics/ShallowFoundationUltimateLimitStateAnalysis.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0099-domain-shallow-foundation-ultimate-limit-state-analysis"],
+      "sourceOracles": [
+        "tests/geotechnicalShallowFoundations.test.js",
+        "tests/packageExports.test.js"
+      ],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/shallow-foundation-uls-compile-time.test.ts",
+        "tests/shallow-foundation-uls-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0099-domain-shallow-foundation-ultimate-limit-state-analysis"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -4245,11 +4260,18 @@
       "sourcePath": "src/domain/geotechnics/ShallowFoundationUltimateLimitStateAnalysis.js",
       "sourceBlobSha1": "bf51a272733a7d2ee28bda6abbd389d7ab343f68",
       "targetPath": "src/domain/geotechnics/ShallowFoundationUltimateLimitStateAnalysis.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0099-domain-shallow-foundation-ultimate-limit-state-analysis"],
+      "sourceOracles": [
+        "tests/geotechnicalShallowFoundations.test.js",
+        "tests/packageExports.test.js"
+      ],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/shallow-foundation-uls-compile-time.test.ts",
+        "tests/shallow-foundation-uls-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0099-domain-shallow-foundation-ultimate-limit-state-analysis"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -4259,11 +4281,18 @@
       "sourcePath": "src/domain/geotechnics/ShallowFoundationUltimateLimitStateAnalysis.js",
       "sourceBlobSha1": "bf51a272733a7d2ee28bda6abbd389d7ab343f68",
       "targetPath": "src/domain/geotechnics/ShallowFoundationUltimateLimitStateAnalysis.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0099-domain-shallow-foundation-ultimate-limit-state-analysis"],
+      "sourceOracles": [
+        "tests/geotechnicalShallowFoundations.test.js",
+        "tests/packageExports.test.js"
+      ],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/shallow-foundation-uls-compile-time.test.ts",
+        "tests/shallow-foundation-uls-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0099-domain-shallow-foundation-ultimate-limit-state-analysis"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -14939,11 +14968,18 @@
       "sourcePath": "src/domain/geotechnics/ShallowFoundationUltimateLimitStateAnalysis.js",
       "sourceBlobSha1": "bf51a272733a7d2ee28bda6abbd389d7ab343f68",
       "targetPath": "src/domain/geotechnics/ShallowFoundationUltimateLimitStateAnalysis.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0099-domain-shallow-foundation-ultimate-limit-state-analysis"],
+      "sourceOracles": [
+        "tests/geotechnicalShallowFoundations.test.js",
+        "tests/packageExports.test.js"
+      ],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/shallow-foundation-uls-compile-time.test.ts",
+        "tests/shallow-foundation-uls-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0099-domain-shallow-foundation-ultimate-limit-state-analysis"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -14953,11 +14989,18 @@
       "sourcePath": "src/domain/geotechnics/ShallowFoundationUltimateLimitStateAnalysis.js",
       "sourceBlobSha1": "bf51a272733a7d2ee28bda6abbd389d7ab343f68",
       "targetPath": "src/domain/geotechnics/ShallowFoundationUltimateLimitStateAnalysis.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0099-domain-shallow-foundation-ultimate-limit-state-analysis"],
+      "sourceOracles": [
+        "tests/geotechnicalShallowFoundations.test.js",
+        "tests/packageExports.test.js"
+      ],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/shallow-foundation-uls-compile-time.test.ts",
+        "tests/shallow-foundation-uls-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0099-domain-shallow-foundation-ultimate-limit-state-analysis"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -14967,11 +15010,18 @@
       "sourcePath": "src/domain/geotechnics/ShallowFoundationUltimateLimitStateAnalysis.js",
       "sourceBlobSha1": "bf51a272733a7d2ee28bda6abbd389d7ab343f68",
       "targetPath": "src/domain/geotechnics/ShallowFoundationUltimateLimitStateAnalysis.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0099-domain-shallow-foundation-ultimate-limit-state-analysis"],
+      "sourceOracles": [
+        "tests/geotechnicalShallowFoundations.test.js",
+        "tests/packageExports.test.js"
+      ],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/shallow-foundation-uls-compile-time.test.ts",
+        "tests/shallow-foundation-uls-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0099-domain-shallow-foundation-ultimate-limit-state-analysis"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -15045,11 +15095,18 @@
       "sourcePath": "src/domain/geotechnics/ShallowFoundationUltimateLimitStateAnalysis.js",
       "sourceBlobSha1": "bf51a272733a7d2ee28bda6abbd389d7ab343f68",
       "targetPath": "src/domain/geotechnics/ShallowFoundationUltimateLimitStateAnalysis.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0099-domain-shallow-foundation-ultimate-limit-state-analysis"],
+      "sourceOracles": [
+        "tests/geotechnicalShallowFoundations.test.js",
+        "tests/packageExports.test.js"
+      ],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/shallow-foundation-uls-compile-time.test.ts",
+        "tests/shallow-foundation-uls-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0099-domain-shallow-foundation-ultimate-limit-state-analysis"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -15109,11 +15166,18 @@
       "sourcePath": "src/domain/geotechnics/ShallowFoundationUltimateLimitStateAnalysis.js",
       "sourceBlobSha1": "bf51a272733a7d2ee28bda6abbd389d7ab343f68",
       "targetPath": "src/domain/geotechnics/ShallowFoundationUltimateLimitStateAnalysis.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0099-domain-shallow-foundation-ultimate-limit-state-analysis"],
+      "sourceOracles": [
+        "tests/geotechnicalShallowFoundations.test.js",
+        "tests/packageExports.test.js"
+      ],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/shallow-foundation-uls-compile-time.test.ts",
+        "tests/shallow-foundation-uls-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0099-domain-shallow-foundation-ultimate-limit-state-analysis"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -18059,11 +18123,18 @@
       "sourcePath": "src/domain/geotechnics/ShallowFoundationUltimateLimitStateAnalysis.js",
       "sourceBlobSha1": "bf51a272733a7d2ee28bda6abbd389d7ab343f68",
       "targetPath": "src/domain/geotechnics/ShallowFoundationUltimateLimitStateAnalysis.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0099-domain-shallow-foundation-ultimate-limit-state-analysis"],
+      "sourceOracles": [
+        "tests/geotechnicalShallowFoundations.test.js",
+        "tests/packageExports.test.js"
+      ],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/shallow-foundation-uls-compile-time.test.ts",
+        "tests/shallow-foundation-uls-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0099-domain-shallow-foundation-ultimate-limit-state-analysis"],
+      "status": "exact-parity",
       "publicEntryPath": "src/applications/index.js",
       "publicEntryBlobSha1": "b70179c7cdd2a819f2151dc092c0f59cbce30ba6"
     },
@@ -18087,11 +18158,18 @@
       "sourcePath": "src/domain/geotechnics/ShallowFoundationUltimateLimitStateAnalysis.js",
       "sourceBlobSha1": "bf51a272733a7d2ee28bda6abbd389d7ab343f68",
       "targetPath": "src/domain/geotechnics/ShallowFoundationUltimateLimitStateAnalysis.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0099-domain-shallow-foundation-ultimate-limit-state-analysis"],
+      "sourceOracles": [
+        "tests/geotechnicalShallowFoundations.test.js",
+        "tests/packageExports.test.js"
+      ],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/shallow-foundation-uls-compile-time.test.ts",
+        "tests/shallow-foundation-uls-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0099-domain-shallow-foundation-ultimate-limit-state-analysis"],
+      "status": "exact-parity",
       "publicEntryPath": "src/applications/index.js",
       "publicEntryBlobSha1": "b70179c7cdd2a819f2151dc092c0f59cbce30ba6"
     },
@@ -18101,11 +18179,18 @@
       "sourcePath": "src/domain/geotechnics/ShallowFoundationUltimateLimitStateAnalysis.js",
       "sourceBlobSha1": "bf51a272733a7d2ee28bda6abbd389d7ab343f68",
       "targetPath": "src/domain/geotechnics/ShallowFoundationUltimateLimitStateAnalysis.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0099-domain-shallow-foundation-ultimate-limit-state-analysis"],
+      "sourceOracles": [
+        "tests/geotechnicalShallowFoundations.test.js",
+        "tests/packageExports.test.js"
+      ],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/shallow-foundation-uls-compile-time.test.ts",
+        "tests/shallow-foundation-uls-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0099-domain-shallow-foundation-ultimate-limit-state-analysis"],
+      "status": "exact-parity",
       "publicEntryPath": "src/applications/index.js",
       "publicEntryBlobSha1": "b70179c7cdd2a819f2151dc092c0f59cbce30ba6"
     },
@@ -21989,11 +22074,18 @@
       "sourcePath": "src/domain/geotechnics/ShallowFoundationUltimateLimitStateAnalysis.js",
       "sourceBlobSha1": "bf51a272733a7d2ee28bda6abbd389d7ab343f68",
       "targetPath": "src/domain/geotechnics/ShallowFoundationUltimateLimitStateAnalysis.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0099-domain-shallow-foundation-ultimate-limit-state-analysis"],
+      "sourceOracles": [
+        "tests/geotechnicalShallowFoundations.test.js",
+        "tests/packageExports.test.js"
+      ],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/shallow-foundation-uls-compile-time.test.ts",
+        "tests/shallow-foundation-uls-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0099-domain-shallow-foundation-ultimate-limit-state-analysis"],
+      "status": "exact-parity",
       "publicEntryPath": "src/applications/index.js",
       "publicEntryBlobSha1": "b70179c7cdd2a819f2151dc092c0f59cbce30ba6"
     },
@@ -22003,11 +22095,18 @@
       "sourcePath": "src/domain/geotechnics/ShallowFoundationUltimateLimitStateAnalysis.js",
       "sourceBlobSha1": "bf51a272733a7d2ee28bda6abbd389d7ab343f68",
       "targetPath": "src/domain/geotechnics/ShallowFoundationUltimateLimitStateAnalysis.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0099-domain-shallow-foundation-ultimate-limit-state-analysis"],
+      "sourceOracles": [
+        "tests/geotechnicalShallowFoundations.test.js",
+        "tests/packageExports.test.js"
+      ],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/shallow-foundation-uls-compile-time.test.ts",
+        "tests/shallow-foundation-uls-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0099-domain-shallow-foundation-ultimate-limit-state-analysis"],
+      "status": "exact-parity",
       "publicEntryPath": "src/applications/index.js",
       "publicEntryBlobSha1": "b70179c7cdd2a819f2151dc092c0f59cbce30ba6"
     },
@@ -22017,11 +22116,18 @@
       "sourcePath": "src/domain/geotechnics/ShallowFoundationUltimateLimitStateAnalysis.js",
       "sourceBlobSha1": "bf51a272733a7d2ee28bda6abbd389d7ab343f68",
       "targetPath": "src/domain/geotechnics/ShallowFoundationUltimateLimitStateAnalysis.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0099-domain-shallow-foundation-ultimate-limit-state-analysis"],
+      "sourceOracles": [
+        "tests/geotechnicalShallowFoundations.test.js",
+        "tests/packageExports.test.js"
+      ],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/shallow-foundation-uls-compile-time.test.ts",
+        "tests/shallow-foundation-uls-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0099-domain-shallow-foundation-ultimate-limit-state-analysis"],
+      "status": "exact-parity",
       "publicEntryPath": "src/applications/index.js",
       "publicEntryBlobSha1": "b70179c7cdd2a819f2151dc092c0f59cbce30ba6"
     },
@@ -22095,11 +22201,18 @@
       "sourcePath": "src/domain/geotechnics/ShallowFoundationUltimateLimitStateAnalysis.js",
       "sourceBlobSha1": "bf51a272733a7d2ee28bda6abbd389d7ab343f68",
       "targetPath": "src/domain/geotechnics/ShallowFoundationUltimateLimitStateAnalysis.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0099-domain-shallow-foundation-ultimate-limit-state-analysis"],
+      "sourceOracles": [
+        "tests/geotechnicalShallowFoundations.test.js",
+        "tests/packageExports.test.js"
+      ],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/shallow-foundation-uls-compile-time.test.ts",
+        "tests/shallow-foundation-uls-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0099-domain-shallow-foundation-ultimate-limit-state-analysis"],
+      "status": "exact-parity",
       "publicEntryPath": "src/applications/index.js",
       "publicEntryBlobSha1": "b70179c7cdd2a819f2151dc092c0f59cbce30ba6"
     },
@@ -22159,11 +22272,18 @@
       "sourcePath": "src/domain/geotechnics/ShallowFoundationUltimateLimitStateAnalysis.js",
       "sourceBlobSha1": "bf51a272733a7d2ee28bda6abbd389d7ab343f68",
       "targetPath": "src/domain/geotechnics/ShallowFoundationUltimateLimitStateAnalysis.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0099-domain-shallow-foundation-ultimate-limit-state-analysis"],
+      "sourceOracles": [
+        "tests/geotechnicalShallowFoundations.test.js",
+        "tests/packageExports.test.js"
+      ],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/shallow-foundation-uls-compile-time.test.ts",
+        "tests/shallow-foundation-uls-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0099-domain-shallow-foundation-ultimate-limit-state-analysis"],
+      "status": "exact-parity",
       "publicEntryPath": "src/applications/index.js",
       "publicEntryBlobSha1": "b70179c7cdd2a819f2151dc092c0f59cbce30ba6"
     },
@@ -25307,11 +25427,18 @@
       "sourcePath": "src/domain/geotechnics/ShallowFoundationUltimateLimitStateAnalysis.js",
       "sourceBlobSha1": "bf51a272733a7d2ee28bda6abbd389d7ab343f68",
       "targetPath": "src/domain/geotechnics/ShallowFoundationUltimateLimitStateAnalysis.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0099-domain-shallow-foundation-ultimate-limit-state-analysis"],
+      "sourceOracles": [
+        "tests/geotechnicalShallowFoundations.test.js",
+        "tests/packageExports.test.js"
+      ],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/shallow-foundation-uls-compile-time.test.ts",
+        "tests/shallow-foundation-uls-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0099-domain-shallow-foundation-ultimate-limit-state-analysis"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7",
       "value": "shallow-foundation-uls-result/v1"
@@ -30762,11 +30889,18 @@
       "sourcePath": "src/domain/geotechnics/ShallowFoundationUltimateLimitStateAnalysis.js",
       "sourceBlobSha1": "bf51a272733a7d2ee28bda6abbd389d7ab343f68",
       "targetPath": "src/domain/geotechnics/ShallowFoundationUltimateLimitStateAnalysis.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing"
+      "migrationSlices": ["0099-domain-shallow-foundation-ultimate-limit-state-analysis"],
+      "sourceOracles": [
+        "tests/geotechnicalShallowFoundations.test.js",
+        "tests/packageExports.test.js"
+      ],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/shallow-foundation-uls-compile-time.test.ts",
+        "tests/shallow-foundation-uls-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0099-domain-shallow-foundation-ultimate-limit-state-analysis"],
+      "status": "exact-parity"
     },
     {
       "id": "src/domain/geotechnics/SlopeSliceDiscretizer2D.js",
@@ -31958,7 +32092,8 @@
         "0095-domain-layered-pseudostatic-trial-wedge",
         "0096-domain-lateral-earth-pressure-analysis",
         "0097-domain-lateral-pile-capacity-analysis",
-        "0098-domain-retaining-wall-model-scenario"
+        "0098-domain-retaining-wall-model-scenario",
+        "0099-domain-shallow-foundation-ultimate-limit-state-analysis"
       ],
       "sourceOracles": [
         "tests/architecture/applicationRegistry.test.js",
@@ -33674,14 +33809,22 @@
       "sourcePath": "tests/geotechnicalShallowFoundations.test.js",
       "sourceBlobSha1": "65202bda05103e775255857c1cd69aef61a41a38",
       "targetPath": "tests/geotechnicalShallowFoundations.test.ts",
-      "migrationSlices": ["0072-domain-shallow-foundation-dtos"],
+      "migrationSlices": [
+        "0072-domain-shallow-foundation-dtos",
+        "0099-domain-shallow-foundation-ultimate-limit-state-analysis"
+      ],
       "sourceOracles": ["tests/geotechnicalShallowFoundations.test.js"],
       "targetTests": [
         "tests/baseline-parity.test.ts",
         "tests/shallow-foundation-model-compile-time.test.ts",
-        "tests/shallow-foundation-model-live-parity.test.ts"
+        "tests/shallow-foundation-model-live-parity.test.ts",
+        "tests/shallow-foundation-uls-compile-time.test.ts",
+        "tests/shallow-foundation-uls-live-parity.test.ts"
       ],
-      "validationEvidence": ["0072-domain-shallow-foundation-dtos"],
+      "validationEvidence": [
+        "0072-domain-shallow-foundation-dtos",
+        "0099-domain-shallow-foundation-ultimate-limit-state-analysis"
+      ],
       "status": "exact-parity",
       "testKind": "test"
     },
@@ -34499,7 +34642,8 @@
         "0094-domain-circular-slope-stability-analysis",
         "0096-domain-lateral-earth-pressure-analysis",
         "0097-domain-lateral-pile-capacity-analysis",
-        "0098-domain-retaining-wall-model-scenario"
+        "0098-domain-retaining-wall-model-scenario",
+        "0099-domain-shallow-foundation-ultimate-limit-state-analysis"
       ],
       "sourceOracles": ["tests/packageExports.test.js"],
       "targetTests": [
@@ -34552,6 +34696,8 @@
         "tests/reinforced-concrete-strut-and-tie.test.ts",
         "tests/retaining-wall-model-scenario-compile-time.test.ts",
         "tests/retaining-wall-model-scenario-live-parity.test.ts",
+        "tests/shallow-foundation-uls-compile-time.test.ts",
+        "tests/shallow-foundation-uls-live-parity.test.ts",
         "tests/slope-slice-discretizer-compile-time.test.ts",
         "tests/slope-slice-discretizer-live-parity.test.ts",
         "tests/slope-stability-methods-compile-time.test.ts",
@@ -34596,7 +34742,8 @@
         "0094-domain-circular-slope-stability-analysis",
         "0096-domain-lateral-earth-pressure-analysis",
         "0097-domain-lateral-pile-capacity-analysis",
-        "0098-domain-retaining-wall-model-scenario"
+        "0098-domain-retaining-wall-model-scenario",
+        "0099-domain-shallow-foundation-ultimate-limit-state-analysis"
       ],
       "status": "exact-parity",
       "testKind": "test"
@@ -37731,16 +37878,32 @@
         "publicStrings": "exact equality plus Unicode code-point preservation",
         "errors": "exact error name and message equality"
       }
+    },
+    {
+      "sliceId": "0099-domain-shallow-foundation-ultimate-limit-state-analysis",
+      "sourceRevision": "6f33baead8b88166c4b2cf94af41763412e3c751",
+      "method": "Strict public declaration consumer coverage and independently executed pinned JavaScript versus built TypeScript comparison of exact helper JSON, numerical bearing and sliding outputs, full ULS output, Unicode identifiers, unsupported modes and error name/message pairs.",
+      "targetTests": [
+        "tests/shallow-foundation-uls-compile-time.test.ts",
+        "tests/shallow-foundation-uls-live-parity.test.ts"
+      ],
+      "fixture": null,
+      "tolerances": {
+        "serializedParity": "exact deep equality and JSON serialization",
+        "numericParity": "exact equality for deterministic helper and analysis results",
+        "publicStrings": "exact equality plus Unicode code-point preservation",
+        "errors": "exact error name and message equality"
+      }
     }
   ],
   "counts": {
     "rootExports": {
       "javascript": 841,
-      "typescript": 559
+      "typescript": 567
     },
     "applicationsExports": {
       "javascript": 309,
-      "typescript": 188
+      "typescript": 196
     },
     "packageEntryPoints": {
       "javascript": 14,
@@ -37756,15 +37919,15 @@
     },
     "serializedSchemas": {
       "javascript": 49,
-      "typescript": 39
+      "typescript": 40
     },
     "sourceFiles": {
       "javascript": 480,
-      "typescript": 334
+      "typescript": 335
     },
     "tests": {
       "javascript": 131,
-      "typescript": 184
+      "typescript": 186
     },
     "validationCampaigns": {
       "javascript": 17,
@@ -37796,7 +37959,7 @@
       "statusCounts": {
         "exact-parity": 0,
         "partial": 20,
-        "missing": 49,
+        "missing": 40,
         "intentionally-excluded": 0,
         "decision-required": 0
       },
@@ -37817,12 +37980,8 @@
         "root-export:NTC2018SlabLoadAnalysis",
         "root-export:RETAINING_WALL_ANALYSIS_RESULT_SCHEMA_VERSION",
         "root-export:RetainingWallAnalysis",
-        "root-export:SHALLOW_FOUNDATION_BASE_UPLIFT_TREATMENTS",
-        "root-export:SHALLOW_FOUNDATION_BEARING_METHODS",
-        "root-export:SHALLOW_FOUNDATION_BEARING_SELECTIONS",
         "root-export:SHALLOW_FOUNDATION_SETTLEMENT_METHODS",
         "root-export:SHALLOW_FOUNDATION_SLS_RESULT_SCHEMA_VERSION",
-        "root-export:SHALLOW_FOUNDATION_ULS_RESULT_SCHEMA_VERSION",
         "root-export:SOIL_DEFORMATION_MODELS",
         "root-export:SOIL_DRAINAGE_CONDITIONS",
         "root-export:SOIL_MODULUS_DEFINITIONS",
@@ -37830,7 +37989,6 @@
         "root-export:SOIL_SETTLEMENT_COMPONENTS",
         "root-export:SOIL_STRENGTH_MODELS",
         "root-export:ShallowFoundationServiceabilityAnalysis",
-        "root-export:ShallowFoundationUltimateLimitStateAnalysis",
         "root-export:SlabLoad",
         "root-export:StructuralModel",
         "root-export:SurfaceLoad",
@@ -37839,10 +37997,7 @@
         "root-export:WallLoad",
         "root-export:calculateRigidFoundationElasticStiffness",
         "root-export:calculateSchmertmannStrainInfluence",
-        "root-export:calculateShallowFoundationBearingCapacity",
         "root-export:calculateShallowFoundationDifferentialMovement",
-        "root-export:calculateShallowFoundationEffectiveGeometry",
-        "root-export:calculateShallowFoundationSlidingResistance",
         "root-export:calculateShallowFoundationVerticalStressInfluence",
         "root-export:normalizeTerrainElevationGrid",
         "source:src/domain/fem/elements/index.js",
@@ -37851,7 +38006,6 @@
         "source:src/domain/fem/nonlinear/index.js",
         "source:src/domain/geotechnics/RetainingWallAnalysis.js",
         "source:src/domain/geotechnics/ShallowFoundationServiceabilityAnalysis.js",
-        "source:src/domain/geotechnics/ShallowFoundationUltimateLimitStateAnalysis.js",
         "source:src/domain/geotechnics/index.js",
         "source:src/domain/materials/masonry/index.js",
         "source:src/domain/materials/masonry/shearStrength/index.js",
@@ -38060,7 +38214,7 @@
       "statusCounts": {
         "exact-parity": 0,
         "partial": 16,
-        "missing": 351,
+        "missing": 343,
         "intentionally-excluded": 0,
         "decision-required": 0
       },
@@ -38109,14 +38263,9 @@
         "application-export:RCSectionStateIntegrator",
         "application-export:RETAINING_WALL_ANALYSIS_RESULT_SCHEMA_VERSION",
         "application-export:RetainingWallAnalysis",
-        "application-export:SHALLOW_FOUNDATION_BASE_UPLIFT_TREATMENTS",
-        "application-export:SHALLOW_FOUNDATION_BEARING_METHODS",
-        "application-export:SHALLOW_FOUNDATION_BEARING_SELECTIONS",
         "application-export:SHALLOW_FOUNDATION_SETTLEMENT_METHODS",
         "application-export:SHALLOW_FOUNDATION_SLS_RESULT_SCHEMA_VERSION",
-        "application-export:SHALLOW_FOUNDATION_ULS_RESULT_SCHEMA_VERSION",
         "application-export:ShallowFoundationServiceabilityAnalysis",
-        "application-export:ShallowFoundationUltimateLimitStateAnalysis",
         "application-export:SingleBeamDesignApplication",
         "application-export:SingleBeamDesignModel",
         "application-export:SteelDisplacementControlPushoverSolver2D",
@@ -38147,10 +38296,7 @@
         "application-export:calculateElasticCriticalMomentLT",
         "application-export:calculateRigidFoundationElasticStiffness",
         "application-export:calculateSchmertmannStrainInfluence",
-        "application-export:calculateShallowFoundationBearingCapacity",
         "application-export:calculateShallowFoundationDifferentialMovement",
-        "application-export:calculateShallowFoundationEffectiveGeometry",
-        "application-export:calculateShallowFoundationSlidingResistance",
         "application-export:calculateShallowFoundationVerticalStressInfluence",
         "application-export:calculateSteelCompressionBucklingAxis",
         "application-export:calculateSteelMethodBInteractionCoefficients",

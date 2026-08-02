@@ -308,6 +308,27 @@ export {
   type ShallowFoundationTotalActionsInput,
 } from "./ShallowFoundationModel.js";
 export {
+  SHALLOW_FOUNDATION_BASE_UPLIFT_TREATMENTS,
+  SHALLOW_FOUNDATION_BEARING_METHODS,
+  SHALLOW_FOUNDATION_BEARING_SELECTIONS,
+  SHALLOW_FOUNDATION_ULS_RESULT_SCHEMA_VERSION,
+  ShallowFoundationUltimateLimitStateAnalysis,
+  calculateShallowFoundationBearingCapacity,
+  calculateShallowFoundationEffectiveGeometry,
+  calculateShallowFoundationSlidingResistance,
+  type ShallowFoundationBaseUpliftTreatment,
+  type ShallowFoundationBearingCapacityInput,
+  type ShallowFoundationBearingMethod,
+  type ShallowFoundationBearingSelection,
+  type ShallowFoundationEffectiveGeometry,
+  type ShallowFoundationEffectiveGeometryInput,
+  type ShallowFoundationSlidingInput,
+  type ShallowFoundationSlidingResistanceInput,
+  type ShallowFoundationUlsCriteriaInput,
+  type ShallowFoundationUltimateLimitStateAnalysisInput,
+  type ShallowFoundationUltimateLimitStateAnalysisResult,
+} from "./ShallowFoundationUltimateLimitStateAnalysis.js";
+export {
   LATERAL_PILE_BEHAVIOR_CLASSIFICATIONS,
   LATERAL_PILE_CAPACITY_METHODS,
   LATERAL_PILE_HEAD_CONDITIONS,

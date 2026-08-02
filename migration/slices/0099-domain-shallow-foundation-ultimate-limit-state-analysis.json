@@ -1,0 +1,112 @@
+{
+  "schemaVersion": 1,
+  "sliceId": "0099-domain-shallow-foundation-ultimate-limit-state-analysis",
+  "title": "Domain shallow-foundation ultimate limit-state analysis",
+  "migrationType": "mechanical-parity-with-minimal-dependency-support",
+  "implementationStatus": "implemented",
+  "dependencies": ["0098-domain-retaining-wall-model-scenario"],
+  "source": {
+    "repository": "https://github.com/claudiopagani/strutture-js",
+    "revision": "6f33baead8b88166c4b2cf94af41763412e3c751"
+  },
+  "normativeCorpusRevision": "41da3faa489600173106935bbcf726119300e48d",
+  "sourceFiles": [
+    {
+      "path": "src/domain/geotechnics/ShallowFoundationUltimateLimitStateAnalysis.js",
+      "gitBlobSha1": "bf51a272733a7d2ee28bda6abbd389d7ab343f68",
+      "targetPath": "src/domain/geotechnics/ShallowFoundationUltimateLimitStateAnalysis.ts"
+    }
+  ],
+  "supportingSourceFiles": [
+    {
+      "path": "src/domain/geotechnics/index.js",
+      "gitBlobSha1": "41ed2053fc2e37dc90da412846609f4050af9668",
+      "targetPath": "src/domain/geotechnics/index.ts",
+      "coverage": "Geotechnics barrel exports for the migrated shallow-foundation ULS analysis and helper functions."
+    },
+    {
+      "path": "src/index.js",
+      "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7",
+      "targetPath": "src/index.ts",
+      "coverage": "Root public exports for the migrated shallow-foundation ULS analysis and helper functions."
+    }
+  ],
+  "sourceOracles": [
+    {
+      "path": "tests/geotechnicalShallowFoundations.test.js",
+      "gitBlobSha1": "65202bda05103e775255857c1cd69aef61a41a38",
+      "coverage": "Shallow-foundation effective geometry, bearing factors, layered ULS analysis, sliding resistance, groundwater unsupported behavior and exact errors."
+    },
+    {
+      "path": "tests/packageExports.test.js",
+      "gitBlobSha1": "8dde24b4c97dd3dae7100207d07d9d96c52b9c74",
+      "coverage": "Root public export behavior."
+    }
+  ],
+  "sourcePublicExport": {
+    "path": "src/index.js",
+    "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
+  },
+  "targetTests": [
+    "tests/baseline-parity.test.ts",
+    "tests/shallow-foundation-uls-compile-time.test.ts",
+    "tests/shallow-foundation-uls-live-parity.test.ts"
+  ],
+  "publicExports": [
+    "SHALLOW_FOUNDATION_BASE_UPLIFT_TREATMENTS",
+    "SHALLOW_FOUNDATION_BEARING_METHODS",
+    "SHALLOW_FOUNDATION_BEARING_SELECTIONS",
+    "SHALLOW_FOUNDATION_ULS_RESULT_SCHEMA_VERSION",
+    "ShallowFoundationUltimateLimitStateAnalysis",
+    "calculateShallowFoundationBearingCapacity",
+    "calculateShallowFoundationEffectiveGeometry",
+    "calculateShallowFoundationSlidingResistance"
+  ],
+  "publicTypeExports": [
+    "ShallowFoundationBaseUpliftTreatment",
+    "ShallowFoundationBearingCapacityInput",
+    "ShallowFoundationBearingMethod",
+    "ShallowFoundationBearingSelection",
+    "ShallowFoundationEffectiveGeometry",
+    "ShallowFoundationEffectiveGeometryInput",
+    "ShallowFoundationSlidingInput",
+    "ShallowFoundationSlidingResistanceInput",
+    "ShallowFoundationUlsCriteriaInput",
+    "ShallowFoundationUltimateLimitStateAnalysisInput",
+    "ShallowFoundationUltimateLimitStateAnalysisResult"
+  ],
+  "normativeReferences": {
+    "resolved": [],
+    "outsideCorpus": [
+      {
+        "identifier": "USACE EM 1110-1-1905 (31 July 2025)",
+        "reason": "The source analysis carries a human-readable engineering reference; this slice does not add a normative corpus runtime dependency."
+      },
+      {
+        "identifier": "FHWA GEC 6, FHWA-IF-02-054 (2002)",
+        "reason": "The source analysis carries a human-readable engineering reference; this slice does not add a normative corpus runtime dependency."
+      }
+    ],
+    "normativeConformityClaimed": false,
+    "status": "outside-corpus-reference-preserved"
+  },
+  "independentValidation": {
+    "method": "Strict public declaration consumer coverage and independently executed pinned JavaScript versus built TypeScript comparison of exact helper JSON, numerical bearing and sliding outputs, full ULS output, Unicode identifiers, unsupported modes and error name/message pairs.",
+    "targetTests": [
+      "tests/shallow-foundation-uls-compile-time.test.ts",
+      "tests/shallow-foundation-uls-live-parity.test.ts"
+    ],
+    "tolerances": {
+      "serializedParity": "exact deep equality and JSON serialization",
+      "numericParity": "exact equality for deterministic helper and analysis results",
+      "publicStrings": "exact equality plus Unicode code-point preservation",
+      "errors": "exact error name and message equality"
+    }
+  },
+  "parityDifferences": [],
+  "engineeringFunctionality": "Serializable static shallow-foundation ULS effective geometry, bearing capacity, layered strong-over-weak punch-through, groundwater handling and optional base sliding resistance with explicit unsupported behavior.",
+  "notes": [
+    "NTC action catalogs, formulas and application wrappers are outside this bounded domain slice.",
+    "The normative references remain source metadata and are not presented as a legal or regulatory conformity claim."
+  ]
+}
