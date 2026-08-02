@@ -1,0 +1,97 @@
+{
+  "schemaVersion": 1,
+  "sliceId": "0122-norms-ntc2018-material-catalogs",
+  "title": "NTC 2018 structural steel and timber material catalogs",
+  "migrationType": "mechanical-parity",
+  "implementationStatus": "implemented",
+  "dependencies": ["0001-foundation", "0120-norms-ntc2018-existing-masonry-catalogs"],
+  "source": {
+    "repository": "https://github.com/claudiopagani/strutture-js",
+    "revision": "6f33baead8b88166c4b2cf94af41763412e3c751"
+  },
+  "normativeCorpusRevision": "41da3faa489600173106935bbcf726119300e48d",
+  "sourceFiles": [
+    {
+      "path": "src/norms/ntc2018/materials/ntc2018MaterialCatalogs.js",
+      "gitBlobSha1": "db88567dee5a0f1e95cfdf081960e5c1d6d7be1a",
+      "targetPath": "src/norms/ntc2018/materials/ntc2018MaterialCatalogs.ts"
+    }
+  ],
+  "supportingSourceFiles": [
+    {
+      "path": "src/norms/ntc2018/index.js",
+      "gitBlobSha1": "0ac4cf551c455ec2a57d9bf8849db46fb14e0dcc",
+      "targetPath": "src/index.ts",
+      "coverage": "Pinned NTC 2018 norm-index export context for the migrated structural-steel and timber catalog constants."
+    },
+    {
+      "path": "src/index.js",
+      "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7",
+      "targetPath": "src/index.ts",
+      "coverage": "Root public exports for the four migrated NTC 2018 material catalog constants."
+    }
+  ],
+  "sourceOracles": [
+    {
+      "path": "tests/timberMaterialHierarchy.test.js",
+      "gitBlobSha1": "4ac2410a6d9201e28ffc4f413250cdfc1c454936",
+      "coverage": "Separate solid-timber and glulam catalog exports and representative class keys."
+    },
+    {
+      "path": "tests/packageExports.test.js",
+      "gitBlobSha1": "8dde24b4c97dd3dae7100207d07d9d96c52b9c74",
+      "coverage": "Root public export behavior."
+    }
+  ],
+  "sourcePublicExport": {
+    "path": "src/index.js",
+    "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
+  },
+  "targetTests": [
+    "tests/baseline-parity.test.ts",
+    "tests/ntc2018-material-catalogs-compile-time.test.ts",
+    "tests/ntc2018-material-catalogs-live-parity.test.ts"
+  ],
+  "publicExports": [
+    "NTC2018_GLULAM_TIMBER_STRENGTH_CLASSES",
+    "NTC2018_SOLID_TIMBER_STRENGTH_CLASSES",
+    "NTC2018_STRUCTURAL_STEEL_GRADES",
+    "NTC2018_TIMBER_STRENGTH_CLASSES"
+  ],
+  "publicTypeExports": [
+    "NTC2018GlulamTimberStrengthClass",
+    "NTC2018SolidTimberStrengthClass",
+    "NTC2018StructuralSteelGrade",
+    "NTC2018StructuralSteelGradePreset",
+    "NTC2018TimberStrengthClass",
+    "NTC2018TimberStrengthClassPreset"
+  ],
+  "normativeReferences": {
+    "resolved": [],
+    "outsideCorpus": [
+      "NTC 2018 Section 11.7 structural timber strength classes",
+      "EN 338 solid timber strength classes",
+      "EN 14080 glulam strength classes",
+      "EN 10025 structural steel grades"
+    ],
+    "normativeConformityClaimed": false,
+    "status": "classified-for-declared-scope"
+  },
+  "independentValidation": {
+    "method": "Strict declaration consumer coverage and independently executed pinned JavaScript versus built TypeScript comparison of the complete structural-steel and timber catalog module, exact catalog and root-alias JSON, numerical values, mutable data, string code points, and missing-key behavior.",
+    "targetTests": [
+      "tests/ntc2018-material-catalogs-compile-time.test.ts",
+      "tests/ntc2018-material-catalogs-live-parity.test.ts"
+    ],
+    "tolerances": {
+      "serializedParity": "exact structural-steel, solid-timber, glulam, merged-timber, and root-alias JSON",
+      "numericParity": "exact equality for every catalog strength, modulus, density, and factor value",
+      "publicStrings": "exact equality plus Unicode code-point preservation for every catalog string",
+      "errors": "not applicable: the migrated catalog constants expose no callable lookup or error-producing behavior; missing-key reads remain undefined"
+    }
+  },
+  "parityDifferences": [
+    "The TypeScript module adds strict declarations and root type-export support; runtime catalog exports, values, object mutability, merged spread behavior, serialization, and missing-key behavior match the pinned source exactly."
+  ],
+  "engineeringFunctionality": "Source-compatible NTC 2018 structural-steel, solid-timber, glulam, and merged timber strength-class catalog constants."
+}

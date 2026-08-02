@@ -1082,6 +1082,7 @@
         "NTC2018_EXISTING_MASONRY_TYPOLOGIES",
         "NTC2018_EXISTING_MATERIAL_KNOWLEDGE_LEVELS",
         "NTC2018_EXTERNAL_AIR_TEMPERATURE_ZONES",
+        "NTC2018_GLULAM_TIMBER_STRENGTH_CLASSES",
         "NTC2018_LINEAR_DYNAMIC_REFERENCES",
         "NTC2018_LOAD_DURATION_CLASSES",
         "NTC2018_NORMATIVE_CORPUS",
@@ -1105,14 +1106,17 @@
         "NTC2018_SNOW_EXPOSURE_CLASSES",
         "NTC2018_SNOW_GROUND_ZONES",
         "NTC2018_SNOW_REFERENCES",
+        "NTC2018_SOLID_TIMBER_STRENGTH_CLASSES",
         "NTC2018_STRUCTURAL_BEHAVIOR",
         "NTC2018_STRUCTURAL_BEHAVIOR_REFERENCES",
+        "NTC2018_STRUCTURAL_STEEL_GRADES",
         "NTC2018_STRUCTURAL_TYPE",
         "NTC2018_SUBSOIL_SPECTRUM_COEFFICIENTS",
         "NTC2018_SUMMER_SOLAR_TEMPERATURE_INCREMENTS",
         "NTC2018_THERMAL_EXPANSION_COEFFICIENTS",
         "NTC2018_THERMAL_REFERENCES",
         "NTC2018_TIMBER_KMOD",
+        "NTC2018_TIMBER_STRENGTH_CLASSES",
         "NTC2018_TOPOGRAPHIC_AMPLIFICATION_MAXIMA",
         "NTC2018_TOPOGRAPHIC_CLASSIFICATION_METHOD",
         "NTC2018_TOPOGRAPHIC_CLASSIFICATION_REFERENCES",
@@ -11740,11 +11744,15 @@
       "sourcePath": "src/norms/ntc2018/materials/ntc2018MaterialCatalogs.js",
       "sourceBlobSha1": "db88567dee5a0f1e95cfdf081960e5c1d6d7be1a",
       "targetPath": "src/norms/ntc2018/materials/ntc2018MaterialCatalogs.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "partial",
+      "migrationSlices": ["0122-norms-ntc2018-material-catalogs"],
+      "sourceOracles": ["tests/packageExports.test.js", "tests/timberMaterialHierarchy.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/ntc2018-material-catalogs-compile-time.test.ts",
+        "tests/ntc2018-material-catalogs-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0122-norms-ntc2018-material-catalogs"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -12353,11 +12361,15 @@
       "sourcePath": "src/norms/ntc2018/materials/ntc2018MaterialCatalogs.js",
       "sourceBlobSha1": "db88567dee5a0f1e95cfdf081960e5c1d6d7be1a",
       "targetPath": "src/norms/ntc2018/materials/ntc2018MaterialCatalogs.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "partial",
+      "migrationSlices": ["0122-norms-ntc2018-material-catalogs"],
+      "sourceOracles": ["tests/packageExports.test.js", "tests/timberMaterialHierarchy.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/ntc2018-material-catalogs-compile-time.test.ts",
+        "tests/ntc2018-material-catalogs-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0122-norms-ntc2018-material-catalogs"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -12412,11 +12424,15 @@
       "sourcePath": "src/norms/ntc2018/materials/ntc2018MaterialCatalogs.js",
       "sourceBlobSha1": "db88567dee5a0f1e95cfdf081960e5c1d6d7be1a",
       "targetPath": "src/norms/ntc2018/materials/ntc2018MaterialCatalogs.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "partial",
+      "migrationSlices": ["0122-norms-ntc2018-material-catalogs"],
+      "sourceOracles": ["tests/packageExports.test.js", "tests/timberMaterialHierarchy.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/ntc2018-material-catalogs-compile-time.test.ts",
+        "tests/ntc2018-material-catalogs-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0122-norms-ntc2018-material-catalogs"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -12544,11 +12560,15 @@
       "sourcePath": "src/norms/ntc2018/materials/ntc2018MaterialCatalogs.js",
       "sourceBlobSha1": "db88567dee5a0f1e95cfdf081960e5c1d6d7be1a",
       "targetPath": "src/norms/ntc2018/materials/ntc2018MaterialCatalogs.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "partial",
+      "migrationSlices": ["0122-norms-ntc2018-material-catalogs"],
+      "sourceOracles": ["tests/packageExports.test.js", "tests/timberMaterialHierarchy.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/ntc2018-material-catalogs-compile-time.test.ts",
+        "tests/ntc2018-material-catalogs-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0122-norms-ntc2018-material-catalogs"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -32977,7 +32997,8 @@
         "0118-norms-ntc2018-normative-references",
         "0119-norms-ntc2018-dm522023",
         "0120-norms-ntc2018-existing-masonry-catalogs",
-        "0121-norms-ntc2018-existing-masonry-material"
+        "0121-norms-ntc2018-existing-masonry-material",
+        "0122-norms-ntc2018-material-catalogs"
       ],
       "sourceOracles": [
         "tests/architecture/applicationRegistry.test.js",
@@ -33662,12 +33683,14 @@
       "sourcePath": "src/norms/ntc2018/materials/ntc2018MaterialCatalogs.js",
       "sourceBlobSha1": "db88567dee5a0f1e95cfdf081960e5c1d6d7be1a",
       "targetPath": "src/norms/ntc2018/materials/ntc2018MaterialCatalogs.ts",
-      "migrationSlices": ["0003-concrete-materials"],
+      "migrationSlices": ["0003-concrete-materials", "0122-norms-ntc2018-material-catalogs"],
       "sourceOracles": [
         "tests/compositeSections.test.js",
         "tests/italianHistoricalReinforcementSteel.test.js",
         "tests/longitudinalReinforcementLayout.test.js",
+        "tests/packageExports.test.js",
         "tests/reinforcementAndConnector.test.js",
+        "tests/timberMaterialHierarchy.test.js",
         "tests/unitConversionLayer.test.js"
       ],
       "targetTests": [
@@ -33675,9 +33698,11 @@
         "tests/concrete-materials.test.ts",
         "tests/concrete-sections.test.ts",
         "tests/material-baseline-parity.test.ts",
+        "tests/ntc2018-material-catalogs-compile-time.test.ts",
+        "tests/ntc2018-material-catalogs-live-parity.test.ts",
         "tests/reinforcement-layout.test.ts"
       ],
-      "validationEvidence": [],
+      "validationEvidence": ["0122-norms-ntc2018-material-catalogs"],
       "status": "exact-parity"
     },
     {
@@ -35764,7 +35789,8 @@
         "0118-norms-ntc2018-normative-references",
         "0119-norms-ntc2018-dm522023",
         "0120-norms-ntc2018-existing-masonry-catalogs",
-        "0121-norms-ntc2018-existing-masonry-material"
+        "0121-norms-ntc2018-existing-masonry-material",
+        "0122-norms-ntc2018-material-catalogs"
       ],
       "sourceOracles": ["tests/packageExports.test.js"],
       "targetTests": [
@@ -35827,6 +35853,8 @@
         "tests/ntc2018-existing-masonry-catalogs-live-parity.test.ts",
         "tests/ntc2018-existing-masonry-material-compile-time.test.ts",
         "tests/ntc2018-existing-masonry-material-live-parity.test.ts",
+        "tests/ntc2018-material-catalogs-compile-time.test.ts",
+        "tests/ntc2018-material-catalogs-live-parity.test.ts",
         "tests/ntc2018-normative-references-compile-time.test.ts",
         "tests/ntc2018-normative-references-live-parity.test.ts",
         "tests/ntc2018-seismic-action-compile-time.test.ts",
@@ -35930,7 +35958,8 @@
         "0118-norms-ntc2018-normative-references",
         "0119-norms-ntc2018-dm522023",
         "0120-norms-ntc2018-existing-masonry-catalogs",
-        "0121-norms-ntc2018-existing-masonry-material"
+        "0121-norms-ntc2018-existing-masonry-material",
+        "0122-norms-ntc2018-material-catalogs"
       ],
       "status": "exact-parity",
       "testKind": "test"
@@ -36635,14 +36664,22 @@
       "sourcePath": "tests/timberMaterialHierarchy.test.js",
       "sourceBlobSha1": "4ac2410a6d9201e28ffc4f413250cdfc1c454936",
       "targetPath": "tests/timberMaterialHierarchy.test.ts",
-      "migrationSlices": ["0064-domain-timber-material-hierarchy"],
+      "migrationSlices": [
+        "0064-domain-timber-material-hierarchy",
+        "0122-norms-ntc2018-material-catalogs"
+      ],
       "sourceOracles": ["tests/timberMaterialHierarchy.test.js"],
       "targetTests": [
         "tests/baseline-parity.test.ts",
+        "tests/ntc2018-material-catalogs-compile-time.test.ts",
+        "tests/ntc2018-material-catalogs-live-parity.test.ts",
         "tests/timber-material-hierarchy-compile-time.test.ts",
         "tests/timber-material-hierarchy-live-parity.test.ts"
       ],
-      "validationEvidence": ["0064-domain-timber-material-hierarchy"],
+      "validationEvidence": [
+        "0064-domain-timber-material-hierarchy",
+        "0122-norms-ntc2018-material-catalogs"
+      ],
       "status": "exact-parity",
       "testKind": "test"
     },
@@ -39462,12 +39499,28 @@
         "publicStrings": "exact equality plus Unicode code-point preservation for typology names, notes, and error text",
         "errors": "exact error name and message equality for unknown typologies, invalid levels, incompatible and unavailable coefficients, unknown coefficients, and missing options"
       }
+    },
+    {
+      "sliceId": "0122-norms-ntc2018-material-catalogs",
+      "sourceRevision": "6f33baead8b88166c4b2cf94af41763412e3c751",
+      "method": "Strict declaration consumer coverage and independently executed pinned JavaScript versus built TypeScript comparison of the complete structural-steel and timber catalog module, exact catalog and root-alias JSON, numerical values, mutable data, string code points, and missing-key behavior.",
+      "targetTests": [
+        "tests/ntc2018-material-catalogs-compile-time.test.ts",
+        "tests/ntc2018-material-catalogs-live-parity.test.ts"
+      ],
+      "fixture": null,
+      "tolerances": {
+        "serializedParity": "exact structural-steel, solid-timber, glulam, merged-timber, and root-alias JSON",
+        "numericParity": "exact equality for every catalog strength, modulus, density, and factor value",
+        "publicStrings": "exact equality plus Unicode code-point preservation for every catalog string",
+        "errors": "not applicable: the migrated catalog constants expose no callable lookup or error-producing behavior; missing-key reads remain undefined"
+      }
     }
   ],
   "counts": {
     "rootExports": {
       "javascript": 841,
-      "typescript": 666
+      "typescript": 670
     },
     "applicationsExports": {
       "javascript": 309,
@@ -39495,7 +39548,7 @@
     },
     "tests": {
       "javascript": 131,
-      "typescript": 230
+      "typescript": 232
     },
     "validationCampaigns": {
       "javascript": 17,
@@ -39553,13 +39606,12 @@
     "norms": {
       "statusCounts": {
         "exact-parity": 0,
-        "partial": 7,
+        "partial": 3,
         "missing": 74,
         "intentionally-excluded": 0,
         "decision-required": 0
       },
       "itemIds": [
-        "root-export:NTC2018_GLULAM_TIMBER_STRENGTH_CLASSES",
         "root-export:NTC2018_IMPOSED_LOAD_CATALOG",
         "root-export:NTC2018_IMPOSED_LOAD_REFERENCES",
         "root-export:NTC2018_MASONRY_PIER_CAPACITY_REFERENCES",
@@ -39569,9 +39621,6 @@
         "root-export:NTC2018_RETAINING_WALL_SEISMIC_REFERENCE",
         "root-export:NTC2018_SLAB_MATERIAL_WEIGHT_DATABASE",
         "root-export:NTC2018_SLAB_VARIABLE_ACTIONS_DATABASE",
-        "root-export:NTC2018_SOLID_TIMBER_STRENGTH_CLASSES",
-        "root-export:NTC2018_STRUCTURAL_STEEL_GRADES",
-        "root-export:NTC2018_TIMBER_STRENGTH_CLASSES",
         "root-export:NTC2018_ULS_PARTIAL_FACTORS",
         "root-export:NTC2018_UNIT_WEIGHT_CATALOG",
         "root-export:NTC2018_VARIABLE_ACTION_CATEGORIES",

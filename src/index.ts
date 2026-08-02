@@ -687,7 +687,11 @@ export {
   NTC2018_EXISTING_MASONRY_MODIFIER_DEFINITIONS,
   NTC2018_EXISTING_MASONRY_PARAMETER_LEVELS,
   NTC2018_EXISTING_MASONRY_TYPOLOGIES,
+  NTC2018_GLULAM_TIMBER_STRENGTH_CLASSES,
   NTC2018_REINFORCEMENT_STEEL_GRADES,
+  NTC2018_SOLID_TIMBER_STRENGTH_CLASSES,
+  NTC2018_STRUCTURAL_STEEL_GRADES,
+  NTC2018_TIMBER_STRENGTH_CLASSES,
   getNTC2018TabulatedMasonryProperties,
   resolveNTC2018MasonryTypology,
 } from "./norms/ntc2018/materials/ntc2018MaterialCatalogs.js";
@@ -1922,8 +1926,14 @@ export type {
 export type {
   NTC2018ConcreteClassPreset,
   NTC2018ConcreteStrengthClass,
+  NTC2018GlulamTimberStrengthClass,
   NTC2018ReinforcementSteelGrade,
   NTC2018ReinforcementSteelPreset,
+  NTC2018SolidTimberStrengthClass,
+  NTC2018StructuralSteelGrade,
+  NTC2018StructuralSteelGradePreset,
+  NTC2018TimberStrengthClass,
+  NTC2018TimberStrengthClassPreset,
 } from "./norms/ntc2018/materials/ntc2018MaterialCatalogs.js";
 export type {
   Ntc2018ExistingMasonryMechanicalProperties,

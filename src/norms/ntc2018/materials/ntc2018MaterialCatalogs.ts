@@ -47,6 +47,258 @@ export const NTC2018_REINFORCEMENT_STEEL_GRADES = {
   },
 } satisfies Record<string, NTC2018ReinforcementSteelPreset>;
 
+export interface NTC2018StructuralSteelGradePreset {
+  fyk: number;
+  ftk: number;
+}
+
+export const NTC2018_STRUCTURAL_STEEL_GRADES = {
+  S235: { fyk: 235, ftk: 360 },
+  S275: { fyk: 275, ftk: 430 },
+  S355: { fyk: 355, ftk: 510 },
+} satisfies Record<string, NTC2018StructuralSteelGradePreset>;
+
+export interface NTC2018TimberStrengthClassPreset {
+  timberType: "solid-timber" | "glulam";
+  glulamType?: "homogeneous" | "combined";
+  strengthStandard: string;
+  productStandard: string;
+  gradingMethod?: "strength-graded";
+  fmK: number;
+  ft0K: number;
+  fc0K: number;
+  fvK: number;
+  meanElasticModulus: number;
+  density: number;
+}
+
+export const NTC2018_SOLID_TIMBER_STRENGTH_CLASSES = {
+  C14: {
+    timberType: "solid-timber",
+    strengthStandard: "EN 338",
+    productStandard: "EN 14081",
+    gradingMethod: "strength-graded",
+    fmK: 14,
+    ft0K: 8,
+    fc0K: 16,
+    fvK: 3,
+    meanElasticModulus: 7000,
+    density: 350,
+  },
+  C16: {
+    timberType: "solid-timber",
+    strengthStandard: "EN 338",
+    productStandard: "EN 14081",
+    gradingMethod: "strength-graded",
+    fmK: 16,
+    ft0K: 10,
+    fc0K: 17,
+    fvK: 3.2,
+    meanElasticModulus: 8000,
+    density: 370,
+  },
+  C18: {
+    timberType: "solid-timber",
+    strengthStandard: "EN 338",
+    productStandard: "EN 14081",
+    gradingMethod: "strength-graded",
+    fmK: 18,
+    ft0K: 11,
+    fc0K: 18,
+    fvK: 3.4,
+    meanElasticModulus: 9000,
+    density: 380,
+  },
+  C20: {
+    timberType: "solid-timber",
+    strengthStandard: "EN 338",
+    productStandard: "EN 14081",
+    gradingMethod: "strength-graded",
+    fmK: 20,
+    ft0K: 12,
+    fc0K: 19,
+    fvK: 3.6,
+    meanElasticModulus: 9500,
+    density: 390,
+  },
+  C22: {
+    timberType: "solid-timber",
+    strengthStandard: "EN 338",
+    productStandard: "EN 14081",
+    gradingMethod: "strength-graded",
+    fmK: 22,
+    ft0K: 13,
+    fc0K: 20,
+    fvK: 3.8,
+    meanElasticModulus: 10000,
+    density: 410,
+  },
+  C24: {
+    timberType: "solid-timber",
+    strengthStandard: "EN 338",
+    productStandard: "EN 14081",
+    gradingMethod: "strength-graded",
+    fmK: 24,
+    ft0K: 14,
+    fc0K: 21,
+    fvK: 4,
+    meanElasticModulus: 11000,
+    density: 420,
+  },
+  C27: {
+    timberType: "solid-timber",
+    strengthStandard: "EN 338",
+    productStandard: "EN 14081",
+    gradingMethod: "strength-graded",
+    fmK: 27,
+    ft0K: 16,
+    fc0K: 22,
+    fvK: 4,
+    meanElasticModulus: 11500,
+    density: 450,
+  },
+  C30: {
+    timberType: "solid-timber",
+    strengthStandard: "EN 338",
+    productStandard: "EN 14081",
+    gradingMethod: "strength-graded",
+    fmK: 30,
+    ft0K: 18,
+    fc0K: 26,
+    fvK: 4,
+    meanElasticModulus: 12000,
+    density: 470,
+  },
+  C35: {
+    timberType: "solid-timber",
+    strengthStandard: "EN 338",
+    productStandard: "EN 14081",
+    gradingMethod: "strength-graded",
+    fmK: 35,
+    ft0K: 21,
+    fc0K: 28,
+    fvK: 4,
+    meanElasticModulus: 13000,
+    density: 500,
+  },
+  C40: {
+    timberType: "solid-timber",
+    strengthStandard: "EN 338",
+    productStandard: "EN 14081",
+    gradingMethod: "strength-graded",
+    fmK: 40,
+    ft0K: 24,
+    fc0K: 30,
+    fvK: 4,
+    meanElasticModulus: 14000,
+    density: 520,
+  },
+} satisfies Record<string, NTC2018TimberStrengthClassPreset>;
+
+export const NTC2018_GLULAM_TIMBER_STRENGTH_CLASSES = {
+  GL24h: {
+    timberType: "glulam",
+    glulamType: "homogeneous",
+    strengthStandard: "EN 14080",
+    productStandard: "EN 14080",
+    fmK: 24,
+    ft0K: 16.5,
+    fc0K: 24,
+    fvK: 3.5,
+    meanElasticModulus: 11500,
+    density: 385,
+  },
+  GL24c: {
+    timberType: "glulam",
+    glulamType: "combined",
+    strengthStandard: "EN 14080",
+    productStandard: "EN 14080",
+    fmK: 24,
+    ft0K: 14,
+    fc0K: 24,
+    fvK: 3.5,
+    meanElasticModulus: 11600,
+    density: 385,
+  },
+  GL28h: {
+    timberType: "glulam",
+    glulamType: "homogeneous",
+    strengthStandard: "EN 14080",
+    productStandard: "EN 14080",
+    fmK: 28,
+    ft0K: 19.5,
+    fc0K: 26.5,
+    fvK: 3.5,
+    meanElasticModulus: 12600,
+    density: 410,
+  },
+  GL28c: {
+    timberType: "glulam",
+    glulamType: "combined",
+    strengthStandard: "EN 14080",
+    productStandard: "EN 14080",
+    fmK: 28,
+    ft0K: 16.5,
+    fc0K: 24.5,
+    fvK: 3.5,
+    meanElasticModulus: 12600,
+    density: 390,
+  },
+  GL30h: {
+    timberType: "glulam",
+    glulamType: "homogeneous",
+    strengthStandard: "EN 14080",
+    productStandard: "EN 14080",
+    fmK: 30,
+    ft0K: 19.5,
+    fc0K: 26.5,
+    fvK: 3.5,
+    meanElasticModulus: 13000,
+    density: 430,
+  },
+  GL30c: {
+    timberType: "glulam",
+    glulamType: "combined",
+    strengthStandard: "EN 14080",
+    productStandard: "EN 14080",
+    fmK: 30,
+    ft0K: 16.5,
+    fc0K: 24.5,
+    fvK: 3.5,
+    meanElasticModulus: 12900,
+    density: 410,
+  },
+  GL32h: {
+    timberType: "glulam",
+    glulamType: "homogeneous",
+    strengthStandard: "EN 14080",
+    productStandard: "EN 14080",
+    fmK: 32,
+    ft0K: 22.5,
+    fc0K: 29,
+    fvK: 3.5,
+    meanElasticModulus: 13700,
+    density: 450,
+  },
+  GL32c: {
+    timberType: "glulam",
+    glulamType: "combined",
+    strengthStandard: "EN 14080",
+    productStandard: "EN 14080",
+    fmK: 32,
+    ft0K: 19.5,
+    fc0K: 26.5,
+    fvK: 3.5,
+    meanElasticModulus: 13600,
+    density: 430,
+  },
+} satisfies Record<string, NTC2018TimberStrengthClassPreset>;
+
+export const NTC2018_TIMBER_STRENGTH_CLASSES = {
+  ...NTC2018_SOLID_TIMBER_STRENGTH_CLASSES,
+  ...NTC2018_GLULAM_TIMBER_STRENGTH_CLASSES,
+};
+
 export const NTC2018_EXISTING_MATERIAL_KNOWLEDGE_LEVELS = {
   LC1: { confidenceFactor: 1.35, description: "conoscenza limitata" },
   LC2: { confidenceFactor: 1.2, description: "conoscenza adeguata" },
@@ -65,3 +317,7 @@ export {
 
 export type NTC2018ConcreteStrengthClass = keyof typeof NTC2018_CONCRETE_CLASSES;
 export type NTC2018ReinforcementSteelGrade = keyof typeof NTC2018_REINFORCEMENT_STEEL_GRADES;
+export type NTC2018StructuralSteelGrade = keyof typeof NTC2018_STRUCTURAL_STEEL_GRADES;
+export type NTC2018SolidTimberStrengthClass = keyof typeof NTC2018_SOLID_TIMBER_STRENGTH_CLASSES;
+export type NTC2018GlulamTimberStrengthClass = keyof typeof NTC2018_GLULAM_TIMBER_STRENGTH_CLASSES;
+export type NTC2018TimberStrengthClass = keyof typeof NTC2018_TIMBER_STRENGTH_CLASSES;
