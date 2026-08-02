@@ -28674,11 +28674,14 @@
       "sourcePath": "src/domain/fem/elements/masonry/MasonryPierKinematics.js",
       "sourceBlobSha1": "22967ba0a83026e4a92306ab779785aed522160a",
       "targetPath": "src/domain/fem/elements/masonry/MasonryPierKinematics.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing"
+      "migrationSlices": ["0058-domain-masonry-pier-kinematics"],
+      "sourceOracles": ["tests/cyclicMasonryPier2D.test.js"],
+      "targetTests": [
+        "tests/masonry-pier-kinematics-compile-time.test.ts",
+        "tests/masonry-pier-kinematics-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0058-domain-masonry-pier-kinematics"],
+      "status": "exact-parity"
     },
     {
       "id": "src/domain/fem/elements/masonry/index.js",
@@ -30427,7 +30430,8 @@
         "0054-domain-steel-profile-catalog",
         "0055-domain-steel-profile-section",
         "0056-domain-steel-compound-profile-section",
-        "0057-domain-area-element-volume-loads"
+        "0057-domain-area-element-volume-loads",
+        "0058-domain-masonry-pier-kinematics"
       ],
       "sourceOracles": [
         "tests/architecture/applicationRegistry.test.js",
@@ -31601,11 +31605,14 @@
       "sourcePath": "tests/cyclicMasonryPier2D.test.js",
       "sourceBlobSha1": "286b6e2168c8d551e0603ba08d2b8bd8e205f589",
       "targetPath": "tests/cyclicMasonryPier2D.test.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0058-domain-masonry-pier-kinematics"],
+      "sourceOracles": ["tests/cyclicMasonryPier2D.test.js"],
+      "targetTests": [
+        "tests/masonry-pier-kinematics-compile-time.test.ts",
+        "tests/masonry-pier-kinematics-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0058-domain-masonry-pier-kinematics"],
+      "status": "exact-parity",
       "testKind": "test"
     },
     {
@@ -35243,6 +35250,22 @@
         "publicStrings": "exact equality plus Unicode code-point equality",
         "errors": "exact error name and message equality"
       }
+    },
+    {
+      "sliceId": "0058-domain-masonry-pier-kinematics",
+      "sourceRevision": "6f33baead8b88166c4b2cf94af41763412e3c751",
+      "method": "Strict internal matrix/vector declarations and independently executed pinned JavaScript versus built TypeScript comparison of every exported kinematic helper, exact numeric/JSON output and empty-input TypeError parity.",
+      "targetTests": [
+        "tests/masonry-pier-kinematics-compile-time.test.ts",
+        "tests/masonry-pier-kinematics-live-parity.test.ts"
+      ],
+      "fixture": null,
+      "tolerances": {
+        "serializedParity": "exact JSON serialization",
+        "numericParity": "exact equality for all matrix and vector entries",
+        "publicStrings": "not applicable",
+        "errors": "exact TypeError message equality"
+      }
     }
   ],
   "counts": {
@@ -35272,11 +35295,11 @@
     },
     "sourceFiles": {
       "javascript": 480,
-      "typescript": 284
+      "typescript": 285
     },
     "tests": {
       "javascript": 131,
-      "typescript": 102
+      "typescript": 104
     },
     "validationCampaigns": {
       "javascript": 17,
@@ -35308,7 +35331,7 @@
       "statusCounts": {
         "exact-parity": 0,
         "partial": 18,
-        "missing": 231,
+        "missing": 230,
         "intentionally-excluded": 0,
         "decision-required": 0
       },
@@ -35491,7 +35514,6 @@
         "root-export:spencerMethod",
         "source:src/domain/fem/elements/index.js",
         "source:src/domain/fem/elements/masonry/CyclicMasonryPier2D.js",
-        "source:src/domain/fem/elements/masonry/MasonryPierKinematics.js",
         "source:src/domain/fem/elements/masonry/index.js",
         "source:src/domain/fem/index.js",
         "source:src/domain/fem/nonlinear/CyclicMasonryPierAnalysis2D.js",
@@ -36210,7 +36232,7 @@
       "statusCounts": {
         "exact-parity": 0,
         "partial": 3,
-        "missing": 152,
+        "missing": 151,
         "intentionally-excluded": 0,
         "decision-required": 0
       },
@@ -36312,7 +36334,6 @@
         "package:./norms/ntc2018",
         "test:tests/beamValidationCampaign.test.js",
         "test:tests/cyclicMasonryCompressionMaterial.test.js",
-        "test:tests/cyclicMasonryPier2D.test.js",
         "test:tests/cyclicMasonryPierValidationCampaign.test.js",
         "test:tests/cyclicMasonryShearMaterial.test.js",
         "test:tests/displacementControlNonlinearStaticSolver2D.test.js",

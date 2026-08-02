@@ -1,0 +1,60 @@
+{
+  "schemaVersion": 1,
+  "sliceId": "0058-domain-masonry-pier-kinematics",
+  "title": "Domain masonry pier kinematics",
+  "migrationType": "mechanical-parity",
+  "implementationStatus": "implemented",
+  "dependencies": ["0020-linear-frame-fem-2d"],
+  "source": {
+    "repository": "https://github.com/claudiopagani/strutture-js",
+    "revision": "6f33baead8b88166c4b2cf94af41763412e3c751"
+  },
+  "normativeCorpusRevision": "41da3faa489600173106935bbcf726119300e48d",
+  "sourceFiles": [
+    {
+      "path": "src/domain/fem/elements/masonry/MasonryPierKinematics.js",
+      "gitBlobSha1": "22967ba0a83026e4a92306ab779785aed522160a",
+      "targetPath": "src/domain/fem/elements/masonry/MasonryPierKinematics.ts"
+    }
+  ],
+  "sourceOracles": [
+    {
+      "path": "tests/cyclicMasonryPier2D.test.js",
+      "gitBlobSha1": "286b6e2168c8d551e0603ba08d2b8bd8e205f589",
+      "coverage": "Cyclic masonry pier kinematic matrix and transformation consumers"
+    }
+  ],
+  "sourcePublicExport": {
+    "path": "src/index.js",
+    "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
+  },
+  "targetTests": [
+    "tests/masonry-pier-kinematics-compile-time.test.ts",
+    "tests/masonry-pier-kinematics-live-parity.test.ts"
+  ],
+  "publicExports": [],
+  "publicTypeExports": [],
+  "normativeReferences": {
+    "resolved": [],
+    "outsideCorpus": [],
+    "normativeConformityClaimed": false,
+    "status": "classified-for-declared-scope"
+  },
+  "independentValidation": {
+    "method": "Strict internal matrix/vector declarations and independently executed pinned JavaScript versus built TypeScript comparison of every exported kinematic helper, exact numeric/JSON output and empty-input TypeError parity.",
+    "targetTests": [
+      "tests/masonry-pier-kinematics-compile-time.test.ts",
+      "tests/masonry-pier-kinematics-live-parity.test.ts"
+    ],
+    "tolerances": {
+      "serializedParity": "exact JSON serialization",
+      "numericParity": "exact equality for all matrix and vector entries",
+      "publicStrings": "not applicable",
+      "errors": "exact TypeError message equality"
+    }
+  },
+  "parityDifferences": [
+    "The strict TypeScript declarations describe the existing JavaScript matrix and vector helpers without adding runtime behavior."
+  ],
+  "engineeringFunctionality": "Solver-neutral frame and masonry-pier kinematic matrix helpers used by the cyclic masonry macroelement."
+}
