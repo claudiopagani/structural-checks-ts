@@ -924,6 +924,8 @@
         "DisplacementControlNonlinearStaticSolver2D",
         "DistributedLoad",
         "DofRegistry",
+        "EARTH_PRESSURE_METHODS",
+        "EARTH_PRESSURE_STATES",
         "EMBEDDED_RETAINING_WALL_END_RESTRAINTS",
         "EMBEDDED_RETAINING_WALL_LOADING_CONDITIONS",
         "EMBEDDED_RETAINING_WALL_MODEL_SCHEMA_VERSION",
@@ -1028,6 +1030,7 @@
         "LATERAL_PILE_SOIL_BRANCHES",
         "LATERAL_PILE_SOIL_RESPONSE_MODELS",
         "LENGTH_UNIT_FACTORS",
+        "LateralEarthPressureAnalysis",
         "LateralPileBeamOnSpringsAnalysis",
         "LateralPileLoadScenario",
         "LateralPileResponseScenario",
@@ -6831,11 +6834,15 @@
       "sourcePath": "src/domain/geotechnics/LateralEarthPressureAnalysis.js",
       "sourceBlobSha1": "c4f214528ba67400a79c661fe5095ef13c7df1fe",
       "targetPath": "src/domain/geotechnics/LateralEarthPressureAnalysis.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0096-domain-lateral-earth-pressure-analysis"],
+      "sourceOracles": ["tests/geotechnicalEarthPressure.test.js", "tests/packageExports.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/lateral-earth-pressure-analysis-compile-time.test.ts",
+        "tests/lateral-earth-pressure-analysis-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0096-domain-lateral-earth-pressure-analysis"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -6845,11 +6852,15 @@
       "sourcePath": "src/domain/geotechnics/LateralEarthPressureAnalysis.js",
       "sourceBlobSha1": "c4f214528ba67400a79c661fe5095ef13c7df1fe",
       "targetPath": "src/domain/geotechnics/LateralEarthPressureAnalysis.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0096-domain-lateral-earth-pressure-analysis"],
+      "sourceOracles": ["tests/geotechnicalEarthPressure.test.js", "tests/packageExports.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/lateral-earth-pressure-analysis-compile-time.test.ts",
+        "tests/lateral-earth-pressure-analysis-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0096-domain-lateral-earth-pressure-analysis"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -9760,11 +9771,15 @@
       "sourcePath": "src/domain/geotechnics/LateralEarthPressureAnalysis.js",
       "sourceBlobSha1": "c4f214528ba67400a79c661fe5095ef13c7df1fe",
       "targetPath": "src/domain/geotechnics/LateralEarthPressureAnalysis.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0096-domain-lateral-earth-pressure-analysis"],
+      "sourceOracles": ["tests/geotechnicalEarthPressure.test.js", "tests/packageExports.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/lateral-earth-pressure-analysis-compile-time.test.ts",
+        "tests/lateral-earth-pressure-analysis-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0096-domain-lateral-earth-pressure-analysis"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -30432,11 +30447,15 @@
       "sourcePath": "src/domain/geotechnics/LateralEarthPressureAnalysis.js",
       "sourceBlobSha1": "c4f214528ba67400a79c661fe5095ef13c7df1fe",
       "targetPath": "src/domain/geotechnics/LateralEarthPressureAnalysis.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing"
+      "migrationSlices": ["0096-domain-lateral-earth-pressure-analysis"],
+      "sourceOracles": ["tests/geotechnicalEarthPressure.test.js", "tests/packageExports.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/lateral-earth-pressure-analysis-compile-time.test.ts",
+        "tests/lateral-earth-pressure-analysis-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0096-domain-lateral-earth-pressure-analysis"],
+      "status": "exact-parity"
     },
     {
       "id": "src/domain/geotechnics/LateralPileBeamOnSpringsAnalysis.js",
@@ -31813,7 +31832,8 @@
         "0092-domain-ground-anchor-analysis",
         "0093-domain-spencer-method",
         "0094-domain-circular-slope-stability-analysis",
-        "0095-domain-layered-pseudostatic-trial-wedge"
+        "0095-domain-layered-pseudostatic-trial-wedge",
+        "0096-domain-lateral-earth-pressure-analysis"
       ],
       "sourceOracles": [
         "tests/architecture/applicationRegistry.test.js",
@@ -33239,13 +33259,16 @@
         "0068-domain-pressure-diagram",
         "0071-domain-soil-structure-interface",
         "0078-domain-earth-pressure-coefficients",
-        "0095-domain-layered-pseudostatic-trial-wedge"
+        "0095-domain-layered-pseudostatic-trial-wedge",
+        "0096-domain-lateral-earth-pressure-analysis"
       ],
       "sourceOracles": ["tests/geotechnicalEarthPressure.test.js"],
       "targetTests": [
         "tests/baseline-parity.test.ts",
         "tests/earth-pressure-coefficients-compile-time.test.ts",
         "tests/earth-pressure-coefficients-live-parity.test.ts",
+        "tests/lateral-earth-pressure-analysis-compile-time.test.ts",
+        "tests/lateral-earth-pressure-analysis-live-parity.test.ts",
         "tests/layered-pseudostatic-trial-wedge-compile-time.test.ts",
         "tests/layered-pseudostatic-trial-wedge-live-parity.test.ts",
         "tests/pressure-diagram-2d-compile-time.test.ts",
@@ -33257,7 +33280,8 @@
         "0068-domain-pressure-diagram",
         "0071-domain-soil-structure-interface",
         "0078-domain-earth-pressure-coefficients",
-        "0095-domain-layered-pseudostatic-trial-wedge"
+        "0095-domain-layered-pseudostatic-trial-wedge",
+        "0096-domain-lateral-earth-pressure-analysis"
       ],
       "status": "exact-parity",
       "testKind": "test"
@@ -34330,7 +34354,8 @@
         "0091-domain-ground-anchor-design-scenario",
         "0092-domain-ground-anchor-analysis",
         "0093-domain-spencer-method",
-        "0094-domain-circular-slope-stability-analysis"
+        "0094-domain-circular-slope-stability-analysis",
+        "0096-domain-lateral-earth-pressure-analysis"
       ],
       "sourceOracles": ["tests/packageExports.test.js"],
       "targetTests": [
@@ -34371,6 +34396,8 @@
         "tests/ground-anchor-design-scenario-live-parity.test.ts",
         "tests/ground-anchor-stability-action-compile-time.test.ts",
         "tests/ground-anchor-stability-action-live-parity.test.ts",
+        "tests/lateral-earth-pressure-analysis-compile-time.test.ts",
+        "tests/lateral-earth-pressure-analysis-live-parity.test.ts",
         "tests/masonry-fiber-interface-compile-time.test.ts",
         "tests/masonry-fiber-interface-live-parity.test.ts",
         "tests/rc-cracked-deflection.test.ts",
@@ -34418,7 +34445,8 @@
         "0091-domain-ground-anchor-design-scenario",
         "0092-domain-ground-anchor-analysis",
         "0093-domain-spencer-method",
-        "0094-domain-circular-slope-stability-analysis"
+        "0094-domain-circular-slope-stability-analysis",
+        "0096-domain-lateral-earth-pressure-analysis"
       ],
       "status": "exact-parity",
       "testKind": "test"
@@ -37505,12 +37533,28 @@
         "publicStrings": "exact equality plus Unicode code-point preservation",
         "errors": "exact error name and message equality"
       }
+    },
+    {
+      "sliceId": "0096-domain-lateral-earth-pressure-analysis",
+      "sourceRevision": "6f33baead8b88166c4b2cf94af41763412e3c751",
+      "method": "Strict public declaration consumer coverage and independently executed pinned JavaScript versus built TypeScript comparison of exact serialized static diagrams, groundwater, layered methods, Unicode metadata, seismic resultants/distributions, trial-wedge integration, unsupported behavior and failed-input results.",
+      "targetTests": [
+        "tests/lateral-earth-pressure-analysis-compile-time.test.ts",
+        "tests/lateral-earth-pressure-analysis-live-parity.test.ts"
+      ],
+      "fixture": null,
+      "tolerances": {
+        "serializedParity": "exact deep equality and JSON serialization",
+        "numericParity": "exact equality for deterministic analysis results",
+        "publicStrings": "exact equality plus Unicode code-point preservation",
+        "errors": "exact failed-result structure and warning message equality"
+      }
     }
   ],
   "counts": {
     "rootExports": {
       "javascript": 841,
-      "typescript": 545
+      "typescript": 548
     },
     "applicationsExports": {
       "javascript": 309,
@@ -37534,11 +37578,11 @@
     },
     "sourceFiles": {
       "javascript": 480,
-      "typescript": 330
+      "typescript": 331
     },
     "tests": {
       "javascript": 131,
-      "typescript": 178
+      "typescript": 180
     },
     "validationCampaigns": {
       "javascript": 17,
@@ -37570,13 +37614,11 @@
       "statusCounts": {
         "exact-parity": 0,
         "partial": 20,
-        "missing": 67,
+        "missing": 63,
         "intentionally-excluded": 0,
         "decision-required": 0
       },
       "itemIds": [
-        "root-export:EARTH_PRESSURE_METHODS",
-        "root-export:EARTH_PRESSURE_STATES",
         "root-export:FloorSlab",
         "root-export:GEOTECHNICAL_DESIGN_SITUATION_SCHEMA_VERSION",
         "root-export:GEOTECHNICAL_DESIGN_SITUATION_TYPES",
@@ -37589,7 +37631,6 @@
         "root-export:GROUND_PROFILE_SCHEMA_VERSION",
         "root-export:LATERAL_PILE_BROMS_REFERENCE",
         "root-export:LATERAL_PILE_CAPACITY_RESULT_SCHEMA_VERSION",
-        "root-export:LateralEarthPressureAnalysis",
         "root-export:LateralPileCapacityAnalysis",
         "root-export:LayerLoad",
         "root-export:LinearLoadFromLineWeight",
@@ -37637,7 +37678,6 @@
         "source:src/domain/fem/elements/masonry/index.js",
         "source:src/domain/fem/index.js",
         "source:src/domain/fem/nonlinear/index.js",
-        "source:src/domain/geotechnics/LateralEarthPressureAnalysis.js",
         "source:src/domain/geotechnics/LateralPileCapacityAnalysis.js",
         "source:src/domain/geotechnics/RetainingWallAnalysis.js",
         "source:src/domain/geotechnics/RetainingWallLoadScenario.js",

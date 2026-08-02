@@ -24,15 +24,15 @@ const PRESSURE_COMPONENTS: readonly PressureComponent[] = Object.freeze([
 ]);
 
 export interface PressureComponentValues extends Record<string, unknown> {
-  soilNormal?: number;
-  soilTangent?: number;
-  effectiveSoilNormal?: number;
-  effectiveSoilTangent?: number;
-  totalStressSoilNormal?: number;
-  totalStressSoilTangent?: number;
-  waterNormal?: number;
-  totalNormal?: number;
-  totalTangent?: number;
+  soilNormal?: number | null;
+  soilTangent?: number | null;
+  effectiveSoilNormal?: number | null;
+  effectiveSoilTangent?: number | null;
+  totalStressSoilNormal?: number | null;
+  totalStressSoilTangent?: number | null;
+  waterNormal?: number | null;
+  totalNormal?: number | null;
+  totalTangent?: number | null;
 }
 
 export interface PressureDiagramSegment {

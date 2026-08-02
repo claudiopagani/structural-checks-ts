@@ -1,0 +1,109 @@
+{
+  "schemaVersion": 1,
+  "sliceId": "0096-domain-lateral-earth-pressure-analysis",
+  "title": "Domain lateral earth-pressure analysis",
+  "migrationType": "mechanical-parity-with-minimal-dependency-support",
+  "implementationStatus": "implemented",
+  "dependencies": ["0095-domain-layered-pseudostatic-trial-wedge"],
+  "source": {
+    "repository": "https://github.com/claudiopagani/strutture-js",
+    "revision": "6f33baead8b88166c4b2cf94af41763412e3c751"
+  },
+  "normativeCorpusRevision": "41da3faa489600173106935bbcf726119300e48d",
+  "sourceFiles": [
+    {
+      "path": "src/domain/geotechnics/LateralEarthPressureAnalysis.js",
+      "gitBlobSha1": "c4f214528ba67400a79c661fe5095ef13c7df1fe",
+      "targetPath": "src/domain/geotechnics/LateralEarthPressureAnalysis.ts"
+    }
+  ],
+  "supportingSourceFiles": [
+    {
+      "path": "src/domain/geotechnics/index.js",
+      "gitBlobSha1": "41ed2053fc2e37dc90da412846609f4050af9668",
+      "targetPath": "src/domain/geotechnics/index.ts",
+      "coverage": "Geotechnics barrel exports for the migrated lateral earth-pressure analysis."
+    },
+    {
+      "path": "src/index.js",
+      "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7",
+      "targetPath": "src/index.ts",
+      "coverage": "Root public exports for the migrated lateral earth-pressure analysis."
+    },
+    {
+      "path": "src/domain/geotechnics/PressureDiagram2D.js",
+      "gitBlobSha1": "c24fbe968ec46ebbb3597f0a35008e8dd0142b44",
+      "targetPath": "src/domain/geotechnics/PressureDiagram2D.ts",
+      "coverage": "Minimal declaration support for the source's null-valued serialized pressure components; runtime behavior is unchanged."
+    }
+  ],
+  "sourceOracles": [
+    {
+      "path": "tests/geotechnicalEarthPressure.test.js",
+      "gitBlobSha1": "b93b597c670a102925008ba004bf237927113003",
+      "coverage": "Rankine, Coulomb, at-rest, Mononobe-Okabe, layered trial-wedge, groundwater, units, unsupported and error behavior."
+    },
+    {
+      "path": "tests/packageExports.test.js",
+      "gitBlobSha1": "8dde24b4c97dd3dae7100207d07d9d96c52b9c74",
+      "coverage": "Root public export behavior."
+    }
+  ],
+  "sourcePublicExport": {
+    "path": "src/index.js",
+    "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
+  },
+  "targetTests": [
+    "tests/baseline-parity.test.ts",
+    "tests/lateral-earth-pressure-analysis-compile-time.test.ts",
+    "tests/lateral-earth-pressure-analysis-live-parity.test.ts"
+  ],
+  "publicExports": [
+    "EARTH_PRESSURE_METHODS",
+    "EARTH_PRESSURE_STATES",
+    "LateralEarthPressureAnalysis"
+  ],
+  "publicTypeExports": [
+    "EarthPressureMethod",
+    "EarthPressureState",
+    "LateralEarthPressureAnalysisInput",
+    "LateralEarthPressureAnalysisResult",
+    "LateralEarthPressureGeometryInput",
+    "LateralEarthPressureInterfaceInput",
+    "LateralEarthPressureSeismicInput"
+  ],
+  "normativeReferences": {
+    "resolved": [],
+    "outsideCorpus": [
+      {
+        "identifier": "USACE EM 1110-2-2502 (1989), sections 3-12b(7), 3-12c(2), 3-12c and 3-13d",
+        "reason": "The analysis preserves source Rankine and Coulomb references without inventing a corpus identifier."
+      },
+      {
+        "identifier": "USACE EM 1110-2-2100 (2005), appendix G, equations G-1 and G-2",
+        "reason": "The analysis preserves the source Mononobe-Okabe reference without inventing a corpus identifier."
+      },
+      {
+        "identifier": "Jaky (1944), at-rest correlation for normally consolidated soil",
+        "reason": "The analysis preserves the source Jaky reference without inventing a corpus identifier."
+      }
+    ],
+    "normativeConformityClaimed": false,
+    "status": "classified-for-declared-scope"
+  },
+  "independentValidation": {
+    "method": "Strict public declaration consumer coverage and independently executed pinned JavaScript versus built TypeScript comparison of exact serialized static diagrams, groundwater, layered methods, Unicode metadata, seismic resultants/distributions, trial-wedge integration, unsupported behavior and failed-input results.",
+    "targetTests": [
+      "tests/lateral-earth-pressure-analysis-compile-time.test.ts",
+      "tests/lateral-earth-pressure-analysis-live-parity.test.ts"
+    ],
+    "tolerances": {
+      "serializedParity": "exact deep equality and JSON serialization",
+      "numericParity": "exact equality for deterministic analysis results",
+      "publicStrings": "exact equality plus Unicode code-point preservation",
+      "errors": "exact failed-result structure and warning message equality"
+    }
+  },
+  "parityDifferences": [],
+  "engineeringFunctionality": "Lateral earth-pressure analysis across static Rankine/Coulomb/at-rest methods, Mononobe-Okabe seismic resultant/distribution modes and layered pseudostatic trial wedges."
+}

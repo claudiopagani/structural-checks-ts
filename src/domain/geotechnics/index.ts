@@ -236,6 +236,18 @@ export {
   type SoilStructureInterfaceWallSurfaceInput,
 } from "./SoilStructureInterface.js";
 export {
+  EARTH_PRESSURE_METHODS,
+  EARTH_PRESSURE_STATES,
+  LateralEarthPressureAnalysis,
+  type EarthPressureMethod,
+  type EarthPressureState,
+  type LateralEarthPressureAnalysisInput,
+  type LateralEarthPressureAnalysisResult,
+  type LateralEarthPressureGeometryInput,
+  type LateralEarthPressureInterfaceInput,
+  type LateralEarthPressureSeismicInput,
+} from "./LateralEarthPressureAnalysis.js";
+export {
   SHALLOW_FOUNDATION_ACTION_BASES,
   SHALLOW_FOUNDATION_ACTION_STATE_SCHEMA_VERSION,
   SHALLOW_FOUNDATION_MODEL_SCHEMA_VERSION,
