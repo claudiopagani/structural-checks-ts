@@ -1,0 +1,149 @@
+{
+  "schemaVersion": 1,
+  "sliceId": "0103-domain-slab-load-hierarchy",
+  "title": "Domain slab load hierarchy and NTC 2018 slab load analysis",
+  "migrationType": "mechanical-parity-with-minimal-dependency-support",
+  "implementationStatus": "implemented",
+  "dependencies": ["0057-domain-area-element-volume-loads"],
+  "source": {
+    "repository": "https://github.com/claudiopagani/strutture-js",
+    "revision": "6f33baead8b88166c4b2cf94af41763412e3c751"
+  },
+  "normativeCorpusRevision": "41da3faa489600173106935bbcf726119300e48d",
+  "sourceFiles": [
+    {
+      "path": "src/domain/slabs/FloorSlab.js",
+      "gitBlobSha1": "60c28236866f319734f54cdaaf6e8e3491d2b3c5",
+      "targetPath": "src/domain/slabs/FloorSlab.ts"
+    },
+    {
+      "path": "src/domain/slabs/LayerLoad.js",
+      "gitBlobSha1": "89412c9e33a4fdc71173ce5e3fe2215e5b9ed2f1",
+      "targetPath": "src/domain/slabs/LayerLoad.ts"
+    },
+    {
+      "path": "src/domain/slabs/LinearLoadFromLineWeight.js",
+      "gitBlobSha1": "70d88f190ab00005cf3c5c2f24f66d6d61d8589a",
+      "targetPath": "src/domain/slabs/LinearLoadFromLineWeight.ts"
+    },
+    {
+      "path": "src/domain/slabs/LinearLoadFromVolumeWeight.js",
+      "gitBlobSha1": "31c1dfccf1f01b93e8ac57266f72b0dc37f9ad0f",
+      "targetPath": "src/domain/slabs/LinearLoadFromVolumeWeight.ts"
+    },
+    {
+      "path": "src/domain/slabs/NTC2018SlabLoadAnalysis.js",
+      "gitBlobSha1": "a124b77ad3e56cb2fb7351e4f4323d723ee536f3",
+      "targetPath": "src/domain/slabs/NTC2018SlabLoadAnalysis.ts"
+    },
+    {
+      "path": "src/domain/slabs/SlabLoad.js",
+      "gitBlobSha1": "c8c37cbc87a6157b6b311df3b482777ae9a894c6",
+      "targetPath": "src/domain/slabs/SlabLoad.ts"
+    },
+    {
+      "path": "src/domain/slabs/SurfaceLoad.js",
+      "gitBlobSha1": "adc3e50bdff00ee06e82343868695f8be9229e47",
+      "targetPath": "src/domain/slabs/SurfaceLoad.ts"
+    },
+    {
+      "path": "src/domain/slabs/VariableLoad.js",
+      "gitBlobSha1": "09436927fe7313d811afe31841b5428478d5f1e7",
+      "targetPath": "src/domain/slabs/VariableLoad.ts"
+    },
+    {
+      "path": "src/domain/slabs/WallLoad.js",
+      "gitBlobSha1": "94c6e7d3c03c59502fdfc5007e535909e3eb28d0",
+      "targetPath": "src/domain/slabs/WallLoad.ts"
+    }
+  ],
+  "supportingSourceFiles": [
+    {
+      "path": "src/domain/slabs/index.js",
+      "gitBlobSha1": "95c776a1e0b615ee748ec1f3e0a78b14ce87fbc1",
+      "targetPath": "src/domain/slabs/index.ts",
+      "coverage": "Domain slab load hierarchy and NTC 2018 slab analysis exports."
+    },
+    {
+      "path": "src/index.js",
+      "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7",
+      "targetPath": "src/index.ts",
+      "coverage": "Root public exports for the migrated slab load hierarchy and NTC 2018 slab analysis."
+    }
+  ],
+  "sourceOracles": [
+    {
+      "path": "tests/loadAbstractions.test.js",
+      "gitBlobSha1": "5ace2205648a6fb833e786618c19e3ca32c985ae",
+      "coverage": "Slab load construction, units, derived intensities and serialization."
+    },
+    {
+      "path": "tests/ntc2018SlabLoadAnalysis.test.js",
+      "gitBlobSha1": "c1e9fb9eada0babea7488194244b68c3107e8bd4",
+      "coverage": "NTC 2018 ULS and SLE slab load combinations, factors and no-variable behavior."
+    },
+    {
+      "path": "tests/packageExports.test.js",
+      "gitBlobSha1": "8dde24b4c97dd3dae7100207d07d9d96c52b9c74",
+      "coverage": "Root public export behavior."
+    }
+  ],
+  "sourcePublicExport": {
+    "path": "src/index.js",
+    "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
+  },
+  "targetTests": [
+    "tests/baseline-parity.test.ts",
+    "tests/slab-loads-compile-time.test.ts",
+    "tests/slab-loads-live-parity.test.ts"
+  ],
+  "publicExports": [
+    "FloorSlab",
+    "LayerLoad",
+    "LinearLoadFromLineWeight",
+    "LinearLoadFromVolumeWeight",
+    "NTC2018SlabLoadAnalysis",
+    "SlabLoad",
+    "SurfaceLoad",
+    "VariableLoad",
+    "WallLoad"
+  ],
+  "publicTypeExports": [
+    "FloorSlabOptions",
+    "LayerLoadOptions",
+    "LinearLoadFromLineWeightOptions",
+    "LinearLoadFromVolumeWeightOptions",
+    "NTC2018SlabLoadAnalysisOptions",
+    "NTC2018SlabLoadCoefficients",
+    "SlabLoadJson",
+    "SlabLoadOptions",
+    "SurfaceLoadOptions",
+    "VariableLoadJson",
+    "VariableLoadOptions",
+    "WallLoadOptions"
+  ],
+  "normativeReferences": {
+    "resolved": [],
+    "outsideCorpus": [],
+    "normativeConformityClaimed": false,
+    "status": "classified-for-declared-scope"
+  },
+  "independentValidation": {
+    "method": "Strict declaration consumer coverage and independently executed pinned JavaScript versus built TypeScript comparison of slab-load inheritance, units, exact serialized JSON, numerical totals, NTC 2018 ULS/SLE combinations, Unicode labels and constructor errors.",
+    "targetTests": [
+      "tests/slab-loads-compile-time.test.ts",
+      "tests/slab-loads-live-parity.test.ts"
+    ],
+    "tolerances": {
+      "serializedParity": "exact deep equality and JSON serialization",
+      "numericParity": "exact equality for converted values, totals and combinations",
+      "publicStrings": "exact equality plus Unicode code-point preservation",
+      "errors": "exact error name and message equality"
+    }
+  },
+  "parityDifferences": [
+    "The strict TypeScript declarations describe the existing JavaScript slab-load classes without adding runtime behavior.",
+    "Dynamic property reads in the TypeScript implementation preserve the JavaScript baseline behavior for structurally compatible AreaLoad instances."
+  ],
+  "engineeringFunctionality": "Serializable slab-load hierarchy with explicit unit conversion, permanent and variable load grouping, immutable floor-slab collection helpers and NTC 2018 ULS/SLE combination summaries."
+}

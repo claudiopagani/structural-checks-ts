@@ -282,6 +282,17 @@ export {
   resolvePunchingTransferFromJointActions,
 } from "./domain/slabs/punching/index.js";
 export {
+  FloorSlab,
+  LayerLoad,
+  LinearLoadFromLineWeight,
+  LinearLoadFromVolumeWeight,
+  NTC2018SlabLoadAnalysis,
+  SlabLoad,
+  SurfaceLoad,
+  VariableLoad,
+  WallLoad,
+} from "./domain/slabs/index.js";
+export {
   BeamSectionActionVerifier,
   verifyBeamSectionActions,
 } from "./domain/beams/BeamSectionActionVerifier.js";
@@ -763,6 +774,7 @@ export type {
   TecnariaConnectorOptions,
 } from "./domain/connectors/TecnariaConnector.js";
 export type * from "./domain/actions/index.js";
+export type * from "./domain/slabs/index.js";
 export type * from "./domain/slabs/punching/types.js";
 export type * from "./applications/reinforced-concrete-punching/index.js";
 export type {

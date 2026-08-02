@@ -953,6 +953,7 @@
         "FEM_RESULT_STATUS_VALUES",
         "FORCE_UNIT_FACTORS",
         "FemAssembler2D",
+        "FloorSlab",
         "FoundationBeamAnalysis",
         "FoundationBeamFemBuilder",
         "FoundationBeamModel",
@@ -1037,7 +1038,10 @@
         "LateralPileCapacityAnalysis",
         "LateralPileLoadScenario",
         "LateralPileResponseScenario",
+        "LayerLoad",
         "LineLoad",
+        "LinearLoadFromLineWeight",
+        "LinearLoadFromVolumeWeight",
         "LinearStaticSolver2D",
         "Load",
         "LoadCase",
@@ -1045,6 +1049,7 @@
         "MasonryFiberInterface2D",
         "MasonryMaterial",
         "MohrCoulombModel",
+        "NTC2018SlabLoadAnalysis",
         "NTC2018_ACTION_COMBINATION_FACTORS",
         "NTC2018_ACTION_PARTIAL_FACTORS",
         "NTC2018_ANALYSIS_METHOD",
@@ -1206,6 +1211,7 @@
         "SingleBeamAnalysis",
         "SingleBeamFemBuilder",
         "SingleBeamModel",
+        "SlabLoad",
         "SlidingStrengthModel",
         "SlopeSliceDiscretizer2D",
         "SlopeSurfaceSurcharge2D",
@@ -1227,6 +1233,7 @@
         "StrutAndTieAnalysis2D",
         "StrutAndTieModel2D",
         "Support",
+        "SurfaceLoad",
         "TECNARIA_CONNECTOR_CATALOG",
         "TECNARIA_CONNECTOR_TYPES",
         "TSection",
@@ -1238,6 +1245,7 @@
         "TrafficAction",
         "TurnsekSheppardModel",
         "VariableAction",
+        "VariableLoad",
         "VerificationResult",
         "VerticalStressProfile",
         "VolumeLoad",
@@ -1245,6 +1253,7 @@
         "WALL_SOIL_REACTION_EXTRAPOLATION_MODELS",
         "WALL_SOIL_REACTION_LAW_SCHEMA_VERSION",
         "WALL_SOIL_REACTION_MODELS",
+        "WallLoad",
         "WallSoilReactionLaw",
         "WindAction",
         "XlamBeamSectionProvider",
@@ -7625,11 +7634,19 @@
       "sourcePath": "src/domain/slabs/FloorSlab.js",
       "sourceBlobSha1": "60c28236866f319734f54cdaaf6e8e3491d2b3c5",
       "targetPath": "src/domain/slabs/FloorSlab.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0103-domain-slab-load-hierarchy"],
+      "sourceOracles": [
+        "tests/loadAbstractions.test.js",
+        "tests/ntc2018SlabLoadAnalysis.test.js",
+        "tests/packageExports.test.js"
+      ],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/slab-loads-compile-time.test.ts",
+        "tests/slab-loads-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0103-domain-slab-load-hierarchy"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -9951,11 +9968,19 @@
       "sourcePath": "src/domain/slabs/LayerLoad.js",
       "sourceBlobSha1": "89412c9e33a4fdc71173ce5e3fe2215e5b9ed2f1",
       "targetPath": "src/domain/slabs/LayerLoad.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0103-domain-slab-load-hierarchy"],
+      "sourceOracles": [
+        "tests/loadAbstractions.test.js",
+        "tests/ntc2018SlabLoadAnalysis.test.js",
+        "tests/packageExports.test.js"
+      ],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/slab-loads-compile-time.test.ts",
+        "tests/slab-loads-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0103-domain-slab-load-hierarchy"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -9987,11 +10012,19 @@
       "sourcePath": "src/domain/slabs/LinearLoadFromLineWeight.js",
       "sourceBlobSha1": "70d88f190ab00005cf3c5c2f24f66d6d61d8589a",
       "targetPath": "src/domain/slabs/LinearLoadFromLineWeight.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0103-domain-slab-load-hierarchy"],
+      "sourceOracles": [
+        "tests/loadAbstractions.test.js",
+        "tests/ntc2018SlabLoadAnalysis.test.js",
+        "tests/packageExports.test.js"
+      ],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/slab-loads-compile-time.test.ts",
+        "tests/slab-loads-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0103-domain-slab-load-hierarchy"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -10001,11 +10034,19 @@
       "sourcePath": "src/domain/slabs/LinearLoadFromVolumeWeight.js",
       "sourceBlobSha1": "31c1dfccf1f01b93e8ac57266f72b0dc37f9ad0f",
       "targetPath": "src/domain/slabs/LinearLoadFromVolumeWeight.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0103-domain-slab-load-hierarchy"],
+      "sourceOracles": [
+        "tests/loadAbstractions.test.js",
+        "tests/ntc2018SlabLoadAnalysis.test.js",
+        "tests/packageExports.test.js"
+      ],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/slab-loads-compile-time.test.ts",
+        "tests/slab-loads-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0103-domain-slab-load-hierarchy"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -12319,11 +12360,19 @@
       "sourcePath": "src/domain/slabs/NTC2018SlabLoadAnalysis.js",
       "sourceBlobSha1": "a124b77ad3e56cb2fb7351e4f4323d723ee536f3",
       "targetPath": "src/domain/slabs/NTC2018SlabLoadAnalysis.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0103-domain-slab-load-hierarchy"],
+      "sourceOracles": [
+        "tests/loadAbstractions.test.js",
+        "tests/ntc2018SlabLoadAnalysis.test.js",
+        "tests/packageExports.test.js"
+      ],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/slab-loads-compile-time.test.ts",
+        "tests/slab-loads-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0103-domain-slab-load-hierarchy"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -15397,11 +15446,19 @@
       "sourcePath": "src/domain/slabs/SlabLoad.js",
       "sourceBlobSha1": "c8c37cbc87a6157b6b311df3b482777ae9a894c6",
       "targetPath": "src/domain/slabs/SlabLoad.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0103-domain-slab-load-hierarchy"],
+      "sourceOracles": [
+        "tests/loadAbstractions.test.js",
+        "tests/ntc2018SlabLoadAnalysis.test.js",
+        "tests/packageExports.test.js"
+      ],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/slab-loads-compile-time.test.ts",
+        "tests/slab-loads-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0103-domain-slab-load-hierarchy"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -16375,11 +16432,19 @@
       "sourcePath": "src/domain/slabs/SurfaceLoad.js",
       "sourceBlobSha1": "adc3e50bdff00ee06e82343868695f8be9229e47",
       "targetPath": "src/domain/slabs/SurfaceLoad.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0103-domain-slab-load-hierarchy"],
+      "sourceOracles": [
+        "tests/loadAbstractions.test.js",
+        "tests/ntc2018SlabLoadAnalysis.test.js",
+        "tests/packageExports.test.js"
+      ],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/slab-loads-compile-time.test.ts",
+        "tests/slab-loads-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0103-domain-slab-load-hierarchy"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -17003,11 +17068,19 @@
       "sourcePath": "src/domain/slabs/VariableLoad.js",
       "sourceBlobSha1": "09436927fe7313d811afe31841b5428478d5f1e7",
       "targetPath": "src/domain/slabs/VariableLoad.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0103-domain-slab-load-hierarchy"],
+      "sourceOracles": [
+        "tests/loadAbstractions.test.js",
+        "tests/ntc2018SlabLoadAnalysis.test.js",
+        "tests/packageExports.test.js"
+      ],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/slab-loads-compile-time.test.ts",
+        "tests/slab-loads-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0103-domain-slab-load-hierarchy"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -17603,11 +17676,19 @@
       "sourcePath": "src/domain/slabs/WallLoad.js",
       "sourceBlobSha1": "94c6e7d3c03c59502fdfc5007e535909e3eb28d0",
       "targetPath": "src/domain/slabs/WallLoad.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0103-domain-slab-load-hierarchy"],
+      "sourceOracles": [
+        "tests/loadAbstractions.test.js",
+        "tests/ntc2018SlabLoadAnalysis.test.js",
+        "tests/packageExports.test.js"
+      ],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/slab-loads-compile-time.test.ts",
+        "tests/slab-loads-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0103-domain-slab-load-hierarchy"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -31819,99 +31900,171 @@
       "sourcePath": "src/domain/slabs/FloorSlab.js",
       "sourceBlobSha1": "60c28236866f319734f54cdaaf6e8e3491d2b3c5",
       "targetPath": "src/domain/slabs/FloorSlab.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing"
+      "migrationSlices": ["0103-domain-slab-load-hierarchy"],
+      "sourceOracles": [
+        "tests/loadAbstractions.test.js",
+        "tests/ntc2018SlabLoadAnalysis.test.js",
+        "tests/packageExports.test.js"
+      ],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/slab-loads-compile-time.test.ts",
+        "tests/slab-loads-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0103-domain-slab-load-hierarchy"],
+      "status": "exact-parity"
     },
     {
       "id": "src/domain/slabs/LayerLoad.js",
       "sourcePath": "src/domain/slabs/LayerLoad.js",
       "sourceBlobSha1": "89412c9e33a4fdc71173ce5e3fe2215e5b9ed2f1",
       "targetPath": "src/domain/slabs/LayerLoad.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing"
+      "migrationSlices": ["0103-domain-slab-load-hierarchy"],
+      "sourceOracles": [
+        "tests/loadAbstractions.test.js",
+        "tests/ntc2018SlabLoadAnalysis.test.js",
+        "tests/packageExports.test.js"
+      ],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/slab-loads-compile-time.test.ts",
+        "tests/slab-loads-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0103-domain-slab-load-hierarchy"],
+      "status": "exact-parity"
     },
     {
       "id": "src/domain/slabs/LinearLoadFromLineWeight.js",
       "sourcePath": "src/domain/slabs/LinearLoadFromLineWeight.js",
       "sourceBlobSha1": "70d88f190ab00005cf3c5c2f24f66d6d61d8589a",
       "targetPath": "src/domain/slabs/LinearLoadFromLineWeight.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing"
+      "migrationSlices": ["0103-domain-slab-load-hierarchy"],
+      "sourceOracles": [
+        "tests/loadAbstractions.test.js",
+        "tests/ntc2018SlabLoadAnalysis.test.js",
+        "tests/packageExports.test.js"
+      ],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/slab-loads-compile-time.test.ts",
+        "tests/slab-loads-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0103-domain-slab-load-hierarchy"],
+      "status": "exact-parity"
     },
     {
       "id": "src/domain/slabs/LinearLoadFromVolumeWeight.js",
       "sourcePath": "src/domain/slabs/LinearLoadFromVolumeWeight.js",
       "sourceBlobSha1": "31c1dfccf1f01b93e8ac57266f72b0dc37f9ad0f",
       "targetPath": "src/domain/slabs/LinearLoadFromVolumeWeight.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing"
+      "migrationSlices": ["0103-domain-slab-load-hierarchy"],
+      "sourceOracles": [
+        "tests/loadAbstractions.test.js",
+        "tests/ntc2018SlabLoadAnalysis.test.js",
+        "tests/packageExports.test.js"
+      ],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/slab-loads-compile-time.test.ts",
+        "tests/slab-loads-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0103-domain-slab-load-hierarchy"],
+      "status": "exact-parity"
     },
     {
       "id": "src/domain/slabs/NTC2018SlabLoadAnalysis.js",
       "sourcePath": "src/domain/slabs/NTC2018SlabLoadAnalysis.js",
       "sourceBlobSha1": "a124b77ad3e56cb2fb7351e4f4323d723ee536f3",
       "targetPath": "src/domain/slabs/NTC2018SlabLoadAnalysis.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing"
+      "migrationSlices": ["0103-domain-slab-load-hierarchy"],
+      "sourceOracles": [
+        "tests/loadAbstractions.test.js",
+        "tests/ntc2018SlabLoadAnalysis.test.js",
+        "tests/packageExports.test.js"
+      ],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/slab-loads-compile-time.test.ts",
+        "tests/slab-loads-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0103-domain-slab-load-hierarchy"],
+      "status": "exact-parity"
     },
     {
       "id": "src/domain/slabs/SlabLoad.js",
       "sourcePath": "src/domain/slabs/SlabLoad.js",
       "sourceBlobSha1": "c8c37cbc87a6157b6b311df3b482777ae9a894c6",
       "targetPath": "src/domain/slabs/SlabLoad.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing"
+      "migrationSlices": ["0103-domain-slab-load-hierarchy"],
+      "sourceOracles": [
+        "tests/loadAbstractions.test.js",
+        "tests/ntc2018SlabLoadAnalysis.test.js",
+        "tests/packageExports.test.js"
+      ],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/slab-loads-compile-time.test.ts",
+        "tests/slab-loads-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0103-domain-slab-load-hierarchy"],
+      "status": "exact-parity"
     },
     {
       "id": "src/domain/slabs/SurfaceLoad.js",
       "sourcePath": "src/domain/slabs/SurfaceLoad.js",
       "sourceBlobSha1": "adc3e50bdff00ee06e82343868695f8be9229e47",
       "targetPath": "src/domain/slabs/SurfaceLoad.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing"
+      "migrationSlices": ["0103-domain-slab-load-hierarchy"],
+      "sourceOracles": [
+        "tests/loadAbstractions.test.js",
+        "tests/ntc2018SlabLoadAnalysis.test.js",
+        "tests/packageExports.test.js"
+      ],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/slab-loads-compile-time.test.ts",
+        "tests/slab-loads-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0103-domain-slab-load-hierarchy"],
+      "status": "exact-parity"
     },
     {
       "id": "src/domain/slabs/VariableLoad.js",
       "sourcePath": "src/domain/slabs/VariableLoad.js",
       "sourceBlobSha1": "09436927fe7313d811afe31841b5428478d5f1e7",
       "targetPath": "src/domain/slabs/VariableLoad.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing"
+      "migrationSlices": ["0103-domain-slab-load-hierarchy"],
+      "sourceOracles": [
+        "tests/loadAbstractions.test.js",
+        "tests/ntc2018SlabLoadAnalysis.test.js",
+        "tests/packageExports.test.js"
+      ],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/slab-loads-compile-time.test.ts",
+        "tests/slab-loads-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0103-domain-slab-load-hierarchy"],
+      "status": "exact-parity"
     },
     {
       "id": "src/domain/slabs/WallLoad.js",
       "sourcePath": "src/domain/slabs/WallLoad.js",
       "sourceBlobSha1": "94c6e7d3c03c59502fdfc5007e535909e3eb28d0",
       "targetPath": "src/domain/slabs/WallLoad.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing"
+      "migrationSlices": ["0103-domain-slab-load-hierarchy"],
+      "sourceOracles": [
+        "tests/loadAbstractions.test.js",
+        "tests/ntc2018SlabLoadAnalysis.test.js",
+        "tests/packageExports.test.js"
+      ],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/slab-loads-compile-time.test.ts",
+        "tests/slab-loads-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0103-domain-slab-load-hierarchy"],
+      "status": "exact-parity"
     },
     {
       "id": "src/domain/slabs/index.js",
@@ -31922,7 +32075,7 @@
       "sourceOracles": [],
       "targetTests": [],
       "validationEvidence": [],
-      "status": "missing"
+      "status": "partial"
     },
     {
       "id": "src/domain/slabs/punching/PunchingActionState.js",
@@ -32250,7 +32403,8 @@
         "0099-domain-shallow-foundation-ultimate-limit-state-analysis",
         "0100-domain-retaining-wall-analysis",
         "0101-domain-shallow-foundation-serviceability-analysis",
-        "0102-domain-structural-model"
+        "0102-domain-structural-model",
+        "0103-domain-slab-load-hierarchy"
       ],
       "sourceOracles": [
         "tests/architecture/applicationRegistry.test.js",
@@ -34161,7 +34315,8 @@
       "targetPath": "tests/loadAbstractions.test.ts",
       "migrationSlices": [
         "0040-domain-analysis-load-cases-and-combinations",
-        "0057-domain-area-element-volume-loads"
+        "0057-domain-area-element-volume-loads",
+        "0103-domain-slab-load-hierarchy"
       ],
       "sourceOracles": ["tests/loadAbstractions.test.js"],
       "targetTests": [
@@ -34169,11 +34324,14 @@
         "tests/area-element-volume-loads-live-parity.test.ts",
         "tests/baseline-parity.test.ts",
         "tests/domain-analysis-compile-time.test.ts",
-        "tests/domain-analysis-live-parity.test.ts"
+        "tests/domain-analysis-live-parity.test.ts",
+        "tests/slab-loads-compile-time.test.ts",
+        "tests/slab-loads-live-parity.test.ts"
       ],
       "validationEvidence": [
         "0040-domain-analysis-load-cases-and-combinations",
-        "0057-domain-area-element-volume-loads"
+        "0057-domain-area-element-volume-loads",
+        "0103-domain-slab-load-hierarchy"
       ],
       "status": "exact-parity",
       "testKind": "test"
@@ -34652,11 +34810,15 @@
       "sourcePath": "tests/ntc2018SlabLoadAnalysis.test.js",
       "sourceBlobSha1": "c1e9fb9eada0babea7488194244b68c3107e8bd4",
       "targetPath": "tests/ntc2018SlabLoadAnalysis.test.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0103-domain-slab-load-hierarchy"],
+      "sourceOracles": ["tests/ntc2018SlabLoadAnalysis.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/slab-loads-compile-time.test.ts",
+        "tests/slab-loads-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0103-domain-slab-load-hierarchy"],
+      "status": "exact-parity",
       "testKind": "test"
     },
     {
@@ -34811,7 +34973,8 @@
         "0099-domain-shallow-foundation-ultimate-limit-state-analysis",
         "0100-domain-retaining-wall-analysis",
         "0101-domain-shallow-foundation-serviceability-analysis",
-        "0102-domain-structural-model"
+        "0102-domain-structural-model",
+        "0103-domain-slab-load-hierarchy"
       ],
       "sourceOracles": ["tests/packageExports.test.js"],
       "targetTests": [
@@ -34870,6 +35033,8 @@
         "tests/shallow-foundation-serviceability-live-parity.test.ts",
         "tests/shallow-foundation-uls-compile-time.test.ts",
         "tests/shallow-foundation-uls-live-parity.test.ts",
+        "tests/slab-loads-compile-time.test.ts",
+        "tests/slab-loads-live-parity.test.ts",
         "tests/slope-slice-discretizer-compile-time.test.ts",
         "tests/slope-slice-discretizer-live-parity.test.ts",
         "tests/slope-stability-methods-compile-time.test.ts",
@@ -34920,7 +35085,8 @@
         "0099-domain-shallow-foundation-ultimate-limit-state-analysis",
         "0100-domain-retaining-wall-analysis",
         "0101-domain-shallow-foundation-serviceability-analysis",
-        "0102-domain-structural-model"
+        "0102-domain-structural-model",
+        "0103-domain-slab-load-hierarchy"
       ],
       "status": "exact-parity",
       "testKind": "test"
@@ -38119,12 +38285,28 @@
         "publicStrings": "exact equality plus Unicode code-point preservation",
         "errors": "exact error name and message equality"
       }
+    },
+    {
+      "sliceId": "0103-domain-slab-load-hierarchy",
+      "sourceRevision": "6f33baead8b88166c4b2cf94af41763412e3c751",
+      "method": "Strict declaration consumer coverage and independently executed pinned JavaScript versus built TypeScript comparison of slab-load inheritance, units, exact serialized JSON, numerical totals, NTC 2018 ULS/SLE combinations, Unicode labels and constructor errors.",
+      "targetTests": [
+        "tests/slab-loads-compile-time.test.ts",
+        "tests/slab-loads-live-parity.test.ts"
+      ],
+      "fixture": null,
+      "tolerances": {
+        "serializedParity": "exact deep equality and JSON serialization",
+        "numericParity": "exact equality for converted values, totals and combinations",
+        "publicStrings": "exact equality plus Unicode code-point preservation",
+        "errors": "exact error name and message equality"
+      }
     }
   ],
   "counts": {
     "rootExports": {
       "javascript": 841,
-      "typescript": 577
+      "typescript": 586
     },
     "applicationsExports": {
       "javascript": 309,
@@ -38148,11 +38330,11 @@
     },
     "sourceFiles": {
       "javascript": 480,
-      "typescript": 338
+      "typescript": 348
     },
     "tests": {
       "javascript": 131,
-      "typescript": 192
+      "typescript": 194
     },
     "validationCampaigns": {
       "javascript": 17,
@@ -38183,13 +38365,12 @@
     "domain": {
       "statusCounts": {
         "exact-parity": 0,
-        "partial": 20,
-        "missing": 27,
+        "partial": 21,
+        "missing": 8,
         "intentionally-excluded": 0,
         "decision-required": 0
       },
       "itemIds": [
-        "root-export:FloorSlab",
         "root-export:GEOTECHNICAL_DESIGN_SITUATION_SCHEMA_VERSION",
         "root-export:GEOTECHNICAL_DESIGN_SITUATION_TYPES",
         "root-export:GEOTECHNICAL_DRAINAGE_CONDITIONS",
@@ -38199,21 +38380,13 @@
         "root-export:GEOTECHNICAL_TIME_CONDITIONS",
         "root-export:GROUND_MODEL_SCHEMA_VERSION",
         "root-export:GROUND_PROFILE_SCHEMA_VERSION",
-        "root-export:LayerLoad",
-        "root-export:LinearLoadFromLineWeight",
-        "root-export:LinearLoadFromVolumeWeight",
-        "root-export:NTC2018SlabLoadAnalysis",
         "root-export:SOIL_DEFORMATION_MODELS",
         "root-export:SOIL_DRAINAGE_CONDITIONS",
         "root-export:SOIL_MODULUS_DEFINITIONS",
         "root-export:SOIL_PARAMETER_BASES",
         "root-export:SOIL_SETTLEMENT_COMPONENTS",
         "root-export:SOIL_STRENGTH_MODELS",
-        "root-export:SlabLoad",
-        "root-export:SurfaceLoad",
         "root-export:TERRAIN_ELEVATION_GRID_SCHEMA_VERSION",
-        "root-export:VariableLoad",
-        "root-export:WallLoad",
         "root-export:normalizeTerrainElevationGrid",
         "source:src/domain/fem/elements/index.js",
         "source:src/domain/fem/elements/masonry/index.js",
@@ -38223,15 +38396,6 @@
         "source:src/domain/materials/masonry/index.js",
         "source:src/domain/materials/masonry/shearStrength/index.js",
         "source:src/domain/sections/masonry/index.js",
-        "source:src/domain/slabs/FloorSlab.js",
-        "source:src/domain/slabs/LayerLoad.js",
-        "source:src/domain/slabs/LinearLoadFromLineWeight.js",
-        "source:src/domain/slabs/LinearLoadFromVolumeWeight.js",
-        "source:src/domain/slabs/NTC2018SlabLoadAnalysis.js",
-        "source:src/domain/slabs/SlabLoad.js",
-        "source:src/domain/slabs/SurfaceLoad.js",
-        "source:src/domain/slabs/VariableLoad.js",
-        "source:src/domain/slabs/WallLoad.js",
         "source:src/domain/slabs/index.js",
         "source:src/domain/solvers/index.js",
         "source:src/domain/terrain/TerrainElevationGrid.js",
@@ -38787,7 +38951,7 @@
       "statusCounts": {
         "exact-parity": 0,
         "partial": 3,
-        "missing": 134,
+        "missing": 133,
         "intentionally-excluded": 0,
         "decision-required": 0
       },
@@ -38919,7 +39083,6 @@
         "test:tests/ntc2018NormativeReferences.test.js",
         "test:tests/ntc2018PermanentLoads.test.js",
         "test:tests/ntc2018SeismicAction.test.js",
-        "test:tests/ntc2018SlabLoadAnalysis.test.js",
         "test:tests/ntc2018SnowLoad.test.js",
         "test:tests/ntc2018ThermalAction.test.js",
         "test:tests/ntc2018TopographicClassification.test.js",
