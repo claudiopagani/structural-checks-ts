@@ -1,0 +1,74 @@
+{
+  "schemaVersion": 1,
+  "sliceId": "0107-domain-masonry-section-public-index",
+  "title": "Domain masonry section public index",
+  "migrationType": "mechanical-parity-with-minimal-dependency-support",
+  "implementationStatus": "implemented",
+  "dependencies": ["0085-domain-masonry-fiber-interface"],
+  "source": {
+    "repository": "https://github.com/claudiopagani/strutture-js",
+    "revision": "6f33baead8b88166c4b2cf94af41763412e3c751"
+  },
+  "normativeCorpusRevision": "41da3faa489600173106935bbcf726119300e48d",
+  "sourceFiles": [
+    {
+      "path": "src/domain/sections/masonry/index.js",
+      "gitBlobSha1": "c9468efa4c5cc2b4f0457a32f76cad5c1e8ac0ad",
+      "targetPath": "src/domain/sections/masonry/index.ts"
+    }
+  ],
+  "supportingSourceFiles": [
+    {
+      "path": "src/index.js",
+      "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7",
+      "targetPath": "src/index.ts",
+      "coverage": "Root MasonryFiberInterface2D export is wired through the migrated masonry section index."
+    }
+  ],
+  "sourceOracles": [
+    {
+      "path": "tests/masonryFiberInterface2D.test.js",
+      "gitBlobSha1": "f69d516f25d59216c334e69dda4fe20b6f3e72e5",
+      "coverage": "Masonry fiber interface public behavior, serialization and validation."
+    },
+    {
+      "path": "tests/packageExports.test.js",
+      "gitBlobSha1": "8dde24b4c97dd3dae7100207d07d9d96c52b9c74",
+      "coverage": "Root public export behavior."
+    }
+  ],
+  "sourcePublicExport": {
+    "path": "src/index.js",
+    "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
+  },
+  "targetTests": [
+    "tests/baseline-parity.test.ts",
+    "tests/masonry-section-index-compile-time.test.ts",
+    "tests/masonry-section-index-live-parity.test.ts"
+  ],
+  "publicExports": [],
+  "publicTypeExports": [],
+  "normativeReferences": {
+    "resolved": [],
+    "outsideCorpus": [],
+    "normativeConformityClaimed": false,
+    "status": "not-applicable"
+  },
+  "independentValidation": {
+    "method": "Strict declaration consumer coverage and independently executed pinned JavaScript versus built TypeScript comparison of the masonry section barrel, root alias wiring and independent class identity; detailed fiber behavior remains covered by dependency-slice tests.",
+    "targetTests": [
+      "tests/masonry-section-index-compile-time.test.ts",
+      "tests/masonry-section-index-live-parity.test.ts"
+    ],
+    "tolerances": {
+      "serializedParity": "underlying fiber interface serialization remains covered by the dependency slice",
+      "numericParity": "underlying fiber interface numerical behavior remains covered by the dependency slice",
+      "publicStrings": "exact source-compatible public naming",
+      "errors": "underlying fiber interface errors remain covered by the dependency slice"
+    }
+  },
+  "parityDifferences": [
+    "No root runtime export is added; the existing MasonryFiberInterface2D export is routed through the source-compatible section barrel."
+  ],
+  "engineeringFunctionality": "Source-compatible public composition for the migrated masonry fiber section interface."
+}

@@ -269,7 +269,7 @@ export {
   VariableAction,
   WindAction,
 } from "./domain/actions/index.js";
-export { MasonryFiberInterface2D } from "./domain/sections/masonry/MasonryFiberInterface2D.js";
+export { MasonryFiberInterface2D } from "./domain/sections/masonry/index.js";
 export {
   PUNCHING_ACTION_SCHEMA_VERSION,
   PUNCHING_CONNECTION_SCHEMA_VERSION,

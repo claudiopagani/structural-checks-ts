@@ -31961,11 +31961,15 @@
       "sourcePath": "src/domain/sections/masonry/index.js",
       "sourceBlobSha1": "c9468efa4c5cc2b4f0457a32f76cad5c1e8ac0ad",
       "targetPath": "src/domain/sections/masonry/index.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing"
+      "migrationSlices": ["0107-domain-masonry-section-public-index"],
+      "sourceOracles": ["tests/masonryFiberInterface2D.test.js", "tests/packageExports.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/masonry-section-index-compile-time.test.ts",
+        "tests/masonry-section-index-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0107-domain-masonry-section-public-index"],
+      "status": "exact-parity"
     },
     {
       "id": "src/domain/slabs/FloorSlab.js",
@@ -32483,7 +32487,8 @@
         "0103-domain-slab-load-hierarchy",
         "0104-domain-terrain-elevation-grid",
         "0105-domain-fem-public-indexes",
-        "0106-domain-masonry-material-public-indexes"
+        "0106-domain-masonry-material-public-indexes",
+        "0107-domain-masonry-section-public-index"
       ],
       "sourceOracles": [
         "tests/architecture/applicationRegistry.test.js",
@@ -34485,14 +34490,22 @@
       "sourcePath": "tests/masonryFiberInterface2D.test.js",
       "sourceBlobSha1": "f69d516f25d59216c334e69dda4fe20b6f3e72e5",
       "targetPath": "tests/masonryFiberInterface2D.test.ts",
-      "migrationSlices": ["0085-domain-masonry-fiber-interface"],
+      "migrationSlices": [
+        "0085-domain-masonry-fiber-interface",
+        "0107-domain-masonry-section-public-index"
+      ],
       "sourceOracles": ["tests/masonryFiberInterface2D.test.js"],
       "targetTests": [
         "tests/baseline-parity.test.ts",
         "tests/masonry-fiber-interface-compile-time.test.ts",
-        "tests/masonry-fiber-interface-live-parity.test.ts"
+        "tests/masonry-fiber-interface-live-parity.test.ts",
+        "tests/masonry-section-index-compile-time.test.ts",
+        "tests/masonry-section-index-live-parity.test.ts"
       ],
-      "validationEvidence": ["0085-domain-masonry-fiber-interface"],
+      "validationEvidence": [
+        "0085-domain-masonry-fiber-interface",
+        "0107-domain-masonry-section-public-index"
+      ],
       "status": "exact-parity",
       "testKind": "test"
     },
@@ -35102,7 +35115,8 @@
         "0103-domain-slab-load-hierarchy",
         "0104-domain-terrain-elevation-grid",
         "0105-domain-fem-public-indexes",
-        "0106-domain-masonry-material-public-indexes"
+        "0106-domain-masonry-material-public-indexes",
+        "0107-domain-masonry-section-public-index"
       ],
       "sourceOracles": ["tests/packageExports.test.js"],
       "targetTests": [
@@ -35153,6 +35167,8 @@
         "tests/masonry-fiber-interface-live-parity.test.ts",
         "tests/masonry-material-indexes-compile-time.test.ts",
         "tests/masonry-material-indexes-live-parity.test.ts",
+        "tests/masonry-section-index-compile-time.test.ts",
+        "tests/masonry-section-index-live-parity.test.ts",
         "tests/rc-cracked-deflection.test.ts",
         "tests/reinforced-concrete-beam-column-joint.test.ts",
         "tests/reinforced-concrete-foundation-beam.test.ts",
@@ -35223,7 +35239,8 @@
         "0103-domain-slab-load-hierarchy",
         "0104-domain-terrain-elevation-grid",
         "0105-domain-fem-public-indexes",
-        "0106-domain-masonry-material-public-indexes"
+        "0106-domain-masonry-material-public-indexes",
+        "0107-domain-masonry-section-public-index"
       ],
       "status": "exact-parity",
       "testKind": "test"
@@ -38486,6 +38503,22 @@
         "publicStrings": "exact equality plus Unicode code-point preservation",
         "errors": "underlying material and factory errors remain covered by dependency slices"
       }
+    },
+    {
+      "sliceId": "0107-domain-masonry-section-public-index",
+      "sourceRevision": "6f33baead8b88166c4b2cf94af41763412e3c751",
+      "method": "Strict declaration consumer coverage and independently executed pinned JavaScript versus built TypeScript comparison of the masonry section barrel, root alias wiring and independent class identity; detailed fiber behavior remains covered by dependency-slice tests.",
+      "targetTests": [
+        "tests/masonry-section-index-compile-time.test.ts",
+        "tests/masonry-section-index-live-parity.test.ts"
+      ],
+      "fixture": null,
+      "tolerances": {
+        "serializedParity": "underlying fiber interface serialization remains covered by the dependency slice",
+        "numericParity": "underlying fiber interface numerical behavior remains covered by the dependency slice",
+        "publicStrings": "exact source-compatible public naming",
+        "errors": "underlying fiber interface errors remain covered by the dependency slice"
+      }
     }
   ],
   "counts": {
@@ -38515,11 +38548,11 @@
     },
     "sourceFiles": {
       "javascript": 480,
-      "typescript": 352
+      "typescript": 353
     },
     "tests": {
       "javascript": 131,
-      "typescript": 200
+      "typescript": 202
     },
     "validationCampaigns": {
       "javascript": 17,
@@ -38551,7 +38584,7 @@
       "statusCounts": {
         "exact-parity": 0,
         "partial": 18,
-        "missing": 2,
+        "missing": 1,
         "intentionally-excluded": 0,
         "decision-required": 0
       },
@@ -38572,7 +38605,6 @@
         "root-export:SOIL_SETTLEMENT_COMPONENTS",
         "root-export:SOIL_STRENGTH_MODELS",
         "source:src/domain/geotechnics/index.js",
-        "source:src/domain/sections/masonry/index.js",
         "source:src/domain/slabs/index.js",
         "source:src/domain/solvers/index.js",
         "source:src/domain/terrain/index.js"
