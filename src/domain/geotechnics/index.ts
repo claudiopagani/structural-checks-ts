@@ -297,6 +297,15 @@ export {
   type GroundAnchorBondGroundClass,
 } from "./groundAnchorBondCatalog.js";
 export {
+  EMBEDDED_RETAINING_WALL_LOADING_CONDITIONS,
+  EMBEDDED_RETAINING_WALL_SCENARIO_SCHEMA_VERSION,
+  EMBEDDED_RETAINING_WALL_SUPPORT_BEHAVIORS,
+  EMBEDDED_RETAINING_WALL_SUPPORT_TYPES,
+  EmbeddedRetainingWallScenario,
+  type EmbeddedRetainingWallScenarioJson,
+  type EmbeddedRetainingWallScenarioOptions,
+} from "./EmbeddedRetainingWallScenario.js";
+export {
   SLOPE_STABILITY_METHODS,
   ordinaryMethodOfSlices,
   simplifiedBishop,

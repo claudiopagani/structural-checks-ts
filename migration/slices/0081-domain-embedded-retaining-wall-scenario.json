@@ -1,0 +1,87 @@
+{
+  "schemaVersion": 1,
+  "sliceId": "0081-domain-embedded-retaining-wall-scenario",
+  "title": "Domain embedded retaining-wall scenario",
+  "migrationType": "mechanical-parity",
+  "implementationStatus": "implemented",
+  "dependencies": ["0077-domain-wall-soil-reaction-law"],
+  "source": {
+    "repository": "https://github.com/claudiopagani/strutture-js",
+    "revision": "6f33baead8b88166c4b2cf94af41763412e3c751"
+  },
+  "normativeCorpusRevision": "41da3faa489600173106935bbcf726119300e48d",
+  "sourceFiles": [
+    {
+      "path": "src/domain/geotechnics/EmbeddedRetainingWallScenario.js",
+      "gitBlobSha1": "5f72c4faf67df7fa9e510641a81179a624ed13e9",
+      "targetPath": "src/domain/geotechnics/EmbeddedRetainingWallScenario.ts"
+    }
+  ],
+  "supportingSourceFiles": [
+    {
+      "path": "src/domain/geotechnics/index.js",
+      "gitBlobSha1": "41ed2053fc2e37dc90da412846609f4050af9668",
+      "targetPath": "src/domain/geotechnics/index.ts",
+      "coverage": "Geotechnical public exports for the migrated embedded retaining-wall scenario."
+    },
+    {
+      "path": "src/index.js",
+      "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7",
+      "targetPath": "src/index.ts",
+      "coverage": "Root public exports for the migrated embedded retaining-wall scenario."
+    }
+  ],
+  "sourceOracles": [
+    {
+      "path": "tests/geotechnicalEmbeddedRetainingWalls.test.js",
+      "gitBlobSha1": "4e5ac3cc7b3d0db759c3a7a2dae5b7d9e7ec788a",
+      "coverage": "Embedded retaining-wall scenario normalization, unit conversion, staged actions, pseudostatic requirements and serialization."
+    },
+    {
+      "path": "tests/packageExports.test.js",
+      "gitBlobSha1": "8dde24b4c97dd3dae7100207d07d9d96c52b9c74",
+      "coverage": "Root and geotechnics subpath public export behavior."
+    }
+  ],
+  "sourcePublicExport": {
+    "path": "src/index.js",
+    "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
+  },
+  "targetTests": [
+    "tests/baseline-parity.test.ts",
+    "tests/embedded-retaining-wall-scenario-compile-time.test.ts",
+    "tests/embedded-retaining-wall-scenario-live-parity.test.ts"
+  ],
+  "publicExports": [
+    "EMBEDDED_RETAINING_WALL_LOADING_CONDITIONS",
+    "EMBEDDED_RETAINING_WALL_SCENARIO_SCHEMA_VERSION",
+    "EMBEDDED_RETAINING_WALL_SUPPORT_BEHAVIORS",
+    "EMBEDDED_RETAINING_WALL_SUPPORT_TYPES",
+    "EmbeddedRetainingWallScenario"
+  ],
+  "publicTypeExports": [
+    "EmbeddedRetainingWallScenarioJson",
+    "EmbeddedRetainingWallScenarioOptions"
+  ],
+  "normativeReferences": {
+    "resolved": [],
+    "outsideCorpus": [],
+    "normativeConformityClaimed": false,
+    "status": "classified-for-declared-scope"
+  },
+  "independentValidation": {
+    "method": "Strict public declaration consumer coverage and independently executed pinned JavaScript versus built TypeScript comparison of constants, nested soil-response curves, unit conversion, support and stage normalization, staged pressure and nodal actions, pseudostatic requirements, exact JSON serialization, Unicode identifiers and unsupported/error messages.",
+    "targetTests": [
+      "tests/embedded-retaining-wall-scenario-compile-time.test.ts",
+      "tests/embedded-retaining-wall-scenario-live-parity.test.ts"
+    ],
+    "tolerances": {
+      "serializedParity": "exact deep equality and JSON serialization",
+      "numericParity": "exact equality for normalized unit-aware values",
+      "publicStrings": "exact equality plus Unicode code-point preservation",
+      "errors": "exact error name and message equality"
+    }
+  },
+  "parityDifferences": [],
+  "engineeringFunctionality": "Serializable staged embedded retaining-wall scenario input with assigned soil-response curves, support actions, pressure loads, nodal actions, solver controls and explicit pseudostatic loading requirements."
+}

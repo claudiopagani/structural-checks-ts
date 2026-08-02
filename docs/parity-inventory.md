@@ -14,14 +14,14 @@ establish behavioral parity.
 
 | Surface                           | Pinned JavaScript | Current TypeScript |
 | --------------------------------- | ----------------: | -----------------: |
-| Root exports                      |               841 |                506 |
-| Applications exports              |               309 |                153 |
+| Root exports                      |               841 |                511 |
+| Applications exports              |               309 |                158 |
 | Package entry points              |                14 |                  2 |
 | ApplicationRegistry entries       |                30 |                  0 |
 | Application catalog entries       |                30 |                 30 |
-| Serialized schema/version symbols |                49 |                 28 |
-| Source files                      |               480 |                315 |
-| Tests                             |               131 |                148 |
+| Serialized schema/version symbols |                49 |                 29 |
+| Source files                      |               480 |                316 |
+| Tests                             |               131 |                150 |
 | Validation campaigns              |                17 |                  0 |
 | Validation files                  |                27 |                  0 |
 | Examples                          |                32 |                  0 |
@@ -34,9 +34,9 @@ establish behavioral parity.
 The JSON inventory contains the exact item IDs for every non-exact item. The groups below are the
 implementation order required by the repository architecture.
 
-- **domain** — partial: 20, missing: 121.
+- **domain** — partial: 20, missing: 115.
 - **norms** — partial: 16, missing: 157.
-- **applications** — partial: 16, missing: 386.
+- **applications** — partial: 16, missing: 381.
 - **packageValidation** — partial: 3, missing: 139.
 
 ## Status semantics
