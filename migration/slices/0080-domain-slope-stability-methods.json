@@ -1,0 +1,88 @@
+{
+  "schemaVersion": 1,
+  "sliceId": "0080-domain-slope-stability-methods",
+  "title": "Domain slope-stability methods",
+  "migrationType": "mechanical-parity",
+  "implementationStatus": "implemented",
+  "dependencies": [],
+  "source": {
+    "repository": "https://github.com/claudiopagani/strutture-js",
+    "revision": "6f33baead8b88166c4b2cf94af41763412e3c751"
+  },
+  "normativeCorpusRevision": "41da3faa489600173106935bbcf726119300e48d",
+  "sourceFiles": [
+    {
+      "path": "src/domain/geotechnics/slopeStabilityMethods.js",
+      "gitBlobSha1": "1f87183f033601a45665dcd064fba95af560a0cf",
+      "targetPath": "src/domain/geotechnics/slopeStabilityMethods.ts"
+    }
+  ],
+  "supportingSourceFiles": [
+    {
+      "path": "src/domain/geotechnics/index.js",
+      "gitBlobSha1": "41ed2053fc2e37dc90da412846609f4050af9668",
+      "targetPath": "src/domain/geotechnics/index.ts",
+      "coverage": "Geotechnical public exports for the migrated ordinary and simplified Bishop methods."
+    },
+    {
+      "path": "src/index.js",
+      "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7",
+      "targetPath": "src/index.ts",
+      "coverage": "Root public exports for the migrated slope-stability methods."
+    }
+  ],
+  "sourceOracles": [
+    {
+      "path": "tests/geotechnicalSlopeStability.test.js",
+      "gitBlobSha1": "ccb2cab5ccf35b8b35de4d3fcff9d23aed949173",
+      "coverage": "Ordinary Method of Slices and Simplified Bishop numerical, effective/total stress, iteration, Unicode and unsupported pseudostatic behavior."
+    },
+    {
+      "path": "tests/packageExports.test.js",
+      "gitBlobSha1": "8dde24b4c97dd3dae7100207d07d9d96c52b9c74",
+      "coverage": "Root and geotechnics subpath public export behavior."
+    }
+  ],
+  "sourcePublicExport": {
+    "path": "src/index.js",
+    "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
+  },
+  "targetTests": [
+    "tests/baseline-parity.test.ts",
+    "tests/slope-stability-methods-compile-time.test.ts",
+    "tests/slope-stability-methods-live-parity.test.ts"
+  ],
+  "publicExports": ["SLOPE_STABILITY_METHODS", "ordinaryMethodOfSlices", "simplifiedBishop"],
+  "publicTypeExports": [
+    "OrdinaryMethodOfSlicesResult",
+    "OrdinarySliceContribution",
+    "SimplifiedBishopOptions",
+    "SimplifiedBishopResult",
+    "SimplifiedBishopSliceContribution",
+    "SlopeSliceInput",
+    "SlopeStressBasis"
+  ],
+  "normativeReferences": {
+    "resolved": [],
+    "outsideCorpus": [],
+    "normativeConformityClaimed": false,
+    "status": "classified-for-declared-scope"
+  },
+  "independentValidation": {
+    "method": "Strict public declaration consumer coverage and independently executed pinned JavaScript versus built TypeScript comparison of ordinary slices, effective and total stress branches, Bishop convergence history outputs, exact numeric/serialized results, Unicode slice identifiers and exact unsupported/error messages.",
+    "targetTests": [
+      "tests/slope-stability-methods-compile-time.test.ts",
+      "tests/slope-stability-methods-live-parity.test.ts"
+    ],
+    "tolerances": {
+      "serializedParity": "exact deep equality and JSON serialization",
+      "numericParity": "exact equality for live JavaScript and built TypeScript method results",
+      "publicStrings": "exact equality plus Unicode code-point preservation",
+      "errors": "exact error name and message equality"
+    }
+  },
+  "parityDifferences": [
+    "The strict TypeScript declarations describe the existing JavaScript ordinary and simplified Bishop methods without adding Spencer's method or slope-surface search behavior."
+  ],
+  "engineeringFunctionality": "Slice-based ordinary and simplified Bishop slope-stability factors of safety with effective/total stress handling, pore pressure, convergence diagnostics and explicit pseudostatic boundary."
+}

@@ -296,4 +296,16 @@ export {
   type GroundAnchorBondCatalogReference,
   type GroundAnchorBondGroundClass,
 } from "./groundAnchorBondCatalog.js";
+export {
+  SLOPE_STABILITY_METHODS,
+  ordinaryMethodOfSlices,
+  simplifiedBishop,
+  type OrdinaryMethodOfSlicesResult,
+  type OrdinarySliceContribution,
+  type SimplifiedBishopOptions,
+  type SimplifiedBishopResult,
+  type SimplifiedBishopSliceContribution,
+  type SlopeSliceInput,
+  type SlopeStressBasis,
+} from "./slopeStabilityMethods.js";
 export { VerticalStressProfile } from "./VerticalStressProfile.js";

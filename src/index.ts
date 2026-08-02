@@ -438,6 +438,9 @@ export {
   GROUND_ANCHOR_BOND_CATALOG_REFERENCE,
   getGroundAnchorBondCatalogEntry,
   listGroundAnchorBondCatalogEntries,
+  SLOPE_STABILITY_METHODS,
+  ordinaryMethodOfSlices,
+  simplifiedBishop,
   AxialPileLoadScenario,
   DeepFoundationModel,
   GeotechnicalDesignSituation,
@@ -1392,6 +1395,13 @@ export type {
   GroundAnchorBondCatalogEntry,
   GroundAnchorBondCatalogReference,
   GroundAnchorBondGroundClass,
+  OrdinaryMethodOfSlicesResult,
+  OrdinarySliceContribution,
+  SimplifiedBishopOptions,
+  SimplifiedBishopResult,
+  SimplifiedBishopSliceContribution,
+  SlopeSliceInput,
+  SlopeStressBasis,
 } from "./domain/geotechnics/index.js";
 export type {
   BiaxialCompressedSide,
