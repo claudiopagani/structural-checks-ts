@@ -60,6 +60,7 @@ const expectedExports = [
   "IDENTITY_RESISTANCE_AXIS_TRANSFORMATION",
   "BaseMaterial",
   "BandedLinearSolver",
+  "BeamElement",
   "BeamLinePreprocessor2D",
   "BeamSectionActionVerifier",
   "CalculationResult",

@@ -172,6 +172,12 @@ export type {
   StructuralElementJson,
   StructuralElementNode,
 } from "./domain/elements/StructuralElement.js";
+export { BeamElement } from "./domain/elements/BeamElement.js";
+export type {
+  BeamElementInput,
+  BeamElementJson,
+  BeamElementNode,
+} from "./domain/elements/BeamElement.js";
 export {
   AxialMember2D,
   STRUT_AND_TIE_MEMBER_TYPES,

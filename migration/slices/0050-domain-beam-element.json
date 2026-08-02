@@ -1,0 +1,62 @@
+{
+  "schemaVersion": 1,
+  "sliceId": "0050-domain-beam-element",
+  "title": "Domain BeamElement primitive",
+  "migrationType": "mechanical-parity",
+  "implementationStatus": "implemented",
+  "dependencies": ["0049-domain-structural-element"],
+  "source": {
+    "repository": "https://github.com/claudiopagani/strutture-js",
+    "revision": "6f33baead8b88166c4b2cf94af41763412e3c751"
+  },
+  "normativeCorpusRevision": "41da3faa489600173106935bbcf726119300e48d",
+  "sourceFiles": [
+    {
+      "path": "src/domain/elements/BeamElement.js",
+      "gitBlobSha1": "e4740ddc6d5903ffc1f3da5f9cde13e6409c5698",
+      "targetPath": "src/domain/elements/BeamElement.ts"
+    }
+  ],
+  "supportingSourceFiles": [
+    {
+      "path": "src/index.js",
+      "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7",
+      "targetPath": "src/index.ts",
+      "coverage": "Root BeamElement export is re-exported from the migrated implementation"
+    }
+  ],
+  "sourceOracles": [],
+  "sourcePublicExport": {
+    "path": "src/index.js",
+    "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
+  },
+  "targetTests": [
+    "tests/beam-element-compile-time.test.ts",
+    "tests/beam-element-live-parity.test.ts"
+  ],
+  "publicExports": ["BeamElement"],
+  "publicTypeExports": ["BeamElementInput", "BeamElementJson", "BeamElementNode"],
+  "normativeReferences": {
+    "resolved": [],
+    "outsideCorpus": [],
+    "normativeConformityClaimed": false,
+    "status": "classified-for-declared-scope"
+  },
+  "independentValidation": {
+    "method": "Strict declaration consumer coverage and independently executed pinned JavaScript versus built TypeScript BeamElement modules, including StructuralElement inheritance isolation, root re-export identity, exact JSON serialization, length, mutation/chaining, defaults, Unicode values and constructor errors.",
+    "targetTests": [
+      "tests/beam-element-compile-time.test.ts",
+      "tests/beam-element-live-parity.test.ts"
+    ],
+    "tolerances": {
+      "serializedParity": "exact JSON serialization",
+      "numericParity": "exact equality for delegated beam length",
+      "publicStrings": "exact equality plus Unicode code-point equality"
+    }
+  },
+  "parityDifferences": [
+    "The strict TypeScript declarations describe the existing JavaScript BeamElement contract without adding runtime behavior.",
+    "BeamSystem and FEM element implementations remain outside this slice."
+  ],
+  "engineeringFunctionality": "Generic beam element node membership, releases, local-axis metadata, delegated length and serialization primitive only."
+}
