@@ -56,11 +56,14 @@ export { XlamMaterial } from "./domain/materials/XlamMaterial.js";
 export { MasonryMaterial } from "./domain/materials/MasonryMaterial.js";
 export { SteelMaterial } from "./domain/materials/SteelMaterial.js";
 export {
+  CYCLIC_MASONRY_INTERNAL_UNITS,
+  CyclicMasonryCompressionMaterial,
+  CyclicMasonryShearMaterial,
   MohrCoulombModel,
   SlidingStrengthModel,
   TurnsekSheppardModel,
   createMasonryShearStrengthModel,
-} from "./domain/materials/masonry/shearStrength/index.js";
+} from "./domain/materials/masonry/index.js";
 export {
   ConcreteNoTensionLaw,
   ConcreteParabolaRectangleLaw,
@@ -266,11 +269,6 @@ export {
   VariableAction,
   WindAction,
 } from "./domain/actions/index.js";
-export {
-  CYCLIC_MASONRY_INTERNAL_UNITS,
-  CyclicMasonryCompressionMaterial,
-} from "./domain/materials/masonry/CyclicMasonryCompressionMaterial.js";
-export { CyclicMasonryShearMaterial } from "./domain/materials/masonry/CyclicMasonryShearMaterial.js";
 export { MasonryFiberInterface2D } from "./domain/sections/masonry/MasonryFiberInterface2D.js";
 export {
   PUNCHING_ACTION_SCHEMA_VERSION,

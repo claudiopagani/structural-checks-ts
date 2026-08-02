@@ -1,0 +1,93 @@
+{
+  "schemaVersion": 1,
+  "sliceId": "0106-domain-masonry-material-public-indexes",
+  "title": "Domain masonry material public index composition",
+  "migrationType": "mechanical-parity-with-minimal-dependency-support",
+  "implementationStatus": "implemented",
+  "dependencies": [
+    "0059-domain-masonry-shear-strength-strategies",
+    "0083-domain-cyclic-masonry-compression-material",
+    "0084-domain-cyclic-masonry-shear-material"
+  ],
+  "source": {
+    "repository": "https://github.com/claudiopagani/strutture-js",
+    "revision": "6f33baead8b88166c4b2cf94af41763412e3c751"
+  },
+  "normativeCorpusRevision": "41da3faa489600173106935bbcf726119300e48d",
+  "sourceFiles": [
+    {
+      "path": "src/domain/materials/masonry/index.js",
+      "gitBlobSha1": "eed5859d86434278ab7585e627f8ce9813392cb8",
+      "targetPath": "src/domain/materials/masonry/index.ts"
+    },
+    {
+      "path": "src/domain/materials/masonry/shearStrength/index.js",
+      "gitBlobSha1": "630669ce30cc0b4b7cefe4b30188754006064516",
+      "targetPath": "src/domain/materials/masonry/shearStrength/index.ts"
+    }
+  ],
+  "supportingSourceFiles": [
+    {
+      "path": "src/index.js",
+      "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7",
+      "targetPath": "src/index.ts",
+      "coverage": "Root public exports are composed through the migrated masonry material index without changing the public export set."
+    }
+  ],
+  "sourceOracles": [
+    {
+      "path": "tests/cyclicMasonryCompressionMaterial.test.js",
+      "gitBlobSha1": "5bea624d5b3c6e99dc0c8ec8196de954dbfb322a",
+      "coverage": "Cyclic masonry compression material public construction and serialized behavior."
+    },
+    {
+      "path": "tests/cyclicMasonryShearMaterial.test.js",
+      "gitBlobSha1": "0afa6a4def231651e1a8406abf88cebdef8cc3dc",
+      "coverage": "Cyclic masonry shear material and shear-strength model public behavior."
+    },
+    {
+      "path": "tests/cyclicMasonryPier2D.test.js",
+      "gitBlobSha1": "286b6e2168c8d551e0603ba08d2b8bd8e205f589",
+      "coverage": "Masonry shear strategy construction through a public consumer path."
+    },
+    {
+      "path": "tests/packageExports.test.js",
+      "gitBlobSha1": "8dde24b4c97dd3dae7100207d07d9d96c52b9c74",
+      "coverage": "Root public export behavior."
+    }
+  ],
+  "sourcePublicExport": {
+    "path": "src/index.js",
+    "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
+  },
+  "targetTests": [
+    "tests/baseline-parity.test.ts",
+    "tests/masonry-material-indexes-compile-time.test.ts",
+    "tests/masonry-material-indexes-live-parity.test.ts"
+  ],
+  "publicExports": [],
+  "publicTypeExports": [],
+  "normativeReferences": {
+    "resolved": [],
+    "outsideCorpus": [],
+    "normativeConformityClaimed": false,
+    "status": "not-applicable"
+  },
+  "independentValidation": {
+    "method": "Strict declaration consumer coverage and independently executed pinned JavaScript versus built TypeScript comparison of the masonry material barrel, nested shear-strength barrel, root wiring, exact export order, exact serialized constants, Unicode-safe strings and independent function identity.",
+    "targetTests": [
+      "tests/masonry-material-indexes-compile-time.test.ts",
+      "tests/masonry-material-indexes-live-parity.test.ts"
+    ],
+    "tolerances": {
+      "serializedParity": "exact export keys, order and JSON serialization",
+      "numericParity": "underlying material numerical behavior remains covered by dependency slices",
+      "publicStrings": "exact equality plus Unicode code-point preservation",
+      "errors": "underlying material and factory errors remain covered by dependency slices"
+    }
+  },
+  "parityDifferences": [
+    "No root runtime export is added; this slice composes existing masonry material and shear-strength exports through the source-compatible masonry barrel."
+  ],
+  "engineeringFunctionality": "Source-compatible public composition for cyclic masonry material classes and masonry shear-strength strategies."
+}

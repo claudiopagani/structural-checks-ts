@@ -31694,11 +31694,20 @@
       "sourcePath": "src/domain/materials/masonry/index.js",
       "sourceBlobSha1": "eed5859d86434278ab7585e627f8ce9813392cb8",
       "targetPath": "src/domain/materials/masonry/index.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing"
+      "migrationSlices": ["0106-domain-masonry-material-public-indexes"],
+      "sourceOracles": [
+        "tests/cyclicMasonryCompressionMaterial.test.js",
+        "tests/cyclicMasonryPier2D.test.js",
+        "tests/cyclicMasonryShearMaterial.test.js",
+        "tests/packageExports.test.js"
+      ],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/masonry-material-indexes-compile-time.test.ts",
+        "tests/masonry-material-indexes-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0106-domain-masonry-material-public-indexes"],
+      "status": "exact-parity"
     },
     {
       "id": "src/domain/materials/masonry/shearStrength/MohrCoulombModel.js",
@@ -31765,11 +31774,20 @@
       "sourcePath": "src/domain/materials/masonry/shearStrength/index.js",
       "sourceBlobSha1": "630669ce30cc0b4b7cefe4b30188754006064516",
       "targetPath": "src/domain/materials/masonry/shearStrength/index.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "partial"
+      "migrationSlices": ["0106-domain-masonry-material-public-indexes"],
+      "sourceOracles": [
+        "tests/cyclicMasonryCompressionMaterial.test.js",
+        "tests/cyclicMasonryPier2D.test.js",
+        "tests/cyclicMasonryShearMaterial.test.js",
+        "tests/packageExports.test.js"
+      ],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/masonry-material-indexes-compile-time.test.ts",
+        "tests/masonry-material-indexes-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0106-domain-masonry-material-public-indexes"],
+      "status": "exact-parity"
     },
     {
       "id": "src/domain/math/BandedLinearSolver.js",
@@ -32464,7 +32482,8 @@
         "0102-domain-structural-model",
         "0103-domain-slab-load-hierarchy",
         "0104-domain-terrain-elevation-grid",
-        "0105-domain-fem-public-indexes"
+        "0105-domain-fem-public-indexes",
+        "0106-domain-masonry-material-public-indexes"
       ],
       "sourceOracles": [
         "tests/architecture/applicationRegistry.test.js",
@@ -33626,14 +33645,22 @@
       "sourcePath": "tests/cyclicMasonryCompressionMaterial.test.js",
       "sourceBlobSha1": "5bea624d5b3c6e99dc0c8ec8196de954dbfb322a",
       "targetPath": "tests/cyclicMasonryCompressionMaterial.test.ts",
-      "migrationSlices": ["0083-domain-cyclic-masonry-compression-material"],
+      "migrationSlices": [
+        "0083-domain-cyclic-masonry-compression-material",
+        "0106-domain-masonry-material-public-indexes"
+      ],
       "sourceOracles": ["tests/cyclicMasonryCompressionMaterial.test.js"],
       "targetTests": [
         "tests/baseline-parity.test.ts",
         "tests/cyclic-masonry-compression-material-compile-time.test.ts",
-        "tests/cyclic-masonry-compression-material-live-parity.test.ts"
+        "tests/cyclic-masonry-compression-material-live-parity.test.ts",
+        "tests/masonry-material-indexes-compile-time.test.ts",
+        "tests/masonry-material-indexes-live-parity.test.ts"
       ],
-      "validationEvidence": ["0083-domain-cyclic-masonry-compression-material"],
+      "validationEvidence": [
+        "0083-domain-cyclic-masonry-compression-material",
+        "0106-domain-masonry-material-public-indexes"
+      ],
       "status": "exact-parity",
       "testKind": "test"
     },
@@ -33647,7 +33674,8 @@
         "0059-domain-masonry-shear-strength-strategies",
         "0086-domain-cyclic-masonry-pier-2d",
         "0087-domain-cyclic-masonry-pier-analysis-2d",
-        "0105-domain-fem-public-indexes"
+        "0105-domain-fem-public-indexes",
+        "0106-domain-masonry-material-public-indexes"
       ],
       "sourceOracles": ["tests/cyclicMasonryPier2D.test.js"],
       "targetTests": [
@@ -33658,6 +33686,8 @@
         "tests/cyclic-masonry-pier-live-parity.test.ts",
         "tests/fem-public-indexes-compile-time.test.ts",
         "tests/fem-public-indexes-live-parity.test.ts",
+        "tests/masonry-material-indexes-compile-time.test.ts",
+        "tests/masonry-material-indexes-live-parity.test.ts",
         "tests/masonry-pier-kinematics-compile-time.test.ts",
         "tests/masonry-pier-kinematics-live-parity.test.ts",
         "tests/masonry-shear-strength-compile-time.test.ts",
@@ -33668,7 +33698,8 @@
         "0059-domain-masonry-shear-strength-strategies",
         "0086-domain-cyclic-masonry-pier-2d",
         "0087-domain-cyclic-masonry-pier-analysis-2d",
-        "0105-domain-fem-public-indexes"
+        "0105-domain-fem-public-indexes",
+        "0106-domain-masonry-material-public-indexes"
       ],
       "status": "exact-parity",
       "testKind": "test"
@@ -33690,14 +33721,22 @@
       "sourcePath": "tests/cyclicMasonryShearMaterial.test.js",
       "sourceBlobSha1": "0afa6a4def231651e1a8406abf88cebdef8cc3dc",
       "targetPath": "tests/cyclicMasonryShearMaterial.test.ts",
-      "migrationSlices": ["0084-domain-cyclic-masonry-shear-material"],
+      "migrationSlices": [
+        "0084-domain-cyclic-masonry-shear-material",
+        "0106-domain-masonry-material-public-indexes"
+      ],
       "sourceOracles": ["tests/cyclicMasonryShearMaterial.test.js"],
       "targetTests": [
         "tests/baseline-parity.test.ts",
         "tests/cyclic-masonry-shear-material-compile-time.test.ts",
-        "tests/cyclic-masonry-shear-material-live-parity.test.ts"
+        "tests/cyclic-masonry-shear-material-live-parity.test.ts",
+        "tests/masonry-material-indexes-compile-time.test.ts",
+        "tests/masonry-material-indexes-live-parity.test.ts"
       ],
-      "validationEvidence": ["0084-domain-cyclic-masonry-shear-material"],
+      "validationEvidence": [
+        "0084-domain-cyclic-masonry-shear-material",
+        "0106-domain-masonry-material-public-indexes"
+      ],
       "status": "exact-parity",
       "testKind": "test"
     },
@@ -35062,7 +35101,8 @@
         "0102-domain-structural-model",
         "0103-domain-slab-load-hierarchy",
         "0104-domain-terrain-elevation-grid",
-        "0105-domain-fem-public-indexes"
+        "0105-domain-fem-public-indexes",
+        "0106-domain-masonry-material-public-indexes"
       ],
       "sourceOracles": ["tests/packageExports.test.js"],
       "targetTests": [
@@ -35111,6 +35151,8 @@
         "tests/lateral-pile-capacity-live-parity.test.ts",
         "tests/masonry-fiber-interface-compile-time.test.ts",
         "tests/masonry-fiber-interface-live-parity.test.ts",
+        "tests/masonry-material-indexes-compile-time.test.ts",
+        "tests/masonry-material-indexes-live-parity.test.ts",
         "tests/rc-cracked-deflection.test.ts",
         "tests/reinforced-concrete-beam-column-joint.test.ts",
         "tests/reinforced-concrete-foundation-beam.test.ts",
@@ -35180,7 +35222,8 @@
         "0102-domain-structural-model",
         "0103-domain-slab-load-hierarchy",
         "0104-domain-terrain-elevation-grid",
-        "0105-domain-fem-public-indexes"
+        "0105-domain-fem-public-indexes",
+        "0106-domain-masonry-material-public-indexes"
       ],
       "status": "exact-parity",
       "testKind": "test"
@@ -38427,6 +38470,22 @@
         "publicStrings": "exact equality plus Unicode code-point preservation",
         "errors": "underlying FEM constructor and solver errors remain covered by their dependency slices"
       }
+    },
+    {
+      "sliceId": "0106-domain-masonry-material-public-indexes",
+      "sourceRevision": "6f33baead8b88166c4b2cf94af41763412e3c751",
+      "method": "Strict declaration consumer coverage and independently executed pinned JavaScript versus built TypeScript comparison of the masonry material barrel, nested shear-strength barrel, root wiring, exact export order, exact serialized constants, Unicode-safe strings and independent function identity.",
+      "targetTests": [
+        "tests/masonry-material-indexes-compile-time.test.ts",
+        "tests/masonry-material-indexes-live-parity.test.ts"
+      ],
+      "fixture": null,
+      "tolerances": {
+        "serializedParity": "exact export keys, order and JSON serialization",
+        "numericParity": "underlying material numerical behavior remains covered by dependency slices",
+        "publicStrings": "exact equality plus Unicode code-point preservation",
+        "errors": "underlying material and factory errors remain covered by dependency slices"
+      }
     }
   ],
   "counts": {
@@ -38456,11 +38515,11 @@
     },
     "sourceFiles": {
       "javascript": 480,
-      "typescript": 351
+      "typescript": 352
     },
     "tests": {
       "javascript": 131,
-      "typescript": 198
+      "typescript": 200
     },
     "validationCampaigns": {
       "javascript": 17,
@@ -38491,8 +38550,8 @@
     "domain": {
       "statusCounts": {
         "exact-parity": 0,
-        "partial": 19,
-        "missing": 3,
+        "partial": 18,
+        "missing": 2,
         "intentionally-excluded": 0,
         "decision-required": 0
       },
@@ -38513,8 +38572,6 @@
         "root-export:SOIL_SETTLEMENT_COMPONENTS",
         "root-export:SOIL_STRENGTH_MODELS",
         "source:src/domain/geotechnics/index.js",
-        "source:src/domain/materials/masonry/index.js",
-        "source:src/domain/materials/masonry/shearStrength/index.js",
         "source:src/domain/sections/masonry/index.js",
         "source:src/domain/slabs/index.js",
         "source:src/domain/solvers/index.js",
