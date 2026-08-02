@@ -1,6 +1,4 @@
-/* eslint-disable @typescript-eslint/ban-ts-comment, @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-return, @typescript-eslint/no-floating-promises, @typescript-eslint/restrict-template-expressions */
 // Mechanical TypeScript migration from strutture-js 6f33baead8b88166c4b2cf94af41763412e3c751.
-// @ts-nocheck
 
 import test from "node:test";
 import assert from "node:assert/strict";
@@ -26,7 +24,14 @@ import {
   selectNTC2018OverstrengthFactors,
 } from "../dist/index.js";
 
-test("structural behaviour catalogs are immutable", () => {
+function requireValue<T>(value: T, label: string): NonNullable<T> {
+  if (value == null) {
+    throw new Error(`${label} was not produced by the check.`);
+  }
+  return value;
+}
+
+void test("structural behaviour catalogs are immutable", () => {
   for (const catalog of [
     NTC2018_STRUCTURAL_BEHAVIOR,
     NTC2018_STRUCTURAL_TYPE,
@@ -42,14 +47,14 @@ test("structural behaviour catalogs are immutable", () => {
   }
 });
 
-test("behaviour and structural-type aliases normalize to stable identifiers", () => {
+void test("behaviour and structural-type aliases normalize to stable identifiers", () => {
   assert.equal(normalizeNTC2018StructuralBehavior('CD"A"'), "cd-a");
   assert.equal(normalizeNTC2018StructuralBehavior("non dissipative"), "non-dissipative");
   assert.equal(normalizeNTC2018StructuralType("coupled wall"), "coupled-wall");
   assert.throws(() => normalizeNTC2018StructuralType("unknown"), /structuralType/);
 });
 
-test("non-dissipative behaviour is not restricted by seismic zone or ag", () => {
+void test("non-dissipative behaviour is not restricted by seismic zone or ag", () => {
   const result = checkNonDissipativeAdmissibility({
     ag: 0.25,
     amplificationFactor: 1.2,
@@ -60,7 +65,7 @@ test("non-dissipative behaviour is not restricted by seismic zone or ag", () => 
   assert.equal(result.agSOverG, 0.3);
 });
 
-test("the ag*S threshold only classifies the simplified § 7.0 regime", () => {
+void test("the ag*S threshold only classifies the simplified § 7.0 regime", () => {
   const result = checkNonDissipativeAdmissibility({
     ag: 0.05,
     soilAmplification: 1.2,
@@ -69,10 +74,10 @@ test("the ag*S threshold only classifies the simplified § 7.0 regime", () => {
 
   assert.equal(result.admissible, true);
   assert.equal(result.simplifiedRegimeEligible, true);
-  assert.ok(Math.abs(result.agSOverG - 0.075) < 1e-12);
+  assert.ok(Math.abs(requireValue(result.agSOverG, "ag*S/g") - 0.075) < 1e-12);
 });
 
-test("αu/α1 follows the explicit frame topology values in § 7.4.3.2", () => {
+void test("αu/α1 follows the explicit frame topology values in § 7.4.3.2", () => {
   assert.equal(
     resolveNTC2018AlphaRatio({
       structuralType: "frame",
@@ -99,7 +104,7 @@ test("αu/α1 follows the explicit frame topology values in § 7.4.3.2", () => {
   );
 });
 
-test("αu/α1 follows uncoupled and coupled wall topology", () => {
+void test("αu/α1 follows uncoupled and coupled wall topology", () => {
   assert.equal(
     resolveNTC2018AlphaRatio({
       structuralType: "wall",
@@ -122,7 +127,7 @@ test("αu/α1 follows uncoupled and coupled wall topology", () => {
   );
 });
 
-test("generic dual systems require an explicit αu/α1 classification", () => {
+void test("generic dual systems require an explicit αu/α1 classification", () => {
   assert.throws(
     () => resolveNTC2018AlphaRatio({ structuralType: "dual" }),
     /alphaRatio is required/,
@@ -136,7 +141,7 @@ test("generic dual systems require an explicit αu/α1 classification", () => {
   );
 });
 
-test("dissipative q0 implements NTC 2018 Table 7.3.II", () => {
+void test("dissipative q0 implements NTC 2018 Table 7.3.II", () => {
   assert.equal(
     selectNTC2018BaseQFactor({
       behavior: "cd-a",
@@ -171,7 +176,7 @@ test("dissipative q0 implements NTC 2018 Table 7.3.II", () => {
   );
 });
 
-test("qND is two thirds of the CD B table value, bounded to [1, 1.5]", () => {
+void test("qND is two thirds of the CD B table value, bounded to [1, 1.5]", () => {
   assert.equal(
     selectNTC2018BaseQFactor({
       behavior: "non-dissipative",
@@ -195,7 +200,7 @@ test("qND is two thirds of the CD B table value, bounded to [1, 1.5]", () => {
   );
 });
 
-test("elevation irregularity applies kR = 0.8 only to dissipative q", () => {
+void test("elevation irregularity applies kR = 0.8 only to dissipative q", () => {
   assert.equal(
     computeNTC2018EffectiveQFactor({
       behavior: "cd-b",
@@ -216,7 +221,7 @@ test("elevation irregularity applies kR = 0.8 only to dissipative q", () => {
   );
 });
 
-test("capacity-design factors remain mechanism-specific", () => {
+void test("capacity-design factors remain mechanism-specific", () => {
   const cdA = selectNTC2018OverstrengthFactors({ behavior: "cd-a" });
   const cdB = selectNTC2018OverstrengthFactors({ behavior: "cd-b" });
   assert.equal(cdA.columnBending, 1.3);
@@ -226,7 +231,7 @@ test("capacity-design factors remain mechanism-specific", () => {
   assert.equal(cdB.wallShear, null);
 });
 
-test("linear static analysis requires both elevation regularity and period data", () => {
+void test("linear static analysis requires both elevation regularity and period data", () => {
   const allowed = selectNTC2018AllowedAnalysisMethods({
     behavior: "non-dissipative",
     elevationRegularity: "regular",
@@ -246,7 +251,7 @@ test("linear static analysis requires both elevation regularity and period data"
   assert.ok(!notDemonstrated.allowed.includes(NTC2018_ANALYSIS_METHOD.LINEAR_STATIC));
 });
 
-test("linear static analysis is excluded for elevation-irregular structures", () => {
+void test("linear static analysis is excluded for elevation-irregular structures", () => {
   const result = selectNTC2018AllowedAnalysisMethods({
     behavior: "cd-a",
     elevationRegularity: "non-regular",
@@ -257,7 +262,7 @@ test("linear static analysis is excluded for elevation-irregular structures", ()
   assert.equal(result.linearStaticAllowed, false);
 });
 
-test("complete structural behaviour descriptor propagates q and kR", () => {
+void test("complete structural behaviour descriptor propagates q and kR", () => {
   const result = createNTC2018StructuralBehavior({
     behavior: "cd-b",
     structuralType: "frame",
@@ -272,7 +277,7 @@ test("complete structural behaviour descriptor propagates q and kR", () => {
   assert.equal(result.isDissipative, true);
 });
 
-test("dissipative descriptor does not assume missing elevation regularity", () => {
+void test("dissipative descriptor does not assume missing elevation regularity", () => {
   assert.throws(
     () =>
       createNTC2018StructuralBehavior({

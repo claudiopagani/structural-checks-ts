@@ -1,6 +1,4 @@
-/* eslint-disable @typescript-eslint/ban-ts-comment, @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-return, @typescript-eslint/no-floating-promises */
 // Mechanical TypeScript migration from strutture-js 6f33baead8b88166c4b2cf94af41763412e3c751.
-// @ts-nocheck
 
 import { StructuralApplication } from "../../core/applications/StructuralApplication.js";
 import { CalculationResult } from "../../core/results/CalculationResult.js";
@@ -20,8 +18,23 @@ import {
   GLOBAL_FEM_POSTPROCESSING_PROFILES,
   GLOBAL_FEM_POSTPROCESSING_PROFILE_VALUES,
 } from "./classificationPolicy.js";
+import type {
+  GlobalFemClassificationDiagnostic,
+  GlobalFemPostProcessingInput,
+  GlobalFemPostProcessingOutputs,
+  GlobalFemStructuralClassificationProposal,
+  GlobalFemValidationSet,
+} from "./GlobalFemPostProcessingTypes.js";
+import type {
+  FemDiagnostic,
+  FemValidationResult,
+  GlobalFemResultContract,
+  GlobalFemModelContract,
+} from "../../domain/fem/contracts/FemContractTypes.js";
 
-function demandOnlyClassification(model) {
+function demandOnlyClassification(
+  model: GlobalFemModelContract,
+): GlobalFemStructuralClassificationProposal {
   return {
     schema: "strutture-js/fem-structural-classification-proposal",
     version: GLOBAL_FEM_CLASSIFICATION_PROPOSAL_VERSION,
@@ -40,14 +53,17 @@ function demandOnlyClassification(model) {
   };
 }
 
-function confirmedOnlyClassification(proposal) {
-  const collections = ["members", "surfaces", "storeys", "diaphragms", "joints"];
-  const confirmed = Object.fromEntries(
-    collections.map((name) => [
-      name,
-      proposal[name].filter((item) => item.classification.status === "confirmed"),
-    ]),
+function confirmedOnlyClassification(
+  proposal: GlobalFemStructuralClassificationProposal,
+): GlobalFemStructuralClassificationProposal {
+  const members = proposal.members.filter((item) => item.classification.status === "confirmed");
+  const surfaces = proposal.surfaces.filter((item) => item.classification.status === "confirmed");
+  const storeys = proposal.storeys.filter((item) => item.classification.status === "confirmed");
+  const diaphragms = proposal.diaphragms.filter(
+    (item) => item.classification.status === "confirmed",
   );
+  const joints = proposal.joints.filter((item) => item.classification.status === "confirmed");
+  const confirmed = { members, surfaces, storeys, diaphragms, joints };
   return {
     ...proposal,
     ...confirmed,
@@ -61,7 +77,15 @@ function confirmedOnlyClassification(proposal) {
   };
 }
 
-function validationSummary(validation) {
+interface SerializedValidationSummary {
+  readonly ok: boolean;
+  readonly errors: readonly FemDiagnostic[];
+  readonly warnings: readonly FemDiagnostic[];
+}
+
+function validationSummary(
+  validation: FemValidationResult<unknown> | null,
+): SerializedValidationSummary | null {
   if (!validation) return null;
   return {
     ok: validation.ok,
@@ -70,7 +94,7 @@ function validationSummary(validation) {
   };
 }
 
-function validateContracts(input) {
+function validateContracts(input: GlobalFemPostProcessingInput): GlobalFemValidationSet {
   const capabilities = validateFemCapabilitiesContract(input.capabilities);
   const model = validateGlobalFemModelContract(input.model);
   const analysis = validateGlobalFemAnalysisContract(input.analysis, {
@@ -92,15 +116,28 @@ function validateContracts(input) {
   return { capabilities, model, analysis, mapping, result };
 }
 
-function coreContractsAreValid(validations) {
-  return ["capabilities", "model", "analysis", "result"].every((name) => validations[name].ok);
+function coreContractsAreValid(validations: GlobalFemValidationSet): boolean {
+  return (
+    validations.capabilities.ok &&
+    validations.model.ok &&
+    validations.analysis.ok &&
+    validations.result.ok
+  );
 }
 
-function collectWarnings(validations, classification = null, technicalResult = null) {
+function collectWarnings(
+  validations: GlobalFemValidationSet,
+  classification: GlobalFemStructuralClassificationProposal | null = null,
+  technicalResult: GlobalFemResultContract | null = null,
+): readonly (FemDiagnostic | GlobalFemClassificationDiagnostic)[] {
   return [
-    ...Object.values(validations)
-      .filter(Boolean)
-      .flatMap((validation) => validation.warnings.map((item) => ({ ...item }))),
+    ...[
+      validations.capabilities,
+      validations.model,
+      validations.analysis,
+      validations.mapping,
+      validations.result,
+    ].flatMap((validation) => (validation ? validation.warnings.map((item) => ({ ...item })) : [])),
     ...(classification?.warnings ?? []).map((item) => ({ ...item })),
     ...(technicalResult?.status === "partial"
       ? [
@@ -113,6 +150,13 @@ function collectWarnings(validations, classification = null, technicalResult = n
         ]
       : []),
   ];
+}
+
+function validatedValue<T>(validation: FemValidationResult<T>): T {
+  if (!validation.ok || validation.value === null) {
+    throw new Error("A successful FEM contract validation did not provide a value.");
+  }
+  return validation.value;
 }
 
 export class GlobalFemPostProcessingApplication extends StructuralApplication {
@@ -136,23 +180,34 @@ export class GlobalFemPostProcessingApplication extends StructuralApplication {
     });
   }
 
-  run(input = {}) {
+  override run(
+    input?: GlobalFemPostProcessingInput,
+  ): CalculationResult<GlobalFemPostProcessingOutputs>;
+  override run(input: GlobalFemPostProcessingInput = {}): CalculationResult {
     const profile = input.profile ?? GLOBAL_FEM_POSTPROCESSING_PROFILES.CONFIRMED;
     if (!GLOBAL_FEM_POSTPROCESSING_PROFILE_VALUES.includes(profile)) {
       throw new Error(`Unsupported global FEM postprocessing profile: ${profile}.`);
     }
     const validations = validateContracts(input);
+    const validationEntries: readonly (readonly [string, FemValidationResult<unknown> | null])[] = [
+      ["capabilities", validations.capabilities],
+      ["model", validations.model],
+      ["analysis", validations.analysis],
+      ["mapping", validations.mapping],
+      ["result", validations.result],
+    ];
     const serializedValidations = Object.fromEntries(
-      Object.entries(validations).map(([name, validation]) => [
-        name,
-        validationSummary(validation),
-      ]),
+      validationEntries.map(([name, validation]) => [name, validationSummary(validation)]),
     );
 
     if (!coreContractsAreValid(validations)) {
-      const errors = Object.values(validations)
-        .filter(Boolean)
-        .flatMap((validation) => validation.errors.map((item) => ({ ...item })));
+      const errors = [
+        validations.capabilities,
+        validations.model,
+        validations.analysis,
+        validations.mapping,
+        validations.result,
+      ].flatMap((validation) => (validation ? validation.errors.map((item) => ({ ...item })) : []));
       return new CalculationResult({
         applicationId: this.id,
         status: RESULT_STATUS.NOT_ANALYZED,
@@ -165,10 +220,10 @@ export class GlobalFemPostProcessingApplication extends StructuralApplication {
       });
     }
 
-    const capabilities = validations.capabilities.value;
-    const model = validations.model.value;
-    const analysis = validations.analysis.value;
-    const result = validations.result.value;
+    const capabilities = validatedValue(validations.capabilities);
+    const model = validatedValue(validations.model);
+    const analysis = validatedValue(validations.analysis);
+    const result = validatedValue(validations.result);
     const mapping = validations.mapping?.value ?? null;
     const classificationProposal =
       profile === GLOBAL_FEM_POSTPROCESSING_PROFILES.DEMAND_ONLY
@@ -211,7 +266,7 @@ export class GlobalFemPostProcessingApplication extends StructuralApplication {
         demands,
         readiness,
       },
-      warnings: collectWarnings(validations, classification, result),
+      warnings: [...collectWarnings(validations, classification, result)],
       assumptions: [
         "Geometric classifications are non-normative proposals until confirmed by an explicit mapping.",
         "Element actions and shell resultants retain the solver-neutral contract sign conventions and local axes.",

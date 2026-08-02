@@ -10,21 +10,27 @@ export interface VerificationCheck extends Record<string, unknown> {
   utilizationRatio?: number | null;
 }
 
-export interface VerificationResultOptions extends CalculationResultOptions {
+export interface VerificationResultOptions<
+  TOutputs extends Record<string, unknown> = Record<string, unknown>,
+> extends CalculationResultOptions<TOutputs> {
   utilizationRatio?: number | null;
   demand?: unknown;
   capacity?: unknown;
   checks?: VerificationCheck[];
 }
 
-export interface VerificationResultJson extends CalculationResultJson {
+export interface VerificationResultJson<
+  TOutputs extends Record<string, unknown> = Record<string, unknown>,
+> extends CalculationResultJson<TOutputs> {
   utilizationRatio: number | null;
   demand: unknown;
   capacity: unknown;
   checks: VerificationCheck[];
 }
 
-export class VerificationResult extends CalculationResult {
+export class VerificationResult<
+  TOutputs extends Record<string, unknown> = Record<string, unknown>,
+> extends CalculationResult<TOutputs> {
   public utilizationRatio: number | null;
   public demand: unknown;
   public capacity: unknown;
@@ -36,7 +42,7 @@ export class VerificationResult extends CalculationResult {
     capacity = null,
     checks = [],
     ...result
-  }: VerificationResultOptions) {
+  }: VerificationResultOptions<TOutputs>) {
     super(result);
 
     this.utilizationRatio = utilizationRatio;
@@ -57,7 +63,7 @@ export class VerificationResult extends CalculationResult {
     return this.utilizationRatio === null || this.utilizationRatio <= 1;
   }
 
-  public override toJSON(): VerificationResultJson {
+  public override toJSON(): VerificationResultJson<TOutputs> {
     return {
       ...super.toJSON(),
       utilizationRatio: this.utilizationRatio,

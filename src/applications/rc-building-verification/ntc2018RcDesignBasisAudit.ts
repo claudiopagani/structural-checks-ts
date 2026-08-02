@@ -1,8 +1,7 @@
-/* eslint-disable @typescript-eslint/ban-ts-comment, @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-return, @typescript-eslint/no-floating-promises, @typescript-eslint/restrict-template-expressions */
 // Mechanical TypeScript migration from strutture-js 6f33baead8b88166c4b2cf94af41763412e3c751.
-// @ts-nocheck
 
 import { VerificationResult } from "../../core/results/VerificationResult.js";
+import type { VerificationCheck } from "../../core/results/VerificationResult.js";
 import { RESULT_STATUS } from "../../core/results/resultStatus.js";
 import { withNormativeReferences } from "../../norms/normativeReference.js";
 import {
@@ -11,11 +10,54 @@ import {
 } from "../../norms/ntc2018/normativeReferences.js";
 import {
   createNTC2018StructuralBehavior,
+  type Ntc2018AnalysisMethod,
+  type Ntc2018BehaviorDescriptor,
+  type Ntc2018RegularityInput,
   selectNTC2018AllowedAnalysisMethods,
 } from "../../norms/ntc2018/reinforced-concrete/structuralBehavior.js";
-import { evaluateNTC2018RcBuildingCompleteness } from "./ntc2018RcBuildingCoverage.js";
+import {
+  evaluateNTC2018RcBuildingCompleteness,
+  type Ntc2018RcBuildingCompleteness,
+} from "./ntc2018RcBuildingCoverage.js";
 
-function relativeDifference(value, expected) {
+type NumberLike = number | string;
+
+export interface Ntc2018RcDesignBasisAnalysisParameters {
+  readonly t1?: NumberLike;
+  readonly tc?: NumberLike;
+  readonly td?: NumberLike;
+}
+
+export interface Ntc2018RcDesignBasisAuditInput {
+  readonly behavior?: string | null;
+  readonly structuralType?: string | null;
+  readonly regularity?: Ntc2018RegularityInput;
+  readonly analysisMethod?: Ntc2018AnalysisMethod | null;
+  readonly analysisParameters?: Ntc2018RcDesignBasisAnalysisParameters;
+  readonly q?: NumberLike | null;
+  readonly alphaRatio?: NumberLike | null;
+  readonly frameStoreyCount?: NumberLike | null;
+  readonly frameBayCount?: NumberLike | null;
+  readonly uncoupledWallCount?: NumberLike | null;
+  readonly requiredCapabilityIds?: readonly string[];
+}
+
+export interface Ntc2018RcDesignBasisAuditOutputs {
+  readonly behavior: Ntc2018BehaviorDescriptor;
+  readonly analysisMethods: ReturnType<typeof selectNTC2018AllowedAnalysisMethods>;
+  readonly implementation: Ntc2018RcBuildingCompleteness;
+  readonly normativeAssurance: {
+    readonly corpusWorkflowStatus: "extracted";
+    readonly traceabilityComplete: boolean;
+    readonly conformityClaimed: false;
+  };
+}
+
+export interface Ntc2018RcDesignBasisAuditResultOutputs
+  extends Record<string, unknown>,
+    Ntc2018RcDesignBasisAuditOutputs {}
+
+function relativeDifference(value: number, expected: number): number | null {
   if (!Number.isFinite(value) || !Number.isFinite(expected)) {
     return null;
   }
@@ -40,7 +82,7 @@ export function auditNTC2018RcDesignBasis({
   frameBayCount,
   uncoupledWallCount,
   requiredCapabilityIds,
-}: any = {}) {
+}: Ntc2018RcDesignBasisAuditInput = {}): VerificationResult<Ntc2018RcDesignBasisAuditResultOutputs> {
   const behaviorDescriptor = createNTC2018StructuralBehavior({
     behavior,
     structuralType,
@@ -61,10 +103,10 @@ export function auditNTC2018RcDesignBasis({
   const implementation = evaluateNTC2018RcBuildingCompleteness({
     ...(requiredCapabilityIds == null ? {} : { requiredCapabilityIds }),
   });
-  const methodAllowed = methods.allowed.includes(analysisMethod);
+  const methodAllowed = methods.allowed.some((method) => method === analysisMethod);
   const qDifference = q == null ? null : relativeDifference(Number(q), behaviorDescriptor.q);
   const qConsistent = qDifference == null || qDifference <= 1e-9;
-  const checks = [
+  const checks: VerificationCheck[] = [
     {
       id: "rc-design-basis-analysis-method",
       description: "Selected global analysis method is admitted by the supplied design basis",
@@ -119,7 +161,7 @@ export function auditNTC2018RcDesignBasis({
     NTC2018_RC_OUTSIDE_CORPUS_REFERENCES.globalSeismicAnalysis,
   ];
 
-  return new VerificationResult({
+  return new VerificationResult<Ntc2018RcDesignBasisAuditResultOutputs>({
     applicationId: "ntc2018-rc-design-basis-audit",
     status: ok ? RESULT_STATUS.OK : RESULT_STATUS.NOT_VERIFIED,
     summary:

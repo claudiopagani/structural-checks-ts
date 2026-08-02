@@ -1,6 +1,128 @@
-/* eslint-disable @typescript-eslint/ban-ts-comment, @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-return, @typescript-eslint/no-floating-promises */
 // Mechanical TypeScript migration from strutture-js 6f33baead8b88166c4b2cf94af41763412e3c751.
-// @ts-nocheck
+import type {
+  FemAxes,
+  FemCapabilitiesContract,
+  FemEquilibriumResidual,
+  FemDirection,
+  FemLineElementActionResult,
+  FemLineElement,
+  FemModeResult,
+  FemNodalDisplacementResult,
+  FemNode,
+  FemPunchingConnection,
+  FemReactionResult,
+  FemShellElement,
+  FemSectionCutResult,
+  FemShellResultantResult,
+  FemStoreyResult,
+  FemStructuralMember,
+  GlobalFemAnalysisContract,
+  GlobalFemModelContract,
+  GlobalFemResultContract,
+  FemEntityMappingContract,
+} from "../../src/domain/fem/contracts/FemContractTypes.js";
+import type {
+  RcBuildingVerificationInput,
+  RcCheckDto,
+} from "../../src/applications/rc-building-verification/RcBuildingVerificationTypes.js";
+
+type MutableAnalysis = GlobalFemAnalysisContract & {
+  massSources: NonNullable<GlobalFemAnalysisContract["massSources"]> extends readonly (infer T)[]
+    ? T[]
+    : never;
+  procedures: GlobalFemAnalysisContract["procedures"] extends readonly (infer T)[] ? T[] : never;
+  spectra: NonNullable<GlobalFemAnalysisContract["spectra"]> extends readonly (infer T)[]
+    ? T[]
+    : never;
+};
+
+type MutableModeResult = Omit<FemModeResult, "participatingMassRatios"> & {
+  participatingMassRatios: Record<string, number>;
+};
+type MutableResult = Omit<GlobalFemResultContract, "results"> & {
+  results: Omit<GlobalFemResultContract["results"], "modes"> & {
+    modes: MutableModeResult[];
+  };
+};
+
+type FixtureLineElement = FemLineElement & { readonly metadata: Record<string, unknown> };
+type FixtureShellElement = FemShellElement & { readonly metadata: Record<string, unknown> };
+type FixtureModel = Omit<GlobalFemModelContract, "materials" | "lineElements" | "shellElements"> & {
+  readonly materials: readonly (GlobalFemModelContract["materials"][number] & {
+    readonly metadata: Record<string, unknown>;
+  })[];
+  readonly lineElements: readonly FixtureLineElement[];
+  readonly shellElements: readonly FixtureShellElement[];
+};
+type FixtureWall = FemEntityMappingContract["walls"][number] & {
+  readonly metadata: Record<string, unknown>;
+};
+type FixtureMapping = Omit<FemEntityMappingContract, "walls"> & {
+  readonly walls: readonly FixtureWall[];
+};
+type MutableCapabilities = Omit<FemCapabilitiesContract, "analyses"> & {
+  analyses: { -readonly [Key in keyof FemCapabilitiesContract["analyses"]]: boolean };
+};
+type MutableMapping = Omit<FixtureMapping, "punchingConnections"> & {
+  punchingConnections: FemPunchingConnection[];
+};
+
+type MutableFixtureFields =
+  | "capabilities"
+  | "model"
+  | "analysis"
+  | "mapping"
+  | "result"
+  | "linearDynamicAssessmentInput"
+  | "behavior"
+  | "structuralType"
+  | "regularityAssessmentInput"
+  | "displacementAssessmentInput"
+  | "structuralBehaviorParameters"
+  | "memberVerifiers"
+  | "jointVerifier"
+  | "wallSectionStateVerifier"
+  | "wallSections"
+  | "wallSystemData"
+  | "slabStateVerifier"
+  | "diaphragmStateVerifier"
+  | "slabSystemData"
+  | "foundationSystemData"
+  | "foundationVerifier"
+  | "punchingVerifier"
+  | "metadata";
+
+export type RcBuildingFixture = Omit<RcBuildingVerificationInput, MutableFixtureFields> & {
+  capabilities: MutableCapabilities;
+  model: FixtureModel;
+  analysis: MutableAnalysis;
+  mapping?: MutableMapping;
+  result: MutableResult;
+  linearDynamicAssessmentInput?: NonNullable<
+    RcBuildingVerificationInput["linearDynamicAssessmentInput"]
+  >;
+  behavior?: NonNullable<RcBuildingVerificationInput["behavior"]>;
+  structuralType?: string | null;
+  regularityAssessmentInput?: NonNullable<RcBuildingVerificationInput["regularityAssessmentInput"]>;
+  displacementAssessmentInput?: NonNullable<
+    RcBuildingVerificationInput["displacementAssessmentInput"]
+  >;
+  structuralBehaviorParameters?: NonNullable<
+    RcBuildingVerificationInput["structuralBehaviorParameters"]
+  >;
+  memberVerifiers?: NonNullable<RcBuildingVerificationInput["memberVerifiers"]>;
+  jointVerifier?: NonNullable<RcBuildingVerificationInput["jointVerifier"]>;
+  wallSectionStateVerifier?: NonNullable<RcBuildingVerificationInput["wallSectionStateVerifier"]>;
+  wallSections?: NonNullable<RcBuildingVerificationInput["wallSections"]>;
+  wallSystemData?: NonNullable<RcBuildingVerificationInput["wallSystemData"]>;
+  slabStateVerifier?: NonNullable<RcBuildingVerificationInput["slabStateVerifier"]>;
+  diaphragmStateVerifier?: NonNullable<RcBuildingVerificationInput["diaphragmStateVerifier"]>;
+  slabSystemData?: NonNullable<RcBuildingVerificationInput["slabSystemData"]>;
+  foundationSystemData?: NonNullable<RcBuildingVerificationInput["foundationSystemData"]>;
+  foundationVerifier?: NonNullable<RcBuildingVerificationInput["foundationVerifier"]>;
+  punchingVerifier?: NonNullable<RcBuildingVerificationInput["punchingVerifier"]>;
+  metadata?: NonNullable<RcBuildingVerificationInput["metadata"]>;
+};
 const units = Object.freeze({
   length: "m",
   force: "kN",
@@ -52,15 +174,21 @@ const wallCutToResistanceAxes = Object.freeze([
   Object.freeze([0, 1, 0]),
 ]);
 
-function copy(value) {
-  return JSON.parse(JSON.stringify(value));
+function copy<T>(value: T): T {
+  return structuredClone(value);
 }
 
-function node(id, x, y, z) {
+function node(id: string, x: number, y: number, z: number): FemNode {
   return { id, coordinates: { x, y, z }, metadata: {} };
 }
 
-function lineElement(id, start, end, sectionId, localAxes) {
+function lineElement(
+  id: string,
+  start: string,
+  end: string,
+  sectionId: string,
+  localAxes: FemAxes,
+): FixtureLineElement {
   return {
     id,
     nodeIds: [start, end],
@@ -75,7 +203,12 @@ function lineElement(id, start, end, sectionId, localAxes) {
   };
 }
 
-function shellElement(id, nodeIds, sectionId, localAxes) {
+function shellElement(
+  id: string,
+  nodeIds: readonly [string, string, string, string],
+  sectionId: string,
+  localAxes: FemAxes,
+): FixtureShellElement {
   return {
     id,
     nodeIds,
@@ -87,17 +220,30 @@ function shellElement(id, nodeIds, sectionId, localAxes) {
   };
 }
 
-function elementLength(element, nodeIndex) {
-  const start = nodeIndex.get(element.nodeIds[0]).coordinates;
-  const end = nodeIndex.get(element.nodeIds[1]).coordinates;
+function elementLength(element: FemLineElement, nodeIndex: ReadonlyMap<string, FemNode>): number {
+  const startNode = nodeIndex.get(element.nodeIds[0]);
+  const endNode = nodeIndex.get(element.nodeIds[1]);
+  if (startNode === undefined || endNode === undefined) {
+    throw new Error(`Line element ${element.id} references an unknown node.`);
+  }
+  const start = startNode.coordinates;
+  const end = endNode.coordinates;
   return Math.sqrt((end.x - start.x) ** 2 + (end.y - start.y) ** 2 + (end.z - start.z) ** 2);
 }
 
-function staticReference(combinationId) {
+function nodeAt(nodeIndex: ReadonlyMap<string, FemNode>, nodeId: string): FemNode {
+  const item = nodeIndex.get(nodeId);
+  if (item === undefined) {
+    throw new Error(`Fixture references an unknown node: ${nodeId}.`);
+  }
+  return item;
+}
+
+function staticReference(combinationId: string): { procedureId: string; combinationId: string } {
   return { procedureId: "PROC-STATIC", combinationId };
 }
 
-export function createGlobalFemBuildingFixture() {
+export function createGlobalFemBuildingFixture(): RcBuildingFixture {
   const nodes = [
     node("A0", 0, 0, 0),
     node("B0", 4, 0, 0),
@@ -112,7 +258,7 @@ export function createGlobalFemBuildingFixture() {
     node("C2", 4, 4, 6),
     node("D2", 0, 4, 6),
   ];
-  const columnDefinitions = [
+  const columnDefinitions: readonly (readonly [string, string, string])[] = [
     ["COL-A-1", "A0", "A1"],
     ["COL-B-1", "B0", "B1"],
     ["COL-C-1", "C0", "C1"],
@@ -122,7 +268,7 @@ export function createGlobalFemBuildingFixture() {
     ["COL-C-2", "C1", "C2"],
     ["COL-D-2", "D1", "D2"],
   ];
-  const beamDefinitions = [
+  const beamDefinitions: readonly (readonly [string, string, string, FemAxes])[] = [
     ["BEAM-AB-1", "A1", "B1", beamXAxes],
     ["BEAM-BC-1", "B1", "C1", beamYAxes],
     ["BEAM-DC-1", "D1", "C1", beamXAxes],
@@ -147,7 +293,7 @@ export function createGlobalFemBuildingFixture() {
     shellElement("WALL-S2", ["A1", "D1", "D2", "A2"], "SEC-WALL", wallAxes),
   ];
 
-  const capabilities = {
+  const capabilities: MutableCapabilities = {
     schema: "strutture-js/fem-capabilities",
     version: 0,
     id: "SYNTHETIC-SOLVER-CAPABILITIES",
@@ -180,7 +326,7 @@ export function createGlobalFemBuildingFixture() {
     metadata: { purpose: "contract-coherence-only" },
   };
 
-  const model = {
+  const model: FixtureModel = {
     schema: "strutture-js/global-fem-model",
     version: 0,
     id: "RC-BUILDING-2S",
@@ -301,7 +447,7 @@ export function createGlobalFemBuildingFixture() {
     metadata: { fixture: true, numericalValidation: false },
   };
 
-  const analysis = {
+  const analysis: MutableAnalysis = {
     schema: "strutture-js/global-fem-analysis",
     version: 0,
     id: "ANALYSIS-RC-BUILDING-2S",
@@ -394,7 +540,7 @@ export function createGlobalFemBuildingFixture() {
     metadata: { fixture: true },
   };
 
-  const members = lineElements.map((element) => ({
+  const members: FemStructuralMember[] = lineElements.map((element) => ({
     id: `MEMBER-${element.id}`,
     role: element.id.startsWith("COL-") ? "column" : "beam",
     lineElementIds: [element.id],
@@ -409,7 +555,7 @@ export function createGlobalFemBuildingFixture() {
     ],
     metadata: {},
   }));
-  const mapping = {
+  const mapping: MutableMapping = {
     schema: "strutture-js/fem-entity-mapping",
     version: 0,
     id: "MAPPING-RC-BUILDING-2S",
@@ -504,24 +650,25 @@ export function createGlobalFemBuildingFixture() {
     ["ULS-1", 1],
     ["SLS-1", 0.6],
   ]);
-  const nodalDisplacements = [...combinationScales].flatMap(([combinationId, scale]) =>
-    nodes.map((item) => ({
-      ...staticReference(combinationId),
-      nodeId: item.id,
-      coordinateSystem: "global",
-      translations: {
-        x: scale * item.coordinates.z * 0.0005,
-        y: scale * item.coordinates.z * 0.0002,
-        z: -scale * item.coordinates.z * 0.00005,
-      },
-      rotations: {
-        x: scale * item.coordinates.z * 0.00001,
-        y: scale * item.coordinates.z * 0.00002,
-        z: scale * item.coordinates.z * 0.000005,
-      },
-    })),
+  const nodalDisplacements: FemNodalDisplacementResult[] = [...combinationScales].flatMap(
+    ([combinationId, scale]) =>
+      nodes.map((item) => ({
+        ...staticReference(combinationId),
+        nodeId: item.id,
+        coordinateSystem: "global",
+        translations: {
+          x: scale * item.coordinates.z * 0.0005,
+          y: scale * item.coordinates.z * 0.0002,
+          z: -scale * item.coordinates.z * 0.00005,
+        },
+        rotations: {
+          x: scale * item.coordinates.z * 0.00001,
+          y: scale * item.coordinates.z * 0.00002,
+          z: scale * item.coordinates.z * 0.000005,
+        },
+      })),
   );
-  const reactions = [...combinationScales].flatMap(([combinationId, scale]) =>
+  const reactions: FemReactionResult[] = [...combinationScales].flatMap(([combinationId, scale]) =>
     ["A0", "B0", "C0", "D0"].map((nodeId) => ({
       ...staticReference(combinationId),
       nodeId,
@@ -530,78 +677,81 @@ export function createGlobalFemBuildingFixture() {
       moments: { x: 12 * scale, y: 35 * scale, z: 3 * scale },
     })),
   );
-  const lineElementActions = [...combinationScales].flatMap(([combinationId, scale]) =>
-    lineElements.map((element, elementIndex) => {
-      const length = elementLength(element, nodeIndex);
-      const actions = {
-        N: -120 * scale - elementIndex,
-        Vy: 15 * scale,
-        Vz: 8 * scale,
-        T: 2 * scale,
-        My: 25 * scale,
-        Mz: 40 * scale,
-      };
-      return {
-        ...staticReference(combinationId),
-        lineElementId: element.id,
-        coordinateSystem: "element-local",
-        stations: [
-          { xi: 0, position: 0, side: "single", actions },
-          {
-            xi: 1,
-            position: length,
-            side: "single",
-            actions: { ...actions, Vy: -actions.Vy, Vz: -actions.Vz },
+  const lineElementActions: FemLineElementActionResult[] = [...combinationScales].flatMap(
+    ([combinationId, scale]) =>
+      lineElements.map((element, elementIndex) => {
+        const length = elementLength(element, nodeIndex);
+        const actions = {
+          N: -120 * scale - elementIndex,
+          Vy: 15 * scale,
+          Vz: 8 * scale,
+          T: 2 * scale,
+          My: 25 * scale,
+          Mz: 40 * scale,
+        };
+        return {
+          ...staticReference(combinationId),
+          lineElementId: element.id,
+          coordinateSystem: "element-local",
+          stations: [
+            { xi: 0, position: 0, side: "single", actions },
+            {
+              xi: 1,
+              position: length,
+              side: "single",
+              actions: { ...actions, Vy: -actions.Vy, Vz: -actions.Vz },
+            },
+          ],
+        };
+      }),
+  );
+  const shellResultants: FemShellResultantResult[] = [...combinationScales].flatMap(
+    ([combinationId, scale]) =>
+      shellElements.map((element) => {
+        const coordinates = element.nodeIds.map((nodeId) => nodeAt(nodeIndex, nodeId).coordinates);
+        const position = coordinates.reduce(
+          (sum, coordinate) => ({
+            x: sum.x + coordinate.x / coordinates.length,
+            y: sum.y + coordinate.y / coordinates.length,
+            z: sum.z + coordinate.z / coordinates.length,
+          }),
+          { x: 0, y: 0, z: 0 },
+        );
+        return {
+          ...staticReference(combinationId),
+          shellElementId: element.id,
+          coordinateSystem: "element-local",
+          face: "mid-surface",
+          location: { kind: "centroid", position },
+          components: {
+            Nx: 120 * scale,
+            Ny: 80 * scale,
+            Nxy: 10 * scale,
+            Mx: 22 * scale,
+            My: 18 * scale,
+            Mxy: 4 * scale,
+            Vx: 12 * scale,
+            Vy: 9 * scale,
           },
-        ],
-      };
-    }),
+        };
+      }),
   );
-  const shellResultants = [...combinationScales].flatMap(([combinationId, scale]) =>
-    shellElements.map((element) => {
-      const coordinates = element.nodeIds.map((nodeId) => nodeIndex.get(nodeId).coordinates);
-      const position = coordinates.reduce(
-        (sum, coordinate) => ({
-          x: sum.x + coordinate.x / coordinates.length,
-          y: sum.y + coordinate.y / coordinates.length,
-          z: sum.z + coordinate.z / coordinates.length,
-        }),
-        { x: 0, y: 0, z: 0 },
-      );
-      return {
+  const sectionCuts: FemSectionCutResult[] = [...combinationScales].flatMap(
+    ([combinationId, scale]) =>
+      model.sectionCuts.map((sectionCut) => ({
         ...staticReference(combinationId),
-        shellElementId: element.id,
-        coordinateSystem: "element-local",
-        face: "mid-surface",
-        location: { kind: "centroid", position },
-        components: {
-          Nx: 120 * scale,
-          Ny: 80 * scale,
-          Nxy: 10 * scale,
-          Mx: 22 * scale,
-          My: 18 * scale,
-          Mxy: 4 * scale,
-          Vx: 12 * scale,
-          Vy: 9 * scale,
+        sectionCutId: sectionCut.id,
+        coordinateSystem: "section-cut-local",
+        position: copy(sectionCut.plane.origin),
+        resultants: {
+          Fx: 180 * scale,
+          Fy: 620 * scale,
+          Fz: 35 * scale,
+          Mx: 90 * scale,
+          My: 140 * scale,
+          Mz: 25 * scale,
         },
-      };
-    }),
-  );
-  const sectionCuts = [...combinationScales].flatMap(([combinationId, scale]) =>
-    model.sectionCuts.map((sectionCut) => ({
-      ...staticReference(combinationId),
-      sectionCutId: sectionCut.id,
-      coordinateSystem: "section-cut-local",
-      position: copy(sectionCut.plane.origin),
-      resultants: {
-        Fx: 180 * scale,
-        Fy: 620 * scale,
-        Fz: 35 * scale,
-        Mx: 90 * scale,
-        My: 140 * scale,
-        Mz: 25 * scale,
-      },
-    })),
+      })),
   );
   const modeDefinitions = [
     {
@@ -623,7 +773,7 @@ export function createGlobalFemBuildingFixture() {
       ratioY: 0.59,
     },
   ];
-  const modes = modeDefinitions.map((definition) => {
+  const modes: MutableModeResult[] = modeDefinitions.map((definition) => {
     const frequency = 1 / definition.period;
     return {
       procedureId: "PROC-MODAL",
@@ -650,35 +800,38 @@ export function createGlobalFemBuildingFixture() {
       participatingMassRatios: { X: definition.ratioX, Y: definition.ratioY },
     };
   });
-  const storeyResults = [...combinationScales].flatMap(([combinationId, scale]) =>
-    [1, 2].map((level) => ({
-      ...staticReference(combinationId),
-      storeyId: `L${level}`,
-      diaphragmId: `DIA-${level}`,
-      centerOfMass: { x: 2, y: 2, z: level * 3 },
-      centerOfRigidity: { x: 1.8, y: 2.1, z: level * 3 },
-      translations: { x: level * 0.003 * scale, y: level * 0.0015 * scale, z: 0 },
-      rotations: { x: 0, y: 0, z: level * 0.0002 * scale },
-      driftRatios: { X: 0.001 * scale, Y: 0.0005 * scale },
-      resultants: {
-        Fx: 100 * scale,
-        Fy: 40 * scale,
-        Fz: 500 * scale,
-        Mx: 80 * scale,
-        My: 130 * scale,
-        Mz: 25 * scale,
-      },
-      torsionalMetrics: { edgeDisplacementRatio: 1.12, eccentricityRatio: 0.05 },
-    })),
+  const storeyResults: FemStoreyResult[] = [...combinationScales].flatMap(
+    ([combinationId, scale]) =>
+      [1, 2].map((level) => ({
+        ...staticReference(combinationId),
+        storeyId: `L${level}`,
+        diaphragmId: `DIA-${level}`,
+        centerOfMass: { x: 2, y: 2, z: level * 3 },
+        centerOfRigidity: { x: 1.8, y: 2.1, z: level * 3 },
+        translations: { x: level * 0.003 * scale, y: level * 0.0015 * scale, z: 0 },
+        rotations: { x: 0, y: 0, z: level * 0.0002 * scale },
+        driftRatios: { X: 0.001 * scale, Y: 0.0005 * scale },
+        resultants: {
+          Fx: 100 * scale,
+          Fy: 40 * scale,
+          Fz: 500 * scale,
+          Mx: 80 * scale,
+          My: 130 * scale,
+          Mz: 25 * scale,
+        },
+        torsionalMetrics: { edgeDisplacementRatio: 1.12, eccentricityRatio: 0.05 },
+      })),
   );
-  const equilibriumResiduals = [...combinationScales].map(([combinationId]) => ({
-    ...staticReference(combinationId),
-    forces: { x: 0.000001, y: -0.000001, z: 0.000002 },
-    moments: { x: 0.000003, y: -0.000002, z: 0.000001 },
-    normalizedResidual: 1e-9,
-  }));
+  const equilibriumResiduals: FemEquilibriumResidual[] = [...combinationScales].map(
+    ([combinationId]) => ({
+      ...staticReference(combinationId),
+      forces: { x: 0.000001, y: -0.000001, z: 0.000002 },
+      moments: { x: 0.000003, y: -0.000002, z: 0.000001 },
+      normalizedResidual: 1e-9,
+    }),
+  );
 
-  const result = {
+  const result: MutableResult = {
     schema: "strutture-js/global-fem-result",
     version: 0,
     id: "RESULT-RC-BUILDING-2S",
@@ -758,9 +911,9 @@ export function createGlobalFemBuildingFixture() {
  * fixture. All local capacities are test doubles; this is an orchestration
  * and producer-conformance fixture, not a numerical RC benchmark.
  */
-export function configureCompleteRcBuildingFixture(fixture) {
+export function configureCompleteRcBuildingFixture(fixture: RcBuildingFixture): RcBuildingFixture {
   fixture.capabilities.analyses.responseSpectrum = true;
-  fixture.analysis.spectra = ["X", "Y"].map((direction) => ({
+  fixture.analysis.spectra = (["X", "Y"] as const).map((direction) => ({
     id: `SPECTRUM-${direction}`,
     direction,
     dampingRatio: 0.05,
@@ -780,7 +933,7 @@ export function configureCompleteRcBuildingFixture(fixture) {
     modalCombinationMethod: "cqc",
     componentCombinationRule: "100-30-30",
     accidentalEccentricities: ["L1", "L2"].flatMap((storeyId) =>
-      ["X", "Y"].flatMap((direction) =>
+      (["X", "Y"] as const).flatMap((direction: FemDirection) =>
         [1, -1].map((sign) => ({
           id: `ECC-${storeyId}-${direction}-${sign > 0 ? "P" : "N"}`,
           storeyId,
@@ -790,11 +943,18 @@ export function configureCompleteRcBuildingFixture(fixture) {
       ),
     ),
   });
-  fixture.result.results.modes[0].participatingMassRatios = {
+  const modeAt = (index: number): MutableModeResult => {
+    const mode = fixture.result.results.modes[index];
+    if (mode === undefined) {
+      throw new Error(`Fixture is missing modal result ${index + 1}.`);
+    }
+    return mode;
+  };
+  modeAt(0).participatingMassRatios = {
     X: 0.8,
     Y: 0.06,
   };
-  fixture.result.results.modes[1].participatingMassRatios = {
+  modeAt(1).participatingMassRatios = {
     X: 0.06,
     Y: 0.8,
   };
@@ -882,7 +1042,7 @@ export function configureCompleteRcBuildingFixture(fixture) {
     checkPDelta: true,
   };
 
-  const passingCheck = (id) => ({
+  const passingCheck = (id: string): RcCheckDto => ({
     id,
     demand: 1,
     capacity: 2,
@@ -941,14 +1101,20 @@ export function configureCompleteRcBuildingFixture(fixture) {
           deflection: passingCheck(`slab-deflection-${state.shellElementId}`),
         };
   fixture.diaphragmStateVerifier = ({ slab, designActions }) => ({
-    capacityChecks: [
-      {
-        ...passingCheck(`diaphragm-${slab.id}`),
-        demand: Math.abs(designActions.Nx),
-        capacity: 1000,
-        utilizationRatio: Math.abs(designActions.Nx) / 1000,
-      },
-    ],
+    capacityChecks: (() => {
+      const nx = designActions.Nx;
+      if (nx === undefined) {
+        throw new Error(`Fixture is missing diaphragm Nx for ${slab.id}.`);
+      }
+      return [
+        {
+          ...passingCheck(`diaphragm-${slab.id}`),
+          demand: Math.abs(nx),
+          capacity: 1000,
+          utilizationRatio: Math.abs(nx) / 1000,
+        },
+      ];
+    })(),
   });
   fixture.slabSystemData = Object.fromEntries(
     ["SLAB-1", "SLAB-2"].map((slabId) => [

@@ -1,11 +1,28 @@
-/* eslint-disable @typescript-eslint/ban-ts-comment, @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-return, @typescript-eslint/no-floating-promises */
 // Mechanical TypeScript migration from strutture-js 6f33baead8b88166c4b2cf94af41763412e3c751.
-// @ts-nocheck
 
+import type {
+  FemCapabilitiesContract,
+  FemEntityMappingContract,
+  FemValidationResult,
+  GlobalFemAnalysisContract,
+  GlobalFemModelContract,
+  GlobalFemResultContract,
+} from "../../domain/fem/contracts/FemContractTypes.js";
 import {
   GLOBAL_FEM_POSTPROCESSING_PROFILES,
   GLOBAL_FEM_POSTPROCESSING_PROFILE_VALUES,
 } from "./classificationPolicy.js";
+import type {
+  GlobalFemDesignData,
+  GlobalFemPostProcessingProfile,
+  GlobalFemProjectContext,
+  GlobalFemReadinessAssessmentId,
+  GlobalFemReadinessMissingInput,
+  GlobalFemStructuralClassificationProposal,
+  GlobalFemValidationSet,
+  GlobalFemVerificationReadinessReport,
+  GlobalFemVerificationReadinessRequest,
+} from "./GlobalFemPostProcessingTypes.js";
 
 export const GLOBAL_FEM_READINESS_REPORT_VERSION = 0;
 
@@ -20,13 +37,22 @@ export const GLOBAL_FEM_READINESS_ASSESSMENTS = Object.freeze({
   RC_JOINT_VERIFICATION: "rc-joint-verification",
   CAPACITY_DESIGN: "capacity-design",
   COMPLETE_NTC2018_BUILDING_VERIFICATION: "complete-ntc2018-building-verification",
-});
+} as const);
 
-export const GLOBAL_FEM_READINESS_ASSESSMENT_VALUES = Object.freeze(
-  Object.values(GLOBAL_FEM_READINESS_ASSESSMENTS),
-);
+export const GLOBAL_FEM_READINESS_ASSESSMENT_VALUES = Object.freeze([
+  GLOBAL_FEM_READINESS_ASSESSMENTS.GENERIC_DEMANDS,
+  GLOBAL_FEM_READINESS_ASSESSMENTS.SEMANTIC_DEMANDS,
+  GLOBAL_FEM_READINESS_ASSESSMENTS.GLOBAL_DISPLACEMENT_DATA,
+  GLOBAL_FEM_READINESS_ASSESSMENTS.MODAL_DATA,
+  GLOBAL_FEM_READINESS_ASSESSMENTS.SECOND_ORDER_DATA,
+  GLOBAL_FEM_READINESS_ASSESSMENTS.RC_MEMBER_VERIFICATION,
+  GLOBAL_FEM_READINESS_ASSESSMENTS.RC_WALL_VERIFICATION,
+  GLOBAL_FEM_READINESS_ASSESSMENTS.RC_JOINT_VERIFICATION,
+  GLOBAL_FEM_READINESS_ASSESSMENTS.CAPACITY_DESIGN,
+  GLOBAL_FEM_READINESS_ASSESSMENTS.COMPLETE_NTC2018_BUILDING_VERIFICATION,
+] as const);
 
-const IMPLEMENTED_ASSESSMENTS = new Set([
+const IMPLEMENTED_ASSESSMENTS = new Set<GlobalFemReadinessAssessmentId>([
   GLOBAL_FEM_READINESS_ASSESSMENTS.GENERIC_DEMANDS,
   GLOBAL_FEM_READINESS_ASSESSMENTS.SEMANTIC_DEMANDS,
   GLOBAL_FEM_READINESS_ASSESSMENTS.GLOBAL_DISPLACEMENT_DATA,
@@ -34,7 +60,7 @@ const IMPLEMENTED_ASSESSMENTS = new Set([
   GLOBAL_FEM_READINESS_ASSESSMENTS.SECOND_ORDER_DATA,
 ]);
 
-const NORMATIVE_ASSESSMENTS = new Set([
+const NORMATIVE_ASSESSMENTS = new Set<GlobalFemReadinessAssessmentId>([
   GLOBAL_FEM_READINESS_ASSESSMENTS.RC_MEMBER_VERIFICATION,
   GLOBAL_FEM_READINESS_ASSESSMENTS.RC_WALL_VERIFICATION,
   GLOBAL_FEM_READINESS_ASSESSMENTS.RC_JOINT_VERIFICATION,
@@ -42,27 +68,49 @@ const NORMATIVE_ASSESSMENTS = new Set([
   GLOBAL_FEM_READINESS_ASSESSMENTS.COMPLETE_NTC2018_BUILDING_VERIFICATION,
 ]);
 
-function missing(code, path, message) {
+function missing(code: string, path: string, message: string): GlobalFemReadinessMissingInput {
   return { code, path, message };
 }
 
-function isPresent(value) {
+function isGlobalFemPostProcessingProfile(value: unknown): value is GlobalFemPostProcessingProfile {
+  return (GLOBAL_FEM_POSTPROCESSING_PROFILE_VALUES as readonly unknown[]).includes(value);
+}
+
+function isPresent(value: unknown): boolean {
   return value !== null && value !== undefined && value !== "";
 }
 
-function collectionIds(value) {
-  if (Array.isArray(value)) return new Set(value.map((item) => item?.id).filter(Boolean));
-  if (value && typeof value === "object") return new Set(Object.keys(value));
+function isUnknownArray(value: unknown): value is readonly unknown[] {
+  return Array.isArray(value);
+}
+
+function isRecord(value: unknown): value is Record<string, unknown> {
+  return value !== null && typeof value === "object" && !Array.isArray(value);
+}
+
+function collectionIds(value: GlobalFemDesignData[keyof GlobalFemDesignData]): Set<string> {
+  if (isUnknownArray(value)) {
+    return new Set(
+      value.flatMap((item) => (isRecord(item) && typeof item.id === "string" ? [item.id] : [])),
+    );
+  }
+  if (isRecord(value)) return new Set(Object.keys(value));
   return new Set();
 }
 
-function requirePaths(target, definitions) {
+function requirePaths(
+  target: GlobalFemProjectContext | null | undefined,
+  definitions: readonly (readonly [string, unknown, string])[],
+): GlobalFemReadinessMissingInput[] {
   return definitions.flatMap(([path, value, message]) =>
     isPresent(value) ? [] : [missing("FEM_REQUIRED_INPUT_MISSING", path, message)],
   );
 }
 
-function contractMissing(validations, result) {
+function contractMissing(
+  validations: GlobalFemValidationSet | undefined,
+  result: GlobalFemResultContract | null | undefined,
+): GlobalFemReadinessMissingInput[] {
   if (!validations) {
     return [
       missing(
@@ -72,8 +120,8 @@ function contractMissing(validations, result) {
       ),
     ];
   }
-  const invalid = ["capabilities", "model", "analysis", "result"].flatMap((name) =>
-    validations[name]?.ok
+  const invalid = (["capabilities", "model", "analysis", "result"] as const).flatMap((name) =>
+    validations[name].ok
       ? []
       : [
           missing(
@@ -95,7 +143,17 @@ function contractMissing(validations, result) {
   return invalid;
 }
 
-function mappingState(profile, mappingValidation, classification) {
+interface MappingState {
+  readonly confirmed: boolean;
+  readonly provisional: boolean;
+  readonly missing: readonly GlobalFemReadinessMissingInput[];
+}
+
+function mappingState(
+  profile: GlobalFemPostProcessingProfile,
+  mappingValidation: FemValidationResult<FemEntityMappingContract> | null | undefined,
+  classification: GlobalFemStructuralClassificationProposal,
+): MappingState {
   if (profile === GLOBAL_FEM_POSTPROCESSING_PROFILES.DEMAND_ONLY) {
     return { confirmed: false, provisional: false, missing: [] };
   }
@@ -143,7 +201,13 @@ function mappingState(profile, mappingValidation, classification) {
   };
 }
 
-function resultDataMissing(assessmentId, capabilities, model, analysis, result) {
+function resultDataMissing(
+  assessmentId: GlobalFemReadinessAssessmentId,
+  capabilities: FemCapabilitiesContract,
+  model: GlobalFemModelContract,
+  analysis: GlobalFemAnalysisContract,
+  result: GlobalFemResultContract,
+): GlobalFemReadinessMissingInput[] {
   const results = result?.results ?? {};
   switch (assessmentId) {
     case GLOBAL_FEM_READINESS_ASSESSMENTS.GENERIC_DEMANDS: {
@@ -225,7 +289,10 @@ function resultDataMissing(assessmentId, capabilities, model, analysis, result) 
   }
 }
 
-function missingMemberDesignData(classification, designData) {
+function missingMemberDesignData(
+  classification: GlobalFemStructuralClassificationProposal,
+  designData: GlobalFemDesignData | null | undefined,
+): GlobalFemReadinessMissingInput[] {
   const available = collectionIds(designData?.members);
   return classification.members
     .filter((member) => ["beam", "column"].includes(member.classification.role))
@@ -242,7 +309,10 @@ function missingMemberDesignData(classification, designData) {
     );
 }
 
-function missingWallDesignData(classification, designData) {
+function missingWallDesignData(
+  classification: GlobalFemStructuralClassificationProposal,
+  designData: GlobalFemDesignData | null | undefined,
+): GlobalFemReadinessMissingInput[] {
   const available = collectionIds(designData?.walls);
   return classification.surfaces
     .filter((surface) => surface.classification.role === "wall")
@@ -259,7 +329,10 @@ function missingWallDesignData(classification, designData) {
     );
 }
 
-function missingSlabDesignData(classification, designData) {
+function missingSlabDesignData(
+  classification: GlobalFemStructuralClassificationProposal,
+  designData: GlobalFemDesignData | null | undefined,
+): GlobalFemReadinessMissingInput[] {
   const available = collectionIds(designData?.slabs);
   return classification.surfaces
     .filter((surface) => surface.classification.role === "slab")
@@ -276,7 +349,10 @@ function missingSlabDesignData(classification, designData) {
     );
 }
 
-function missingJointDesignData(classification, designData) {
+function missingJointDesignData(
+  classification: GlobalFemStructuralClassificationProposal,
+  designData: GlobalFemDesignData | null | undefined,
+): GlobalFemReadinessMissingInput[] {
   const available = collectionIds(designData?.joints);
   return classification.joints.flatMap((joint) =>
     available.has(joint.id)
@@ -291,7 +367,13 @@ function missingJointDesignData(classification, designData) {
   );
 }
 
-function projectContextMissing(projectContext, { seismic = false, dissipative = false } = {}) {
+function projectContextMissing(
+  projectContext: GlobalFemProjectContext | null | undefined,
+  {
+    seismic = false,
+    dissipative = false,
+  }: { readonly seismic?: boolean; readonly dissipative?: boolean } = {},
+): GlobalFemReadinessMissingInput[] {
   const base = requirePaths(projectContext, [
     ["$.projectContext.intendedUse", projectContext?.intendedUse, "Intended use is required."],
     ["$.projectContext.nominalLife", projectContext?.nominalLife, "Nominal life is required."],
@@ -327,7 +409,10 @@ function projectContextMissing(projectContext, { seismic = false, dissipative = 
   return base;
 }
 
-function combinationMissing(analysis, requiredLimitStates) {
+function combinationMissing(
+  analysis: GlobalFemAnalysisContract,
+  requiredLimitStates: readonly GlobalFemAnalysisContract["combinations"][number]["limitState"][],
+): GlobalFemReadinessMissingInput[] {
   const available = new Set(analysis.combinations.map((item) => item.limitState));
   return requiredLimitStates.flatMap((limitState) =>
     available.has(limitState)
@@ -342,6 +427,19 @@ function combinationMissing(analysis, requiredLimitStates) {
   );
 }
 
+interface AssessmentMissingInput {
+  readonly assessmentId: GlobalFemReadinessAssessmentId;
+  readonly baseMissing: readonly GlobalFemReadinessMissingInput[];
+  readonly mapping: MappingState;
+  readonly classification: GlobalFemStructuralClassificationProposal;
+  readonly capabilities: FemCapabilitiesContract;
+  readonly model: GlobalFemModelContract;
+  readonly analysis: GlobalFemAnalysisContract;
+  readonly result: GlobalFemResultContract;
+  readonly projectContext: GlobalFemProjectContext | null | undefined;
+  readonly designData: GlobalFemDesignData | null | undefined;
+}
+
 function assessmentMissing({
   assessmentId,
   baseMissing,
@@ -353,7 +451,7 @@ function assessmentMissing({
   result,
   projectContext,
   designData,
-}) {
+}: AssessmentMissingInput): GlobalFemReadinessMissingInput[] {
   const items = [...baseMissing];
   if (assessmentId === GLOBAL_FEM_READINESS_ASSESSMENTS.SEMANTIC_DEMANDS) {
     items.push(...mapping.missing);
@@ -468,7 +566,13 @@ function assessmentMissing({
   );
 }
 
-function resolveAssessmentStatus({ implementationStatus, inputStatus }) {
+function resolveAssessmentStatus({
+  implementationStatus,
+  inputStatus,
+}: {
+  readonly implementationStatus: "available" | "not-implemented";
+  readonly inputStatus: "ready" | "provisional" | "blocked";
+}): "ready" | "provisional" | "not-implemented" | "blocked" {
   if (inputStatus === "blocked") return "blocked";
   if (implementationStatus === "not-implemented") return "not-implemented";
   if (inputStatus === "provisional") return "provisional";
@@ -487,14 +591,14 @@ export function evaluateGlobalFemVerificationReadiness({
   projectContext = null,
   designData = null,
   requestedAssessments = null,
-}: any = {}) {
-  if (!GLOBAL_FEM_POSTPROCESSING_PROFILE_VALUES.includes(profile)) {
+}: GlobalFemVerificationReadinessRequest = {}): GlobalFemVerificationReadinessReport {
+  if (!isGlobalFemPostProcessingProfile(profile)) {
     throw new Error(`Unsupported global FEM postprocessing profile: ${profile}.`);
   }
   if (!classification || !capabilities || !model || !analysis || !result) {
     throw new Error("Global FEM readiness requires validated contracts and classification.");
   }
-  const requested = requestedAssessments ?? [
+  const requested: readonly GlobalFemReadinessAssessmentId[] = requestedAssessments ?? [
     GLOBAL_FEM_READINESS_ASSESSMENTS.GENERIC_DEMANDS,
     ...(profile === GLOBAL_FEM_POSTPROCESSING_PROFILES.DEMAND_ONLY
       ? []
@@ -522,10 +626,12 @@ export function evaluateGlobalFemVerificationReadiness({
       projectContext,
       designData,
     });
-    const implementationStatus = IMPLEMENTED_ASSESSMENTS.has(assessmentId)
+    const implementationStatus: "available" | "not-implemented" = IMPLEMENTED_ASSESSMENTS.has(
+      assessmentId,
+    )
       ? "available"
       : "not-implemented";
-    const inputStatus =
+    const inputStatus: "ready" | "provisional" | "blocked" =
       missingInputs.length === 0
         ? assessmentId === GLOBAL_FEM_READINESS_ASSESSMENTS.SEMANTIC_DEMANDS && mapping.provisional
           ? "provisional"

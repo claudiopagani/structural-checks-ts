@@ -1,6 +1,4 @@
-/* eslint-disable @typescript-eslint/ban-ts-comment, @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-return, @typescript-eslint/no-floating-promises, @typescript-eslint/restrict-template-expressions */
 // Mechanical TypeScript migration from strutture-js 6f33baead8b88166c4b2cf94af41763412e3c751.
-// @ts-nocheck
 
 /**
  * Solver-neutral NTC 2018 regularity checks for buildings.
@@ -14,6 +12,101 @@ import {
 } from "./structuralBehavior.js";
 import { withNormativeReferences } from "../../normativeReference.js";
 import { NTC2018_RC_OUTSIDE_CORPUS_REFERENCES } from "../normativeReferences.js";
+import type { Ntc2018BehaviorInput } from "./structuralBehavior.js";
+
+type NumberLike = number | string;
+type JsonRecord = Record<string, unknown>;
+
+export interface Ntc2018FloorPlanInput extends JsonRecord {
+  readonly storeyId?: string | undefined;
+  readonly planLengthX?: NumberLike | undefined;
+  readonly planLengthY?: NumberLike | undefined;
+  readonly contourConvex?: boolean | undefined;
+  readonly reentrantAreaRatios?: readonly NumberLike[] | undefined;
+  readonly reentrantInfluenceNegligible?: boolean | undefined;
+  readonly diaphragmInPlaneRigidityAdequate?: boolean | undefined;
+  readonly diaphragmInPlaneStrengthAdequate?: boolean | undefined;
+}
+
+export interface Ntc2018PlanRegularityInput extends JsonRecord {
+  readonly floors?: readonly Ntc2018FloorPlanInput[] | undefined;
+  readonly storeyId?: string | undefined;
+  readonly massAndStiffnessApproximatelySymmetric?: boolean | undefined;
+  readonly planLengthX?: NumberLike | undefined;
+  readonly planLengthY?: NumberLike | undefined;
+  readonly contourConvex?: boolean | undefined;
+  readonly reentrantAreaRatios?: readonly NumberLike[] | undefined;
+  readonly reentrantInfluenceNegligible?: boolean | undefined;
+  readonly diaphragmInPlaneRigidityAdequate?: boolean | undefined;
+  readonly diaphragmInPlaneStrengthAdequate?: boolean | undefined;
+}
+
+export interface Ntc2018ElevationStoreyInput extends JsonRecord {
+  readonly storeyId?: string;
+  readonly mass?: NumberLike;
+  readonly planLengthX?: NumberLike;
+  readonly planLengthY?: NumberLike;
+  readonly stiffnessX?: NumberLike;
+  readonly stiffnessY?: NumberLike;
+  readonly capacityDemandRatioX?: NumberLike;
+  readonly capacityDemandRatioY?: NumberLike;
+  readonly setbackX?: NumberLike;
+  readonly setbackY?: NumberLike;
+  readonly setbackFromFirstX?: NumberLike;
+  readonly setbackFromFirstY?: NumberLike;
+}
+
+export interface Ntc2018ElevationRegularityInput extends JsonRecord {
+  readonly storeys?: readonly Ntc2018ElevationStoreyInput[];
+  readonly continuousVerticalSystems?: boolean;
+  readonly stiffnessCriterionExempt?: boolean;
+  readonly isFrameStructure?: boolean;
+}
+
+export interface Ntc2018RegularityAssessmentInput {
+  readonly planInput: Ntc2018PlanRegularityInput;
+  readonly elevationInput: Ntc2018ElevationRegularityInput;
+  readonly behavior: Ntc2018BehaviorInput;
+  readonly t1X?: NumberLike;
+  readonly t1Y?: NumberLike;
+  readonly tc?: NumberLike;
+  readonly td?: NumberLike;
+}
+
+interface RegularityCheck extends JsonRecord {
+  readonly check: string;
+  readonly ok: boolean;
+}
+
+interface NormalizedElevationStorey extends JsonRecord {
+  readonly storeyId: string;
+  readonly mass: number;
+  readonly planLengthX: number;
+  readonly planLengthY: number;
+  readonly stiffnessX: number | null;
+  readonly stiffnessY: number | null;
+  readonly capacityDemandRatioX: number | null;
+  readonly capacityDemandRatioY: number | null;
+}
+
+interface PlanFloorDetail extends JsonRecord {
+  readonly storeyId: string;
+  readonly slenderness: number;
+  readonly maximumReentrantAreaRatio: number;
+  readonly checks: readonly RegularityCheck[];
+}
+
+function isJsonRecord(value: unknown): value is JsonRecord {
+  return value !== null && typeof value === "object" && !Array.isArray(value);
+}
+
+function isFloorPlanArray(value: unknown): value is readonly Ntc2018FloorPlanInput[] {
+  return Array.isArray(value);
+}
+
+function isElevationStoreyArray(value: unknown): value is readonly Ntc2018ElevationStoreyInput[] {
+  return Array.isArray(value);
+}
 
 const STRUCTURAL_REGULARITY_NORMATIVE_REFERENCES = Object.freeze([
   NTC2018_RC_OUTSIDE_CORPUS_REFERENCES.structuralRegularity,
@@ -31,42 +124,44 @@ export const NTC2018_REGULARITY_REFERENCES = Object.freeze([
   }),
 ]);
 
-function regularityMetadata(metadata = {}) {
+function regularityMetadata(metadata: JsonRecord = {}): JsonRecord {
   return withNormativeReferences(metadata, [...STRUCTURAL_REGULARITY_NORMATIVE_REFERENCES]);
 }
 
-function regularityCheck(check) {
+function regularityCheck(
+  check: JsonRecord & { readonly check: string; readonly ok: boolean },
+): RegularityCheck {
   return {
     ...check,
-    metadata: regularityMetadata(check.metadata),
+    metadata: regularityMetadata(isJsonRecord(check.metadata) ? check.metadata : {}),
   };
 }
 
-function positive(value, label) {
+function positive(value: unknown, label: string): number {
   const number = Number(value);
   if (!Number.isFinite(number) || number <= 0) {
-    throw new Error(`${label} must be finite and positive; got ${value}.`);
+    throw new Error(`${label} must be finite and positive; got ${String(value)}.`);
   }
   return number;
 }
 
-function ratio01(value, label) {
+function ratio01(value: unknown, label: string): number {
   const number = Number(value);
   if (!Number.isFinite(number) || number < 0 || number > 1) {
-    throw new Error(`${label} must be between 0 and 1; got ${value}.`);
+    throw new Error(`${label} must be between 0 and 1; got ${String(value)}.`);
   }
   return number;
 }
 
-function requiredBoolean(value, label) {
+function requiredBoolean(value: unknown, label: string): boolean {
   if (typeof value !== "boolean") {
     throw new Error(`${label} must be explicitly true or false.`);
   }
   return value;
 }
 
-function normalizeFloorPlans(input) {
-  if (Array.isArray(input.floors) && input.floors.length > 0) {
+function normalizeFloorPlans(input: Ntc2018PlanRegularityInput): readonly Ntc2018FloorPlanInput[] {
+  if (isFloorPlanArray(input.floors) && input.floors.length > 0) {
     return input.floors;
   }
   if (input.planLengthX !== undefined || input.planLengthY !== undefined) {
@@ -92,7 +187,7 @@ function normalizeFloorPlans(input) {
  * Missing qualitative assessments are rejected rather than interpreted as
  * compliance.
  */
-export function evaluateNTC2018PlanRegularity(input = {}) {
+export function evaluateNTC2018PlanRegularity(input: Ntc2018PlanRegularityInput = {}) {
   const symmetry = requiredBoolean(
     input.massAndStiffnessApproximatelySymmetric,
     "massAndStiffnessApproximatelySymmetric",
@@ -106,10 +201,11 @@ export function evaluateNTC2018PlanRegularity(input = {}) {
       reference: "NTC 2018 § 7.2.1, lettera a)",
     }),
   ];
-  const floorDetails = [];
+  const floorDetails: PlanFloorDetail[] = [];
 
   for (let index = 0; index < floors.length; index++) {
     const floor = floors[index];
+    if (!floor) continue;
     const storeyId = floor.storeyId ?? `floor-${index + 1}`;
     const lengthX = positive(floor.planLengthX, `floors[${index}].planLengthX`);
     const lengthY = positive(floor.planLengthY, `floors[${index}].planLengthY`);
@@ -184,7 +280,7 @@ export function evaluateNTC2018PlanRegularity(input = {}) {
   }
 
   const allChecksOk = checks.every((check) => check.ok === true);
-  const governingFloor = floorDetails.reduce(
+  const governingFloor = floorDetails.reduce<PlanFloorDetail | null>(
     (governing, floor) =>
       governing == null || floor.slenderness > governing.slenderness ? floor : governing,
     null,
@@ -209,7 +305,23 @@ export function evaluateNTC2018PlanRegularity(input = {}) {
   };
 }
 
-function pairCheck({ check, storeyId, comparedTo, value, minimum, maximum, reference }) {
+function pairCheck({
+  check,
+  storeyId,
+  comparedTo,
+  value,
+  minimum,
+  maximum,
+  reference,
+}: {
+  readonly check: string;
+  readonly storeyId: string;
+  readonly comparedTo: string;
+  readonly value: number;
+  readonly minimum: number;
+  readonly maximum: number;
+  readonly reference: string;
+}): RegularityCheck {
   return regularityCheck({
     check,
     storeyId,
@@ -222,7 +334,11 @@ function pairCheck({ check, storeyId, comparedTo, value, minimum, maximum, refer
   });
 }
 
-function positiveStoreyValue(storey, key, index) {
+function positiveStoreyValue(
+  storey: Ntc2018ElevationStoreyInput,
+  key: keyof Ntc2018ElevationStoreyInput,
+  index: number,
+): number {
   return positive(storey[key], `storeys[${index}].${key}`);
 }
 
@@ -234,29 +350,25 @@ export function evaluateNTC2018ElevationRegularity({
   continuousVerticalSystems,
   stiffnessCriterionExempt = false,
   isFrameStructure = false,
-}: any = {}) {
-  if (!Array.isArray(storeys) || storeys.length < 2) {
+}: Ntc2018ElevationRegularityInput = {}) {
+  if (!isElevationStoreyArray(storeys) || storeys.length < 2) {
     throw new Error("At least two storeys ordered from base to top are required.");
   }
-  requiredBoolean(continuousVerticalSystems, "continuousVerticalSystems");
-  requiredBoolean(stiffnessCriterionExempt, "stiffnessCriterionExempt");
-  requiredBoolean(isFrameStructure, "isFrameStructure");
+  const continuousSystems = requiredBoolean(continuousVerticalSystems, "continuousVerticalSystems");
+  const stiffnessExempt = requiredBoolean(stiffnessCriterionExempt, "stiffnessCriterionExempt");
+  const frameStructure = requiredBoolean(isFrameStructure, "isFrameStructure");
 
-  const normalized = storeys.map((storey, index) => {
+  const normalized: NormalizedElevationStorey[] = storeys.map((storey, index) => {
     const topResistanceException =
-      isFrameStructure && storeys.length >= 3 && index === storeys.length - 1;
+      frameStructure && storeys.length >= 3 && index === storeys.length - 1;
     return {
       ...storey,
       storeyId: storey.storeyId ?? `storey-${index + 1}`,
       mass: positiveStoreyValue(storey, "mass", index),
       planLengthX: positiveStoreyValue(storey, "planLengthX", index),
       planLengthY: positiveStoreyValue(storey, "planLengthY", index),
-      stiffnessX: stiffnessCriterionExempt
-        ? null
-        : positiveStoreyValue(storey, "stiffnessX", index),
-      stiffnessY: stiffnessCriterionExempt
-        ? null
-        : positiveStoreyValue(storey, "stiffnessY", index),
+      stiffnessX: stiffnessExempt ? null : positiveStoreyValue(storey, "stiffnessX", index),
+      stiffnessY: stiffnessExempt ? null : positiveStoreyValue(storey, "stiffnessY", index),
       capacityDemandRatioX: topResistanceException
         ? null
         : positiveStoreyValue(storey, "capacityDemandRatioX", index),
@@ -270,17 +382,21 @@ export function evaluateNTC2018ElevationRegularity({
   const checks = [
     regularityCheck({
       check: "elevation-continuous-horizontal-resisting-systems",
-      ok: continuousVerticalSystems,
+      ok: continuousSystems,
       reference: "NTC 2018 § 7.2.1, lettera d)",
     }),
   ];
   const storeyDetails = [];
   const first = normalized[0];
+  if (!first) {
+    throw new Error("At least two storeys ordered from base to top are required.");
+  }
 
   for (let index = 1; index < normalized.length; index++) {
     const current = normalized[index];
     const below = normalized[index - 1];
-    const pairChecks = [];
+    if (!current || !below) continue;
+    const pairChecks: RegularityCheck[] = [];
 
     pairChecks.push(
       pairCheck({
@@ -294,14 +410,19 @@ export function evaluateNTC2018ElevationRegularity({
       }),
     );
 
-    if (!stiffnessCriterionExempt) {
-      for (const direction of ["X", "Y"]) {
+    if (!stiffnessExempt) {
+      for (const direction of ["X", "Y"] as const) {
+        const currentStiffness = direction === "X" ? current.stiffnessX : current.stiffnessY;
+        const belowStiffness = direction === "X" ? below.stiffnessX : below.stiffnessY;
+        if (currentStiffness === null || belowStiffness === null) {
+          throw new Error(`Storey stiffness in ${direction} is required.`);
+        }
         pairChecks.push(
           pairCheck({
             check: `elevation-stiffness-${direction.toLowerCase()}`,
             storeyId: current.storeyId,
             comparedTo: below.storeyId,
-            value: current[`stiffness${direction}`] / below[`stiffness${direction}`],
+            value: currentStiffness / belowStiffness,
             minimum: 0.7,
             maximum: 1.1,
             reference: "NTC 2018 § 7.2.1, lettera e)",
@@ -311,16 +432,22 @@ export function evaluateNTC2018ElevationRegularity({
     }
 
     const topResistanceException =
-      isFrameStructure && normalized.length >= 3 && index === normalized.length - 1;
+      frameStructure && normalized.length >= 3 && index === normalized.length - 1;
     if (!topResistanceException) {
-      for (const direction of ["X", "Y"]) {
+      for (const direction of ["X", "Y"] as const) {
+        const currentCapacity =
+          direction === "X" ? current.capacityDemandRatioX : current.capacityDemandRatioY;
+        const belowCapacity =
+          direction === "X" ? below.capacityDemandRatioX : below.capacityDemandRatioY;
+        if (currentCapacity === null || belowCapacity === null) {
+          throw new Error(`Storey capacity-demand ratio in ${direction} is required.`);
+        }
         pairChecks.push(
           pairCheck({
             check: `elevation-capacity-demand-${direction.toLowerCase()}`,
             storeyId: current.storeyId,
             comparedTo: below.storeyId,
-            value:
-              current[`capacityDemandRatio${direction}`] / below[`capacityDemandRatio${direction}`],
+            value: currentCapacity / belowCapacity,
             minimum: 0.7,
             maximum: 1.3,
             reference: "NTC 2018 § 7.2.1, lettera f)",
@@ -331,16 +458,19 @@ export function evaluateNTC2018ElevationRegularity({
 
     const topSetbackException = normalized.length >= 4 && index === normalized.length - 1;
     if (!topSetbackException) {
-      for (const direction of ["X", "Y"]) {
-        const dimensionKey = `planLength${direction}`;
+      for (const direction of ["X", "Y"] as const) {
+        const currentDimension = direction === "X" ? current.planLengthX : current.planLengthY;
+        const belowDimension = direction === "X" ? below.planLengthX : below.planLengthY;
+        const firstDimension = direction === "X" ? first.planLengthX : first.planLengthY;
+        const setback = direction === "X" ? current.setbackX : current.setbackY;
+        const setbackFromFirst =
+          direction === "X" ? current.setbackFromFirstX : current.setbackFromFirstY;
         const immediateSetback =
-          current[`setback${direction}`] !== undefined
-            ? Number(current[`setback${direction}`])
-            : Math.max(0, below[dimensionKey] - current[dimensionKey]);
+          setback !== undefined ? Number(setback) : Math.max(0, belowDimension - currentDimension);
         const firstSetback =
-          current[`setbackFromFirst${direction}`] !== undefined
-            ? Number(current[`setbackFromFirst${direction}`])
-            : Math.max(0, first[dimensionKey] - current[dimensionKey]);
+          setbackFromFirst !== undefined
+            ? Number(setbackFromFirst)
+            : Math.max(0, firstDimension - currentDimension);
         if (
           !Number.isFinite(immediateSetback) ||
           immediateSetback < 0 ||
@@ -356,11 +486,9 @@ export function evaluateNTC2018ElevationRegularity({
             check: `elevation-setback-${direction.toLowerCase()}`,
             storeyId: current.storeyId,
             comparedTo: below.storeyId,
-            ok:
-              immediateSetback / below[dimensionKey] <= 0.1 &&
-              firstSetback / first[dimensionKey] <= 0.3,
-            immediateRatio: immediateSetback / below[dimensionKey],
-            fromFirstRatio: firstSetback / first[dimensionKey],
+            ok: immediateSetback / belowDimension <= 0.1 && firstSetback / firstDimension <= 0.3,
+            immediateRatio: immediateSetback / belowDimension,
+            fromFirstRatio: firstSetback / firstDimension,
             immediateLimit: 0.1,
             fromFirstLimit: 0.3,
             reference: "NTC 2018 § 7.2.1, lettera g)",
@@ -387,7 +515,7 @@ export function evaluateNTC2018ElevationRegularity({
     allChecksOk,
     checks,
     storeyDetails,
-    stiffnessCriterionExempt,
+    stiffnessCriterionExempt: stiffnessExempt,
     metadata: regularityMetadata({
       normativeConformityClaimed: false,
     }),
@@ -402,7 +530,7 @@ export function createNTC2018RegularityAssessment({
   t1Y,
   tc,
   td,
-}) {
+}: Ntc2018RegularityAssessmentInput) {
   const planResult = evaluateNTC2018PlanRegularity(planInput);
   const elevationResult = evaluateNTC2018ElevationRegularity(elevationInput);
   const reductionFactorKr = NTC2018_REGULARITY_REDUCTION[elevationResult.regularity];

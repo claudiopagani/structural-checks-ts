@@ -1,6 +1,30 @@
-/* eslint-disable @typescript-eslint/ban-ts-comment, @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-return, @typescript-eslint/no-floating-promises */
 // Mechanical TypeScript migration from strutture-js 6f33baead8b88166c4b2cf94af41763412e3c751.
-// @ts-nocheck
+
+import type {
+  FemLineElementActionResult,
+  FemResultCaseReference,
+  FemShellResultantResult,
+  GlobalFemModelContract,
+  GlobalFemResultContract,
+} from "../../domain/fem/contracts/FemContractTypes.js";
+import type {
+  GlobalFemComponentEnvelope,
+  GlobalFemComponentEnvelopeValue,
+  GlobalFemDemandExtractionRequest,
+  GlobalFemDemandLocation,
+  GlobalFemJointDemand,
+  GlobalFemJointDemandElementEnd,
+  GlobalFemJointDemandState,
+  GlobalFemLineDemandState,
+  GlobalFemLineDemandStation,
+  GlobalFemLineElementDemand,
+  GlobalFemMemberDemandGroup,
+  GlobalFemResultReference,
+  GlobalFemShellElementDemand,
+  GlobalFemStructuralClassificationProposal,
+  GlobalFemSurfaceDemandGroup,
+  GlobalFemDemandSet,
+} from "./GlobalFemPostProcessingTypes.js";
 
 export const GLOBAL_FEM_DEMAND_SET_VERSION = 0;
 
@@ -12,23 +36,63 @@ const REFERENCE_KEYS = Object.freeze([
   "step",
   "time",
   "envelopeId",
-]);
+] as const);
 
-function clone(value) {
-  return JSON.parse(JSON.stringify(value));
+function clone<T>(value: T): T {
+  return value == null ? value : (JSON.parse(JSON.stringify(value)) as T);
 }
 
-function resultReference(entry) {
+type ResultReferenceEntry = FemResultCaseReference & {
+  readonly procedureId?: string;
+  readonly modeNumber?: number;
+  readonly envelopeId?: string;
+};
+
+function referenceValue(
+  entry: ResultReferenceEntry,
+  key: (typeof REFERENCE_KEYS)[number],
+): string | number | undefined {
+  switch (key) {
+    case "procedureId":
+      return entry.procedureId;
+    case "loadCaseId":
+      return entry.loadCaseId;
+    case "combinationId":
+      return entry.combinationId;
+    case "modeNumber":
+      return entry.modeNumber;
+    case "step":
+      return entry.step;
+    case "time":
+      return entry.time;
+    case "envelopeId":
+      return entry.envelopeId;
+  }
+}
+
+function resultReference(entry: ResultReferenceEntry): GlobalFemResultReference {
   return Object.fromEntries(
-    REFERENCE_KEYS.filter((key) => entry[key] !== undefined).map((key) => [key, entry[key]]),
+    REFERENCE_KEYS.flatMap((key) => {
+      const value = referenceValue(entry, key);
+      return value === undefined ? [] : [[key, value]];
+    }),
   );
 }
 
-function referenceKey(reference) {
+function referenceKey(reference: GlobalFemResultReference): string {
   return JSON.stringify(REFERENCE_KEYS.map((key) => reference[key] ?? null));
 }
 
-function updateExtreme(envelope, kind, candidate) {
+type MutableGlobalFemComponentEnvelope = {
+  minimum: GlobalFemComponentEnvelopeValue | null;
+  maximum: GlobalFemComponentEnvelopeValue | null;
+};
+
+function updateExtreme(
+  envelope: MutableGlobalFemComponentEnvelope,
+  kind: "minimum" | "maximum",
+  candidate: GlobalFemComponentEnvelopeValue,
+): void {
   if (
     envelope[kind] == null ||
     (kind === "minimum" && candidate.value < envelope[kind].value) ||
@@ -38,8 +102,14 @@ function updateExtreme(envelope, kind, candidate) {
   }
 }
 
-function componentEnvelopes(samples) {
-  const envelopes = {};
+function componentEnvelopes(
+  samples: readonly {
+    readonly reference: GlobalFemResultReference;
+    readonly location: GlobalFemDemandLocation;
+    readonly components: Readonly<Record<string, number>>;
+  }[],
+): Readonly<Record<string, GlobalFemComponentEnvelope>> {
+  const envelopes: Record<string, MutableGlobalFemComponentEnvelope> = {};
   for (const sample of samples) {
     for (const [component, value] of Object.entries(sample.components ?? {})) {
       if (!Number.isFinite(value)) continue;
@@ -58,8 +128,12 @@ function componentEnvelopes(samples) {
   return envelopes;
 }
 
-function extractLineElementDemands(model, result) {
-  const resultByElement = new Map(model.lineElements.map((element) => [element.id, []]));
+function extractLineElementDemands(
+  model: GlobalFemModelContract,
+  result: GlobalFemResultContract,
+): readonly GlobalFemLineElementDemand[] {
+  const resultByElement = new Map<string, FemLineElementActionResult[]>();
+  for (const element of model.lineElements) resultByElement.set(element.id, []);
   for (const entry of result.results.lineElementActions ?? []) {
     resultByElement.get(entry.lineElementId)?.push(entry);
   }
@@ -93,8 +167,12 @@ function extractLineElementDemands(model, result) {
   });
 }
 
-function extractShellElementDemands(model, result) {
-  const resultByElement = new Map(model.shellElements.map((element) => [element.id, []]));
+function extractShellElementDemands(
+  model: GlobalFemModelContract,
+  result: GlobalFemResultContract,
+): readonly GlobalFemShellElementDemand[] {
+  const resultByElement = new Map<string, FemShellResultantResult[]>();
+  for (const element of model.shellElements) resultByElement.set(element.id, []);
   for (const entry of result.results.shellResultants ?? []) {
     resultByElement.get(entry.shellElementId)?.push(entry);
   }
@@ -125,19 +203,40 @@ function extractShellElementDemands(model, result) {
   });
 }
 
-function groupDemands(classifications, idKey, demandIndex) {
+function groupMemberDemands(
+  classifications: readonly GlobalFemStructuralClassificationProposal["members"][number][],
+  demandIndex: ReadonlyMap<string, GlobalFemLineElementDemand>,
+): readonly GlobalFemMemberDemandGroup[] {
   return classifications.map((entity) => ({
     id: entity.id,
     classification: clone(entity.classification),
-    [idKey]: [...entity[idKey]],
-    elementDemands: entity[idKey]
+    lineElementIds: [...entity.lineElementIds],
+    elementDemands: entity.lineElementIds
       .map((id) => demandIndex.get(id))
-      .filter(Boolean)
+      .filter((item): item is GlobalFemLineElementDemand => item !== undefined)
       .map(clone),
   }));
 }
 
-function closestEndStation(actionState, end) {
+function groupSurfaceDemands(
+  classifications: readonly GlobalFemStructuralClassificationProposal["surfaces"][number][],
+  demandIndex: ReadonlyMap<string, GlobalFemShellElementDemand>,
+): readonly GlobalFemSurfaceDemandGroup[] {
+  return classifications.map((entity) => ({
+    id: entity.id,
+    classification: clone(entity.classification),
+    shellElementIds: [...entity.shellElementIds],
+    elementDemands: entity.shellElementIds
+      .map((id) => demandIndex.get(id))
+      .filter((item): item is GlobalFemShellElementDemand => item !== undefined)
+      .map(clone),
+  }));
+}
+
+function closestEndStation(
+  actionState: GlobalFemLineDemandState,
+  end: "start" | "end",
+): GlobalFemLineDemandStation | null {
   if (actionState.stations.length === 0) return null;
   const targetXi = end === "start" ? 0 : 1;
   return actionState.stations.reduce((closest, station) =>
@@ -145,9 +244,18 @@ function closestEndStation(actionState, end) {
   );
 }
 
-function extractJointDemands(joints, lineDemandIndex) {
+function extractJointDemands(
+  joints: readonly GlobalFemStructuralClassificationProposal["joints"][number][],
+  lineDemandIndex: ReadonlyMap<string, GlobalFemLineElementDemand>,
+): readonly GlobalFemJointDemand[] {
   return joints.map((joint) => {
-    const states = new Map();
+    const states = new Map<
+      string,
+      {
+        readonly reference: GlobalFemResultReference;
+        readonly elementEnds: GlobalFemJointDemandElementEnd[];
+      }
+    >();
     for (const elementEnd of joint.lineElementEnds) {
       const demand = lineDemandIndex.get(elementEnd.lineElementId);
       for (const actionState of demand?.actionStates ?? []) {
@@ -160,7 +268,9 @@ function extractJointDemands(joints, lineDemandIndex) {
         }
         const station = closestEndStation(actionState, elementEnd.end);
         const targetXi = elementEnd.end === "start" ? 0 : 1;
-        states.get(key).elementEnds.push({
+        const state = states.get(key);
+        if (!state) throw new Error(`Missing FEM joint demand state ${key}.`);
+        state.elementEnds.push({
           lineElementId: elementEnd.lineElementId,
           end: elementEnd.end,
           coordinateSystem: actionState.coordinateSystem,
@@ -170,7 +280,7 @@ function extractJointDemands(joints, lineDemandIndex) {
       }
     }
 
-    const demandStates = [...states.values()].map((state) => {
+    const demandStates: GlobalFemJointDemandState[] = [...states.values()].map((state) => {
       const present = new Set(
         state.elementEnds
           .filter((entry) => entry.atElementEnd)
@@ -196,7 +306,12 @@ function extractJointDemands(joints, lineDemandIndex) {
   });
 }
 
-export function extractGlobalFemDemands({ model, analysis, result, classification }: any = {}) {
+export function extractGlobalFemDemands({
+  model,
+  analysis,
+  result,
+  classification,
+}: GlobalFemDemandExtractionRequest = {}): GlobalFemDemandSet {
   if (!model || !analysis || !result || !classification) {
     throw new Error(
       "Global FEM demand extraction requires model, analysis, result and classification.",
@@ -218,8 +333,8 @@ export function extractGlobalFemDemands({ model, analysis, result, classificatio
     provenance: clone(result.provenance),
     lineElementDemands,
     shellElementDemands,
-    memberDemands: groupDemands(classification.members, "lineElementIds", lineDemandIndex),
-    surfaceDemands: groupDemands(classification.surfaces, "shellElementIds", shellDemandIndex),
+    memberDemands: groupMemberDemands(classification.members, lineDemandIndex),
+    surfaceDemands: groupSurfaceDemands(classification.surfaces, shellDemandIndex),
     jointDemands: extractJointDemands(classification.joints, lineDemandIndex),
     globalResponses: {
       nodalDisplacements: clone(result.results.nodalDisplacements ?? []),

@@ -1,6 +1,4 @@
-/* eslint-disable @typescript-eslint/ban-ts-comment, @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-return, @typescript-eslint/no-floating-promises, @typescript-eslint/restrict-template-expressions */
 // Mechanical TypeScript migration from strutture-js 6f33baead8b88166c4b2cf94af41763412e3c751.
-// @ts-nocheck
 
 import {
   CIRC2019_RC_REFERENCES,
@@ -9,6 +7,61 @@ import {
   NTC2018_RC_OUTSIDE_CORPUS_REFERENCES,
 } from "../../norms/ntc2018/normativeReferences.js";
 import { EN1992_RC_EXTERNAL_REFERENCES } from "../../norms/en1992/normativeReferences.js";
+import type { NormativeReference } from "../../norms/normativeReference.js";
+
+type JsonRecord = Record<string, unknown>;
+export type Ntc2018RcCoverageStatus =
+  (typeof NTC2018_RC_COVERAGE_STATUS)[keyof typeof NTC2018_RC_COVERAGE_STATUS];
+export type Ntc2018RcTraceabilityStatus =
+  (typeof NTC2018_RC_TRACEABILITY_STATUS)[keyof typeof NTC2018_RC_TRACEABILITY_STATUS];
+
+export interface Ntc2018RcCapability {
+  readonly id: string;
+  readonly status: Ntc2018RcCoverageStatus;
+  readonly references: readonly string[];
+  readonly evidence: readonly string[];
+  readonly normativeTraceability: {
+    readonly status: Ntc2018RcTraceabilityStatus;
+    readonly corpusWorkflowStatus: "extracted";
+    readonly normativeReferences: readonly NormativeReference[];
+  };
+}
+
+export interface Ntc2018RcBuildingCompletenessInput {
+  readonly requiredCapabilityIds?: readonly string[];
+}
+
+export interface Ntc2018RcBuildingCompleteness {
+  readonly schema: "strutture-js/ntc2018-rc-building-completeness";
+  readonly version: 0;
+  readonly status: "complete" | "not-implemented";
+  readonly complete: boolean;
+  readonly evaluationBasis: "implementation-availability";
+  readonly normativeTraceabilityComplete: boolean;
+  readonly normativeConformityClaimed: false;
+  readonly requiredCapabilityIds: readonly string[];
+  readonly blockingCapabilities: readonly {
+    readonly id: string;
+    readonly status: Ntc2018RcCoverageStatus;
+  }[];
+  readonly normativeBlockingCapabilities: readonly {
+    readonly id: string;
+    readonly status: Ntc2018RcTraceabilityStatus;
+  }[];
+}
+
+export interface Ntc2018RcBuildingCoverage extends JsonRecord {
+  readonly schema: "strutture-js/ntc2018-rc-building-coverage";
+  readonly version: 0;
+  readonly declaredScope: string;
+  readonly declaredScopeCoverageComplete: true;
+  readonly declaredScopeImplementationCoverageComplete: true;
+  readonly normativeTraceabilityComplete: false;
+  readonly normativeConformityClaimed: false;
+  readonly normativeAssurance: string;
+  readonly wholeChapter4And7CoverageClaimed: false;
+  readonly capabilities: readonly Ntc2018RcCapability[];
+}
 
 export const NTC2018_RC_COVERAGE_STATUS = Object.freeze({
   AVAILABLE: "available",
@@ -30,7 +83,15 @@ const OUTSIDE = NTC2018_RC_OUTSIDE_CORPUS_REFERENCES;
 const CIRC = CIRC2019_RC_REFERENCES;
 const EN1992 = EN1992_RC_EXTERNAL_REFERENCES;
 
-const CAPABILITY_TRACEABILITY = Object.freeze({
+const CAPABILITY_TRACEABILITY: Readonly<
+  Record<
+    string,
+    {
+      readonly status: Ntc2018RcTraceabilityStatus;
+      readonly references: readonly NormativeReference[];
+    }
+  >
+> = Object.freeze({
   "global-fem-contracts": {
     status: NTC2018_RC_TRACEABILITY_STATUS.COMPUTATIONAL_CONTRACT,
     references: [OUTSIDE.globalSeismicAnalysis],
@@ -187,7 +248,7 @@ const CAPABILITY_TRACEABILITY = Object.freeze({
   },
 });
 
-function normativeTraceability(capabilityId) {
+function normativeTraceability(capabilityId: string): Ntc2018RcCapability["normativeTraceability"] {
   const traceability = CAPABILITY_TRACEABILITY[capabilityId];
 
   if (!traceability) {
@@ -201,7 +262,12 @@ function normativeTraceability(capabilityId) {
   });
 }
 
-function capability(id, status, references, evidence) {
+function capability(
+  id: string,
+  status: Ntc2018RcCoverageStatus,
+  references: readonly string[],
+  evidence: readonly string[],
+): Ntc2018RcCapability {
   return Object.freeze({
     id,
     status,
@@ -215,7 +281,7 @@ function capability(id, status, references, evidence) {
  * Factual implementation inventory for ordinary cast-in-place RC buildings.
  * It is intentionally narrower than the whole of NTC chapters 4 and 7.
  */
-export const NTC2018_RC_BUILDING_CAPABILITIES = Object.freeze([
+export const NTC2018_RC_BUILDING_CAPABILITIES: readonly Ntc2018RcCapability[] = Object.freeze([
   capability(
     "global-fem-contracts",
     "available",
@@ -403,43 +469,42 @@ export const NTC2018_RC_BUILDING_CAPABILITIES = Object.freeze([
   ),
 ]);
 
-export function getNTC2018RcBuildingCoverage() {
-  return JSON.parse(
-    JSON.stringify({
-      schema: "strutture-js/ntc2018-rc-building-coverage",
-      version: 0,
-      declaredScope: "ordinary-cast-in-place-reinforced-concrete-buildings",
-      declaredScopeCoverageComplete: true,
-      declaredScopeImplementationCoverageComplete: true,
-      normativeTraceabilityComplete: false,
-      normativeConformityClaimed: false,
-      normativeAssurance:
-        "Implementation availability is not a conformity declaration. " +
-        "The pinned corpus is extracted and some required chapters are outside it.",
-      wholeChapter4And7CoverageClaimed: false,
-      capabilities: NTC2018_RC_BUILDING_CAPABILITIES,
-    }),
-  );
+export function getNTC2018RcBuildingCoverage(): Ntc2018RcBuildingCoverage {
+  const coverage: Ntc2018RcBuildingCoverage = {
+    schema: "strutture-js/ntc2018-rc-building-coverage",
+    version: 0,
+    declaredScope: "ordinary-cast-in-place-reinforced-concrete-buildings",
+    declaredScopeCoverageComplete: true,
+    declaredScopeImplementationCoverageComplete: true,
+    normativeTraceabilityComplete: false,
+    normativeConformityClaimed: false,
+    normativeAssurance:
+      "Implementation availability is not a conformity declaration. " +
+      "The pinned corpus is extracted and some required chapters are outside it.",
+    wholeChapter4And7CoverageClaimed: false,
+    capabilities: NTC2018_RC_BUILDING_CAPABILITIES,
+  };
+  return structuredClone(coverage);
 }
 
 export function evaluateNTC2018RcBuildingCompleteness({
   requiredCapabilityIds = NTC2018_RC_BUILDING_CAPABILITIES.filter(
     (item) => item.status !== "outside-declared-scope",
   ).map((item) => item.id),
-} = {}) {
+}: Ntc2018RcBuildingCompletenessInput = {}): Ntc2018RcBuildingCompleteness {
   const index = new Map(NTC2018_RC_BUILDING_CAPABILITIES.map((item) => [item.id, item]));
   const unknown = requiredCapabilityIds.filter((id) => !index.has(id));
   if (unknown.length > 0) {
     throw new Error(`Unknown RC building capability ids: ${unknown.join(", ")}.`);
   }
-  const required = requiredCapabilityIds.map((id) => index.get(id));
+  const required = requiredCapabilityIds
+    .map((id) => index.get(id))
+    .filter((item): item is Ntc2018RcCapability => item !== undefined);
   const blocking = required.filter((item) => item.status !== NTC2018_RC_COVERAGE_STATUS.AVAILABLE);
   const normativeBlocking = required.filter(
     (item) =>
-      ![
-        NTC2018_RC_TRACEABILITY_STATUS.COMPUTATIONAL_CONTRACT,
-        NTC2018_RC_TRACEABILITY_STATUS.RESOLVED_CURRENT_CORPUS,
-      ].includes(item.normativeTraceability.status),
+      item.normativeTraceability.status !== NTC2018_RC_TRACEABILITY_STATUS.COMPUTATIONAL_CONTRACT &&
+      item.normativeTraceability.status !== NTC2018_RC_TRACEABILITY_STATUS.RESOLVED_CURRENT_CORPUS,
   );
 
   return {

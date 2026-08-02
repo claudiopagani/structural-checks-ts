@@ -1,6 +1,4 @@
-/* eslint-disable @typescript-eslint/ban-ts-comment, @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-return, @typescript-eslint/no-floating-promises, @typescript-eslint/restrict-template-expressions, no-useless-assignment */
 // Mechanical TypeScript migration from strutture-js 6f33baead8b88166c4b2cf94af41763412e3c751.
-// @ts-nocheck
 
 /**
  * Reinforced Concrete Building Verification Application.
@@ -68,6 +66,11 @@ import {
   createCapacityDesignAssessment,
   verifyBeamColumnHierarchy,
 } from "../../norms/ntc2018/reinforced-concrete/capacityDesign.js";
+import type {
+  Ntc2018BehaviorInput,
+  Ntc2018StructuralBehavior,
+  Ntc2018StructuralType,
+} from "../../norms/ntc2018/reinforced-concrete/structuralBehavior.js";
 import { createDisplacementAssessment } from "../../norms/ntc2018/reinforced-concrete/displacementChecks.js";
 import { createNTC2018LinearDynamicAssessment } from "../../norms/ntc2018/seismicAnalysisChecks.js";
 import { withNormativeReferences } from "../../norms/normativeReference.js";
@@ -78,8 +81,48 @@ import {
 } from "../../norms/ntc2018/normativeReferences.js";
 import { verifyWallBiaxialBending } from "./wallBiaxialVerification.js";
 import { runWallSystemVerifications } from "./wallSystemVerification.js";
+import type { WallSystemMappedWall } from "./wallSystemVerification.js";
 import { runSlabSystemVerifications } from "./slabSystemVerification.js";
 import { runFoundationSystemVerifications } from "./foundationSystemVerification.js";
+import type {
+  JsonRecord,
+  RcBuildingReadinessAssessment,
+  RcBuildingVerificationInput,
+  RcBuildingVerificationOutputs,
+  RcBuildingVerifierContext,
+  RcCheckDto,
+  RcJointVerifier,
+  RcMemberVerifier,
+  RcWallFemDemandContext,
+  RcWallSectionInput,
+} from "./RcBuildingVerificationTypes.js";
+import type {
+  FemJsonObject,
+  FemResultLocation,
+  FemDiagnostic,
+  FemEntityMappingContract,
+  FemStructuralMember,
+  FemStructuralSlab,
+  FemStructuralWall,
+  FemValidationResult,
+  GlobalFemModelContract,
+  GlobalFemResultContract,
+} from "../../domain/fem/contracts/FemContractTypes.js";
+import type {
+  ConcurrentFemJointDemand,
+  ConcurrentFemGlobalResponses,
+  ConcurrentFemMemberDemand,
+  ConcurrentFemReference,
+  ConcurrentFemShellResultantComponents,
+  ConcurrentFemSurfaceDemand,
+  ConcurrentFemSectionCutResultants,
+  ResistanceMappedFoundation,
+  ResistanceMappedMember,
+  ResistanceMappedSlab,
+  ResistanceAxisSourceCoordinateSystem,
+} from "../../domain/fem/index.js";
+import type { GlobalFemDemandSet } from "../global-fem-postprocessing/GlobalFemPostProcessingTypes.js";
+import type { Ntc2018StoreyDisplacementInput } from "../../norms/ntc2018/reinforced-concrete/displacementChecks.js";
 import {
   evaluateNTC2018RcBuildingCompleteness,
   getNTC2018RcBuildingCoverage,
@@ -100,9 +143,11 @@ const APP_MATURITY = "complete";
 // Contract validation helpers
 // ---------------------------------------------------------------------------
 
-function extractValidationErrors(...results) {
-  const errors = [];
-  const warnings = [];
+function extractValidationErrors(
+  ...results: readonly (FemValidationResult<unknown> | null | undefined)[]
+): { errors: FemDiagnostic[]; warnings: FemDiagnostic[] } {
+  const errors: FemDiagnostic[] = [];
+  const warnings: FemDiagnostic[] = [];
   for (const r of results) {
     if (r && !r.ok) {
       errors.push(...(r.errors ?? []));
@@ -112,6 +157,275 @@ function extractValidationErrors(...results) {
     }
   }
   return { errors, warnings };
+}
+
+function errorMessage(error: unknown): string {
+  return error instanceof Error ? error.message : String(error);
+}
+
+function isRecord(value: unknown): value is JsonRecord {
+  return typeof value === "object" && value !== null && !Array.isArray(value);
+}
+
+function isGlobalFemDemandSet(value: unknown): value is GlobalFemDemandSet {
+  if (!isRecord(value)) return false;
+  return (
+    value.schema === "strutture-js/global-fem-demand-set" &&
+    typeof value.version === "number" &&
+    isRecord(value.model) &&
+    typeof value.model.id === "string" &&
+    typeof value.model.hash === "string" &&
+    isRecord(value.analysis) &&
+    typeof value.analysis.id === "string" &&
+    typeof value.analysis.hash === "string" &&
+    typeof value.resultId === "string" &&
+    Array.isArray(value.memberDemands) &&
+    Array.isArray(value.surfaceDemands) &&
+    Array.isArray(value.jointDemands) &&
+    isRecord(value.globalResponses)
+  );
+}
+
+function validatedContractValue<T>(validation: FemValidationResult<T>): T {
+  if (!validation.ok || validation.value === null) {
+    throw new Error("A successful FEM contract validation did not provide a value.");
+  }
+  return validation.value;
+}
+
+function asConcurrentMemberDemand(
+  demand: GlobalFemDemandSet["memberDemands"][number],
+): ConcurrentFemMemberDemand {
+  return {
+    id: demand.id,
+    classification: Object.fromEntries(Object.entries(demand.classification)),
+    elementDemands: demand.elementDemands.map((elementDemand) => ({
+      lineElementId: elementDemand.lineElementId,
+      sectionId: elementDemand.sectionId,
+      materialId: elementDemand.materialId,
+      localAxes: elementDemand.localAxes,
+      actionStates: elementDemand.actionStates.map((state) => ({
+        coordinateSystem: state.coordinateSystem,
+        reference: asConcurrentReference(state.reference),
+        stations: state.stations.map((station) => ({
+          xi: station.xi,
+          position: station.position,
+          side: station.side,
+          actions: station.actions,
+        })),
+      })),
+    })),
+  };
+}
+
+function asConcurrentJointDemand(
+  demand: GlobalFemDemandSet["jointDemands"][number],
+): ConcurrentFemJointDemand {
+  return {
+    jointId: demand.jointId,
+    nodeId: demand.nodeId,
+    demandStates: demand.demandStates.map((state) => ({
+      reference: asConcurrentReference(state.reference),
+      complete: state.complete,
+      missingElementEnds: state.missingElementEnds,
+      elementEnds: state.elementEnds.map((elementEnd) => ({
+        lineElementId: elementEnd.lineElementId,
+        end: elementEnd.end,
+        coordinateSystem: elementEnd.coordinateSystem,
+        atElementEnd: elementEnd.atElementEnd,
+        station:
+          elementEnd.station == null
+            ? null
+            : {
+                xi: elementEnd.station.xi,
+                position: elementEnd.station.position,
+                side: elementEnd.station.side,
+                actions: elementEnd.station.actions,
+              },
+      })),
+    })),
+  };
+}
+
+function asConcurrentSurfaceDemand(
+  demand: GlobalFemDemandSet["surfaceDemands"][number],
+): ConcurrentFemSurfaceDemand {
+  return {
+    id: demand.id,
+    classification: Object.fromEntries(Object.entries(demand.classification)),
+    elementDemands: demand.elementDemands.map((elementDemand) => ({
+      shellElementId: elementDemand.shellElementId,
+      sectionId: elementDemand.sectionId,
+      materialId: elementDemand.materialId,
+      localAxes: elementDemand.localAxes,
+      resultantStates: elementDemand.resultantStates.map((state) => ({
+        coordinateSystem: state.coordinateSystem,
+        face: state.face,
+        location: asFemJsonLocation(state.location),
+        reference: asConcurrentReference(state.reference),
+        components: asConcurrentShellComponents(state.components),
+      })),
+    })),
+  };
+}
+
+function asConcurrentShellComponents(
+  components: Readonly<Record<string, number>>,
+): ConcurrentFemShellResultantComponents {
+  return {
+    Nx: requiredComponent(components, "Nx"),
+    Ny: requiredComponent(components, "Ny"),
+    Nxy: requiredComponent(components, "Nxy"),
+    Mx: requiredComponent(components, "Mx"),
+    My: requiredComponent(components, "My"),
+    Mxy: requiredComponent(components, "Mxy"),
+    Vx: requiredComponent(components, "Vx"),
+    Vy: requiredComponent(components, "Vy"),
+  };
+}
+
+function requiredComponent(components: Readonly<Record<string, number>>, name: string): number {
+  const value = components[name];
+  if (typeof value !== "number" || !Number.isFinite(value)) {
+    throw new Error(`Missing finite FEM component ${name}.`);
+  }
+  return value;
+}
+
+function asConcurrentReference(reference: object): ConcurrentFemReference {
+  return Object.fromEntries(Object.entries(reference));
+}
+
+function asFemJsonLocation(location: FemResultLocation): FemJsonObject {
+  return {
+    kind: location.kind,
+    position: {
+      x: location.position.x,
+      y: location.position.y,
+      z: location.position.z,
+    },
+    ...(location.averaging === undefined ? {} : { averaging: location.averaging }),
+    ...(location.nodeId === undefined ? {} : { nodeId: location.nodeId }),
+    ...(location.integrationPointId === undefined
+      ? {}
+      : { integrationPointId: location.integrationPointId }),
+  };
+}
+
+function asConcurrentGlobalResponses(demandSet: GlobalFemDemandSet): ConcurrentFemGlobalResponses {
+  return {
+    sectionCuts: demandSet.globalResponses.sectionCuts.map((item) => ({
+      ...asConcurrentReference(item),
+      sectionCutId: item.sectionCutId,
+      coordinateSystem: item.coordinateSystem,
+      position: {
+        x: item.position.x,
+        y: item.position.y,
+        z: item.position.z,
+      },
+      resultants: {
+        Fx: requiredComponent(item.resultants, "Fx"),
+        Fy: requiredComponent(item.resultants, "Fy"),
+        Fz: requiredComponent(item.resultants, "Fz"),
+        Mx: requiredComponent(item.resultants, "Mx"),
+        My: requiredComponent(item.resultants, "My"),
+        Mz: requiredComponent(item.resultants, "Mz"),
+      } satisfies ConcurrentFemSectionCutResultants,
+    })),
+    reactions: demandSet.globalResponses.reactions.map((item) => ({
+      ...asConcurrentReference(item),
+      nodeId: item.nodeId,
+      coordinateSystem: item.coordinateSystem,
+      forces: item.forces,
+      moments: item.moments,
+    })),
+  };
+}
+
+function normalizedResistanceCoordinateSystem(
+  value: string,
+  label: string,
+): ResistanceAxisSourceCoordinateSystem {
+  if (value === "element-local" || value === "section-cut-local" || value === "global") {
+    return value;
+  }
+  throw new Error(`${label}.sourceCoordinateSystem is unsupported: ${value}.`);
+}
+
+function toResistanceMember(member: FemStructuralMember): ResistanceMappedMember {
+  const mappings = member.lineActionMappings?.map((mapping) => ({
+    ...mapping,
+    sourceCoordinateSystem: normalizedResistanceCoordinateSystem(
+      mapping.sourceCoordinateSystem,
+      `member ${member.id} line mapping ${mapping.lineElementId}`,
+    ),
+  }));
+  return {
+    id: member.id,
+    lineElementIds: member.lineElementIds,
+    ...(mappings === undefined ? {} : { lineActionMappings: mappings }),
+  };
+}
+
+function toResistanceWall(wall: FemStructuralWall): WallSystemMappedWall {
+  const mappings = wall.sectionCutActionMappings?.map((mapping) => ({
+    ...mapping,
+    sourceCoordinateSystem: normalizedResistanceCoordinateSystem(
+      mapping.sourceCoordinateSystem,
+      `wall ${wall.id} section mapping ${mapping.sectionCutId}`,
+    ),
+  }));
+  return {
+    id: wall.id,
+    shellElementIds: wall.shellElementIds,
+    storeyIds: wall.storeyIds,
+    sectionCutIds: wall.sectionCutIds,
+    ...(mappings === undefined ? {} : { sectionCutActionMappings: mappings }),
+  };
+}
+
+function toResistanceSlab(
+  slab: FemStructuralSlab,
+): ResistanceMappedSlab & { readonly diaphragmIds: readonly string[] } {
+  const mappings = slab.shellResultantMappings?.map((mapping) => ({
+    ...mapping,
+    sourceCoordinateSystem: normalizedResistanceCoordinateSystem(
+      mapping.sourceCoordinateSystem,
+      `slab ${slab.id} shell mapping ${mapping.shellElementId}`,
+    ),
+  }));
+  return {
+    id: slab.id,
+    shellElementIds: slab.shellElementIds,
+    diaphragmIds: slab.diaphragmIds,
+    ...(mappings === undefined ? {} : { shellResultantMappings: mappings }),
+  };
+}
+
+function toResistanceFoundation(foundation: {
+  readonly id: string;
+  readonly supportNodeIds: readonly string[];
+  readonly supportReactionMappings?: readonly {
+    readonly supportNodeId: string;
+    readonly sourceCoordinateSystem: string;
+    readonly resistanceCoordinateSystemId: string;
+    readonly sourceToResistance: readonly (readonly number[])[];
+  }[];
+  readonly type: string;
+}): ResistanceMappedFoundation & { readonly type: string } {
+  const mappings = foundation.supportReactionMappings?.map((mapping) => ({
+    ...mapping,
+    sourceCoordinateSystem: normalizedResistanceCoordinateSystem(
+      mapping.sourceCoordinateSystem,
+      `foundation ${foundation.id} support mapping ${mapping.supportNodeId}`,
+    ),
+  }));
+  return {
+    id: foundation.id,
+    supportNodeIds: foundation.supportNodeIds,
+    type: foundation.type,
+    ...(mappings === undefined ? {} : { supportReactionMappings: mappings }),
+  };
 }
 
 // ---------------------------------------------------------------------------
@@ -131,18 +445,41 @@ function extractValidationErrors(...results) {
  * @param {Object} [params.result] – GlobalFemResultContract for displacements.
  * @returns {Array}
  */
-function buildStoreyDisplacementData({ model, mapping, result }) {
+type MappedStoreyWithElevation = FemEntityMappingContract["storeys"][number] & {
+  readonly elevation?: number;
+  readonly height?: number;
+};
+
+type ModelStoreyWithLegacyId = GlobalFemModelContract["storeys"][number] & {
+  readonly storeyId?: string;
+};
+type NodalDisplacementResult = NonNullable<
+  GlobalFemResultContract["results"]["nodalDisplacements"]
+>[number];
+
+function buildStoreyDisplacementData({
+  model,
+  mapping,
+  result,
+}: {
+  readonly model: GlobalFemModelContract;
+  readonly mapping: FemEntityMappingContract | null | undefined;
+  readonly result: GlobalFemResultContract | null | undefined;
+}): Ntc2018StoreyDisplacementInput[] {
   const storeys = mapping?.storeys ?? [];
   if (storeys.length === 0) return [];
 
   // Nodal displacements lookup (contract uses lowercase translations.{x,y,z}).
-  const nodalDisp = new Map();
+  const nodalDisp = new Map<string, NodalDisplacementResult>();
   for (const entry of result?.results?.nodalDisplacements ?? []) {
     nodalDisp.set(entry.nodeId, entry);
   }
 
   // Storey resultants lookup (shear Fx/Fy, vertical Fz per storey).
-  const storeyResultBySid = new Map();
+  const storeyResultBySid = new Map<
+    string,
+    GlobalFemResultContract["results"]["storeyResults"][number]
+  >();
   for (const entry of result?.results?.storeyResults ?? []) {
     if (!storeyResultBySid.has(entry.storeyId)) {
       storeyResultBySid.set(entry.storeyId, entry);
@@ -150,42 +487,49 @@ function buildStoreyDisplacementData({ model, mapping, result }) {
   }
 
   // Storey elevations from the model (mapping storeys reference model storeys).
-  const modelStoreyById = new Map((model?.storeys ?? []).map((s) => [s.id ?? s.storeyId, s]));
-  const elevationOf = (storey) => {
+  const modelStoreyById = new Map<string, ModelStoreyWithLegacyId>(
+    (model?.storeys ?? []).map((s) => [s.id, s] as const),
+  );
+  const elevationOf = (storey: MappedStoreyWithElevation): number | undefined => {
     const ms = modelStoreyById.get(storey.storeyId ?? storey.id);
     return storey.elevation ?? ms?.elevation;
   };
 
   // Cumulative weight above each storey (sum of |Fz| of storeys above,
   // including the current one). Base index 0 = lowest storey.
-  const storeyWeightAbove = (index) => {
+  const storeyWeightAbove = (index: number): number | undefined => {
     let w = 0;
     for (let i = index; i < storeys.length; i++) {
-      const sr = storeyResultBySid.get(storeys[i].storeyId ?? storeys[i].id);
+      const storeyAtIndex = storeys[i];
+      if (storeyAtIndex === undefined) continue;
+      const sr = storeyResultBySid.get(storeyAtIndex.storeyId ?? storeyAtIndex.id);
       const fz = sr?.resultants?.Fz;
-      if (Number.isFinite(fz)) w += Math.abs(fz);
+      if (typeof fz === "number" && Number.isFinite(fz)) w += Math.abs(fz);
     }
     return w > 0 ? w : undefined;
   };
 
-  return storeys.map((storey, index) => {
+  return storeys.map((storeyInput, index) => {
+    const storey = storeyInput as MappedStoreyWithElevation;
     const sid = storey.storeyId ?? storey.id ?? `storey-${index}`;
     const storeyNodes = storey.nodeIds ?? [];
     const belowStorey = index > 0 ? (storeys[index - 1]?.nodeIds ?? []) : [];
 
-    const avg = (nodeIds) => {
+    const avg = (nodeIds: readonly string[]): { x: number | undefined; y: number | undefined } => {
       let sumX = 0,
         sumY = 0,
         cx = 0,
         cy = 0;
       for (const nodeId of nodeIds) {
         const d = nodalDisp.get(nodeId);
-        if (Number.isFinite(d?.translations?.x)) {
-          sumX += d.translations.x;
+        const x = d?.translations?.x;
+        const y = d?.translations?.y;
+        if (typeof x === "number" && Number.isFinite(x)) {
+          sumX += x;
           cx++;
         }
-        if (Number.isFinite(d?.translations?.y)) {
-          sumY += d.translations.y;
+        if (typeof y === "number" && Number.isFinite(y)) {
+          sumY += y;
           cy++;
         }
       }
@@ -196,10 +540,17 @@ function buildStoreyDisplacementData({ model, mapping, result }) {
     const below = avg(belowStorey);
 
     const thisElev = elevationOf(storey);
-    const belowElev = index > 0 ? elevationOf(storeys[index - 1]) : 0;
+    const belowStoreyForElevation = index > 0 ? storeys[index - 1] : undefined;
+    const belowElev =
+      belowStoreyForElevation === undefined ? 0 : elevationOf(belowStoreyForElevation);
     const height =
       storey.height ??
-      (Number.isFinite(thisElev) && Number.isFinite(belowElev) ? thisElev - belowElev : undefined);
+      (typeof thisElev === "number" &&
+      Number.isFinite(thisElev) &&
+      typeof belowElev === "number" &&
+      Number.isFinite(belowElev)
+        ? thisElev - belowElev
+        : undefined);
 
     const sr = storeyResultBySid.get(sid);
     const shearX = sr?.resultants?.Fx;
@@ -207,7 +558,8 @@ function buildStoreyDisplacementData({ model, mapping, result }) {
 
     return {
       storeyId: sid,
-      height: Number.isFinite(height) && height > 0 ? height : undefined,
+      height:
+        typeof height === "number" && Number.isFinite(height) && height > 0 ? height : undefined,
       displacementX: top.x,
       displacementXBelow: below.x,
       displacementY: top.y,
@@ -215,8 +567,10 @@ function buildStoreyDisplacementData({ model, mapping, result }) {
       // Populated from storeyResults.resultants when available; omitted
       // (undefined) otherwise so the P-Delta check auto-skips.
       weight: storeyWeightAbove(index),
-      shearX: Number.isFinite(shearX) && shearX > 0 ? shearX : undefined,
-      shearY: Number.isFinite(shearY) && shearY > 0 ? shearY : undefined,
+      shearX:
+        typeof shearX === "number" && Number.isFinite(shearX) && shearX > 0 ? shearX : undefined,
+      shearY:
+        typeof shearY === "number" && Number.isFinite(shearY) && shearY > 0 ? shearY : undefined,
     };
   });
 }
@@ -224,6 +578,14 @@ function buildStoreyDisplacementData({ model, mapping, result }) {
 // ---------------------------------------------------------------------------
 // Readiness evaluation
 // ---------------------------------------------------------------------------
+
+type RcContractValidations = {
+  readonly mapping: ReturnType<typeof validateFemEntityMappingContract> | null;
+  readonly result: ReturnType<typeof validateGlobalFemResultContract> | null;
+};
+
+type RcBehaviorDescriptor = ReturnType<typeof createNTC2018StructuralBehavior>;
+type RcLinearDynamicAssessment = ReturnType<typeof createNTC2018LinearDynamicAssessment>;
 
 /**
  * Evaluate what verifications are possible given the available data.
@@ -241,8 +603,16 @@ function evaluateReadiness({
   behaviorError = null,
   linearDynamicAssessment = null,
   linearDynamicError = null,
-}) {
-  const assessments = [];
+}: {
+  readonly contracts: RcContractValidations;
+  readonly input: RcBuildingVerificationInput;
+  readonly demandSet: GlobalFemDemandSet | null;
+  readonly behaviorDescriptor: RcBehaviorDescriptor | null;
+  readonly behaviorError: string | null;
+  readonly linearDynamicAssessment: RcLinearDynamicAssessment | null;
+  readonly linearDynamicError: string | null;
+}): RcBuildingReadinessAssessment[] {
+  const assessments: RcBuildingReadinessAssessment[] = [];
   const hasMapping = contracts.mapping?.ok ?? false;
   const hasResult = contracts.result?.ok ?? false;
   const hasBehavior = input.behavior != null;
@@ -505,6 +875,15 @@ function evaluateReadiness({
 // Member verification (WP3/WP6): delegate to consumer-provided verifiers
 // ---------------------------------------------------------------------------
 
+interface RcMemberVerificationOutput extends JsonRecord {
+  readonly memberId: string;
+  readonly role: FemStructuralMember["role"];
+  readonly status: string;
+  readonly checks?: readonly RcCheckDto[];
+  readonly utilizationRatio?: number | null;
+  readonly outputs?: unknown;
+}
+
 /**
  * Run per-member beam/column verifications.
  *
@@ -521,8 +900,20 @@ function evaluateReadiness({
  * @param {Object} params.context – Shared context (behavior, q, units).
  * @returns {Array}
  */
-function runMemberVerifications({ members, memberVerifiers, memberData, demandSet, context }) {
-  const results = [];
+function runMemberVerifications({
+  members,
+  memberVerifiers,
+  memberData,
+  demandSet,
+  context,
+}: {
+  readonly members: readonly FemStructuralMember[];
+  readonly memberVerifiers: Readonly<Record<string, RcMemberVerifier>> | null | undefined;
+  readonly memberData: Readonly<Record<string, JsonRecord>> | null | undefined;
+  readonly demandSet: GlobalFemDemandSet | null;
+  readonly context: RcBuildingVerifierContext;
+}): RcMemberVerificationOutput[] {
+  const results: RcMemberVerificationOutput[] = [];
   for (const member of members ?? []) {
     const role = member.role;
     const verifier = memberVerifiers?.[role];
@@ -537,7 +928,7 @@ function runMemberVerifications({ members, memberVerifiers, memberData, demandSe
     }
     const memberDemand = demandSet?.memberDemands?.find((item) => item.id === member.id);
     const concurrentActionStates = memberDemand
-      ? collectConcurrentMemberActionStates(memberDemand)
+      ? collectConcurrentMemberActionStates(asConcurrentMemberDemand(memberDemand))
       : [];
     if (!memberDemand || concurrentActionStates.length === 0) {
       results.push({
@@ -550,9 +941,10 @@ function runMemberVerifications({ members, memberVerifiers, memberData, demandSe
     }
     try {
       const concurrentResistanceActionStates = projectMemberActionStatesToResistanceAxes({
-        member,
+        member: toResistanceMember(member),
         states: concurrentActionStates,
       });
+      if (demandSet === null) continue;
       const outcome = verifier({
         member,
         data: memberData?.[member.id] ?? null,
@@ -580,15 +972,37 @@ function runMemberVerifications({ members, memberVerifiers, memberData, demandSe
         memberId: member.id,
         role,
         status: "failed",
-        reason: error?.message ?? String(error),
+        reason: errorMessage(error),
       });
     }
   }
   return results;
 }
 
-function runJointVerifications({ joints, members, jointVerifier, jointData, demandSet, context }) {
-  const results = [];
+interface RcJointVerificationOutput extends JsonRecord {
+  readonly jointId: string;
+  readonly status: string;
+  readonly checks?: readonly RcCheckDto[];
+  readonly utilizationRatio?: number | null;
+  readonly outputs?: unknown;
+}
+
+function runJointVerifications({
+  joints,
+  members,
+  jointVerifier,
+  jointData,
+  demandSet,
+  context,
+}: {
+  readonly joints: readonly FemEntityMappingContract["joints"][number][];
+  readonly members: readonly FemStructuralMember[];
+  readonly jointVerifier: RcJointVerifier | null | undefined;
+  readonly jointData: Readonly<Record<string, JsonRecord>> | null | undefined;
+  readonly demandSet: GlobalFemDemandSet | null;
+  readonly context: RcBuildingVerifierContext;
+}): RcJointVerificationOutput[] {
+  const results: RcJointVerificationOutput[] = [];
   for (const joint of joints ?? []) {
     if (typeof jointVerifier !== "function") {
       results.push({
@@ -601,7 +1015,7 @@ function runJointVerifications({ joints, members, jointVerifier, jointData, dema
 
     const jointDemand = demandSet?.jointDemands?.find((item) => item.jointId === joint.id);
     const concurrentActionStates = jointDemand
-      ? collectConcurrentJointActionStates(jointDemand)
+      ? collectConcurrentJointActionStates(asConcurrentJointDemand(jointDemand))
       : [];
     if (!jointDemand || concurrentActionStates.length === 0) {
       results.push({
@@ -611,10 +1025,11 @@ function runJointVerifications({ joints, members, jointVerifier, jointData, dema
       });
       continue;
     }
+    if (demandSet === null) continue;
 
     try {
       const concurrentResistanceActionStates = projectJointActionStatesToResistanceAxes({
-        members,
+        members: members.map(toResistanceMember),
         states: concurrentActionStates,
       });
       const outcome = jointVerifier({
@@ -642,7 +1057,7 @@ function runJointVerifications({ joints, members, jointVerifier, jointData, dema
       results.push({
         jointId: joint.id,
         status: "failed",
-        reason: error?.message ?? String(error),
+        reason: errorMessage(error),
       });
     }
   }
@@ -665,8 +1080,25 @@ function runJointVerifications({ joints, members, jointVerifier, jointData, dema
  * @param {string} params.behavior – Structural behavior.
  * @returns {Array}
  */
-function runJointHierarchyVerifications({ joints, jointHierarchy, behavior }) {
-  const results = [];
+interface RcJointHierarchyOutput extends JsonRecord {
+  readonly jointId: string;
+  readonly status: string;
+  readonly utilizationRatio?: number | null;
+}
+
+function runJointHierarchyVerifications({
+  joints,
+  jointHierarchy,
+  behavior,
+}: {
+  readonly joints: readonly FemEntityMappingContract["joints"][number][];
+  readonly jointHierarchy:
+    | Readonly<Record<string, Omit<Parameters<typeof verifyBeamColumnHierarchy>[0], "behavior">>>
+    | null
+    | undefined;
+  readonly behavior: Ntc2018BehaviorInput;
+}): RcJointHierarchyOutput[] {
+  const results: RcJointHierarchyOutput[] = [];
   for (const joint of joints ?? []) {
     if (behavior === NTC2018_STRUCTURAL_BEHAVIOR.NON_DISSIPATIVE) {
       results.push({
@@ -701,7 +1133,7 @@ function runJointHierarchyVerifications({ joints, jointHierarchy, behavior }) {
       results.push({
         jointId: joint.id,
         status: "failed",
-        reason: error?.message ?? String(error),
+        reason: errorMessage(error),
       });
     }
   }
@@ -726,8 +1158,22 @@ function runJointHierarchyVerifications({ joints, jointHierarchy, behavior }) {
  *   reinforcementDesignStrength, ... } }`.
  * @returns {Array}
  */
-function runWallBiaxialVerifications({ walls, wallSections, demandSet }) {
-  const results = [];
+interface RcWallBiaxialOutput extends JsonRecord {
+  readonly wallId: string;
+  readonly status: string;
+  readonly utilizationRatio?: number | null;
+}
+
+function runWallBiaxialVerifications({
+  walls,
+  wallSections,
+  demandSet,
+}: {
+  readonly walls: readonly FemStructuralWall[];
+  readonly wallSections: Readonly<Record<string, RcWallSectionInput>> | null | undefined;
+  readonly demandSet: GlobalFemDemandSet | null;
+}): RcWallBiaxialOutput[] {
+  const results: RcWallBiaxialOutput[] = [];
   for (const wall of walls ?? []) {
     const data = wallSections?.[wall.id];
     if (!data?.section) {
@@ -739,30 +1185,32 @@ function runWallBiaxialVerifications({ walls, wallSections, demandSet }) {
       continue;
     }
     const surfaceDemand = demandSet?.surfaceDemands?.find((item) => item.id === wall.id);
-    const femDemand = {
+    const femDemand: RcWallFemDemandContext = {
       schema: "strutture-js/rc-wall-fem-demand-context",
       version: 0,
       units: demandSet?.units ?? null,
       signConventions: demandSet?.signConventions ?? null,
       surfaceDemand: surfaceDemand ?? null,
       concurrentShellResultantStates: surfaceDemand
-        ? collectConcurrentSurfaceResultantStates(surfaceDemand)
+        ? collectConcurrentSurfaceResultantStates(asConcurrentSurfaceDemand(surfaceDemand))
         : [],
       concurrentSectionCutStates: collectConcurrentSectionCutStates({
         sectionCutIds: wall.sectionCutIds ?? [],
-        globalResponses: demandSet?.globalResponses,
+        ...(demandSet?.globalResponses === undefined
+          ? {}
+          : { globalResponses: asConcurrentGlobalResponses(demandSet) }),
       }),
     };
     try {
       femDemand.concurrentResistanceSectionCutStates = projectWallSectionCutStatesToResistanceAxes({
-        wall,
+        wall: toResistanceWall(wall),
         states: femDemand.concurrentSectionCutStates,
       });
     } catch (error) {
       results.push({
         wallId: wall.id,
         status: "failed",
-        reason: error?.message ?? String(error),
+        reason: errorMessage(error),
       });
       continue;
     }
@@ -780,14 +1228,15 @@ function runWallBiaxialVerifications({ walls, wallSections, demandSet }) {
       results.push({
         wallId: wall.id,
         status: "failed",
-        reason: error?.message ?? String(error),
+        reason: errorMessage(error),
       });
       continue;
     }
     if (
-      !Number.isFinite(actions?.axialForce) ||
-      !Number.isFinite(actions?.momentX) ||
-      !Number.isFinite(actions?.momentY)
+      actions == null ||
+      !Number.isFinite(actions.axialForce) ||
+      !Number.isFinite(actions.momentX) ||
+      !Number.isFinite(actions.momentY)
     ) {
       results.push({
         wallId: wall.id,
@@ -831,7 +1280,7 @@ function runWallBiaxialVerifications({ walls, wallSections, demandSet }) {
       results.push({
         wallId: wall.id,
         status: "failed",
-        reason: error?.message ?? String(error),
+        reason: errorMessage(error),
       });
     }
   }
@@ -854,10 +1303,8 @@ export class RcBuildingVerificationApplication extends StructuralApplication {
     super({
       id: APP_ID,
       name: "RC Building Verification",
-      version: APP_VERSION,
       domain: APP_DOMAIN,
       supportedCodes: APP_CODES,
-      maturity: APP_MATURITY,
       tags: APP_TAGS,
       description: "NTC 2018 global reinforced concrete building verification from FEM results.",
     });
@@ -878,9 +1325,12 @@ export class RcBuildingVerificationApplication extends StructuralApplication {
    * @param {Object} [input.metadata] – Consumer metadata.
    * @returns {CalculationResult}
    */
-  run(input = {}) {
-    const warnings = [];
-    const assumptions = [];
+  override run(
+    input?: RcBuildingVerificationInput,
+  ): CalculationResult<RcBuildingVerificationOutputs>;
+  override run(input: RcBuildingVerificationInput = {}): CalculationResult {
+    const warnings: FemDiagnostic[] = [];
+    const assumptions: string[] = [];
 
     // ---- 1. Contract validation ----
     const capabilitiesVal = validateFemCapabilitiesContract(input.capabilities);
@@ -949,36 +1399,47 @@ export class RcBuildingVerificationApplication extends StructuralApplication {
     }
 
     // ---- 2. Solver-neutral demand extraction ----
+    const validatedCapabilities = validatedContractValue(capabilitiesVal);
+    const validatedModel = validatedContractValue(modelVal);
+    const validatedAnalysis = validatedContractValue(analysisVal);
+    const validatedResult = resultVal?.ok ? validatedContractValue(resultVal) : null;
+    const validatedMapping = mappingVal?.ok ? validatedContractValue(mappingVal) : null;
+
     const postprocessing =
-      mappingVal?.ok && resultVal?.ok
+      mappingVal !== null && mappingVal.ok && resultVal !== null && resultVal.ok
         ? new GlobalFemPostProcessingApplication().run({
-            capabilities: capabilitiesVal.value,
-            model: modelVal.value,
-            analysis: analysisVal.value,
-            result: resultVal.value,
-            mapping: mappingVal.value,
+            capabilities: validatedCapabilities,
+            model: validatedModel,
+            analysis: validatedAnalysis,
+            result: validatedContractValue(resultVal),
+            mapping: validatedContractValue(mappingVal),
             profile: GLOBAL_FEM_POSTPROCESSING_PROFILES.CONFIRMED,
           })
         : null;
-    const demandSet = postprocessing?.outputs?.demands ?? null;
+    const postprocessingOutputs = postprocessing?.outputs;
+    const demandCandidate: unknown =
+      postprocessingOutputs !== undefined && "demands" in postprocessingOutputs
+        ? postprocessingOutputs.demands
+        : undefined;
+    const demandSet = isGlobalFemDemandSet(demandCandidate) ? demandCandidate : null;
 
     // ---- 3. Explicit structural behavior inputs ----
-    let behavior = null;
-    let structuralType = null;
-    let behaviorError = null;
+    let behavior: Ntc2018StructuralBehavior | null = null;
+    let structuralType: Ntc2018StructuralType | null = null;
+    let behaviorError: string | null = null;
     try {
       behavior = input.behavior == null ? null : normalizeNTC2018StructuralBehavior(input.behavior);
       structuralType =
         input.structuralType == null ? null : normalizeNTC2018StructuralType(input.structuralType);
     } catch (error) {
-      behaviorError = error?.message ?? String(error);
+      behaviorError = errorMessage(error);
     }
 
     // ---- 4. Storey data extraction ----
     const storeys = buildStoreyDisplacementData({
-      model: modelVal.value,
-      mapping: mappingVal?.value ?? input.mapping,
-      result: resultVal?.value ?? input.result,
+      model: validatedModel,
+      mapping: validatedMapping ?? input.mapping,
+      result: validatedResult ?? input.result,
     });
 
     // ---- 4b. Linear dynamic analysis checks (NTC 2018 § 7.3.3.1) ----
@@ -988,14 +1449,14 @@ export class RcBuildingVerificationApplication extends StructuralApplication {
       const linearDynamicInput = input.linearDynamicAssessmentInput;
       try {
         linearDynamicAssessment = createNTC2018LinearDynamicAssessment({
-          analysis: analysisVal.value,
-          result: resultVal.value,
+          analysis: validatedAnalysis,
+          result: validatedResult ?? input.result,
           ...linearDynamicInput,
           storeyIds:
-            linearDynamicInput.storeyIds ?? modelVal.value.storeys.map((storey) => storey.id),
+            linearDynamicInput.storeyIds ?? validatedModel.storeys.map((storey) => storey.id),
         });
       } catch (error) {
-        linearDynamicError = error?.message ?? String(error);
+        linearDynamicError = errorMessage(error);
       }
     }
 
@@ -1033,7 +1494,7 @@ export class RcBuildingVerificationApplication extends StructuralApplication {
           ...(input.structuralBehaviorParameters ?? {}),
         });
       } catch (error) {
-        behaviorError = error?.message ?? String(error);
+        behaviorError = errorMessage(error);
       }
     } else if (
       behavior !== NTC2018_STRUCTURAL_BEHAVIOR.NON_DISSIPATIVE &&
@@ -1053,17 +1514,25 @@ export class RcBuildingVerificationApplication extends StructuralApplication {
     }
 
     // ---- 7. Capacity design (WP4) ----
-    const capacityDesignSummary = {
+    const capacityDesignSummary: {
+      applicable: boolean;
+      jointCount: number;
+      checks: Array<{
+        jointId: string;
+        isDissipative: boolean;
+        checkCount: number;
+      }>;
+    } = {
       applicable: behavior != null && behavior !== NTC2018_STRUCTURAL_BEHAVIOR.NON_DISSIPATIVE,
-      jointCount: mappingVal?.value?.joints?.length ?? 0,
+      jointCount: validatedMapping?.joints.length ?? 0,
       checks: [],
     };
 
     // This summary records where capacity design applies. The executable
     // resistance checks use the concurrent states and capacities supplied
     // to the member, joint and joint-hierarchy verification paths below.
-    if (capacityDesignSummary.applicable && mappingVal?.ok) {
-      for (const joint of mappingVal.value.joints ?? []) {
+    if (capacityDesignSummary.applicable && validatedMapping !== null) {
+      for (const joint of validatedMapping.joints) {
         const assessment = createCapacityDesignAssessment({
           jointId: joint.id ?? `joint-${capacityDesignSummary.checks.length}`,
           behavior,
@@ -1078,7 +1547,7 @@ export class RcBuildingVerificationApplication extends StructuralApplication {
 
     // ---- 7b. Member verification (WP3/WP6) via consumer verifiers ----
     const memberVerifications = runMemberVerifications({
-      members: mappingVal?.value?.members ?? [],
+      members: validatedMapping?.members ?? [],
       memberVerifiers: input.memberVerifiers ?? null,
       memberData: input.memberData ?? null,
       demandSet,
@@ -1109,7 +1578,7 @@ export class RcBuildingVerificationApplication extends StructuralApplication {
       q0: behaviorDesc?.q0 ?? null,
       kr: behaviorDesc?.kr ?? null,
       units: input.units ?? null,
-      analysis: analysisVal.value,
+      analysis: validatedAnalysis,
       globalFem: demandSet
         ? {
             units: demandSet.units,
@@ -1121,8 +1590,8 @@ export class RcBuildingVerificationApplication extends StructuralApplication {
         : null,
     };
     const jointVerifications = runJointVerifications({
-      joints: mappingVal?.value?.joints ?? [],
-      members: mappingVal?.value?.members ?? [],
+      joints: validatedMapping?.joints ?? [],
+      members: validatedMapping?.members ?? [],
       jointVerifier: input.jointVerifier,
       jointData: input.jointData,
       demandSet,
@@ -1131,45 +1600,57 @@ export class RcBuildingVerificationApplication extends StructuralApplication {
 
     // ---- 7d. Beam-column joint hierarchy (WP4) ----
     const jointHierarchyVerifications = runJointHierarchyVerifications({
-      joints: mappingVal?.value?.joints ?? [],
+      joints: validatedMapping?.joints ?? [],
       jointHierarchy: input.jointHierarchy ?? null,
       behavior,
     });
 
     // ---- 7e. Shear-wall biaxial bending (SETTI-2) ----
     const wallBiaxialVerifications = runWallBiaxialVerifications({
-      walls: mappingVal?.value?.walls ?? [],
+      walls: validatedMapping?.walls ?? [],
       wallSections: input.wallSections ?? null,
       demandSet,
     });
 
     // ---- 7f. Complete wall-height and coupling-beam workflow ----
     const wallSystemVerifications = runWallSystemVerifications({
-      walls: mappingVal?.value?.walls ?? [],
+      walls: validatedMapping?.walls.map(toResistanceWall) ?? [],
       wallSystemData: input.wallSystemData,
       wallSectionStateVerifier: input.wallSectionStateVerifier,
-      demandSet,
+      demandSet: demandSet ? { globalResponses: asConcurrentGlobalResponses(demandSet) } : null,
       context: sharedVerificationContext,
     });
 
     // ---- 7g. Slabs, punching and in-plane diaphragm resistance ----
     const slabSystemVerifications = runSlabSystemVerifications({
-      slabs: mappingVal?.value?.slabs ?? [],
+      slabs: validatedMapping?.slabs.map(toResistanceSlab) ?? [],
       slabSystemData: input.slabSystemData,
       slabStateVerifier: input.slabStateVerifier,
-      punchingConnections: mappingVal?.value?.punchingConnections ?? [],
+      punchingConnections: validatedMapping?.punchingConnections ?? [],
       punchingVerifier: input.punchingVerifier,
       diaphragmStateVerifier: input.diaphragmStateVerifier,
-      demandSet,
+      demandSet: demandSet
+        ? {
+            units: demandSet.units,
+            signConventions: demandSet.signConventions,
+            surfaceDemands: demandSet.surfaceDemands.map(asConcurrentSurfaceDemand),
+          }
+        : null,
       context: sharedVerificationContext,
     });
 
     // ---- 7h. Supports, reactions and complete foundation checks ----
     const foundationSystemVerifications = runFoundationSystemVerifications({
-      foundations: mappingVal?.value?.foundations ?? [],
+      foundations: validatedMapping?.foundations?.map(toResistanceFoundation) ?? [],
       foundationSystemData: input.foundationSystemData,
       foundationVerifier: input.foundationVerifier,
-      demandSet,
+      demandSet: demandSet
+        ? {
+            units: demandSet.units,
+            signConventions: demandSet.signConventions,
+            globalResponses: asConcurrentGlobalResponses(demandSet),
+          }
+        : null,
       context: sharedVerificationContext,
     });
 

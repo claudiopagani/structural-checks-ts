@@ -1,6 +1,4 @@
-/* eslint-disable @typescript-eslint/ban-ts-comment, @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-return, @typescript-eslint/no-floating-promises */
 // Mechanical TypeScript migration from strutture-js 6f33baead8b88166c4b2cf94af41763412e3c751.
-// @ts-nocheck
 /**
  * Solver-neutral projections of GlobalFemDemandSet states.
  *
@@ -9,7 +7,39 @@
  * normative axis, converted to another unit system, or defaulted to zero.
  */
 
-export const GLOBAL_FEM_LINE_ACTION_COMPONENTS = Object.freeze(["N", "Vy", "Vz", "T", "My", "Mz"]);
+import type {
+  ConcurrentFemJointActionState,
+  ConcurrentFemJointDemand,
+  ConcurrentFemLineActionState,
+  ConcurrentFemLineActions,
+  ConcurrentFemLineActionsInput,
+  ConcurrentFemLineElementDemand,
+  ConcurrentFemMemberActionState,
+  ConcurrentFemMemberDemand,
+  ConcurrentFemReference,
+  ConcurrentFemReferenceSelector,
+  ConcurrentFemSectionCutCollectionInput,
+  ConcurrentFemSectionCutState,
+  ConcurrentFemStation,
+  ConcurrentFemStationInput,
+  ConcurrentFemSupportReactionCollectionInput,
+  ConcurrentFemSupportReactionState,
+  ConcurrentFemSurfaceDemand,
+  ConcurrentFemSurfaceResultantState,
+} from "./FemDemandStateTypes.js";
+
+function isArray(value: unknown): value is readonly unknown[] {
+  return Array.isArray(value);
+}
+
+export const GLOBAL_FEM_LINE_ACTION_COMPONENTS = Object.freeze([
+  "N",
+  "Vy",
+  "Vz",
+  "T",
+  "My",
+  "Mz",
+] as const);
 
 export const GLOBAL_FEM_SHELL_RESULTANT_COMPONENTS = Object.freeze([
   "Nx",
@@ -20,7 +50,7 @@ export const GLOBAL_FEM_SHELL_RESULTANT_COMPONENTS = Object.freeze([
   "Mxy",
   "Vx",
   "Vy",
-]);
+] as const);
 
 export const GLOBAL_FEM_SECTION_CUT_COMPONENTS = Object.freeze([
   "Fx",
@@ -29,7 +59,7 @@ export const GLOBAL_FEM_SECTION_CUT_COMPONENTS = Object.freeze([
   "Mx",
   "My",
   "Mz",
-]);
+] as const);
 
 const REFERENCE_KEYS = Object.freeze([
   "procedureId",
@@ -39,14 +69,17 @@ const REFERENCE_KEYS = Object.freeze([
   "step",
   "time",
   "envelopeId",
-]);
+] as const);
 
-function clone(value) {
-  return value == null ? value : JSON.parse(JSON.stringify(value));
+function clone<T>(value: T): T {
+  return value == null ? value : (JSON.parse(JSON.stringify(value)) as T);
 }
 
-function finiteActions(actions, label) {
-  if (actions == null || typeof actions !== "object" || Array.isArray(actions)) {
+function finiteActions(
+  actions: ConcurrentFemLineActionsInput,
+  label: string,
+): ConcurrentFemLineActions {
+  if (actions == null || typeof actions !== "object" || isArray(actions)) {
     throw new Error(`${label} must contain line-element actions.`);
   }
 
@@ -58,26 +91,35 @@ function finiteActions(actions, label) {
       }
       return [component, value];
     }),
-  );
+  ) as unknown as ConcurrentFemLineActions;
 }
 
-function finiteComponents(value, components, label) {
-  if (value == null || typeof value !== "object" || Array.isArray(value)) {
+type NumericComponents<T extends readonly string[]> = {
+  readonly [K in T[number]]: number;
+};
+
+function finiteComponents<T extends readonly string[]>(
+  value: unknown,
+  components: T,
+  label: string,
+): NumericComponents<T> {
+  if (value == null || typeof value !== "object" || isArray(value)) {
     throw new Error(`${label} must contain numeric components.`);
   }
+  const record = value as Record<string, unknown>;
 
   return Object.fromEntries(
     components.map((component) => {
-      const componentValue = value[component];
+      const componentValue = record[component];
       if (!Number.isFinite(componentValue)) {
-        throw new Error(`${label}.${component} must be finite; got ${componentValue}.`);
+        throw new Error(`${label}.${component} must be finite; got ${String(componentValue)}.`);
       }
       return [component, componentValue];
     }),
-  );
+  ) as unknown as NumericComponents<T>;
 }
 
-function finiteStation(station, label) {
+function finiteStation(station: ConcurrentFemStationInput, label: string): ConcurrentFemStation {
   if (!Number.isFinite(station?.xi) || station.xi < 0 || station.xi > 1) {
     throw new Error(`${label}.xi must be finite and lie in [0, 1].`);
   }
@@ -92,7 +134,10 @@ function finiteStation(station, label) {
   };
 }
 
-function referenceMatches(reference, selector) {
+function referenceMatches(
+  reference: ConcurrentFemReference,
+  selector: ConcurrentFemReferenceSelector,
+): boolean {
   return REFERENCE_KEYS.every(
     (key) => selector[key] === undefined || reference?.[key] === selector[key],
   );
@@ -101,7 +146,9 @@ function referenceMatches(reference, selector) {
 /**
  * Flatten one line-element demand without losing concurrent components.
  */
-export function collectConcurrentLineElementActionStates(lineElementDemand) {
+export function collectConcurrentLineElementActionStates(
+  lineElementDemand: ConcurrentFemLineElementDemand,
+): ConcurrentFemLineActionState[] {
   if (lineElementDemand == null) {
     throw new Error("A lineElementDemand is required.");
   }
@@ -126,7 +173,9 @@ export function collectConcurrentLineElementActionStates(lineElementDemand) {
 /**
  * Flatten every finite-element segment assigned to one structural member.
  */
-export function collectConcurrentMemberActionStates(memberDemand) {
+export function collectConcurrentMemberActionStates(
+  memberDemand: ConcurrentFemMemberDemand,
+): ConcurrentFemMemberActionState[] {
   if (memberDemand == null) {
     throw new Error("A memberDemand is required.");
   }
@@ -143,22 +192,35 @@ export function collectConcurrentMemberActionStates(memberDemand) {
 /**
  * Select concurrent states by an exact subset of their FEM result reference.
  */
-export function filterConcurrentFemStates(states, selector = {}) {
-  if (!Array.isArray(states)) {
+export function filterConcurrentFemStates<T extends { readonly reference: ConcurrentFemReference }>(
+  states: readonly T[],
+  selector: ConcurrentFemReferenceSelector = {},
+): T[] {
+  if (!isArray(states)) {
     throw new Error("Concurrent FEM states must be an array.");
   }
-  const unknownKeys = Object.keys(selector).filter((key) => !REFERENCE_KEYS.includes(key));
+  const unknownKeys = Object.keys(selector).filter(
+    (key) => !REFERENCE_KEYS.includes(key as (typeof REFERENCE_KEYS)[number]),
+  );
   if (unknownKeys.length > 0) {
     throw new Error(`Unsupported FEM reference selector keys: ${unknownKeys.join(", ")}.`);
   }
 
-  return states.filter((state) => referenceMatches(state.reference, selector));
+  const matchingStates: T[] = [];
+  for (const state of states) {
+    if (referenceMatches(state.reference, selector)) {
+      matchingStates.push(state);
+    }
+  }
+  return matchingStates;
 }
 
 /**
  * Preserve each complete/incomplete joint state exactly as extracted.
  */
-export function collectConcurrentJointActionStates(jointDemand) {
+export function collectConcurrentJointActionStates(
+  jointDemand: ConcurrentFemJointDemand,
+): ConcurrentFemJointActionState[] {
   if (jointDemand == null) {
     throw new Error("A jointDemand is required.");
   }
@@ -195,7 +257,9 @@ export function collectConcurrentJointActionStates(jointDemand) {
  * Flatten shell-resultant states across every finite element of one mapped
  * structural surface. No cross-element axis aggregation is performed.
  */
-export function collectConcurrentSurfaceResultantStates(surfaceDemand) {
+export function collectConcurrentSurfaceResultantStates(
+  surfaceDemand: ConcurrentFemSurfaceDemand,
+): ConcurrentFemSurfaceResultantState[] {
   if (surfaceDemand == null) {
     throw new Error("A surfaceDemand is required.");
   }
@@ -224,7 +288,10 @@ export function collectConcurrentSurfaceResultantStates(surfaceDemand) {
 /**
  * Collect section-cut resultants for a declared set of cut identifiers.
  */
-export function collectConcurrentSectionCutStates({ sectionCutIds, globalResponses }: any = {}) {
+export function collectConcurrentSectionCutStates({
+  sectionCutIds,
+  globalResponses,
+}: ConcurrentFemSectionCutCollectionInput = {}): ConcurrentFemSectionCutState[] {
   if (!Array.isArray(sectionCutIds)) {
     throw new Error("sectionCutIds must be an array.");
   }
@@ -251,7 +318,10 @@ export function collectConcurrentSectionCutStates({ sectionCutIds, globalRespons
  * Return support reactions as concurrent solver states. Signs and units remain
  * exactly those declared by GlobalFemDemandSet.
  */
-export function collectConcurrentSupportReactionStates({ nodeId, globalResponses }: any = {}) {
+export function collectConcurrentSupportReactionStates({
+  nodeId,
+  globalResponses,
+}: ConcurrentFemSupportReactionCollectionInput = {}): ConcurrentFemSupportReactionState[] {
   if (typeof nodeId !== "string" || nodeId.length === 0) {
     throw new Error("A support nodeId is required.");
   }
@@ -269,12 +339,12 @@ export function collectConcurrentSupportReactionStates({ nodeId, globalResponses
       ),
       forces: finiteComponents(
         reaction.forces,
-        ["x", "y", "z"],
+        ["x", "y", "z"] as const,
         `reactions[${reactionIndex}].forces`,
       ),
       moments: finiteComponents(
         reaction.moments,
-        ["x", "y", "z"],
+        ["x", "y", "z"] as const,
         `reactions[${reactionIndex}].moments`,
       ),
     }));

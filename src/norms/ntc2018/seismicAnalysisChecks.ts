@@ -1,8 +1,76 @@
-/* eslint-disable @typescript-eslint/ban-ts-comment, @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-return, @typescript-eslint/no-floating-promises, @typescript-eslint/restrict-template-expressions */
 // Mechanical TypeScript migration from strutture-js 6f33baead8b88166c4b2cf94af41763412e3c751.
-// @ts-nocheck
 
-const HORIZONTAL_DIRECTIONS = Object.freeze(["X", "Y"]);
+import type { FemDirection } from "../../domain/fem/contracts/FemContractTypes.js";
+
+type JsonRecord = Record<string, unknown>;
+
+interface ModalMassInput {
+  readonly procedureId?: string;
+  readonly modeNumber: number;
+  readonly participatingMassRatios?: Readonly<Record<string, number>>;
+}
+
+interface AccidentalEccentricityInput {
+  readonly direction: string;
+  readonly storeyId?: string;
+  readonly offset: number;
+}
+
+function isModalMassArray(value: unknown): value is readonly ModalMassInput[] {
+  return Array.isArray(value);
+}
+
+function isEccentricityArray(value: unknown): value is readonly AccidentalEccentricityInput[] {
+  return Array.isArray(value);
+}
+
+function isStringArray(value: unknown): value is readonly string[] {
+  return Array.isArray(value);
+}
+
+export interface Ntc2018ModalMassParticipationInput {
+  readonly modes?: readonly ModalMassInput[] | null;
+  readonly directions?: readonly string[];
+}
+
+export interface Ntc2018AccidentalEccentricityInput {
+  readonly eccentricities?: readonly AccidentalEccentricityInput[] | null | undefined;
+  readonly storeyIds?: readonly string[] | null | undefined;
+  readonly meanPlanDimensions?: Readonly<Partial<Record<"X" | "Y", number>>> | null | undefined;
+  readonly directions?: readonly string[] | undefined;
+}
+
+export interface Ntc2018LinearDynamicProcedureInput {
+  readonly id: string;
+  readonly type: string;
+  readonly requestedModes?: number;
+  readonly spectrumIds?: readonly string[];
+  readonly modalCombinationMethod?: string;
+  readonly componentCombinationRule?: string;
+  readonly accidentalEccentricities?: readonly AccidentalEccentricityInput[];
+}
+
+export interface Ntc2018LinearDynamicAnalysisInput {
+  readonly procedures?: readonly Ntc2018LinearDynamicProcedureInput[];
+  readonly spectra?: readonly { readonly id: string; readonly direction: FemDirection }[];
+}
+
+export interface Ntc2018LinearDynamicResultInput {
+  readonly results?: { readonly modes?: readonly ModalMassInput[] };
+}
+
+export interface Ntc2018LinearDynamicAssessmentInput {
+  readonly analysis?: Ntc2018LinearDynamicAnalysisInput | null | undefined;
+  readonly result?: Ntc2018LinearDynamicResultInput | null | undefined;
+  readonly modalProcedureId?: string;
+  readonly responseSpectrumProcedureId?: string;
+  readonly storeyIds?: readonly string[] | null;
+  readonly meanPlanDimensions?: Readonly<Partial<Record<"X" | "Y", number>>> | null;
+  readonly horizontalDirections?: readonly string[];
+  readonly verticalComponentRequired?: boolean;
+}
+
+const HORIZONTAL_DIRECTIONS: readonly FemDirection[] = Object.freeze(["X", "Y"]);
 const MASS_SIGNIFICANCE_THRESHOLD = 0.05;
 const MASS_TOTAL_THRESHOLD = 0.85;
 const RATIO_COMPARISON_TOLERANCE = 1e-12;
@@ -15,7 +83,7 @@ export const NTC2018_LINEAR_DYNAMIC_REFERENCES = Object.freeze([
   }),
 ]);
 
-function finitePositive(value, label) {
+function finitePositive(value: unknown, label: string): number {
   const number = Number(value);
   if (!Number.isFinite(number) || number <= 0) {
     throw new Error(`${label} must be a positive finite number.`);
@@ -23,11 +91,17 @@ function finitePositive(value, label) {
   return number;
 }
 
-function normalizedDirections(directions) {
+function normalizedDirections(directions: readonly string[] | undefined): FemDirection[] {
   if (!Array.isArray(directions) || directions.length === 0) {
     throw new Error("At least one seismic direction is required.");
   }
-  const values = directions.map((direction) => String(direction).toUpperCase());
+  const values: FemDirection[] = directions.map((direction) => {
+    const value = String(direction).toUpperCase();
+    if (value !== "X" && value !== "Y" && value !== "Z") {
+      throw new Error("Seismic directions must be unique X, Y or Z values.");
+    }
+    return value;
+  });
   if (
     new Set(values).size !== values.length ||
     values.some((direction) => !["X", "Y", "Z"].includes(direction))
@@ -37,7 +111,11 @@ function normalizedDirections(directions) {
   return values;
 }
 
-function check(id, ok, details = {}) {
+function check(
+  id: string,
+  ok: boolean,
+  details: JsonRecord = {},
+): JsonRecord & { readonly ok: boolean } {
   return {
     id,
     status: ok ? "ok" : "not-verified",
@@ -49,8 +127,8 @@ function check(id, ok, details = {}) {
 export function verifyNTC2018ModalMassParticipation({
   modes,
   directions = HORIZONTAL_DIRECTIONS,
-}: any = {}) {
-  if (!Array.isArray(modes) || modes.length === 0) {
+}: Ntc2018ModalMassParticipationInput = {}) {
+  if (!isModalMassArray(modes) || modes.length === 0) {
     return {
       status: "not-implemented",
       ok: false,
@@ -62,8 +140,8 @@ export function verifyNTC2018ModalMassParticipation({
   const seismicDirections = normalizedDirections(directions);
   const assessments = seismicDirections.map((direction) => {
     const ratios = modes.map((mode, modeIndex) => {
-      const ratio = mode?.participatingMassRatios?.[direction];
-      if (!Number.isFinite(ratio) || ratio < 0 || ratio > 1) {
+      const ratio = mode.participatingMassRatios?.[direction];
+      if (typeof ratio !== "number" || !Number.isFinite(ratio) || ratio < 0 || ratio > 1) {
         throw new Error(
           `modes[${modeIndex}].participatingMassRatios.${direction} ` + "must lie in [0, 1].",
         );
@@ -101,10 +179,10 @@ export function verifyNTC2018AccidentalEccentricities({
   storeyIds,
   meanPlanDimensions,
   directions = HORIZONTAL_DIRECTIONS,
-}: any = {}) {
+}: Ntc2018AccidentalEccentricityInput = {}) {
   if (
-    !Array.isArray(eccentricities) ||
-    !Array.isArray(storeyIds) ||
+    !isEccentricityArray(eccentricities) ||
+    !isStringArray(storeyIds) ||
     storeyIds.length === 0 ||
     meanPlanDimensions == null
   ) {
@@ -119,7 +197,7 @@ export function verifyNTC2018AccidentalEccentricities({
   const seismicDirections = normalizedDirections(directions);
   const dimensionX = finitePositive(meanPlanDimensions.X, "meanPlanDimensions.X");
   const dimensionY = finitePositive(meanPlanDimensions.Y, "meanPlanDimensions.Y");
-  const checks = [];
+  const checks: JsonRecord[] = [];
 
   for (const direction of seismicDirections) {
     if (!HORIZONTAL_DIRECTIONS.includes(direction)) {
@@ -128,7 +206,7 @@ export function verifyNTC2018AccidentalEccentricities({
     const perpendicularDimension = direction === "X" ? dimensionY : dimensionX;
     const minimumAbsoluteOffset = ACCIDENTAL_ECCENTRICITY_FACTOR * perpendicularDimension;
     const directionEntries = eccentricities.filter((item) => item.direction === direction);
-    const absoluteOffsets = [];
+    const absoluteOffsets: number[] = [];
 
     for (const storeyId of storeyIds) {
       const entries = directionEntries.filter((item) => item.storeyId === storeyId);
@@ -181,7 +259,7 @@ export function createNTC2018LinearDynamicAssessment({
   meanPlanDimensions,
   horizontalDirections = HORIZONTAL_DIRECTIONS,
   verticalComponentRequired = false,
-}: any = {}) {
+}: Ntc2018LinearDynamicAssessmentInput = {}) {
   const modalProcedure = analysis?.procedures?.find(
     (procedure) => procedure.id === modalProcedureId && procedure.type === "modal",
   );
@@ -209,15 +287,23 @@ export function createNTC2018LinearDynamicAssessment({
     };
   }
 
+  if (!analysis || !result || !modalProcedure || !responseSpectrumProcedure) {
+    throw new Error("Linear dynamic assessment contracts are incomplete.");
+  }
+
   const modalDirections = normalizedDirections(horizontalDirections);
-  const modes = result.results.modes.filter((mode) => mode.procedureId === modalProcedure.id);
+  const resultModes = result.results?.modes;
+  if (!resultModes) {
+    throw new Error("Linear dynamic assessment modal results are incomplete.");
+  }
+  const modes = resultModes.filter((mode) => mode.procedureId === modalProcedure.id);
   const massParticipation = verifyNTC2018ModalMassParticipation({
     modes,
     directions: modalDirections,
   });
-  const requiredSpectrumDirections = [
+  const requiredSpectrumDirections: FemDirection[] = [
     ...modalDirections,
-    ...(verticalComponentRequired ? ["Z"] : []),
+    ...(verticalComponentRequired ? ["Z" as FemDirection] : []),
   ];
   const spectraById = new Map((analysis.spectra ?? []).map((spectrum) => [spectrum.id, spectrum]));
   const suppliedSpectrumDirections = (responseSpectrumProcedure.spectrumIds ?? [])
@@ -230,10 +316,15 @@ export function createNTC2018LinearDynamicAssessment({
     directions: modalDirections,
   });
   const checks = [
-    check("modal-result-count", modes.length >= modalProcedure.requestedModes, {
-      provided: modes.length,
-      requested: modalProcedure.requestedModes,
-    }),
+    check(
+      "modal-result-count",
+      typeof modalProcedure.requestedModes === "number" &&
+        modes.length >= modalProcedure.requestedModes,
+      {
+        provided: modes.length,
+        requested: modalProcedure.requestedModes,
+      },
+    ),
     check("modal-mass-participation", massParticipation.ok, {
       directions: massParticipation.directions,
     }),

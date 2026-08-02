@@ -1,6 +1,4 @@
-/* eslint-disable @typescript-eslint/ban-ts-comment, @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-return, @typescript-eslint/no-floating-promises, @typescript-eslint/restrict-template-expressions */
 // Mechanical TypeScript migration from strutture-js 6f33baead8b88166c4b2cf94af41763412e3c751.
-// @ts-nocheck
 
 /**
  * Solver-neutral displacement checks from NTC 2018 chapter 7.
@@ -9,10 +7,143 @@
 import { withNormativeReferences } from "../../normativeReference.js";
 import { NTC2018_RC_OUTSIDE_CORPUS_REFERENCES } from "../normativeReferences.js";
 
-function outsideCorpusMetadata(metadata = {}) {
+type NumberLike = number | string;
+type JsonRecord = Record<string, unknown>;
+
+function display(value: unknown): string {
+  if (value === null) return "null";
+  if (value === undefined) return "undefined";
+  if (Array.isArray(value)) return value.join(",");
+  if (typeof value === "object") return Object.prototype.toString.call(value);
+  if (typeof value === "string") return value;
+  if (typeof value === "number" || typeof value === "boolean" || typeof value === "bigint") {
+    return value.toString();
+  }
+  if (typeof value === "symbol") return value.toString();
+  return Object.prototype.toString.call(value);
+}
+export type Ntc2018UseClass = "I" | "II" | "III" | "IV";
+export type Ntc2018LimitState = string;
+export type Ntc2018DriftCategory =
+  | "rigidly-connected-fragile"
+  | "rigidly-connected-ductile"
+  | "damage-avoiding";
+
+export interface Ntc2018StoreyDisplacementInput extends JsonRecord {
+  readonly storeyId: string;
+  readonly height?: NumberLike | undefined;
+  readonly weight?: NumberLike | undefined;
+  readonly displacementX?: NumberLike | undefined;
+  readonly displacementXBelow?: NumberLike | undefined;
+  readonly displacementY?: NumberLike | undefined;
+  readonly displacementYBelow?: NumberLike | undefined;
+  readonly serviceDisplacementX?: NumberLike | undefined;
+  readonly serviceDisplacementXBelow?: NumberLike | undefined;
+  readonly serviceDisplacementY?: NumberLike | undefined;
+  readonly serviceDisplacementYBelow?: NumberLike | undefined;
+  readonly slvDisplacementX?: NumberLike | undefined;
+  readonly slvDisplacementXBelow?: NumberLike | undefined;
+  readonly slvDisplacementY?: NumberLike | undefined;
+  readonly slvDisplacementYBelow?: NumberLike | undefined;
+  readonly shearX?: NumberLike | undefined;
+  readonly shearY?: NumberLike | undefined;
+}
+
+export interface Ntc2018StoreyDriftInput {
+  readonly displacementTop: NumberLike | undefined;
+  readonly displacementBottom: NumberLike | undefined;
+  readonly storeyHeight: NumberLike | undefined;
+}
+
+export interface Ntc2018StoreyDriftVerificationInput {
+  readonly driftRatio: NumberLike;
+  readonly limitState: Ntc2018LimitState;
+  readonly useClass: string;
+  readonly q: NumberLike;
+  readonly infillCategory: string;
+  readonly nonStructuralDisplacementCapacityRatio?: NumberLike | null | undefined;
+}
+
+export interface Ntc2018PDeltaInput {
+  readonly storeyWeight?: NumberLike | undefined;
+  readonly drift: NumberLike;
+  readonly storeyShear: NumberLike;
+  readonly storeyHeight: NumberLike;
+}
+
+export interface Ntc2018SeismicJointWidthInput {
+  readonly buildingHeightA: NumberLike;
+  readonly buildingHeightB: NumberLike;
+  readonly facingPointElevation?: NumberLike | undefined;
+  readonly slvDisplacementA?: NumberLike | undefined;
+  readonly slvDisplacementB?: NumberLike | undefined;
+  readonly relativeFoundationDisplacement: NumberLike;
+  readonly agSOverG: NumberLike;
+}
+
+export interface Ntc2018StoreyDisplacementVerificationInput {
+  readonly storey: Ntc2018StoreyDisplacementInput;
+  readonly limitState: Ntc2018LimitState;
+  readonly useClass: string;
+  readonly q: NumberLike;
+  readonly infillCategory: string;
+  readonly nonStructuralDisplacementCapacityRatio?: NumberLike | null | undefined;
+  readonly checkPDelta?: boolean;
+}
+
+export interface Ntc2018DisplacementAssessmentInput {
+  readonly storeys: readonly Ntc2018StoreyDisplacementInput[];
+  readonly limitState: Ntc2018LimitState;
+  readonly useClass: string;
+  readonly q: NumberLike;
+  readonly infillCategory: string;
+  readonly nonStructuralDisplacementCapacityRatio?: NumberLike | null;
+  readonly checkPDelta?: boolean;
+}
+
+export interface Ntc2018StoreyDriftResult extends JsonRecord {
+  readonly ok: boolean;
+  readonly driftRatio: number;
+  readonly designDriftRatio: number;
+  readonly q: number;
+  readonly useClass: Ntc2018UseClass;
+  readonly limitState: Ntc2018LimitState;
+  readonly infillCategory: Ntc2018DriftCategory;
+  readonly limit: number;
+  readonly checks: readonly JsonRecord[];
+}
+
+export interface Ntc2018PDeltaResult extends JsonRecord {
+  readonly theta: number;
+  readonly status:
+    | "negligible"
+    | "amplification-required"
+    | "nonlinear-analysis-required"
+    | "forbidden";
+  readonly amplificationFactor: number | null;
+  readonly metadata: JsonRecord;
+}
+
+export interface Ntc2018StoreyDisplacementResult extends JsonRecord {
+  readonly storeyId: string;
+  readonly driftX: (Ntc2018StoreyDriftResult & { readonly drift: number }) | null;
+  readonly driftY: (Ntc2018StoreyDriftResult & { readonly drift: number }) | null;
+  readonly pDeltaX: Ntc2018PDeltaResult | null;
+  readonly pDeltaY: Ntc2018PDeltaResult | null;
+  readonly checks: readonly JsonRecord[];
+  readonly allChecksOk: boolean;
+}
+
+function outsideCorpusMetadata(metadata: JsonRecord = {}): JsonRecord {
   return withNormativeReferences(metadata, [
     NTC2018_RC_OUTSIDE_CORPUS_REFERENCES.globalSeismicAnalysis,
   ]);
+}
+
+function isStoreyDisplacementArray(
+  value: unknown,
+): value is readonly Ntc2018StoreyDisplacementInput[] {
+  return Array.isArray(value);
 }
 
 export const NTC2018_DISPLACEMENT_REFERENCES = Object.freeze([
@@ -54,42 +185,45 @@ export const NTC2018_PDELTA_THRESHOLDS = Object.freeze({
   forbidden: 0.3,
 });
 
-function finite(value, label) {
+function finite(value: unknown, label: string): number {
   const number = Number(value);
   if (!Number.isFinite(number)) {
-    throw new Error(`${label} must be finite; got ${value}.`);
+    throw new Error(`${label} must be finite; got ${String(value)}.`);
   }
   return number;
 }
 
-function positive(value, label) {
+function positive(value: unknown, label: string): number {
   const number = finite(value, label);
   if (number <= 0) {
-    throw new Error(`${label} must be positive; got ${value}.`);
+    throw new Error(`${label} must be positive; got ${String(value)}.`);
   }
   return number;
 }
 
-function nonNegative(value, label) {
+function nonNegative(value: unknown, label: string): number {
   const number = finite(value, label);
   if (number < 0) {
-    throw new Error(`${label} must be non-negative; got ${value}.`);
+    throw new Error(`${label} must be non-negative; got ${String(value)}.`);
   }
   return number;
 }
 
-function normalizeUseClass(value) {
-  const normalized = String(value ?? "")
-    .trim()
-    .toUpperCase()
-    .replace(/^CU[-\s]*/, "");
-  if (!["I", "II", "III", "IV"].includes(normalized)) {
-    throw new Error(`useClass must be I, II, III or IV; got ${value}.`);
+function normalizeUseClass(value: unknown): Ntc2018UseClass {
+  const normalized =
+    value == null
+      ? ""
+      : display(value)
+          .trim()
+          .toUpperCase()
+          .replace(/^CU[-\s]*/, "");
+  if (normalized !== "I" && normalized !== "II" && normalized !== "III" && normalized !== "IV") {
+    throw new Error(`useClass must be I, II, III or IV; got ${String(value)}.`);
   }
   return normalized;
 }
 
-function normalizeInfillCategory(value) {
+function normalizeInfillCategory(value: unknown): Ntc2018DriftCategory {
   if (value === "rigidly-connected") return "rigidly-connected-fragile";
   if (value === "non-rigidly-connected") return "damage-avoiding";
   if (value === "no-infill") {
@@ -104,10 +238,14 @@ function normalizeInfillCategory(value) {
   ) {
     return value;
   }
-  throw new Error(`Unsupported infillCategory: ${value}.`);
+  throw new Error(`Unsupported infillCategory: ${String(value)}.`);
 }
 
-export function computeStoreyDrift({ displacementTop, displacementBottom, storeyHeight }) {
+export function computeStoreyDrift({
+  displacementTop,
+  displacementBottom,
+  storeyHeight,
+}: Ntc2018StoreyDriftInput) {
   const top = finite(displacementTop, "displacementTop");
   const bottom = finite(displacementBottom, "displacementBottom");
   const height = positive(storeyHeight, "storeyHeight");
@@ -126,7 +264,7 @@ export function verifyStoreyDrift({
   q,
   infillCategory,
   nonStructuralDisplacementCapacityRatio,
-}) {
+}: Ntc2018StoreyDriftVerificationInput): Ntc2018StoreyDriftResult {
   const elasticDriftRatio = nonNegative(driftRatio, "driftRatio");
   const behaviorFactor = positive(q, "q");
   const normalizedUseClass = normalizeUseClass(useClass);
@@ -188,19 +326,24 @@ export function verifyStoreyDrift({
     nonStructuralDisplacementCapacityRatio: nonStructuralCapacity,
     checks,
     check: "storey-drift",
-    reference: checks[0].reference,
+    reference: checks[0]?.reference ?? "NTC 2018 § 7.3.6.1",
     metadata: outsideCorpusMetadata(),
   };
 }
 
-export function computePDeltaCoefficient({ storeyWeight, drift, storeyShear, storeyHeight }) {
+export function computePDeltaCoefficient({
+  storeyWeight,
+  drift,
+  storeyShear,
+  storeyHeight,
+}: Ntc2018PDeltaInput): Ntc2018PDeltaResult {
   const weight = nonNegative(storeyWeight, "storeyWeight");
   const interstoreyDisplacement = nonNegative(drift, "drift");
   const shear = positive(Math.abs(finite(storeyShear, "storeyShear")), "storeyShear");
   const height = positive(storeyHeight, "storeyHeight");
   const theta = (weight * interstoreyDisplacement) / (shear * height);
 
-  let status;
+  let status: Ntc2018PDeltaResult["status"];
   let amplificationFactor = null;
   if (theta < NTC2018_PDELTA_THRESHOLDS.negligible) {
     status = "negligible";
@@ -221,7 +364,7 @@ export function computePDeltaCoefficient({ storeyWeight, drift, storeyShear, sto
   };
 }
 
-export function verifyPDelta(params) {
+export function verifyPDelta(params: Ntc2018PDeltaInput) {
   const result = computePDeltaCoefficient(params);
   return {
     ...result,
@@ -243,7 +386,7 @@ export function computeSeismicJointWidth({
   slvDisplacementB,
   relativeFoundationDisplacement,
   agSOverG,
-}) {
+}: Ntc2018SeismicJointWidthInput) {
   const heightA = positive(buildingHeightA, "buildingHeightA");
   const heightB = nonNegative(buildingHeightB, "buildingHeightB");
   const hazard = nonNegative(agSOverG, "agSOverG");
@@ -288,7 +431,11 @@ export function computeSeismicJointWidth({
   };
 }
 
-function directionDisplacements(storey, direction, prefix) {
+function directionDisplacements(
+  storey: Ntc2018StoreyDisplacementInput,
+  direction: "x" | "y",
+  prefix: "service" | "slv",
+): { readonly top: number; readonly bottom: number } | null {
   const suffix = direction.toUpperCase();
   const topKey = `${prefix}Displacement${suffix}`;
   const bottomKey = `${prefix}Displacement${suffix}Below`;
@@ -309,18 +456,30 @@ export function verifyStoreyDisplacements({
   infillCategory,
   nonStructuralDisplacementCapacityRatio,
   checkPDelta = false,
-}) {
+}: Ntc2018StoreyDisplacementVerificationInput): Ntc2018StoreyDisplacementResult {
   const height = positive(storey.height, "storey.height");
-  const results = {};
-  const checks = [];
+  const results: {
+    driftX: Ntc2018StoreyDisplacementResult["driftX"];
+    driftY: Ntc2018StoreyDisplacementResult["driftY"];
+    pDeltaX: Ntc2018StoreyDisplacementResult["pDeltaX"];
+    pDeltaY: Ntc2018StoreyDisplacementResult["pDeltaY"];
+  } = {
+    driftX: null,
+    driftY: null,
+    pDeltaX: null,
+    pDeltaY: null,
+  };
+  const checks: JsonRecord[] = [];
 
-  for (const direction of ["x", "y"]) {
+  for (const direction of ["x", "y"] as const) {
+    const driftKey = direction === "x" ? "driftX" : "driftY";
+    const pDeltaKey = direction === "x" ? "pDeltaX" : "pDeltaY";
     const service = directionDisplacements(storey, direction, "service");
     if (service == null) {
       if (direction === "x") {
         throw new Error("Service displacements in direction X are required.");
       }
-      results[`drift${direction.toUpperCase()}`] = null;
+      results[driftKey] = null;
     } else {
       const drift = computeStoreyDrift({
         displacementTop: service.top,
@@ -335,7 +494,7 @@ export function verifyStoreyDisplacements({
         infillCategory,
         nonStructuralDisplacementCapacityRatio,
       });
-      results[`drift${direction.toUpperCase()}`] = {
+      results[driftKey] = {
         ...verification,
         drift: drift.drift,
       };
@@ -358,12 +517,15 @@ export function verifyStoreyDisplacements({
       pDelta = verifyPDelta({
         storeyWeight: storey.weight,
         drift: Math.abs(slv.top - slv.bottom),
-        storeyShear: storey[`shear${direction.toUpperCase()}`],
+        storeyShear: finite(
+          storey[`shear${direction.toUpperCase()}`],
+          `storey.shear${direction.toUpperCase()}`,
+        ),
         storeyHeight: height,
       });
       checks.push({ ...pDelta, direction });
     }
-    results[`pDelta${direction.toUpperCase()}`] = pDelta;
+    results[pDeltaKey] = pDelta;
   }
 
   return {
@@ -383,8 +545,8 @@ export function createDisplacementAssessment({
   infillCategory,
   nonStructuralDisplacementCapacityRatio,
   checkPDelta = false,
-}) {
-  if (!Array.isArray(storeys) || storeys.length === 0) {
+}: Ntc2018DisplacementAssessmentInput) {
+  if (!isStoreyDisplacementArray(storeys) || storeys.length === 0) {
     throw new Error("At least one storey is required.");
   }
   const storeyResults = storeys.map((storey) =>
@@ -400,18 +562,27 @@ export function createDisplacementAssessment({
   );
   const allChecks = storeyResults.flatMap((result) => result.checks);
 
-  function governing(resultKey, valueKey) {
-    let current = null;
+  function governing(
+    resultKey: "driftX" | "driftY" | "pDeltaX" | "pDeltaY",
+    valueKey: "designDriftRatio" | "theta",
+  ): { readonly storeyId: string; readonly [key: string]: string | number } | null {
+    let current: { readonly storeyId: string; readonly value: number } | null = null;
     for (const result of storeyResults) {
       const candidate = result[resultKey];
-      if (candidate != null && (current == null || candidate[valueKey] > current[valueKey])) {
+      if (
+        candidate != null &&
+        typeof candidate === "object" &&
+        !Array.isArray(candidate) &&
+        typeof candidate[valueKey] === "number" &&
+        (current == null || candidate[valueKey] > current.value)
+      ) {
         current = {
           storeyId: result.storeyId,
-          [valueKey]: candidate[valueKey],
+          value: candidate[valueKey],
         };
       }
     }
-    return current;
+    return current == null ? null : { storeyId: current.storeyId, [valueKey]: current.value };
   }
 
   return {

@@ -8,8 +8,18 @@ export const NTC2018_WALL_SYSTEM_REFERENCES = Object.freeze([
   }),
 ]);
 
-type WallCheck = Record<string, unknown> & { id: string; ok: boolean };
+type WallCheck = Record<string, unknown> & { id?: string; ok?: boolean };
 type OptionalCheck = Record<string, unknown> & { id?: string; ok?: boolean };
+
+function isStringArray(value: unknown): value is readonly string[] {
+  return Array.isArray(value);
+}
+
+function isWallSectionAssessmentArray(
+  value: unknown,
+): value is readonly WallSectionStateAssessment[] {
+  return Array.isArray(value);
+}
 
 function finite(value: unknown, label: string): number {
   const number = Number(value);
@@ -505,18 +515,35 @@ export function createCouplingBeamAssessment({
 export interface WallSectionStateAssessment extends Record<string, unknown> {
   sectionCutId?: string;
   complete?: boolean;
-  checks?: WallCheck[];
+  checks?: readonly WallCheck[];
 }
 
 export interface WallHeightSystemAssessmentInput {
   wallId?: string;
-  expectedSectionCutIds?: string[];
-  sectionStateAssessments?: WallSectionStateAssessment[];
+  expectedSectionCutIds?: readonly string[];
+  sectionStateAssessments?: readonly WallSectionStateAssessment[];
   detailingAssessment?: {
-    checks?: WallCheck[];
+    checks?: readonly WallCheck[];
   } | null;
-  couplingBeamAssessments?: Array<ReturnType<typeof createCouplingBeamAssessment>>;
-  additionalChecks?: WallCheck[];
+  couplingBeamAssessments?: readonly ReturnType<typeof createCouplingBeamAssessment>[];
+  additionalChecks?: readonly WallCheck[];
+}
+
+export interface WallHeightSystemAssessment extends Record<string, unknown> {
+  wallId?: string | undefined;
+  status: "ok" | "not-verified" | "not-implemented";
+  complete: boolean;
+  ok: boolean;
+  missing: readonly string[];
+  sectionStateAssessments: readonly WallSectionStateAssessment[];
+  detailingAssessment:
+    | {
+        checks?: readonly WallCheck[];
+      }
+    | null
+    | undefined;
+  couplingBeamAssessments: readonly ReturnType<typeof createCouplingBeamAssessment>[];
+  checks: readonly WallCheck[];
 }
 
 export function createWallHeightSystemAssessment({
@@ -526,11 +553,13 @@ export function createWallHeightSystemAssessment({
   detailingAssessment,
   couplingBeamAssessments = [],
   additionalChecks = [],
-}: WallHeightSystemAssessmentInput = {}) {
-  if (!Array.isArray(expectedSectionCutIds) || expectedSectionCutIds.length === 0) {
+}: WallHeightSystemAssessmentInput = {}): WallHeightSystemAssessment {
+  if (!isStringArray(expectedSectionCutIds) || expectedSectionCutIds.length === 0) {
     throw new Error("expectedSectionCutIds must be a non-empty array.");
   }
-  const assessments = Array.isArray(sectionStateAssessments) ? sectionStateAssessments : [];
+  const assessments = isWallSectionAssessmentArray(sectionStateAssessments)
+    ? sectionStateAssessments
+    : [];
   const assessedCutIds = new Set(assessments.map((item) => item.sectionCutId));
   const missing = [
     ...expectedSectionCutIds

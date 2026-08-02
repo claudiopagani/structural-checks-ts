@@ -1,6 +1,4 @@
-/* eslint-disable @typescript-eslint/ban-ts-comment, @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-return, @typescript-eslint/no-floating-promises, @typescript-eslint/restrict-template-expressions */
 // Mechanical TypeScript migration from strutture-js 6f33baead8b88166c4b2cf94af41763412e3c751.
-// @ts-nocheck
 
 import test from "node:test";
 import assert from "node:assert/strict";
@@ -18,8 +16,16 @@ import {
   verifyStoreyDisplacements,
   verifyStoreyDrift,
 } from "../dist/index.js";
+import type { Ntc2018StoreyDisplacementInput } from "../src/norms/ntc2018/reinforced-concrete/displacementChecks.js";
 
-test("displacement catalogs expose the exact chapter 7 limits", () => {
+function requireValue<T>(value: T, label: string): NonNullable<T> {
+  if (value == null) {
+    throw new Error(`${label} was not produced by the check.`);
+  }
+  return value;
+}
+
+void test("displacement catalogs expose the exact chapter 7 limits", () => {
   assert.equal(Object.isFrozen(NTC2018_DISPLACEMENT_REFERENCES), true);
   assert.equal(
     NTC2018_DRIFT_LIMITS[NTC2018_DRIFT_INFILL_CATEGORY.RIGIDLY_CONNECTED_FRAGILE],
@@ -32,7 +38,7 @@ test("displacement catalogs expose the exact chapter 7 limits", () => {
   assert.equal(NTC2018_PDELTA_THRESHOLDS.forbidden, 0.3);
 });
 
-test("storey drift requires both displacements and never substitutes zero", () => {
+void test("storey drift requires both displacements and never substitutes zero", () => {
   const result = computeStoreyDrift({
     displacementTop: 0.025,
     displacementBottom: 0.005,
@@ -51,7 +57,7 @@ test("storey drift requires both displacements and never substitutes zero", () =
   );
 });
 
-test("fragile rigid infills verify q*dr <= 0.005h at SLD for CU I-II", () => {
+void test("fragile rigid infills verify q*dr <= 0.005h at SLD for CU I-II", () => {
   const passing = verifyStoreyDrift({
     driftRatio: 0.0025,
     limitState: "SLD",
@@ -70,7 +76,7 @@ test("fragile rigid infills verify q*dr <= 0.005h at SLD for CU I-II", () => {
   assert.equal(failing.ok, false);
 });
 
-test("ductile rigid infills use the 0.0075h limit", () => {
+void test("ductile rigid infills use the 0.0075h limit", () => {
   const result = verifyStoreyDrift({
     driftRatio: 0.00375,
     limitState: "SLD",
@@ -82,7 +88,7 @@ test("ductile rigid infills use the 0.0075h limit", () => {
   assert.equal(result.limit, 0.0075);
 });
 
-test("CU III-IV use SLO and two thirds of the CU I-II limits", () => {
+void test("CU III-IV use SLO and two thirds of the CU I-II limits", () => {
   const result = verifyStoreyDrift({
     driftRatio: 0.0017,
     limitState: "SLO",
@@ -94,7 +100,7 @@ test("CU III-IV use SLO and two thirds of the CU I-II limits", () => {
   assert.ok(Math.abs(result.limit - (2 / 3) * 0.005) < 1e-12);
 });
 
-test("damage-avoiding infills satisfy both drp and the 0.010h cap", () => {
+void test("damage-avoiding infills satisfy both drp and the 0.010h cap", () => {
   const capacityFailure = verifyStoreyDrift({
     driftRatio: 0.004,
     limitState: "SLD",
@@ -105,11 +111,11 @@ test("damage-avoiding infills satisfy both drp and the 0.010h cap", () => {
   });
   assert.equal(capacityFailure.ok, false);
   assert.equal(capacityFailure.checks.length, 2);
-  assert.equal(capacityFailure.checks[0].ok, true);
-  assert.equal(capacityFailure.checks[1].ok, false);
+  assert.equal(requireValue(capacityFailure.checks[0], "drp check").ok, true);
+  assert.equal(requireValue(capacityFailure.checks[1], "absolute cap check").ok, false);
 });
 
-test("ambiguous limit states and no-infill aliases are rejected", () => {
+void test("ambiguous limit states and no-infill aliases are rejected", () => {
   assert.throws(
     () =>
       verifyStoreyDrift({
@@ -134,7 +140,7 @@ test("ambiguous limit states and no-infill aliases are rejected", () => {
   );
 });
 
-function pDeltaAt(theta) {
+function pDeltaAt(theta: number) {
   return computePDeltaCoefficient({
     storeyWeight: 100,
     drift: theta,
@@ -143,7 +149,7 @@ function pDeltaAt(theta) {
   });
 }
 
-test("P-Delta threshold intervals match NTC 2018 § 7.3.1", () => {
+void test("P-Delta threshold intervals match NTC 2018 § 7.3.1", () => {
   assert.equal(pDeltaAt(0.099).status, "negligible");
   assert.equal(pDeltaAt(0.1).status, "amplification-required");
   assert.equal(pDeltaAt(0.2).status, "amplification-required");
@@ -152,12 +158,14 @@ test("P-Delta threshold intervals match NTC 2018 § 7.3.1", () => {
   assert.equal(pDeltaAt(0.301).status, "forbidden");
 });
 
-test("P-Delta amplification is 1/(1-theta)", () => {
+void test("P-Delta amplification is 1/(1-theta)", () => {
   const result = pDeltaAt(0.15);
-  assert.ok(Math.abs(result.amplificationFactor - 1 / 0.85) < 1e-12);
+  assert.ok(
+    Math.abs(requireValue(result.amplificationFactor, "amplification factor") - 1 / 0.85) < 1e-12,
+  );
 });
 
-test("P-Delta verification distinguishes nonlinear analysis from forbidden theta", () => {
+void test("P-Delta verification distinguishes nonlinear analysis from forbidden theta", () => {
   const nonlinear = verifyPDelta({
     storeyWeight: 100,
     drift: 0.25,
@@ -176,7 +184,7 @@ test("P-Delta verification distinguishes nonlinear analysis from forbidden theta
   assert.equal(forbidden.status, "forbidden");
 });
 
-test("seismic separation is the maximum of displacement demand and geometric minimum", () => {
+void test("seismic separation is the maximum of displacement demand and geometric minimum", () => {
   const result = computeSeismicJointWidth({
     buildingHeightA: 10,
     buildingHeightB: 10,
@@ -191,7 +199,7 @@ test("seismic separation is the maximum of displacement demand and geometric min
   assert.ok(Math.abs(result.jointWidth - 0.17) < 1e-12);
 });
 
-test("seismic separation estimates both displacements only when specific analyses are absent", () => {
+void test("seismic separation estimates both displacements only when specific analyses are absent", () => {
   const result = computeSeismicJointWidth({
     buildingHeightA: 10,
     buildingHeightB: 8,
@@ -204,7 +212,9 @@ test("seismic separation estimates both displacements only when specific analyse
   assert.ok(Math.abs(result.jointWidth - 0.08) < 1e-12);
 });
 
-function completeStorey(overrides = {}) {
+function completeStorey(
+  overrides: Partial<Ntc2018StoreyDisplacementInput> = {},
+): Ntc2018StoreyDisplacementInput {
   return {
     storeyId: "L1",
     height: 3,
@@ -223,7 +233,7 @@ function completeStorey(overrides = {}) {
   };
 }
 
-test("storey assessment keeps service drift and SLV P-Delta data separate", () => {
+void test("storey assessment keeps service drift and SLV P-Delta data separate", () => {
   const result = verifyStoreyDisplacements({
     storey: completeStorey(),
     limitState: "SLD",
@@ -232,15 +242,16 @@ test("storey assessment keeps service drift and SLV P-Delta data separate", () =
     infillCategory: "rigidly-connected-fragile",
     checkPDelta: true,
   });
-  assert.equal(result.driftX.ok, true);
-  assert.equal(result.pDeltaX.status, "negligible");
+  assert.equal(requireValue(result.driftX, "X drift").ok, true);
+  assert.equal(requireValue(result.pDeltaX, "X P-Delta").status, "negligible");
   assert.equal(result.allChecksOk, true);
 });
 
-test("P-Delta cannot be silently skipped when explicitly requested", () => {
-  const storey = completeStorey();
-  delete storey.slvDisplacementX;
-  delete storey.slvDisplacementXBelow;
+void test("P-Delta cannot be silently skipped when explicitly requested", () => {
+  const complete = completeStorey();
+  const { slvDisplacementX: omittedX, slvDisplacementXBelow: omittedY, ...storey } = complete;
+  void omittedX;
+  void omittedY;
   assert.throws(
     () =>
       verifyStoreyDisplacements({
@@ -255,7 +266,7 @@ test("P-Delta cannot be silently skipped when explicitly requested", () => {
   );
 });
 
-test("building assessment reports governing design drift and theta", () => {
+void test("building assessment reports governing design drift and theta", () => {
   const result = createDisplacementAssessment({
     storeys: [
       completeStorey(),
@@ -272,6 +283,6 @@ test("building assessment reports governing design drift and theta", () => {
     checkPDelta: true,
   });
   assert.equal(result.allChecksOk, true);
-  assert.equal(result.governingDriftX.storeyId, "L2");
-  assert.equal(result.governingThetaX.storeyId, "L2");
+  assert.equal(requireValue(result.governingDriftX, "governing X drift").storeyId, "L2");
+  assert.equal(requireValue(result.governingThetaX, "governing X theta").storeyId, "L2");
 });

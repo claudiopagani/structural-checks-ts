@@ -1,6 +1,4 @@
-/* eslint-disable @typescript-eslint/ban-ts-comment, @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-return, @typescript-eslint/no-floating-promises, @typescript-eslint/restrict-template-expressions */
 // Mechanical TypeScript migration from strutture-js 6f33baead8b88166c4b2cf94af41763412e3c751.
-// @ts-nocheck
 
 import test from "node:test";
 import assert from "node:assert/strict";
@@ -13,8 +11,26 @@ import {
   evaluateNTC2018ElevationRegularity,
   evaluateNTC2018PlanRegularity,
 } from "../dist/index.js";
+import type {
+  Ntc2018ElevationRegularityInput,
+  Ntc2018ElevationStoreyInput,
+  Ntc2018FloorPlanInput,
+  Ntc2018PlanRegularityInput,
+} from "../src/norms/ntc2018/reinforced-concrete/structuralRegularity.js";
 
-function regularPlan(overrides = {}) {
+type PlanOverrides = Partial<Omit<Ntc2018PlanRegularityInput, "floors">> & {
+  readonly floor?: Partial<Ntc2018FloorPlanInput>;
+};
+
+function requireValue<T>(value: T, label: string): NonNullable<T> {
+  if (value == null) {
+    throw new Error(`${label} was not produced by the check.`);
+  }
+  return value;
+}
+
+function regularPlan(overrides: PlanOverrides = {}): Ntc2018PlanRegularityInput {
+  const { floor, ...planOverrides } = overrides;
   return {
     massAndStiffnessApproximatelySymmetric: true,
     floors: [
@@ -25,14 +41,17 @@ function regularPlan(overrides = {}) {
         contourConvex: true,
         diaphragmInPlaneRigidityAdequate: true,
         diaphragmInPlaneStrengthAdequate: true,
-        ...(overrides.floor ?? {}),
+        ...(floor ?? {}),
       },
     ],
-    ...overrides,
+    ...planOverrides,
   };
 }
 
-function storey(storeyId, overrides = {}) {
+function storey(
+  storeyId: string,
+  overrides: Partial<Ntc2018ElevationStoreyInput> = {},
+): Ntc2018ElevationStoreyInput {
   return {
     storeyId,
     mass: 100,
@@ -46,7 +65,9 @@ function storey(storeyId, overrides = {}) {
   };
 }
 
-function regularElevation(overrides = {}) {
+function regularElevation(
+  overrides: Partial<Ntc2018ElevationRegularityInput> = {},
+): Ntc2018ElevationRegularityInput {
   return {
     continuousVerticalSystems: true,
     storeys: [
@@ -65,12 +86,14 @@ function regularElevation(overrides = {}) {
   };
 }
 
-test("regularity references point to NTC 2018 § 7.2.1", () => {
+void test("regularity references point to NTC 2018 § 7.2.1", () => {
   assert.equal(Object.isFrozen(NTC2018_REGULARITY_REFERENCES), true);
-  assert.match(NTC2018_REGULARITY_REFERENCES[0].citation, /7\.2\.1/);
+  const reference = NTC2018_REGULARITY_REFERENCES[0];
+  assert.ok(reference);
+  assert.match(reference.citation, /7\.2\.1/);
 });
 
-test("plan regularity requires qualitative evidence instead of positive defaults", () => {
+void test("plan regularity requires qualitative evidence instead of positive defaults", () => {
   assert.throws(
     () =>
       evaluateNTC2018PlanRegularity({
@@ -81,13 +104,13 @@ test("plan regularity requires qualitative evidence instead of positive defaults
   );
 });
 
-test("a compact symmetric floor with adequate diaphragm is regular", () => {
+void test("a compact symmetric floor with adequate diaphragm is regular", () => {
   const result = evaluateNTC2018PlanRegularity(regularPlan());
   assert.equal(result.regularity, NTC2018_PLAN_REGULARITY.REGULAR);
   assert.equal(result.allChecksOk, true);
 });
 
-test("the bounding rectangle ratio must be strictly less than four", () => {
+void test("the bounding rectangle ratio must be strictly less than four", () => {
   const result = evaluateNTC2018PlanRegularity(
     regularPlan({
       floor: { planLengthX: 40, planLengthY: 10 },
@@ -95,12 +118,15 @@ test("the bounding rectangle ratio must be strictly less than four", () => {
   );
   assert.equal(result.regularity, NTC2018_PLAN_REGULARITY.NON_REGULAR);
   assert.equal(
-    result.checks.find((check) => check.check === "plan-bounding-rectangle-ratio").ok,
+    requireValue(
+      result.checks.find((check) => check.check === "plan-bounding-rectangle-ratio"),
+      "plan bounding-rectangle check",
+    ).ok,
     false,
   );
 });
 
-test("non-convex plans use the five-percent area criterion per re-entrant corner", () => {
+void test("non-convex plans use the five-percent area criterion per re-entrant corner", () => {
   const passing = evaluateNTC2018PlanRegularity(
     regularPlan({
       floor: {
@@ -123,7 +149,7 @@ test("non-convex plans use the five-percent area criterion per re-entrant corner
   assert.equal(failing.regularity, NTC2018_PLAN_REGULARITY.NON_REGULAR);
 });
 
-test("diaphragm rigidity and strength are separate mandatory checks", () => {
+void test("diaphragm rigidity and strength are separate mandatory checks", () => {
   const result = evaluateNTC2018PlanRegularity(
     regularPlan({
       floor: { diaphragmInPlaneStrengthAdequate: false },
@@ -132,80 +158,106 @@ test("diaphragm rigidity and strength are separate mandatory checks", () => {
   assert.equal(result.regularity, NTC2018_PLAN_REGULARITY.NON_REGULAR);
 });
 
-test("elevation regularity evaluates every criterion in both directions", () => {
+void test("elevation regularity evaluates every criterion in both directions", () => {
   const result = evaluateNTC2018ElevationRegularity(regularElevation());
   assert.equal(result.regularity, NTC2018_ELEVATION_REGULARITY.REGULAR);
   assert.equal(result.allChecksOk, true);
   assert.ok(result.checks.some((check) => check.check === "elevation-capacity-demand-y"));
 });
 
-test("vertical resisting-system continuity must be explicit", () => {
+void test("vertical resisting-system continuity must be explicit", () => {
+  const storeys = requireValue(regularElevation().storeys, "elevation storeys");
   assert.throws(
     () =>
       evaluateNTC2018ElevationRegularity({
-        storeys: regularElevation().storeys,
+        storeys,
       }),
     /continuousVerticalSystems/,
   );
 });
 
-test("mass changes greater than twenty-five percent are irregular", () => {
+void test("mass changes greater than twenty-five percent are irregular", () => {
   const input = regularElevation();
-  input.storeys[1].mass = 126;
-  const result = evaluateNTC2018ElevationRegularity(input);
+  const storeys = requireValue(input.storeys, "elevation storeys");
+  const changedStoreys = storeys.map((item, index) =>
+    index === 1 ? { ...item, mass: 126 } : item,
+  );
+  const changedInput = { ...input, storeys: changedStoreys };
+  const result = evaluateNTC2018ElevationRegularity(changedInput);
   assert.equal(result.regularity, NTC2018_ELEVATION_REGULARITY.NON_REGULAR);
 });
 
-test("stiffness must neither reduce over thirty percent nor increase over ten percent", () => {
+void test("stiffness must neither reduce over thirty percent nor increase over ten percent", () => {
   const reduction = regularElevation();
-  reduction.storeys[1].stiffnessX = 69;
+  const reductionInput = {
+    ...reduction,
+    storeys: requireValue(reduction.storeys, "reduction storeys").map((item, index) =>
+      index === 1 ? { ...item, stiffnessX: 69 } : item,
+    ),
+  };
   const increase = regularElevation();
-  increase.storeys[1].stiffnessY = 111;
+  const increaseInput = {
+    ...increase,
+    storeys: requireValue(increase.storeys, "increase storeys").map((item, index) =>
+      index === 1 ? { ...item, stiffnessY: 111 } : item,
+    ),
+  };
 
   assert.equal(
-    evaluateNTC2018ElevationRegularity(reduction).regularity,
+    evaluateNTC2018ElevationRegularity(reductionInput).regularity,
     NTC2018_ELEVATION_REGULARITY.NON_REGULAR,
   );
   assert.equal(
-    evaluateNTC2018ElevationRegularity(increase).regularity,
+    evaluateNTC2018ElevationRegularity(increaseInput).regularity,
     NTC2018_ELEVATION_REGULARITY.NON_REGULAR,
   );
 });
 
-test("adjacent capacity-to-demand ratios may differ by at most thirty percent", () => {
+void test("adjacent capacity-to-demand ratios may differ by at most thirty percent", () => {
   const input = regularElevation();
-  input.storeys[1].capacityDemandRatioX = 0.69;
-  const result = evaluateNTC2018ElevationRegularity(input);
+  const result = evaluateNTC2018ElevationRegularity({
+    ...input,
+    storeys: requireValue(input.storeys, "capacity storeys").map((item, index) =>
+      index === 1 ? { ...item, capacityDemandRatioX: 0.69 } : item,
+    ),
+  });
   assert.equal(result.regularity, NTC2018_ELEVATION_REGULARITY.NON_REGULAR);
 });
 
-test("setbacks satisfy both ten-percent adjacent and thirty-percent first-floor limits", () => {
+void test("setbacks satisfy both ten-percent adjacent and thirty-percent first-floor limits", () => {
   const input = regularElevation();
-  input.storeys[1].setbackX = 2.01;
-  const result = evaluateNTC2018ElevationRegularity(input);
+  const result = evaluateNTC2018ElevationRegularity({
+    ...input,
+    storeys: requireValue(input.storeys, "setback storeys").map((item, index) =>
+      index === 1 ? { ...item, setbackX: 2.01 } : item,
+    ),
+  });
   assert.equal(result.regularity, NTC2018_ELEVATION_REGULARITY.NON_REGULAR);
 });
 
-test("the top-storey resistance exception applies only to frames of at least three storeys", () => {
+void test("the top-storey resistance exception applies only to frames of at least three storeys", () => {
+  const topStorey: Ntc2018ElevationStoreyInput = {
+    storeyId: "L3",
+    mass: 100,
+    stiffnessX: 100,
+    stiffnessY: 100,
+    planLengthX: 20,
+    planLengthY: 10,
+  };
   const input = {
     continuousVerticalSystems: true,
     isFrameStructure: true,
-    storeys: [
-      storey("L1"),
-      storey("L2"),
-      {
-        ...storey("L3"),
-        capacityDemandRatioX: undefined,
-        capacityDemandRatioY: undefined,
-      },
-    ],
+    storeys: [storey("L1"), storey("L2"), topStorey],
   };
   const result = evaluateNTC2018ElevationRegularity(input);
   assert.equal(result.regularity, NTC2018_ELEVATION_REGULARITY.REGULAR);
-  assert.equal(result.storeyDetails[1].topResistanceException, true);
+  assert.equal(
+    requireValue(result.storeyDetails[1], "top storey details").topResistanceException,
+    true,
+  );
 });
 
-test("the top-storey setback exception applies from four storeys", () => {
+void test("the top-storey setback exception applies from four storeys", () => {
   const input = {
     continuousVerticalSystems: true,
     storeys: [
@@ -219,11 +271,14 @@ test("the top-storey setback exception applies from four storeys", () => {
     ],
   };
   const result = evaluateNTC2018ElevationRegularity(input);
-  assert.equal(result.storeyDetails[2].topSetbackException, true);
+  assert.equal(
+    requireValue(result.storeyDetails[2], "setback storey details").topSetbackException,
+    true,
+  );
   assert.equal(result.regularity, NTC2018_ELEVATION_REGULARITY.REGULAR);
 });
 
-test("combined assessment exposes allChecksOk and analysis-method evidence", () => {
+void test("combined assessment exposes allChecksOk and analysis-method evidence", () => {
   const result = createNTC2018RegularityAssessment({
     planInput: regularPlan(),
     elevationInput: regularElevation(),
@@ -238,10 +293,28 @@ test("combined assessment exposes allChecksOk and analysis-method evidence", () 
   assert.equal(result.analysisMethodsX.linearStaticAllowed, true);
   assert.equal(result.analysisMethodsY.linearStaticAllowed, true);
   assert.equal(result.metadata.normativeConformityClaimed, false);
+  const references = result.metadata["normativeReferences"];
+  assert.ok(Array.isArray(references));
   assert.ok(
-    result.metadata.normativeReferences.every(
-      (reference) => reference.resolutionStatus === "outside-corpus",
+    references.every(
+      (reference: unknown) =>
+        reference !== null &&
+        typeof reference === "object" &&
+        "resolutionStatus" in reference &&
+        reference.resolutionStatus === "outside-corpus",
     ),
   );
-  assert.ok(result.checks.every((check) => check.metadata.normativeReferences.length === 2));
+  assert.ok(
+    result.checks.every((check) => {
+      if (!("metadata" in check)) return false;
+      const metadata = check.metadata;
+      return (
+        metadata !== null &&
+        typeof metadata === "object" &&
+        "normativeReferences" in metadata &&
+        Array.isArray(metadata.normativeReferences) &&
+        metadata.normativeReferences.length === 2
+      );
+    }),
+  );
 });

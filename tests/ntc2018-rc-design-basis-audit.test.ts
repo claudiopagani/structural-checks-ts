@@ -1,6 +1,4 @@
-/* eslint-disable @typescript-eslint/ban-ts-comment, @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-return, @typescript-eslint/no-floating-promises, @typescript-eslint/restrict-template-expressions */
 // Mechanical TypeScript migration from strutture-js 6f33baead8b88166c4b2cf94af41763412e3c751.
-// @ts-nocheck
 
 import assert from "node:assert/strict";
 import test from "node:test";
@@ -24,7 +22,7 @@ const DESIGN_BASIS = Object.freeze({
   frameBayCount: 2,
 });
 
-test("RC design-basis audit separates choice consistency from conformity", () => {
+void test("RC design-basis audit separates choice consistency from conformity", () => {
   const result = auditNTC2018RcDesignBasis(DESIGN_BASIS);
 
   assert.equal(result.status, "ok");
@@ -32,23 +30,24 @@ test("RC design-basis audit separates choice consistency from conformity", () =>
   assert.equal(result.outputs.normativeAssurance.conformityClaimed, false);
   assert.equal(result.outputs.normativeAssurance.traceabilityComplete, false);
   assert.equal(result.metadata.normativeConformityClaimed, false);
-  assert.ok(result.metadata.normativeReferences.length >= 3);
+  const references = result.metadata["normativeReferences"];
+  assert.ok(Array.isArray(references));
+  assert.ok(references.length >= 3);
 });
 
-test("RC design-basis audit rejects an inconsistent declared q", () => {
+void test("RC design-basis audit rejects an inconsistent declared q", () => {
   const result = auditNTC2018RcDesignBasis({
     ...DESIGN_BASIS,
     q: 3,
   });
 
   assert.equal(result.status, "not-verified");
-  assert.equal(
-    result.checks.find((check) => check.id === "rc-design-basis-behavior-factor").ok,
-    false,
-  );
+  const check = result.checks.find((item) => item.id === "rc-design-basis-behavior-factor");
+  assert.ok(check);
+  assert.equal(check.ok, false);
 });
 
-test("RC coverage distinguishes implementation from normative traceability", () => {
+void test("RC coverage distinguishes implementation from normative traceability", () => {
   const coverage = getNTC2018RcBuildingCoverage();
 
   assert.equal(coverage.declaredScopeImplementationCoverageComplete, true);

@@ -1,30 +1,34 @@
 import { RESULT_STATUS, isResultStatus, type ResultStatus } from "./resultStatus.js";
 
-export interface CalculationResultOptions {
+export interface CalculationResultOptions<
+  TOutputs extends Record<string, unknown> = Record<string, unknown>,
+> {
   applicationId: string;
   status?: string;
   summary?: string;
-  outputs?: Record<string, unknown>;
+  outputs?: TOutputs;
   warnings?: unknown[];
   assumptions?: unknown[];
   metadata?: Record<string, unknown>;
 }
 
-export interface CalculationResultJson {
+export interface CalculationResultJson<
+  TOutputs extends Record<string, unknown> = Record<string, unknown>,
+> {
   applicationId: string;
   status: ResultStatus;
   summary: string;
-  outputs: Record<string, unknown>;
+  outputs: TOutputs;
   warnings: unknown[];
   assumptions: unknown[];
   metadata: Record<string, unknown>;
 }
 
-export class CalculationResult {
+export class CalculationResult<TOutputs extends Record<string, unknown> = Record<string, unknown>> {
   public applicationId: string;
   public status: ResultStatus;
   public summary: string;
-  public outputs: Record<string, unknown>;
+  public outputs: TOutputs;
   public warnings: unknown[];
   public assumptions: unknown[];
   public metadata: Record<string, unknown>;
@@ -33,11 +37,11 @@ export class CalculationResult {
     applicationId,
     status = RESULT_STATUS.NOT_IMPLEMENTED,
     summary = "",
-    outputs = {},
+    outputs = {} as TOutputs,
     warnings = [],
     assumptions = [],
     metadata = {},
-  }: CalculationResultOptions) {
+  }: CalculationResultOptions<TOutputs>) {
     if (!applicationId) {
       throw new Error("A result applicationId is required.");
     }
@@ -59,7 +63,7 @@ export class CalculationResult {
     return this.status === RESULT_STATUS.OK;
   }
 
-  public toJSON(): CalculationResultJson {
+  public toJSON(): CalculationResultJson<TOutputs> {
     return {
       applicationId: this.applicationId,
       status: this.status,

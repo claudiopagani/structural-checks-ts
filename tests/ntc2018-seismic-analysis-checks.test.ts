@@ -1,6 +1,4 @@
-/* eslint-disable @typescript-eslint/ban-ts-comment, @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-return, @typescript-eslint/no-floating-promises, @typescript-eslint/restrict-template-expressions */
 // Mechanical TypeScript migration from strutture-js 6f33baead8b88166c4b2cf94af41763412e3c751.
-// @ts-nocheck
 
 import test from "node:test";
 import assert from "node:assert/strict";
@@ -12,6 +10,14 @@ import {
   verifyNTC2018ModalMassParticipation,
 } from "../dist/index.js";
 import { createGlobalFemBuildingFixture } from "./fixtures/globalFemBuildingFixture.ts";
+import type { Ntc2018LinearDynamicAssessmentInput } from "../src/norms/ntc2018/seismicAnalysisChecks.js";
+
+function requireValue<T>(value: T, label: string): NonNullable<T> {
+  if (value == null) {
+    throw new Error(`${label} was not produced by the check.`);
+  }
+  return value;
+}
 
 function modalModes(totalX = 0.86, totalY = 0.86) {
   return [
@@ -38,14 +44,14 @@ function modalModes(totalX = 0.86, totalY = 0.86) {
 
 function eccentricities(offset = 0.2) {
   return ["L1", "L2"].flatMap((storeyId) =>
-    ["X", "Y"].flatMap((direction) => [
+    (["X", "Y"] as const).flatMap((direction) => [
       { storeyId, direction, offset },
       { storeyId, direction, offset: -offset },
     ]),
   );
 }
 
-function linearDynamicInput() {
+function linearDynamicInput(): Ntc2018LinearDynamicAssessmentInput {
   return {
     analysis: {
       spectra: [
@@ -80,7 +86,7 @@ function linearDynamicInput() {
   };
 }
 
-test("modal participating mass must be strictly greater than 85 percent", () => {
+void test("modal participating mass must be strictly greater than 85 percent", () => {
   const exactThreshold = verifyNTC2018ModalMassParticipation({
     modes: modalModes(0.85, 0.85),
   });
@@ -99,7 +105,7 @@ test("modal participating mass must be strictly greater than 85 percent", () => 
   );
 });
 
-test("only modes above five percent are reported as significant", () => {
+void test("only modes above five percent are reported as significant", () => {
   const result = verifyNTC2018ModalMassParticipation({
     modes: [
       {
@@ -115,10 +121,12 @@ test("only modes above five percent are reported as significant", () => {
   });
 
   assert.equal(result.ok, true);
-  assert.deepEqual(result.directions[0].significantModeNumbers, [2]);
+  assert.deepEqual(requireValue(result.directions[0], "modal direction").significantModeNumbers, [
+    2,
+  ]);
 });
 
-test("accidental eccentricity covers both signs and remains constant over height", () => {
+void test("accidental eccentricity covers both signs and remains constant over height", () => {
   const valid = verifyNTC2018AccidentalEccentricities({
     eccentricities: eccentricities(),
     storeyIds: ["L1", "L2"],
@@ -144,10 +152,24 @@ test("accidental eccentricity covers both signs and remains constant over height
   assert.equal(variableOverHeight.ok, false);
 });
 
-test("linear dynamic assessment verifies the complete NTC procedure declaration", () => {
+void test("linear dynamic assessment verifies the complete NTC procedure declaration", () => {
   const valid = createNTC2018LinearDynamicAssessment(linearDynamicInput());
-  const wrongCombination = linearDynamicInput();
-  wrongCombination.analysis.procedures[1].modalCombinationMethod = "srss";
+  const sourceInput = linearDynamicInput();
+  const analysis = requireValue(sourceInput.analysis, "analysis");
+  const procedures = requireValue(analysis.procedures, "analysis procedures");
+  const responseSpectrumProcedure = requireValue(procedures[1], "response-spectrum procedure");
+  const wrongCombination: Ntc2018LinearDynamicAssessmentInput = {
+    ...sourceInput,
+    analysis: {
+      ...analysis,
+      procedures: procedures.map((procedure) =>
+        procedure.id === responseSpectrumProcedure.id
+          ? { ...procedure, modalCombinationMethod: "srss" }
+          : procedure,
+      ),
+    },
+  };
+  void responseSpectrumProcedure;
   const invalid = createNTC2018LinearDynamicAssessment(wrongCombination);
 
   assert.equal(valid.status, "ok");
@@ -157,7 +179,7 @@ test("linear dynamic assessment verifies the complete NTC procedure declaration"
   assert.ok(invalid.checks.some((item) => item.id === "modal-combination-cqc" && !item.ok));
 });
 
-test("response-spectrum FEM contracts require CQC, 100-30-30 and eccentricities", () => {
+void test("response-spectrum FEM contracts require CQC, 100-30-30 and eccentricities", () => {
   const fixture = createGlobalFemBuildingFixture();
   fixture.capabilities.analyses.responseSpectrum = true;
   fixture.analysis.spectra = [
@@ -199,8 +221,18 @@ test("response-spectrum FEM contracts require CQC, 100-30-30 and eccentricities"
   const valid = validateGlobalFemAnalysisContract(fixture.analysis, fixture);
   assert.equal(valid.ok, true, JSON.stringify(valid.errors));
 
-  delete fixture.analysis.procedures.at(-1).modalCombinationMethod;
-  const missing = validateGlobalFemAnalysisContract(fixture.analysis, fixture);
+  const procedures = fixture.analysis.procedures;
+  const responseSpectrumProcedure = requireValue(procedures.at(-1), "response-spectrum procedure");
+  const analysisWithoutCombination = {
+    ...fixture.analysis,
+    procedures: procedures.map((procedure) => {
+      if (procedure.id !== responseSpectrumProcedure.id) return procedure;
+      const { modalCombinationMethod: omitted, ...withoutCombination } = procedure;
+      void omitted;
+      return withoutCombination;
+    }),
+  };
+  const missing = validateGlobalFemAnalysisContract(analysisWithoutCombination, fixture);
   assert.equal(missing.ok, false);
   assert.ok(missing.errors.some((item) => item.path.endsWith(".modalCombinationMethod")));
 });

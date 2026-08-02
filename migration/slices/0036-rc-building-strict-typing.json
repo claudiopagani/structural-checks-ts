@@ -1,0 +1,227 @@
+{
+  "schemaVersion": 1,
+  "sliceId": "0036-rc-building-strict-typing",
+  "title": "Strict TypeScript contracts for RC-building checks and orchestration",
+  "migrationType": "mechanical-parity",
+  "implementationStatus": "implemented",
+  "dependencies": ["0035-rc-building-closure-audit"],
+  "source": {
+    "repository": "https://github.com/claudiopagani/strutture-js",
+    "revision": "6f33baead8b88166c4b2cf94af41763412e3c751"
+  },
+  "normativeCorpusRevision": "41da3faa489600173106935bbcf726119300e48d",
+  "sourceFiles": [
+    {
+      "path": "src/norms/ntc2018/reinforced-concrete/capacityDesign.js",
+      "gitBlobSha1": "5415da1995770029c375f49754c4d9631685020f",
+      "targetPath": "src/norms/ntc2018/reinforced-concrete/capacityDesign.ts"
+    },
+    {
+      "path": "src/norms/ntc2018/reinforced-concrete/ntc2018Diaphragm.js",
+      "gitBlobSha1": "aebc899c9bf39635297686feabd4a39f22703981",
+      "targetPath": "src/norms/ntc2018/reinforced-concrete/ntc2018Diaphragm.ts"
+    },
+    {
+      "path": "src/norms/ntc2018/reinforced-concrete/structuralBehavior.js",
+      "gitBlobSha1": "06ac23f7067e827b13af1e298de369e79ba592f7",
+      "targetPath": "src/norms/ntc2018/reinforced-concrete/structuralBehavior.ts"
+    },
+    {
+      "path": "src/norms/ntc2018/reinforced-concrete/structuralRegularity.js",
+      "gitBlobSha1": "67114e539a5d5acfc3b2446ab9df02d2470c39f5",
+      "targetPath": "src/norms/ntc2018/reinforced-concrete/structuralRegularity.ts"
+    },
+    {
+      "path": "src/norms/ntc2018/reinforced-concrete/displacementChecks.js",
+      "gitBlobSha1": "c984a00611f87bbc8a46b9c87ca513e52319463f",
+      "targetPath": "src/norms/ntc2018/reinforced-concrete/displacementChecks.ts"
+    },
+    {
+      "path": "src/norms/ntc2018/seismicAnalysisChecks.js",
+      "gitBlobSha1": "826cd56d46508821a28920e150e722ff697edb11",
+      "targetPath": "src/norms/ntc2018/seismicAnalysisChecks.ts"
+    },
+    {
+      "path": "src/norms/ntc2018/reinforced-concrete/ntc2018BeamColumnJoint.js",
+      "gitBlobSha1": "02ab3f6ddcd9da34a538a4e0c13a59e6b1a8f15e",
+      "targetPath": "src/norms/ntc2018/reinforced-concrete/ntc2018BeamColumnJoint.ts"
+    },
+    {
+      "path": "src/norms/ntc2018/reinforced-concrete/wallSystemChecks.js",
+      "gitBlobSha1": "e34d4d6c8be576b1e968527df86aa04e149f9c76",
+      "targetPath": "src/norms/ntc2018/reinforced-concrete/wallSystemChecks.ts"
+    },
+    {
+      "path": "src/applications/rc-building-verification/ntc2018RcBuildingCoverage.js",
+      "gitBlobSha1": "b904e35c0cca746091feb253dc77e997fcefdde2",
+      "targetPath": "src/applications/rc-building-verification/ntc2018RcBuildingCoverage.ts"
+    },
+    {
+      "path": "src/applications/rc-building-verification/ntc2018RcDesignBasisAudit.js",
+      "gitBlobSha1": "499fb5835682b89c5dd65a9c92d5b758504fefff",
+      "targetPath": "src/applications/rc-building-verification/ntc2018RcDesignBasisAudit.ts"
+    },
+    {
+      "path": "src/applications/rc-building-verification/wallBiaxialVerification.js",
+      "gitBlobSha1": "b3fc77c77d81ee9d21e7194615d8d4dc9fe16db0",
+      "targetPath": "src/applications/rc-building-verification/wallBiaxialVerification.ts"
+    },
+    {
+      "path": "src/applications/rc-building-verification/wallSystemVerification.js",
+      "gitBlobSha1": "287ad9d50e178fed13af86521a5ce31d805348b9",
+      "targetPath": "src/applications/rc-building-verification/wallSystemVerification.ts"
+    },
+    {
+      "path": "src/applications/rc-building-verification/slabSystemVerification.js",
+      "gitBlobSha1": "cc3ec2e0f66b7ff086cd21b97f2b1a4adab8cc33",
+      "targetPath": "src/applications/rc-building-verification/slabSystemVerification.ts"
+    },
+    {
+      "path": "src/applications/rc-building-verification/foundationSystemVerification.js",
+      "gitBlobSha1": "e3ea47d00ead07ac387ac7a2804a239a0710b25a",
+      "targetPath": "src/applications/rc-building-verification/foundationSystemVerification.ts"
+    },
+    {
+      "path": "src/applications/rc-building-verification/RcBuildingVerificationApplication.js",
+      "gitBlobSha1": "45fc787f1491081dcc48d62c5ccf029171606ca4",
+      "targetPath": "src/applications/rc-building-verification/RcBuildingVerificationApplication.ts"
+    },
+    {
+      "path": "src/applications/rc-building-verification/index.js",
+      "gitBlobSha1": "29a2468a0ea87c8ac064a9136b64de8a6385155a",
+      "targetPath": "src/applications/rc-building-verification/index.ts"
+    },
+    {
+      "path": "src/core/results/CalculationResult.js",
+      "gitBlobSha1": "de58f9d2a201435dd955cbfd4c4981d0b78610d4",
+      "targetPath": "src/core/results/CalculationResult.ts"
+    },
+    {
+      "path": "src/core/results/VerificationResult.js",
+      "gitBlobSha1": "7583438c8fd57f6c6883caf2eb65298551725a64",
+      "targetPath": "src/core/results/VerificationResult.ts"
+    }
+  ],
+  "supportingSourceFiles": [
+    {
+      "path": "tests/fixtures/globalFemBuildingFixture.js",
+      "gitBlobSha1": "cbd8f1408637b5d157ffcebbfd4b1c01ca2520f1",
+      "targetPath": "tests/fixtures/globalFemBuildingFixture.ts",
+      "coverage": "strict typed complete RC-building fixture with numericalValidation false preserved"
+    },
+    {
+      "path": "src/index.js",
+      "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7",
+      "targetPath": "src/index.ts",
+      "coverage": "public type re-exports for RC-building input, callback contracts and result DTOs"
+    }
+  ],
+  "sourceOracles": [
+    {
+      "path": "tests/ntc2018CapacityDesign.test.js",
+      "gitBlobSha1": "24e57a84b2747d4f5de6ed78ea9666ec5aff552e"
+    },
+    {
+      "path": "tests/ntc2018Diaphragm.test.js",
+      "gitBlobSha1": "05d1e67f52ff45eaa20c22497dd6fb33cb6395a3"
+    },
+    {
+      "path": "tests/ntc2018StructuralBehavior.test.js",
+      "gitBlobSha1": "976db827e272266872c2a195f8e0829460d1527b"
+    },
+    {
+      "path": "tests/ntc2018StructuralRegularity.test.js",
+      "gitBlobSha1": "45e6acb0e1aae9f9f796e3f4a7dd4ed5bfc76b14"
+    },
+    {
+      "path": "tests/ntc2018DisplacementChecks.test.js",
+      "gitBlobSha1": "87062a41512a52adf3fcc5e5c5d4941afaf1efd2"
+    },
+    {
+      "path": "tests/ntc2018SeismicAnalysisChecks.test.js",
+      "gitBlobSha1": "7d3288d34d3e72a3711ed2fce22e6ca221cdb7eb"
+    },
+    {
+      "path": "tests/ntc2018RcBuildingCoverage.test.js",
+      "gitBlobSha1": "f90ba136e99789bf3a1d5633cb49a7a81784d5a6"
+    },
+    {
+      "path": "tests/ntc2018RcDesignBasisAudit.test.js",
+      "gitBlobSha1": "203a2afec5098d30bb7eced5bb0e169b0832cd36"
+    },
+    {
+      "path": "tests/rcBuildingVerificationApplication.test.js",
+      "gitBlobSha1": "c03f0527a004b4ee61ca5fbcabb7fce4138cde74"
+    },
+    {
+      "path": "tests/globalFemProducerConformance.test.js",
+      "gitBlobSha1": "ff5f56d87428084ac3ed4b103e0c41be943c40a9"
+    }
+  ],
+  "sourcePublicExport": {
+    "path": "src/index.js",
+    "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
+  },
+  "targetTests": [
+    "tests/ntc2018-capacity-design.test.ts",
+    "tests/ntc2018-diaphragm.test.ts",
+    "tests/ntc2018-structural-behavior.test.ts",
+    "tests/ntc2018-structural-regularity.test.ts",
+    "tests/ntc2018-displacement-checks.test.ts",
+    "tests/ntc2018-seismic-analysis-checks.test.ts",
+    "tests/ntc2018-rc-building-coverage.test.ts",
+    "tests/ntc2018-rc-design-basis-audit.test.ts",
+    "tests/rc-building-verification-application.test.ts",
+    "tests/global-fem-producer-conformance.test.ts",
+    "tests/rc-building-verification-compile-time.test.ts",
+    "tests/rc-building-live-parity.test.ts"
+  ],
+  "publicExports": [
+    "RcBuildingVerificationApplication",
+    "RcBuildingVerificationInput",
+    "RcBuildingVerificationOutputs",
+    "RcMemberVerifier",
+    "RcJointVerifier",
+    "WallSectionStateVerifier",
+    "SlabStateVerifier",
+    "DiaphragmStateVerifier",
+    "FoundationVerifier",
+    "auditNTC2018RcDesignBasis",
+    "runWallSystemVerifications",
+    "runSlabSystemVerifications",
+    "runFoundationSystemVerifications"
+  ],
+  "normativeReferences": {
+    "resolved": [
+      "urn:structural-codes:it:unit:ntc2018:4.1.2.3.4.2",
+      "urn:structural-codes:it:unit:ntc2018:7.4.1",
+      "urn:structural-codes:it:unit:ntc2018:7.4.3",
+      "urn:structural-codes:it:unit:ntc2018:7.4.4.2.1",
+      "urn:structural-codes:it:unit:ntc2018:7.4.4.3.1",
+      "urn:structural-codes:it:unit:ntc2018:7.4.4.4.1",
+      "urn:structural-codes:it:unit:ntc2018:7.4.4.5.1"
+    ],
+    "outsideCorpus": ["NTC 2018 Sections 7.2-7.3", "NTC 2018 Section 6.4", "NTC 2018 Section 7.11"],
+    "normativeConformityClaimed": false,
+    "status": "classified-for-declared-scope"
+  },
+  "independentValidation": {
+    "method": "Strict declaration consumer coverage, source-derived unit tests, complete fixture orchestration tests and an independently executed pinned JavaScript live differential test.",
+    "targetTests": [
+      "tests/rc-building-verification-compile-time.test.ts",
+      "tests/rc-building-live-parity.test.ts",
+      "tests/rc-building-verification-application.test.ts"
+    ],
+    "tolerances": {
+      "serializedParity": "exact JSON serialization for the complete RC-building fixture",
+      "numericParity": "absolute and relative tolerance 1e-12 where exact JSON equality is not applicable",
+      "publicStrings": "exact Unicode code-point equality"
+    }
+  },
+  "parityDifferences": [
+    "The slice adds TypeScript-only contracts, validators and compile-time consumer coverage; formulas, branches, statuses, error behavior and serialized runtime fields remain source-derived.",
+    "The building application remains an orchestrator and does not generate sections, materials, reinforcement or missing solver results.",
+    "normativeConformityClaimed remains false and numericalValidation false remains unchanged in the synthetic fixture."
+  ],
+  "engineeringFunctionality": "Strictly typed solver-neutral RC-building capacity, seismic, displacement, regularity, wall, slab, diaphragm, foundation and orchestration boundaries with independent live JS/TS parity evidence."
+}

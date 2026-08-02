@@ -1,6 +1,4 @@
-/* eslint-disable @typescript-eslint/ban-ts-comment, @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-return, @typescript-eslint/no-floating-promises, @typescript-eslint/restrict-template-expressions */
 // Mechanical TypeScript migration from strutture-js 6f33baead8b88166c4b2cf94af41763412e3c751.
-// @ts-nocheck
 
 /**
  * NTC 2018 structural behaviour and behaviour-factor rules for RC buildings.
@@ -37,6 +35,77 @@ export type Ntc2018StructuralBehavior =
   (typeof NTC2018_STRUCTURAL_BEHAVIOR)[keyof typeof NTC2018_STRUCTURAL_BEHAVIOR];
 export type Ntc2018StructuralType =
   (typeof NTC2018_STRUCTURAL_TYPE)[keyof typeof NTC2018_STRUCTURAL_TYPE];
+export type Ntc2018PlanRegularity =
+  (typeof NTC2018_PLAN_REGULARITY)[keyof typeof NTC2018_PLAN_REGULARITY];
+export type Ntc2018ElevationRegularity =
+  (typeof NTC2018_ELEVATION_REGULARITY)[keyof typeof NTC2018_ELEVATION_REGULARITY];
+export type Ntc2018AnalysisMethod =
+  (typeof NTC2018_ANALYSIS_METHOD)[keyof typeof NTC2018_ANALYSIS_METHOD];
+export type Ntc2018BehaviorInput = string | null | undefined;
+export type Ntc2018StructuralTypeInput = string | null | undefined;
+type Ntc2018DissipativeBehavior = Extract<Ntc2018StructuralBehavior, "cd-a" | "cd-b">;
+type NumberLike = number | string;
+
+export interface Ntc2018RegularityInput {
+  readonly plan?: string | null;
+  readonly elevation?: string | null;
+}
+
+export interface Ntc2018TopologyInput {
+  readonly alphaRatio?: NumberLike | null | undefined;
+  readonly frameStoreyCount?: NumberLike | null | undefined;
+  readonly frameBayCount?: NumberLike | null | undefined;
+  readonly uncoupledWallCount?: NumberLike | null | undefined;
+}
+
+export interface Ntc2018StructuralBehaviorInput extends Ntc2018TopologyInput {
+  readonly behavior?: Ntc2018BehaviorInput;
+  readonly structuralType?: Ntc2018StructuralTypeInput;
+  readonly regularity?: Ntc2018RegularityInput;
+}
+
+export interface Ntc2018AnalysisMethodInput {
+  readonly behavior?: Ntc2018BehaviorInput;
+  readonly planRegularity?: string | null | undefined;
+  readonly elevationRegularity?: string | null | undefined;
+  readonly t1?: NumberLike | null | undefined;
+  readonly tc?: NumberLike | null | undefined;
+  readonly td?: NumberLike | null | undefined;
+}
+
+function display(value: unknown): string {
+  if (value === null) return "null";
+  if (value === undefined) return "undefined";
+  if (Array.isArray(value)) return value.join(",");
+  if (typeof value === "object") return Object.prototype.toString.call(value);
+  if (typeof value === "string") return value;
+  if (typeof value === "number" || typeof value === "boolean" || typeof value === "bigint") {
+    return value.toString();
+  }
+  if (typeof value === "symbol") return value.toString();
+  return Object.prototype.toString.call(value);
+}
+
+export interface Ntc2018OverstrengthFactors {
+  beamShear: number;
+  columnBending: number;
+  columnShear: number;
+  jointShear: number;
+  wallShear: number | null;
+}
+
+export interface Ntc2018BehaviorDescriptor {
+  readonly behavior: Ntc2018StructuralBehavior;
+  readonly structuralType: Ntc2018StructuralType;
+  readonly isDissipative: boolean;
+  readonly ductilityClass: 'CD"A"' | 'CD"B"' | null;
+  readonly overstrengthFactors: Ntc2018OverstrengthFactors;
+  readonly q0: number;
+  readonly q: number;
+  readonly kr: number;
+  readonly references: readonly Record<string, string>[];
+  readonly metadata: Record<string, unknown>;
+}
 
 export const NTC2018_PLAN_REGULARITY = Object.freeze({
   REGULAR: "regular",
@@ -66,7 +135,9 @@ export const NTC2018_STRUCTURAL_BEHAVIOR_REFERENCES = Object.freeze([
   }),
 ]);
 
-export const NTC2018_OVERSTRENGTH_FACTORS = Object.freeze({
+export const NTC2018_OVERSTRENGTH_FACTORS: Readonly<
+  Record<Ntc2018DissipativeBehavior, Ntc2018OverstrengthFactors>
+> = Object.freeze({
   "cd-a": Object.freeze({
     beamShear: 1.2,
     columnBending: 1.3,
@@ -83,16 +154,8 @@ export const NTC2018_OVERSTRENGTH_FACTORS = Object.freeze({
   }),
 });
 
-export interface Ntc2018OverstrengthFactors {
-  beamShear: number;
-  columnBending: number;
-  columnShear: number;
-  jointShear: number;
-  wallShear: number | null;
-}
-
 // @see https://strutture-normative-viewer.claudiopagani19.chatgpt.site/?unit=urn%3Astructural-codes%3Ait%3Aunit%3Antc2018%3A7.4.3
-const Q0_CDA = Object.freeze({
+const Q0_CDA: Readonly<Record<Ntc2018StructuralType, number>> = Object.freeze({
   frame: 4.5,
   wall: 4.0,
   "coupled-wall": 4.5,
@@ -103,7 +166,7 @@ const Q0_CDA = Object.freeze({
   "single-storey-framed-inverted-pendulum": 3.5,
 });
 
-const Q0_CDB = Object.freeze({
+const Q0_CDB: Readonly<Record<Ntc2018StructuralType, number>> = Object.freeze({
   frame: 3.0,
   wall: 3.0,
   "coupled-wall": 3.0,
@@ -114,7 +177,9 @@ const Q0_CDB = Object.freeze({
   "single-storey-framed-inverted-pendulum": 2.5,
 });
 
-export const NTC2018_BASE_Q_FACTORS = Object.freeze({
+export const NTC2018_BASE_Q_FACTORS: Readonly<
+  Record<Ntc2018DissipativeBehavior, Readonly<Record<Ntc2018StructuralType, number>>>
+> = Object.freeze({
   "cd-a": Q0_CDA,
   "cd-b": Q0_CDB,
 });
@@ -129,18 +194,19 @@ export const NTC2018_Q_LIMITS = Object.freeze({
   }),
 });
 
-export const NTC2018_REGULARITY_REDUCTION = Object.freeze({
-  regular: 1.0,
-  "non-regular": 0.8,
-});
+export const NTC2018_REGULARITY_REDUCTION: Readonly<Record<Ntc2018ElevationRegularity, number>> =
+  Object.freeze({
+    regular: 1.0,
+    "non-regular": 0.8,
+  });
 
 const VALID_BEHAVIORS = new Set(Object.values(NTC2018_STRUCTURAL_BEHAVIOR));
 const VALID_TYPES = new Set(Object.values(NTC2018_STRUCTURAL_TYPE));
 const VALID_PLAN_REGULARITY = new Set(Object.values(NTC2018_PLAN_REGULARITY));
 const VALID_ELEVATION_REGULARITY = new Set(Object.values(NTC2018_ELEVATION_REGULARITY));
 
-function validateEnum(value, allowed, label) {
-  const raw = String(value ?? "").trim();
+function validateEnum<T extends string>(value: unknown, allowed: ReadonlySet<T>, label: string): T {
+  const raw = value == null ? "" : display(value).trim();
   const key = raw
     .replaceAll("\u201C", "")
     .replaceAll("\u201D", "")
@@ -161,18 +227,18 @@ function validateEnum(value, allowed, label) {
   throw new Error(`${label} must be one of [${[...allowed].join(", ")}]; got "${raw}".`);
 }
 
-function positive(value, label) {
+function positive(value: unknown, label: string): number {
   const number = Number(value);
   if (!Number.isFinite(number) || number <= 0) {
-    throw new Error(`${label} must be a positive number; got ${value}.`);
+    throw new Error(`${label} must be a positive number; got ${String(value)}.`);
   }
   return number;
 }
 
-function positiveInteger(value, label) {
+function positiveInteger(value: unknown, label: string): number {
   const number = Number(value);
   if (!Number.isInteger(number) || number <= 0) {
-    throw new Error(`${label} must be a positive integer; got ${value}.`);
+    throw new Error(`${label} must be a positive integer; got ${String(value)}.`);
   }
   return number;
 }
@@ -197,7 +263,19 @@ export function checkNonDissipativeAdmissibility({
   amplificationFactor,
   soilAmplification = 1,
   topographicAmplification = 1,
-}: any = {}) {
+}: {
+  readonly ag?: NumberLike | null;
+  readonly amplificationFactor?: NumberLike | null;
+  readonly soilAmplification?: NumberLike | null;
+  readonly topographicAmplification?: NumberLike | null;
+} = {}): {
+  readonly admissible: true;
+  readonly simplifiedRegimeEligible: boolean | null;
+  readonly agSOverG: number | null;
+  readonly warnings: readonly string[];
+  readonly reference: string;
+  readonly metadata: Record<string, unknown>;
+} {
   let agSOverG = null;
   let simplifiedRegimeEligible = null;
   const warnings = [];
@@ -260,7 +338,7 @@ export function resolveNTC2018AlphaRatio({
   frameStoreyCount,
   frameBayCount,
   uncoupledWallCount,
-}: any = {}) {
+}: Ntc2018TopologyInput & { readonly structuralType?: Ntc2018StructuralTypeInput } = {}): number {
   const type = normalizeNTC2018StructuralType(structuralType);
 
   if (alphaRatio !== undefined) {
@@ -293,7 +371,10 @@ export function resolveNTC2018AlphaRatio({
   return 1.0;
 }
 
-function appliesAlphaRatio(behavior, structuralType) {
+function appliesAlphaRatio(
+  behavior: Ntc2018StructuralBehavior,
+  structuralType: Ntc2018StructuralType,
+): boolean {
   if (
     structuralType === NTC2018_STRUCTURAL_TYPE.FRAME ||
     structuralType === NTC2018_STRUCTURAL_TYPE.COUPLED_WALL ||
@@ -315,7 +396,7 @@ export function selectNTC2018BaseQFactor({
   frameStoreyCount,
   frameBayCount,
   uncoupledWallCount,
-}) {
+}: Ntc2018StructuralBehaviorInput): number {
   const normalizedBehavior = normalizeNTC2018StructuralBehavior(behavior);
   const type = normalizeNTC2018StructuralType(structuralType);
 
@@ -347,7 +428,9 @@ export function computeNTC2018EffectiveQFactor({
   frameStoreyCount,
   frameBayCount,
   uncoupledWallCount,
-}) {
+}: Ntc2018StructuralBehaviorInput & {
+  readonly elevationRegularity: string | null | undefined;
+}): number {
   const normalizedBehavior = normalizeNTC2018StructuralBehavior(behavior);
   const q0 = selectNTC2018BaseQFactor({
     behavior: normalizedBehavior,
@@ -385,7 +468,13 @@ export function selectNTC2018AllowedAnalysisMethods({
   t1,
   tc,
   td,
-}: any = {}) {
+}: Ntc2018AnalysisMethodInput = {}): {
+  readonly allowed: readonly Ntc2018AnalysisMethod[];
+  readonly recommended: Ntc2018AnalysisMethod;
+  readonly linearStaticAllowed: boolean;
+  readonly checks: readonly Record<string, unknown>[];
+  readonly metadata: Record<string, unknown>;
+} {
   normalizeNTC2018StructuralBehavior(behavior);
   if (planRegularity !== undefined) {
     validateEnum(planRegularity, VALID_PLAN_REGULARITY, "planRegularity");
@@ -396,7 +485,7 @@ export function selectNTC2018AllowedAnalysisMethods({
     "elevationRegularity",
   );
 
-  const allowed = new Set([
+  const allowed = new Set<Ntc2018AnalysisMethod>([
     NTC2018_ANALYSIS_METHOD.LINEAR_DYNAMIC,
     NTC2018_ANALYSIS_METHOD.NONLINEAR_STATIC,
     NTC2018_ANALYSIS_METHOD.NONLINEAR_DYNAMIC,
@@ -452,7 +541,7 @@ export function createNTC2018StructuralBehavior({
   frameStoreyCount,
   frameBayCount,
   uncoupledWallCount,
-}) {
+}: Ntc2018StructuralBehaviorInput): Ntc2018BehaviorDescriptor {
   const normalizedBehavior = normalizeNTC2018StructuralBehavior(behavior);
   const type = normalizeNTC2018StructuralType(structuralType);
   const q0 = selectNTC2018BaseQFactor({

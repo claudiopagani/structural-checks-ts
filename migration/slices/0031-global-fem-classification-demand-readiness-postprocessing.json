@@ -58,7 +58,10 @@
   },
   "targetTests": [
     "tests/global-fem-postprocessing.test.ts",
-    "tests/concurrent-fem-demand-states.test.ts"
+    "tests/concurrent-fem-demand-states.test.ts",
+    "tests/global-fem-producer-conformance.test.ts",
+    "tests/global-fem-postprocessing-compile-time.test.ts",
+    "tests/global-fem-postprocessing-live-parity.test.ts"
   ],
   "publicExports": [
     "DEFAULT_GLOBAL_FEM_CLASSIFICATION_POLICY",
@@ -85,7 +88,10 @@
     "method": "Source-derived postprocessing and concurrent-state tests with serialized outputs, explicit reference preservation and missing-data diagnostics.",
     "targetTests": [
       "tests/global-fem-postprocessing.test.ts",
-      "tests/concurrent-fem-demand-states.test.ts"
+      "tests/concurrent-fem-demand-states.test.ts",
+      "tests/global-fem-producer-conformance.test.ts",
+      "tests/global-fem-postprocessing-compile-time.test.ts",
+      "tests/global-fem-postprocessing-live-parity.test.ts"
     ],
     "tolerances": {
       "serializedParity": "exact JSON serialization for source-derived fixtures",

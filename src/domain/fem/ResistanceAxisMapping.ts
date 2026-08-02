@@ -1,6 +1,4 @@
-/* eslint-disable @typescript-eslint/ban-ts-comment, @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-return, @typescript-eslint/no-floating-promises */
 // Mechanical TypeScript migration from strutture-js 6f33baead8b88166c4b2cf94af41763412e3c751.
-// @ts-nocheck
 /**
  * Explicit, solver-neutral transformations from FEM result axes to the
  * resistance axes used by a structural verification.
@@ -11,34 +9,67 @@
  * defaulted, enveloped or rescaled.
  */
 
+import type {
+  ConcurrentFemJointActionState,
+  ResistanceAxisMappingBase,
+  ResistanceAxisMatrix,
+  ResistanceAxisSourceCoordinateSystem,
+  ResistanceAxisValidationOptions,
+  ResistanceJointActionState,
+  ResistanceLineActionState,
+  ResistanceLineActionStateInput,
+  ResistanceMappedFoundation,
+  ResistanceMappedMember,
+  ResistanceMappedSlab,
+  ResistanceMappedWall,
+  ResistanceSectionCutState,
+  ResistanceSectionCutStateInput,
+  ResistanceShellResultantState,
+  ResistanceShellResultantStateInput,
+  ResistanceSupportReactionState,
+  ResistanceSupportReactionStateInput,
+  ResistanceSupportAxisMappingWithFoundation,
+} from "./FemDemandStateTypes.js";
+import type { FemAxes, FemVector3 } from "./contracts/FemContractTypes.js";
+
 const MATRIX_TOLERANCE = 1e-9;
 
-export const IDENTITY_RESISTANCE_AXIS_TRANSFORMATION = Object.freeze([
-  Object.freeze([1, 0, 0]),
-  Object.freeze([0, 1, 0]),
-  Object.freeze([0, 0, 1]),
+const IDENTITY_AXIS_X: ResistanceAxisMatrix[0] = Object.freeze([1, 0, 0]);
+const IDENTITY_AXIS_Y: ResistanceAxisMatrix[1] = Object.freeze([0, 1, 0]);
+const IDENTITY_AXIS_Z: ResistanceAxisMatrix[2] = Object.freeze([0, 0, 1]);
+export const IDENTITY_RESISTANCE_AXIS_TRANSFORMATION: ResistanceAxisMatrix = Object.freeze([
+  IDENTITY_AXIS_X,
+  IDENTITY_AXIS_Y,
+  IDENTITY_AXIS_Z,
 ]);
 
-function clone(value) {
-  return value == null ? value : JSON.parse(JSON.stringify(value));
+function clone<T>(value: T): T {
+  return value == null ? value : (JSON.parse(JSON.stringify(value)) as T);
 }
 
-function finiteVector(values, label) {
-  if (
-    !Array.isArray(values) ||
-    values.length !== 3 ||
-    values.some((value) => !Number.isFinite(value))
-  ) {
+function isArray(value: unknown): value is unknown[] {
+  return Array.isArray(value);
+}
+
+function finiteVector(values: unknown, label: string): ResistanceAxisMatrix[0] {
+  if (!isArray(values)) {
     throw new Error(`${label} must contain exactly three finite components.`);
   }
-  return [...values];
+  if (values.length !== 3 || values.some((value) => !Number.isFinite(value))) {
+    throw new Error(`${label} must contain exactly three finite components.`);
+  }
+  const [first, second, third] = values;
+  if (typeof first !== "number" || typeof second !== "number" || typeof third !== "number") {
+    throw new Error(`${label} must contain exactly three finite components.`);
+  }
+  return [first, second, third];
 }
 
-function dot(left, right) {
-  return left.reduce((sum, value, index) => sum + value * right[index], 0);
+function dot(left: ResistanceAxisMatrix[0], right: ResistanceAxisMatrix[0]): number {
+  return left[0] * right[0] + left[1] * right[1] + left[2] * right[2];
 }
 
-function determinant3(matrix) {
+function determinant3(matrix: ResistanceAxisMatrix): number {
   return (
     matrix[0][0] * (matrix[1][1] * matrix[2][2] - matrix[1][2] * matrix[2][1]) -
     matrix[0][1] * (matrix[1][0] * matrix[2][2] - matrix[1][2] * matrix[2][0]) +
@@ -46,44 +77,48 @@ function determinant3(matrix) {
   );
 }
 
-function multiply(matrix, vector) {
-  return matrix.map((row) => dot(row, vector));
+function multiply(
+  matrix: ResistanceAxisMatrix,
+  vector: ResistanceAxisMatrix[0],
+): ResistanceAxisMatrix[0] {
+  return [dot(matrix[0], vector), dot(matrix[1], vector), dot(matrix[2], vector)];
 }
 
-function globalAxis(localAxes, coefficients) {
-  if (!localAxes) return null;
-  const axes = [localAxes.x, localAxes.y, localAxes.z];
+function globalAxis(localAxes: FemAxes, coefficients: ResistanceAxisMatrix[0]): FemVector3 {
+  const axes = [localAxes.x, localAxes.y, localAxes.z] as const;
   if (
     axes.some(
       (axis) =>
-        axis == null || !["x", "y", "z"].every((component) => Number.isFinite(axis[component])),
+        axis == null ||
+        !Number.isFinite(axis.x) ||
+        !Number.isFinite(axis.y) ||
+        !Number.isFinite(axis.z),
     )
   ) {
     throw new Error("Source localAxes must contain finite x, y and z unit vectors.");
   }
-  return Object.fromEntries(
-    ["x", "y", "z"].map((component) => [
-      component,
-      axes.reduce((sum, axis, index) => sum + coefficients[index] * axis[component], 0),
-    ]),
-  );
+  return {
+    x: coefficients[0] * axes[0].x + coefficients[1] * axes[1].x + coefficients[2] * axes[2].x,
+    y: coefficients[0] * axes[0].y + coefficients[1] * axes[1].y + coefficients[2] * axes[2].y,
+    z: coefficients[0] * axes[0].z + coefficients[1] * axes[1].z + coefficients[2] * axes[2].z,
+  };
 }
 
 export function validateResistanceAxisTransformation(
-  sourceToResistance,
-  { tolerance = MATRIX_TOLERANCE } = {},
-) {
+  sourceToResistance: unknown,
+  { tolerance = MATRIX_TOLERANCE }: ResistanceAxisValidationOptions = {},
+): ResistanceAxisMatrix {
   if (!Array.isArray(sourceToResistance) || sourceToResistance.length !== 3) {
     throw new Error("sourceToResistance must be a finite 3x3 transformation matrix.");
   }
-  const matrix = sourceToResistance.map((row, index) =>
+  const matrix = sourceToResistance.map((row: unknown, index: number) =>
     finiteVector(row, `sourceToResistance[${index}]`),
-  );
+  ) as unknown as ResistanceAxisMatrix;
 
   for (let row = 0; row < 3; row += 1) {
     for (let column = 0; column < 3; column += 1) {
       const expected = row === column ? 1 : 0;
-      if (Math.abs(dot(matrix[row], matrix[column]) - expected) > tolerance) {
+      if (Math.abs(dot(matrix[row]!, matrix[column]!) - expected) > tolerance) {
         throw new Error("sourceToResistance must be orthonormal within the declared tolerance.");
       }
     }
@@ -95,11 +130,37 @@ export function validateResistanceAxisTransformation(
   return matrix;
 }
 
-function validatedMapping(mapping, expectedSource, sourceIdKey) {
-  if (mapping == null || typeof mapping !== "object" || Array.isArray(mapping)) {
+type ResistanceAxisMappingIdKey =
+  | "lineElementId"
+  | "sectionCutId"
+  | "shellElementId"
+  | "supportNodeId";
+
+type ValidatedResistanceAxisMapping<K extends ResistanceAxisMappingIdKey> = {
+  readonly [key: string]: unknown;
+  readonly sourceCoordinateSystem: ResistanceAxisSourceCoordinateSystem;
+  readonly resistanceCoordinateSystemId: string;
+  readonly localAxes?: FemAxes | null;
+  sourceToResistance: ResistanceAxisMatrix;
+} & Record<K, string>;
+
+function isRecord(value: unknown): value is Record<string, unknown> {
+  return value !== null && typeof value === "object" && !Array.isArray(value);
+}
+
+function validatedMapping<K extends ResistanceAxisMappingIdKey>(
+  mapping: unknown,
+  expectedSource: ResistanceAxisSourceCoordinateSystem,
+  sourceIdKey: K,
+): ValidatedResistanceAxisMapping<K> {
+  if (mapping == null || typeof mapping !== "object" || isArray(mapping)) {
     throw new Error("A resistance-axis mapping record is required.");
   }
-  if (typeof mapping[sourceIdKey] !== "string" || mapping[sourceIdKey].length === 0) {
+  if (!isRecord(mapping)) {
+    throw new Error("A resistance-axis mapping record is required.");
+  }
+  const sourceId = mapping[sourceIdKey];
+  if (typeof sourceId !== "string" || sourceId.length === 0) {
     throw new Error(`${sourceIdKey} is required by the axis mapping.`);
   }
   if (mapping.sourceCoordinateSystem !== expectedSource) {
@@ -114,10 +175,13 @@ function validatedMapping(mapping, expectedSource, sourceIdKey) {
   return {
     ...clone(mapping),
     sourceToResistance: validateResistanceAxisTransformation(mapping.sourceToResistance),
-  };
+  } as ValidatedResistanceAxisMapping<K>;
 }
 
-function assertCoordinateSystem(state, mapping) {
+function assertCoordinateSystem(
+  state: { readonly coordinateSystem?: string | null },
+  mapping: ResistanceAxisMappingBase,
+): void {
   if (state.coordinateSystem !== mapping.sourceCoordinateSystem) {
     throw new Error(
       `FEM state coordinateSystem "${state.coordinateSystem}" does not match ` +
@@ -126,7 +190,10 @@ function assertCoordinateSystem(state, mapping) {
   }
 }
 
-function resistanceAxes(localAxes, matrix) {
+function resistanceAxes(
+  localAxes: FemAxes | null | undefined,
+  matrix: ResistanceAxisMatrix,
+): FemAxes | null {
   if (!localAxes) return null;
   return {
     x: globalAxis(localAxes, matrix[0]),
@@ -136,9 +203,9 @@ function resistanceAxes(localAxes, matrix) {
 }
 
 export function validateSurfaceResistanceAxisTransformation(
-  sourceToResistance,
-  { tolerance = MATRIX_TOLERANCE } = {},
-) {
+  sourceToResistance: unknown,
+  { tolerance = MATRIX_TOLERANCE }: ResistanceAxisValidationOptions = {},
+): ResistanceAxisMatrix {
   const matrix = validateResistanceAxisTransformation(sourceToResistance, { tolerance });
   const outOfPlaneTerms = [
     matrix[0][2],
@@ -153,7 +220,19 @@ export function validateSurfaceResistanceAxisTransformation(
   return matrix;
 }
 
-function rotatePlaneTensor(matrix, xx, yy, xy, label) {
+interface PlaneTensor {
+  readonly xx: number;
+  readonly yy: number;
+  readonly xy: number;
+}
+
+function rotatePlaneTensor(
+  matrix: ResistanceAxisMatrix,
+  xx: unknown,
+  yy: unknown,
+  xy: unknown,
+  label: string,
+): PlaneTensor {
   const q00 = matrix[0][0];
   const q01 = matrix[0][1];
   const q10 = matrix[1][0];
@@ -166,7 +245,11 @@ function rotatePlaneTensor(matrix, xx, yy, xy, label) {
   };
 }
 
-export function projectLineActionStateToResistanceAxes({ state, mapping }) {
+export function projectLineActionStateToResistanceAxes(input: {
+  readonly state: ResistanceLineActionStateInput;
+  readonly mapping: unknown;
+}): ResistanceLineActionState {
+  const { state, mapping } = input;
   if (state == null || typeof state !== "object") {
     throw new Error("A concurrent line-action state is required.");
   }
@@ -212,29 +295,38 @@ export function projectLineActionStateToResistanceAxes({ state, mapping }) {
   };
 }
 
-function mappingIndex(mappings, idKey, label) {
-  if (!Array.isArray(mappings)) {
+function mappingIndex(
+  mappings: unknown,
+  idKey: ResistanceAxisMappingIdKey,
+  label: string,
+): Map<string, ResistanceAxisMappingBase> {
+  if (!isArray(mappings)) {
     throw new Error(`${label} must be an array.`);
   }
-  const index = new Map();
-  mappings.forEach((mapping, itemIndex) => {
-    const id = mapping?.[idKey];
-    if (typeof id !== "string" || id.length === 0) {
+  const index = new Map<string, ResistanceAxisMappingBase>();
+  mappings.forEach((mapping: unknown, itemIndex: number) => {
+    const record = isRecord(mapping) ? mapping : null;
+    const id = record?.[idKey];
+    if (record === null || typeof id !== "string" || id.length === 0) {
       throw new Error(`${label}[${itemIndex}].${idKey} is required.`);
     }
     if (index.has(id)) {
       throw new Error(`${label} maps ${id} more than once.`);
     }
-    index.set(id, mapping);
+    index.set(id, record as ResistanceAxisMappingBase);
   });
   return index;
 }
 
-export function projectMemberActionStatesToResistanceAxes({ member, states }: any = {}) {
-  if (!member || !Array.isArray(member.lineElementIds)) {
+export function projectMemberActionStatesToResistanceAxes(input: {
+  readonly member: ResistanceMappedMember;
+  readonly states: readonly ResistanceLineActionStateInput[];
+}): ResistanceLineActionState[] {
+  const { member, states } = input;
+  if (!member || !isArray(member.lineElementIds)) {
     throw new Error("A mapped structural member is required.");
   }
-  if (!Array.isArray(states)) {
+  if (!isArray(states)) {
     throw new Error("Concurrent member action states must be an array.");
   }
   const mappings = mappingIndex(
@@ -262,8 +354,12 @@ export function projectMemberActionStatesToResistanceAxes({ member, states }: an
   );
 }
 
-export function projectJointActionStatesToResistanceAxes({ members, states }: any = {}) {
-  if (!Array.isArray(members) || !Array.isArray(states)) {
+export function projectJointActionStatesToResistanceAxes(input: {
+  readonly members: readonly ResistanceMappedMember[];
+  readonly states: readonly ConcurrentFemJointActionState[];
+}): ResistanceJointActionState[] {
+  const { members, states } = input;
+  if (!isArray(members) || !isArray(states)) {
     throw new Error("Mapped members and concurrent joint states are required.");
   }
   const allMappings = members.flatMap((member) => member.lineActionMappings ?? []);
@@ -271,35 +367,41 @@ export function projectJointActionStatesToResistanceAxes({ members, states }: an
 
   return states.map((state) => ({
     ...clone(state),
-    elementEnds: (state.elementEnds ?? []).map((elementEnd) => {
-      const mapping = mappings.get(elementEnd.lineElementId);
-      if (!mapping) {
-        throw new Error(
-          `No resistance-axis mapping exists for joint element ` + `${elementEnd.lineElementId}.`,
-        );
-      }
-      if (!elementEnd.station) {
-        return { ...clone(elementEnd), resistanceActions: null };
-      }
-      const projected = projectLineActionStateToResistanceAxes({
-        state: {
-          lineElementId: elementEnd.lineElementId,
-          coordinateSystem: elementEnd.coordinateSystem,
-          localAxes: mapping.localAxes ?? null,
-          actions: elementEnd.station.actions,
-        },
-        mapping,
-      });
-      return {
-        ...clone(elementEnd),
-        resistanceCoordinateSystem: projected.resistanceCoordinateSystem,
-        resistanceActions: projected.resistanceActions,
-      };
-    }),
+    elementEnds: (state.elementEnds ?? []).map(
+      (elementEnd: ConcurrentFemJointActionState["elementEnds"][number]) => {
+        const mapping = mappings.get(elementEnd.lineElementId);
+        if (!mapping) {
+          throw new Error(
+            `No resistance-axis mapping exists for joint element ` + `${elementEnd.lineElementId}.`,
+          );
+        }
+        if (!elementEnd.station) {
+          return { ...clone(elementEnd), resistanceActions: null };
+        }
+        const projected = projectLineActionStateToResistanceAxes({
+          state: {
+            lineElementId: elementEnd.lineElementId,
+            coordinateSystem: elementEnd.coordinateSystem,
+            localAxes: mapping.localAxes ?? null,
+            actions: elementEnd.station.actions,
+          },
+          mapping,
+        });
+        return {
+          ...clone(elementEnd),
+          resistanceCoordinateSystem: projected.resistanceCoordinateSystem,
+          resistanceActions: projected.resistanceActions,
+        };
+      },
+    ),
   }));
 }
 
-export function projectSectionCutStateToResistanceAxes({ state, mapping }) {
+export function projectSectionCutStateToResistanceAxes(input: {
+  readonly state: ResistanceSectionCutStateInput;
+  readonly mapping: unknown;
+}): ResistanceSectionCutState {
+  const { state, mapping } = input;
   if (state == null || typeof state !== "object") {
     throw new Error("A concurrent section-cut state is required.");
   }
@@ -344,11 +446,15 @@ export function projectSectionCutStateToResistanceAxes({ state, mapping }) {
   };
 }
 
-export function projectWallSectionCutStatesToResistanceAxes({ wall, states }: any = {}) {
-  if (!wall || !Array.isArray(wall.sectionCutIds)) {
+export function projectWallSectionCutStatesToResistanceAxes(input: {
+  readonly wall: ResistanceMappedWall;
+  readonly states: readonly ResistanceSectionCutStateInput[];
+}): ResistanceSectionCutState[] {
+  const { wall, states } = input;
+  if (!wall || !isArray(wall.sectionCutIds)) {
     throw new Error("A mapped structural wall is required.");
   }
-  if (!Array.isArray(states)) {
+  if (!isArray(states)) {
     throw new Error("Concurrent section-cut states must be an array.");
   }
   const mappings = mappingIndex(
@@ -374,7 +480,11 @@ export function projectWallSectionCutStatesToResistanceAxes({ wall, states }: an
   );
 }
 
-export function projectShellResultantStateToResistanceAxes({ state, mapping }) {
+export function projectShellResultantStateToResistanceAxes(input: {
+  readonly state: ResistanceShellResultantStateInput;
+  readonly mapping: unknown;
+}): ResistanceShellResultantState {
+  const { state, mapping } = input;
   if (state == null || typeof state !== "object") {
     throw new Error("A concurrent shell-resultant state is required.");
   }
@@ -428,11 +538,15 @@ export function projectShellResultantStateToResistanceAxes({ state, mapping }) {
   };
 }
 
-export function projectSlabResultantStatesToResistanceAxes({ slab, states }: any = {}) {
-  if (!slab || !Array.isArray(slab.shellElementIds)) {
+export function projectSlabResultantStatesToResistanceAxes(input: {
+  readonly slab: ResistanceMappedSlab;
+  readonly states: readonly ResistanceShellResultantStateInput[];
+}): ResistanceShellResultantState[] {
+  const { slab, states } = input;
+  if (!slab || !isArray(slab.shellElementIds)) {
     throw new Error("A mapped structural slab is required.");
   }
-  if (!Array.isArray(states)) {
+  if (!isArray(states)) {
     throw new Error("Concurrent shell-resultant states must be an array.");
   }
   const mappings = mappingIndex(
@@ -453,7 +567,11 @@ export function projectSlabResultantStatesToResistanceAxes({ slab, states }: any
   );
 }
 
-export function projectSupportReactionStateToResistanceAxes({ state, mapping }) {
+export function projectSupportReactionStateToResistanceAxes(input: {
+  readonly state: ResistanceSupportReactionStateInput;
+  readonly mapping: unknown;
+}): ResistanceSupportReactionState {
+  const { state, mapping } = input;
   if (state == null || typeof state !== "object") {
     throw new Error("A concurrent support-reaction state is required.");
   }
@@ -479,9 +597,10 @@ export function projectSupportReactionStateToResistanceAxes({ state, mapping }) 
       "support reaction moment vector",
     ),
   );
+  const supportMapping = mapping as ResistanceSupportAxisMappingWithFoundation;
   return {
     ...clone(state),
-    foundationId: mapping.foundationId ?? null,
+    foundationId: supportMapping.foundationId ?? null,
     resistanceCoordinateSystem: {
       id: axisMapping.resistanceCoordinateSystemId,
       sourceCoordinateSystem: axisMapping.sourceCoordinateSystem,
@@ -498,11 +617,15 @@ export function projectSupportReactionStateToResistanceAxes({ state, mapping }) 
   };
 }
 
-export function projectFoundationReactionStatesToResistanceAxes({ foundation, states }: any = {}) {
-  if (!foundation || !Array.isArray(foundation.supportNodeIds)) {
+export function projectFoundationReactionStatesToResistanceAxes(input: {
+  readonly foundation: ResistanceMappedFoundation;
+  readonly states: readonly ResistanceSupportReactionStateInput[];
+}): ResistanceSupportReactionState[] {
+  const { foundation, states } = input;
+  if (!foundation || !isArray(foundation.supportNodeIds)) {
     throw new Error("A mapped foundation is required.");
   }
-  if (!Array.isArray(states)) {
+  if (!isArray(states)) {
     throw new Error("Concurrent support-reaction states must be an array.");
   }
   const mappings = mappingIndex(

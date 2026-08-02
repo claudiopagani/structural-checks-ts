@@ -1,6 +1,4 @@
-/* eslint-disable @typescript-eslint/ban-ts-comment, @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-return, @typescript-eslint/no-floating-promises */
 // Mechanical TypeScript migration from strutture-js 6f33baead8b88166c4b2cf94af41763412e3c751.
-// @ts-nocheck
 import test from "node:test";
 import assert from "node:assert/strict";
 import {
@@ -8,7 +6,7 @@ import {
   filterConcurrentFemStates,
 } from "../dist/index.js";
 
-test("slice 0030 preserves complete concurrent line states and rejects missing components", () => {
+void test("slice 0030 preserves complete concurrent line states and rejects missing components", () => {
   const demand = {
     lineElementId: "E1",
     actionStates: [
@@ -24,6 +22,10 @@ test("slice 0030 preserves complete concurrent line states and rejects missing c
     ],
   };
   const states = collectConcurrentLineElementActionStates(demand);
+  const firstActionState = demand.actionStates[0];
+  assert.ok(firstActionState);
+  const firstStation = firstActionState.stations[0];
+  assert.ok(firstStation);
   assert.equal(states.length, 2);
   assert.deepEqual(filterConcurrentFemStates(states, { combinationId: "ULS" }), states);
   assert.throws(
@@ -32,10 +34,10 @@ test("slice 0030 preserves complete concurrent line states and rejects missing c
         ...demand,
         actionStates: [
           {
-            ...demand.actionStates[0],
+            ...firstActionState,
             stations: [
               {
-                ...demand.actionStates[0].stations[0],
+                ...firstStation,
                 actions: { N: -10, Vy: 2, Vz: 3, My: 5, Mz: 6 },
               },
             ],

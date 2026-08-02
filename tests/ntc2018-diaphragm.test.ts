@@ -1,6 +1,4 @@
-/* eslint-disable @typescript-eslint/ban-ts-comment, @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-return, @typescript-eslint/no-floating-promises, @typescript-eslint/restrict-template-expressions */
 // Mechanical TypeScript migration from strutture-js 6f33baead8b88166c4b2cf94af41763412e3c751.
-// @ts-nocheck
 
 import test from "node:test";
 import assert from "node:assert/strict";
@@ -12,13 +10,15 @@ import {
   createDiaphragmAssessment,
 } from "../dist/index.js";
 
-test("diaphragm chapter-7 rule is the 1.30 force increase", () => {
+void test("diaphragm chapter-7 rule is the 1.30 force increase", () => {
   assert.equal(NTC2018_DIAPHRAGM_FORCE_FACTOR, 1.3);
   assert.equal(Object.isFrozen(NTC2018_DIAPHRAGM_REFERENCES), true);
-  assert.match(NTC2018_DIAPHRAGM_REFERENCES[0].citation, /7\.4\.4\.4\.1/);
+  const reference = NTC2018_DIAPHRAGM_REFERENCES[0];
+  assert.ok(reference);
+  assert.match(reference.citation, /7\.4\.4\.4\.1/);
 });
 
-test("diaphragm action amplification preserves component signs", () => {
+void test("diaphragm action amplification preserves component signs", () => {
   const result = amplifyNTC2018DiaphragmActions({
     analysisActions: {
       nxx: 100,
@@ -35,7 +35,7 @@ test("diaphragm action amplification preserves component signs", () => {
   });
 });
 
-test("diaphragm action amplification rejects empty or non-numeric actions", () => {
+void test("diaphragm action amplification rejects empty or non-numeric actions", () => {
   assert.throws(
     () => amplifyNTC2018DiaphragmActions({ analysisActions: {} }),
     /at least one component/,
@@ -49,7 +49,7 @@ test("diaphragm action amplification rejects empty or non-numeric actions", () =
   );
 });
 
-test("demand amplification alone cannot produce a positive resistance result", () => {
+void test("demand amplification alone cannot produce a positive resistance result", () => {
   const result = createDiaphragmAssessment({
     diaphragmId: "D1",
     analysisActions: { nxx: 100 },
@@ -59,7 +59,7 @@ test("demand amplification alone cannot produce a positive resistance result", (
   assert.equal(result.allChecksOk, false);
 });
 
-test("assessment aggregates independently calculated chapter-4 checks", () => {
+void test("assessment aggregates independently calculated chapter-4 checks", () => {
   const passing = createDiaphragmAssessment({
     diaphragmId: "D1",
     analysisActions: { nxx: 100 },

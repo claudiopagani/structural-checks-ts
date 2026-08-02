@@ -1,6 +1,4 @@
-/* eslint-disable @typescript-eslint/ban-ts-comment, @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-return, @typescript-eslint/no-floating-promises, @typescript-eslint/restrict-template-expressions */
 // Mechanical TypeScript migration from strutture-js 6f33baead8b88166c4b2cf94af41763412e3c751.
-// @ts-nocheck
 
 import test from "node:test";
 import assert from "node:assert/strict";
@@ -14,12 +12,14 @@ import {
   verifyBeamColumnHierarchy,
 } from "../dist/index.js";
 
-test("capacity-design references are immutable and point to Eqs. 7.4.4-7", () => {
+void test("capacity-design references are immutable and point to Eqs. 7.4.4-7", () => {
   assert.equal(Object.isFrozen(NTC2018_CAPACITY_DESIGN_REFERENCES), true);
-  assert.match(NTC2018_CAPACITY_DESIGN_REFERENCES[0].citation, /7\.4\.4/);
+  const reference = NTC2018_CAPACITY_DESIGN_REFERENCES[0];
+  assert.ok(reference);
+  assert.match(reference.citation, /7\.4\.4/);
 });
 
-test("beam-column hierarchy uses the column-bending gammaRd = 1.30", () => {
+void test("beam-column hierarchy uses the column-bending gammaRd = 1.30", () => {
   const result = verifyBeamColumnHierarchy({
     beamMomentResistances: [100, -100],
     columnMomentResistances: [200, 220],
@@ -31,7 +31,7 @@ test("beam-column hierarchy uses the column-bending gammaRd = 1.30", () => {
   assert.equal(result.ok, true);
 });
 
-test("CD B beam-column hierarchy also uses gammaRd = 1.30", () => {
+void test("CD B beam-column hierarchy also uses gammaRd = 1.30", () => {
   const result = verifyBeamColumnHierarchy({
     beamMomentResistances: [100],
     columnMomentResistances: [130],
@@ -41,7 +41,7 @@ test("CD B beam-column hierarchy also uses gammaRd = 1.30", () => {
   assert.equal(result.ok, true);
 });
 
-test("discordant column moments move the smaller capacity to the beam side", () => {
+void test("discordant column moments move the smaller capacity to the beam side", () => {
   const result = verifyBeamColumnHierarchy({
     beamMomentResistances: [100],
     columnMomentResistances: [300, -100],
@@ -53,7 +53,7 @@ test("discordant column moments move the smaller capacity to the beam side", () 
   assert.equal(result.capacity, 300);
 });
 
-test("top-storey column joints are excluded by § 7.4.4.2.1", () => {
+void test("top-storey column joints are excluded by § 7.4.4.2.1", () => {
   const result = verifyBeamColumnHierarchy({
     behavior: "cd-a",
     isTopStoreyColumnJoint: true,
@@ -62,7 +62,7 @@ test("top-storey column joints are excluded by § 7.4.4.2.1", () => {
   assert.equal(result.ok, true);
 });
 
-test("beam shear uses signed end capacities and both gravity end shears", () => {
+void test("beam shear uses signed end capacities and both gravity end shears", () => {
   const result = computeBeamCapacityShear({
     momentResistanceLeft: -100,
     momentResistanceRight: 80,
@@ -78,7 +78,7 @@ test("beam shear uses signed end capacities and both gravity end shears", () => 
   assert.match(result.reference, /7\.4\.4\.1\.1/);
 });
 
-test("beam shear rejects hidden zero gravity defaults", () => {
+void test("beam shear rejects hidden zero gravity defaults", () => {
   assert.throws(
     () =>
       computeBeamCapacityShear({
@@ -91,7 +91,7 @@ test("beam shear rejects hidden zero gravity defaults", () => {
   );
 });
 
-test("column shear applies Eq. 7.4.5 end hierarchy factors before gammaRd", () => {
+void test("column shear applies Eq. 7.4.5 end hierarchy factors before gammaRd", () => {
   const result = computeColumnCapacityShear({
     top: {
       columnMomentResistance: 200,
@@ -113,7 +113,7 @@ test("column shear applies Eq. 7.4.5 end hierarchy factors before gammaRd", () =
   assert.match(result.reference, /7\.4\.5/);
 });
 
-test("joint shear demand implements internal and external equations", () => {
+void test("joint shear demand implements internal and external equations", () => {
   const internal = computeJointCapacityShear({
     behavior: "cd-a",
     topReinforcementArea: 10,
@@ -136,7 +136,7 @@ test("joint shear demand implements internal and external equations", () => {
   assert.match(external.reference, /7\.4\.6/);
 });
 
-test("non-dissipative RC joints use the CD B joint rule required by § 7.4.1", () => {
+void test("non-dissipative RC joints use the CD B joint rule required by § 7.4.1", () => {
   const result = computeJointCapacityShear({
     behavior: "non-dissipative",
     topReinforcementArea: 10,
@@ -148,7 +148,7 @@ test("non-dissipative RC joints use the CD B joint rule required by § 7.4.1", (
   assert.equal(result.gammaRd, 1.1);
 });
 
-test("an empty dissipative assessment is explicitly not implemented", () => {
+void test("an empty dissipative assessment is explicitly not implemented", () => {
   const result = createCapacityDesignAssessment({
     jointId: "J1",
     behavior: "cd-a",
@@ -158,7 +158,7 @@ test("an empty dissipative assessment is explicitly not implemented", () => {
   assert.equal(result.allChecksOk, false);
 });
 
-test("assessment compares complete shear demands with supplied local capacities", () => {
+void test("assessment compares complete shear demands with supplied local capacities", () => {
   const result = createCapacityDesignAssessment({
     jointId: "J1",
     behavior: "cd-a",

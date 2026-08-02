@@ -1,6 +1,4 @@
-/* eslint-disable @typescript-eslint/ban-ts-comment, @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-return, @typescript-eslint/no-floating-promises, @typescript-eslint/restrict-template-expressions */
 // Mechanical TypeScript migration from strutture-js 6f33baead8b88166c4b2cf94af41763412e3c751.
-// @ts-nocheck
 
 /**
  * NTC 2018 capacity-design demand transformations for cast-in-place RC.
@@ -13,6 +11,80 @@ import {
 } from "./structuralBehavior.js";
 import { withNormativeReferences } from "../../normativeReference.js";
 import { NTC2018_RC_CHAPTER_7_4_REFERENCES } from "../normativeReferences.js";
+import type { Ntc2018BehaviorInput, Ntc2018StructuralBehavior } from "./structuralBehavior.js";
+
+type NumberLike = number | string;
+type JsonRecord = Record<string, unknown>;
+
+export interface Ntc2018BeamColumnHierarchyInput {
+  readonly beamMomentResistances?: readonly NumberLike[];
+  readonly columnMomentResistances?: readonly NumberLike[];
+  readonly behavior?: Ntc2018BehaviorInput;
+  readonly isTopStoreyColumnJoint?: boolean;
+}
+
+export interface Ntc2018BeamCapacityShearInput {
+  readonly momentResistanceLeft?: NumberLike;
+  readonly momentResistanceRight?: NumberLike;
+  readonly clearLength?: NumberLike;
+  readonly gravityShearLeft?: NumberLike;
+  readonly gravityShearRight?: NumberLike;
+  readonly behavior?: Ntc2018BehaviorInput;
+}
+
+export interface Ntc2018ColumnEndDesignMomentInput {
+  readonly columnMomentResistance?: NumberLike;
+  readonly beamMomentResistanceSum?: NumberLike;
+  readonly columnMomentResistanceSum?: NumberLike;
+}
+
+export interface Ntc2018ColumnCapacityShearInput {
+  readonly top?: Ntc2018ColumnEndDesignMomentInput;
+  readonly bottom?: Ntc2018ColumnEndDesignMomentInput;
+  readonly clearLength?: NumberLike;
+  readonly behavior?: Ntc2018BehaviorInput;
+}
+
+export type Ntc2018JointType = "internal" | "external";
+
+export interface Ntc2018JointCapacityShearInput {
+  readonly behavior?: Ntc2018BehaviorInput;
+  readonly topReinforcementArea?: NumberLike;
+  readonly bottomReinforcementArea?: NumberLike;
+  readonly reinforcementDesignStrength?: NumberLike;
+  readonly columnShearAbove?: NumberLike;
+  readonly jointType?: Ntc2018JointType;
+}
+
+export interface Ntc2018CapacityShearResistanceInput extends JsonRecord {
+  readonly shearResistance: NumberLike;
+}
+
+export interface Ntc2018CapacityDesignAssessmentInput {
+  readonly jointId: string;
+  readonly behavior: Ntc2018BehaviorInput;
+  readonly hierarchy?: Ntc2018BeamColumnHierarchyInput | null;
+  readonly beamShear?: Ntc2018BeamCapacityShearInput & Ntc2018CapacityShearResistanceInput;
+  readonly columnShear?: Ntc2018ColumnCapacityShearInput & Ntc2018CapacityShearResistanceInput;
+  readonly jointShear?: Ntc2018JointCapacityShearInput & Ntc2018CapacityShearResistanceInput;
+}
+
+export interface Ntc2018CapacityCheck extends JsonRecord {
+  readonly check: string;
+  readonly ok: boolean;
+}
+
+export interface Ntc2018CapacityDesignAssessment {
+  readonly jointId: string;
+  readonly behavior: Ntc2018StructuralBehavior;
+  readonly isDissipative: boolean;
+  readonly complete: boolean;
+  readonly status: "ok" | "not-verified" | "not-implemented";
+  readonly allChecksOk: boolean;
+  readonly checks: readonly Ntc2018CapacityCheck[];
+  readonly references: readonly Record<string, string>[];
+  readonly metadata: JsonRecord;
+}
 
 export const NTC2018_CAPACITY_DESIGN_REFERENCES = Object.freeze([
   Object.freeze({
@@ -25,31 +97,38 @@ export const NTC2018_CAPACITY_DESIGN_REFERENCES = Object.freeze([
   }),
 ]);
 
-function finite(value, label) {
+function finite(value: unknown, label: string): number {
   const number = Number(value);
   if (!Number.isFinite(number)) {
-    throw new Error(`${label} must be finite; got ${value}.`);
+    throw new Error(`${label} must be finite; got ${String(value)}.`);
   }
   return number;
 }
 
-function positive(value, label) {
+function positive(value: unknown, label: string): number {
   const number = finite(value, label);
   if (number <= 0) {
-    throw new Error(`${label} must be positive; got ${value}.`);
+    throw new Error(`${label} must be positive; got ${String(value)}.`);
   }
   return number;
 }
 
-function nonNegative(value, label) {
+function nonNegative(value: unknown, label: string): number {
   const number = finite(value, label);
   if (number < 0) {
-    throw new Error(`${label} must be non-negative; got ${value}.`);
+    throw new Error(`${label} must be non-negative; got ${String(value)}.`);
   }
   return number;
 }
 
-function finiteArray(values, label, { minimumLength = 1, maximumLength } = {}) {
+function finiteArray(
+  values: unknown,
+  label: string,
+  {
+    minimumLength = 1,
+    maximumLength,
+  }: { readonly minimumLength?: number; readonly maximumLength?: number } = {},
+): number[] {
   if (
     !Array.isArray(values) ||
     values.length < minimumLength ||
@@ -73,7 +152,7 @@ export function verifyBeamColumnHierarchy({
   columnMomentResistances,
   behavior,
   isTopStoreyColumnJoint = false,
-}) {
+}: Ntc2018BeamColumnHierarchyInput) {
   const normalizedBehavior = normalizeNTC2018StructuralBehavior(behavior);
   if (typeof isTopStoreyColumnJoint !== "boolean") {
     throw new Error("isTopStoreyColumnJoint must be boolean.");
@@ -107,7 +186,11 @@ export function verifyBeamColumnHierarchy({
   }).columnBending;
   const beamSum = beams.reduce((sum, value) => sum + Math.abs(value), 0);
   const columnMagnitudes = columns.map(Math.abs);
-  const discordantColumns = columns.length === 2 && columns[0] * columns[1] < 0;
+  const [firstColumn, secondColumn] = columns;
+  const discordantColumns =
+    columns.length === 2 && firstColumn !== undefined && secondColumn !== undefined
+      ? firstColumn * secondColumn < 0
+      : false;
 
   let capacity = columnMagnitudes.reduce((sum, value) => sum + value, 0);
   let transferredColumnMoment = 0;
@@ -146,7 +229,7 @@ export function computeBeamCapacityShear({
   gravityShearLeft,
   gravityShearRight,
   behavior,
-}) {
+}: Ntc2018BeamCapacityShearInput) {
   const leftMoment = finite(momentResistanceLeft, "momentResistanceLeft");
   const rightMoment = finite(momentResistanceRight, "momentResistanceRight");
   const length = positive(clearLength, "clearLength");
@@ -183,7 +266,7 @@ function columnEndDesignMoment({
   beamMomentResistanceSum,
   columnMomentResistanceSum,
   label,
-}) {
+}: Ntc2018ColumnEndDesignMomentInput & { readonly label: string }) {
   const columnResistance = nonNegative(columnMomentResistance, `${label}.columnMomentResistance`);
   const beamSum = nonNegative(beamMomentResistanceSum, `${label}.beamMomentResistanceSum`);
   const columnSum = positive(columnMomentResistanceSum, `${label}.columnMomentResistanceSum`);
@@ -197,7 +280,12 @@ function columnEndDesignMoment({
 /**
  * Column shear demand according to Eq. [7.4.5].
  */
-export function computeColumnCapacityShear({ top, bottom, clearLength, behavior }) {
+export function computeColumnCapacityShear({
+  top,
+  bottom,
+  clearLength,
+  behavior,
+}: Ntc2018ColumnCapacityShearInput) {
   const normalizedBehavior = normalizeNTC2018StructuralBehavior(behavior);
   if (normalizedBehavior === NTC2018_STRUCTURAL_BEHAVIOR.NON_DISSIPATIVE) {
     throw new Error("Column capacity-design shear is not applicable to non-dissipative behaviour.");
@@ -234,7 +322,7 @@ export function computeJointCapacityShear({
   reinforcementDesignStrength,
   columnShearAbove,
   jointType,
-}) {
+}: Ntc2018JointCapacityShearInput) {
   const normalizedBehavior = normalizeNTC2018StructuralBehavior(behavior);
   const factors = selectNTC2018OverstrengthFactors({
     behavior:
@@ -268,7 +356,11 @@ export function computeJointCapacityShear({
   };
 }
 
-function resistanceCheck(result, resistance, check) {
+function resistanceCheck(
+  result: JsonRecord & { readonly shearDemand: number },
+  resistance: unknown,
+  check: string,
+): Ntc2018CapacityCheck {
   const capacity = positive(resistance, `${check}.shearResistance`);
   return {
     ...result,
@@ -291,7 +383,7 @@ export function createCapacityDesignAssessment({
   beamShear,
   columnShear,
   jointShear,
-}) {
+}: Ntc2018CapacityDesignAssessmentInput): Ntc2018CapacityDesignAssessment {
   const normalizedBehavior = normalizeNTC2018StructuralBehavior(behavior);
   const checks = [];
 

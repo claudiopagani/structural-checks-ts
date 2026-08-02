@@ -11,3 +11,4 @@ export {
   evaluateNTC2018RcBuildingCompleteness,
   getNTC2018RcBuildingCoverage,
 } from "./ntc2018RcBuildingCoverage.js";
+export type * from "./RcBuildingVerificationTypes.js";

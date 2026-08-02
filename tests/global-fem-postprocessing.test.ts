@@ -1,9 +1,9 @@
-/* eslint-disable @typescript-eslint/ban-ts-comment, @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-return, @typescript-eslint/no-floating-promises */
 // Mechanical TypeScript migration from strutture-js 6f33baead8b88166c4b2cf94af41763412e3c751.
-// @ts-nocheck
 
 import test from "node:test";
 import assert from "node:assert/strict";
+import path from "node:path";
+import { pathToFileURL } from "node:url";
 
 import {
   GLOBAL_FEM_POSTPROCESSING_PROFILES,
@@ -14,97 +14,204 @@ import {
   extractGlobalFemDemands,
   normalizeGlobalFemClassificationPolicy,
 } from "../dist/index.js";
-import { createGlobalFemBuildingFixture } from "./fixtures/globalFemBuildingFixture.ts";
+import type {
+  FemDiagnostic,
+  FemEntityMappingContract,
+  GlobalFemDemandSet,
+  GlobalFemAnalysisContract,
+  GlobalFemPostProcessingInput,
+  GlobalFemModelContract,
+  GlobalFemResultContract,
+  GlobalFemPostProcessingProfile,
+  GlobalFemStructuralClassificationProposal,
+  GlobalFemVerificationReadinessReport,
+} from "../dist/index.js";
+import type { MutableGlobalFemBuildingFixture } from "./fixtures/globalFemBuildingFixtureAdapter.js";
 
-function copy(value) {
-  return JSON.parse(JSON.stringify(value));
+interface RuntimeFixtureAdapter {
+  readonly createGlobalFemBuildingFixture: () => MutableGlobalFemBuildingFixture;
 }
 
-test("global FEM postprocessing exposes demand-only, assisted and confirmed profiles", () => {
+function isRecord(value: unknown): value is Record<string, unknown> {
+  return value !== null && typeof value === "object" && !Array.isArray(value);
+}
+
+function runtimeFixtureAdapter(value: unknown): RuntimeFixtureAdapter {
+  assert.ok(isRecord(value));
+  assert.equal(typeof value.createGlobalFemBuildingFixture, "function");
+  return {
+    createGlobalFemBuildingFixture:
+      value.createGlobalFemBuildingFixture as () => MutableGlobalFemBuildingFixture,
+  };
+}
+
+const fixtureAdapter = runtimeFixtureAdapter(
+  await import(
+    pathToFileURL(
+      path.resolve(import.meta.dirname, "fixtures", "globalFemBuildingFixtureAdapter.ts"),
+    ).href
+  ),
+);
+const createGlobalFemBuildingFixture = (): MutableGlobalFemBuildingFixture =>
+  fixtureAdapter.createGlobalFemBuildingFixture();
+
+interface SerializedValidation {
+  readonly ok: boolean;
+  readonly errors: readonly FemDiagnostic[];
+  readonly warnings: readonly FemDiagnostic[];
+}
+
+interface GlobalFemPostProcessingOutputs {
+  readonly profile: GlobalFemPostProcessingProfile;
+  readonly validations: Readonly<Record<string, SerializedValidation | null>>;
+  readonly classification: GlobalFemStructuralClassificationProposal;
+  readonly demands: GlobalFemDemandSet;
+  readonly readiness: GlobalFemVerificationReadinessReport;
+}
+
+function postProcessingOutputs(result: {
+  readonly outputs: Record<string, unknown>;
+}): GlobalFemPostProcessingOutputs {
+  const outputs = result.outputs;
+  assert.equal(typeof outputs.profile, "string");
+  assert.ok(isRecord(outputs.validations));
+  assert.ok(isRecord(outputs.classification));
+  assert.ok(isRecord(outputs.demands));
+  assert.ok(isRecord(outputs.readiness));
+  assert.equal(
+    outputs.classification.schema,
+    "strutture-js/fem-structural-classification-proposal",
+  );
+  assert.equal(outputs.demands.schema, "strutture-js/global-fem-demand-set");
+  assert.equal(outputs.readiness.schema, "strutture-js/global-fem-verification-readiness");
+  return {
+    profile: outputs.profile as GlobalFemPostProcessingProfile,
+    validations: outputs.validations as Readonly<Record<string, SerializedValidation | null>>,
+    classification: outputs.classification as unknown as GlobalFemStructuralClassificationProposal,
+    demands: outputs.demands as unknown as GlobalFemDemandSet,
+    readiness: outputs.readiness as unknown as GlobalFemVerificationReadinessReport,
+  };
+}
+
+function runApplication(application: GlobalFemPostProcessingApplication, input: unknown) {
+  return application.run(input as GlobalFemPostProcessingInput);
+}
+
+function copy<T>(value: T): T {
+  return JSON.parse(JSON.stringify(value)) as T;
+}
+
+function findRequired<T>(items: readonly T[], predicate: (item: T) => boolean, label: string): T {
+  const item = items.find(predicate);
+  assert.ok(item, label);
+  return item;
+}
+
+function atRequired<T>(items: readonly T[], index: number, label: string): T {
+  const item = items[index];
+  assert.ok(item, label);
+  return item;
+}
+
+void test("global FEM postprocessing exposes demand-only, assisted and confirmed profiles", () => {
   const application = new GlobalFemPostProcessingApplication();
   const fixture = createGlobalFemBuildingFixture();
 
-  const demandOnly = application.run({
+  const demandOnly = runApplication(application, {
     ...fixture,
     mapping: undefined,
     profile: GLOBAL_FEM_POSTPROCESSING_PROFILES.DEMAND_ONLY,
   });
+  const demandOnlyOutputs = postProcessingOutputs(demandOnly);
   assert.equal(demandOnly.status, RESULT_STATUS.OK);
   assert.equal(
-    demandOnly.outputs.demands.lineElementDemands.length,
+    demandOnlyOutputs.demands.lineElementDemands.length,
     fixture.model.lineElements.length,
   );
   assert.equal(
-    demandOnly.outputs.demands.shellElementDemands.length,
+    demandOnlyOutputs.demands.shellElementDemands.length,
     fixture.model.shellElements.length,
   );
-  assert.equal(demandOnly.outputs.classification.members.length, 0);
+  assert.equal(demandOnlyOutputs.classification.members.length, 0);
   assert.deepEqual(
-    demandOnly.outputs.readiness.assessments.map((item) => item.id),
+    demandOnlyOutputs.readiness.assessments.map((item) => item.id),
     [GLOBAL_FEM_READINESS_ASSESSMENTS.GENERIC_DEMANDS],
   );
 
-  const assisted = application.run({
+  const assisted = runApplication(application, {
     ...fixture,
     mapping: undefined,
     profile: GLOBAL_FEM_POSTPROCESSING_PROFILES.ASSISTED,
   });
+  const assistedOutputs = postProcessingOutputs(assisted);
   assert.equal(assisted.status, RESULT_STATUS.OK);
   assert.ok(
-    assisted.outputs.classification.members.some(
+    assistedOutputs.classification.members.some(
       (item) => item.classification.role === "beam" && item.classification.status === "proposed",
     ),
   );
   assert.ok(
-    assisted.outputs.classification.members.some(
+    assistedOutputs.classification.members.some(
       (item) => item.classification.role === "column" && item.classification.status === "proposed",
     ),
   );
   assert.ok(
-    assisted.outputs.classification.surfaces.some((item) => item.classification.role === "wall"),
+    assistedOutputs.classification.surfaces.some((item) => item.classification.role === "wall"),
   );
   assert.ok(
-    assisted.outputs.classification.surfaces.some((item) => item.classification.role === "slab"),
+    assistedOutputs.classification.surfaces.some((item) => item.classification.role === "slab"),
   );
   assert.deepEqual(
-    assisted.outputs.classification.surfaces.find((item) => item.classification.role === "wall")
-      .shellElementIds,
+    findRequired(
+      assistedOutputs.classification.surfaces,
+      (item) => item.classification.role === "wall",
+      "wall classification",
+    ).shellElementIds,
     ["WALL-S1", "WALL-S2"],
   );
-  assert.equal(assisted.outputs.classification.storeys.length, 2);
+  assert.equal(assistedOutputs.classification.storeys.length, 2);
   assert.ok(
-    assisted.outputs.classification.joints.some(
+    assistedOutputs.classification.joints.some(
       (item) => item.nodeId === "A1" && item.classification.status === "proposed",
     ),
   );
-  assert.equal(assisted.outputs.readiness.mapping.provisional, true);
-  assert.equal(assisted.outputs.readiness.normativeVerificationEligible, false);
+  assert.equal(assistedOutputs.readiness.mapping.provisional, true);
+  assert.equal(assistedOutputs.readiness.normativeVerificationEligible, false);
   assert.equal(
-    assisted.outputs.readiness.assessments.find(
+    findRequired(
+      assistedOutputs.readiness.assessments,
       (item) => item.id === GLOBAL_FEM_READINESS_ASSESSMENTS.SEMANTIC_DEMANDS,
+      "semantic readiness assessment",
     ).status,
     "provisional",
   );
 
-  const confirmed = application.run({
+  const confirmed = runApplication(application, {
     ...fixture,
     profile: GLOBAL_FEM_POSTPROCESSING_PROFILES.CONFIRMED,
   });
+  const confirmedOutputs = postProcessingOutputs(confirmed);
   assert.equal(confirmed.status, RESULT_STATUS.OK);
-  assert.equal(confirmed.outputs.readiness.mapping.confirmed, true);
+  assert.equal(confirmedOutputs.readiness.mapping.confirmed, true);
   assert.equal(
-    confirmed.outputs.classification.members.find((item) => item.id === "MEMBER-COL-A-1")
-      .classification.status,
+    findRequired(
+      confirmedOutputs.classification.members,
+      (item) => item.id === "MEMBER-COL-A-1",
+      "confirmed column",
+    ).classification.status,
     "confirmed",
   );
   assert.equal(
-    confirmed.outputs.classification.joints.find((item) => item.id === "JOINT-A1").classification
-      .status,
+    findRequired(
+      confirmedOutputs.classification.joints,
+      (item) => item.id === "JOINT-A1",
+      "confirmed joint",
+    ).classification.status,
     "confirmed",
   );
 });
 
-test("assisted classification follows gravity rather than assuming global Z", () => {
+void test("assisted classification follows gravity rather than assuming global Z", () => {
   const fixture = createGlobalFemBuildingFixture();
   const model = fixture.model;
   for (const node of model.nodes) {
@@ -112,38 +219,57 @@ test("assisted classification follows gravity rather than assuming global Z", ()
     node.coordinates = { x: z, y, z: -x };
   }
   model.globalCoordinateSystem.gravityDirection = { x: -1, y: 0, z: 0 };
-  const proposal = classifyGlobalFemStructuralEntities({ model });
+  const proposal = classifyGlobalFemStructuralEntities({
+    model: model as unknown as GlobalFemModelContract,
+  });
 
   assert.equal(
-    proposal.members.find((item) => item.lineElementIds.includes("COL-A-1")).classification.role,
+    findRequired(
+      proposal.members,
+      (item) => item.lineElementIds.includes("COL-A-1"),
+      "column proposal",
+    ).classification.role,
     "column",
   );
   assert.equal(
-    proposal.members.find((item) => item.lineElementIds.includes("BEAM-AB-1")).classification.role,
+    findRequired(
+      proposal.members,
+      (item) => item.lineElementIds.includes("BEAM-AB-1"),
+      "beam proposal",
+    ).classification.role,
     "beam",
   );
 });
 
-test("inclined members remain ambiguous unless an explicit beam threshold is configured", () => {
+void test("inclined members remain ambiguous unless an explicit beam threshold is configured", () => {
   const fixture = createGlobalFemBuildingFixture();
   const model = fixture.model;
-  model.nodes.find((node) => node.id === "A1").coordinates = { x: 4, y: 0, z: 3 };
-  model.lineElements = [model.lineElements.find((item) => item.id === "COL-A-1")];
+  findRequired(model.nodes, (node) => node.id === "A1", "inclined node").coordinates = {
+    x: 4,
+    y: 0,
+    z: 3,
+  };
+  model.lineElements = [
+    findRequired(model.lineElements, (item) => item.id === "COL-A-1", "inclined column"),
+  ];
   model.shellElements = [];
   model.constraints = [];
   model.diaphragms = [];
   model.storeys = [];
 
-  const ambiguous = classifyGlobalFemStructuralEntities({ model });
-  assert.equal(ambiguous.members[0].classification.role, "other");
-  assert.equal(ambiguous.members[0].classification.status, "ambiguous");
+  const typedModel = model as unknown as GlobalFemModelContract;
+  const ambiguous = classifyGlobalFemStructuralEntities({ model: typedModel });
+  const ambiguousMember = atRequired(ambiguous.members, 0, "ambiguous member");
+  assert.equal(ambiguousMember.classification.role, "other");
+  assert.equal(ambiguousMember.classification.status, "ambiguous");
 
   const configured = classifyGlobalFemStructuralEntities({
-    model,
+    model: typedModel,
     policy: { line: { maximumBeamInclinationDegrees: 40 } },
   });
-  assert.equal(configured.members[0].classification.role, "beam");
-  assert.equal(configured.members[0].classification.source, "configured-geometric-inference");
+  const configuredMember = atRequired(configured.members, 0, "configured member");
+  assert.equal(configuredMember.classification.role, "beam");
+  assert.equal(configuredMember.classification.source, "configured-geometric-inference");
 
   assert.throws(
     () =>
@@ -154,58 +280,102 @@ test("inclined members remain ambiguous unless an explicit beam threshold is con
   );
 });
 
-test("demand extraction preserves element axes, governing references and joint ends", () => {
+void test("demand extraction preserves element axes, governing references and joint ends", () => {
   const fixture = createGlobalFemBuildingFixture();
+  const typedFixture = {
+    model: fixture.model as unknown as GlobalFemModelContract,
+    analysis: fixture.analysis as unknown as GlobalFemAnalysisContract,
+    mapping: fixture.mapping as unknown as FemEntityMappingContract,
+    result: fixture.result as unknown as GlobalFemResultContract,
+  };
   const classification = classifyGlobalFemStructuralEntities({
-    model: fixture.model,
-    mapping: fixture.mapping,
+    model: typedFixture.model,
+    mapping: typedFixture.mapping,
   });
   const demands = extractGlobalFemDemands({
-    model: fixture.model,
-    analysis: fixture.analysis,
-    result: fixture.result,
+    model: typedFixture.model,
+    analysis: typedFixture.analysis,
+    result: typedFixture.result,
     classification,
   });
 
-  const column = demands.lineElementDemands.find((item) => item.lineElementId === "COL-A-1");
-  assert.deepEqual(column.localAxes, fixture.model.lineElements[0].localAxes);
-  assert.equal(column.componentEnvelopes.N.minimum.value, -120);
-  assert.equal(column.componentEnvelopes.N.minimum.reference.combinationId, "ULS-1");
-  assert.equal(column.componentEnvelopes.N.maximum.value, -72);
+  const column = findRequired(
+    demands.lineElementDemands,
+    (item) => item.lineElementId === "COL-A-1",
+    "column demand",
+  );
+  const columnEnvelope = column.componentEnvelopes.N;
+  assert.ok(columnEnvelope);
+  assert.ok(columnEnvelope.minimum);
+  assert.ok(columnEnvelope.maximum);
+  assert.deepEqual(
+    column.localAxes,
+    atRequired(fixture.model.lineElements, 0, "first line").localAxes,
+  );
+  assert.equal(columnEnvelope.minimum.value, -120);
+  assert.equal(columnEnvelope.minimum.reference.combinationId, "ULS-1");
+  assert.equal(columnEnvelope.maximum.value, -72);
 
-  const shell = demands.shellElementDemands.find((item) => item.shellElementId === "WALL-S1");
-  assert.equal(shell.resultantStates[0].face, "mid-surface");
-  assert.equal(shell.resultantStates[0].location.kind, "centroid");
+  const shell = findRequired(
+    demands.shellElementDemands,
+    (item) => item.shellElementId === "WALL-S1",
+    "wall demand",
+  );
+  assert.equal(atRequired(shell.resultantStates, 0, "wall resultant").face, "mid-surface");
+  assert.equal(atRequired(shell.resultantStates, 0, "wall resultant").location.kind, "centroid");
   assert.deepEqual(
     shell.localAxes,
-    fixture.model.shellElements.find((item) => item.id === "WALL-S1").localAxes,
+    findRequired(fixture.model.shellElements, (item) => item.id === "WALL-S1", "wall element")
+      .localAxes,
   );
 
-  const joint = demands.jointDemands.find((item) => item.jointId === "JOINT-A1");
-  const uls = joint.demandStates.find((item) => item.reference.combinationId === "ULS-1");
+  const joint = findRequired(
+    demands.jointDemands,
+    (item) => item.jointId === "JOINT-A1",
+    "joint demand",
+  );
+  const uls = findRequired(
+    joint.demandStates,
+    (item) => item.reference.combinationId === "ULS-1",
+    "ULS joint state",
+  );
   assert.equal(joint.complete, true);
   assert.equal(uls.elementEnds.length, 4);
-  assert.equal(uls.elementEnds.find((item) => item.lineElementId === "COL-A-1").station.xi, 1);
-  assert.equal(uls.elementEnds.find((item) => item.lineElementId === "COL-A-2").station.xi, 0);
+  const columnStart = findRequired(
+    uls.elementEnds,
+    (item) => item.lineElementId === "COL-A-1",
+    "column start end",
+  );
+  const columnEnd = findRequired(
+    uls.elementEnds,
+    (item) => item.lineElementId === "COL-A-2",
+    "column end end",
+  );
+  assert.ok(columnStart.station);
+  assert.ok(columnEnd.station);
+  assert.equal(columnStart.station.xi, 1);
+  assert.equal(columnEnd.station.xi, 0);
   assert.deepEqual(JSON.parse(JSON.stringify(demands)), demands);
 
   const interiorOnlyResult = copy(fixture.result);
   for (const state of interiorOnlyResult.results.lineElementActions.filter(
     (item) => item.lineElementId === "COL-A-1",
   )) {
-    state.stations[0].xi = 0.1;
-    state.stations[0].position = 0.3;
-    state.stations[1].xi = 0.9;
-    state.stations[1].position = 2.7;
+    atRequired(state.stations, 0, "first interior station").xi = 0.1;
+    atRequired(state.stations, 0, "first interior station").position = 0.3;
+    atRequired(state.stations, 1, "second interior station").xi = 0.9;
+    atRequired(state.stations, 1, "second interior station").position = 2.7;
   }
   const interiorOnlyDemands = extractGlobalFemDemands({
-    model: fixture.model,
-    analysis: fixture.analysis,
-    result: interiorOnlyResult,
+    model: typedFixture.model,
+    analysis: typedFixture.analysis,
+    result: interiorOnlyResult as unknown as GlobalFemResultContract,
     classification,
   });
-  const incompleteJoint = interiorOnlyDemands.jointDemands.find(
+  const incompleteJoint = findRequired(
+    interiorOnlyDemands.jointDemands,
     (item) => item.jointId === "JOINT-A1",
+    "incomplete joint",
   );
   assert.equal(incompleteJoint.complete, false);
   assert.ok(
@@ -215,67 +385,73 @@ test("demand extraction preserves element axes, governing references and joint e
   );
 
   const sparseResult = copy(fixture.result);
-  delete sparseResult.results.sectionCuts;
-  delete sparseResult.results.storeyResults;
-  delete sparseResult.results.equilibriumResiduals;
-  delete sparseResult.qualityIndicators;
+  delete (sparseResult.results as unknown as { sectionCuts?: unknown }).sectionCuts;
+  delete (sparseResult.results as unknown as { storeyResults?: unknown }).storeyResults;
+  delete (sparseResult.results as unknown as { equilibriumResiduals?: unknown })
+    .equilibriumResiduals;
+  delete (sparseResult as unknown as { qualityIndicators?: unknown }).qualityIndicators;
   const sparseDemands = extractGlobalFemDemands({
-    model: fixture.model,
-    analysis: fixture.analysis,
-    result: sparseResult,
+    model: typedFixture.model,
+    analysis: typedFixture.analysis,
+    result: sparseResult as unknown as GlobalFemResultContract,
     classification,
   });
   assert.deepEqual(sparseDemands.globalResponses.sectionCuts, []);
   assert.deepEqual(sparseDemands.globalResponses.qualityIndicators, {});
 });
 
-test("confirmed profile blocks incomplete mapping while assisted profile accepts safe proposals", () => {
+void test("confirmed profile blocks incomplete mapping while assisted profile accepts safe proposals", () => {
   const application = new GlobalFemPostProcessingApplication();
   const fixture = createGlobalFemBuildingFixture();
   fixture.mapping.members.pop();
 
-  const confirmed = application.run({
+  const confirmed = runApplication(application, {
     ...fixture,
     profile: GLOBAL_FEM_POSTPROCESSING_PROFILES.CONFIRMED,
   });
+  const confirmedOutputs = postProcessingOutputs(confirmed);
   assert.equal(confirmed.status, RESULT_STATUS.NOT_ANALYZED);
-  assert.equal(confirmed.outputs.validations.mapping.ok, false);
-  assert.equal(confirmed.outputs.readiness.mapping.confirmed, false);
+  assert.equal(confirmedOutputs.validations.mapping?.ok, false);
+  assert.equal(confirmedOutputs.readiness.mapping.confirmed, false);
 
-  const assisted = application.run({
+  const assisted = runApplication(application, {
     ...fixture,
     profile: GLOBAL_FEM_POSTPROCESSING_PROFILES.ASSISTED,
   });
+  const assistedOutputs = postProcessingOutputs(assisted);
   assert.equal(assisted.status, RESULT_STATUS.OK);
-  assert.equal(assisted.outputs.readiness.mapping.provisional, true);
+  assert.equal(assistedOutputs.readiness.mapping.provisional, true);
 
   const unsafe = copy(fixture);
-  unsafe.mapping.members[0].lineElementIds = ["UNKNOWN-LINE"];
-  const unsafeResult = application.run({
+  atRequired(unsafe.mapping.members, 0, "unsafe member").lineElementIds = ["UNKNOWN-LINE"];
+  const unsafeResult = runApplication(application, {
     ...unsafe,
     profile: GLOBAL_FEM_POSTPROCESSING_PROFILES.ASSISTED,
   });
+  const unsafeOutputs = postProcessingOutputs(unsafeResult);
   assert.equal(unsafeResult.status, RESULT_STATUS.NOT_ANALYZED);
   assert.ok(
-    unsafeResult.outputs.readiness.assessments.some((assessment) =>
+    unsafeOutputs.readiness.assessments.some((assessment) =>
       assessment.missingInputs.some((item) => item.code === "FEM_UNKNOWN_REFERENCE"),
     ),
   );
 });
 
-test("readiness reports missing project, design and analysis inputs without claiming checks", () => {
+void test("readiness reports missing project, design and analysis inputs without claiming checks", () => {
   const fixture = createGlobalFemBuildingFixture();
-  const output = new GlobalFemPostProcessingApplication().run({
+  const output = runApplication(new GlobalFemPostProcessingApplication(), {
     ...fixture,
     profile: GLOBAL_FEM_POSTPROCESSING_PROFILES.CONFIRMED,
     requestedAssessments: [GLOBAL_FEM_READINESS_ASSESSMENTS.COMPLETE_NTC2018_BUILDING_VERIFICATION],
   });
-  const assessment = output.outputs.readiness.assessments[0];
+  const outputValues = postProcessingOutputs(output);
+  const assessment = outputValues.readiness.assessments[0];
+  assert.ok(assessment);
 
   assert.equal(output.status, RESULT_STATUS.NOT_ANALYZED);
   assert.equal(assessment.implementationStatus, "not-implemented");
   assert.equal(assessment.inputStatus, "blocked");
-  assert.equal(output.outputs.readiness.normativeVerificationEligible, false);
+  assert.equal(outputValues.readiness.normativeVerificationEligible, false);
   assert.ok(
     assessment.missingInputs.some((item) => item.code === "FEM_MEMBER_DESIGN_DATA_MISSING"),
   );
@@ -291,27 +467,33 @@ test("readiness reports missing project, design and analysis inputs without clai
   assert.equal(output.metadata.normativeVerificationPerformed, false);
 });
 
-test("invalid core contracts stop postprocessing with explicit diagnostics", () => {
+void test("invalid core contracts stop postprocessing with explicit diagnostics", () => {
   const fixture = createGlobalFemBuildingFixture();
-  delete fixture.model.units.length;
-  const output = new GlobalFemPostProcessingApplication().run(fixture);
+  delete (fixture.model.units as { length?: string }).length;
+  const output = runApplication(new GlobalFemPostProcessingApplication(), fixture);
+  const outputValues = output.outputs;
+  assert.ok(isRecord(outputValues.validations));
+  assert.ok(isRecord(outputValues.validations.model));
 
   assert.equal(output.status, RESULT_STATUS.NOT_ANALYZED);
-  assert.equal(output.outputs.validations.model.ok, false);
-  assert.ok(output.warnings.some((item) => item.code === "FEM_UNIT_MISSING_OR_AMBIGUOUS"));
-  assert.equal(output.outputs.demands, undefined);
+  assert.equal(outputValues.validations.model.ok, false);
+  assert.ok(
+    output.warnings.some((item) => isRecord(item) && item.code === "FEM_UNIT_MISSING_OR_AMBIGUOUS"),
+  );
+  assert.equal(outputValues.demands, undefined);
 });
 
-test("partial solver results remain usable for explicitly available result families", () => {
+void test("partial solver results remain usable for explicitly available result families", () => {
   const fixture = createGlobalFemBuildingFixture();
   fixture.result.status = "partial";
-  const output = new GlobalFemPostProcessingApplication().run({
+  const output = runApplication(new GlobalFemPostProcessingApplication(), {
     ...fixture,
     mapping: undefined,
     profile: GLOBAL_FEM_POSTPROCESSING_PROFILES.DEMAND_ONLY,
   });
+  const outputValues = postProcessingOutputs(output);
 
   assert.equal(output.status, RESULT_STATUS.OK);
-  assert.equal(output.outputs.readiness.assessments[0].status, "ready");
-  assert.ok(output.warnings.some((item) => item.code === "FEM_ANALYSIS_PARTIAL"));
+  assert.equal(outputValues.readiness.assessments[0]?.status, "ready");
+  assert.ok(output.warnings.some((item) => isRecord(item) && item.code === "FEM_ANALYSIS_PARTIAL"));
 });

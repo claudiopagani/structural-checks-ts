@@ -1,6 +1,4 @@
-/* eslint-disable @typescript-eslint/ban-ts-comment, @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-return, @typescript-eslint/no-floating-promises, @typescript-eslint/restrict-template-expressions */
 // Mechanical TypeScript migration from strutture-js 6f33baead8b88166c4b2cf94af41763412e3c751.
-// @ts-nocheck
 
 /**
  * Biaxial bending (pressoflessione deviata) verification for RC shear walls.
@@ -20,8 +18,12 @@
  * - D.M. 17/01/2018 (NTC 2018): § 4.1.2.3.9, § 7.4.4.5.1 (Presso-flessione)
  */
 
-import { RCBiaxialDomainBuilder } from "../reinforced-concrete-sections/analysis/RCBiaxialDomainBuilder.js";
+import {
+  RCBiaxialDomainBuilder,
+  type BiaxialCompressedSide,
+} from "../reinforced-concrete-sections/analysis/RCBiaxialDomainBuilder.js";
 import { SectionFiberDiscretizer } from "../reinforced-concrete-sections/analysis/SectionFiberDiscretizer.js";
+import type { ReinforcedConcreteSection } from "../../domain/geometry/ReinforcedConcreteSection.js";
 import { ConcreteParabolaRectangleLaw } from "../../domain/constitutive-laws/ConcreteParabolaRectangleLaw.js";
 import { SteelElasticPerfectlyPlasticLaw } from "../../domain/constitutive-laws/SteelElasticPerfectlyPlasticLaw.js";
 import { rayPolygonCapacity } from "../../domain/math/rayPolygonCapacity.js";
@@ -35,23 +37,59 @@ import {
 export const WALL_BIAXIAL_REFERENCE =
   "NTC 2018 § 4.1.2.3.9, § 7.4.4.5.1 (Presso-flessione biassiale)";
 
-function positive(value, label) {
-  if (!Number.isFinite(value) || value <= 0) {
-    throw new Error(`${label} must be positive; got ${value}.`);
+export interface WallBiaxialVerificationInput {
+  readonly section?: ReinforcedConcreteSection | null | undefined;
+  readonly axialForce: number;
+  readonly momentX: number;
+  readonly momentY: number;
+  readonly concreteDesignStrength: number;
+  readonly reinforcementDesignStrength: number;
+  readonly concreteEc2?: number | undefined;
+  readonly concreteEcu?: number | undefined;
+  readonly steelElasticModulus?: number | undefined;
+  readonly steelUltimateStrain?: number | undefined;
+  readonly targetFiberCount?: number | undefined;
+  readonly angleCount?: number | undefined;
+  readonly compressedSide?: BiaxialCompressedSide | undefined;
+}
+
+export interface WallBiaxialVerificationResult {
+  readonly ok: boolean;
+  readonly utilizationRatio: number | null;
+  readonly demand: number;
+  readonly capacity: number | null;
+  readonly theta: number | null;
+  readonly axialResidual: number;
+  readonly converged: boolean;
+  readonly angleCount: number;
+  readonly intersection: {
+    readonly momentX: number;
+    readonly momentY: number;
+    readonly segmentIndex: number;
+    readonly segmentParameter: number;
+  } | null;
+  readonly check: "wall-biaxial-bending";
+  readonly reference: string;
+  readonly metadata: Record<string, unknown>;
+}
+
+function positive(value: unknown, label: string): number {
+  if (typeof value !== "number" || !Number.isFinite(value) || value <= 0) {
+    throw new Error(`${label} must be positive; got ${String(value)}.`);
   }
   return value;
 }
 
-function finite(value, label) {
-  if (!Number.isFinite(value)) {
-    throw new Error(`${label} must be finite; got ${value}.`);
+function finite(value: unknown, label: string): number {
+  if (typeof value !== "number" || !Number.isFinite(value)) {
+    throw new Error(`${label} must be finite; got ${String(value)}.`);
   }
   return value;
 }
 
-function integerAtLeast(value, minimum, label) {
-  if (!Number.isInteger(value) || value < minimum) {
-    throw new Error(`${label} must be an integer >= ${minimum}; got ${value}.`);
+function integerAtLeast(value: unknown, minimum: number, label: string): number {
+  if (typeof value !== "number" || !Number.isInteger(value) || value < minimum) {
+    throw new Error(`${label} must be an integer >= ${minimum}; got ${String(value)}.`);
   }
   return value;
 }
@@ -101,7 +139,7 @@ export function verifyWallBiaxialBending({
   targetFiberCount = 400,
   angleCount = 64,
   compressedSide = "positive",
-}) {
+}: WallBiaxialVerificationInput): WallBiaxialVerificationResult {
   if (section == null) {
     throw new Error("section is required for wall biaxial verification.");
   }

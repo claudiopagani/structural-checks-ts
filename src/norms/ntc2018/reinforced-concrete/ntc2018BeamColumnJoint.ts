@@ -1,33 +1,106 @@
 // Mechanical TypeScript migration from strutture-js 6f33baead8b88166c4b2cf94af41763412e3c751; source path: src/norms/ntc2018/reinforced-concrete/ntc2018BeamColumnJoint.js.
-/* eslint-disable @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-return */
 import { withNormativeReferences } from "../../normativeReference.js";
 import { NTC2018_RC_CHAPTER_7_4_REFERENCES } from "../normativeReferences.js";
 
 const JOINT_TYPES = new Set(["internal", "external"]);
 const TENSION_METHODS = new Set(["diagonal-tension", "post-cracking-truss"]);
 
-function positive(value: any, label: string): any {
-  if (!Number.isFinite(value) || value <= 0) {
+export type Ntc2018JointType = "internal" | "external";
+export type Ntc2018JointTensionMethod = string;
+
+export interface Ntc2018JointConfinementRatios {
+  readonly positiveX?: number;
+  readonly negativeX?: number;
+  readonly positiveZ?: number;
+  readonly negativeZ?: number;
+  readonly [key: string]: number | undefined;
+}
+
+export interface Ntc2018JointOverlapRatios {
+  readonly x?: number;
+  readonly z?: number;
+  readonly [key: string]: number | undefined;
+}
+
+export interface Ntc2018JointConfinementInput {
+  readonly faceCoverageRatios?: Ntc2018JointConfinementRatios;
+  readonly oppositeBeamOverlapRatios?: Ntc2018JointOverlapRatios;
+}
+
+export interface Ntc2018JointEffectiveWidthInput {
+  readonly columnWidth: number;
+  readonly beamWidth: number;
+  readonly columnDepth: number;
+}
+
+export interface Ntc2018JointShearDemandInput {
+  readonly jointType: Ntc2018JointType;
+  readonly gammaRd: number;
+  readonly topReinforcementArea: number;
+  readonly bottomReinforcementArea: number;
+  readonly reinforcementDesignStrength: number;
+  readonly columnShearAbove: number;
+}
+
+export interface Ntc2018JointCompressionCapacityInput {
+  readonly jointType: Ntc2018JointType;
+  readonly fck: number;
+  readonly fcd: number;
+  readonly normalizedAxialForce: number;
+  readonly effectiveJointWidth: number;
+  readonly columnLongitudinalLayerDistance: number;
+}
+
+export interface Ntc2018JointTensionReinforcementInput {
+  readonly method: string;
+  readonly jointType: Ntc2018JointType;
+  readonly jointShearDemand: number;
+  readonly effectiveJointWidth: number;
+  readonly columnLongitudinalLayerDistance: number;
+  readonly beamLongitudinalLayerDistance: number;
+  readonly normalizedAxialForce: number;
+  readonly fcd: number;
+  readonly fctd: number;
+  readonly gammaRd: number;
+  readonly topReinforcementArea: number;
+  readonly bottomReinforcementArea: number;
+  readonly reinforcementDesignStrength: number;
+}
+
+function display(value: unknown): string {
+  if (value === null) return "null";
+  if (value === undefined) return "undefined";
+  if (Array.isArray(value)) return value.join(",");
+  if (typeof value === "object") return Object.prototype.toString.call(value);
+  if (typeof value === "string") return value;
+  if (typeof value === "number" || typeof value === "boolean" || typeof value === "bigint") {
+    return value.toString();
+  }
+  if (typeof value === "symbol") return value.toString();
+  return Object.prototype.toString.call(value);
+}
+
+function positive(value: unknown, label: string): number {
+  if (typeof value !== "number" || !Number.isFinite(value) || value <= 0) {
     throw new Error(`${label} must be positive.`);
   }
 
   return value;
 }
 
-function nonNegative(value: any, label: string): any {
-  if (!Number.isFinite(value) || value < 0) {
+function nonNegative(value: unknown, label: string): number {
+  if (typeof value !== "number" || !Number.isFinite(value) || value < 0) {
     throw new Error(`${label} must be non-negative.`);
   }
 
   return value;
 }
 
-export function ntc2018JointOverstrengthFactor(ductilityClass: any): number {
-  const normalized = String(ductilityClass ?? "")
-    .trim()
-    .toUpperCase()
-    .replaceAll('"', "")
-    .replaceAll("-", "");
+export function ntc2018JointOverstrengthFactor(ductilityClass: unknown): number {
+  const normalized =
+    ductilityClass == null
+      ? ""
+      : display(ductilityClass).trim().toUpperCase().replaceAll('"', "").replaceAll("-", "");
 
   if (["CDA", "A"].includes(normalized)) {
     return 1.2;
@@ -37,10 +110,14 @@ export function ntc2018JointOverstrengthFactor(ductilityClass: any): number {
     return 1.1;
   }
 
-  throw new Error(`Unsupported NTC 2018 ductility class: ${ductilityClass}.`);
+  throw new Error(`Unsupported NTC 2018 ductility class: ${String(ductilityClass)}.`);
 }
 
-export function calculateNTC2018EffectiveJointWidth({ columnWidth, beamWidth, columnDepth }: any) {
+export function calculateNTC2018EffectiveJointWidth({
+  columnWidth,
+  beamWidth,
+  columnDepth,
+}: Ntc2018JointEffectiveWidthInput): number {
   positive(columnWidth, "columnWidth");
   positive(beamWidth, "beamWidth");
   positive(columnDepth, "columnDepth");
@@ -55,7 +132,7 @@ export function calculateNTC2018EffectiveJointWidth({ columnWidth, beamWidth, co
 export function classifyNTC2018JointConfinement({
   faceCoverageRatios = {},
   oppositeBeamOverlapRatios = {},
-}: any = {}) {
+}: Ntc2018JointConfinementInput = {}) {
   const faceKeys = ["positiveX", "negativeX", "positiveZ", "negativeZ"];
   const overlapKeys = ["x", "z"];
   const missing = [
@@ -71,8 +148,14 @@ export function classifyNTC2018JointConfinement({
     );
   }
 
-  const allFacesCovered = faceKeys.every((key) => faceCoverageRatios[key] >= 0.75);
-  const bothPairsOverlap = overlapKeys.every((key) => oppositeBeamOverlapRatios[key] >= 0.75);
+  const allFacesCovered = faceKeys.every((key) => {
+    const ratio = faceCoverageRatios[key];
+    return typeof ratio === "number" && ratio >= 0.75;
+  });
+  const bothPairsOverlap = overlapKeys.every((key) => {
+    const ratio = oppositeBeamOverlapRatios[key];
+    return typeof ratio === "number" && ratio >= 0.75;
+  });
 
   return {
     classification: allFacesCovered && bothPairsOverlap ? "fully-confined" : "not-fully-confined",
@@ -93,7 +176,7 @@ export function calculateNTC2018JointShearDemand({
   bottomReinforcementArea,
   reinforcementDesignStrength,
   columnShearAbove,
-}: any) {
+}: Ntc2018JointShearDemandInput) {
   if (!JOINT_TYPES.has(jointType)) {
     throw new Error(`Unsupported jointType: ${jointType}.`);
   }
@@ -131,7 +214,7 @@ export function calculateNTC2018JointCompressionCapacity({
   normalizedAxialForce,
   effectiveJointWidth,
   columnLongitudinalLayerDistance,
-}: any) {
+}: Ntc2018JointCompressionCapacityInput) {
   if (!JOINT_TYPES.has(jointType)) {
     throw new Error(`Unsupported jointType: ${jointType}.`);
   }
@@ -174,7 +257,7 @@ export function calculateNTC2018JointTensionReinforcement({
   topReinforcementArea,
   bottomReinforcementArea,
   reinforcementDesignStrength,
-}: any) {
+}: Ntc2018JointTensionReinforcementInput) {
   if (!TENSION_METHODS.has(method)) {
     throw new Error(`Unsupported joint tension method: ${method}.`);
   }

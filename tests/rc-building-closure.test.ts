@@ -4,7 +4,6 @@ import path from "node:path";
 import test from "node:test";
 
 import * as TypeScriptApi from "../dist/index.js";
-// @ts-expect-error Node's strip-types test runner executes this source fixture directly.
 import * as Fixture from "./fixtures/globalFemBuildingFixture.ts";
 
 const { configureCompleteRcBuildingFixture, createGlobalFemBuildingFixture } = Fixture;
@@ -20,6 +19,7 @@ const sliceIds = [
   "0033-rc-building-coverage-design-basis-orchestration",
   "0034-rc-building-verification-application-and-producer-conformance",
   "0035-rc-building-closure-audit",
+  "0036-rc-building-strict-typing",
 ];
 const requiredExports = [
   "RcBuildingVerificationApplication",
@@ -102,7 +102,7 @@ void test("RC-building closure retains the complete numerical and serialized fix
     regularity: { elevation: "regular" },
     frameStoreyCount: 3,
     frameBayCount: 2,
-  } as unknown as Parameters<typeof TypeScriptApi.createNTC2018StructuralBehavior>[0]);
+  });
   assert.ok(Math.abs(q.q - 3.9) < 1e-12);
   assert.equal(TypeScriptApi.NTC2018_DRIFT_LIMITS["rigidly-connected-fragile"], 0.005);
 });

@@ -1,6 +1,4 @@
-/* eslint-disable @typescript-eslint/ban-ts-comment, @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-return, @typescript-eslint/no-floating-promises, @typescript-eslint/restrict-template-expressions */
 // Mechanical TypeScript migration from strutture-js 6f33baead8b88166c4b2cf94af41763412e3c751.
-// @ts-nocheck
 
 import test from "node:test";
 import assert from "node:assert/strict";
@@ -11,7 +9,7 @@ import {
   getNTC2018RcBuildingCoverage,
 } from "../dist/index.js";
 
-test("RC building coverage inventory does not claim whole chapters 4 and 7", () => {
+void test("RC building coverage inventory does not claim whole chapters 4 and 7", () => {
   const coverage = getNTC2018RcBuildingCoverage();
 
   assert.equal(coverage.wholeChapter4And7CoverageClaimed, false);
@@ -25,7 +23,7 @@ test("RC building coverage inventory does not claim whole chapters 4 and 7", () 
   assert.ok(Object.isFrozen(NTC2018_RC_BUILDING_CAPABILITIES));
 });
 
-test("default RC building completeness is closed in the declared scope", () => {
+void test("default RC building completeness is closed in the declared scope", () => {
   const result = evaluateNTC2018RcBuildingCompleteness();
 
   assert.equal(result.status, "complete");
@@ -33,7 +31,7 @@ test("default RC building completeness is closed in the declared scope", () => {
   assert.deepEqual(result.blockingCapabilities, []);
 });
 
-test("a declared implemented subset can be assessed independently", () => {
+void test("a declared implemented subset can be assessed independently", () => {
   const result = evaluateNTC2018RcBuildingCompleteness({
     requiredCapabilityIds: [
       "solver-neutral-demand-extraction",

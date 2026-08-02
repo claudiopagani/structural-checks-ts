@@ -2803,22 +2803,39 @@
       "targetPath": "src/applications/rc-building-verification/ntc2018RcDesignBasisAudit.ts",
       "migrationSlices": [
         "0033-rc-building-coverage-design-basis-orchestration",
-        "0035-rc-building-closure-audit"
+        "0035-rc-building-closure-audit",
+        "0036-rc-building-strict-typing"
       ],
       "sourceOracles": [
         "tests/globalFemProducerConformance.test.js",
+        "tests/ntc2018CapacityDesign.test.js",
+        "tests/ntc2018Diaphragm.test.js",
+        "tests/ntc2018DisplacementChecks.test.js",
         "tests/ntc2018RcBuildingCoverage.test.js",
         "tests/ntc2018RcDesignBasisAudit.test.js",
+        "tests/ntc2018SeismicAnalysisChecks.test.js",
+        "tests/ntc2018StructuralBehavior.test.js",
+        "tests/ntc2018StructuralRegularity.test.js",
         "tests/rcBuildingVerificationApplication.test.js"
       ],
       "targetTests": [
+        "tests/global-fem-producer-conformance.test.ts",
+        "tests/ntc2018-capacity-design.test.ts",
+        "tests/ntc2018-diaphragm.test.ts",
+        "tests/ntc2018-displacement-checks.test.ts",
         "tests/ntc2018-rc-building-coverage.test.ts",
         "tests/ntc2018-rc-design-basis-audit.test.ts",
-        "tests/rc-building-closure.test.ts"
+        "tests/ntc2018-seismic-analysis-checks.test.ts",
+        "tests/ntc2018-structural-behavior.test.ts",
+        "tests/ntc2018-structural-regularity.test.ts",
+        "tests/rc-building-closure.test.ts",
+        "tests/rc-building-live-parity.test.ts",
+        "tests/rc-building-verification-application.test.ts"
       ],
       "validationEvidence": [
         "0033-rc-building-coverage-design-basis-orchestration",
-        "0035-rc-building-closure-audit"
+        "0035-rc-building-closure-audit",
+        "0036-rc-building-strict-typing"
       ],
       "status": "exact-parity",
       "publicEntryPath": "src/index.js",
@@ -4295,7 +4312,8 @@
       ],
       "targetTests": [
         "tests/concurrent-fem-demand-states.test.ts",
-        "tests/global-fem-postprocessing.test.ts"
+        "tests/global-fem-postprocessing.test.ts",
+        "tests/global-fem-producer-conformance.test.ts"
       ],
       "validationEvidence": ["0031-global-fem-classification-demand-readiness-postprocessing"],
       "status": "exact-parity",
@@ -6254,7 +6272,8 @@
       ],
       "targetTests": [
         "tests/concurrent-fem-demand-states.test.ts",
-        "tests/global-fem-postprocessing.test.ts"
+        "tests/global-fem-postprocessing.test.ts",
+        "tests/global-fem-producer-conformance.test.ts"
       ],
       "validationEvidence": ["0031-global-fem-classification-demand-readiness-postprocessing"],
       "status": "exact-parity",
@@ -6692,7 +6711,8 @@
       ],
       "targetTests": [
         "tests/concurrent-fem-demand-states.test.ts",
-        "tests/global-fem-postprocessing.test.ts"
+        "tests/global-fem-postprocessing.test.ts",
+        "tests/global-fem-producer-conformance.test.ts"
       ],
       "validationEvidence": ["0031-global-fem-classification-demand-readiness-postprocessing"],
       "status": "exact-parity",
@@ -6884,7 +6904,8 @@
       ],
       "targetTests": [
         "tests/concurrent-fem-demand-states.test.ts",
-        "tests/global-fem-postprocessing.test.ts"
+        "tests/global-fem-postprocessing.test.ts",
+        "tests/global-fem-producer-conformance.test.ts"
       ],
       "validationEvidence": ["0031-global-fem-classification-demand-readiness-postprocessing"],
       "status": "exact-parity",
@@ -7835,7 +7856,8 @@
       ],
       "targetTests": [
         "tests/concurrent-fem-demand-states.test.ts",
-        "tests/global-fem-postprocessing.test.ts"
+        "tests/global-fem-postprocessing.test.ts",
+        "tests/global-fem-producer-conformance.test.ts"
       ],
       "validationEvidence": ["0031-global-fem-classification-demand-readiness-postprocessing"],
       "status": "exact-parity",
@@ -7869,7 +7891,8 @@
       ],
       "targetTests": [
         "tests/concurrent-fem-demand-states.test.ts",
-        "tests/global-fem-postprocessing.test.ts"
+        "tests/global-fem-postprocessing.test.ts",
+        "tests/global-fem-producer-conformance.test.ts"
       ],
       "validationEvidence": ["0031-global-fem-classification-demand-readiness-postprocessing"],
       "status": "exact-parity",
@@ -7909,7 +7932,8 @@
       ],
       "targetTests": [
         "tests/concurrent-fem-demand-states.test.ts",
-        "tests/global-fem-postprocessing.test.ts"
+        "tests/global-fem-postprocessing.test.ts",
+        "tests/global-fem-producer-conformance.test.ts"
       ],
       "validationEvidence": ["0031-global-fem-classification-demand-readiness-postprocessing"],
       "status": "exact-parity",
@@ -7929,7 +7953,8 @@
       ],
       "targetTests": [
         "tests/concurrent-fem-demand-states.test.ts",
-        "tests/global-fem-postprocessing.test.ts"
+        "tests/global-fem-postprocessing.test.ts",
+        "tests/global-fem-producer-conformance.test.ts"
       ],
       "validationEvidence": ["0031-global-fem-classification-demand-readiness-postprocessing"],
       "status": "exact-parity",
@@ -7949,7 +7974,8 @@
       ],
       "targetTests": [
         "tests/concurrent-fem-demand-states.test.ts",
-        "tests/global-fem-postprocessing.test.ts"
+        "tests/global-fem-postprocessing.test.ts",
+        "tests/global-fem-producer-conformance.test.ts"
       ],
       "validationEvidence": ["0031-global-fem-classification-demand-readiness-postprocessing"],
       "status": "exact-parity",
@@ -7969,7 +7995,8 @@
       ],
       "targetTests": [
         "tests/concurrent-fem-demand-states.test.ts",
-        "tests/global-fem-postprocessing.test.ts"
+        "tests/global-fem-postprocessing.test.ts",
+        "tests/global-fem-producer-conformance.test.ts"
       ],
       "validationEvidence": ["0031-global-fem-classification-demand-readiness-postprocessing"],
       "status": "exact-parity",
@@ -7989,7 +8016,8 @@
       ],
       "targetTests": [
         "tests/concurrent-fem-demand-states.test.ts",
-        "tests/global-fem-postprocessing.test.ts"
+        "tests/global-fem-postprocessing.test.ts",
+        "tests/global-fem-producer-conformance.test.ts"
       ],
       "validationEvidence": ["0031-global-fem-classification-demand-readiness-postprocessing"],
       "status": "exact-parity",
@@ -8069,6 +8097,7 @@
       "targetTests": [
         "tests/concurrent-fem-demand-states.test.ts",
         "tests/global-fem-postprocessing.test.ts",
+        "tests/global-fem-producer-conformance.test.ts",
         "tests/rc-building-closure.test.ts"
       ],
       "validationEvidence": [
@@ -9779,7 +9808,8 @@
       ],
       "targetTests": [
         "tests/concurrent-fem-demand-states.test.ts",
-        "tests/global-fem-postprocessing.test.ts"
+        "tests/global-fem-postprocessing.test.ts",
+        "tests/global-fem-producer-conformance.test.ts"
       ],
       "validationEvidence": ["0031-global-fem-classification-demand-readiness-postprocessing"],
       "status": "exact-parity",
@@ -12084,20 +12114,39 @@
       "targetPath": "src/applications/rc-building-verification/RcBuildingVerificationApplication.ts",
       "migrationSlices": [
         "0034-rc-building-verification-application-and-producer-conformance",
-        "0035-rc-building-closure-audit"
+        "0035-rc-building-closure-audit",
+        "0036-rc-building-strict-typing"
       ],
       "sourceOracles": [
         "tests/globalFemProducerConformance.test.js",
+        "tests/ntc2018CapacityDesign.test.js",
+        "tests/ntc2018Diaphragm.test.js",
+        "tests/ntc2018DisplacementChecks.test.js",
+        "tests/ntc2018RcBuildingCoverage.test.js",
+        "tests/ntc2018RcDesignBasisAudit.test.js",
+        "tests/ntc2018SeismicAnalysisChecks.test.js",
+        "tests/ntc2018StructuralBehavior.test.js",
+        "tests/ntc2018StructuralRegularity.test.js",
         "tests/rcBuildingVerificationApplication.test.js"
       ],
       "targetTests": [
         "tests/global-fem-producer-conformance.test.ts",
+        "tests/ntc2018-capacity-design.test.ts",
+        "tests/ntc2018-diaphragm.test.ts",
+        "tests/ntc2018-displacement-checks.test.ts",
+        "tests/ntc2018-rc-building-coverage.test.ts",
+        "tests/ntc2018-rc-design-basis-audit.test.ts",
+        "tests/ntc2018-seismic-analysis-checks.test.ts",
+        "tests/ntc2018-structural-behavior.test.ts",
+        "tests/ntc2018-structural-regularity.test.ts",
         "tests/rc-building-closure.test.ts",
+        "tests/rc-building-live-parity.test.ts",
         "tests/rc-building-verification-application.test.ts"
       ],
       "validationEvidence": [
         "0034-rc-building-verification-application-and-producer-conformance",
-        "0035-rc-building-closure-audit"
+        "0035-rc-building-closure-audit",
+        "0036-rc-building-strict-typing"
       ],
       "status": "exact-parity",
       "publicEntryPath": "src/index.js",
@@ -13529,22 +13578,39 @@
       "targetPath": "src/applications/rc-building-verification/foundationSystemVerification.ts",
       "migrationSlices": [
         "0033-rc-building-coverage-design-basis-orchestration",
-        "0035-rc-building-closure-audit"
+        "0035-rc-building-closure-audit",
+        "0036-rc-building-strict-typing"
       ],
       "sourceOracles": [
         "tests/globalFemProducerConformance.test.js",
+        "tests/ntc2018CapacityDesign.test.js",
+        "tests/ntc2018Diaphragm.test.js",
+        "tests/ntc2018DisplacementChecks.test.js",
         "tests/ntc2018RcBuildingCoverage.test.js",
         "tests/ntc2018RcDesignBasisAudit.test.js",
+        "tests/ntc2018SeismicAnalysisChecks.test.js",
+        "tests/ntc2018StructuralBehavior.test.js",
+        "tests/ntc2018StructuralRegularity.test.js",
         "tests/rcBuildingVerificationApplication.test.js"
       ],
       "targetTests": [
+        "tests/global-fem-producer-conformance.test.ts",
+        "tests/ntc2018-capacity-design.test.ts",
+        "tests/ntc2018-diaphragm.test.ts",
+        "tests/ntc2018-displacement-checks.test.ts",
         "tests/ntc2018-rc-building-coverage.test.ts",
         "tests/ntc2018-rc-design-basis-audit.test.ts",
-        "tests/rc-building-closure.test.ts"
+        "tests/ntc2018-seismic-analysis-checks.test.ts",
+        "tests/ntc2018-structural-behavior.test.ts",
+        "tests/ntc2018-structural-regularity.test.ts",
+        "tests/rc-building-closure.test.ts",
+        "tests/rc-building-live-parity.test.ts",
+        "tests/rc-building-verification-application.test.ts"
       ],
       "validationEvidence": [
         "0033-rc-building-coverage-design-basis-orchestration",
-        "0035-rc-building-closure-audit"
+        "0035-rc-building-closure-audit",
+        "0036-rc-building-strict-typing"
       ],
       "status": "exact-parity",
       "publicEntryPath": "src/index.js",
@@ -13592,22 +13658,39 @@
       "targetPath": "src/applications/rc-building-verification/slabSystemVerification.ts",
       "migrationSlices": [
         "0033-rc-building-coverage-design-basis-orchestration",
-        "0035-rc-building-closure-audit"
+        "0035-rc-building-closure-audit",
+        "0036-rc-building-strict-typing"
       ],
       "sourceOracles": [
         "tests/globalFemProducerConformance.test.js",
+        "tests/ntc2018CapacityDesign.test.js",
+        "tests/ntc2018Diaphragm.test.js",
+        "tests/ntc2018DisplacementChecks.test.js",
         "tests/ntc2018RcBuildingCoverage.test.js",
         "tests/ntc2018RcDesignBasisAudit.test.js",
+        "tests/ntc2018SeismicAnalysisChecks.test.js",
+        "tests/ntc2018StructuralBehavior.test.js",
+        "tests/ntc2018StructuralRegularity.test.js",
         "tests/rcBuildingVerificationApplication.test.js"
       ],
       "targetTests": [
+        "tests/global-fem-producer-conformance.test.ts",
+        "tests/ntc2018-capacity-design.test.ts",
+        "tests/ntc2018-diaphragm.test.ts",
+        "tests/ntc2018-displacement-checks.test.ts",
         "tests/ntc2018-rc-building-coverage.test.ts",
         "tests/ntc2018-rc-design-basis-audit.test.ts",
-        "tests/rc-building-closure.test.ts"
+        "tests/ntc2018-seismic-analysis-checks.test.ts",
+        "tests/ntc2018-structural-behavior.test.ts",
+        "tests/ntc2018-structural-regularity.test.ts",
+        "tests/rc-building-closure.test.ts",
+        "tests/rc-building-live-parity.test.ts",
+        "tests/rc-building-verification-application.test.ts"
       ],
       "validationEvidence": [
         "0033-rc-building-coverage-design-basis-orchestration",
-        "0035-rc-building-closure-audit"
+        "0035-rc-building-closure-audit",
+        "0036-rc-building-strict-typing"
       ],
       "status": "exact-parity",
       "publicEntryPath": "src/index.js",
@@ -13621,22 +13704,39 @@
       "targetPath": "src/applications/rc-building-verification/wallSystemVerification.ts",
       "migrationSlices": [
         "0033-rc-building-coverage-design-basis-orchestration",
-        "0035-rc-building-closure-audit"
+        "0035-rc-building-closure-audit",
+        "0036-rc-building-strict-typing"
       ],
       "sourceOracles": [
         "tests/globalFemProducerConformance.test.js",
+        "tests/ntc2018CapacityDesign.test.js",
+        "tests/ntc2018Diaphragm.test.js",
+        "tests/ntc2018DisplacementChecks.test.js",
         "tests/ntc2018RcBuildingCoverage.test.js",
         "tests/ntc2018RcDesignBasisAudit.test.js",
+        "tests/ntc2018SeismicAnalysisChecks.test.js",
+        "tests/ntc2018StructuralBehavior.test.js",
+        "tests/ntc2018StructuralRegularity.test.js",
         "tests/rcBuildingVerificationApplication.test.js"
       ],
       "targetTests": [
+        "tests/global-fem-producer-conformance.test.ts",
+        "tests/ntc2018-capacity-design.test.ts",
+        "tests/ntc2018-diaphragm.test.ts",
+        "tests/ntc2018-displacement-checks.test.ts",
         "tests/ntc2018-rc-building-coverage.test.ts",
         "tests/ntc2018-rc-design-basis-audit.test.ts",
-        "tests/rc-building-closure.test.ts"
+        "tests/ntc2018-seismic-analysis-checks.test.ts",
+        "tests/ntc2018-structural-behavior.test.ts",
+        "tests/ntc2018-structural-regularity.test.ts",
+        "tests/rc-building-closure.test.ts",
+        "tests/rc-building-live-parity.test.ts",
+        "tests/rc-building-verification-application.test.ts"
       ],
       "validationEvidence": [
         "0033-rc-building-coverage-design-basis-orchestration",
-        "0035-rc-building-closure-audit"
+        "0035-rc-building-closure-audit",
+        "0036-rc-building-strict-typing"
       ],
       "status": "exact-parity",
       "publicEntryPath": "src/index.js",
@@ -16438,22 +16538,39 @@
       "targetPath": "src/applications/rc-building-verification/ntc2018RcDesignBasisAudit.ts",
       "migrationSlices": [
         "0033-rc-building-coverage-design-basis-orchestration",
-        "0035-rc-building-closure-audit"
+        "0035-rc-building-closure-audit",
+        "0036-rc-building-strict-typing"
       ],
       "sourceOracles": [
         "tests/globalFemProducerConformance.test.js",
+        "tests/ntc2018CapacityDesign.test.js",
+        "tests/ntc2018Diaphragm.test.js",
+        "tests/ntc2018DisplacementChecks.test.js",
         "tests/ntc2018RcBuildingCoverage.test.js",
         "tests/ntc2018RcDesignBasisAudit.test.js",
+        "tests/ntc2018SeismicAnalysisChecks.test.js",
+        "tests/ntc2018StructuralBehavior.test.js",
+        "tests/ntc2018StructuralRegularity.test.js",
         "tests/rcBuildingVerificationApplication.test.js"
       ],
       "targetTests": [
+        "tests/global-fem-producer-conformance.test.ts",
+        "tests/ntc2018-capacity-design.test.ts",
+        "tests/ntc2018-diaphragm.test.ts",
+        "tests/ntc2018-displacement-checks.test.ts",
         "tests/ntc2018-rc-building-coverage.test.ts",
         "tests/ntc2018-rc-design-basis-audit.test.ts",
-        "tests/rc-building-closure.test.ts"
+        "tests/ntc2018-seismic-analysis-checks.test.ts",
+        "tests/ntc2018-structural-behavior.test.ts",
+        "tests/ntc2018-structural-regularity.test.ts",
+        "tests/rc-building-closure.test.ts",
+        "tests/rc-building-live-parity.test.ts",
+        "tests/rc-building-verification-application.test.ts"
       ],
       "validationEvidence": [
         "0033-rc-building-coverage-design-basis-orchestration",
-        "0035-rc-building-closure-audit"
+        "0035-rc-building-closure-audit",
+        "0036-rc-building-strict-typing"
       ],
       "status": "exact-parity",
       "publicEntryPath": "src/applications/index.js",
@@ -16878,7 +16995,8 @@
       ],
       "targetTests": [
         "tests/concurrent-fem-demand-states.test.ts",
-        "tests/global-fem-postprocessing.test.ts"
+        "tests/global-fem-postprocessing.test.ts",
+        "tests/global-fem-producer-conformance.test.ts"
       ],
       "validationEvidence": ["0031-global-fem-classification-demand-readiness-postprocessing"],
       "status": "exact-parity",
@@ -17162,7 +17280,8 @@
       ],
       "targetTests": [
         "tests/concurrent-fem-demand-states.test.ts",
-        "tests/global-fem-postprocessing.test.ts"
+        "tests/global-fem-postprocessing.test.ts",
+        "tests/global-fem-producer-conformance.test.ts"
       ],
       "validationEvidence": ["0031-global-fem-classification-demand-readiness-postprocessing"],
       "status": "exact-parity",
@@ -17350,7 +17469,8 @@
       ],
       "targetTests": [
         "tests/concurrent-fem-demand-states.test.ts",
-        "tests/global-fem-postprocessing.test.ts"
+        "tests/global-fem-postprocessing.test.ts",
+        "tests/global-fem-producer-conformance.test.ts"
       ],
       "validationEvidence": ["0031-global-fem-classification-demand-readiness-postprocessing"],
       "status": "exact-parity",
@@ -17404,7 +17524,8 @@
       ],
       "targetTests": [
         "tests/concurrent-fem-demand-states.test.ts",
-        "tests/global-fem-postprocessing.test.ts"
+        "tests/global-fem-postprocessing.test.ts",
+        "tests/global-fem-producer-conformance.test.ts"
       ],
       "validationEvidence": ["0031-global-fem-classification-demand-readiness-postprocessing"],
       "status": "exact-parity",
@@ -17652,7 +17773,8 @@
       ],
       "targetTests": [
         "tests/concurrent-fem-demand-states.test.ts",
-        "tests/global-fem-postprocessing.test.ts"
+        "tests/global-fem-postprocessing.test.ts",
+        "tests/global-fem-producer-conformance.test.ts"
       ],
       "validationEvidence": ["0031-global-fem-classification-demand-readiness-postprocessing"],
       "status": "exact-parity",
@@ -17672,7 +17794,8 @@
       ],
       "targetTests": [
         "tests/concurrent-fem-demand-states.test.ts",
-        "tests/global-fem-postprocessing.test.ts"
+        "tests/global-fem-postprocessing.test.ts",
+        "tests/global-fem-producer-conformance.test.ts"
       ],
       "validationEvidence": ["0031-global-fem-classification-demand-readiness-postprocessing"],
       "status": "exact-parity",
@@ -17692,7 +17815,8 @@
       ],
       "targetTests": [
         "tests/concurrent-fem-demand-states.test.ts",
-        "tests/global-fem-postprocessing.test.ts"
+        "tests/global-fem-postprocessing.test.ts",
+        "tests/global-fem-producer-conformance.test.ts"
       ],
       "validationEvidence": ["0031-global-fem-classification-demand-readiness-postprocessing"],
       "status": "exact-parity",
@@ -17712,7 +17836,8 @@
       ],
       "targetTests": [
         "tests/concurrent-fem-demand-states.test.ts",
-        "tests/global-fem-postprocessing.test.ts"
+        "tests/global-fem-postprocessing.test.ts",
+        "tests/global-fem-producer-conformance.test.ts"
       ],
       "validationEvidence": ["0031-global-fem-classification-demand-readiness-postprocessing"],
       "status": "exact-parity",
@@ -17732,7 +17857,8 @@
       ],
       "targetTests": [
         "tests/concurrent-fem-demand-states.test.ts",
-        "tests/global-fem-postprocessing.test.ts"
+        "tests/global-fem-postprocessing.test.ts",
+        "tests/global-fem-producer-conformance.test.ts"
       ],
       "validationEvidence": ["0031-global-fem-classification-demand-readiness-postprocessing"],
       "status": "exact-parity",
@@ -17752,7 +17878,8 @@
       ],
       "targetTests": [
         "tests/concurrent-fem-demand-states.test.ts",
-        "tests/global-fem-postprocessing.test.ts"
+        "tests/global-fem-postprocessing.test.ts",
+        "tests/global-fem-producer-conformance.test.ts"
       ],
       "validationEvidence": ["0031-global-fem-classification-demand-readiness-postprocessing"],
       "status": "exact-parity",
@@ -17772,7 +17899,8 @@
       ],
       "targetTests": [
         "tests/concurrent-fem-demand-states.test.ts",
-        "tests/global-fem-postprocessing.test.ts"
+        "tests/global-fem-postprocessing.test.ts",
+        "tests/global-fem-producer-conformance.test.ts"
       ],
       "validationEvidence": ["0031-global-fem-classification-demand-readiness-postprocessing"],
       "status": "exact-parity",
@@ -17798,6 +17926,7 @@
       "targetTests": [
         "tests/concurrent-fem-demand-states.test.ts",
         "tests/global-fem-postprocessing.test.ts",
+        "tests/global-fem-producer-conformance.test.ts",
         "tests/rc-building-closure.test.ts"
       ],
       "validationEvidence": [
@@ -18776,7 +18905,8 @@
       ],
       "targetTests": [
         "tests/concurrent-fem-demand-states.test.ts",
-        "tests/global-fem-postprocessing.test.ts"
+        "tests/global-fem-postprocessing.test.ts",
+        "tests/global-fem-producer-conformance.test.ts"
       ],
       "validationEvidence": ["0031-global-fem-classification-demand-readiness-postprocessing"],
       "status": "exact-parity",
@@ -19125,20 +19255,39 @@
       "targetPath": "src/applications/rc-building-verification/RcBuildingVerificationApplication.ts",
       "migrationSlices": [
         "0034-rc-building-verification-application-and-producer-conformance",
-        "0035-rc-building-closure-audit"
+        "0035-rc-building-closure-audit",
+        "0036-rc-building-strict-typing"
       ],
       "sourceOracles": [
         "tests/globalFemProducerConformance.test.js",
+        "tests/ntc2018CapacityDesign.test.js",
+        "tests/ntc2018Diaphragm.test.js",
+        "tests/ntc2018DisplacementChecks.test.js",
+        "tests/ntc2018RcBuildingCoverage.test.js",
+        "tests/ntc2018RcDesignBasisAudit.test.js",
+        "tests/ntc2018SeismicAnalysisChecks.test.js",
+        "tests/ntc2018StructuralBehavior.test.js",
+        "tests/ntc2018StructuralRegularity.test.js",
         "tests/rcBuildingVerificationApplication.test.js"
       ],
       "targetTests": [
         "tests/global-fem-producer-conformance.test.ts",
+        "tests/ntc2018-capacity-design.test.ts",
+        "tests/ntc2018-diaphragm.test.ts",
+        "tests/ntc2018-displacement-checks.test.ts",
+        "tests/ntc2018-rc-building-coverage.test.ts",
+        "tests/ntc2018-rc-design-basis-audit.test.ts",
+        "tests/ntc2018-seismic-analysis-checks.test.ts",
+        "tests/ntc2018-structural-behavior.test.ts",
+        "tests/ntc2018-structural-regularity.test.ts",
         "tests/rc-building-closure.test.ts",
+        "tests/rc-building-live-parity.test.ts",
         "tests/rc-building-verification-application.test.ts"
       ],
       "validationEvidence": [
         "0034-rc-building-verification-application-and-producer-conformance",
-        "0035-rc-building-closure-audit"
+        "0035-rc-building-closure-audit",
+        "0036-rc-building-strict-typing"
       ],
       "status": "exact-parity",
       "publicEntryPath": "src/applications/index.js",
@@ -19998,22 +20147,39 @@
       "targetPath": "src/applications/rc-building-verification/foundationSystemVerification.ts",
       "migrationSlices": [
         "0033-rc-building-coverage-design-basis-orchestration",
-        "0035-rc-building-closure-audit"
+        "0035-rc-building-closure-audit",
+        "0036-rc-building-strict-typing"
       ],
       "sourceOracles": [
         "tests/globalFemProducerConformance.test.js",
+        "tests/ntc2018CapacityDesign.test.js",
+        "tests/ntc2018Diaphragm.test.js",
+        "tests/ntc2018DisplacementChecks.test.js",
         "tests/ntc2018RcBuildingCoverage.test.js",
         "tests/ntc2018RcDesignBasisAudit.test.js",
+        "tests/ntc2018SeismicAnalysisChecks.test.js",
+        "tests/ntc2018StructuralBehavior.test.js",
+        "tests/ntc2018StructuralRegularity.test.js",
         "tests/rcBuildingVerificationApplication.test.js"
       ],
       "targetTests": [
+        "tests/global-fem-producer-conformance.test.ts",
+        "tests/ntc2018-capacity-design.test.ts",
+        "tests/ntc2018-diaphragm.test.ts",
+        "tests/ntc2018-displacement-checks.test.ts",
         "tests/ntc2018-rc-building-coverage.test.ts",
         "tests/ntc2018-rc-design-basis-audit.test.ts",
-        "tests/rc-building-closure.test.ts"
+        "tests/ntc2018-seismic-analysis-checks.test.ts",
+        "tests/ntc2018-structural-behavior.test.ts",
+        "tests/ntc2018-structural-regularity.test.ts",
+        "tests/rc-building-closure.test.ts",
+        "tests/rc-building-live-parity.test.ts",
+        "tests/rc-building-verification-application.test.ts"
       ],
       "validationEvidence": [
         "0033-rc-building-coverage-design-basis-orchestration",
-        "0035-rc-building-closure-audit"
+        "0035-rc-building-closure-audit",
+        "0036-rc-building-strict-typing"
       ],
       "status": "exact-parity",
       "publicEntryPath": "src/applications/index.js",
@@ -20061,22 +20227,39 @@
       "targetPath": "src/applications/rc-building-verification/slabSystemVerification.ts",
       "migrationSlices": [
         "0033-rc-building-coverage-design-basis-orchestration",
-        "0035-rc-building-closure-audit"
+        "0035-rc-building-closure-audit",
+        "0036-rc-building-strict-typing"
       ],
       "sourceOracles": [
         "tests/globalFemProducerConformance.test.js",
+        "tests/ntc2018CapacityDesign.test.js",
+        "tests/ntc2018Diaphragm.test.js",
+        "tests/ntc2018DisplacementChecks.test.js",
         "tests/ntc2018RcBuildingCoverage.test.js",
         "tests/ntc2018RcDesignBasisAudit.test.js",
+        "tests/ntc2018SeismicAnalysisChecks.test.js",
+        "tests/ntc2018StructuralBehavior.test.js",
+        "tests/ntc2018StructuralRegularity.test.js",
         "tests/rcBuildingVerificationApplication.test.js"
       ],
       "targetTests": [
+        "tests/global-fem-producer-conformance.test.ts",
+        "tests/ntc2018-capacity-design.test.ts",
+        "tests/ntc2018-diaphragm.test.ts",
+        "tests/ntc2018-displacement-checks.test.ts",
         "tests/ntc2018-rc-building-coverage.test.ts",
         "tests/ntc2018-rc-design-basis-audit.test.ts",
-        "tests/rc-building-closure.test.ts"
+        "tests/ntc2018-seismic-analysis-checks.test.ts",
+        "tests/ntc2018-structural-behavior.test.ts",
+        "tests/ntc2018-structural-regularity.test.ts",
+        "tests/rc-building-closure.test.ts",
+        "tests/rc-building-live-parity.test.ts",
+        "tests/rc-building-verification-application.test.ts"
       ],
       "validationEvidence": [
         "0033-rc-building-coverage-design-basis-orchestration",
-        "0035-rc-building-closure-audit"
+        "0035-rc-building-closure-audit",
+        "0036-rc-building-strict-typing"
       ],
       "status": "exact-parity",
       "publicEntryPath": "src/applications/index.js",
@@ -20090,22 +20273,39 @@
       "targetPath": "src/applications/rc-building-verification/wallSystemVerification.ts",
       "migrationSlices": [
         "0033-rc-building-coverage-design-basis-orchestration",
-        "0035-rc-building-closure-audit"
+        "0035-rc-building-closure-audit",
+        "0036-rc-building-strict-typing"
       ],
       "sourceOracles": [
         "tests/globalFemProducerConformance.test.js",
+        "tests/ntc2018CapacityDesign.test.js",
+        "tests/ntc2018Diaphragm.test.js",
+        "tests/ntc2018DisplacementChecks.test.js",
         "tests/ntc2018RcBuildingCoverage.test.js",
         "tests/ntc2018RcDesignBasisAudit.test.js",
+        "tests/ntc2018SeismicAnalysisChecks.test.js",
+        "tests/ntc2018StructuralBehavior.test.js",
+        "tests/ntc2018StructuralRegularity.test.js",
         "tests/rcBuildingVerificationApplication.test.js"
       ],
       "targetTests": [
+        "tests/global-fem-producer-conformance.test.ts",
+        "tests/ntc2018-capacity-design.test.ts",
+        "tests/ntc2018-diaphragm.test.ts",
+        "tests/ntc2018-displacement-checks.test.ts",
         "tests/ntc2018-rc-building-coverage.test.ts",
         "tests/ntc2018-rc-design-basis-audit.test.ts",
-        "tests/rc-building-closure.test.ts"
+        "tests/ntc2018-seismic-analysis-checks.test.ts",
+        "tests/ntc2018-structural-behavior.test.ts",
+        "tests/ntc2018-structural-regularity.test.ts",
+        "tests/rc-building-closure.test.ts",
+        "tests/rc-building-live-parity.test.ts",
+        "tests/rc-building-verification-application.test.ts"
       ],
       "validationEvidence": [
         "0033-rc-building-coverage-design-basis-orchestration",
-        "0035-rc-building-closure-audit"
+        "0035-rc-building-closure-audit",
+        "0036-rc-building-strict-typing"
       ],
       "status": "exact-parity",
       "publicEntryPath": "src/applications/index.js",
@@ -21181,7 +21381,6 @@
       ],
       "targetTests": [
         "tests/baseline-parity.test.ts",
-        "tests/concurrent-fem-demand-states.test.ts",
         "tests/global-fem-postprocessing.test.ts",
         "tests/global-fem-producer-conformance.test.ts",
         "tests/rc-building-closure.test.ts"
@@ -21635,6 +21834,7 @@
         "tests/baseline-parity.test.ts",
         "tests/global-fem-producer-conformance.test.ts",
         "tests/rc-building-closure.test.ts",
+        "tests/rc-building-live-parity.test.ts",
         "tests/rc-building-verification-application.test.ts"
       ],
       "validationEvidence": [
@@ -22896,7 +23096,8 @@
       ],
       "targetTests": [
         "tests/concurrent-fem-demand-states.test.ts",
-        "tests/global-fem-postprocessing.test.ts"
+        "tests/global-fem-postprocessing.test.ts",
+        "tests/global-fem-producer-conformance.test.ts"
       ],
       "validationEvidence": ["0031-global-fem-classification-demand-readiness-postprocessing"],
       "status": "exact-parity",
@@ -22932,7 +23133,8 @@
       ],
       "targetTests": [
         "tests/concurrent-fem-demand-states.test.ts",
-        "tests/global-fem-postprocessing.test.ts"
+        "tests/global-fem-postprocessing.test.ts",
+        "tests/global-fem-producer-conformance.test.ts"
       ],
       "validationEvidence": ["0031-global-fem-classification-demand-readiness-postprocessing"],
       "status": "exact-parity",
@@ -22953,7 +23155,8 @@
       ],
       "targetTests": [
         "tests/concurrent-fem-demand-states.test.ts",
-        "tests/global-fem-postprocessing.test.ts"
+        "tests/global-fem-postprocessing.test.ts",
+        "tests/global-fem-producer-conformance.test.ts"
       ],
       "validationEvidence": ["0031-global-fem-classification-demand-readiness-postprocessing"],
       "status": "exact-parity",
@@ -23643,7 +23846,8 @@
       ],
       "targetTests": [
         "tests/concurrent-fem-demand-states.test.ts",
-        "tests/global-fem-postprocessing.test.ts"
+        "tests/global-fem-postprocessing.test.ts",
+        "tests/global-fem-producer-conformance.test.ts"
       ],
       "validationEvidence": ["0031-global-fem-classification-demand-readiness-postprocessing"],
       "status": "exact-parity"
@@ -23660,7 +23864,8 @@
       ],
       "targetTests": [
         "tests/concurrent-fem-demand-states.test.ts",
-        "tests/global-fem-postprocessing.test.ts"
+        "tests/global-fem-postprocessing.test.ts",
+        "tests/global-fem-producer-conformance.test.ts"
       ],
       "validationEvidence": ["0031-global-fem-classification-demand-readiness-postprocessing"],
       "status": "exact-parity"
@@ -23677,7 +23882,8 @@
       ],
       "targetTests": [
         "tests/concurrent-fem-demand-states.test.ts",
-        "tests/global-fem-postprocessing.test.ts"
+        "tests/global-fem-postprocessing.test.ts",
+        "tests/global-fem-producer-conformance.test.ts"
       ],
       "validationEvidence": ["0031-global-fem-classification-demand-readiness-postprocessing"],
       "status": "exact-parity"
@@ -23694,7 +23900,8 @@
       ],
       "targetTests": [
         "tests/concurrent-fem-demand-states.test.ts",
-        "tests/global-fem-postprocessing.test.ts"
+        "tests/global-fem-postprocessing.test.ts",
+        "tests/global-fem-producer-conformance.test.ts"
       ],
       "validationEvidence": ["0031-global-fem-classification-demand-readiness-postprocessing"],
       "status": "exact-parity"
@@ -23711,7 +23918,8 @@
       ],
       "targetTests": [
         "tests/concurrent-fem-demand-states.test.ts",
-        "tests/global-fem-postprocessing.test.ts"
+        "tests/global-fem-postprocessing.test.ts",
+        "tests/global-fem-producer-conformance.test.ts"
       ],
       "validationEvidence": ["0031-global-fem-classification-demand-readiness-postprocessing"],
       "status": "exact-parity"
@@ -23728,7 +23936,8 @@
       ],
       "targetTests": [
         "tests/concurrent-fem-demand-states.test.ts",
-        "tests/global-fem-postprocessing.test.ts"
+        "tests/global-fem-postprocessing.test.ts",
+        "tests/global-fem-producer-conformance.test.ts"
       ],
       "validationEvidence": ["0031-global-fem-classification-demand-readiness-postprocessing"],
       "status": "exact-parity"
@@ -24254,16 +24463,39 @@
       "sourcePath": "src/applications/rc-building-verification/RcBuildingVerificationApplication.js",
       "sourceBlobSha1": "45fc787f1491081dcc48d62c5ccf029171606ca4",
       "targetPath": "src/applications/rc-building-verification/RcBuildingVerificationApplication.ts",
-      "migrationSlices": ["0034-rc-building-verification-application-and-producer-conformance"],
+      "migrationSlices": [
+        "0034-rc-building-verification-application-and-producer-conformance",
+        "0036-rc-building-strict-typing"
+      ],
       "sourceOracles": [
         "tests/globalFemProducerConformance.test.js",
+        "tests/ntc2018CapacityDesign.test.js",
+        "tests/ntc2018Diaphragm.test.js",
+        "tests/ntc2018DisplacementChecks.test.js",
+        "tests/ntc2018RcBuildingCoverage.test.js",
+        "tests/ntc2018RcDesignBasisAudit.test.js",
+        "tests/ntc2018SeismicAnalysisChecks.test.js",
+        "tests/ntc2018StructuralBehavior.test.js",
+        "tests/ntc2018StructuralRegularity.test.js",
         "tests/rcBuildingVerificationApplication.test.js"
       ],
       "targetTests": [
         "tests/global-fem-producer-conformance.test.ts",
+        "tests/ntc2018-capacity-design.test.ts",
+        "tests/ntc2018-diaphragm.test.ts",
+        "tests/ntc2018-displacement-checks.test.ts",
+        "tests/ntc2018-rc-building-coverage.test.ts",
+        "tests/ntc2018-rc-design-basis-audit.test.ts",
+        "tests/ntc2018-seismic-analysis-checks.test.ts",
+        "tests/ntc2018-structural-behavior.test.ts",
+        "tests/ntc2018-structural-regularity.test.ts",
+        "tests/rc-building-live-parity.test.ts",
         "tests/rc-building-verification-application.test.ts"
       ],
-      "validationEvidence": ["0034-rc-building-verification-application-and-producer-conformance"],
+      "validationEvidence": [
+        "0034-rc-building-verification-application-and-producer-conformance",
+        "0036-rc-building-strict-typing"
+      ],
       "status": "exact-parity"
     },
     {
@@ -24271,16 +24503,39 @@
       "sourcePath": "src/applications/rc-building-verification/foundationSystemVerification.js",
       "sourceBlobSha1": "e3ea47d00ead07ac387ac7a2804a239a0710b25a",
       "targetPath": "src/applications/rc-building-verification/foundationSystemVerification.ts",
-      "migrationSlices": ["0033-rc-building-coverage-design-basis-orchestration"],
+      "migrationSlices": [
+        "0033-rc-building-coverage-design-basis-orchestration",
+        "0036-rc-building-strict-typing"
+      ],
       "sourceOracles": [
+        "tests/globalFemProducerConformance.test.js",
+        "tests/ntc2018CapacityDesign.test.js",
+        "tests/ntc2018Diaphragm.test.js",
+        "tests/ntc2018DisplacementChecks.test.js",
         "tests/ntc2018RcBuildingCoverage.test.js",
-        "tests/ntc2018RcDesignBasisAudit.test.js"
+        "tests/ntc2018RcDesignBasisAudit.test.js",
+        "tests/ntc2018SeismicAnalysisChecks.test.js",
+        "tests/ntc2018StructuralBehavior.test.js",
+        "tests/ntc2018StructuralRegularity.test.js",
+        "tests/rcBuildingVerificationApplication.test.js"
       ],
       "targetTests": [
+        "tests/global-fem-producer-conformance.test.ts",
+        "tests/ntc2018-capacity-design.test.ts",
+        "tests/ntc2018-diaphragm.test.ts",
+        "tests/ntc2018-displacement-checks.test.ts",
         "tests/ntc2018-rc-building-coverage.test.ts",
-        "tests/ntc2018-rc-design-basis-audit.test.ts"
+        "tests/ntc2018-rc-design-basis-audit.test.ts",
+        "tests/ntc2018-seismic-analysis-checks.test.ts",
+        "tests/ntc2018-structural-behavior.test.ts",
+        "tests/ntc2018-structural-regularity.test.ts",
+        "tests/rc-building-live-parity.test.ts",
+        "tests/rc-building-verification-application.test.ts"
       ],
-      "validationEvidence": ["0033-rc-building-coverage-design-basis-orchestration"],
+      "validationEvidence": [
+        "0033-rc-building-coverage-design-basis-orchestration",
+        "0036-rc-building-strict-typing"
+      ],
       "status": "exact-parity"
     },
     {
@@ -24288,27 +24543,73 @@
       "sourcePath": "src/applications/rc-building-verification/index.js",
       "sourceBlobSha1": "29a2468a0ea87c8ac064a9136b64de8a6385155a",
       "targetPath": "src/applications/rc-building-verification/index.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "partial"
+      "migrationSlices": ["0036-rc-building-strict-typing"],
+      "sourceOracles": [
+        "tests/globalFemProducerConformance.test.js",
+        "tests/ntc2018CapacityDesign.test.js",
+        "tests/ntc2018Diaphragm.test.js",
+        "tests/ntc2018DisplacementChecks.test.js",
+        "tests/ntc2018RcBuildingCoverage.test.js",
+        "tests/ntc2018RcDesignBasisAudit.test.js",
+        "tests/ntc2018SeismicAnalysisChecks.test.js",
+        "tests/ntc2018StructuralBehavior.test.js",
+        "tests/ntc2018StructuralRegularity.test.js",
+        "tests/rcBuildingVerificationApplication.test.js"
+      ],
+      "targetTests": [
+        "tests/global-fem-producer-conformance.test.ts",
+        "tests/ntc2018-capacity-design.test.ts",
+        "tests/ntc2018-diaphragm.test.ts",
+        "tests/ntc2018-displacement-checks.test.ts",
+        "tests/ntc2018-rc-building-coverage.test.ts",
+        "tests/ntc2018-rc-design-basis-audit.test.ts",
+        "tests/ntc2018-seismic-analysis-checks.test.ts",
+        "tests/ntc2018-structural-behavior.test.ts",
+        "tests/ntc2018-structural-regularity.test.ts",
+        "tests/rc-building-live-parity.test.ts",
+        "tests/rc-building-verification-application.test.ts"
+      ],
+      "validationEvidence": ["0036-rc-building-strict-typing"],
+      "status": "exact-parity"
     },
     {
       "id": "src/applications/rc-building-verification/ntc2018RcBuildingCoverage.js",
       "sourcePath": "src/applications/rc-building-verification/ntc2018RcBuildingCoverage.js",
       "sourceBlobSha1": "b904e35c0cca746091feb253dc77e997fcefdde2",
       "targetPath": "src/applications/rc-building-verification/ntc2018RcBuildingCoverage.ts",
-      "migrationSlices": ["0033-rc-building-coverage-design-basis-orchestration"],
+      "migrationSlices": [
+        "0033-rc-building-coverage-design-basis-orchestration",
+        "0036-rc-building-strict-typing"
+      ],
       "sourceOracles": [
+        "tests/globalFemProducerConformance.test.js",
+        "tests/ntc2018CapacityDesign.test.js",
+        "tests/ntc2018Diaphragm.test.js",
+        "tests/ntc2018DisplacementChecks.test.js",
         "tests/ntc2018RcBuildingCoverage.test.js",
-        "tests/ntc2018RcDesignBasisAudit.test.js"
+        "tests/ntc2018RcDesignBasisAudit.test.js",
+        "tests/ntc2018SeismicAnalysisChecks.test.js",
+        "tests/ntc2018StructuralBehavior.test.js",
+        "tests/ntc2018StructuralRegularity.test.js",
+        "tests/rcBuildingVerificationApplication.test.js"
       ],
       "targetTests": [
+        "tests/global-fem-producer-conformance.test.ts",
+        "tests/ntc2018-capacity-design.test.ts",
+        "tests/ntc2018-diaphragm.test.ts",
+        "tests/ntc2018-displacement-checks.test.ts",
         "tests/ntc2018-rc-building-coverage.test.ts",
-        "tests/ntc2018-rc-design-basis-audit.test.ts"
+        "tests/ntc2018-rc-design-basis-audit.test.ts",
+        "tests/ntc2018-seismic-analysis-checks.test.ts",
+        "tests/ntc2018-structural-behavior.test.ts",
+        "tests/ntc2018-structural-regularity.test.ts",
+        "tests/rc-building-live-parity.test.ts",
+        "tests/rc-building-verification-application.test.ts"
       ],
-      "validationEvidence": ["0033-rc-building-coverage-design-basis-orchestration"],
+      "validationEvidence": [
+        "0033-rc-building-coverage-design-basis-orchestration",
+        "0036-rc-building-strict-typing"
+      ],
       "status": "exact-parity"
     },
     {
@@ -24316,16 +24617,39 @@
       "sourcePath": "src/applications/rc-building-verification/ntc2018RcDesignBasisAudit.js",
       "sourceBlobSha1": "499fb5835682b89c5dd65a9c92d5b758504fefff",
       "targetPath": "src/applications/rc-building-verification/ntc2018RcDesignBasisAudit.ts",
-      "migrationSlices": ["0033-rc-building-coverage-design-basis-orchestration"],
+      "migrationSlices": [
+        "0033-rc-building-coverage-design-basis-orchestration",
+        "0036-rc-building-strict-typing"
+      ],
       "sourceOracles": [
+        "tests/globalFemProducerConformance.test.js",
+        "tests/ntc2018CapacityDesign.test.js",
+        "tests/ntc2018Diaphragm.test.js",
+        "tests/ntc2018DisplacementChecks.test.js",
         "tests/ntc2018RcBuildingCoverage.test.js",
-        "tests/ntc2018RcDesignBasisAudit.test.js"
+        "tests/ntc2018RcDesignBasisAudit.test.js",
+        "tests/ntc2018SeismicAnalysisChecks.test.js",
+        "tests/ntc2018StructuralBehavior.test.js",
+        "tests/ntc2018StructuralRegularity.test.js",
+        "tests/rcBuildingVerificationApplication.test.js"
       ],
       "targetTests": [
+        "tests/global-fem-producer-conformance.test.ts",
+        "tests/ntc2018-capacity-design.test.ts",
+        "tests/ntc2018-diaphragm.test.ts",
+        "tests/ntc2018-displacement-checks.test.ts",
         "tests/ntc2018-rc-building-coverage.test.ts",
-        "tests/ntc2018-rc-design-basis-audit.test.ts"
+        "tests/ntc2018-rc-design-basis-audit.test.ts",
+        "tests/ntc2018-seismic-analysis-checks.test.ts",
+        "tests/ntc2018-structural-behavior.test.ts",
+        "tests/ntc2018-structural-regularity.test.ts",
+        "tests/rc-building-live-parity.test.ts",
+        "tests/rc-building-verification-application.test.ts"
       ],
-      "validationEvidence": ["0033-rc-building-coverage-design-basis-orchestration"],
+      "validationEvidence": [
+        "0033-rc-building-coverage-design-basis-orchestration",
+        "0036-rc-building-strict-typing"
+      ],
       "status": "exact-parity"
     },
     {
@@ -24333,16 +24657,39 @@
       "sourcePath": "src/applications/rc-building-verification/slabSystemVerification.js",
       "sourceBlobSha1": "cc3ec2e0f66b7ff086cd21b97f2b1a4adab8cc33",
       "targetPath": "src/applications/rc-building-verification/slabSystemVerification.ts",
-      "migrationSlices": ["0033-rc-building-coverage-design-basis-orchestration"],
+      "migrationSlices": [
+        "0033-rc-building-coverage-design-basis-orchestration",
+        "0036-rc-building-strict-typing"
+      ],
       "sourceOracles": [
+        "tests/globalFemProducerConformance.test.js",
+        "tests/ntc2018CapacityDesign.test.js",
+        "tests/ntc2018Diaphragm.test.js",
+        "tests/ntc2018DisplacementChecks.test.js",
         "tests/ntc2018RcBuildingCoverage.test.js",
-        "tests/ntc2018RcDesignBasisAudit.test.js"
+        "tests/ntc2018RcDesignBasisAudit.test.js",
+        "tests/ntc2018SeismicAnalysisChecks.test.js",
+        "tests/ntc2018StructuralBehavior.test.js",
+        "tests/ntc2018StructuralRegularity.test.js",
+        "tests/rcBuildingVerificationApplication.test.js"
       ],
       "targetTests": [
+        "tests/global-fem-producer-conformance.test.ts",
+        "tests/ntc2018-capacity-design.test.ts",
+        "tests/ntc2018-diaphragm.test.ts",
+        "tests/ntc2018-displacement-checks.test.ts",
         "tests/ntc2018-rc-building-coverage.test.ts",
-        "tests/ntc2018-rc-design-basis-audit.test.ts"
+        "tests/ntc2018-rc-design-basis-audit.test.ts",
+        "tests/ntc2018-seismic-analysis-checks.test.ts",
+        "tests/ntc2018-structural-behavior.test.ts",
+        "tests/ntc2018-structural-regularity.test.ts",
+        "tests/rc-building-live-parity.test.ts",
+        "tests/rc-building-verification-application.test.ts"
       ],
-      "validationEvidence": ["0033-rc-building-coverage-design-basis-orchestration"],
+      "validationEvidence": [
+        "0033-rc-building-coverage-design-basis-orchestration",
+        "0036-rc-building-strict-typing"
+      ],
       "status": "exact-parity"
     },
     {
@@ -24352,22 +24699,41 @@
       "targetPath": "src/applications/rc-building-verification/wallBiaxialVerification.ts",
       "migrationSlices": [
         "0017-reinforced-concrete-seismic-walls",
-        "0033-rc-building-coverage-design-basis-orchestration"
+        "0033-rc-building-coverage-design-basis-orchestration",
+        "0036-rc-building-strict-typing"
       ],
       "sourceOracles": [
+        "tests/globalFemProducerConformance.test.js",
+        "tests/ntc2018CapacityDesign.test.js",
+        "tests/ntc2018Diaphragm.test.js",
+        "tests/ntc2018DisplacementChecks.test.js",
         "tests/ntc2018RcBuildingCoverage.test.js",
         "tests/ntc2018RcDesignBasisAudit.test.js",
+        "tests/ntc2018SeismicAnalysisChecks.test.js",
         "tests/ntc2018ShearWall.test.js",
-        "tests/ntc2018WallSystemChecks.test.js"
+        "tests/ntc2018StructuralBehavior.test.js",
+        "tests/ntc2018StructuralRegularity.test.js",
+        "tests/ntc2018WallSystemChecks.test.js",
+        "tests/rcBuildingVerificationApplication.test.js"
       ],
       "targetTests": [
         "tests/concrete-wall.test.ts",
+        "tests/global-fem-producer-conformance.test.ts",
+        "tests/ntc2018-capacity-design.test.ts",
+        "tests/ntc2018-diaphragm.test.ts",
+        "tests/ntc2018-displacement-checks.test.ts",
         "tests/ntc2018-rc-building-coverage.test.ts",
-        "tests/ntc2018-rc-design-basis-audit.test.ts"
+        "tests/ntc2018-rc-design-basis-audit.test.ts",
+        "tests/ntc2018-seismic-analysis-checks.test.ts",
+        "tests/ntc2018-structural-behavior.test.ts",
+        "tests/ntc2018-structural-regularity.test.ts",
+        "tests/rc-building-live-parity.test.ts",
+        "tests/rc-building-verification-application.test.ts"
       ],
       "validationEvidence": [
         "0017-reinforced-concrete-seismic-walls",
-        "0033-rc-building-coverage-design-basis-orchestration"
+        "0033-rc-building-coverage-design-basis-orchestration",
+        "0036-rc-building-strict-typing"
       ],
       "status": "exact-parity"
     },
@@ -24376,16 +24742,39 @@
       "sourcePath": "src/applications/rc-building-verification/wallSystemVerification.js",
       "sourceBlobSha1": "287ad9d50e178fed13af86521a5ce31d805348b9",
       "targetPath": "src/applications/rc-building-verification/wallSystemVerification.ts",
-      "migrationSlices": ["0033-rc-building-coverage-design-basis-orchestration"],
+      "migrationSlices": [
+        "0033-rc-building-coverage-design-basis-orchestration",
+        "0036-rc-building-strict-typing"
+      ],
       "sourceOracles": [
+        "tests/globalFemProducerConformance.test.js",
+        "tests/ntc2018CapacityDesign.test.js",
+        "tests/ntc2018Diaphragm.test.js",
+        "tests/ntc2018DisplacementChecks.test.js",
         "tests/ntc2018RcBuildingCoverage.test.js",
-        "tests/ntc2018RcDesignBasisAudit.test.js"
+        "tests/ntc2018RcDesignBasisAudit.test.js",
+        "tests/ntc2018SeismicAnalysisChecks.test.js",
+        "tests/ntc2018StructuralBehavior.test.js",
+        "tests/ntc2018StructuralRegularity.test.js",
+        "tests/rcBuildingVerificationApplication.test.js"
       ],
       "targetTests": [
+        "tests/global-fem-producer-conformance.test.ts",
+        "tests/ntc2018-capacity-design.test.ts",
+        "tests/ntc2018-diaphragm.test.ts",
+        "tests/ntc2018-displacement-checks.test.ts",
         "tests/ntc2018-rc-building-coverage.test.ts",
-        "tests/ntc2018-rc-design-basis-audit.test.ts"
+        "tests/ntc2018-rc-design-basis-audit.test.ts",
+        "tests/ntc2018-seismic-analysis-checks.test.ts",
+        "tests/ntc2018-structural-behavior.test.ts",
+        "tests/ntc2018-structural-regularity.test.ts",
+        "tests/rc-building-live-parity.test.ts",
+        "tests/rc-building-verification-application.test.ts"
       ],
-      "validationEvidence": ["0033-rc-building-coverage-design-basis-orchestration"],
+      "validationEvidence": [
+        "0033-rc-building-coverage-design-basis-orchestration",
+        "0036-rc-building-strict-typing"
+      ],
       "status": "exact-parity"
     },
     {
@@ -26580,18 +26969,39 @@
       "sourcePath": "src/core/results/CalculationResult.js",
       "sourceBlobSha1": "de58f9d2a201435dd955cbfd4c4981d0b78610d4",
       "targetPath": "src/core/results/CalculationResult.ts",
-      "migrationSlices": ["0001-foundation"],
+      "migrationSlices": ["0001-foundation", "0036-rc-building-strict-typing"],
       "sourceOracles": [
         "tests/architecture/applicationRegistry.test.js",
+        "tests/globalFemProducerConformance.test.js",
+        "tests/ntc2018CapacityDesign.test.js",
+        "tests/ntc2018Diaphragm.test.js",
+        "tests/ntc2018DisplacementChecks.test.js",
+        "tests/ntc2018RcBuildingCoverage.test.js",
+        "tests/ntc2018RcDesignBasisAudit.test.js",
+        "tests/ntc2018SeismicAnalysisChecks.test.js",
+        "tests/ntc2018StructuralBehavior.test.js",
+        "tests/ntc2018StructuralRegularity.test.js",
+        "tests/rcBuildingVerificationApplication.test.js",
         "tests/unitConversionLayer.test.js"
       ],
       "targetTests": [
         "tests/baseline-parity.test.ts",
         "tests/check-utils.test.ts",
+        "tests/global-fem-producer-conformance.test.ts",
+        "tests/ntc2018-capacity-design.test.ts",
+        "tests/ntc2018-diaphragm.test.ts",
+        "tests/ntc2018-displacement-checks.test.ts",
+        "tests/ntc2018-rc-building-coverage.test.ts",
+        "tests/ntc2018-rc-design-basis-audit.test.ts",
+        "tests/ntc2018-seismic-analysis-checks.test.ts",
+        "tests/ntc2018-structural-behavior.test.ts",
+        "tests/ntc2018-structural-regularity.test.ts",
+        "tests/rc-building-live-parity.test.ts",
+        "tests/rc-building-verification-application.test.ts",
         "tests/result-contracts.test.ts",
         "tests/unit-system.test.ts"
       ],
-      "validationEvidence": [],
+      "validationEvidence": ["0036-rc-building-strict-typing"],
       "status": "exact-parity"
     },
     {
@@ -26599,18 +27009,39 @@
       "sourcePath": "src/core/results/VerificationResult.js",
       "sourceBlobSha1": "7583438c8fd57f6c6883caf2eb65298551725a64",
       "targetPath": "src/core/results/VerificationResult.ts",
-      "migrationSlices": ["0001-foundation"],
+      "migrationSlices": ["0001-foundation", "0036-rc-building-strict-typing"],
       "sourceOracles": [
         "tests/architecture/applicationRegistry.test.js",
+        "tests/globalFemProducerConformance.test.js",
+        "tests/ntc2018CapacityDesign.test.js",
+        "tests/ntc2018Diaphragm.test.js",
+        "tests/ntc2018DisplacementChecks.test.js",
+        "tests/ntc2018RcBuildingCoverage.test.js",
+        "tests/ntc2018RcDesignBasisAudit.test.js",
+        "tests/ntc2018SeismicAnalysisChecks.test.js",
+        "tests/ntc2018StructuralBehavior.test.js",
+        "tests/ntc2018StructuralRegularity.test.js",
+        "tests/rcBuildingVerificationApplication.test.js",
         "tests/unitConversionLayer.test.js"
       ],
       "targetTests": [
         "tests/baseline-parity.test.ts",
         "tests/check-utils.test.ts",
+        "tests/global-fem-producer-conformance.test.ts",
+        "tests/ntc2018-capacity-design.test.ts",
+        "tests/ntc2018-diaphragm.test.ts",
+        "tests/ntc2018-displacement-checks.test.ts",
+        "tests/ntc2018-rc-building-coverage.test.ts",
+        "tests/ntc2018-rc-design-basis-audit.test.ts",
+        "tests/ntc2018-seismic-analysis-checks.test.ts",
+        "tests/ntc2018-structural-behavior.test.ts",
+        "tests/ntc2018-structural-regularity.test.ts",
+        "tests/rc-building-live-parity.test.ts",
+        "tests/rc-building-verification-application.test.ts",
         "tests/result-contracts.test.ts",
         "tests/unit-system.test.ts"
       ],
-      "validationEvidence": [],
+      "validationEvidence": ["0036-rc-building-strict-typing"],
       "status": "exact-parity"
     },
     {
@@ -29252,7 +29683,8 @@
         "0032-ntc2018-rc-building-kernels",
         "0033-rc-building-coverage-design-basis-orchestration",
         "0034-rc-building-verification-application-and-producer-conformance",
-        "0035-rc-building-closure-audit"
+        "0035-rc-building-closure-audit",
+        "0036-rc-building-strict-typing"
       ],
       "sourceOracles": [
         "tests/architecture/applicationRegistry.test.js",
@@ -29975,24 +30407,33 @@
       "sourcePath": "src/norms/ntc2018/reinforced-concrete/capacityDesign.js",
       "sourceBlobSha1": "5415da1995770029c375f49754c4d9631685020f",
       "targetPath": "src/norms/ntc2018/reinforced-concrete/capacityDesign.ts",
-      "migrationSlices": ["0032-ntc2018-rc-building-kernels"],
+      "migrationSlices": ["0032-ntc2018-rc-building-kernels", "0036-rc-building-strict-typing"],
       "sourceOracles": [
+        "tests/globalFemProducerConformance.test.js",
         "tests/ntc2018CapacityDesign.test.js",
         "tests/ntc2018Diaphragm.test.js",
         "tests/ntc2018DisplacementChecks.test.js",
+        "tests/ntc2018RcBuildingCoverage.test.js",
+        "tests/ntc2018RcDesignBasisAudit.test.js",
         "tests/ntc2018SeismicAnalysisChecks.test.js",
         "tests/ntc2018StructuralBehavior.test.js",
-        "tests/ntc2018StructuralRegularity.test.js"
+        "tests/ntc2018StructuralRegularity.test.js",
+        "tests/rcBuildingVerificationApplication.test.js"
       ],
       "targetTests": [
+        "tests/global-fem-producer-conformance.test.ts",
         "tests/ntc2018-capacity-design.test.ts",
         "tests/ntc2018-diaphragm.test.ts",
         "tests/ntc2018-displacement-checks.test.ts",
+        "tests/ntc2018-rc-building-coverage.test.ts",
+        "tests/ntc2018-rc-design-basis-audit.test.ts",
         "tests/ntc2018-seismic-analysis-checks.test.ts",
         "tests/ntc2018-structural-behavior.test.ts",
-        "tests/ntc2018-structural-regularity.test.ts"
+        "tests/ntc2018-structural-regularity.test.ts",
+        "tests/rc-building-live-parity.test.ts",
+        "tests/rc-building-verification-application.test.ts"
       ],
-      "validationEvidence": ["0032-ntc2018-rc-building-kernels"],
+      "validationEvidence": ["0032-ntc2018-rc-building-kernels", "0036-rc-building-strict-typing"],
       "status": "exact-parity"
     },
     {
@@ -30000,24 +30441,33 @@
       "sourcePath": "src/norms/ntc2018/reinforced-concrete/displacementChecks.js",
       "sourceBlobSha1": "c984a00611f87bbc8a46b9c87ca513e52319463f",
       "targetPath": "src/norms/ntc2018/reinforced-concrete/displacementChecks.ts",
-      "migrationSlices": ["0032-ntc2018-rc-building-kernels"],
+      "migrationSlices": ["0032-ntc2018-rc-building-kernels", "0036-rc-building-strict-typing"],
       "sourceOracles": [
+        "tests/globalFemProducerConformance.test.js",
         "tests/ntc2018CapacityDesign.test.js",
         "tests/ntc2018Diaphragm.test.js",
         "tests/ntc2018DisplacementChecks.test.js",
+        "tests/ntc2018RcBuildingCoverage.test.js",
+        "tests/ntc2018RcDesignBasisAudit.test.js",
         "tests/ntc2018SeismicAnalysisChecks.test.js",
         "tests/ntc2018StructuralBehavior.test.js",
-        "tests/ntc2018StructuralRegularity.test.js"
+        "tests/ntc2018StructuralRegularity.test.js",
+        "tests/rcBuildingVerificationApplication.test.js"
       ],
       "targetTests": [
+        "tests/global-fem-producer-conformance.test.ts",
         "tests/ntc2018-capacity-design.test.ts",
         "tests/ntc2018-diaphragm.test.ts",
         "tests/ntc2018-displacement-checks.test.ts",
+        "tests/ntc2018-rc-building-coverage.test.ts",
+        "tests/ntc2018-rc-design-basis-audit.test.ts",
         "tests/ntc2018-seismic-analysis-checks.test.ts",
         "tests/ntc2018-structural-behavior.test.ts",
-        "tests/ntc2018-structural-regularity.test.ts"
+        "tests/ntc2018-structural-regularity.test.ts",
+        "tests/rc-building-live-parity.test.ts",
+        "tests/rc-building-verification-application.test.ts"
       ],
-      "validationEvidence": ["0032-ntc2018-rc-building-kernels"],
+      "validationEvidence": ["0032-ntc2018-rc-building-kernels", "0036-rc-building-strict-typing"],
       "status": "exact-parity"
     },
     {
@@ -30036,16 +30486,43 @@
       "sourcePath": "src/norms/ntc2018/reinforced-concrete/ntc2018BeamColumnJoint.js",
       "sourceBlobSha1": "02ab3f6ddcd9da34a538a4e0c13a59e6b1a8f15e",
       "targetPath": "src/norms/ntc2018/reinforced-concrete/ntc2018BeamColumnJoint.ts",
-      "migrationSlices": ["0026-reinforced-concrete-beam-column-joints"],
+      "migrationSlices": [
+        "0026-reinforced-concrete-beam-column-joints",
+        "0036-rc-building-strict-typing"
+      ],
       "sourceOracles": [
+        "tests/globalFemProducerConformance.test.js",
+        "tests/ntc2018CapacityDesign.test.js",
+        "tests/ntc2018Diaphragm.test.js",
+        "tests/ntc2018DisplacementChecks.test.js",
+        "tests/ntc2018RcBuildingCoverage.test.js",
+        "tests/ntc2018RcDesignBasisAudit.test.js",
+        "tests/ntc2018SeismicAnalysisChecks.test.js",
+        "tests/ntc2018StructuralBehavior.test.js",
+        "tests/ntc2018StructuralRegularity.test.js",
         "tests/packageExports.test.js",
+        "tests/rcBuildingVerificationApplication.test.js",
         "tests/reinforcedConcreteBeamColumnJointApplication.test.js"
       ],
       "targetTests": [
         "tests/baseline-parity.test.ts",
+        "tests/global-fem-producer-conformance.test.ts",
+        "tests/ntc2018-capacity-design.test.ts",
+        "tests/ntc2018-diaphragm.test.ts",
+        "tests/ntc2018-displacement-checks.test.ts",
+        "tests/ntc2018-rc-building-coverage.test.ts",
+        "tests/ntc2018-rc-design-basis-audit.test.ts",
+        "tests/ntc2018-seismic-analysis-checks.test.ts",
+        "tests/ntc2018-structural-behavior.test.ts",
+        "tests/ntc2018-structural-regularity.test.ts",
+        "tests/rc-building-live-parity.test.ts",
+        "tests/rc-building-verification-application.test.ts",
         "tests/reinforced-concrete-beam-column-joint.test.ts"
       ],
-      "validationEvidence": ["0026-reinforced-concrete-beam-column-joints"],
+      "validationEvidence": [
+        "0026-reinforced-concrete-beam-column-joints",
+        "0036-rc-building-strict-typing"
+      ],
       "status": "exact-parity"
     },
     {
@@ -30053,24 +30530,33 @@
       "sourcePath": "src/norms/ntc2018/reinforced-concrete/ntc2018Diaphragm.js",
       "sourceBlobSha1": "aebc899c9bf39635297686feabd4a39f22703981",
       "targetPath": "src/norms/ntc2018/reinforced-concrete/ntc2018Diaphragm.ts",
-      "migrationSlices": ["0032-ntc2018-rc-building-kernels"],
+      "migrationSlices": ["0032-ntc2018-rc-building-kernels", "0036-rc-building-strict-typing"],
       "sourceOracles": [
+        "tests/globalFemProducerConformance.test.js",
         "tests/ntc2018CapacityDesign.test.js",
         "tests/ntc2018Diaphragm.test.js",
         "tests/ntc2018DisplacementChecks.test.js",
+        "tests/ntc2018RcBuildingCoverage.test.js",
+        "tests/ntc2018RcDesignBasisAudit.test.js",
         "tests/ntc2018SeismicAnalysisChecks.test.js",
         "tests/ntc2018StructuralBehavior.test.js",
-        "tests/ntc2018StructuralRegularity.test.js"
+        "tests/ntc2018StructuralRegularity.test.js",
+        "tests/rcBuildingVerificationApplication.test.js"
       ],
       "targetTests": [
+        "tests/global-fem-producer-conformance.test.ts",
         "tests/ntc2018-capacity-design.test.ts",
         "tests/ntc2018-diaphragm.test.ts",
         "tests/ntc2018-displacement-checks.test.ts",
+        "tests/ntc2018-rc-building-coverage.test.ts",
+        "tests/ntc2018-rc-design-basis-audit.test.ts",
         "tests/ntc2018-seismic-analysis-checks.test.ts",
         "tests/ntc2018-structural-behavior.test.ts",
-        "tests/ntc2018-structural-regularity.test.ts"
+        "tests/ntc2018-structural-regularity.test.ts",
+        "tests/rc-building-live-parity.test.ts",
+        "tests/rc-building-verification-application.test.ts"
       ],
-      "validationEvidence": ["0032-ntc2018-rc-building-kernels"],
+      "validationEvidence": ["0032-ntc2018-rc-building-kernels", "0036-rc-building-strict-typing"],
       "status": "exact-parity"
     },
     {
@@ -30091,31 +30577,42 @@
       "targetPath": "src/norms/ntc2018/reinforced-concrete/structuralBehavior.ts",
       "migrationSlices": [
         "0013-reinforced-concrete-column-member",
-        "0032-ntc2018-rc-building-kernels"
+        "0032-ntc2018-rc-building-kernels",
+        "0036-rc-building-strict-typing"
       ],
       "sourceOracles": [
+        "tests/globalFemProducerConformance.test.js",
         "tests/ntc2018CapacityDesign.test.js",
         "tests/ntc2018Diaphragm.test.js",
         "tests/ntc2018DisplacementChecks.test.js",
+        "tests/ntc2018RcBuildingCoverage.test.js",
+        "tests/ntc2018RcDesignBasisAudit.test.js",
         "tests/ntc2018SeismicAnalysisChecks.test.js",
         "tests/ntc2018StructuralBehavior.test.js",
         "tests/ntc2018StructuralRegularity.test.js",
         "tests/packageExports.test.js",
+        "tests/rcBuildingVerificationApplication.test.js",
         "tests/reinforcedConcreteColumnApplication.test.js"
       ],
       "targetTests": [
         "tests/baseline-parity.test.ts",
         "tests/concrete-column-member.test.ts",
+        "tests/global-fem-producer-conformance.test.ts",
         "tests/ntc2018-capacity-design.test.ts",
         "tests/ntc2018-diaphragm.test.ts",
         "tests/ntc2018-displacement-checks.test.ts",
+        "tests/ntc2018-rc-building-coverage.test.ts",
+        "tests/ntc2018-rc-design-basis-audit.test.ts",
         "tests/ntc2018-seismic-analysis-checks.test.ts",
         "tests/ntc2018-structural-behavior.test.ts",
-        "tests/ntc2018-structural-regularity.test.ts"
+        "tests/ntc2018-structural-regularity.test.ts",
+        "tests/rc-building-live-parity.test.ts",
+        "tests/rc-building-verification-application.test.ts"
       ],
       "validationEvidence": [
         "0013-reinforced-concrete-column-member",
-        "0032-ntc2018-rc-building-kernels"
+        "0032-ntc2018-rc-building-kernels",
+        "0036-rc-building-strict-typing"
       ],
       "status": "exact-parity"
     },
@@ -30124,24 +30621,33 @@
       "sourcePath": "src/norms/ntc2018/reinforced-concrete/structuralRegularity.js",
       "sourceBlobSha1": "67114e539a5d5acfc3b2446ab9df02d2470c39f5",
       "targetPath": "src/norms/ntc2018/reinforced-concrete/structuralRegularity.ts",
-      "migrationSlices": ["0032-ntc2018-rc-building-kernels"],
+      "migrationSlices": ["0032-ntc2018-rc-building-kernels", "0036-rc-building-strict-typing"],
       "sourceOracles": [
+        "tests/globalFemProducerConformance.test.js",
         "tests/ntc2018CapacityDesign.test.js",
         "tests/ntc2018Diaphragm.test.js",
         "tests/ntc2018DisplacementChecks.test.js",
+        "tests/ntc2018RcBuildingCoverage.test.js",
+        "tests/ntc2018RcDesignBasisAudit.test.js",
         "tests/ntc2018SeismicAnalysisChecks.test.js",
         "tests/ntc2018StructuralBehavior.test.js",
-        "tests/ntc2018StructuralRegularity.test.js"
+        "tests/ntc2018StructuralRegularity.test.js",
+        "tests/rcBuildingVerificationApplication.test.js"
       ],
       "targetTests": [
+        "tests/global-fem-producer-conformance.test.ts",
         "tests/ntc2018-capacity-design.test.ts",
         "tests/ntc2018-diaphragm.test.ts",
         "tests/ntc2018-displacement-checks.test.ts",
+        "tests/ntc2018-rc-building-coverage.test.ts",
+        "tests/ntc2018-rc-design-basis-audit.test.ts",
         "tests/ntc2018-seismic-analysis-checks.test.ts",
         "tests/ntc2018-structural-behavior.test.ts",
-        "tests/ntc2018-structural-regularity.test.ts"
+        "tests/ntc2018-structural-regularity.test.ts",
+        "tests/rc-building-live-parity.test.ts",
+        "tests/rc-building-verification-application.test.ts"
       ],
-      "validationEvidence": ["0032-ntc2018-rc-building-kernels"],
+      "validationEvidence": ["0032-ntc2018-rc-building-kernels", "0036-rc-building-strict-typing"],
       "status": "exact-parity"
     },
     {
@@ -30149,10 +30655,42 @@
       "sourcePath": "src/norms/ntc2018/reinforced-concrete/wallSystemChecks.js",
       "sourceBlobSha1": "e34d4d6c8be576b1e968527df86aa04e149f9c76",
       "targetPath": "src/norms/ntc2018/reinforced-concrete/wallSystemChecks.ts",
-      "migrationSlices": ["0017-reinforced-concrete-seismic-walls"],
-      "sourceOracles": ["tests/ntc2018ShearWall.test.js", "tests/ntc2018WallSystemChecks.test.js"],
-      "targetTests": ["tests/concrete-wall.test.ts"],
-      "validationEvidence": ["0017-reinforced-concrete-seismic-walls"],
+      "migrationSlices": [
+        "0017-reinforced-concrete-seismic-walls",
+        "0036-rc-building-strict-typing"
+      ],
+      "sourceOracles": [
+        "tests/globalFemProducerConformance.test.js",
+        "tests/ntc2018CapacityDesign.test.js",
+        "tests/ntc2018Diaphragm.test.js",
+        "tests/ntc2018DisplacementChecks.test.js",
+        "tests/ntc2018RcBuildingCoverage.test.js",
+        "tests/ntc2018RcDesignBasisAudit.test.js",
+        "tests/ntc2018SeismicAnalysisChecks.test.js",
+        "tests/ntc2018ShearWall.test.js",
+        "tests/ntc2018StructuralBehavior.test.js",
+        "tests/ntc2018StructuralRegularity.test.js",
+        "tests/ntc2018WallSystemChecks.test.js",
+        "tests/rcBuildingVerificationApplication.test.js"
+      ],
+      "targetTests": [
+        "tests/concrete-wall.test.ts",
+        "tests/global-fem-producer-conformance.test.ts",
+        "tests/ntc2018-capacity-design.test.ts",
+        "tests/ntc2018-diaphragm.test.ts",
+        "tests/ntc2018-displacement-checks.test.ts",
+        "tests/ntc2018-rc-building-coverage.test.ts",
+        "tests/ntc2018-rc-design-basis-audit.test.ts",
+        "tests/ntc2018-seismic-analysis-checks.test.ts",
+        "tests/ntc2018-structural-behavior.test.ts",
+        "tests/ntc2018-structural-regularity.test.ts",
+        "tests/rc-building-live-parity.test.ts",
+        "tests/rc-building-verification-application.test.ts"
+      ],
+      "validationEvidence": [
+        "0017-reinforced-concrete-seismic-walls",
+        "0036-rc-building-strict-typing"
+      ],
       "status": "exact-parity"
     },
     {
@@ -30160,24 +30698,33 @@
       "sourcePath": "src/norms/ntc2018/seismicAnalysisChecks.js",
       "sourceBlobSha1": "826cd56d46508821a28920e150e722ff697edb11",
       "targetPath": "src/norms/ntc2018/seismicAnalysisChecks.ts",
-      "migrationSlices": ["0032-ntc2018-rc-building-kernels"],
+      "migrationSlices": ["0032-ntc2018-rc-building-kernels", "0036-rc-building-strict-typing"],
       "sourceOracles": [
+        "tests/globalFemProducerConformance.test.js",
         "tests/ntc2018CapacityDesign.test.js",
         "tests/ntc2018Diaphragm.test.js",
         "tests/ntc2018DisplacementChecks.test.js",
+        "tests/ntc2018RcBuildingCoverage.test.js",
+        "tests/ntc2018RcDesignBasisAudit.test.js",
         "tests/ntc2018SeismicAnalysisChecks.test.js",
         "tests/ntc2018StructuralBehavior.test.js",
-        "tests/ntc2018StructuralRegularity.test.js"
+        "tests/ntc2018StructuralRegularity.test.js",
+        "tests/rcBuildingVerificationApplication.test.js"
       ],
       "targetTests": [
+        "tests/global-fem-producer-conformance.test.ts",
         "tests/ntc2018-capacity-design.test.ts",
         "tests/ntc2018-diaphragm.test.ts",
         "tests/ntc2018-displacement-checks.test.ts",
+        "tests/ntc2018-rc-building-coverage.test.ts",
+        "tests/ntc2018-rc-design-basis-audit.test.ts",
         "tests/ntc2018-seismic-analysis-checks.test.ts",
         "tests/ntc2018-structural-behavior.test.ts",
-        "tests/ntc2018-structural-regularity.test.ts"
+        "tests/ntc2018-structural-regularity.test.ts",
+        "tests/rc-building-live-parity.test.ts",
+        "tests/rc-building-verification-application.test.ts"
       ],
-      "validationEvidence": ["0032-ntc2018-rc-building-kernels"],
+      "validationEvidence": ["0032-ntc2018-rc-building-kernels", "0036-rc-building-strict-typing"],
       "status": "exact-parity"
     }
   ],
@@ -30257,6 +30804,7 @@
         "tests/concurrent-fem-demand-states-0030.test.ts",
         "tests/concurrent-fem-demand-states.test.ts",
         "tests/global-fem-postprocessing.test.ts",
+        "tests/global-fem-producer-conformance.test.ts",
         "tests/resistance-axis-mapping.test.ts"
       ],
       "validationEvidence": [
@@ -30749,7 +31297,8 @@
       "sourceOracles": ["tests/globalFemPostprocessing.test.js"],
       "targetTests": [
         "tests/concurrent-fem-demand-states.test.ts",
-        "tests/global-fem-postprocessing.test.ts"
+        "tests/global-fem-postprocessing.test.ts",
+        "tests/global-fem-producer-conformance.test.ts"
       ],
       "validationEvidence": ["0031-global-fem-classification-demand-readiness-postprocessing"],
       "status": "exact-parity",
@@ -30762,17 +31311,28 @@
       "targetPath": "tests/globalFemProducerConformance.test.ts",
       "migrationSlices": [
         "0034-rc-building-verification-application-and-producer-conformance",
-        "0035-rc-building-closure-audit"
+        "0035-rc-building-closure-audit",
+        "0036-rc-building-strict-typing"
       ],
       "sourceOracles": ["tests/globalFemProducerConformance.test.js"],
       "targetTests": [
         "tests/global-fem-producer-conformance.test.ts",
+        "tests/ntc2018-capacity-design.test.ts",
+        "tests/ntc2018-diaphragm.test.ts",
+        "tests/ntc2018-displacement-checks.test.ts",
+        "tests/ntc2018-rc-building-coverage.test.ts",
+        "tests/ntc2018-rc-design-basis-audit.test.ts",
+        "tests/ntc2018-seismic-analysis-checks.test.ts",
+        "tests/ntc2018-structural-behavior.test.ts",
+        "tests/ntc2018-structural-regularity.test.ts",
         "tests/rc-building-closure.test.ts",
+        "tests/rc-building-live-parity.test.ts",
         "tests/rc-building-verification-application.test.ts"
       ],
       "validationEvidence": [
         "0034-rc-building-verification-application-and-producer-conformance",
-        "0035-rc-building-closure-audit"
+        "0035-rc-building-closure-audit",
+        "0036-rc-building-strict-typing"
       ],
       "status": "exact-parity",
       "testKind": "test"
@@ -30999,17 +31559,22 @@
       "sourcePath": "tests/ntc2018CapacityDesign.test.js",
       "sourceBlobSha1": "24e57a84b2747d4f5de6ed78ea9666ec5aff552e",
       "targetPath": "tests/ntc2018CapacityDesign.test.ts",
-      "migrationSlices": ["0032-ntc2018-rc-building-kernels"],
+      "migrationSlices": ["0032-ntc2018-rc-building-kernels", "0036-rc-building-strict-typing"],
       "sourceOracles": ["tests/ntc2018CapacityDesign.test.js"],
       "targetTests": [
+        "tests/global-fem-producer-conformance.test.ts",
         "tests/ntc2018-capacity-design.test.ts",
         "tests/ntc2018-diaphragm.test.ts",
         "tests/ntc2018-displacement-checks.test.ts",
+        "tests/ntc2018-rc-building-coverage.test.ts",
+        "tests/ntc2018-rc-design-basis-audit.test.ts",
         "tests/ntc2018-seismic-analysis-checks.test.ts",
         "tests/ntc2018-structural-behavior.test.ts",
-        "tests/ntc2018-structural-regularity.test.ts"
+        "tests/ntc2018-structural-regularity.test.ts",
+        "tests/rc-building-live-parity.test.ts",
+        "tests/rc-building-verification-application.test.ts"
       ],
-      "validationEvidence": ["0032-ntc2018-rc-building-kernels"],
+      "validationEvidence": ["0032-ntc2018-rc-building-kernels", "0036-rc-building-strict-typing"],
       "status": "exact-parity",
       "testKind": "test"
     },
@@ -31018,17 +31583,22 @@
       "sourcePath": "tests/ntc2018Diaphragm.test.js",
       "sourceBlobSha1": "05d1e67f52ff45eaa20c22497dd6fb33cb6395a3",
       "targetPath": "tests/ntc2018Diaphragm.test.ts",
-      "migrationSlices": ["0032-ntc2018-rc-building-kernels"],
+      "migrationSlices": ["0032-ntc2018-rc-building-kernels", "0036-rc-building-strict-typing"],
       "sourceOracles": ["tests/ntc2018Diaphragm.test.js"],
       "targetTests": [
+        "tests/global-fem-producer-conformance.test.ts",
         "tests/ntc2018-capacity-design.test.ts",
         "tests/ntc2018-diaphragm.test.ts",
         "tests/ntc2018-displacement-checks.test.ts",
+        "tests/ntc2018-rc-building-coverage.test.ts",
+        "tests/ntc2018-rc-design-basis-audit.test.ts",
         "tests/ntc2018-seismic-analysis-checks.test.ts",
         "tests/ntc2018-structural-behavior.test.ts",
-        "tests/ntc2018-structural-regularity.test.ts"
+        "tests/ntc2018-structural-regularity.test.ts",
+        "tests/rc-building-live-parity.test.ts",
+        "tests/rc-building-verification-application.test.ts"
       ],
-      "validationEvidence": ["0032-ntc2018-rc-building-kernels"],
+      "validationEvidence": ["0032-ntc2018-rc-building-kernels", "0036-rc-building-strict-typing"],
       "status": "exact-parity",
       "testKind": "test"
     },
@@ -31037,17 +31607,22 @@
       "sourcePath": "tests/ntc2018DisplacementChecks.test.js",
       "sourceBlobSha1": "87062a41512a52adf3fcc5e5c5d4941afaf1efd2",
       "targetPath": "tests/ntc2018DisplacementChecks.test.ts",
-      "migrationSlices": ["0032-ntc2018-rc-building-kernels"],
+      "migrationSlices": ["0032-ntc2018-rc-building-kernels", "0036-rc-building-strict-typing"],
       "sourceOracles": ["tests/ntc2018DisplacementChecks.test.js"],
       "targetTests": [
+        "tests/global-fem-producer-conformance.test.ts",
         "tests/ntc2018-capacity-design.test.ts",
         "tests/ntc2018-diaphragm.test.ts",
         "tests/ntc2018-displacement-checks.test.ts",
+        "tests/ntc2018-rc-building-coverage.test.ts",
+        "tests/ntc2018-rc-design-basis-audit.test.ts",
         "tests/ntc2018-seismic-analysis-checks.test.ts",
         "tests/ntc2018-structural-behavior.test.ts",
-        "tests/ntc2018-structural-regularity.test.ts"
+        "tests/ntc2018-structural-regularity.test.ts",
+        "tests/rc-building-live-parity.test.ts",
+        "tests/rc-building-verification-application.test.ts"
       ],
-      "validationEvidence": ["0032-ntc2018-rc-building-kernels"],
+      "validationEvidence": ["0032-ntc2018-rc-building-kernels", "0036-rc-building-strict-typing"],
       "status": "exact-parity",
       "testKind": "test"
     },
@@ -31128,13 +31703,28 @@
       "sourcePath": "tests/ntc2018RcBuildingCoverage.test.js",
       "sourceBlobSha1": "f90ba136e99789bf3a1d5633cb49a7a81784d5a6",
       "targetPath": "tests/ntc2018RcBuildingCoverage.test.ts",
-      "migrationSlices": ["0033-rc-building-coverage-design-basis-orchestration"],
+      "migrationSlices": [
+        "0033-rc-building-coverage-design-basis-orchestration",
+        "0036-rc-building-strict-typing"
+      ],
       "sourceOracles": ["tests/ntc2018RcBuildingCoverage.test.js"],
       "targetTests": [
+        "tests/global-fem-producer-conformance.test.ts",
+        "tests/ntc2018-capacity-design.test.ts",
+        "tests/ntc2018-diaphragm.test.ts",
+        "tests/ntc2018-displacement-checks.test.ts",
         "tests/ntc2018-rc-building-coverage.test.ts",
-        "tests/ntc2018-rc-design-basis-audit.test.ts"
+        "tests/ntc2018-rc-design-basis-audit.test.ts",
+        "tests/ntc2018-seismic-analysis-checks.test.ts",
+        "tests/ntc2018-structural-behavior.test.ts",
+        "tests/ntc2018-structural-regularity.test.ts",
+        "tests/rc-building-live-parity.test.ts",
+        "tests/rc-building-verification-application.test.ts"
       ],
-      "validationEvidence": ["0033-rc-building-coverage-design-basis-orchestration"],
+      "validationEvidence": [
+        "0033-rc-building-coverage-design-basis-orchestration",
+        "0036-rc-building-strict-typing"
+      ],
       "status": "exact-parity",
       "testKind": "test"
     },
@@ -31143,13 +31733,28 @@
       "sourcePath": "tests/ntc2018RcDesignBasisAudit.test.js",
       "sourceBlobSha1": "203a2afec5098d30bb7eced5bb0e169b0832cd36",
       "targetPath": "tests/ntc2018RcDesignBasisAudit.test.ts",
-      "migrationSlices": ["0033-rc-building-coverage-design-basis-orchestration"],
+      "migrationSlices": [
+        "0033-rc-building-coverage-design-basis-orchestration",
+        "0036-rc-building-strict-typing"
+      ],
       "sourceOracles": ["tests/ntc2018RcDesignBasisAudit.test.js"],
       "targetTests": [
+        "tests/global-fem-producer-conformance.test.ts",
+        "tests/ntc2018-capacity-design.test.ts",
+        "tests/ntc2018-diaphragm.test.ts",
+        "tests/ntc2018-displacement-checks.test.ts",
         "tests/ntc2018-rc-building-coverage.test.ts",
-        "tests/ntc2018-rc-design-basis-audit.test.ts"
+        "tests/ntc2018-rc-design-basis-audit.test.ts",
+        "tests/ntc2018-seismic-analysis-checks.test.ts",
+        "tests/ntc2018-structural-behavior.test.ts",
+        "tests/ntc2018-structural-regularity.test.ts",
+        "tests/rc-building-live-parity.test.ts",
+        "tests/rc-building-verification-application.test.ts"
       ],
-      "validationEvidence": ["0033-rc-building-coverage-design-basis-orchestration"],
+      "validationEvidence": [
+        "0033-rc-building-coverage-design-basis-orchestration",
+        "0036-rc-building-strict-typing"
+      ],
       "status": "exact-parity",
       "testKind": "test"
     },
@@ -31170,17 +31775,22 @@
       "sourcePath": "tests/ntc2018SeismicAnalysisChecks.test.js",
       "sourceBlobSha1": "7d3288d34d3e72a3711ed2fce22e6ca221cdb7eb",
       "targetPath": "tests/ntc2018SeismicAnalysisChecks.test.ts",
-      "migrationSlices": ["0032-ntc2018-rc-building-kernels"],
+      "migrationSlices": ["0032-ntc2018-rc-building-kernels", "0036-rc-building-strict-typing"],
       "sourceOracles": ["tests/ntc2018SeismicAnalysisChecks.test.js"],
       "targetTests": [
+        "tests/global-fem-producer-conformance.test.ts",
         "tests/ntc2018-capacity-design.test.ts",
         "tests/ntc2018-diaphragm.test.ts",
         "tests/ntc2018-displacement-checks.test.ts",
+        "tests/ntc2018-rc-building-coverage.test.ts",
+        "tests/ntc2018-rc-design-basis-audit.test.ts",
         "tests/ntc2018-seismic-analysis-checks.test.ts",
         "tests/ntc2018-structural-behavior.test.ts",
-        "tests/ntc2018-structural-regularity.test.ts"
+        "tests/ntc2018-structural-regularity.test.ts",
+        "tests/rc-building-live-parity.test.ts",
+        "tests/rc-building-verification-application.test.ts"
       ],
-      "validationEvidence": ["0032-ntc2018-rc-building-kernels"],
+      "validationEvidence": ["0032-ntc2018-rc-building-kernels", "0036-rc-building-strict-typing"],
       "status": "exact-parity",
       "testKind": "test"
     },
@@ -31225,17 +31835,22 @@
       "sourcePath": "tests/ntc2018StructuralBehavior.test.js",
       "sourceBlobSha1": "976db827e272266872c2a195f8e0829460d1527b",
       "targetPath": "tests/ntc2018StructuralBehavior.test.ts",
-      "migrationSlices": ["0032-ntc2018-rc-building-kernels"],
+      "migrationSlices": ["0032-ntc2018-rc-building-kernels", "0036-rc-building-strict-typing"],
       "sourceOracles": ["tests/ntc2018StructuralBehavior.test.js"],
       "targetTests": [
+        "tests/global-fem-producer-conformance.test.ts",
         "tests/ntc2018-capacity-design.test.ts",
         "tests/ntc2018-diaphragm.test.ts",
         "tests/ntc2018-displacement-checks.test.ts",
+        "tests/ntc2018-rc-building-coverage.test.ts",
+        "tests/ntc2018-rc-design-basis-audit.test.ts",
         "tests/ntc2018-seismic-analysis-checks.test.ts",
         "tests/ntc2018-structural-behavior.test.ts",
-        "tests/ntc2018-structural-regularity.test.ts"
+        "tests/ntc2018-structural-regularity.test.ts",
+        "tests/rc-building-live-parity.test.ts",
+        "tests/rc-building-verification-application.test.ts"
       ],
-      "validationEvidence": ["0032-ntc2018-rc-building-kernels"],
+      "validationEvidence": ["0032-ntc2018-rc-building-kernels", "0036-rc-building-strict-typing"],
       "status": "exact-parity",
       "testKind": "test"
     },
@@ -31244,17 +31859,22 @@
       "sourcePath": "tests/ntc2018StructuralRegularity.test.js",
       "sourceBlobSha1": "45e6acb0e1aae9f9f796e3f4a7dd4ed5bfc76b14",
       "targetPath": "tests/ntc2018StructuralRegularity.test.ts",
-      "migrationSlices": ["0032-ntc2018-rc-building-kernels"],
+      "migrationSlices": ["0032-ntc2018-rc-building-kernels", "0036-rc-building-strict-typing"],
       "sourceOracles": ["tests/ntc2018StructuralRegularity.test.js"],
       "targetTests": [
+        "tests/global-fem-producer-conformance.test.ts",
         "tests/ntc2018-capacity-design.test.ts",
         "tests/ntc2018-diaphragm.test.ts",
         "tests/ntc2018-displacement-checks.test.ts",
+        "tests/ntc2018-rc-building-coverage.test.ts",
+        "tests/ntc2018-rc-design-basis-audit.test.ts",
         "tests/ntc2018-seismic-analysis-checks.test.ts",
         "tests/ntc2018-structural-behavior.test.ts",
-        "tests/ntc2018-structural-regularity.test.ts"
+        "tests/ntc2018-structural-regularity.test.ts",
+        "tests/rc-building-live-parity.test.ts",
+        "tests/rc-building-verification-application.test.ts"
       ],
-      "validationEvidence": ["0032-ntc2018-rc-building-kernels"],
+      "validationEvidence": ["0032-ntc2018-rc-building-kernels", "0036-rc-building-strict-typing"],
       "status": "exact-parity",
       "testKind": "test"
     },
@@ -31427,17 +32047,28 @@
       "targetPath": "tests/rcBuildingVerificationApplication.test.ts",
       "migrationSlices": [
         "0034-rc-building-verification-application-and-producer-conformance",
-        "0035-rc-building-closure-audit"
+        "0035-rc-building-closure-audit",
+        "0036-rc-building-strict-typing"
       ],
       "sourceOracles": ["tests/rcBuildingVerificationApplication.test.js"],
       "targetTests": [
         "tests/global-fem-producer-conformance.test.ts",
+        "tests/ntc2018-capacity-design.test.ts",
+        "tests/ntc2018-diaphragm.test.ts",
+        "tests/ntc2018-displacement-checks.test.ts",
+        "tests/ntc2018-rc-building-coverage.test.ts",
+        "tests/ntc2018-rc-design-basis-audit.test.ts",
+        "tests/ntc2018-seismic-analysis-checks.test.ts",
+        "tests/ntc2018-structural-behavior.test.ts",
+        "tests/ntc2018-structural-regularity.test.ts",
         "tests/rc-building-closure.test.ts",
+        "tests/rc-building-live-parity.test.ts",
         "tests/rc-building-verification-application.test.ts"
       ],
       "validationEvidence": [
         "0034-rc-building-verification-application-and-producer-conformance",
-        "0035-rc-building-closure-audit"
+        "0035-rc-building-closure-audit",
+        "0036-rc-building-strict-typing"
       ],
       "status": "exact-parity",
       "testKind": "test"
@@ -33325,7 +33956,10 @@
       "method": "Source-derived postprocessing and concurrent-state tests with serialized outputs, explicit reference preservation and missing-data diagnostics.",
       "targetTests": [
         "tests/concurrent-fem-demand-states.test.ts",
-        "tests/global-fem-postprocessing.test.ts"
+        "tests/global-fem-postprocessing-compile-time.test.ts",
+        "tests/global-fem-postprocessing-live-parity.test.ts",
+        "tests/global-fem-postprocessing.test.ts",
+        "tests/global-fem-producer-conformance.test.ts"
       ],
       "fixture": null,
       "tolerances": {
@@ -33390,6 +34024,22 @@
         "behaviorFactor": "within 1e-12 of source oracle value q = 3.9",
         "driftLimit": "exact source oracle value 0.005"
       }
+    },
+    {
+      "sliceId": "0036-rc-building-strict-typing",
+      "sourceRevision": "6f33baead8b88166c4b2cf94af41763412e3c751",
+      "method": "Strict declaration consumer coverage, source-derived unit tests, complete fixture orchestration tests and an independently executed pinned JavaScript live differential test.",
+      "targetTests": [
+        "tests/rc-building-live-parity.test.ts",
+        "tests/rc-building-verification-application.test.ts",
+        "tests/rc-building-verification-compile-time.test.ts"
+      ],
+      "fixture": null,
+      "tolerances": {
+        "serializedParity": "exact JSON serialization for the complete RC-building fixture",
+        "numericParity": "absolute and relative tolerance 1e-12 where exact JSON equality is not applicable",
+        "publicStrings": "exact Unicode code-point equality"
+      }
     }
   ],
   "counts": {
@@ -33419,11 +34069,11 @@
     },
     "sourceFiles": {
       "javascript": 480,
-      "typescript": 237
+      "typescript": 238
     },
     "tests": {
       "javascript": 131,
-      "typescript": 52
+      "typescript": 55
     },
     "validationCampaigns": {
       "javascript": 17,
@@ -34008,7 +34658,7 @@
     "applications": {
       "statusCounts": {
         "exact-parity": 0,
-        "partial": 17,
+        "partial": 16,
         "missing": 467,
         "intentionally-excluded": 0,
         "decision-required": 0
@@ -34441,7 +35091,6 @@
         "source:src/applications/micropiles-broms/analysis/MicropileBromsAnalysis.js",
         "source:src/applications/micropiles-broms/index.js",
         "source:src/applications/micropiles-broms/models/MicropileBromsModel.js",
-        "source:src/applications/rc-building-verification/index.js",
         "source:src/applications/reinforced-concrete-columns/index.js",
         "source:src/applications/reinforced-concrete-isolated-footings/index.js",
         "source:src/applications/reinforced-concrete-plates/README.md",
