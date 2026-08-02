@@ -890,10 +890,12 @@
         "BeamSectionActionVerifier",
         "BeamSystem",
         "CIRCULAR_SLIP_SURFACE_2D_SCHEMA_VERSION",
+        "CIRCULAR_SLOPE_STABILITY_RESULT_SCHEMA_VERSION",
         "CYCLIC_MASONRY_INTERNAL_UNITS",
         "CalculationResult",
         "CircularSection",
         "CircularSlipSurface2D",
+        "CircularSlopeStabilityAnalysis",
         "ClimaticAction",
         "Combination",
         "CompositeSection",
@@ -1156,6 +1158,7 @@
         "SHALLOW_FOUNDATION_SHAPES",
         "SLOPE_MOVEMENT_DIRECTIONS",
         "SLOPE_SLICE_DISCRETIZATION_2D_SCHEMA_VERSION",
+        "SLOPE_STABILITY_ANALYSIS_MODES",
         "SLOPE_STABILITY_METHODS",
         "SLOPE_SURFACE_SURCHARGE_2D_SCHEMA_VERSION",
         "SOIL_DEFORMATION_MODELS",
@@ -4458,11 +4461,15 @@
       "sourcePath": "src/domain/geotechnics/CircularSlopeStabilityAnalysis.js",
       "sourceBlobSha1": "0dead170cabae9ee29fcee4e3cf11ff7924436c1",
       "targetPath": "src/domain/geotechnics/CircularSlopeStabilityAnalysis.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0094-domain-circular-slope-stability-analysis"],
+      "sourceOracles": ["tests/geotechnicalSlopeStability.test.js", "tests/packageExports.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/circular-slope-stability-analysis-compile-time.test.ts",
+        "tests/circular-slope-stability-analysis-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0094-domain-circular-slope-stability-analysis"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -4514,11 +4521,15 @@
       "sourcePath": "src/domain/geotechnics/CircularSlopeStabilityAnalysis.js",
       "sourceBlobSha1": "0dead170cabae9ee29fcee4e3cf11ff7924436c1",
       "targetPath": "src/domain/geotechnics/CircularSlopeStabilityAnalysis.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0094-domain-circular-slope-stability-analysis"],
+      "sourceOracles": ["tests/geotechnicalSlopeStability.test.js", "tests/packageExports.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/circular-slope-stability-analysis-compile-time.test.ts",
+        "tests/circular-slope-stability-analysis-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0094-domain-circular-slope-stability-analysis"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -15253,11 +15264,15 @@
       "sourcePath": "src/domain/geotechnics/CircularSlopeStabilityAnalysis.js",
       "sourceBlobSha1": "0dead170cabae9ee29fcee4e3cf11ff7924436c1",
       "targetPath": "src/domain/geotechnics/CircularSlopeStabilityAnalysis.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0094-domain-circular-slope-stability-analysis"],
+      "sourceOracles": ["tests/geotechnicalSlopeStability.test.js", "tests/packageExports.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/circular-slope-stability-analysis-compile-time.test.ts",
+        "tests/circular-slope-stability-analysis-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0094-domain-circular-slope-stability-analysis"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -24484,11 +24499,15 @@
       "sourcePath": "src/domain/geotechnics/CircularSlopeStabilityAnalysis.js",
       "sourceBlobSha1": "0dead170cabae9ee29fcee4e3cf11ff7924436c1",
       "targetPath": "src/domain/geotechnics/CircularSlopeStabilityAnalysis.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0094-domain-circular-slope-stability-analysis"],
+      "sourceOracles": ["tests/geotechnicalSlopeStability.test.js", "tests/packageExports.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/circular-slope-stability-analysis-compile-time.test.ts",
+        "tests/circular-slope-stability-analysis-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0094-domain-circular-slope-stability-analysis"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7",
       "value": "circular-slope-stability-result/v1"
@@ -30194,11 +30213,15 @@
       "sourcePath": "src/domain/geotechnics/CircularSlopeStabilityAnalysis.js",
       "sourceBlobSha1": "0dead170cabae9ee29fcee4e3cf11ff7924436c1",
       "targetPath": "src/domain/geotechnics/CircularSlopeStabilityAnalysis.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing"
+      "migrationSlices": ["0094-domain-circular-slope-stability-analysis"],
+      "sourceOracles": ["tests/geotechnicalSlopeStability.test.js", "tests/packageExports.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/circular-slope-stability-analysis-compile-time.test.ts",
+        "tests/circular-slope-stability-analysis-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0094-domain-circular-slope-stability-analysis"],
+      "status": "exact-parity"
     },
     {
       "id": "src/domain/geotechnics/DeepFoundationModel.js",
@@ -31782,7 +31805,8 @@
         "0090-domain-ground-anchor-stability-action-2d",
         "0091-domain-ground-anchor-design-scenario",
         "0092-domain-ground-anchor-analysis",
-        "0093-domain-spencer-method"
+        "0093-domain-spencer-method",
+        "0094-domain-circular-slope-stability-analysis"
       ],
       "sourceOracles": [
         "tests/architecture/applicationRegistry.test.js",
@@ -33492,13 +33516,16 @@
         "0088-domain-slope-surface-surcharge",
         "0089-domain-slope-slice-discretizer-2d",
         "0090-domain-ground-anchor-stability-action-2d",
-        "0093-domain-spencer-method"
+        "0093-domain-spencer-method",
+        "0094-domain-circular-slope-stability-analysis"
       ],
       "sourceOracles": ["tests/geotechnicalSlopeStability.test.js"],
       "targetTests": [
         "tests/baseline-parity.test.ts",
         "tests/circular-slip-surface-compile-time.test.ts",
         "tests/circular-slip-surface-live-parity.test.ts",
+        "tests/circular-slope-stability-analysis-compile-time.test.ts",
+        "tests/circular-slope-stability-analysis-live-parity.test.ts",
         "tests/ground-anchor-stability-action-compile-time.test.ts",
         "tests/ground-anchor-stability-action-live-parity.test.ts",
         "tests/slope-slice-discretizer-compile-time.test.ts",
@@ -33516,7 +33543,8 @@
         "0088-domain-slope-surface-surcharge",
         "0089-domain-slope-slice-discretizer-2d",
         "0090-domain-ground-anchor-stability-action-2d",
-        "0093-domain-spencer-method"
+        "0093-domain-spencer-method",
+        "0094-domain-circular-slope-stability-analysis"
       ],
       "status": "exact-parity",
       "testKind": "test"
@@ -34287,11 +34315,14 @@
         "0090-domain-ground-anchor-stability-action-2d",
         "0091-domain-ground-anchor-design-scenario",
         "0092-domain-ground-anchor-analysis",
-        "0093-domain-spencer-method"
+        "0093-domain-spencer-method",
+        "0094-domain-circular-slope-stability-analysis"
       ],
       "sourceOracles": ["tests/packageExports.test.js"],
       "targetTests": [
         "tests/baseline-parity.test.ts",
+        "tests/circular-slope-stability-analysis-compile-time.test.ts",
+        "tests/circular-slope-stability-analysis-live-parity.test.ts",
         "tests/concrete-beam-detailing.test.ts",
         "tests/concrete-biaxial-domain.test.ts",
         "tests/concrete-column-detailing.test.ts",
@@ -34372,7 +34403,8 @@
         "0090-domain-ground-anchor-stability-action-2d",
         "0091-domain-ground-anchor-design-scenario",
         "0092-domain-ground-anchor-analysis",
-        "0093-domain-spencer-method"
+        "0093-domain-spencer-method",
+        "0094-domain-circular-slope-stability-analysis"
       ],
       "status": "exact-parity",
       "testKind": "test"
@@ -37427,12 +37459,28 @@
         "publicStrings": "exact equality plus Unicode code-point preservation",
         "errors": "exact error name and message equality"
       }
+    },
+    {
+      "sliceId": "0094-domain-circular-slope-stability-analysis",
+      "sourceRevision": "6f33baead8b88166c4b2cf94af41763412e3c751",
+      "method": "Strict public declaration consumer coverage and independently executed pinned JavaScript versus built TypeScript comparison of assigned circular surfaces, critical-surface search, surcharges, pseudostatic restrictions, exact nested JSON serialization, Unicode metadata and validation/error-result behavior.",
+      "targetTests": [
+        "tests/circular-slope-stability-analysis-compile-time.test.ts",
+        "tests/circular-slope-stability-analysis-live-parity.test.ts"
+      ],
+      "fixture": null,
+      "tolerances": {
+        "serializedParity": "exact deep equality and JSON serialization",
+        "numericParity": "exact equality for deterministic assigned and search analyses",
+        "publicStrings": "exact equality plus Unicode code-point preservation",
+        "errors": "exact error-result structure and warning message equality"
+      }
     }
   ],
   "counts": {
     "rootExports": {
       "javascript": 841,
-      "typescript": 542
+      "typescript": 545
     },
     "applicationsExports": {
       "javascript": 309,
@@ -37452,15 +37500,15 @@
     },
     "serializedSchemas": {
       "javascript": 49,
-      "typescript": 35
+      "typescript": 36
     },
     "sourceFiles": {
       "javascript": 480,
-      "typescript": 328
+      "typescript": 329
     },
     "tests": {
       "javascript": 131,
-      "typescript": 174
+      "typescript": 176
     },
     "validationCampaigns": {
       "javascript": 17,
@@ -37492,13 +37540,11 @@
       "statusCounts": {
         "exact-parity": 0,
         "partial": 20,
-        "missing": 72,
+        "missing": 68,
         "intentionally-excluded": 0,
         "decision-required": 0
       },
       "itemIds": [
-        "root-export:CIRCULAR_SLOPE_STABILITY_RESULT_SCHEMA_VERSION",
-        "root-export:CircularSlopeStabilityAnalysis",
         "root-export:EARTH_PRESSURE_METHODS",
         "root-export:EARTH_PRESSURE_STATES",
         "root-export:FloorSlab",
@@ -37534,7 +37580,6 @@
         "root-export:SHALLOW_FOUNDATION_SETTLEMENT_METHODS",
         "root-export:SHALLOW_FOUNDATION_SLS_RESULT_SCHEMA_VERSION",
         "root-export:SHALLOW_FOUNDATION_ULS_RESULT_SCHEMA_VERSION",
-        "root-export:SLOPE_STABILITY_ANALYSIS_MODES",
         "root-export:SOIL_DEFORMATION_MODELS",
         "root-export:SOIL_DRAINAGE_CONDITIONS",
         "root-export:SOIL_MODULUS_DEFINITIONS",
@@ -37562,7 +37607,6 @@
         "source:src/domain/fem/elements/masonry/index.js",
         "source:src/domain/fem/index.js",
         "source:src/domain/fem/nonlinear/index.js",
-        "source:src/domain/geotechnics/CircularSlopeStabilityAnalysis.js",
         "source:src/domain/geotechnics/LateralEarthPressureAnalysis.js",
         "source:src/domain/geotechnics/LateralPileCapacityAnalysis.js",
         "source:src/domain/geotechnics/LayeredPseudostaticTrialWedge.js",

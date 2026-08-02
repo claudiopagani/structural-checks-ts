@@ -76,6 +76,16 @@ export {
   type SlopeMovementDirection,
 } from "./CircularSlipSurface2D.js";
 export {
+  CIRCULAR_SLOPE_STABILITY_RESULT_SCHEMA_VERSION,
+  SLOPE_STABILITY_ANALYSIS_MODES,
+  CircularSlopeStabilityAnalysis,
+  type CircularSlopeIterationInput,
+  type CircularSlopeRangeInput,
+  type CircularSlopeSearchInput,
+  type CircularSlopeStabilityAnalysisInput,
+  type CircularSlopeStabilityAnalysisResult,
+} from "./CircularSlopeStabilityAnalysis.js";
+export {
   EMBEDDED_RETAINING_WALL_END_RESTRAINTS,
   EMBEDDED_RETAINING_WALL_MODEL_SCHEMA_VERSION,
   EMBEDDED_RETAINING_WALL_TYPES,

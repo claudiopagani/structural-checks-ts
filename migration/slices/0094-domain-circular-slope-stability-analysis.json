@@ -1,0 +1,97 @@
+{
+  "schemaVersion": 1,
+  "sliceId": "0094-domain-circular-slope-stability-analysis",
+  "title": "Domain circular slope-stability analysis",
+  "migrationType": "mechanical-parity-with-minimal-dependency-support",
+  "implementationStatus": "implemented",
+  "dependencies": ["0093-domain-spencer-method"],
+  "source": {
+    "repository": "https://github.com/claudiopagani/strutture-js",
+    "revision": "6f33baead8b88166c4b2cf94af41763412e3c751"
+  },
+  "normativeCorpusRevision": "41da3faa489600173106935bbcf726119300e48d",
+  "sourceFiles": [
+    {
+      "path": "src/domain/geotechnics/CircularSlopeStabilityAnalysis.js",
+      "gitBlobSha1": "0dead170cabae9ee29fcee4e3cf11ff7924436c1",
+      "targetPath": "src/domain/geotechnics/CircularSlopeStabilityAnalysis.ts"
+    }
+  ],
+  "supportingSourceFiles": [
+    {
+      "path": "src/domain/geotechnics/index.js",
+      "gitBlobSha1": "41ed2053fc2e37dc90da412846609f4050af9668",
+      "targetPath": "src/domain/geotechnics/index.ts",
+      "coverage": "Geotechnics barrel exports for the migrated circular slope-stability analysis."
+    },
+    {
+      "path": "src/index.js",
+      "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7",
+      "targetPath": "src/index.ts",
+      "coverage": "Root public exports for the migrated circular slope-stability analysis."
+    }
+  ],
+  "sourceOracles": [
+    {
+      "path": "tests/geotechnicalSlopeStability.test.js",
+      "gitBlobSha1": "ccb2cab5ccf35b8b35de4d3fcff9d23aed949173",
+      "coverage": "Assigned circular surfaces, critical-surface search, surcharges, pseudostatic restrictions, ground-anchor restrictions and result metadata."
+    },
+    {
+      "path": "tests/packageExports.test.js",
+      "gitBlobSha1": "8dde24b4c97dd3dae7100207d07d9d96c52b9c74",
+      "coverage": "Root and geotechnics public export behavior."
+    }
+  ],
+  "sourcePublicExport": {
+    "path": "src/index.js",
+    "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
+  },
+  "targetTests": [
+    "tests/baseline-parity.test.ts",
+    "tests/circular-slope-stability-analysis-compile-time.test.ts",
+    "tests/circular-slope-stability-analysis-live-parity.test.ts"
+  ],
+  "publicExports": [
+    "CIRCULAR_SLOPE_STABILITY_RESULT_SCHEMA_VERSION",
+    "SLOPE_STABILITY_ANALYSIS_MODES",
+    "CircularSlopeStabilityAnalysis"
+  ],
+  "publicTypeExports": [
+    "CircularSlopeIterationInput",
+    "CircularSlopeRangeInput",
+    "CircularSlopeSearchInput",
+    "CircularSlopeStabilityAnalysisInput",
+    "CircularSlopeStabilityAnalysisResult"
+  ],
+  "normativeReferences": {
+    "resolved": [],
+    "outsideCorpus": [
+      {
+        "identifier": "USACE EM 1110-2-1902 (2003), Appendices C and F; USBR Design Standards No. 13, Chapter 4 (2011), Appendix B",
+        "reason": "The source analysis preserves its slope-stability method references without inventing a corpus identifier."
+      },
+      {
+        "identifier": "FHWA-IF-99-015 (1999), section 5.8.3.2",
+        "reason": "The source analysis preserves its ground-anchor bond-zone reference without inventing a corpus identifier."
+      }
+    ],
+    "normativeConformityClaimed": false,
+    "status": "classified-for-declared-scope"
+  },
+  "independentValidation": {
+    "method": "Strict public declaration consumer coverage and independently executed pinned JavaScript versus built TypeScript comparison of assigned circular surfaces, critical-surface search, surcharges, pseudostatic restrictions, exact nested JSON serialization, Unicode metadata and validation/error-result behavior.",
+    "targetTests": [
+      "tests/circular-slope-stability-analysis-compile-time.test.ts",
+      "tests/circular-slope-stability-analysis-live-parity.test.ts"
+    ],
+    "tolerances": {
+      "serializedParity": "exact deep equality and JSON serialization",
+      "numericParity": "exact equality for deterministic assigned and search analyses",
+      "publicStrings": "exact equality plus Unicode code-point preservation",
+      "errors": "exact error-result structure and warning message equality"
+    }
+  },
+  "parityDifferences": [],
+  "engineeringFunctionality": "Serializable circular slope-stability analysis covering assigned surfaces, finite critical-surface search, slice discretization, static and pseudostatic method selection, surface surcharges and verified ground-anchor force coupling."
+}
