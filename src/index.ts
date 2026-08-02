@@ -36,6 +36,13 @@ export {
   listXlamPanelProducts,
   registerXlamPanelProduct,
 } from "./domain/catalogs/xlamPanelCatalog.js";
+export { ShearConnector } from "./domain/connectors/ShearConnector.js";
+export { TimberDowelConnector } from "./domain/connectors/TimberDowelConnector.js";
+export {
+  TECNARIA_CONNECTOR_CATALOG,
+  TECNARIA_CONNECTOR_TYPES,
+  getTecnariaConnectorData,
+} from "./domain/connectors/tecnariaConnectorCatalog.js";
 export { BaseMaterial } from "./domain/materials/BaseMaterial.js";
 export { ConcreteMaterial } from "./domain/materials/ConcreteMaterial.js";
 export { SteelMaterial } from "./domain/materials/SteelMaterial.js";
@@ -516,6 +523,20 @@ export type {
   XlamPanelProduct,
   XlamPanelProductInput,
 } from "./domain/catalogs/xlamPanelCatalog.js";
+export type {
+  ShearConnectorJson,
+  ShearConnectorOptions,
+} from "./domain/connectors/ShearConnector.js";
+export type {
+  TimberDowelCharacteristicResistance,
+  TimberDowelConnectorJson,
+  TimberDowelConnectorOptions,
+} from "./domain/connectors/TimberDowelConnector.js";
+export type {
+  TecnariaConnectorCatalog,
+  TecnariaConnectorData,
+  TecnariaConnectorFamily,
+} from "./domain/connectors/tecnariaConnectorCatalog.js";
 export type * from "./domain/actions/index.js";
 export type * from "./domain/slabs/punching/types.js";
 export type * from "./applications/reinforced-concrete-punching/index.js";

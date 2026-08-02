@@ -1,0 +1,69 @@
+{
+  "schemaVersion": 1,
+  "sliceId": "0043-domain-shear-connector",
+  "title": "Domain shear connector base model",
+  "migrationType": "mechanical-parity",
+  "implementationStatus": "implemented",
+  "dependencies": ["0042-domain-xlam-panel-catalog"],
+  "source": {
+    "repository": "https://github.com/claudiopagani/strutture-js",
+    "revision": "6f33baead8b88166c4b2cf94af41763412e3c751"
+  },
+  "normativeCorpusRevision": "41da3faa489600173106935bbcf726119300e48d",
+  "sourceFiles": [
+    {
+      "path": "src/domain/connectors/ShearConnector.js",
+      "gitBlobSha1": "c713cdfe1d8ad1b2694f99b63a8d4d72708a1626",
+      "targetPath": "src/domain/connectors/ShearConnector.ts"
+    }
+  ],
+  "supportingSourceFiles": [
+    {
+      "path": "src/index.js",
+      "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7",
+      "targetPath": "src/index.ts",
+      "coverage": "Root public export for ShearConnector"
+    }
+  ],
+  "sourceOracles": [
+    {
+      "path": "tests/reinforcementAndConnector.test.js",
+      "gitBlobSha1": "f49bc76477da083db1d8333ccf1d55088b2c4bfe",
+      "coverage": "Indirect ShearConnector normalization through the TecnariaConnector subclass; direct constructor, serialization and error parity are covered by the independent live test"
+    }
+  ],
+  "sourcePublicExport": {
+    "path": "src/index.js",
+    "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
+  },
+  "targetTests": [
+    "tests/baseline-parity.test.ts",
+    "tests/shear-connector-compile-time.test.ts",
+    "tests/shear-connector-live-parity.test.ts"
+  ],
+  "publicExports": ["ShearConnector"],
+  "publicTypeExports": ["ShearConnectorJson", "ShearConnectorOptions"],
+  "normativeReferences": {
+    "resolved": [],
+    "outsideCorpus": [],
+    "normativeConformityClaimed": false,
+    "status": "classified-for-declared-scope"
+  },
+  "independentValidation": {
+    "method": "Strict declaration consumer coverage and independently executed pinned JavaScript versus built TypeScript ShearConnector classes, including exact unit conversion, JSON serialization, Unicode, inheritance boundaries, cloning and error-path comparisons.",
+    "targetTests": [
+      "tests/shear-connector-compile-time.test.ts",
+      "tests/shear-connector-live-parity.test.ts"
+    ],
+    "tolerances": {
+      "serializedParity": "exact JSON serialization for normalized connector fields, units and metadata",
+      "numericParity": "exact equality for converted stiffness and resistance values",
+      "publicStrings": "exact equality plus Unicode code-point equality"
+    }
+  },
+  "parityDifferences": [
+    "The slice preserves the source ShearConnector constructor defaults, explicit-unit requirement, unit conversion, validation order and messages, metadata, serialization and independent instanceof behavior.",
+    "TecnariaConnector, TimberDowelConnector, connector catalogs and connector-specific engineering formulas remain outside this bounded slice."
+  ],
+  "engineeringFunctionality": "Generic solver-neutral shear connector data and unit-normalized properties only; no connector catalog or connection verification is introduced."
+}

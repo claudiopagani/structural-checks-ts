@@ -1,0 +1,77 @@
+{
+  "schemaVersion": 1,
+  "sliceId": "0045-domain-tecnaria-connector-catalog",
+  "title": "Domain Tecnaria connector catalog",
+  "migrationType": "mechanical-parity",
+  "implementationStatus": "implemented",
+  "dependencies": ["0044-domain-timber-dowel-connector"],
+  "source": {
+    "repository": "https://github.com/claudiopagani/strutture-js",
+    "revision": "6f33baead8b88166c4b2cf94af41763412e3c751"
+  },
+  "normativeCorpusRevision": "41da3faa489600173106935bbcf726119300e48d",
+  "sourceFiles": [
+    {
+      "path": "src/domain/connectors/tecnariaConnectorCatalog.js",
+      "gitBlobSha1": "6510936dea8f3b80494fd096776d5bb726d68d67",
+      "targetPath": "src/domain/connectors/tecnariaConnectorCatalog.ts"
+    }
+  ],
+  "supportingSourceFiles": [
+    {
+      "path": "src/index.js",
+      "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7",
+      "targetPath": "src/index.ts",
+      "coverage": "Root public exports for the Tecnaria connector catalog constants and lookup"
+    }
+  ],
+  "sourceOracles": [
+    {
+      "path": "tests/reinforcementAndConnector.test.js",
+      "gitBlobSha1": "f49bc76477da083db1d8333ccf1d55088b2c4bfe",
+      "coverage": "Tecnaria connector catalog types and values are consumed through the source factory; direct catalog lookup, serialization, unsupported and error parity are covered by the independent live test"
+    }
+  ],
+  "sourcePublicExport": {
+    "path": "src/index.js",
+    "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
+  },
+  "targetTests": [
+    "tests/baseline-parity.test.ts",
+    "tests/tecnaria-connector-catalog-compile-time.test.ts",
+    "tests/tecnaria-connector-catalog-live-parity.test.ts"
+  ],
+  "publicExports": [
+    "TECNARIA_CONNECTOR_CATALOG",
+    "TECNARIA_CONNECTOR_TYPES",
+    "getTecnariaConnectorData"
+  ],
+  "publicTypeExports": [
+    "TecnariaConnectorCatalog",
+    "TecnariaConnectorData",
+    "TecnariaConnectorFamily"
+  ],
+  "normativeReferences": {
+    "resolved": [],
+    "outsideCorpus": [],
+    "normativeConformityClaimed": false,
+    "status": "classified-for-declared-scope"
+  },
+  "independentValidation": {
+    "method": "Strict declaration consumer coverage and independently executed pinned JavaScript versus built TypeScript catalog modules, including exact catalog JSON, numeric values, Unicode code-point comparisons, frozen type-list behavior, direct-reference behavior, unsupported/null results and inherited-property errors.",
+    "targetTests": [
+      "tests/tecnaria-connector-catalog-compile-time.test.ts",
+      "tests/tecnaria-connector-catalog-live-parity.test.ts"
+    ],
+    "tolerances": {
+      "serializedParity": "exact JSON serialization for catalog families, board-thickness entries and type lists",
+      "numericParity": "exact equality for every fvrk, kser and ku value and lookup result",
+      "publicStrings": "exact equality plus Unicode code-point equality"
+    }
+  },
+  "parityDifferences": [
+    "The slice preserves the source catalog object shape, insertion order, numeric values, shallow-frozen connector type list, lookup coercion, direct returned references, null behavior and inherited-property errors.",
+    "TecnariaConnector, createTecnariaConnector, and additional connector, material and application functionality remain outside this bounded slice."
+  ],
+  "engineeringFunctionality": "Generic Tecnaria connector catalog data and lookup only; no connector construction or verification is introduced."
+}

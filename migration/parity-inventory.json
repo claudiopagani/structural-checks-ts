@@ -1078,6 +1078,7 @@
         "SectionFiberDiscretizer",
         "SectionMomentCurvatureCurve",
         "SeismicAction",
+        "ShearConnector",
         "SingleBeamAnalysis",
         "SingleBeamFemBuilder",
         "SingleBeamModel",
@@ -1093,9 +1094,12 @@
         "StrutAndTieAnalysis2D",
         "StrutAndTieModel2D",
         "Support",
+        "TECNARIA_CONNECTOR_CATALOG",
+        "TECNARIA_CONNECTOR_TYPES",
         "TSection",
         "ThermalAction",
         "TimberBeamSectionProvider",
+        "TimberDowelConnector",
         "TrafficAction",
         "VariableAction",
         "VerificationResult",
@@ -1194,6 +1198,7 @@
         "getNTC2018RcBuildingCoverage",
         "getNTC2018TimberKmod",
         "getRcPunchingDesignCodeManifest",
+        "getTecnariaConnectorData",
         "getXlamPanelProduct",
         "governingCheck",
         "integrateFootingPressureStrip",
@@ -7975,11 +7980,15 @@
       "sourcePath": "src/domain/connectors/tecnariaConnectorCatalog.js",
       "sourceBlobSha1": "6510936dea8f3b80494fd096776d5bb726d68d67",
       "targetPath": "src/domain/connectors/tecnariaConnectorCatalog.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0045-domain-tecnaria-connector-catalog"],
+      "sourceOracles": ["tests/reinforcementAndConnector.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/tecnaria-connector-catalog-compile-time.test.ts",
+        "tests/tecnaria-connector-catalog-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0045-domain-tecnaria-connector-catalog"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -14374,11 +14383,15 @@
       "sourcePath": "src/domain/connectors/ShearConnector.js",
       "sourceBlobSha1": "c713cdfe1d8ad1b2694f99b63a8d4d72708a1626",
       "targetPath": "src/domain/connectors/ShearConnector.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0043-domain-shear-connector"],
+      "sourceOracles": ["tests/reinforcementAndConnector.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/shear-connector-compile-time.test.ts",
+        "tests/shear-connector-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0043-domain-shear-connector"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -15389,11 +15402,15 @@
       "sourcePath": "src/domain/connectors/tecnariaConnectorCatalog.js",
       "sourceBlobSha1": "6510936dea8f3b80494fd096776d5bb726d68d67",
       "targetPath": "src/domain/connectors/tecnariaConnectorCatalog.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0045-domain-tecnaria-connector-catalog"],
+      "sourceOracles": ["tests/reinforcementAndConnector.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/tecnaria-connector-catalog-compile-time.test.ts",
+        "tests/tecnaria-connector-catalog-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0045-domain-tecnaria-connector-catalog"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -15403,11 +15420,15 @@
       "sourcePath": "src/domain/connectors/tecnariaConnectorCatalog.js",
       "sourceBlobSha1": "6510936dea8f3b80494fd096776d5bb726d68d67",
       "targetPath": "src/domain/connectors/tecnariaConnectorCatalog.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0045-domain-tecnaria-connector-catalog"],
+      "sourceOracles": ["tests/reinforcementAndConnector.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/tecnaria-connector-catalog-compile-time.test.ts",
+        "tests/tecnaria-connector-catalog-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0045-domain-tecnaria-connector-catalog"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -15583,11 +15604,15 @@
       "sourcePath": "src/domain/connectors/TimberDowelConnector.js",
       "sourceBlobSha1": "00e7dd28a72b6063d9447f90094b29d83b870b2d",
       "targetPath": "src/domain/connectors/TimberDowelConnector.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0044-domain-timber-dowel-connector"],
+      "sourceOracles": ["tests/timberXlamCompositeBeam.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/timber-dowel-connector-compile-time.test.ts",
+        "tests/timber-dowel-connector-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0044-domain-timber-dowel-connector"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -27963,11 +27988,15 @@
       "sourcePath": "src/domain/connectors/ShearConnector.js",
       "sourceBlobSha1": "c713cdfe1d8ad1b2694f99b63a8d4d72708a1626",
       "targetPath": "src/domain/connectors/ShearConnector.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing"
+      "migrationSlices": ["0043-domain-shear-connector"],
+      "sourceOracles": ["tests/reinforcementAndConnector.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/shear-connector-compile-time.test.ts",
+        "tests/shear-connector-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0043-domain-shear-connector"],
+      "status": "exact-parity"
     },
     {
       "id": "src/domain/connectors/TecnariaConnector.js",
@@ -27985,11 +28014,15 @@
       "sourcePath": "src/domain/connectors/TimberDowelConnector.js",
       "sourceBlobSha1": "00e7dd28a72b6063d9447f90094b29d83b870b2d",
       "targetPath": "src/domain/connectors/TimberDowelConnector.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing"
+      "migrationSlices": ["0044-domain-timber-dowel-connector"],
+      "sourceOracles": ["tests/timberXlamCompositeBeam.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/timber-dowel-connector-compile-time.test.ts",
+        "tests/timber-dowel-connector-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0044-domain-timber-dowel-connector"],
+      "status": "exact-parity"
     },
     {
       "id": "src/domain/connectors/createTecnariaConnector.js",
@@ -28007,11 +28040,15 @@
       "sourcePath": "src/domain/connectors/tecnariaConnectorCatalog.js",
       "sourceBlobSha1": "6510936dea8f3b80494fd096776d5bb726d68d67",
       "targetPath": "src/domain/connectors/tecnariaConnectorCatalog.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing"
+      "migrationSlices": ["0045-domain-tecnaria-connector-catalog"],
+      "sourceOracles": ["tests/reinforcementAndConnector.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/tecnaria-connector-catalog-compile-time.test.ts",
+        "tests/tecnaria-connector-catalog-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0045-domain-tecnaria-connector-catalog"],
+      "status": "exact-parity"
     },
     {
       "id": "src/domain/constitutive-laws/ConcreteNoTensionLaw.js",
@@ -30131,7 +30168,10 @@
         "0039-ntc2018-action-parameters-and-factories",
         "0040-domain-analysis-load-cases-and-combinations",
         "0041-domain-beam-section-providers",
-        "0042-domain-xlam-panel-catalog"
+        "0042-domain-xlam-panel-catalog",
+        "0043-domain-shear-connector",
+        "0044-domain-timber-dowel-connector",
+        "0045-domain-tecnaria-connector-catalog"
       ],
       "sourceOracles": [
         "tests/architecture/applicationRegistry.test.js",
@@ -32944,7 +32984,12 @@
       "sourcePath": "tests/reinforcementAndConnector.test.js",
       "sourceBlobSha1": "f49bc76477da083db1d8333ccf1d55088b2c4bfe",
       "targetPath": "tests/reinforcementAndConnector.test.ts",
-      "migrationSlices": ["0002-reinforced-concrete-sections", "0003-concrete-materials"],
+      "migrationSlices": [
+        "0002-reinforced-concrete-sections",
+        "0003-concrete-materials",
+        "0043-domain-shear-connector",
+        "0045-domain-tecnaria-connector-catalog"
+      ],
       "sourceOracles": ["tests/reinforcementAndConnector.test.js"],
       "targetTests": [
         "tests/baseline-parity.test.ts",
@@ -32952,9 +32997,16 @@
         "tests/concrete-materials.test.ts",
         "tests/concrete-sections.test.ts",
         "tests/material-baseline-parity.test.ts",
-        "tests/reinforcement-layout.test.ts"
+        "tests/reinforcement-layout.test.ts",
+        "tests/shear-connector-compile-time.test.ts",
+        "tests/shear-connector-live-parity.test.ts",
+        "tests/tecnaria-connector-catalog-compile-time.test.ts",
+        "tests/tecnaria-connector-catalog-live-parity.test.ts"
       ],
-      "validationEvidence": [],
+      "validationEvidence": [
+        "0043-domain-shear-connector",
+        "0045-domain-tecnaria-connector-catalog"
+      ],
       "status": "exact-parity",
       "testKind": "test"
     },
@@ -33122,11 +33174,15 @@
       "sourcePath": "tests/timberXlamCompositeBeam.test.js",
       "sourceBlobSha1": "cddaa0e637e8f72fea9b83c9feaac71d027a07b7",
       "targetPath": "tests/timberXlamCompositeBeam.test.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0044-domain-timber-dowel-connector"],
+      "sourceOracles": ["tests/timberXlamCompositeBeam.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/timber-dowel-connector-compile-time.test.ts",
+        "tests/timber-dowel-connector-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0044-domain-timber-dowel-connector"],
+      "status": "exact-parity",
       "testKind": "test"
     },
     {
@@ -34648,12 +34704,57 @@
         "numericParity": "exact equality for layer thickness and active-layer values",
         "publicStrings": "exact equality plus Unicode code-point equality"
       }
+    },
+    {
+      "sliceId": "0043-domain-shear-connector",
+      "sourceRevision": "6f33baead8b88166c4b2cf94af41763412e3c751",
+      "method": "Strict declaration consumer coverage and independently executed pinned JavaScript versus built TypeScript ShearConnector classes, including exact unit conversion, JSON serialization, Unicode, inheritance boundaries, cloning and error-path comparisons.",
+      "targetTests": [
+        "tests/shear-connector-compile-time.test.ts",
+        "tests/shear-connector-live-parity.test.ts"
+      ],
+      "fixture": null,
+      "tolerances": {
+        "serializedParity": "exact JSON serialization for normalized connector fields, units and metadata",
+        "numericParity": "exact equality for converted stiffness and resistance values",
+        "publicStrings": "exact equality plus Unicode code-point equality"
+      }
+    },
+    {
+      "sliceId": "0044-domain-timber-dowel-connector",
+      "sourceRevision": "6f33baead8b88166c4b2cf94af41763412e3c751",
+      "method": "Strict declaration consumer coverage and independently executed pinned JavaScript versus built TypeScript TimberDowelConnector classes, including exact unit conversion, numerical resistance modes, JSON serialization, Unicode, inheritance boundaries, cloning and error-path comparisons.",
+      "targetTests": [
+        "tests/timber-dowel-connector-compile-time.test.ts",
+        "tests/timber-dowel-connector-live-parity.test.ts"
+      ],
+      "fixture": null,
+      "tolerances": {
+        "serializedParity": "exact JSON serialization for normalized connector and resistance fields",
+        "numericParity": "exact equality for converted properties, embedment, yield moment and timber-timber resistance modes",
+        "publicStrings": "exact equality plus Unicode code-point equality"
+      }
+    },
+    {
+      "sliceId": "0045-domain-tecnaria-connector-catalog",
+      "sourceRevision": "6f33baead8b88166c4b2cf94af41763412e3c751",
+      "method": "Strict declaration consumer coverage and independently executed pinned JavaScript versus built TypeScript catalog modules, including exact catalog JSON, numeric values, Unicode code-point comparisons, frozen type-list behavior, direct-reference behavior, unsupported/null results and inherited-property errors.",
+      "targetTests": [
+        "tests/tecnaria-connector-catalog-compile-time.test.ts",
+        "tests/tecnaria-connector-catalog-live-parity.test.ts"
+      ],
+      "fixture": null,
+      "tolerances": {
+        "serializedParity": "exact JSON serialization for catalog families, board-thickness entries and type lists",
+        "numericParity": "exact equality for every fvrk, kser and ku value and lookup result",
+        "publicStrings": "exact equality plus Unicode code-point equality"
+      }
     }
   ],
   "counts": {
     "rootExports": {
       "javascript": 841,
-      "typescript": 399
+      "typescript": 404
     },
     "applicationsExports": {
       "javascript": 309,
@@ -34677,11 +34778,11 @@
     },
     "sourceFiles": {
       "javascript": 480,
-      "typescript": 265
+      "typescript": 268
     },
     "tests": {
       "javascript": 131,
-      "typescript": 72
+      "typescript": 78
     },
     "validationCampaigns": {
       "javascript": 17,
@@ -34713,7 +34814,7 @@
       "statusCounts": {
         "exact-parity": 0,
         "partial": 18,
-        "missing": 278,
+        "missing": 270,
         "intentionally-excluded": 0,
         "decision-required": 0
       },
@@ -34862,7 +34963,6 @@
         "root-export:ShallowFoundationModel",
         "root-export:ShallowFoundationServiceabilityAnalysis",
         "root-export:ShallowFoundationUltimateLimitStateAnalysis",
-        "root-export:ShearConnector",
         "root-export:SlabLoad",
         "root-export:SlidingStrengthModel",
         "root-export:SlopeSliceDiscretizer2D",
@@ -34874,11 +34974,8 @@
         "root-export:StructuralElement",
         "root-export:StructuralModel",
         "root-export:SurfaceLoad",
-        "root-export:TECNARIA_CONNECTOR_CATALOG",
-        "root-export:TECNARIA_CONNECTOR_TYPES",
         "root-export:TERRAIN_ELEVATION_GRID_SCHEMA_VERSION",
         "root-export:TecnariaConnector",
-        "root-export:TimberDowelConnector",
         "root-export:TimberMaterial",
         "root-export:TurnsekSheppardModel",
         "root-export:VariableLoad",
@@ -34910,7 +35007,6 @@
         "root-export:cyclicMasonryPierHistoryToCsv",
         "root-export:getGroundAnchorBondCatalogEntry",
         "root-export:getSteelProfileSectionData",
-        "root-export:getTecnariaConnectorData",
         "root-export:groundAnchorDemandFromEmbeddedWallResult",
         "root-export:integratePressureSegments",
         "root-export:jakyAtRestCoefficient",
@@ -34922,11 +35018,8 @@
         "root-export:rankineEarthPressureCoefficients",
         "root-export:simplifiedBishop",
         "root-export:spencerMethod",
-        "source:src/domain/connectors/ShearConnector.js",
         "source:src/domain/connectors/TecnariaConnector.js",
-        "source:src/domain/connectors/TimberDowelConnector.js",
         "source:src/domain/connectors/createTecnariaConnector.js",
-        "source:src/domain/connectors/tecnariaConnectorCatalog.js",
         "source:src/domain/constitutive-laws/index.js",
         "source:src/domain/elements/BeamElement.js",
         "source:src/domain/elements/BeamSystem.js",
@@ -35662,7 +35755,7 @@
       "statusCounts": {
         "exact-parity": 0,
         "partial": 3,
-        "missing": 156,
+        "missing": 155,
         "intentionally-excluded": 0,
         "decision-required": 0
       },
@@ -35824,8 +35917,7 @@
         "test:tests/steelProfileSection.test.js",
         "test:tests/steelRingFramePushover.test.js",
         "test:tests/timberConcreteCompositeBeam.test.js",
-        "test:tests/timberMaterialHierarchy.test.js",
-        "test:tests/timberXlamCompositeBeam.test.js"
+        "test:tests/timberMaterialHierarchy.test.js"
       ]
     }
   },
