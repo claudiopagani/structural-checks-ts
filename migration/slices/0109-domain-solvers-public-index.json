@@ -1,0 +1,74 @@
+{
+  "schemaVersion": 1,
+  "sliceId": "0109-domain-solvers-public-index",
+  "title": "Domain solvers public index",
+  "migrationType": "mechanical-parity-with-minimal-dependency-support",
+  "implementationStatus": "implemented",
+  "dependencies": ["0004-ntc2018-uls-uniaxial-concrete-resistance"],
+  "source": {
+    "repository": "https://github.com/claudiopagani/strutture-js",
+    "revision": "6f33baead8b88166c4b2cf94af41763412e3c751"
+  },
+  "normativeCorpusRevision": "41da3faa489600173106935bbcf726119300e48d",
+  "sourceFiles": [
+    {
+      "path": "src/domain/solvers/index.js",
+      "gitBlobSha1": "b7f3fd868452b2992b7b6edc1e2ef2573bd57b8b",
+      "targetPath": "src/domain/solvers/index.ts"
+    }
+  ],
+  "supportingSourceFiles": [
+    {
+      "path": "src/index.js",
+      "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7",
+      "targetPath": "src/index.ts",
+      "coverage": "Root IllinoisRootSolver export is wired through the migrated solver index."
+    }
+  ],
+  "sourceOracles": [
+    {
+      "path": "tests/rcConstitutiveLawsAndSolvers.test.js",
+      "gitBlobSha1": "1824f854238feaa90f1d035f376f145b12cb6464",
+      "coverage": "Illinois root solver convergence, diagnostics and validation behavior."
+    },
+    {
+      "path": "tests/packageExports.test.js",
+      "gitBlobSha1": "8dde24b4c97dd3dae7100207d07d9d96c52b9c74",
+      "coverage": "Root public export behavior."
+    }
+  ],
+  "sourcePublicExport": {
+    "path": "src/index.js",
+    "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
+  },
+  "targetTests": [
+    "tests/baseline-parity.test.ts",
+    "tests/solver-public-index-compile-time.test.ts",
+    "tests/solver-public-index-live-parity.test.ts"
+  ],
+  "publicExports": [],
+  "publicTypeExports": [],
+  "normativeReferences": {
+    "resolved": [],
+    "outsideCorpus": [],
+    "normativeConformityClaimed": false,
+    "status": "not-applicable"
+  },
+  "independentValidation": {
+    "method": "Strict declaration consumer coverage and independently executed pinned JavaScript versus built TypeScript comparison of the solver barrel, root alias wiring and independent IllinoisRootSolver identity; detailed numerical and error behavior remains covered by the dependency slice.",
+    "targetTests": [
+      "tests/solver-public-index-compile-time.test.ts",
+      "tests/solver-public-index-live-parity.test.ts"
+    ],
+    "tolerances": {
+      "serializedParity": "underlying solver result serialization remains covered by the dependency slice",
+      "numericParity": "underlying solver convergence and diagnostics remain covered by the dependency slice",
+      "publicStrings": "exact source-compatible public naming",
+      "errors": "underlying solver validation errors remain covered by the dependency slice"
+    }
+  },
+  "parityDifferences": [
+    "No root runtime export is added; the existing IllinoisRootSolver export is routed through the source-compatible solver barrel."
+  ],
+  "engineeringFunctionality": "Source-compatible public composition for the Illinois root solver."
+}

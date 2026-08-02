@@ -32255,11 +32255,18 @@
       "sourcePath": "src/domain/solvers/index.js",
       "sourceBlobSha1": "b7f3fd868452b2992b7b6edc1e2ef2573bd57b8b",
       "targetPath": "src/domain/solvers/index.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing"
+      "migrationSlices": ["0109-domain-solvers-public-index"],
+      "sourceOracles": [
+        "tests/packageExports.test.js",
+        "tests/rcConstitutiveLawsAndSolvers.test.js"
+      ],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/solver-public-index-compile-time.test.ts",
+        "tests/solver-public-index-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0109-domain-solvers-public-index"],
+      "status": "exact-parity"
     },
     {
       "id": "src/domain/strut-and-tie/AxialMember2D.js",
@@ -32498,7 +32505,8 @@
         "0105-domain-fem-public-indexes",
         "0106-domain-masonry-material-public-indexes",
         "0107-domain-masonry-section-public-index",
-        "0108-domain-slab-public-index"
+        "0108-domain-slab-public-index",
+        "0109-domain-solvers-public-index"
       ],
       "sourceOracles": [
         "tests/architecture/applicationRegistry.test.js",
@@ -35129,7 +35137,8 @@
         "0105-domain-fem-public-indexes",
         "0106-domain-masonry-material-public-indexes",
         "0107-domain-masonry-section-public-index",
-        "0108-domain-slab-public-index"
+        "0108-domain-slab-public-index",
+        "0109-domain-solvers-public-index"
       ],
       "sourceOracles": ["tests/packageExports.test.js"],
       "targetTests": [
@@ -35204,6 +35213,8 @@
         "tests/slope-stability-methods-live-parity.test.ts",
         "tests/slope-surface-surcharge-compile-time.test.ts",
         "tests/slope-surface-surcharge-live-parity.test.ts",
+        "tests/solver-public-index-compile-time.test.ts",
+        "tests/solver-public-index-live-parity.test.ts",
         "tests/spencer-method-compile-time.test.ts",
         "tests/spencer-method-live-parity.test.ts",
         "tests/structural-model-compile-time.test.ts",
@@ -35256,7 +35267,8 @@
         "0105-domain-fem-public-indexes",
         "0106-domain-masonry-material-public-indexes",
         "0107-domain-masonry-section-public-index",
-        "0108-domain-slab-public-index"
+        "0108-domain-slab-public-index",
+        "0109-domain-solvers-public-index"
       ],
       "status": "exact-parity",
       "testKind": "test"
@@ -35370,7 +35382,8 @@
       "targetPath": "tests/rcConstitutiveLawsAndSolvers.test.ts",
       "migrationSlices": [
         "0004-ntc2018-uls-uniaxial-concrete-resistance",
-        "0048-domain-constitutive-laws-index"
+        "0048-domain-constitutive-laws-index",
+        "0109-domain-solvers-public-index"
       ],
       "sourceOracles": ["tests/rcConstitutiveLawsAndSolvers.test.js"],
       "targetTests": [
@@ -35378,11 +35391,14 @@
         "tests/concrete-resistance-baseline-parity.test.ts",
         "tests/concrete-section-resistance.test.ts",
         "tests/constitutive-laws-index-compile-time.test.ts",
-        "tests/constitutive-laws-index-live-parity.test.ts"
+        "tests/constitutive-laws-index-live-parity.test.ts",
+        "tests/solver-public-index-compile-time.test.ts",
+        "tests/solver-public-index-live-parity.test.ts"
       ],
       "validationEvidence": [
         "0004-ntc2018-uls-uniaxial-concrete-resistance",
-        "0048-domain-constitutive-laws-index"
+        "0048-domain-constitutive-laws-index",
+        "0109-domain-solvers-public-index"
       ],
       "status": "exact-parity",
       "testKind": "test"
@@ -38561,6 +38577,22 @@
         "publicStrings": "exact equality plus Unicode code-point preservation",
         "errors": "underlying slab and punching errors remain covered by dependency slices"
       }
+    },
+    {
+      "sliceId": "0109-domain-solvers-public-index",
+      "sourceRevision": "6f33baead8b88166c4b2cf94af41763412e3c751",
+      "method": "Strict declaration consumer coverage and independently executed pinned JavaScript versus built TypeScript comparison of the solver barrel, root alias wiring and independent IllinoisRootSolver identity; detailed numerical and error behavior remains covered by the dependency slice.",
+      "targetTests": [
+        "tests/solver-public-index-compile-time.test.ts",
+        "tests/solver-public-index-live-parity.test.ts"
+      ],
+      "fixture": null,
+      "tolerances": {
+        "serializedParity": "underlying solver result serialization remains covered by the dependency slice",
+        "numericParity": "underlying solver convergence and diagnostics remain covered by the dependency slice",
+        "publicStrings": "exact source-compatible public naming",
+        "errors": "underlying solver validation errors remain covered by the dependency slice"
+      }
     }
   ],
   "counts": {
@@ -38590,11 +38622,11 @@
     },
     "sourceFiles": {
       "javascript": 480,
-      "typescript": 353
+      "typescript": 354
     },
     "tests": {
       "javascript": 131,
-      "typescript": 204
+      "typescript": 206
     },
     "validationCampaigns": {
       "javascript": 17,
@@ -38626,7 +38658,7 @@
       "statusCounts": {
         "exact-parity": 0,
         "partial": 17,
-        "missing": 1,
+        "missing": 0,
         "intentionally-excluded": 0,
         "decision-required": 0
       },
@@ -38647,7 +38679,6 @@
         "root-export:SOIL_SETTLEMENT_COMPONENTS",
         "root-export:SOIL_STRENGTH_MODELS",
         "source:src/domain/geotechnics/index.js",
-        "source:src/domain/solvers/index.js",
         "source:src/domain/terrain/index.js"
       ]
     },

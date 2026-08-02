@@ -316,7 +316,7 @@ export {
   TimberBeamSectionProvider,
   XlamBeamSectionProvider,
 } from "./domain/beams/index.js";
-export { IllinoisRootSolver } from "./domain/solvers/IllinoisRootSolver.js";
+export { IllinoisRootSolver } from "./domain/solvers/index.js";
 export { ReinforcedConcreteSectionApplication } from "./applications/reinforced-concrete-sections/ReinforcedConcreteSectionApplication.js";
 export {
   ReinforcedConcreteFoundationBeamApplication,
