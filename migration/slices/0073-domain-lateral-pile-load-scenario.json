@@ -1,0 +1,109 @@
+{
+  "schemaVersion": 1,
+  "sliceId": "0073-domain-lateral-pile-load-scenario",
+  "title": "Domain lateral-pile load scenario",
+  "migrationType": "mechanical-parity",
+  "implementationStatus": "implemented",
+  "dependencies": ["0061-domain-masonry-material"],
+  "source": {
+    "repository": "https://github.com/claudiopagani/strutture-js",
+    "revision": "6f33baead8b88166c4b2cf94af41763412e3c751"
+  },
+  "normativeCorpusRevision": "41da3faa489600173106935bbcf726119300e48d",
+  "sourceFiles": [
+    {
+      "path": "src/domain/geotechnics/LateralPileLoadScenario.js",
+      "gitBlobSha1": "4940fdc6977922bb8300e3a4755645b111d70657",
+      "targetPath": "src/domain/geotechnics/LateralPileLoadScenario.ts"
+    }
+  ],
+  "supportingSourceFiles": [
+    {
+      "path": "src/domain/geotechnics/SoilMaterial.js",
+      "gitBlobSha1": "5dfaafe73a7e65586de313e262cacf7e257535b9",
+      "targetPath": "src/domain/geotechnics/SoilMaterial.ts",
+      "coverage": "The scenario uses the migrated geotechnical internal units"
+    },
+    {
+      "path": "src/domain/units/UnitSystem.js",
+      "gitBlobSha1": "b8f2f4926aff645efbf7b9f458b69eba264ed59a",
+      "targetPath": "src/domain/units/UnitSystem.ts",
+      "coverage": "Pile actions and moments use the migrated explicit unit resolver"
+    },
+    {
+      "path": "src/domain/geotechnics/index.js",
+      "gitBlobSha1": "41ed2053fc2e37dc90da412846609f4050af9668",
+      "targetPath": "src/domain/geotechnics/index.ts",
+      "coverage": "Geotechnical public exports for the migrated lateral-pile scenario"
+    },
+    {
+      "path": "src/index.js",
+      "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7",
+      "targetPath": "src/index.ts",
+      "coverage": "Root public exports for the migrated lateral-pile scenario"
+    }
+  ],
+  "sourceOracles": [
+    {
+      "path": "tests/geotechnicalLateralPiles.test.js",
+      "gitBlobSha1": "4fb4df49422b449fee8307a02c8e98c4416160e4",
+      "coverage": "Lateral-pile scenario unit normalization, default action values, behavior assertion, resistance conversion, exact serialization and validation behavior"
+    }
+  ],
+  "sourcePublicExport": {
+    "path": "src/index.js",
+    "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
+  },
+  "targetTests": [
+    "tests/baseline-parity.test.ts",
+    "tests/lateral-pile-load-scenario-compile-time.test.ts",
+    "tests/lateral-pile-load-scenario-live-parity.test.ts"
+  ],
+  "publicExports": [
+    "LATERAL_PILE_BEHAVIOR_CLASSIFICATIONS",
+    "LATERAL_PILE_CAPACITY_METHODS",
+    "LATERAL_PILE_HEAD_CONDITIONS",
+    "LATERAL_PILE_LOAD_SCENARIO_SCHEMA_VERSION",
+    "LATERAL_PILE_RESISTANCE_CONVERSION_MODELS",
+    "LATERAL_PILE_SOIL_BRANCHES",
+    "LateralPileLoadScenario"
+  ],
+  "publicTypeExports": [
+    "LateralPileAction",
+    "LateralPileActionInput",
+    "LateralPileBehaviorAssertion",
+    "LateralPileBehaviorAssertionInput",
+    "LateralPileBehaviorClassification",
+    "LateralPileCapacityMethod",
+    "LateralPileHeadCondition",
+    "LateralPileLoadScenarioJson",
+    "LateralPileLoadScenarioOptions",
+    "LateralPileResistanceConversion",
+    "LateralPileResistanceConversionInput",
+    "LateralPileResistanceConversionModel",
+    "LateralPileSoilBranch"
+  ],
+  "normativeReferences": {
+    "resolved": [],
+    "outsideCorpus": [],
+    "normativeConformityClaimed": false,
+    "status": "classified-for-declared-scope"
+  },
+  "independentValidation": {
+    "method": "Strict public declaration consumer coverage and independently executed pinned JavaScript versus built TypeScript comparison of soil branches, unit-normalized actions and moments, defaults, behavior assertions, resistance conversion, exact serialization, Unicode metadata and error paths.",
+    "targetTests": [
+      "tests/lateral-pile-load-scenario-compile-time.test.ts",
+      "tests/lateral-pile-load-scenario-live-parity.test.ts"
+    ],
+    "tolerances": {
+      "serializedParity": "exact deep equality and JSON serialization",
+      "numericParity": "exact equality for normalized lateral shear and overturning moment",
+      "publicStrings": "exact equality plus Unicode code-point preservation",
+      "errors": "exact error name and message equality"
+    }
+  },
+  "parityDifferences": [
+    "The strict TypeScript declarations describe the existing JavaScript lateral-pile scenario without adding capacity formulas or analysis behavior."
+  ],
+  "engineeringFunctionality": "Serializable lateral-pile Broms short-rigid free-head load scenario with explicit soil branches, groundline action reference, behavior assertion, optional soil-reaction conversion and sign conventions."
+}

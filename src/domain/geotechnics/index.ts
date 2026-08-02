@@ -183,4 +183,26 @@ export {
   type ShallowFoundationTotalActions,
   type ShallowFoundationTotalActionsInput,
 } from "./ShallowFoundationModel.js";
+export {
+  LATERAL_PILE_BEHAVIOR_CLASSIFICATIONS,
+  LATERAL_PILE_CAPACITY_METHODS,
+  LATERAL_PILE_HEAD_CONDITIONS,
+  LATERAL_PILE_LOAD_SCENARIO_SCHEMA_VERSION,
+  LATERAL_PILE_RESISTANCE_CONVERSION_MODELS,
+  LATERAL_PILE_SOIL_BRANCHES,
+  LateralPileLoadScenario,
+  type LateralPileAction,
+  type LateralPileActionInput,
+  type LateralPileBehaviorAssertion,
+  type LateralPileBehaviorAssertionInput,
+  type LateralPileBehaviorClassification,
+  type LateralPileCapacityMethod,
+  type LateralPileHeadCondition,
+  type LateralPileLoadScenarioJson,
+  type LateralPileLoadScenarioOptions,
+  type LateralPileResistanceConversion,
+  type LateralPileResistanceConversionInput,
+  type LateralPileResistanceConversionModel,
+  type LateralPileSoilBranch,
+} from "./LateralPileLoadScenario.js";
 export { VerticalStressProfile } from "./VerticalStressProfile.js";
