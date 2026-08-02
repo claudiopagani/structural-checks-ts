@@ -1,0 +1,93 @@
+{
+  "schemaVersion": 1,
+  "sliceId": "0062-domain-displacement-control-nonlinear-solver",
+  "title": "Domain displacement-control nonlinear static solver",
+  "migrationType": "mechanical-parity",
+  "implementationStatus": "implemented",
+  "dependencies": ["0061-domain-masonry-material"],
+  "source": {
+    "repository": "https://github.com/claudiopagani/strutture-js",
+    "revision": "6f33baead8b88166c4b2cf94af41763412e3c751"
+  },
+  "normativeCorpusRevision": "41da3faa489600173106935bbcf726119300e48d",
+  "sourceFiles": [
+    {
+      "path": "src/domain/fem/nonlinear/DisplacementControlNonlinearStaticSolver2D.js",
+      "gitBlobSha1": "6786d2fcd98d7e0b73b841a29f513685b8726f9f",
+      "targetPath": "src/domain/fem/nonlinear/DisplacementControlNonlinearStaticSolver2D.ts"
+    }
+  ],
+  "supportingSourceFiles": [
+    {
+      "path": "src/domain/fem/nonlinear/index.js",
+      "gitBlobSha1": "e3b6ebfc8d7e8eba91dd1311b6a82c1657eaf8a5",
+      "targetPath": "src/domain/fem/nonlinear/index.ts",
+      "coverage": "Public nonlinear FEM export for the migrated displacement-control solver"
+    },
+    {
+      "path": "src/domain/fem/index.js",
+      "gitBlobSha1": "500ed76831bf15f757c0ed2c7eff05844c39511c",
+      "targetPath": "src/domain/fem/index.ts",
+      "coverage": "Domain FEM export for the migrated displacement-control solver"
+    },
+    {
+      "path": "src/index.js",
+      "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7",
+      "targetPath": "src/index.ts",
+      "coverage": "Root public export for the migrated displacement-control solver"
+    }
+  ],
+  "sourceOracles": [
+    {
+      "path": "tests/displacementControlNonlinearStaticSolver2D.test.js",
+      "gitBlobSha1": "25bbaf105f0d635ce5901a22b9f21047517e1618",
+      "coverage": "Perfectly plastic displacement-control plateau and equal-DOF constraint behavior"
+    }
+  ],
+  "sourcePublicExport": {
+    "path": "src/index.js",
+    "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
+  },
+  "targetTests": [
+    "tests/baseline-parity.test.ts",
+    "tests/displacement-control-solver-compile-time.test.ts",
+    "tests/displacement-control-solver-live-parity.test.ts"
+  ],
+  "publicExports": ["DisplacementControlNonlinearStaticSolver2D"],
+  "publicTypeExports": [
+    "DisplacementControlConstraintReducerLike",
+    "DisplacementControlEvaluation",
+    "DisplacementControlEvaluator",
+    "DisplacementControlEvaluatorContext",
+    "DisplacementControlLinearSolverLike",
+    "DisplacementControlModel2D",
+    "DisplacementControlPoint",
+    "DisplacementControlPointContext",
+    "DisplacementControlSolveOptions",
+    "DisplacementControlSolveResult",
+    "DisplacementControlTermination"
+  ],
+  "normativeReferences": {
+    "resolved": [],
+    "outsideCorpus": [],
+    "normativeConformityClaimed": false,
+    "status": "classified-for-declared-scope"
+  },
+  "independentValidation": {
+    "method": "Strict public declaration consumer coverage and independently executed pinned JavaScript versus built TypeScript comparison of displacement-control equilibrium stepping, singular-tangent regularization, exact serialized points, numerical plateau behavior, Unicode metadata and error paths.",
+    "targetTests": [
+      "tests/displacement-control-solver-compile-time.test.ts",
+      "tests/displacement-control-solver-live-parity.test.ts"
+    ],
+    "tolerances": {
+      "serializedParity": "exact deep equality and JSON serialization",
+      "numericParity": "exact equality for the independent shared input scenarios",
+      "publicStrings": "exact equality plus Unicode code-point preservation",
+      "errors": "exact error name and message equality"
+    }
+  },
+  "parityDifferences": [
+    "The strict TypeScript declarations describe the existing JavaScript displacement-control solver without adding runtime behavior."
+  ],
+  "engineeringFunctionality": "Solver-neutral two-dimensional displacement-control nonlinear static solution stepping with kinematic constraint reduction, augmented equilibrium systems, state and event propagation, serialized history points and explicit termination diagnostics."
+}

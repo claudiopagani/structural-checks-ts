@@ -4,6 +4,7 @@ export { createElementLoadIndex } from "./ElementLoadIndex.js";
 export { FemAssembler2D } from "./FemAssembler2D.js";
 export { KinematicConstraintReducer2D } from "./KinematicConstraintReducer2D.js";
 export { LinearStaticSolver2D } from "./LinearStaticSolver2D.js";
+export { DisplacementControlNonlinearStaticSolver2D } from "./nonlinear/index.js";
 export { FrameElement2DEulerBernoulli } from "./elements/index.js";
 export { FrameElement2DTimoshenko } from "./elements/index.js";
 export { FrameElement2DTimoshenkoRigidOffsets } from "./elements/index.js";
@@ -135,6 +136,19 @@ export type {
   LinearStaticSolveOptions,
   LinearStaticSolver2DInput,
 } from "./LinearStaticSolver2D.js";
+export type {
+  DisplacementControlConstraintReducerLike,
+  DisplacementControlEvaluation,
+  DisplacementControlEvaluator,
+  DisplacementControlEvaluatorContext,
+  DisplacementControlLinearSolverLike,
+  DisplacementControlModel2D,
+  DisplacementControlPoint,
+  DisplacementControlPointContext,
+  DisplacementControlSolveOptions,
+  DisplacementControlSolveResult,
+  DisplacementControlTermination,
+} from "./nonlinear/index.js";
 export type {
   ElasticFrameCrossSection,
   ElasticFrameMaterial,

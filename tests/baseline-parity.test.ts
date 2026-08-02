@@ -86,6 +86,7 @@ const expectedExports = [
   "GLOBAL_FEM_SECTION_CUT_COMPONENTS",
   "GLOBAL_FEM_SHELL_RESULTANT_COMPONENTS",
   "DenseLinearSolver",
+  "DisplacementControlNonlinearStaticSolver2D",
   "DesignCodeContext",
   "DistributedLoad",
   "ElementPointLoad",
