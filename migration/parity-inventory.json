@@ -1082,11 +1082,16 @@
         "NTC2018_REGULARITY_REDUCTION",
         "NTC2018_REGULARITY_REFERENCES",
         "NTC2018_REINFORCEMENT_STEEL_GRADES",
+        "NTC2018_SEISMIC_LIMIT_STATES",
+        "NTC2018_SEISMIC_REFERENCES",
         "NTC2018_SHEAR_WALL_REFERENCES",
+        "NTC2018_SITE_HAZARD_SOURCE_KINDS",
         "NTC2018_STRUCTURAL_BEHAVIOR",
         "NTC2018_STRUCTURAL_BEHAVIOR_REFERENCES",
         "NTC2018_STRUCTURAL_TYPE",
+        "NTC2018_SUBSOIL_SPECTRUM_COEFFICIENTS",
         "NTC2018_TIMBER_KMOD",
+        "NTC2018_TOPOGRAPHIC_AMPLIFICATION_MAXIMA",
         "NTC2018_WALL_SYSTEM_REFERENCES",
         "NodalLoad",
         "Node",
@@ -1277,9 +1282,12 @@
         "calculateEn1992StrutDesignStrength",
         "calculateEn1992TieResistance",
         "calculateNTC2018EffectiveJointWidth",
+        "calculateNTC2018HorizontalElasticSpectrum",
+        "calculateNTC2018HorizontalSpectrumParameters",
         "calculateNTC2018JointCompressionCapacity",
         "calculateNTC2018JointShearDemand",
         "calculateNTC2018JointTensionReinforcement",
+        "calculateNTC2018StratigraphicSpectrumCoefficients",
         "calculateRetainingWallPolygonProperties",
         "calculateRigidFoundationElasticStiffness",
         "calculateSchmertmannStrainInfluence",
@@ -1374,7 +1382,10 @@
         "getNTC2018LoadDurationClass",
         "getNTC2018LoadDurationDefinition",
         "getNTC2018RcBuildingCoverage",
+        "getNTC2018SeismicLimitStateDefinition",
+        "getNTC2018SubsoilSpectrumCoefficientDefinition",
         "getNTC2018TimberKmod",
+        "getNTC2018TopographicAmplificationDefinition",
         "getRcPunchingDesignCodeManifest",
         "getSteelProfileSectionData",
         "getTecnariaConnectorData",
@@ -1393,6 +1404,7 @@
         "mononobeOkabeActiveEarthPressureCoefficient",
         "normalizeExistingMaterialKnowledgeLevel",
         "normalizeGlobalFemClassificationPolicy",
+        "normalizeNTC2018SiteHazardParameters",
         "normalizeNTC2018StructuralBehavior",
         "normalizeNTC2018StructuralType",
         "normalizeSectionRotation",
@@ -1416,6 +1428,7 @@
         "resolveExistingMaterialState",
         "resolveNTC2018AlphaRatio",
         "resolveNTC2018GoverningLoadDuration",
+        "resolveNTC2018TopographicAmplification",
         "resolvePrincipalSectionFrame",
         "resolvePunchingTransferFromJointActions",
         "rotatePlateMoments",
@@ -3766,11 +3779,15 @@
       "sourcePath": "src/norms/ntc2018/actions/ntc2018SeismicAction.js",
       "sourceBlobSha1": "ce57e44a00f444914a29df88776ddc8aab357829",
       "targetPath": "src/norms/ntc2018/actions/ntc2018SeismicAction.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0113-norms-ntc2018-seismic-action"],
+      "sourceOracles": ["tests/ntc2018SeismicAction.test.js", "tests/packageExports.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/ntc2018-seismic-action-compile-time.test.ts",
+        "tests/ntc2018-seismic-action-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0113-norms-ntc2018-seismic-action"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -3780,11 +3797,15 @@
       "sourcePath": "src/norms/ntc2018/actions/ntc2018SeismicAction.js",
       "sourceBlobSha1": "ce57e44a00f444914a29df88776ddc8aab357829",
       "targetPath": "src/norms/ntc2018/actions/ntc2018SeismicAction.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0113-norms-ntc2018-seismic-action"],
+      "sourceOracles": ["tests/ntc2018SeismicAction.test.js", "tests/packageExports.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/ntc2018-seismic-action-compile-time.test.ts",
+        "tests/ntc2018-seismic-action-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0113-norms-ntc2018-seismic-action"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -4106,11 +4127,15 @@
       "sourcePath": "src/norms/ntc2018/actions/ntc2018SeismicAction.js",
       "sourceBlobSha1": "ce57e44a00f444914a29df88776ddc8aab357829",
       "targetPath": "src/norms/ntc2018/actions/ntc2018SeismicAction.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0113-norms-ntc2018-seismic-action"],
+      "sourceOracles": ["tests/ntc2018SeismicAction.test.js", "tests/packageExports.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/ntc2018-seismic-action-compile-time.test.ts",
+        "tests/ntc2018-seismic-action-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0113-norms-ntc2018-seismic-action"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -8208,11 +8233,15 @@
       "sourcePath": "src/norms/ntc2018/actions/ntc2018SeismicAction.js",
       "sourceBlobSha1": "ce57e44a00f444914a29df88776ddc8aab357829",
       "targetPath": "src/norms/ntc2018/actions/ntc2018SeismicAction.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0113-norms-ntc2018-seismic-action"],
+      "sourceOracles": ["tests/ntc2018SeismicAction.test.js", "tests/packageExports.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/ntc2018-seismic-action-compile-time.test.ts",
+        "tests/ntc2018-seismic-action-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0113-norms-ntc2018-seismic-action"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -8306,11 +8335,15 @@
       "sourcePath": "src/norms/ntc2018/actions/ntc2018SeismicAction.js",
       "sourceBlobSha1": "ce57e44a00f444914a29df88776ddc8aab357829",
       "targetPath": "src/norms/ntc2018/actions/ntc2018SeismicAction.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0113-norms-ntc2018-seismic-action"],
+      "sourceOracles": ["tests/ntc2018SeismicAction.test.js", "tests/packageExports.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/ntc2018-seismic-action-compile-time.test.ts",
+        "tests/ntc2018-seismic-action-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0113-norms-ntc2018-seismic-action"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -8366,11 +8399,15 @@
       "sourcePath": "src/norms/ntc2018/actions/ntc2018SeismicAction.js",
       "sourceBlobSha1": "ce57e44a00f444914a29df88776ddc8aab357829",
       "targetPath": "src/norms/ntc2018/actions/ntc2018SeismicAction.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0113-norms-ntc2018-seismic-action"],
+      "sourceOracles": ["tests/ntc2018SeismicAction.test.js", "tests/packageExports.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/ntc2018-seismic-action-compile-time.test.ts",
+        "tests/ntc2018-seismic-action-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0113-norms-ntc2018-seismic-action"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -10837,11 +10874,15 @@
       "sourcePath": "src/norms/ntc2018/actions/ntc2018SeismicAction.js",
       "sourceBlobSha1": "ce57e44a00f444914a29df88776ddc8aab357829",
       "targetPath": "src/norms/ntc2018/actions/ntc2018SeismicAction.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0113-norms-ntc2018-seismic-action"],
+      "sourceOracles": ["tests/ntc2018SeismicAction.test.js", "tests/packageExports.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/ntc2018-seismic-action-compile-time.test.ts",
+        "tests/ntc2018-seismic-action-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0113-norms-ntc2018-seismic-action"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -11899,11 +11940,15 @@
       "sourcePath": "src/norms/ntc2018/actions/ntc2018SeismicAction.js",
       "sourceBlobSha1": "ce57e44a00f444914a29df88776ddc8aab357829",
       "targetPath": "src/norms/ntc2018/actions/ntc2018SeismicAction.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0113-norms-ntc2018-seismic-action"],
+      "sourceOracles": ["tests/ntc2018SeismicAction.test.js", "tests/packageExports.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/ntc2018-seismic-action-compile-time.test.ts",
+        "tests/ntc2018-seismic-action-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0113-norms-ntc2018-seismic-action"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -11913,11 +11958,15 @@
       "sourcePath": "src/norms/ntc2018/actions/ntc2018SeismicAction.js",
       "sourceBlobSha1": "ce57e44a00f444914a29df88776ddc8aab357829",
       "targetPath": "src/norms/ntc2018/actions/ntc2018SeismicAction.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0113-norms-ntc2018-seismic-action"],
+      "sourceOracles": ["tests/ntc2018SeismicAction.test.js", "tests/packageExports.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/ntc2018-seismic-action-compile-time.test.ts",
+        "tests/ntc2018-seismic-action-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0113-norms-ntc2018-seismic-action"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -11955,11 +12004,15 @@
       "sourcePath": "src/norms/ntc2018/actions/ntc2018SeismicAction.js",
       "sourceBlobSha1": "ce57e44a00f444914a29df88776ddc8aab357829",
       "targetPath": "src/norms/ntc2018/actions/ntc2018SeismicAction.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0113-norms-ntc2018-seismic-action"],
+      "sourceOracles": ["tests/ntc2018SeismicAction.test.js", "tests/packageExports.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/ntc2018-seismic-action-compile-time.test.ts",
+        "tests/ntc2018-seismic-action-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0113-norms-ntc2018-seismic-action"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -12140,11 +12193,15 @@
       "sourcePath": "src/norms/ntc2018/actions/ntc2018SeismicAction.js",
       "sourceBlobSha1": "ce57e44a00f444914a29df88776ddc8aab357829",
       "targetPath": "src/norms/ntc2018/actions/ntc2018SeismicAction.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0113-norms-ntc2018-seismic-action"],
+      "sourceOracles": ["tests/ntc2018SeismicAction.test.js", "tests/packageExports.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/ntc2018-seismic-action-compile-time.test.ts",
+        "tests/ntc2018-seismic-action-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0113-norms-ntc2018-seismic-action"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -12228,11 +12285,15 @@
       "sourcePath": "src/norms/ntc2018/actions/ntc2018SeismicAction.js",
       "sourceBlobSha1": "ce57e44a00f444914a29df88776ddc8aab357829",
       "targetPath": "src/norms/ntc2018/actions/ntc2018SeismicAction.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0113-norms-ntc2018-seismic-action"],
+      "sourceOracles": ["tests/ntc2018SeismicAction.test.js", "tests/packageExports.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/ntc2018-seismic-action-compile-time.test.ts",
+        "tests/ntc2018-seismic-action-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0113-norms-ntc2018-seismic-action"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -14243,11 +14304,15 @@
       "sourcePath": "src/norms/ntc2018/actions/ntc2018SeismicAction.js",
       "sourceBlobSha1": "ce57e44a00f444914a29df88776ddc8aab357829",
       "targetPath": "src/norms/ntc2018/actions/ntc2018SeismicAction.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0113-norms-ntc2018-seismic-action"],
+      "sourceOracles": ["tests/ntc2018SeismicAction.test.js", "tests/packageExports.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/ntc2018-seismic-action-compile-time.test.ts",
+        "tests/ntc2018-seismic-action-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0113-norms-ntc2018-seismic-action"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -32577,7 +32642,8 @@
         "0109-domain-solvers-public-index",
         "0110-domain-terrain-public-index",
         "0111-norms-en1992-public-index",
-        "0112-norms-italian-historical-reinforcement-steel"
+        "0112-norms-italian-historical-reinforcement-steel",
+        "0113-norms-ntc2018-seismic-action"
       ],
       "sourceOracles": [
         "tests/architecture/applicationRegistry.test.js",
@@ -32923,11 +32989,15 @@
       "sourcePath": "src/norms/ntc2018/actions/ntc2018SeismicAction.js",
       "sourceBlobSha1": "ce57e44a00f444914a29df88776ddc8aab357829",
       "targetPath": "src/norms/ntc2018/actions/ntc2018SeismicAction.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing"
+      "migrationSlices": ["0113-norms-ntc2018-seismic-action"],
+      "sourceOracles": ["tests/ntc2018SeismicAction.test.js", "tests/packageExports.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/ntc2018-seismic-action-compile-time.test.ts",
+        "tests/ntc2018-seismic-action-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0113-norms-ntc2018-seismic-action"],
+      "status": "exact-parity"
     },
     {
       "id": "src/norms/ntc2018/actions/ntc2018SnowLoad.js",
@@ -35026,11 +35096,15 @@
       "sourcePath": "tests/ntc2018SeismicAction.test.js",
       "sourceBlobSha1": "080d87de58f0b4d01a8f46b2579c15212739164f",
       "targetPath": "tests/ntc2018SeismicAction.test.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0113-norms-ntc2018-seismic-action"],
+      "sourceOracles": ["tests/ntc2018SeismicAction.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/ntc2018-seismic-action-compile-time.test.ts",
+        "tests/ntc2018-seismic-action-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0113-norms-ntc2018-seismic-action"],
+      "status": "exact-parity",
       "testKind": "test"
     },
     {
@@ -35250,7 +35324,8 @@
         "0109-domain-solvers-public-index",
         "0110-domain-terrain-public-index",
         "0111-norms-en1992-public-index",
-        "0112-norms-italian-historical-reinforcement-steel"
+        "0112-norms-italian-historical-reinforcement-steel",
+        "0113-norms-ntc2018-seismic-action"
       ],
       "sourceOracles": ["tests/packageExports.test.js"],
       "targetTests": [
@@ -35307,6 +35382,8 @@
         "tests/masonry-material-indexes-live-parity.test.ts",
         "tests/masonry-section-index-compile-time.test.ts",
         "tests/masonry-section-index-live-parity.test.ts",
+        "tests/ntc2018-seismic-action-compile-time.test.ts",
+        "tests/ntc2018-seismic-action-live-parity.test.ts",
         "tests/rc-cracked-deflection.test.ts",
         "tests/reinforced-concrete-beam-column-joint.test.ts",
         "tests/reinforced-concrete-foundation-beam.test.ts",
@@ -35389,7 +35466,8 @@
         "0109-domain-solvers-public-index",
         "0110-domain-terrain-public-index",
         "0111-norms-en1992-public-index",
-        "0112-norms-italian-historical-reinforcement-steel"
+        "0112-norms-italian-historical-reinforcement-steel",
+        "0113-norms-ntc2018-seismic-action"
       ],
       "status": "exact-parity",
       "testKind": "test"
@@ -38780,12 +38858,28 @@
         "publicStrings": "exact equality plus Unicode code-point preservation",
         "errors": "exact error name and message equality for unsupported grades and missing units"
       }
+    },
+    {
+      "sliceId": "0113-norms-ntc2018-seismic-action",
+      "sourceRevision": "6f33baead8b88166c4b2cf94af41763412e3c751",
+      "method": "Strict declaration consumer coverage and independently executed pinned JavaScript versus built TypeScript comparison of the complete seismic module, exact export order and JSON serialization, numeric spectrum branches, Unicode-safe public strings, immutable catalogs, root aliases, unsupported-period result, and error paths.",
+      "targetTests": [
+        "tests/ntc2018-seismic-action-compile-time.test.ts",
+        "tests/ntc2018-seismic-action-live-parity.test.ts"
+      ],
+      "fixture": null,
+      "tolerances": {
+        "serializedParity": "exact catalog, normalized hazard, spectrum result, and metadata JSON",
+        "numericParity": "exact equality for catalog and calculated values",
+        "publicStrings": "exact equality plus Unicode code-point preservation",
+        "errors": "exact error name and message equality for invalid units, unsupported categories, and missing inputs"
+      }
     }
   ],
   "counts": {
     "rootExports": {
       "javascript": 841,
-      "typescript": 595
+      "typescript": 608
     },
     "applicationsExports": {
       "javascript": 309,
@@ -38809,11 +38903,11 @@
     },
     "sourceFiles": {
       "javascript": 480,
-      "typescript": 358
+      "typescript": 359
     },
     "tests": {
       "javascript": 131,
-      "typescript": 212
+      "typescript": 214
     },
     "validationCampaigns": {
       "javascript": 17,
@@ -38872,7 +38966,7 @@
       "statusCounts": {
         "exact-parity": 0,
         "partial": 15,
-        "missing": 147,
+        "missing": 133,
         "intentionally-excluded": 0,
         "decision-required": 0
       },
@@ -38900,10 +38994,7 @@
         "root-export:NTC2018_RC_CHAPTER_7_4_REFERENCES",
         "root-export:NTC2018_RC_OUTSIDE_CORPUS_REFERENCES",
         "root-export:NTC2018_RETAINING_WALL_SEISMIC_REFERENCE",
-        "root-export:NTC2018_SEISMIC_LIMIT_STATES",
-        "root-export:NTC2018_SEISMIC_REFERENCES",
         "root-export:NTC2018_SIMPLIFIED_BUILDING_TEMPERATURE_CHANGES",
-        "root-export:NTC2018_SITE_HAZARD_SOURCE_KINDS",
         "root-export:NTC2018_SLAB_MATERIAL_WEIGHT_DATABASE",
         "root-export:NTC2018_SLAB_VARIABLE_ACTIONS_DATABASE",
         "root-export:NTC2018_SNOW_EXPOSURE_CLASSES",
@@ -38911,12 +39002,10 @@
         "root-export:NTC2018_SNOW_REFERENCES",
         "root-export:NTC2018_SOLID_TIMBER_STRENGTH_CLASSES",
         "root-export:NTC2018_STRUCTURAL_STEEL_GRADES",
-        "root-export:NTC2018_SUBSOIL_SPECTRUM_COEFFICIENTS",
         "root-export:NTC2018_SUMMER_SOLAR_TEMPERATURE_INCREMENTS",
         "root-export:NTC2018_THERMAL_EXPANSION_COEFFICIENTS",
         "root-export:NTC2018_THERMAL_REFERENCES",
         "root-export:NTC2018_TIMBER_STRENGTH_CLASSES",
-        "root-export:NTC2018_TOPOGRAPHIC_AMPLIFICATION_MAXIMA",
         "root-export:NTC2018_TOPOGRAPHIC_CLASSIFICATION_METHOD",
         "root-export:NTC2018_TOPOGRAPHIC_CLASSIFICATION_REFERENCES",
         "root-export:NTC2018_ULS_PARTIAL_FACTORS",
@@ -38936,8 +39025,6 @@
         "root-export:calculateNTC2018ExternalAirTemperatures",
         "root-export:calculateNTC2018FreeThermalStrain",
         "root-export:calculateNTC2018GroundSnowLoad",
-        "root-export:calculateNTC2018HorizontalElasticSpectrum",
-        "root-export:calculateNTC2018HorizontalSpectrumParameters",
         "root-export:calculateNTC2018ImposedLoadAreaReduction",
         "root-export:calculateNTC2018ImposedLoadMultiStoreyReduction",
         "root-export:calculateNTC2018LineSelfWeight",
@@ -38956,7 +39043,6 @@
         "root-export:calculateNTC2018RoofSnowLoad",
         "root-export:calculateNTC2018SelfWeight",
         "root-export:calculateNTC2018SnowAreaLoad",
-        "root-export:calculateNTC2018StratigraphicSpectrumCoefficients",
         "root-export:calculateNTC2018UniformTemperatureChange",
         "root-export:calculateNTC2018WindAreaLoad",
         "root-export:calculateNTC2018WindExposureCoefficient",
@@ -38979,17 +39065,14 @@
         "root-export:getNTC2018ExistingMasonryModifierDefinition",
         "root-export:getNTC2018ExternalAirTemperatureZoneDefinition",
         "root-export:getNTC2018ImposedLoadDefinition",
-        "root-export:getNTC2018SeismicLimitStateDefinition",
         "root-export:getNTC2018SimplifiedBuildingTemperatureChange",
         "root-export:getNTC2018SlabVariableAction",
         "root-export:getNTC2018SlabWeightValue",
         "root-export:getNTC2018SnowExposureClassDefinition",
         "root-export:getNTC2018SnowGroundZoneDefinition",
         "root-export:getNTC2018SolarTemperatureIncrement",
-        "root-export:getNTC2018SubsoilSpectrumCoefficientDefinition",
         "root-export:getNTC2018TabulatedMasonryProperties",
         "root-export:getNTC2018ThermalExpansionCoefficientDefinition",
-        "root-export:getNTC2018TopographicAmplificationDefinition",
         "root-export:getNTC2018UnitWeightDefinition",
         "root-export:getNTC2018WindExposureCategoryDefinition",
         "root-export:getNTC2018WindZoneDefinition",
@@ -39001,20 +39084,17 @@
         "root-export:listSlabMaterialWeightPresetCategories",
         "root-export:listSlabMaterialWeightPresetEntries",
         "root-export:modifierSelectionsFromState",
-        "root-export:normalizeNTC2018SiteHazardParameters",
         "root-export:resolveNTC2018ImposedLoadDefinition",
         "root-export:resolveNTC2018InitialTemperature",
         "root-export:resolveNTC2018InternalAirTemperature",
         "root-export:resolveNTC2018MasonryTypology",
         "root-export:resolveNTC2018ThermalExpansionCoefficient",
-        "root-export:resolveNTC2018TopographicAmplification",
         "root-export:resolveNTC2018UnitWeight",
         "root-export:selectNTC2018ExistingMasonryParameterLevel",
         "root-export:selectNTC2018ExistingMasonryTypology",
         "root-export:selectNTC2018MasonryPierGoverningCapacity",
         "root-export:toggleNTC2018ExistingMasonryModifier",
         "root-export:updateNTC2018ExistingMasonryMaltaBuona",
-        "source:src/norms/ntc2018/actions/ntc2018SeismicAction.js",
         "source:src/norms/ntc2018/actions/ntc2018SnowLoad.js",
         "source:src/norms/ntc2018/actions/ntc2018ThermalAction.js",
         "source:src/norms/ntc2018/actions/ntc2018TopographicClassification.js",
@@ -39406,7 +39486,7 @@
       "statusCounts": {
         "exact-parity": 0,
         "partial": 4,
-        "missing": 131,
+        "missing": 130,
         "intentionally-excluded": 0,
         "decision-required": 0
       },
@@ -39536,7 +39616,6 @@
         "test:tests/ntc2018MasonryPierModel.test.js",
         "test:tests/ntc2018NormativeReferences.test.js",
         "test:tests/ntc2018PermanentLoads.test.js",
-        "test:tests/ntc2018SeismicAction.test.js",
         "test:tests/ntc2018SnowLoad.test.js",
         "test:tests/ntc2018ThermalAction.test.js",
         "test:tests/ntc2018TopographicClassification.test.js",

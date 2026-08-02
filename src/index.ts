@@ -593,6 +593,21 @@ export {
   resolveNTC2018GoverningLoadDuration,
 } from "./norms/ntc2018/actions/createNTC2018Action.js";
 export {
+  NTC2018_SEISMIC_LIMIT_STATES,
+  NTC2018_SEISMIC_REFERENCES,
+  NTC2018_SITE_HAZARD_SOURCE_KINDS,
+  NTC2018_SUBSOIL_SPECTRUM_COEFFICIENTS,
+  NTC2018_TOPOGRAPHIC_AMPLIFICATION_MAXIMA,
+  calculateNTC2018HorizontalElasticSpectrum,
+  calculateNTC2018HorizontalSpectrumParameters,
+  calculateNTC2018StratigraphicSpectrumCoefficients,
+  getNTC2018SeismicLimitStateDefinition,
+  getNTC2018SubsoilSpectrumCoefficientDefinition,
+  getNTC2018TopographicAmplificationDefinition,
+  normalizeNTC2018SiteHazardParameters,
+  resolveNTC2018TopographicAmplification,
+} from "./norms/ntc2018/actions/ntc2018SeismicAction.js";
+export {
   NTC2018_CONCRETE_CLASSES,
   NTC2018_EXISTING_MATERIAL_KNOWLEDGE_LEVELS,
   NTC2018_REINFORCEMENT_STEEL_GRADES,

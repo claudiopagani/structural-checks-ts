@@ -1,0 +1,123 @@
+{
+  "schemaVersion": 1,
+  "sliceId": "0113-norms-ntc2018-seismic-action",
+  "title": "NTC 2018 seismic hazard normalization and horizontal spectrum",
+  "migrationType": "mechanical-parity",
+  "implementationStatus": "implemented",
+  "dependencies": [
+    "0039-ntc2018-action-parameters-and-factories",
+    "0001-foundation",
+    "0057-domain-area-element-volume-loads"
+  ],
+  "source": {
+    "repository": "https://github.com/claudiopagani/strutture-js",
+    "revision": "6f33baead8b88166c4b2cf94af41763412e3c751"
+  },
+  "normativeCorpusRevision": "41da3faa489600173106935bbcf726119300e48d",
+  "sourceFiles": [
+    {
+      "path": "src/norms/ntc2018/actions/ntc2018SeismicAction.js",
+      "gitBlobSha1": "ce57e44a00f444914a29df88776ddc8aab357829",
+      "targetPath": "src/norms/ntc2018/actions/ntc2018SeismicAction.ts"
+    }
+  ],
+  "supportingSourceFiles": [
+    {
+      "path": "src/norms/ntc2018/actions/ntc2018ActionParameters.js",
+      "gitBlobSha1": "fb00fa75c6453a901d6361d7308cd4fd3800d082",
+      "targetPath": "src/norms/ntc2018/actions/ntc2018ActionParameters.ts",
+      "coverage": "Already-migrated NTC 2018 factor and duration catalogs consumed by the seismic module."
+    },
+    {
+      "path": "src/norms/ntc2018/actions/createNTC2018Action.js",
+      "gitBlobSha1": "06c4c6a75e2482bdf3e6d3288c7153aa72738c8a",
+      "targetPath": "src/norms/ntc2018/actions/createNTC2018Action.ts",
+      "coverage": "Already-migrated seismic action factory used by the serializable spectrum result."
+    },
+    {
+      "path": "src/norms/ntc2018/index.js",
+      "gitBlobSha1": "0ac4cf551c455ec2a57d9bf8849db46fb14e0dcc",
+      "targetPath": "src/index.ts",
+      "coverage": "Source norm index export context; only the migrated seismic symbols receive root public export support in this slice."
+    },
+    {
+      "path": "src/index.js",
+      "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7",
+      "targetPath": "src/index.ts",
+      "coverage": "Root public exports for the migrated seismic catalogs, normalization, spectrum functions, and result workflow."
+    }
+  ],
+  "sourceOracles": [
+    {
+      "path": "tests/ntc2018SeismicAction.test.js",
+      "gitBlobSha1": "080d87de58f0b4d01a8f46b2579c15212739164f",
+      "coverage": "Seismic catalogs, hazard normalization, stratigraphic and topographic coefficients, spectrum branches, serializable action result, and unsupported periods."
+    },
+    {
+      "path": "tests/packageExports.test.js",
+      "gitBlobSha1": "8dde24b4c97dd3dae7100207d07d9d96c52b9c74",
+      "coverage": "Root public export behavior."
+    }
+  ],
+  "sourcePublicExport": {
+    "path": "src/index.js",
+    "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
+  },
+  "targetTests": [
+    "tests/baseline-parity.test.ts",
+    "tests/ntc2018-seismic-action-compile-time.test.ts",
+    "tests/ntc2018-seismic-action-live-parity.test.ts"
+  ],
+  "publicExports": [
+    "NTC2018_SEISMIC_LIMIT_STATES",
+    "NTC2018_SEISMIC_REFERENCES",
+    "NTC2018_SITE_HAZARD_SOURCE_KINDS",
+    "NTC2018_SUBSOIL_SPECTRUM_COEFFICIENTS",
+    "NTC2018_TOPOGRAPHIC_AMPLIFICATION_MAXIMA",
+    "calculateNTC2018HorizontalElasticSpectrum",
+    "calculateNTC2018HorizontalSpectrumParameters",
+    "calculateNTC2018StratigraphicSpectrumCoefficients",
+    "getNTC2018SeismicLimitStateDefinition",
+    "getNTC2018SubsoilSpectrumCoefficientDefinition",
+    "getNTC2018TopographicAmplificationDefinition",
+    "normalizeNTC2018SiteHazardParameters",
+    "resolveNTC2018TopographicAmplification"
+  ],
+  "publicTypeExports": [
+    "Ntc2018HorizontalElasticSpectrumOptions",
+    "Ntc2018HorizontalSpectrumParametersOptions",
+    "Ntc2018SiteHazardParameters",
+    "Ntc2018SiteHazardParametersInput",
+    "Ntc2018StratigraphicSpectrumOptions",
+    "Ntc2018TopographicAmplificationOptions"
+  ],
+  "normativeReferences": {
+    "resolved": [],
+    "outsideCorpus": [
+      "D.M. 17/01/2018, NTC 2018, section 3.2",
+      "D.M. 17/01/2018, NTC 2018, section 3.2.1, Table 3.2.I",
+      "D.M. 17/01/2018, NTC 2018, section 3.2.3.2.1, equations [3.2.2]-[3.2.7]",
+      "D.M. 17/01/2018, NTC 2018, section 3.2.3.2.1, Table 3.2.IV",
+      "D.M. 17/01/2018, NTC 2018, section 3.2.3.2.1, Table 3.2.V"
+    ],
+    "normativeConformityClaimed": false,
+    "status": "classified-for-declared-scope"
+  },
+  "independentValidation": {
+    "method": "Strict declaration consumer coverage and independently executed pinned JavaScript versus built TypeScript comparison of the complete seismic module, exact export order and JSON serialization, numeric spectrum branches, Unicode-safe public strings, immutable catalogs, root aliases, unsupported-period result, and error paths.",
+    "targetTests": [
+      "tests/ntc2018-seismic-action-compile-time.test.ts",
+      "tests/ntc2018-seismic-action-live-parity.test.ts"
+    ],
+    "tolerances": {
+      "serializedParity": "exact catalog, normalized hazard, spectrum result, and metadata JSON",
+      "numericParity": "exact equality for catalog and calculated values",
+      "publicStrings": "exact equality plus Unicode code-point preservation",
+      "errors": "exact error name and message equality for invalid units, unsupported categories, and missing inputs"
+    }
+  },
+  "parityDifferences": [
+    "The TypeScript module adds strict declarations and the root export support required by the migrated seismic behavior; runtime module exports match the pinned source module."
+  ],
+  "engineeringFunctionality": "Source-compatible NTC 2018 seismic hazard normalization, simplified stratigraphic and topographic amplification, horizontal elastic spectrum calculation, and serializable seismic action result."
+}
