@@ -122,6 +122,7 @@ const expectedExports = [
   "SLOPE_SURFACE_SURCHARGE_2D_SCHEMA_VERSION",
   "ordinaryMethodOfSlices",
   "simplifiedBishop",
+  "spencerMethod",
   "SlopeSliceDiscretizer2D",
   "VerticalStressProfile",
   "IDENTITY_RESISTANCE_AXIS_TRANSFORMATION",

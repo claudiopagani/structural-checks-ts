@@ -1378,6 +1378,7 @@
         "selectNTC2018BaseQFactor",
         "selectNTC2018OverstrengthFactors",
         "simplifiedBishop",
+        "spencerMethod",
         "splitPrincipalActions",
         "uniqueStrings",
         "utilizationCheck",
@@ -15558,11 +15559,15 @@
       "sourcePath": "src/domain/geotechnics/spencerMethod.js",
       "sourceBlobSha1": "a7c41732a11d6f7785123da2155e86ef5bca0bc9",
       "targetPath": "src/domain/geotechnics/spencerMethod.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0093-domain-spencer-method"],
+      "sourceOracles": ["tests/geotechnicalSlopeStability.test.js", "tests/packageExports.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/spencer-method-compile-time.test.ts",
+        "tests/spencer-method-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0093-domain-spencer-method"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -30738,11 +30743,15 @@
       "sourcePath": "src/domain/geotechnics/spencerMethod.js",
       "sourceBlobSha1": "a7c41732a11d6f7785123da2155e86ef5bca0bc9",
       "targetPath": "src/domain/geotechnics/spencerMethod.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing"
+      "migrationSlices": ["0093-domain-spencer-method"],
+      "sourceOracles": ["tests/geotechnicalSlopeStability.test.js", "tests/packageExports.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/spencer-method-compile-time.test.ts",
+        "tests/spencer-method-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0093-domain-spencer-method"],
+      "status": "exact-parity"
     },
     {
       "id": "src/domain/loads/AreaLoad.js",
@@ -31772,7 +31781,8 @@
         "0089-domain-slope-slice-discretizer-2d",
         "0090-domain-ground-anchor-stability-action-2d",
         "0091-domain-ground-anchor-design-scenario",
-        "0092-domain-ground-anchor-analysis"
+        "0092-domain-ground-anchor-analysis",
+        "0093-domain-spencer-method"
       ],
       "sourceOracles": [
         "tests/architecture/applicationRegistry.test.js",
@@ -33481,7 +33491,8 @@
         "0080-domain-slope-stability-methods",
         "0088-domain-slope-surface-surcharge",
         "0089-domain-slope-slice-discretizer-2d",
-        "0090-domain-ground-anchor-stability-action-2d"
+        "0090-domain-ground-anchor-stability-action-2d",
+        "0093-domain-spencer-method"
       ],
       "sourceOracles": ["tests/geotechnicalSlopeStability.test.js"],
       "targetTests": [
@@ -33495,14 +33506,17 @@
         "tests/slope-stability-methods-compile-time.test.ts",
         "tests/slope-stability-methods-live-parity.test.ts",
         "tests/slope-surface-surcharge-compile-time.test.ts",
-        "tests/slope-surface-surcharge-live-parity.test.ts"
+        "tests/slope-surface-surcharge-live-parity.test.ts",
+        "tests/spencer-method-compile-time.test.ts",
+        "tests/spencer-method-live-parity.test.ts"
       ],
       "validationEvidence": [
         "0065-domain-circular-slip-surface",
         "0080-domain-slope-stability-methods",
         "0088-domain-slope-surface-surcharge",
         "0089-domain-slope-slice-discretizer-2d",
-        "0090-domain-ground-anchor-stability-action-2d"
+        "0090-domain-ground-anchor-stability-action-2d",
+        "0093-domain-spencer-method"
       ],
       "status": "exact-parity",
       "testKind": "test"
@@ -34272,7 +34286,8 @@
         "0089-domain-slope-slice-discretizer-2d",
         "0090-domain-ground-anchor-stability-action-2d",
         "0091-domain-ground-anchor-design-scenario",
-        "0092-domain-ground-anchor-analysis"
+        "0092-domain-ground-anchor-analysis",
+        "0093-domain-spencer-method"
       ],
       "sourceOracles": ["tests/packageExports.test.js"],
       "targetTests": [
@@ -34323,6 +34338,8 @@
         "tests/slope-stability-methods-live-parity.test.ts",
         "tests/slope-surface-surcharge-compile-time.test.ts",
         "tests/slope-surface-surcharge-live-parity.test.ts",
+        "tests/spencer-method-compile-time.test.ts",
+        "tests/spencer-method-live-parity.test.ts",
         "tests/wall-soil-reaction-law-compile-time.test.ts",
         "tests/wall-soil-reaction-law-live-parity.test.ts"
       ],
@@ -34354,7 +34371,8 @@
         "0089-domain-slope-slice-discretizer-2d",
         "0090-domain-ground-anchor-stability-action-2d",
         "0091-domain-ground-anchor-design-scenario",
-        "0092-domain-ground-anchor-analysis"
+        "0092-domain-ground-anchor-analysis",
+        "0093-domain-spencer-method"
       ],
       "status": "exact-parity",
       "testKind": "test"
@@ -37393,12 +37411,28 @@
         "publicStrings": "exact equality plus Unicode code-point preservation",
         "errors": "exact error name and message equality for direct demand rejection and failure-result behavior"
       }
+    },
+    {
+      "sliceId": "0093-domain-spencer-method",
+      "sourceRevision": "6f33baead8b88166c4b2cf94af41763412e3c751",
+      "method": "Strict public declaration consumer coverage and independently executed pinned JavaScript versus built TypeScript comparison of Spencer equilibrium, exact nested JSON serialization, Unicode identifiers, external point loads and validation errors.",
+      "targetTests": [
+        "tests/spencer-method-compile-time.test.ts",
+        "tests/spencer-method-live-parity.test.ts"
+      ],
+      "fixture": null,
+      "tolerances": {
+        "serializedParity": "exact deep equality and JSON serialization",
+        "numericParity": "exact equality for deterministic Spencer equilibrium fixtures",
+        "publicStrings": "exact equality plus Unicode code-point preservation",
+        "errors": "exact error name and message equality"
+      }
     }
   ],
   "counts": {
     "rootExports": {
       "javascript": 841,
-      "typescript": 541
+      "typescript": 542
     },
     "applicationsExports": {
       "javascript": 309,
@@ -37422,11 +37456,11 @@
     },
     "sourceFiles": {
       "javascript": 480,
-      "typescript": 327
+      "typescript": 328
     },
     "tests": {
       "javascript": 131,
-      "typescript": 172
+      "typescript": 174
     },
     "validationCampaigns": {
       "javascript": 17,
@@ -37458,7 +37492,7 @@
       "statusCounts": {
         "exact-parity": 0,
         "partial": 20,
-        "missing": 74,
+        "missing": 72,
         "intentionally-excluded": 0,
         "decision-required": 0
       },
@@ -37524,7 +37558,6 @@
         "root-export:calculateShallowFoundationSlidingResistance",
         "root-export:calculateShallowFoundationVerticalStressInfluence",
         "root-export:normalizeTerrainElevationGrid",
-        "root-export:spencerMethod",
         "source:src/domain/fem/elements/index.js",
         "source:src/domain/fem/elements/masonry/index.js",
         "source:src/domain/fem/index.js",
@@ -37539,7 +37572,6 @@
         "source:src/domain/geotechnics/ShallowFoundationServiceabilityAnalysis.js",
         "source:src/domain/geotechnics/ShallowFoundationUltimateLimitStateAnalysis.js",
         "source:src/domain/geotechnics/index.js",
-        "source:src/domain/geotechnics/spencerMethod.js",
         "source:src/domain/materials/masonry/index.js",
         "source:src/domain/materials/masonry/shearStrength/index.js",
         "source:src/domain/model/StructuralModel.js",

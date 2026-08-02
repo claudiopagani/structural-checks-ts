@@ -1,0 +1,88 @@
+{
+  "schemaVersion": 1,
+  "sliceId": "0093-domain-spencer-method",
+  "title": "Domain Spencer slope-stability method",
+  "migrationType": "mechanical-parity",
+  "implementationStatus": "implemented",
+  "dependencies": ["0092-domain-ground-anchor-analysis"],
+  "source": {
+    "repository": "https://github.com/claudiopagani/strutture-js",
+    "revision": "6f33baead8b88166c4b2cf94af41763412e3c751"
+  },
+  "normativeCorpusRevision": "41da3faa489600173106935bbcf726119300e48d",
+  "sourceFiles": [
+    {
+      "path": "src/domain/geotechnics/spencerMethod.js",
+      "gitBlobSha1": "a7c41732a11d6f7785123da2155e86ef5bca0bc9",
+      "targetPath": "src/domain/geotechnics/spencerMethod.ts"
+    }
+  ],
+  "supportingSourceFiles": [
+    {
+      "path": "src/domain/geotechnics/index.js",
+      "gitBlobSha1": "41ed2053fc2e37dc90da412846609f4050af9668",
+      "targetPath": "src/domain/geotechnics/index.ts",
+      "coverage": "Geotechnics barrel export for the migrated Spencer method."
+    },
+    {
+      "path": "src/index.js",
+      "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7",
+      "targetPath": "src/index.ts",
+      "coverage": "Root public export for the migrated Spencer method."
+    }
+  ],
+  "sourceOracles": [
+    {
+      "path": "tests/geotechnicalSlopeStability.test.js",
+      "gitBlobSha1": "ccb2cab5ccf35b8b35de4d3fcff9d23aed949173",
+      "coverage": "Spencer equilibrium, external point loads, static and unsupported slope-method behavior."
+    },
+    {
+      "path": "tests/packageExports.test.js",
+      "gitBlobSha1": "8dde24b4c97dd3dae7100207d07d9d96c52b9c74",
+      "coverage": "Root and geotechnics public export behavior."
+    }
+  ],
+  "sourcePublicExport": {
+    "path": "src/index.js",
+    "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
+  },
+  "targetTests": [
+    "tests/baseline-parity.test.ts",
+    "tests/spencer-method-compile-time.test.ts",
+    "tests/spencer-method-live-parity.test.ts"
+  ],
+  "publicExports": ["spencerMethod"],
+  "publicTypeExports": [
+    "SpencerExternalPointLoadInput",
+    "SpencerMethodOptions",
+    "SpencerMethodResult",
+    "SpencerSliceInput"
+  ],
+  "normativeReferences": {
+    "resolved": [],
+    "outsideCorpus": [
+      {
+        "identifier": "Spencer (1967), doi:10.1680/geot.1967.17.1.11; USBR Design Standards No. 13, Chapter 4 (2011), Appendix B",
+        "reason": "The source method preserves its published Spencer and USBR traceability without inventing a corpus identifier."
+      }
+    ],
+    "normativeConformityClaimed": false,
+    "status": "classified-for-declared-scope"
+  },
+  "independentValidation": {
+    "method": "Strict public declaration consumer coverage and independently executed pinned JavaScript versus built TypeScript comparison of Spencer equilibrium, exact nested JSON serialization, Unicode identifiers, external point loads and validation errors.",
+    "targetTests": [
+      "tests/spencer-method-compile-time.test.ts",
+      "tests/spencer-method-live-parity.test.ts"
+    ],
+    "tolerances": {
+      "serializedParity": "exact deep equality and JSON serialization",
+      "numericParity": "exact equality for deterministic Spencer equilibrium fixtures",
+      "publicStrings": "exact equality plus Unicode code-point preservation",
+      "errors": "exact error name and message equality"
+    }
+  },
+  "parityDifferences": [],
+  "engineeringFunctionality": "Serializable Spencer slope-stability analysis with constant interslice-force inclination, force and moment equilibrium, slice contributions and external point-load handling."
+}

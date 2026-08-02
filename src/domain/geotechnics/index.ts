@@ -391,6 +391,13 @@ export {
   type SlopeSliceInput,
   type SlopeStressBasis,
 } from "./slopeStabilityMethods.js";
+export {
+  spencerMethod,
+  type SpencerExternalPointLoadInput,
+  type SpencerMethodOptions,
+  type SpencerMethodResult,
+  type SpencerSliceInput,
+} from "./spencerMethod.js";
 export { VerticalStressProfile } from "./VerticalStressProfile.js";
 export {
   SLOPE_SURFACE_SURCHARGE_2D_SCHEMA_VERSION,
