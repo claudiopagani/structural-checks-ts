@@ -15,6 +15,18 @@ export {
   createReinforcedConcreteBeamSectionProvider,
 } from "./ReinforcedConcreteBeamSectionProvider.js";
 export {
+  SteelBeamSectionProvider,
+  createSteelBeamSectionProvider,
+} from "./SteelBeamSectionProvider.js";
+export {
+  TimberBeamSectionProvider,
+  createTimberBeamSectionProvider,
+} from "./TimberBeamSectionProvider.js";
+export {
+  XlamBeamSectionProvider,
+  createXlamBeamSectionProvider,
+} from "./XlamBeamSectionProvider.js";
+export {
   BEAM_SUPPORT_PRESETS,
   SingleBeamAnalysis,
   SingleBeamFemBuilder,
@@ -43,6 +55,31 @@ export type {
   ReinforcedConcreteBeamSectionContext,
   ReinforcedConcreteBeamSectionProviderOptions,
 } from "./ReinforcedConcreteBeamSectionProvider.js";
+export type {
+  SteelBeamMaterialLike,
+  SteelBeamMaterialMetadata,
+  SteelBeamSectionLike,
+  SteelBeamSectionMetadata,
+  SteelBeamSectionProviderContext,
+  SteelBeamSectionProviderOptions,
+} from "./SteelBeamSectionProvider.js";
+export type {
+  TimberBeamMaterialLike,
+  TimberBeamSectionLike,
+  TimberBeamSectionMetadata,
+  TimberBeamSectionProviderContext,
+  TimberBeamSectionProviderOptions,
+  TimberKmodResolverOptions,
+} from "./TimberBeamSectionProvider.js";
+export type {
+  XlamBeamMaterialLike,
+  XlamBeamMaterialMetadata,
+  XlamBeamSectionLayer,
+  XlamBeamSectionLike,
+  XlamBeamSectionProviderContext,
+  XlamBeamSectionProviderOptions,
+  XlamBeamShearStiffness,
+} from "./XlamBeamSectionProvider.js";
 export type {
   BeamActionLike,
   BeamAnalysisContext,

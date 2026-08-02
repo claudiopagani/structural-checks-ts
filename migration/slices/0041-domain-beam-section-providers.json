@@ -1,0 +1,122 @@
+{
+  "schemaVersion": 1,
+  "sliceId": "0041-domain-beam-section-providers",
+  "title": "Domain steel, timber and XLAM beam section providers",
+  "migrationType": "mechanical-parity",
+  "implementationStatus": "implemented",
+  "dependencies": ["0040-domain-analysis-load-cases-and-combinations"],
+  "source": {
+    "repository": "https://github.com/claudiopagani/strutture-js",
+    "revision": "6f33baead8b88166c4b2cf94af41763412e3c751"
+  },
+  "normativeCorpusRevision": "41da3faa489600173106935bbcf726119300e48d",
+  "sourceFiles": [
+    {
+      "path": "src/domain/beams/SteelBeamSectionProvider.js",
+      "gitBlobSha1": "858edbb07bbde18f0dcbe40245eb5aca778f4a90",
+      "targetPath": "src/domain/beams/SteelBeamSectionProvider.ts"
+    },
+    {
+      "path": "src/domain/beams/TimberBeamSectionProvider.js",
+      "gitBlobSha1": "89079a8528f680a79b92ca29a6f505ac0cf13013",
+      "targetPath": "src/domain/beams/TimberBeamSectionProvider.ts"
+    },
+    {
+      "path": "src/domain/beams/XlamBeamSectionProvider.js",
+      "gitBlobSha1": "817f2279c1771c7fe7ffcf57c54b816f85b07642",
+      "targetPath": "src/domain/beams/XlamBeamSectionProvider.ts"
+    }
+  ],
+  "supportingSourceFiles": [
+    {
+      "path": "src/domain/beams/index.js",
+      "gitBlobSha1": "2e2083feba0828998506e660e35f3ec64b461f1d",
+      "targetPath": "src/domain/beams/index.ts",
+      "coverage": "Domain beam public exports for the three migrated section providers"
+    },
+    {
+      "path": "src/index.js",
+      "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7",
+      "targetPath": "src/index.ts",
+      "coverage": "Root public exports for the three migrated section providers"
+    }
+  ],
+  "sourceOracles": [
+    {
+      "path": "tests/steelBeamSectionProvider.test.js",
+      "gitBlobSha1": "0c0b3548262ac408961ea9a48c5649b228c0bebd",
+      "coverage": "Steel section provider defaults, catalog conversion, properties and errors"
+    },
+    {
+      "path": "tests/timberBeamSectionProvider.test.js",
+      "gitBlobSha1": "e5303c179d99849a13ad94f5b1be88acfa23bdef",
+      "coverage": "Timber section provider defaults, duration parameters, final stiffness and errors"
+    },
+    {
+      "path": "tests/xlamBeamProviderVerification.test.js",
+      "gitBlobSha1": "9450e10ffcd5206057308a5942aaafdaf5831103",
+      "coverage": "XLAM section provider stiffness, layer metadata and errors"
+    }
+  ],
+  "sourcePublicExport": {
+    "path": "src/index.js",
+    "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
+  },
+  "targetTests": [
+    "tests/baseline-parity.test.ts",
+    "tests/beam-section-providers-compile-time.test.ts",
+    "tests/beam-section-providers-live-parity.test.ts"
+  ],
+  "publicExports": [
+    "SteelBeamSectionProvider",
+    "TimberBeamSectionProvider",
+    "XlamBeamSectionProvider",
+    "createSteelBeamSectionProvider",
+    "createTimberBeamSectionProvider",
+    "createXlamBeamSectionProvider"
+  ],
+  "publicTypeExports": [
+    "SteelBeamMaterialLike",
+    "SteelBeamMaterialMetadata",
+    "SteelBeamSectionLike",
+    "SteelBeamSectionMetadata",
+    "SteelBeamSectionProviderContext",
+    "SteelBeamSectionProviderOptions",
+    "TimberBeamMaterialLike",
+    "TimberBeamSectionLike",
+    "TimberBeamSectionMetadata",
+    "TimberBeamSectionProviderContext",
+    "TimberBeamSectionProviderOptions",
+    "TimberKmodResolverOptions",
+    "XlamBeamMaterialLike",
+    "XlamBeamMaterialMetadata",
+    "XlamBeamSectionLayer",
+    "XlamBeamSectionLike",
+    "XlamBeamSectionProviderContext",
+    "XlamBeamSectionProviderOptions",
+    "XlamBeamShearStiffness"
+  ],
+  "normativeReferences": {
+    "resolved": [],
+    "outsideCorpus": [],
+    "normativeConformityClaimed": false,
+    "status": "classified-for-declared-scope"
+  },
+  "independentValidation": {
+    "method": "Strict declaration consumer coverage and independently executed pinned JavaScript versus built TypeScript steel, timber and XLAM section providers, including exact JSON, numerical, Unicode, metadata and error-path comparisons.",
+    "targetTests": [
+      "tests/beam-section-providers-compile-time.test.ts",
+      "tests/beam-section-providers-live-parity.test.ts"
+    ],
+    "tolerances": {
+      "serializedParity": "exact JSON serialization for provider properties and metadata",
+      "numericParity": "exact equality for all finite provider properties and stiffness branches",
+      "publicStrings": "exact equality plus Unicode code-point equality"
+    }
+  },
+  "parityDifferences": [
+    "The slice preserves the source steel, timber and XLAM provider defaults, duck-typed section and material contracts, units, stiffness calculations, rotations, metadata, serialization and errors.",
+    "Material classes, section classes, beam verifiers and catalog or formula migrations remain outside this bounded slice."
+  ],
+  "engineeringFunctionality": "Generic steel, timber and XLAM beam section stiffness providers only; no material catalog, section catalog or beam verification formulas are introduced."
+}

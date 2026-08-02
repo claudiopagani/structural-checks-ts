@@ -889,6 +889,7 @@
         "CalculationResult",
         "CircularSection",
         "ClimaticAction",
+        "Combination",
         "CompositeSection",
         "CompositeSectionComponent",
         "ConcreteMaterial",
@@ -962,6 +963,8 @@
         "LineLoad",
         "LinearStaticSolver2D",
         "Load",
+        "LoadCase",
+        "LoadCombination",
         "NTC2018_ACTION_COMBINATION_FACTORS",
         "NTC2018_ACTION_PARTIAL_FACTORS",
         "NTC2018_ANALYSIS_METHOD",
@@ -1080,6 +1083,7 @@
         "SingleBeamModel",
         "SnowAction",
         "SoilMaterial",
+        "SteelBeamSectionProvider",
         "SteelElasticLaw",
         "SteelElasticPerfectlyPlasticLaw",
         "SteelElasticPlasticHardeningLaw",
@@ -1091,12 +1095,14 @@
         "Support",
         "TSection",
         "ThermalAction",
+        "TimberBeamSectionProvider",
         "TrafficAction",
         "VariableAction",
         "VerificationResult",
         "VerticalStressProfile",
         "WALL_BIAXIAL_REFERENCE",
         "WindAction",
+        "XlamBeamSectionProvider",
         "amplifyNTC2018DiaphragmActions",
         "assertExplicitUnitSystem",
         "assertPositiveCheckValue",
@@ -1169,9 +1175,12 @@
         "createReinforcedConcreteBeamSectionProvider",
         "createScaServiceDeflectionAnalysisResult",
         "createServiceDeflectionAnalysisResult",
+        "createSteelBeamSectionProvider",
+        "createTimberBeamSectionProvider",
         "createUnitResolver",
         "createWallHeightSystemAssessment",
         "createWallSectionAssessment",
+        "createXlamBeamSectionProvider",
         "evaluateGlobalFemVerificationReadiness",
         "evaluateNTC2018ElevationRegularity",
         "evaluateNTC2018PlanRegularity",
@@ -4573,11 +4582,15 @@
       "sourcePath": "src/domain/analysis/Combination.js",
       "sourceBlobSha1": "db609e642ab4385d12e1b5d6359fc399dce09859",
       "targetPath": "src/domain/analysis/Combination.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0040-domain-analysis-load-cases-and-combinations"],
+      "sourceOracles": ["tests/loadAbstractions.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/domain-analysis-compile-time.test.ts",
+        "tests/domain-analysis-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0040-domain-analysis-load-cases-and-combinations"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -5981,11 +5994,19 @@
       "sourcePath": "src/domain/beams/SteelBeamSectionProvider.js",
       "sourceBlobSha1": "858edbb07bbde18f0dcbe40245eb5aca778f4a90",
       "targetPath": "src/domain/beams/SteelBeamSectionProvider.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0041-domain-beam-section-providers"],
+      "sourceOracles": [
+        "tests/steelBeamSectionProvider.test.js",
+        "tests/timberBeamSectionProvider.test.js",
+        "tests/xlamBeamProviderVerification.test.js"
+      ],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/beam-section-providers-compile-time.test.ts",
+        "tests/beam-section-providers-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0041-domain-beam-section-providers"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -6051,11 +6072,19 @@
       "sourcePath": "src/domain/beams/TimberBeamSectionProvider.js",
       "sourceBlobSha1": "89079a8528f680a79b92ca29a6f505ac0cf13013",
       "targetPath": "src/domain/beams/TimberBeamSectionProvider.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0041-domain-beam-section-providers"],
+      "sourceOracles": [
+        "tests/steelBeamSectionProvider.test.js",
+        "tests/timberBeamSectionProvider.test.js",
+        "tests/xlamBeamProviderVerification.test.js"
+      ],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/beam-section-providers-compile-time.test.ts",
+        "tests/beam-section-providers-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0041-domain-beam-section-providers"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -6143,11 +6172,19 @@
       "sourcePath": "src/domain/beams/XlamBeamSectionProvider.js",
       "sourceBlobSha1": "817f2279c1771c7fe7ffcf57c54b816f85b07642",
       "targetPath": "src/domain/beams/XlamBeamSectionProvider.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0041-domain-beam-section-providers"],
+      "sourceOracles": [
+        "tests/steelBeamSectionProvider.test.js",
+        "tests/timberBeamSectionProvider.test.js",
+        "tests/xlamBeamProviderVerification.test.js"
+      ],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/beam-section-providers-compile-time.test.ts",
+        "tests/beam-section-providers-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0041-domain-beam-section-providers"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -9475,11 +9512,15 @@
       "sourcePath": "src/domain/analysis/LoadCase.js",
       "sourceBlobSha1": "6ca3fcf4140c834f6311797bf16fe30d9bedaf49",
       "targetPath": "src/domain/analysis/LoadCase.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0040-domain-analysis-load-cases-and-combinations"],
+      "sourceOracles": ["tests/loadAbstractions.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/domain-analysis-compile-time.test.ts",
+        "tests/domain-analysis-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0040-domain-analysis-load-cases-and-combinations"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -9489,11 +9530,15 @@
       "sourcePath": "src/domain/analysis/LoadCombination.js",
       "sourceBlobSha1": "978d9e26fcca75f4c74178b623e469d43f353266",
       "targetPath": "src/domain/analysis/LoadCombination.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0040-domain-analysis-load-cases-and-combinations"],
+      "sourceOracles": ["tests/loadAbstractions.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/domain-analysis-compile-time.test.ts",
+        "tests/domain-analysis-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0040-domain-analysis-load-cases-and-combinations"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -14862,11 +14907,19 @@
       "sourcePath": "src/domain/beams/SteelBeamSectionProvider.js",
       "sourceBlobSha1": "858edbb07bbde18f0dcbe40245eb5aca778f4a90",
       "targetPath": "src/domain/beams/SteelBeamSectionProvider.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0041-domain-beam-section-providers"],
+      "sourceOracles": [
+        "tests/steelBeamSectionProvider.test.js",
+        "tests/timberBeamSectionProvider.test.js",
+        "tests/xlamBeamProviderVerification.test.js"
+      ],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/beam-section-providers-compile-time.test.ts",
+        "tests/beam-section-providers-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0041-domain-beam-section-providers"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -15423,11 +15476,19 @@
       "sourcePath": "src/domain/beams/TimberBeamSectionProvider.js",
       "sourceBlobSha1": "89079a8528f680a79b92ca29a6f505ac0cf13013",
       "targetPath": "src/domain/beams/TimberBeamSectionProvider.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0041-domain-beam-section-providers"],
+      "sourceOracles": [
+        "tests/steelBeamSectionProvider.test.js",
+        "tests/timberBeamSectionProvider.test.js",
+        "tests/xlamBeamProviderVerification.test.js"
+      ],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/beam-section-providers-compile-time.test.ts",
+        "tests/beam-section-providers-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0041-domain-beam-section-providers"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -16534,11 +16595,19 @@
       "sourcePath": "src/domain/beams/XlamBeamSectionProvider.js",
       "sourceBlobSha1": "817f2279c1771c7fe7ffcf57c54b816f85b07642",
       "targetPath": "src/domain/beams/XlamBeamSectionProvider.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0041-domain-beam-section-providers"],
+      "sourceOracles": [
+        "tests/steelBeamSectionProvider.test.js",
+        "tests/timberBeamSectionProvider.test.js",
+        "tests/xlamBeamProviderVerification.test.js"
+      ],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/beam-section-providers-compile-time.test.ts",
+        "tests/beam-section-providers-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0041-domain-beam-section-providers"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -27547,33 +27616,45 @@
       "sourcePath": "src/domain/analysis/Combination.js",
       "sourceBlobSha1": "db609e642ab4385d12e1b5d6359fc399dce09859",
       "targetPath": "src/domain/analysis/Combination.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing"
+      "migrationSlices": ["0040-domain-analysis-load-cases-and-combinations"],
+      "sourceOracles": ["tests/loadAbstractions.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/domain-analysis-compile-time.test.ts",
+        "tests/domain-analysis-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0040-domain-analysis-load-cases-and-combinations"],
+      "status": "exact-parity"
     },
     {
       "id": "src/domain/analysis/LoadCase.js",
       "sourcePath": "src/domain/analysis/LoadCase.js",
       "sourceBlobSha1": "6ca3fcf4140c834f6311797bf16fe30d9bedaf49",
       "targetPath": "src/domain/analysis/LoadCase.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing"
+      "migrationSlices": ["0040-domain-analysis-load-cases-and-combinations"],
+      "sourceOracles": ["tests/loadAbstractions.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/domain-analysis-compile-time.test.ts",
+        "tests/domain-analysis-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0040-domain-analysis-load-cases-and-combinations"],
+      "status": "exact-parity"
     },
     {
       "id": "src/domain/analysis/LoadCombination.js",
       "sourcePath": "src/domain/analysis/LoadCombination.js",
       "sourceBlobSha1": "978d9e26fcca75f4c74178b623e469d43f353266",
       "targetPath": "src/domain/analysis/LoadCombination.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing"
+      "migrationSlices": ["0040-domain-analysis-load-cases-and-combinations"],
+      "sourceOracles": ["tests/loadAbstractions.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/domain-analysis-compile-time.test.ts",
+        "tests/domain-analysis-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0040-domain-analysis-load-cases-and-combinations"],
+      "status": "exact-parity"
     },
     {
       "id": "src/domain/beams/BeamSectionActionVerifier.js",
@@ -27727,33 +27808,57 @@
       "sourcePath": "src/domain/beams/SteelBeamSectionProvider.js",
       "sourceBlobSha1": "858edbb07bbde18f0dcbe40245eb5aca778f4a90",
       "targetPath": "src/domain/beams/SteelBeamSectionProvider.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing"
+      "migrationSlices": ["0041-domain-beam-section-providers"],
+      "sourceOracles": [
+        "tests/steelBeamSectionProvider.test.js",
+        "tests/timberBeamSectionProvider.test.js",
+        "tests/xlamBeamProviderVerification.test.js"
+      ],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/beam-section-providers-compile-time.test.ts",
+        "tests/beam-section-providers-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0041-domain-beam-section-providers"],
+      "status": "exact-parity"
     },
     {
       "id": "src/domain/beams/TimberBeamSectionProvider.js",
       "sourcePath": "src/domain/beams/TimberBeamSectionProvider.js",
       "sourceBlobSha1": "89079a8528f680a79b92ca29a6f505ac0cf13013",
       "targetPath": "src/domain/beams/TimberBeamSectionProvider.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing"
+      "migrationSlices": ["0041-domain-beam-section-providers"],
+      "sourceOracles": [
+        "tests/steelBeamSectionProvider.test.js",
+        "tests/timberBeamSectionProvider.test.js",
+        "tests/xlamBeamProviderVerification.test.js"
+      ],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/beam-section-providers-compile-time.test.ts",
+        "tests/beam-section-providers-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0041-domain-beam-section-providers"],
+      "status": "exact-parity"
     },
     {
       "id": "src/domain/beams/XlamBeamSectionProvider.js",
       "sourcePath": "src/domain/beams/XlamBeamSectionProvider.js",
       "sourceBlobSha1": "817f2279c1771c7fe7ffcf57c54b816f85b07642",
       "targetPath": "src/domain/beams/XlamBeamSectionProvider.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing"
+      "migrationSlices": ["0041-domain-beam-section-providers"],
+      "sourceOracles": [
+        "tests/steelBeamSectionProvider.test.js",
+        "tests/timberBeamSectionProvider.test.js",
+        "tests/xlamBeamProviderVerification.test.js"
+      ],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/beam-section-providers-compile-time.test.ts",
+        "tests/beam-section-providers-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0041-domain-beam-section-providers"],
+      "status": "exact-parity"
     },
     {
       "id": "src/domain/beams/index.js",
@@ -30004,7 +30109,9 @@
         "0036-rc-building-strict-typing",
         "0037-application-registry-code-metadata",
         "0038-domain-actions-hierarchy",
-        "0039-ntc2018-action-parameters-and-factories"
+        "0039-ntc2018-action-parameters-and-factories",
+        "0040-domain-analysis-load-cases-and-combinations",
+        "0041-domain-beam-section-providers"
       ],
       "sourceOracles": [
         "tests/architecture/applicationRegistry.test.js",
@@ -31710,11 +31817,15 @@
       "sourcePath": "tests/loadAbstractions.test.js",
       "sourceBlobSha1": "5ace2205648a6fb833e786618c19e3ca32c985ae",
       "targetPath": "tests/loadAbstractions.test.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0040-domain-analysis-load-cases-and-combinations"],
+      "sourceOracles": ["tests/loadAbstractions.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/domain-analysis-compile-time.test.ts",
+        "tests/domain-analysis-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0040-domain-analysis-load-cases-and-combinations"],
+      "status": "exact-parity",
       "testKind": "test"
     },
     {
@@ -32887,11 +32998,15 @@
       "sourcePath": "tests/steelBeamSectionProvider.test.js",
       "sourceBlobSha1": "0c0b3548262ac408961ea9a48c5649b228c0bebd",
       "targetPath": "tests/steelBeamSectionProvider.test.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0041-domain-beam-section-providers"],
+      "sourceOracles": ["tests/steelBeamSectionProvider.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/beam-section-providers-compile-time.test.ts",
+        "tests/beam-section-providers-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0041-domain-beam-section-providers"],
+      "status": "exact-parity",
       "testKind": "test"
     },
     {
@@ -32947,11 +33062,15 @@
       "sourcePath": "tests/timberBeamSectionProvider.test.js",
       "sourceBlobSha1": "e5303c179d99849a13ad94f5b1be88acfa23bdef",
       "targetPath": "tests/timberBeamSectionProvider.test.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0041-domain-beam-section-providers"],
+      "sourceOracles": ["tests/timberBeamSectionProvider.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/beam-section-providers-compile-time.test.ts",
+        "tests/beam-section-providers-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0041-domain-beam-section-providers"],
+      "status": "exact-parity",
       "testKind": "test"
     },
     {
@@ -33016,11 +33135,15 @@
       "sourcePath": "tests/xlamBeamProviderVerification.test.js",
       "sourceBlobSha1": "9450e10ffcd5206057308a5942aaafdaf5831103",
       "targetPath": "tests/xlamBeamProviderVerification.test.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0041-domain-beam-section-providers"],
+      "sourceOracles": ["tests/xlamBeamProviderVerification.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/beam-section-providers-compile-time.test.ts",
+        "tests/beam-section-providers-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0041-domain-beam-section-providers"],
+      "status": "exact-parity",
       "testKind": "test"
     },
     {
@@ -34456,12 +34579,42 @@
         "numericParity": "exact equality for the finite catalog and factory values",
         "publicStrings": "exact equality plus Unicode code-point equality"
       }
+    },
+    {
+      "sliceId": "0040-domain-analysis-load-cases-and-combinations",
+      "sourceRevision": "6f33baead8b88166c4b2cf94af41763412e3c751",
+      "method": "Strict declaration consumer coverage and independently executed pinned JavaScript versus built TypeScript analysis classes, including exact JSON, Unicode, inheritance, instanceof, assignment, cloning and error-path comparisons.",
+      "targetTests": [
+        "tests/domain-analysis-compile-time.test.ts",
+        "tests/domain-analysis-live-parity.test.ts"
+      ],
+      "fixture": null,
+      "tolerances": {
+        "serializedParity": "exact JSON serialization for combinations and load cases",
+        "numericParity": "exact equality for generic linear combination evaluation",
+        "publicStrings": "exact equality plus Unicode code-point equality"
+      }
+    },
+    {
+      "sliceId": "0041-domain-beam-section-providers",
+      "sourceRevision": "6f33baead8b88166c4b2cf94af41763412e3c751",
+      "method": "Strict declaration consumer coverage and independently executed pinned JavaScript versus built TypeScript steel, timber and XLAM section providers, including exact JSON, numerical, Unicode, metadata and error-path comparisons.",
+      "targetTests": [
+        "tests/beam-section-providers-compile-time.test.ts",
+        "tests/beam-section-providers-live-parity.test.ts"
+      ],
+      "fixture": null,
+      "tolerances": {
+        "serializedParity": "exact JSON serialization for provider properties and metadata",
+        "numericParity": "exact equality for all finite provider properties and stiffness branches",
+        "publicStrings": "exact equality plus Unicode code-point equality"
+      }
     }
   ],
   "counts": {
     "rootExports": {
       "javascript": 841,
-      "typescript": 387
+      "typescript": 396
     },
     "applicationsExports": {
       "javascript": 309,
@@ -34485,11 +34638,11 @@
     },
     "sourceFiles": {
       "javascript": 480,
-      "typescript": 258
+      "typescript": 264
     },
     "tests": {
       "javascript": 131,
-      "typescript": 66
+      "typescript": 70
     },
     "validationCampaigns": {
       "javascript": 17,
@@ -34521,7 +34674,7 @@
       "statusCounts": {
         "exact-parity": 0,
         "partial": 18,
-        "missing": 297,
+        "missing": 282,
         "intentionally-excluded": 0,
         "decision-required": 0
       },
@@ -34534,7 +34687,6 @@
         "root-export:CYCLIC_MASONRY_INTERNAL_UNITS",
         "root-export:CircularSlipSurface2D",
         "root-export:CircularSlopeStabilityAnalysis",
-        "root-export:Combination",
         "root-export:CyclicMasonryCompressionMaterial",
         "root-export:CyclicMasonryPier2D",
         "root-export:CyclicMasonryPierAnalysis2D",
@@ -34617,8 +34769,6 @@
         "root-export:LayerLoad",
         "root-export:LinearLoadFromLineWeight",
         "root-export:LinearLoadFromVolumeWeight",
-        "root-export:LoadCase",
-        "root-export:LoadCombination",
         "root-export:MasonryFiberInterface2D",
         "root-export:MasonryMaterial",
         "root-export:MohrCoulombModel",
@@ -34680,7 +34830,6 @@
         "root-export:SlopeSurfaceSurcharge2D",
         "root-export:SoilStructureInterface",
         "root-export:SolidTimberMaterial",
-        "root-export:SteelBeamSectionProvider",
         "root-export:SteelCompoundProfileSection",
         "root-export:SteelProfileSection",
         "root-export:StructuralElement",
@@ -34690,7 +34839,6 @@
         "root-export:TECNARIA_CONNECTOR_TYPES",
         "root-export:TERRAIN_ELEVATION_GRID_SCHEMA_VERSION",
         "root-export:TecnariaConnector",
-        "root-export:TimberBeamSectionProvider",
         "root-export:TimberDowelConnector",
         "root-export:TimberMaterial",
         "root-export:TurnsekSheppardModel",
@@ -34701,7 +34849,6 @@
         "root-export:WALL_SOIL_REACTION_MODELS",
         "root-export:WallLoad",
         "root-export:WallSoilReactionLaw",
-        "root-export:XlamBeamSectionProvider",
         "root-export:XlamMaterial",
         "root-export:XlamPanelSection",
         "root-export:calculateRetainingWallPolygonProperties",
@@ -34717,12 +34864,9 @@
         "root-export:createDoubleAngleOpposedSection",
         "root-export:createDoubleUPNBackToBackSection",
         "root-export:createMasonryShearStrengthModel",
-        "root-export:createSteelBeamSectionProvider",
         "root-export:createSteelCompoundProfileSection",
         "root-export:createSteelProfileSection",
         "root-export:createTecnariaConnector",
-        "root-export:createTimberBeamSectionProvider",
-        "root-export:createXlamBeamSectionProvider",
         "root-export:createXlamPanelSection",
         "root-export:cyclicMasonryPierHistoryToCsv",
         "root-export:getGroundAnchorBondCatalogEntry",
@@ -34742,12 +34886,6 @@
         "root-export:registerXlamPanelProduct",
         "root-export:simplifiedBishop",
         "root-export:spencerMethod",
-        "source:src/domain/analysis/Combination.js",
-        "source:src/domain/analysis/LoadCase.js",
-        "source:src/domain/analysis/LoadCombination.js",
-        "source:src/domain/beams/SteelBeamSectionProvider.js",
-        "source:src/domain/beams/TimberBeamSectionProvider.js",
-        "source:src/domain/beams/XlamBeamSectionProvider.js",
         "source:src/domain/catalogs/xlamPanelCatalog.js",
         "source:src/domain/connectors/ShearConnector.js",
         "source:src/domain/connectors/TecnariaConnector.js",
@@ -35489,7 +35627,7 @@
       "statusCounts": {
         "exact-parity": 0,
         "partial": 3,
-        "missing": 161,
+        "missing": 157,
         "intentionally-excluded": 0,
         "decision-required": 0
       },
@@ -35619,7 +35757,6 @@
         "test:tests/geotechnicalSlopeStability.test.js",
         "test:tests/geotechnicalSlopeStabilityValidationCampaign.test.js",
         "test:tests/geotechnicalValidationCampaign.test.js",
-        "test:tests/loadAbstractions.test.js",
         "test:tests/masonryFiberInterface2D.test.js",
         "test:tests/masonryPierVerticalVerification.test.js",
         "test:tests/masonryWallOpeningsEquivalentFrameBuilder.test.js",
@@ -35647,16 +35784,13 @@
         "test:tests/ntc2018WindLoad.test.js",
         "test:tests/rcFiberAnalysis.test.js",
         "test:tests/run-tests.js",
-        "test:tests/steelBeamSectionProvider.test.js",
         "test:tests/steelCompoundProfileSection.test.js",
         "test:tests/steelFrameAdvancedVerification.test.js",
         "test:tests/steelProfileSection.test.js",
         "test:tests/steelRingFramePushover.test.js",
-        "test:tests/timberBeamSectionProvider.test.js",
         "test:tests/timberConcreteCompositeBeam.test.js",
         "test:tests/timberMaterialHierarchy.test.js",
         "test:tests/timberXlamCompositeBeam.test.js",
-        "test:tests/xlamBeamProviderVerification.test.js",
         "test:tests/xlamOutOfPlanePanel.test.js"
       ]
     }

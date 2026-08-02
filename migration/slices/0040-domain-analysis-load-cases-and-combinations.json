@@ -1,0 +1,83 @@
+{
+  "schemaVersion": 1,
+  "sliceId": "0040-domain-analysis-load-cases-and-combinations",
+  "title": "Domain analysis load cases and generic combinations",
+  "migrationType": "mechanical-parity",
+  "implementationStatus": "implemented",
+  "dependencies": ["0039-ntc2018-action-parameters-and-factories"],
+  "source": {
+    "repository": "https://github.com/claudiopagani/strutture-js",
+    "revision": "6f33baead8b88166c4b2cf94af41763412e3c751"
+  },
+  "normativeCorpusRevision": "41da3faa489600173106935bbcf726119300e48d",
+  "sourceFiles": [
+    {
+      "path": "src/domain/analysis/Combination.js",
+      "gitBlobSha1": "db609e642ab4385d12e1b5d6359fc399dce09859",
+      "targetPath": "src/domain/analysis/Combination.ts"
+    },
+    {
+      "path": "src/domain/analysis/LoadCase.js",
+      "gitBlobSha1": "6ca3fcf4140c834f6311797bf16fe30d9bedaf49",
+      "targetPath": "src/domain/analysis/LoadCase.ts"
+    },
+    {
+      "path": "src/domain/analysis/LoadCombination.js",
+      "gitBlobSha1": "978d9e26fcca75f4c74178b623e469d43f353266",
+      "targetPath": "src/domain/analysis/LoadCombination.ts"
+    }
+  ],
+  "supportingSourceFiles": [],
+  "sourceOracles": [
+    {
+      "path": "tests/loadAbstractions.test.js",
+      "gitBlobSha1": "5ace2205648a6fb833e786618c19e3ca32c985ae",
+      "coverage": "generic combination abstraction, load-case assignment and load-combination evaluation"
+    }
+  ],
+  "sourcePublicExport": {
+    "path": "src/index.js",
+    "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
+  },
+  "targetTests": [
+    "tests/baseline-parity.test.ts",
+    "tests/domain-analysis-compile-time.test.ts",
+    "tests/domain-analysis-live-parity.test.ts"
+  ],
+  "publicExports": ["Combination", "LoadCase", "LoadCombination"],
+  "publicTypeExports": [
+    "CombinationJson",
+    "CombinationOptions",
+    "LoadCaseAction",
+    "LoadCaseAssignmentTarget",
+    "LoadCaseJson",
+    "LoadCaseLoad",
+    "LoadCaseOptions",
+    "LoadCombinationFactor",
+    "LoadCombinationJson",
+    "LoadCombinationOptions"
+  ],
+  "normativeReferences": {
+    "resolved": [],
+    "outsideCorpus": [],
+    "normativeConformityClaimed": false,
+    "status": "classified-for-declared-scope"
+  },
+  "independentValidation": {
+    "method": "Strict declaration consumer coverage and independently executed pinned JavaScript versus built TypeScript analysis classes, including exact JSON, Unicode, inheritance, instanceof, assignment, cloning and error-path comparisons.",
+    "targetTests": [
+      "tests/domain-analysis-compile-time.test.ts",
+      "tests/domain-analysis-live-parity.test.ts"
+    ],
+    "tolerances": {
+      "serializedParity": "exact JSON serialization for combinations and load cases",
+      "numericParity": "exact equality for generic linear combination evaluation",
+      "publicStrings": "exact equality plus Unicode code-point equality"
+    }
+  },
+  "parityDifferences": [
+    "The slice preserves the source generic combination abstraction, load-case assignment, shallow metadata cloning, factor storage, evaluation defaults, serialization, inheritance and errors.",
+    "Domain load subclasses, NTC action/load catalogs, NTC combination factories and engineering formulas remain outside this bounded slice."
+  ],
+  "engineeringFunctionality": "Generic solver-neutral load cases and linear combinations only; no domain load catalog or normative combination formula is introduced."
+}

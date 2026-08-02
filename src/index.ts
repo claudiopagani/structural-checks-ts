@@ -145,6 +145,9 @@ export {
   normalizeGlobalFemClassificationPolicy,
 } from "./applications/global-fem-postprocessing/index.js";
 export type * from "./applications/global-fem-postprocessing/index.js";
+export { Combination } from "./domain/analysis/Combination.js";
+export { LoadCase } from "./domain/analysis/LoadCase.js";
+export { LoadCombination } from "./domain/analysis/LoadCombination.js";
 export { DistributedLoad, LineLoad, Load, NodalLoad, PointLoad } from "./domain/loads/index.js";
 export { Support } from "./domain/supports/index.js";
 export {
@@ -184,14 +187,20 @@ export {
   DEFAULT_SECTION_ROTATION,
   ElasticBeamSectionProvider,
   ReinforcedConcreteBeamSectionProvider,
+  SteelBeamSectionProvider,
   SingleBeamAnalysis,
   SingleBeamFemBuilder,
   SingleBeamModel,
   createElasticBeamSectionProvider,
   createReinforcedConcreteBeamSectionProvider,
+  createSteelBeamSectionProvider,
+  createTimberBeamSectionProvider,
+  createXlamBeamSectionProvider,
   normalizeSectionRotation,
   resolveBeamSupportPreset,
   splitPrincipalActions,
+  TimberBeamSectionProvider,
+  XlamBeamSectionProvider,
 } from "./domain/beams/index.js";
 export { IllinoisRootSolver } from "./domain/solvers/IllinoisRootSolver.js";
 export { ReinforcedConcreteSectionApplication } from "./applications/reinforced-concrete-sections/ReinforcedConcreteSectionApplication.js";
@@ -630,6 +639,25 @@ export type {
   NormalizedSectionRotation,
   SectionRotationInput,
   SingleBeamModelOptions,
+  SteelBeamMaterialLike,
+  SteelBeamMaterialMetadata,
+  SteelBeamSectionLike,
+  SteelBeamSectionMetadata,
+  SteelBeamSectionProviderContext,
+  SteelBeamSectionProviderOptions,
+  TimberBeamMaterialLike,
+  TimberBeamSectionLike,
+  TimberBeamSectionMetadata,
+  TimberBeamSectionProviderContext,
+  TimberBeamSectionProviderOptions,
+  TimberKmodResolverOptions,
+  XlamBeamMaterialLike,
+  XlamBeamMaterialMetadata,
+  XlamBeamSectionLayer,
+  XlamBeamSectionLike,
+  XlamBeamSectionProviderContext,
+  XlamBeamSectionProviderOptions,
+  XlamBeamShearStiffness,
 } from "./domain/beams/index.js";
 export type {
   ReinforcedConcreteBeamSectionContext,
@@ -905,6 +933,19 @@ export type {
   ResistanceSupportReactionStateInput,
   TimoshenkoLockingDiagnostics,
 } from "./domain/fem/index.js";
+export type { CombinationJson, CombinationOptions } from "./domain/analysis/Combination.js";
+export type {
+  LoadCaseAction,
+  LoadCaseAssignmentTarget,
+  LoadCaseJson,
+  LoadCaseLoad,
+  LoadCaseOptions,
+} from "./domain/analysis/LoadCase.js";
+export type {
+  LoadCombinationFactor,
+  LoadCombinationJson,
+  LoadCombinationOptions,
+} from "./domain/analysis/LoadCombination.js";
 export type {
   DistributedLoadInput,
   DistributedLoadJson,
