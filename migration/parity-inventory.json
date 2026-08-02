@@ -866,6 +866,7 @@
       ],
       "targetPath": "src/index.ts",
       "targetExportNames": [
+        "APPLICATION_CATALOG",
         "AXIAL_PILE_BASE_RESISTANCE_METHODS",
         "AXIAL_PILE_CAPACITY_REFERENCE",
         "AXIAL_PILE_CAPACITY_RESULT_SCHEMA_VERSION",
@@ -874,6 +875,7 @@
         "AXIAL_PILE_LOAD_SCENARIO_SCHEMA_VERSION",
         "AXIAL_PILE_RESISTANCE_CONVERSION_MODELS",
         "AXIAL_PILE_SHAFT_RESISTANCE_METHODS",
+        "ApplicationRegistry",
         "AxialMember2D",
         "AxialPileCapacityAnalysis",
         "AxialPileLoadScenario",
@@ -902,6 +904,7 @@
         "DEFAULT_SECTION_ROTATION",
         "DeepFoundationModel",
         "DenseLinearSolver",
+        "DesignCodeContext",
         "DistributedLoad",
         "DofRegistry",
         "EN1992_STRUT_AND_TIE_NODE_TYPES",
@@ -2687,11 +2690,15 @@
       "sourcePath": "src/config/applicationCatalog.js",
       "sourceBlobSha1": "748431c802f834d6df0b75c0273eb295064d7398",
       "targetPath": "src/config/applicationCatalog.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0037-application-registry-code-metadata"],
+      "sourceOracles": ["tests/architecture/applicationRegistry.test.js"],
+      "targetTests": [
+        "tests/application-registry-code-metadata-compile-time.test.ts",
+        "tests/application-registry-code-metadata-live-parity.test.ts",
+        "tests/baseline-parity.test.ts"
+      ],
+      "validationEvidence": ["0037-application-registry-code-metadata"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -2701,11 +2708,15 @@
       "sourcePath": "src/core/applications/ApplicationRegistry.js",
       "sourceBlobSha1": "c8879313e59614467b011e06d07fec7c2092fb83",
       "targetPath": "src/core/applications/ApplicationRegistry.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0037-application-registry-code-metadata"],
+      "sourceOracles": ["tests/architecture/applicationRegistry.test.js"],
+      "targetTests": [
+        "tests/application-registry-code-metadata-compile-time.test.ts",
+        "tests/application-registry-code-metadata-live-parity.test.ts",
+        "tests/baseline-parity.test.ts"
+      ],
+      "validationEvidence": ["0037-application-registry-code-metadata"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -2830,7 +2841,8 @@
         "tests/ntc2018-structural-regularity.test.ts",
         "tests/rc-building-closure.test.ts",
         "tests/rc-building-live-parity.test.ts",
-        "tests/rc-building-verification-application.test.ts"
+        "tests/rc-building-verification-application.test.ts",
+        "tests/rc-building-verification-compile-time.test.ts"
       ],
       "validationEvidence": [
         "0033-rc-building-coverage-design-basis-orchestration",
@@ -4312,6 +4324,8 @@
       ],
       "targetTests": [
         "tests/concurrent-fem-demand-states.test.ts",
+        "tests/global-fem-postprocessing-compile-time.test.ts",
+        "tests/global-fem-postprocessing-live-parity.test.ts",
         "tests/global-fem-postprocessing.test.ts",
         "tests/global-fem-producer-conformance.test.ts"
       ],
@@ -6272,6 +6286,8 @@
       ],
       "targetTests": [
         "tests/concurrent-fem-demand-states.test.ts",
+        "tests/global-fem-postprocessing-compile-time.test.ts",
+        "tests/global-fem-postprocessing-live-parity.test.ts",
         "tests/global-fem-postprocessing.test.ts",
         "tests/global-fem-producer-conformance.test.ts"
       ],
@@ -6339,11 +6355,15 @@
       "sourcePath": "src/core/codes/DesignCodeContext.js",
       "sourceBlobSha1": "f246359f71c60524131918df17bf5c2d270fc034",
       "targetPath": "src/core/codes/DesignCodeContext.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0037-application-registry-code-metadata"],
+      "sourceOracles": ["tests/architecture/applicationRegistry.test.js"],
+      "targetTests": [
+        "tests/application-registry-code-metadata-compile-time.test.ts",
+        "tests/application-registry-code-metadata-live-parity.test.ts",
+        "tests/baseline-parity.test.ts"
+      ],
+      "validationEvidence": ["0037-application-registry-code-metadata"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -6711,6 +6731,8 @@
       ],
       "targetTests": [
         "tests/concurrent-fem-demand-states.test.ts",
+        "tests/global-fem-postprocessing-compile-time.test.ts",
+        "tests/global-fem-postprocessing-live-parity.test.ts",
         "tests/global-fem-postprocessing.test.ts",
         "tests/global-fem-producer-conformance.test.ts"
       ],
@@ -6904,6 +6926,8 @@
       ],
       "targetTests": [
         "tests/concurrent-fem-demand-states.test.ts",
+        "tests/global-fem-postprocessing-compile-time.test.ts",
+        "tests/global-fem-postprocessing-live-parity.test.ts",
         "tests/global-fem-postprocessing.test.ts",
         "tests/global-fem-producer-conformance.test.ts"
       ],
@@ -7856,6 +7880,8 @@
       ],
       "targetTests": [
         "tests/concurrent-fem-demand-states.test.ts",
+        "tests/global-fem-postprocessing-compile-time.test.ts",
+        "tests/global-fem-postprocessing-live-parity.test.ts",
         "tests/global-fem-postprocessing.test.ts",
         "tests/global-fem-producer-conformance.test.ts"
       ],
@@ -7891,6 +7917,8 @@
       ],
       "targetTests": [
         "tests/concurrent-fem-demand-states.test.ts",
+        "tests/global-fem-postprocessing-compile-time.test.ts",
+        "tests/global-fem-postprocessing-live-parity.test.ts",
         "tests/global-fem-postprocessing.test.ts",
         "tests/global-fem-producer-conformance.test.ts"
       ],
@@ -7932,6 +7960,8 @@
       ],
       "targetTests": [
         "tests/concurrent-fem-demand-states.test.ts",
+        "tests/global-fem-postprocessing-compile-time.test.ts",
+        "tests/global-fem-postprocessing-live-parity.test.ts",
         "tests/global-fem-postprocessing.test.ts",
         "tests/global-fem-producer-conformance.test.ts"
       ],
@@ -7953,6 +7983,8 @@
       ],
       "targetTests": [
         "tests/concurrent-fem-demand-states.test.ts",
+        "tests/global-fem-postprocessing-compile-time.test.ts",
+        "tests/global-fem-postprocessing-live-parity.test.ts",
         "tests/global-fem-postprocessing.test.ts",
         "tests/global-fem-producer-conformance.test.ts"
       ],
@@ -7974,6 +8006,8 @@
       ],
       "targetTests": [
         "tests/concurrent-fem-demand-states.test.ts",
+        "tests/global-fem-postprocessing-compile-time.test.ts",
+        "tests/global-fem-postprocessing-live-parity.test.ts",
         "tests/global-fem-postprocessing.test.ts",
         "tests/global-fem-producer-conformance.test.ts"
       ],
@@ -7995,6 +8029,8 @@
       ],
       "targetTests": [
         "tests/concurrent-fem-demand-states.test.ts",
+        "tests/global-fem-postprocessing-compile-time.test.ts",
+        "tests/global-fem-postprocessing-live-parity.test.ts",
         "tests/global-fem-postprocessing.test.ts",
         "tests/global-fem-producer-conformance.test.ts"
       ],
@@ -8016,6 +8052,8 @@
       ],
       "targetTests": [
         "tests/concurrent-fem-demand-states.test.ts",
+        "tests/global-fem-postprocessing-compile-time.test.ts",
+        "tests/global-fem-postprocessing-live-parity.test.ts",
         "tests/global-fem-postprocessing.test.ts",
         "tests/global-fem-producer-conformance.test.ts"
       ],
@@ -8096,6 +8134,8 @@
       ],
       "targetTests": [
         "tests/concurrent-fem-demand-states.test.ts",
+        "tests/global-fem-postprocessing-compile-time.test.ts",
+        "tests/global-fem-postprocessing-live-parity.test.ts",
         "tests/global-fem-postprocessing.test.ts",
         "tests/global-fem-producer-conformance.test.ts",
         "tests/rc-building-closure.test.ts"
@@ -9808,6 +9848,8 @@
       ],
       "targetTests": [
         "tests/concurrent-fem-demand-states.test.ts",
+        "tests/global-fem-postprocessing-compile-time.test.ts",
+        "tests/global-fem-postprocessing-live-parity.test.ts",
         "tests/global-fem-postprocessing.test.ts",
         "tests/global-fem-producer-conformance.test.ts"
       ],
@@ -12141,7 +12183,8 @@
         "tests/ntc2018-structural-regularity.test.ts",
         "tests/rc-building-closure.test.ts",
         "tests/rc-building-live-parity.test.ts",
-        "tests/rc-building-verification-application.test.ts"
+        "tests/rc-building-verification-application.test.ts",
+        "tests/rc-building-verification-compile-time.test.ts"
       ],
       "validationEvidence": [
         "0034-rc-building-verification-application-and-producer-conformance",
@@ -13605,7 +13648,8 @@
         "tests/ntc2018-structural-regularity.test.ts",
         "tests/rc-building-closure.test.ts",
         "tests/rc-building-live-parity.test.ts",
-        "tests/rc-building-verification-application.test.ts"
+        "tests/rc-building-verification-application.test.ts",
+        "tests/rc-building-verification-compile-time.test.ts"
       ],
       "validationEvidence": [
         "0033-rc-building-coverage-design-basis-orchestration",
@@ -13685,7 +13729,8 @@
         "tests/ntc2018-structural-regularity.test.ts",
         "tests/rc-building-closure.test.ts",
         "tests/rc-building-live-parity.test.ts",
-        "tests/rc-building-verification-application.test.ts"
+        "tests/rc-building-verification-application.test.ts",
+        "tests/rc-building-verification-compile-time.test.ts"
       ],
       "validationEvidence": [
         "0033-rc-building-coverage-design-basis-orchestration",
@@ -13731,7 +13776,8 @@
         "tests/ntc2018-structural-regularity.test.ts",
         "tests/rc-building-closure.test.ts",
         "tests/rc-building-live-parity.test.ts",
-        "tests/rc-building-verification-application.test.ts"
+        "tests/rc-building-verification-application.test.ts",
+        "tests/rc-building-verification-compile-time.test.ts"
       ],
       "validationEvidence": [
         "0033-rc-building-coverage-design-basis-orchestration",
@@ -16565,7 +16611,8 @@
         "tests/ntc2018-structural-regularity.test.ts",
         "tests/rc-building-closure.test.ts",
         "tests/rc-building-live-parity.test.ts",
-        "tests/rc-building-verification-application.test.ts"
+        "tests/rc-building-verification-application.test.ts",
+        "tests/rc-building-verification-compile-time.test.ts"
       ],
       "validationEvidence": [
         "0033-rc-building-coverage-design-basis-orchestration",
@@ -16995,6 +17042,8 @@
       ],
       "targetTests": [
         "tests/concurrent-fem-demand-states.test.ts",
+        "tests/global-fem-postprocessing-compile-time.test.ts",
+        "tests/global-fem-postprocessing-live-parity.test.ts",
         "tests/global-fem-postprocessing.test.ts",
         "tests/global-fem-producer-conformance.test.ts"
       ],
@@ -17280,6 +17329,8 @@
       ],
       "targetTests": [
         "tests/concurrent-fem-demand-states.test.ts",
+        "tests/global-fem-postprocessing-compile-time.test.ts",
+        "tests/global-fem-postprocessing-live-parity.test.ts",
         "tests/global-fem-postprocessing.test.ts",
         "tests/global-fem-producer-conformance.test.ts"
       ],
@@ -17469,6 +17520,8 @@
       ],
       "targetTests": [
         "tests/concurrent-fem-demand-states.test.ts",
+        "tests/global-fem-postprocessing-compile-time.test.ts",
+        "tests/global-fem-postprocessing-live-parity.test.ts",
         "tests/global-fem-postprocessing.test.ts",
         "tests/global-fem-producer-conformance.test.ts"
       ],
@@ -17524,6 +17577,8 @@
       ],
       "targetTests": [
         "tests/concurrent-fem-demand-states.test.ts",
+        "tests/global-fem-postprocessing-compile-time.test.ts",
+        "tests/global-fem-postprocessing-live-parity.test.ts",
         "tests/global-fem-postprocessing.test.ts",
         "tests/global-fem-producer-conformance.test.ts"
       ],
@@ -17773,6 +17828,8 @@
       ],
       "targetTests": [
         "tests/concurrent-fem-demand-states.test.ts",
+        "tests/global-fem-postprocessing-compile-time.test.ts",
+        "tests/global-fem-postprocessing-live-parity.test.ts",
         "tests/global-fem-postprocessing.test.ts",
         "tests/global-fem-producer-conformance.test.ts"
       ],
@@ -17794,6 +17851,8 @@
       ],
       "targetTests": [
         "tests/concurrent-fem-demand-states.test.ts",
+        "tests/global-fem-postprocessing-compile-time.test.ts",
+        "tests/global-fem-postprocessing-live-parity.test.ts",
         "tests/global-fem-postprocessing.test.ts",
         "tests/global-fem-producer-conformance.test.ts"
       ],
@@ -17815,6 +17874,8 @@
       ],
       "targetTests": [
         "tests/concurrent-fem-demand-states.test.ts",
+        "tests/global-fem-postprocessing-compile-time.test.ts",
+        "tests/global-fem-postprocessing-live-parity.test.ts",
         "tests/global-fem-postprocessing.test.ts",
         "tests/global-fem-producer-conformance.test.ts"
       ],
@@ -17836,6 +17897,8 @@
       ],
       "targetTests": [
         "tests/concurrent-fem-demand-states.test.ts",
+        "tests/global-fem-postprocessing-compile-time.test.ts",
+        "tests/global-fem-postprocessing-live-parity.test.ts",
         "tests/global-fem-postprocessing.test.ts",
         "tests/global-fem-producer-conformance.test.ts"
       ],
@@ -17857,6 +17920,8 @@
       ],
       "targetTests": [
         "tests/concurrent-fem-demand-states.test.ts",
+        "tests/global-fem-postprocessing-compile-time.test.ts",
+        "tests/global-fem-postprocessing-live-parity.test.ts",
         "tests/global-fem-postprocessing.test.ts",
         "tests/global-fem-producer-conformance.test.ts"
       ],
@@ -17878,6 +17943,8 @@
       ],
       "targetTests": [
         "tests/concurrent-fem-demand-states.test.ts",
+        "tests/global-fem-postprocessing-compile-time.test.ts",
+        "tests/global-fem-postprocessing-live-parity.test.ts",
         "tests/global-fem-postprocessing.test.ts",
         "tests/global-fem-producer-conformance.test.ts"
       ],
@@ -17899,6 +17966,8 @@
       ],
       "targetTests": [
         "tests/concurrent-fem-demand-states.test.ts",
+        "tests/global-fem-postprocessing-compile-time.test.ts",
+        "tests/global-fem-postprocessing-live-parity.test.ts",
         "tests/global-fem-postprocessing.test.ts",
         "tests/global-fem-producer-conformance.test.ts"
       ],
@@ -17925,6 +17994,8 @@
       ],
       "targetTests": [
         "tests/concurrent-fem-demand-states.test.ts",
+        "tests/global-fem-postprocessing-compile-time.test.ts",
+        "tests/global-fem-postprocessing-live-parity.test.ts",
         "tests/global-fem-postprocessing.test.ts",
         "tests/global-fem-producer-conformance.test.ts",
         "tests/rc-building-closure.test.ts"
@@ -18905,6 +18976,8 @@
       ],
       "targetTests": [
         "tests/concurrent-fem-demand-states.test.ts",
+        "tests/global-fem-postprocessing-compile-time.test.ts",
+        "tests/global-fem-postprocessing-live-parity.test.ts",
         "tests/global-fem-postprocessing.test.ts",
         "tests/global-fem-producer-conformance.test.ts"
       ],
@@ -19282,7 +19355,8 @@
         "tests/ntc2018-structural-regularity.test.ts",
         "tests/rc-building-closure.test.ts",
         "tests/rc-building-live-parity.test.ts",
-        "tests/rc-building-verification-application.test.ts"
+        "tests/rc-building-verification-application.test.ts",
+        "tests/rc-building-verification-compile-time.test.ts"
       ],
       "validationEvidence": [
         "0034-rc-building-verification-application-and-producer-conformance",
@@ -20174,7 +20248,8 @@
         "tests/ntc2018-structural-regularity.test.ts",
         "tests/rc-building-closure.test.ts",
         "tests/rc-building-live-parity.test.ts",
-        "tests/rc-building-verification-application.test.ts"
+        "tests/rc-building-verification-application.test.ts",
+        "tests/rc-building-verification-compile-time.test.ts"
       ],
       "validationEvidence": [
         "0033-rc-building-coverage-design-basis-orchestration",
@@ -20254,7 +20329,8 @@
         "tests/ntc2018-structural-regularity.test.ts",
         "tests/rc-building-closure.test.ts",
         "tests/rc-building-live-parity.test.ts",
-        "tests/rc-building-verification-application.test.ts"
+        "tests/rc-building-verification-application.test.ts",
+        "tests/rc-building-verification-compile-time.test.ts"
       ],
       "validationEvidence": [
         "0033-rc-building-coverage-design-basis-orchestration",
@@ -20300,7 +20376,8 @@
         "tests/ntc2018-structural-regularity.test.ts",
         "tests/rc-building-closure.test.ts",
         "tests/rc-building-live-parity.test.ts",
-        "tests/rc-building-verification-application.test.ts"
+        "tests/rc-building-verification-application.test.ts",
+        "tests/rc-building-verification-compile-time.test.ts"
       ],
       "validationEvidence": [
         "0033-rc-building-coverage-design-basis-orchestration",
@@ -21381,6 +21458,8 @@
       ],
       "targetTests": [
         "tests/baseline-parity.test.ts",
+        "tests/global-fem-postprocessing-compile-time.test.ts",
+        "tests/global-fem-postprocessing-live-parity.test.ts",
         "tests/global-fem-postprocessing.test.ts",
         "tests/global-fem-producer-conformance.test.ts",
         "tests/rc-building-closure.test.ts"
@@ -22352,11 +22431,11 @@
       "sourcePath": "src/config/applicationCatalog.js",
       "sourceBlobSha1": "748431c802f834d6df0b75c0273eb295064d7398",
       "targetPath": "src/config/applicationCatalog.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
+      "migrationSlices": ["0037-application-registry-code-metadata"],
+      "sourceOracles": ["tests/architecture/applicationRegistry.test.js"],
       "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "validationEvidence": ["0037-application-registry-code-metadata"],
+      "status": "exact-parity",
       "notes": [
         "Catalog maturity is copied from the pinned source; no TypeScript catalog is currently present."
       ],
@@ -22370,11 +22449,11 @@
       "sourcePath": "src/config/applicationCatalog.js",
       "sourceBlobSha1": "748431c802f834d6df0b75c0273eb295064d7398",
       "targetPath": "src/config/applicationCatalog.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
+      "migrationSlices": ["0037-application-registry-code-metadata"],
+      "sourceOracles": ["tests/architecture/applicationRegistry.test.js"],
       "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "validationEvidence": ["0037-application-registry-code-metadata"],
+      "status": "exact-parity",
       "notes": [
         "Catalog maturity is copied from the pinned source; no TypeScript catalog is currently present."
       ],
@@ -22388,11 +22467,11 @@
       "sourcePath": "src/config/applicationCatalog.js",
       "sourceBlobSha1": "748431c802f834d6df0b75c0273eb295064d7398",
       "targetPath": "src/config/applicationCatalog.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
+      "migrationSlices": ["0037-application-registry-code-metadata"],
+      "sourceOracles": ["tests/architecture/applicationRegistry.test.js"],
       "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "validationEvidence": ["0037-application-registry-code-metadata"],
+      "status": "exact-parity",
       "notes": [
         "Catalog maturity is copied from the pinned source; no TypeScript catalog is currently present."
       ],
@@ -22406,11 +22485,11 @@
       "sourcePath": "src/config/applicationCatalog.js",
       "sourceBlobSha1": "748431c802f834d6df0b75c0273eb295064d7398",
       "targetPath": "src/config/applicationCatalog.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
+      "migrationSlices": ["0037-application-registry-code-metadata"],
+      "sourceOracles": ["tests/architecture/applicationRegistry.test.js"],
       "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "validationEvidence": ["0037-application-registry-code-metadata"],
+      "status": "exact-parity",
       "notes": [
         "Catalog maturity is copied from the pinned source; no TypeScript catalog is currently present."
       ],
@@ -22424,11 +22503,11 @@
       "sourcePath": "src/config/applicationCatalog.js",
       "sourceBlobSha1": "748431c802f834d6df0b75c0273eb295064d7398",
       "targetPath": "src/config/applicationCatalog.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
+      "migrationSlices": ["0037-application-registry-code-metadata"],
+      "sourceOracles": ["tests/architecture/applicationRegistry.test.js"],
       "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "validationEvidence": ["0037-application-registry-code-metadata"],
+      "status": "exact-parity",
       "notes": [
         "Catalog maturity is copied from the pinned source; no TypeScript catalog is currently present."
       ],
@@ -22442,11 +22521,11 @@
       "sourcePath": "src/config/applicationCatalog.js",
       "sourceBlobSha1": "748431c802f834d6df0b75c0273eb295064d7398",
       "targetPath": "src/config/applicationCatalog.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
+      "migrationSlices": ["0037-application-registry-code-metadata"],
+      "sourceOracles": ["tests/architecture/applicationRegistry.test.js"],
       "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "validationEvidence": ["0037-application-registry-code-metadata"],
+      "status": "exact-parity",
       "notes": [
         "Catalog maturity is copied from the pinned source; no TypeScript catalog is currently present."
       ],
@@ -22460,11 +22539,11 @@
       "sourcePath": "src/config/applicationCatalog.js",
       "sourceBlobSha1": "748431c802f834d6df0b75c0273eb295064d7398",
       "targetPath": "src/config/applicationCatalog.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
+      "migrationSlices": ["0037-application-registry-code-metadata"],
+      "sourceOracles": ["tests/architecture/applicationRegistry.test.js"],
       "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "validationEvidence": ["0037-application-registry-code-metadata"],
+      "status": "exact-parity",
       "notes": [
         "Catalog maturity is copied from the pinned source; no TypeScript catalog is currently present."
       ],
@@ -22478,11 +22557,11 @@
       "sourcePath": "src/config/applicationCatalog.js",
       "sourceBlobSha1": "748431c802f834d6df0b75c0273eb295064d7398",
       "targetPath": "src/config/applicationCatalog.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
+      "migrationSlices": ["0037-application-registry-code-metadata"],
+      "sourceOracles": ["tests/architecture/applicationRegistry.test.js"],
       "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "validationEvidence": ["0037-application-registry-code-metadata"],
+      "status": "exact-parity",
       "notes": [
         "Catalog maturity is copied from the pinned source; no TypeScript catalog is currently present."
       ],
@@ -22496,11 +22575,11 @@
       "sourcePath": "src/config/applicationCatalog.js",
       "sourceBlobSha1": "748431c802f834d6df0b75c0273eb295064d7398",
       "targetPath": "src/config/applicationCatalog.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
+      "migrationSlices": ["0037-application-registry-code-metadata"],
+      "sourceOracles": ["tests/architecture/applicationRegistry.test.js"],
       "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "validationEvidence": ["0037-application-registry-code-metadata"],
+      "status": "exact-parity",
       "notes": [
         "Catalog maturity is copied from the pinned source; no TypeScript catalog is currently present."
       ],
@@ -22514,11 +22593,11 @@
       "sourcePath": "src/config/applicationCatalog.js",
       "sourceBlobSha1": "748431c802f834d6df0b75c0273eb295064d7398",
       "targetPath": "src/config/applicationCatalog.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
+      "migrationSlices": ["0037-application-registry-code-metadata"],
+      "sourceOracles": ["tests/architecture/applicationRegistry.test.js"],
       "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "validationEvidence": ["0037-application-registry-code-metadata"],
+      "status": "exact-parity",
       "notes": [
         "Catalog maturity is copied from the pinned source; no TypeScript catalog is currently present."
       ],
@@ -22532,11 +22611,11 @@
       "sourcePath": "src/config/applicationCatalog.js",
       "sourceBlobSha1": "748431c802f834d6df0b75c0273eb295064d7398",
       "targetPath": "src/config/applicationCatalog.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
+      "migrationSlices": ["0037-application-registry-code-metadata"],
+      "sourceOracles": ["tests/architecture/applicationRegistry.test.js"],
       "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "validationEvidence": ["0037-application-registry-code-metadata"],
+      "status": "exact-parity",
       "notes": [
         "Catalog maturity is copied from the pinned source; no TypeScript catalog is currently present."
       ],
@@ -22550,11 +22629,11 @@
       "sourcePath": "src/config/applicationCatalog.js",
       "sourceBlobSha1": "748431c802f834d6df0b75c0273eb295064d7398",
       "targetPath": "src/config/applicationCatalog.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
+      "migrationSlices": ["0037-application-registry-code-metadata"],
+      "sourceOracles": ["tests/architecture/applicationRegistry.test.js"],
       "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "validationEvidence": ["0037-application-registry-code-metadata"],
+      "status": "exact-parity",
       "notes": [
         "Catalog maturity is copied from the pinned source; no TypeScript catalog is currently present."
       ],
@@ -22568,11 +22647,11 @@
       "sourcePath": "src/config/applicationCatalog.js",
       "sourceBlobSha1": "748431c802f834d6df0b75c0273eb295064d7398",
       "targetPath": "src/config/applicationCatalog.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
+      "migrationSlices": ["0037-application-registry-code-metadata"],
+      "sourceOracles": ["tests/architecture/applicationRegistry.test.js"],
       "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "validationEvidence": ["0037-application-registry-code-metadata"],
+      "status": "exact-parity",
       "notes": [
         "Catalog maturity is copied from the pinned source; no TypeScript catalog is currently present."
       ],
@@ -22586,11 +22665,11 @@
       "sourcePath": "src/config/applicationCatalog.js",
       "sourceBlobSha1": "748431c802f834d6df0b75c0273eb295064d7398",
       "targetPath": "src/config/applicationCatalog.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
+      "migrationSlices": ["0037-application-registry-code-metadata"],
+      "sourceOracles": ["tests/architecture/applicationRegistry.test.js"],
       "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "validationEvidence": ["0037-application-registry-code-metadata"],
+      "status": "exact-parity",
       "notes": [
         "Catalog maturity is copied from the pinned source; no TypeScript catalog is currently present."
       ],
@@ -22604,11 +22683,11 @@
       "sourcePath": "src/config/applicationCatalog.js",
       "sourceBlobSha1": "748431c802f834d6df0b75c0273eb295064d7398",
       "targetPath": "src/config/applicationCatalog.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
+      "migrationSlices": ["0037-application-registry-code-metadata"],
+      "sourceOracles": ["tests/architecture/applicationRegistry.test.js"],
       "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "validationEvidence": ["0037-application-registry-code-metadata"],
+      "status": "exact-parity",
       "notes": [
         "Catalog maturity is copied from the pinned source; no TypeScript catalog is currently present."
       ],
@@ -22622,11 +22701,11 @@
       "sourcePath": "src/config/applicationCatalog.js",
       "sourceBlobSha1": "748431c802f834d6df0b75c0273eb295064d7398",
       "targetPath": "src/config/applicationCatalog.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
+      "migrationSlices": ["0037-application-registry-code-metadata"],
+      "sourceOracles": ["tests/architecture/applicationRegistry.test.js"],
       "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "validationEvidence": ["0037-application-registry-code-metadata"],
+      "status": "exact-parity",
       "notes": [
         "Catalog maturity is copied from the pinned source; no TypeScript catalog is currently present."
       ],
@@ -22640,11 +22719,11 @@
       "sourcePath": "src/config/applicationCatalog.js",
       "sourceBlobSha1": "748431c802f834d6df0b75c0273eb295064d7398",
       "targetPath": "src/config/applicationCatalog.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
+      "migrationSlices": ["0037-application-registry-code-metadata"],
+      "sourceOracles": ["tests/architecture/applicationRegistry.test.js"],
       "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "validationEvidence": ["0037-application-registry-code-metadata"],
+      "status": "exact-parity",
       "notes": [
         "Catalog maturity is copied from the pinned source; no TypeScript catalog is currently present."
       ],
@@ -22658,11 +22737,11 @@
       "sourcePath": "src/config/applicationCatalog.js",
       "sourceBlobSha1": "748431c802f834d6df0b75c0273eb295064d7398",
       "targetPath": "src/config/applicationCatalog.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
+      "migrationSlices": ["0037-application-registry-code-metadata"],
+      "sourceOracles": ["tests/architecture/applicationRegistry.test.js"],
       "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "validationEvidence": ["0037-application-registry-code-metadata"],
+      "status": "exact-parity",
       "notes": [
         "Catalog maturity is copied from the pinned source; no TypeScript catalog is currently present."
       ],
@@ -22676,11 +22755,11 @@
       "sourcePath": "src/config/applicationCatalog.js",
       "sourceBlobSha1": "748431c802f834d6df0b75c0273eb295064d7398",
       "targetPath": "src/config/applicationCatalog.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
+      "migrationSlices": ["0037-application-registry-code-metadata"],
+      "sourceOracles": ["tests/architecture/applicationRegistry.test.js"],
       "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "validationEvidence": ["0037-application-registry-code-metadata"],
+      "status": "exact-parity",
       "notes": [
         "Catalog maturity is copied from the pinned source; no TypeScript catalog is currently present."
       ],
@@ -22694,11 +22773,11 @@
       "sourcePath": "src/config/applicationCatalog.js",
       "sourceBlobSha1": "748431c802f834d6df0b75c0273eb295064d7398",
       "targetPath": "src/config/applicationCatalog.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
+      "migrationSlices": ["0037-application-registry-code-metadata"],
+      "sourceOracles": ["tests/architecture/applicationRegistry.test.js"],
       "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "validationEvidence": ["0037-application-registry-code-metadata"],
+      "status": "exact-parity",
       "notes": [
         "Catalog maturity is copied from the pinned source; no TypeScript catalog is currently present."
       ],
@@ -22712,11 +22791,11 @@
       "sourcePath": "src/config/applicationCatalog.js",
       "sourceBlobSha1": "748431c802f834d6df0b75c0273eb295064d7398",
       "targetPath": "src/config/applicationCatalog.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
+      "migrationSlices": ["0037-application-registry-code-metadata"],
+      "sourceOracles": ["tests/architecture/applicationRegistry.test.js"],
       "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "validationEvidence": ["0037-application-registry-code-metadata"],
+      "status": "exact-parity",
       "notes": [
         "Catalog maturity is copied from the pinned source; no TypeScript catalog is currently present."
       ],
@@ -22730,11 +22809,11 @@
       "sourcePath": "src/config/applicationCatalog.js",
       "sourceBlobSha1": "748431c802f834d6df0b75c0273eb295064d7398",
       "targetPath": "src/config/applicationCatalog.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
+      "migrationSlices": ["0037-application-registry-code-metadata"],
+      "sourceOracles": ["tests/architecture/applicationRegistry.test.js"],
       "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "validationEvidence": ["0037-application-registry-code-metadata"],
+      "status": "exact-parity",
       "notes": [
         "Catalog maturity is copied from the pinned source; no TypeScript catalog is currently present."
       ],
@@ -22748,11 +22827,11 @@
       "sourcePath": "src/config/applicationCatalog.js",
       "sourceBlobSha1": "748431c802f834d6df0b75c0273eb295064d7398",
       "targetPath": "src/config/applicationCatalog.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
+      "migrationSlices": ["0037-application-registry-code-metadata"],
+      "sourceOracles": ["tests/architecture/applicationRegistry.test.js"],
       "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "validationEvidence": ["0037-application-registry-code-metadata"],
+      "status": "exact-parity",
       "notes": [
         "Catalog maturity is copied from the pinned source; no TypeScript catalog is currently present."
       ],
@@ -22766,11 +22845,11 @@
       "sourcePath": "src/config/applicationCatalog.js",
       "sourceBlobSha1": "748431c802f834d6df0b75c0273eb295064d7398",
       "targetPath": "src/config/applicationCatalog.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
+      "migrationSlices": ["0037-application-registry-code-metadata"],
+      "sourceOracles": ["tests/architecture/applicationRegistry.test.js"],
       "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "validationEvidence": ["0037-application-registry-code-metadata"],
+      "status": "exact-parity",
       "notes": [
         "Catalog maturity is copied from the pinned source; no TypeScript catalog is currently present."
       ],
@@ -22784,11 +22863,11 @@
       "sourcePath": "src/config/applicationCatalog.js",
       "sourceBlobSha1": "748431c802f834d6df0b75c0273eb295064d7398",
       "targetPath": "src/config/applicationCatalog.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
+      "migrationSlices": ["0037-application-registry-code-metadata"],
+      "sourceOracles": ["tests/architecture/applicationRegistry.test.js"],
       "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "validationEvidence": ["0037-application-registry-code-metadata"],
+      "status": "exact-parity",
       "notes": [
         "Catalog maturity is copied from the pinned source; no TypeScript catalog is currently present."
       ],
@@ -22802,11 +22881,11 @@
       "sourcePath": "src/config/applicationCatalog.js",
       "sourceBlobSha1": "748431c802f834d6df0b75c0273eb295064d7398",
       "targetPath": "src/config/applicationCatalog.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
+      "migrationSlices": ["0037-application-registry-code-metadata"],
+      "sourceOracles": ["tests/architecture/applicationRegistry.test.js"],
       "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "validationEvidence": ["0037-application-registry-code-metadata"],
+      "status": "exact-parity",
       "notes": [
         "Catalog maturity is copied from the pinned source; no TypeScript catalog is currently present."
       ],
@@ -22820,11 +22899,11 @@
       "sourcePath": "src/config/applicationCatalog.js",
       "sourceBlobSha1": "748431c802f834d6df0b75c0273eb295064d7398",
       "targetPath": "src/config/applicationCatalog.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
+      "migrationSlices": ["0037-application-registry-code-metadata"],
+      "sourceOracles": ["tests/architecture/applicationRegistry.test.js"],
       "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "validationEvidence": ["0037-application-registry-code-metadata"],
+      "status": "exact-parity",
       "notes": [
         "Catalog maturity is copied from the pinned source; no TypeScript catalog is currently present."
       ],
@@ -22838,11 +22917,11 @@
       "sourcePath": "src/config/applicationCatalog.js",
       "sourceBlobSha1": "748431c802f834d6df0b75c0273eb295064d7398",
       "targetPath": "src/config/applicationCatalog.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
+      "migrationSlices": ["0037-application-registry-code-metadata"],
+      "sourceOracles": ["tests/architecture/applicationRegistry.test.js"],
       "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "validationEvidence": ["0037-application-registry-code-metadata"],
+      "status": "exact-parity",
       "notes": [
         "Catalog maturity is copied from the pinned source; no TypeScript catalog is currently present."
       ],
@@ -22856,11 +22935,11 @@
       "sourcePath": "src/config/applicationCatalog.js",
       "sourceBlobSha1": "748431c802f834d6df0b75c0273eb295064d7398",
       "targetPath": "src/config/applicationCatalog.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
+      "migrationSlices": ["0037-application-registry-code-metadata"],
+      "sourceOracles": ["tests/architecture/applicationRegistry.test.js"],
       "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "validationEvidence": ["0037-application-registry-code-metadata"],
+      "status": "exact-parity",
       "notes": [
         "Catalog maturity is copied from the pinned source; no TypeScript catalog is currently present."
       ],
@@ -22874,11 +22953,11 @@
       "sourcePath": "src/config/applicationCatalog.js",
       "sourceBlobSha1": "748431c802f834d6df0b75c0273eb295064d7398",
       "targetPath": "src/config/applicationCatalog.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
+      "migrationSlices": ["0037-application-registry-code-metadata"],
+      "sourceOracles": ["tests/architecture/applicationRegistry.test.js"],
       "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "validationEvidence": ["0037-application-registry-code-metadata"],
+      "status": "exact-parity",
       "notes": [
         "Catalog maturity is copied from the pinned source; no TypeScript catalog is currently present."
       ],
@@ -23096,6 +23175,8 @@
       ],
       "targetTests": [
         "tests/concurrent-fem-demand-states.test.ts",
+        "tests/global-fem-postprocessing-compile-time.test.ts",
+        "tests/global-fem-postprocessing-live-parity.test.ts",
         "tests/global-fem-postprocessing.test.ts",
         "tests/global-fem-producer-conformance.test.ts"
       ],
@@ -23133,6 +23214,8 @@
       ],
       "targetTests": [
         "tests/concurrent-fem-demand-states.test.ts",
+        "tests/global-fem-postprocessing-compile-time.test.ts",
+        "tests/global-fem-postprocessing-live-parity.test.ts",
         "tests/global-fem-postprocessing.test.ts",
         "tests/global-fem-producer-conformance.test.ts"
       ],
@@ -23155,6 +23238,8 @@
       ],
       "targetTests": [
         "tests/concurrent-fem-demand-states.test.ts",
+        "tests/global-fem-postprocessing-compile-time.test.ts",
+        "tests/global-fem-postprocessing-live-parity.test.ts",
         "tests/global-fem-postprocessing.test.ts",
         "tests/global-fem-producer-conformance.test.ts"
       ],
@@ -23846,6 +23931,8 @@
       ],
       "targetTests": [
         "tests/concurrent-fem-demand-states.test.ts",
+        "tests/global-fem-postprocessing-compile-time.test.ts",
+        "tests/global-fem-postprocessing-live-parity.test.ts",
         "tests/global-fem-postprocessing.test.ts",
         "tests/global-fem-producer-conformance.test.ts"
       ],
@@ -23864,6 +23951,8 @@
       ],
       "targetTests": [
         "tests/concurrent-fem-demand-states.test.ts",
+        "tests/global-fem-postprocessing-compile-time.test.ts",
+        "tests/global-fem-postprocessing-live-parity.test.ts",
         "tests/global-fem-postprocessing.test.ts",
         "tests/global-fem-producer-conformance.test.ts"
       ],
@@ -23882,6 +23971,8 @@
       ],
       "targetTests": [
         "tests/concurrent-fem-demand-states.test.ts",
+        "tests/global-fem-postprocessing-compile-time.test.ts",
+        "tests/global-fem-postprocessing-live-parity.test.ts",
         "tests/global-fem-postprocessing.test.ts",
         "tests/global-fem-producer-conformance.test.ts"
       ],
@@ -23900,6 +23991,8 @@
       ],
       "targetTests": [
         "tests/concurrent-fem-demand-states.test.ts",
+        "tests/global-fem-postprocessing-compile-time.test.ts",
+        "tests/global-fem-postprocessing-live-parity.test.ts",
         "tests/global-fem-postprocessing.test.ts",
         "tests/global-fem-producer-conformance.test.ts"
       ],
@@ -23918,6 +24011,8 @@
       ],
       "targetTests": [
         "tests/concurrent-fem-demand-states.test.ts",
+        "tests/global-fem-postprocessing-compile-time.test.ts",
+        "tests/global-fem-postprocessing-live-parity.test.ts",
         "tests/global-fem-postprocessing.test.ts",
         "tests/global-fem-producer-conformance.test.ts"
       ],
@@ -23936,6 +24031,8 @@
       ],
       "targetTests": [
         "tests/concurrent-fem-demand-states.test.ts",
+        "tests/global-fem-postprocessing-compile-time.test.ts",
+        "tests/global-fem-postprocessing-live-parity.test.ts",
         "tests/global-fem-postprocessing.test.ts",
         "tests/global-fem-producer-conformance.test.ts"
       ],
@@ -24490,7 +24587,8 @@
         "tests/ntc2018-structural-behavior.test.ts",
         "tests/ntc2018-structural-regularity.test.ts",
         "tests/rc-building-live-parity.test.ts",
-        "tests/rc-building-verification-application.test.ts"
+        "tests/rc-building-verification-application.test.ts",
+        "tests/rc-building-verification-compile-time.test.ts"
       ],
       "validationEvidence": [
         "0034-rc-building-verification-application-and-producer-conformance",
@@ -24530,7 +24628,8 @@
         "tests/ntc2018-structural-behavior.test.ts",
         "tests/ntc2018-structural-regularity.test.ts",
         "tests/rc-building-live-parity.test.ts",
-        "tests/rc-building-verification-application.test.ts"
+        "tests/rc-building-verification-application.test.ts",
+        "tests/rc-building-verification-compile-time.test.ts"
       ],
       "validationEvidence": [
         "0033-rc-building-coverage-design-basis-orchestration",
@@ -24567,7 +24666,8 @@
         "tests/ntc2018-structural-behavior.test.ts",
         "tests/ntc2018-structural-regularity.test.ts",
         "tests/rc-building-live-parity.test.ts",
-        "tests/rc-building-verification-application.test.ts"
+        "tests/rc-building-verification-application.test.ts",
+        "tests/rc-building-verification-compile-time.test.ts"
       ],
       "validationEvidence": ["0036-rc-building-strict-typing"],
       "status": "exact-parity"
@@ -24604,7 +24704,8 @@
         "tests/ntc2018-structural-behavior.test.ts",
         "tests/ntc2018-structural-regularity.test.ts",
         "tests/rc-building-live-parity.test.ts",
-        "tests/rc-building-verification-application.test.ts"
+        "tests/rc-building-verification-application.test.ts",
+        "tests/rc-building-verification-compile-time.test.ts"
       ],
       "validationEvidence": [
         "0033-rc-building-coverage-design-basis-orchestration",
@@ -24644,7 +24745,8 @@
         "tests/ntc2018-structural-behavior.test.ts",
         "tests/ntc2018-structural-regularity.test.ts",
         "tests/rc-building-live-parity.test.ts",
-        "tests/rc-building-verification-application.test.ts"
+        "tests/rc-building-verification-application.test.ts",
+        "tests/rc-building-verification-compile-time.test.ts"
       ],
       "validationEvidence": [
         "0033-rc-building-coverage-design-basis-orchestration",
@@ -24684,7 +24786,8 @@
         "tests/ntc2018-structural-behavior.test.ts",
         "tests/ntc2018-structural-regularity.test.ts",
         "tests/rc-building-live-parity.test.ts",
-        "tests/rc-building-verification-application.test.ts"
+        "tests/rc-building-verification-application.test.ts",
+        "tests/rc-building-verification-compile-time.test.ts"
       ],
       "validationEvidence": [
         "0033-rc-building-coverage-design-basis-orchestration",
@@ -24728,7 +24831,8 @@
         "tests/ntc2018-structural-behavior.test.ts",
         "tests/ntc2018-structural-regularity.test.ts",
         "tests/rc-building-live-parity.test.ts",
-        "tests/rc-building-verification-application.test.ts"
+        "tests/rc-building-verification-application.test.ts",
+        "tests/rc-building-verification-compile-time.test.ts"
       ],
       "validationEvidence": [
         "0017-reinforced-concrete-seismic-walls",
@@ -24769,7 +24873,8 @@
         "tests/ntc2018-structural-behavior.test.ts",
         "tests/ntc2018-structural-regularity.test.ts",
         "tests/rc-building-live-parity.test.ts",
-        "tests/rc-building-verification-application.test.ts"
+        "tests/rc-building-verification-application.test.ts",
+        "tests/rc-building-verification-compile-time.test.ts"
       ],
       "validationEvidence": [
         "0033-rc-building-coverage-design-basis-orchestration",
@@ -26918,22 +27023,30 @@
       "sourcePath": "src/config/applicationCatalog.js",
       "sourceBlobSha1": "748431c802f834d6df0b75c0273eb295064d7398",
       "targetPath": "src/config/applicationCatalog.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing"
+      "migrationSlices": ["0037-application-registry-code-metadata"],
+      "sourceOracles": ["tests/architecture/applicationRegistry.test.js"],
+      "targetTests": [
+        "tests/application-registry-code-metadata-compile-time.test.ts",
+        "tests/application-registry-code-metadata-live-parity.test.ts",
+        "tests/baseline-parity.test.ts"
+      ],
+      "validationEvidence": ["0037-application-registry-code-metadata"],
+      "status": "exact-parity"
     },
     {
       "id": "src/core/applications/ApplicationRegistry.js",
       "sourcePath": "src/core/applications/ApplicationRegistry.js",
       "sourceBlobSha1": "c8879313e59614467b011e06d07fec7c2092fb83",
       "targetPath": "src/core/applications/ApplicationRegistry.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing"
+      "migrationSlices": ["0037-application-registry-code-metadata"],
+      "sourceOracles": ["tests/architecture/applicationRegistry.test.js"],
+      "targetTests": [
+        "tests/application-registry-code-metadata-compile-time.test.ts",
+        "tests/application-registry-code-metadata-live-parity.test.ts",
+        "tests/baseline-parity.test.ts"
+      ],
+      "validationEvidence": ["0037-application-registry-code-metadata"],
+      "status": "exact-parity"
     },
     {
       "id": "src/core/applications/StructuralApplication.js",
@@ -26958,11 +27071,15 @@
       "sourcePath": "src/core/codes/DesignCodeContext.js",
       "sourceBlobSha1": "f246359f71c60524131918df17bf5c2d270fc034",
       "targetPath": "src/core/codes/DesignCodeContext.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing"
+      "migrationSlices": ["0037-application-registry-code-metadata"],
+      "sourceOracles": ["tests/architecture/applicationRegistry.test.js"],
+      "targetTests": [
+        "tests/application-registry-code-metadata-compile-time.test.ts",
+        "tests/application-registry-code-metadata-live-parity.test.ts",
+        "tests/baseline-parity.test.ts"
+      ],
+      "validationEvidence": ["0037-application-registry-code-metadata"],
+      "status": "exact-parity"
     },
     {
       "id": "src/core/results/CalculationResult.js",
@@ -26998,6 +27115,7 @@
         "tests/ntc2018-structural-regularity.test.ts",
         "tests/rc-building-live-parity.test.ts",
         "tests/rc-building-verification-application.test.ts",
+        "tests/rc-building-verification-compile-time.test.ts",
         "tests/result-contracts.test.ts",
         "tests/unit-system.test.ts"
       ],
@@ -27038,6 +27156,7 @@
         "tests/ntc2018-structural-regularity.test.ts",
         "tests/rc-building-live-parity.test.ts",
         "tests/rc-building-verification-application.test.ts",
+        "tests/rc-building-verification-compile-time.test.ts",
         "tests/result-contracts.test.ts",
         "tests/unit-system.test.ts"
       ],
@@ -29684,7 +29803,8 @@
         "0033-rc-building-coverage-design-basis-orchestration",
         "0034-rc-building-verification-application-and-producer-conformance",
         "0035-rc-building-closure-audit",
-        "0036-rc-building-strict-typing"
+        "0036-rc-building-strict-typing",
+        "0037-application-registry-code-metadata"
       ],
       "sourceOracles": [
         "tests/architecture/applicationRegistry.test.js",
@@ -30431,7 +30551,8 @@
         "tests/ntc2018-structural-behavior.test.ts",
         "tests/ntc2018-structural-regularity.test.ts",
         "tests/rc-building-live-parity.test.ts",
-        "tests/rc-building-verification-application.test.ts"
+        "tests/rc-building-verification-application.test.ts",
+        "tests/rc-building-verification-compile-time.test.ts"
       ],
       "validationEvidence": ["0032-ntc2018-rc-building-kernels", "0036-rc-building-strict-typing"],
       "status": "exact-parity"
@@ -30465,7 +30586,8 @@
         "tests/ntc2018-structural-behavior.test.ts",
         "tests/ntc2018-structural-regularity.test.ts",
         "tests/rc-building-live-parity.test.ts",
-        "tests/rc-building-verification-application.test.ts"
+        "tests/rc-building-verification-application.test.ts",
+        "tests/rc-building-verification-compile-time.test.ts"
       ],
       "validationEvidence": ["0032-ntc2018-rc-building-kernels", "0036-rc-building-strict-typing"],
       "status": "exact-parity"
@@ -30517,6 +30639,7 @@
         "tests/ntc2018-structural-regularity.test.ts",
         "tests/rc-building-live-parity.test.ts",
         "tests/rc-building-verification-application.test.ts",
+        "tests/rc-building-verification-compile-time.test.ts",
         "tests/reinforced-concrete-beam-column-joint.test.ts"
       ],
       "validationEvidence": [
@@ -30554,7 +30677,8 @@
         "tests/ntc2018-structural-behavior.test.ts",
         "tests/ntc2018-structural-regularity.test.ts",
         "tests/rc-building-live-parity.test.ts",
-        "tests/rc-building-verification-application.test.ts"
+        "tests/rc-building-verification-application.test.ts",
+        "tests/rc-building-verification-compile-time.test.ts"
       ],
       "validationEvidence": ["0032-ntc2018-rc-building-kernels", "0036-rc-building-strict-typing"],
       "status": "exact-parity"
@@ -30607,7 +30731,8 @@
         "tests/ntc2018-structural-behavior.test.ts",
         "tests/ntc2018-structural-regularity.test.ts",
         "tests/rc-building-live-parity.test.ts",
-        "tests/rc-building-verification-application.test.ts"
+        "tests/rc-building-verification-application.test.ts",
+        "tests/rc-building-verification-compile-time.test.ts"
       ],
       "validationEvidence": [
         "0013-reinforced-concrete-column-member",
@@ -30645,7 +30770,8 @@
         "tests/ntc2018-structural-behavior.test.ts",
         "tests/ntc2018-structural-regularity.test.ts",
         "tests/rc-building-live-parity.test.ts",
-        "tests/rc-building-verification-application.test.ts"
+        "tests/rc-building-verification-application.test.ts",
+        "tests/rc-building-verification-compile-time.test.ts"
       ],
       "validationEvidence": ["0032-ntc2018-rc-building-kernels", "0036-rc-building-strict-typing"],
       "status": "exact-parity"
@@ -30685,7 +30811,8 @@
         "tests/ntc2018-structural-behavior.test.ts",
         "tests/ntc2018-structural-regularity.test.ts",
         "tests/rc-building-live-parity.test.ts",
-        "tests/rc-building-verification-application.test.ts"
+        "tests/rc-building-verification-application.test.ts",
+        "tests/rc-building-verification-compile-time.test.ts"
       ],
       "validationEvidence": [
         "0017-reinforced-concrete-seismic-walls",
@@ -30722,7 +30849,8 @@
         "tests/ntc2018-structural-behavior.test.ts",
         "tests/ntc2018-structural-regularity.test.ts",
         "tests/rc-building-live-parity.test.ts",
-        "tests/rc-building-verification-application.test.ts"
+        "tests/rc-building-verification-application.test.ts",
+        "tests/rc-building-verification-compile-time.test.ts"
       ],
       "validationEvidence": ["0032-ntc2018-rc-building-kernels", "0036-rc-building-strict-typing"],
       "status": "exact-parity"
@@ -30734,16 +30862,25 @@
       "sourcePath": "tests/architecture/applicationRegistry.test.js",
       "sourceBlobSha1": "f7c4ab649b9f19600ab5894ea112bf7613466cd4",
       "targetPath": "tests/architecture/applicationRegistry.test.ts",
-      "migrationSlices": ["0001-foundation", "0024-reinforced-concrete-foundation-beams"],
+      "migrationSlices": [
+        "0001-foundation",
+        "0024-reinforced-concrete-foundation-beams",
+        "0037-application-registry-code-metadata"
+      ],
       "sourceOracles": ["tests/architecture/applicationRegistry.test.js"],
       "targetTests": [
+        "tests/application-registry-code-metadata-compile-time.test.ts",
+        "tests/application-registry-code-metadata-live-parity.test.ts",
         "tests/baseline-parity.test.ts",
         "tests/check-utils.test.ts",
         "tests/reinforced-concrete-foundation-beam.test.ts",
         "tests/result-contracts.test.ts",
         "tests/unit-system.test.ts"
       ],
-      "validationEvidence": ["0024-reinforced-concrete-foundation-beams"],
+      "validationEvidence": [
+        "0024-reinforced-concrete-foundation-beams",
+        "0037-application-registry-code-metadata"
+      ],
       "status": "exact-parity",
       "testKind": "test"
     },
@@ -30803,6 +30940,8 @@
       "targetTests": [
         "tests/concurrent-fem-demand-states-0030.test.ts",
         "tests/concurrent-fem-demand-states.test.ts",
+        "tests/global-fem-postprocessing-compile-time.test.ts",
+        "tests/global-fem-postprocessing-live-parity.test.ts",
         "tests/global-fem-postprocessing.test.ts",
         "tests/global-fem-producer-conformance.test.ts",
         "tests/resistance-axis-mapping.test.ts"
@@ -31297,6 +31436,8 @@
       "sourceOracles": ["tests/globalFemPostprocessing.test.js"],
       "targetTests": [
         "tests/concurrent-fem-demand-states.test.ts",
+        "tests/global-fem-postprocessing-compile-time.test.ts",
+        "tests/global-fem-postprocessing-live-parity.test.ts",
         "tests/global-fem-postprocessing.test.ts",
         "tests/global-fem-producer-conformance.test.ts"
       ],
@@ -31327,7 +31468,8 @@
         "tests/ntc2018-structural-regularity.test.ts",
         "tests/rc-building-closure.test.ts",
         "tests/rc-building-live-parity.test.ts",
-        "tests/rc-building-verification-application.test.ts"
+        "tests/rc-building-verification-application.test.ts",
+        "tests/rc-building-verification-compile-time.test.ts"
       ],
       "validationEvidence": [
         "0034-rc-building-verification-application-and-producer-conformance",
@@ -31572,7 +31714,8 @@
         "tests/ntc2018-structural-behavior.test.ts",
         "tests/ntc2018-structural-regularity.test.ts",
         "tests/rc-building-live-parity.test.ts",
-        "tests/rc-building-verification-application.test.ts"
+        "tests/rc-building-verification-application.test.ts",
+        "tests/rc-building-verification-compile-time.test.ts"
       ],
       "validationEvidence": ["0032-ntc2018-rc-building-kernels", "0036-rc-building-strict-typing"],
       "status": "exact-parity",
@@ -31596,7 +31739,8 @@
         "tests/ntc2018-structural-behavior.test.ts",
         "tests/ntc2018-structural-regularity.test.ts",
         "tests/rc-building-live-parity.test.ts",
-        "tests/rc-building-verification-application.test.ts"
+        "tests/rc-building-verification-application.test.ts",
+        "tests/rc-building-verification-compile-time.test.ts"
       ],
       "validationEvidence": ["0032-ntc2018-rc-building-kernels", "0036-rc-building-strict-typing"],
       "status": "exact-parity",
@@ -31620,7 +31764,8 @@
         "tests/ntc2018-structural-behavior.test.ts",
         "tests/ntc2018-structural-regularity.test.ts",
         "tests/rc-building-live-parity.test.ts",
-        "tests/rc-building-verification-application.test.ts"
+        "tests/rc-building-verification-application.test.ts",
+        "tests/rc-building-verification-compile-time.test.ts"
       ],
       "validationEvidence": ["0032-ntc2018-rc-building-kernels", "0036-rc-building-strict-typing"],
       "status": "exact-parity",
@@ -31719,7 +31864,8 @@
         "tests/ntc2018-structural-behavior.test.ts",
         "tests/ntc2018-structural-regularity.test.ts",
         "tests/rc-building-live-parity.test.ts",
-        "tests/rc-building-verification-application.test.ts"
+        "tests/rc-building-verification-application.test.ts",
+        "tests/rc-building-verification-compile-time.test.ts"
       ],
       "validationEvidence": [
         "0033-rc-building-coverage-design-basis-orchestration",
@@ -31749,7 +31895,8 @@
         "tests/ntc2018-structural-behavior.test.ts",
         "tests/ntc2018-structural-regularity.test.ts",
         "tests/rc-building-live-parity.test.ts",
-        "tests/rc-building-verification-application.test.ts"
+        "tests/rc-building-verification-application.test.ts",
+        "tests/rc-building-verification-compile-time.test.ts"
       ],
       "validationEvidence": [
         "0033-rc-building-coverage-design-basis-orchestration",
@@ -31788,7 +31935,8 @@
         "tests/ntc2018-structural-behavior.test.ts",
         "tests/ntc2018-structural-regularity.test.ts",
         "tests/rc-building-live-parity.test.ts",
-        "tests/rc-building-verification-application.test.ts"
+        "tests/rc-building-verification-application.test.ts",
+        "tests/rc-building-verification-compile-time.test.ts"
       ],
       "validationEvidence": ["0032-ntc2018-rc-building-kernels", "0036-rc-building-strict-typing"],
       "status": "exact-parity",
@@ -31848,7 +31996,8 @@
         "tests/ntc2018-structural-behavior.test.ts",
         "tests/ntc2018-structural-regularity.test.ts",
         "tests/rc-building-live-parity.test.ts",
-        "tests/rc-building-verification-application.test.ts"
+        "tests/rc-building-verification-application.test.ts",
+        "tests/rc-building-verification-compile-time.test.ts"
       ],
       "validationEvidence": ["0032-ntc2018-rc-building-kernels", "0036-rc-building-strict-typing"],
       "status": "exact-parity",
@@ -31872,7 +32021,8 @@
         "tests/ntc2018-structural-behavior.test.ts",
         "tests/ntc2018-structural-regularity.test.ts",
         "tests/rc-building-live-parity.test.ts",
-        "tests/rc-building-verification-application.test.ts"
+        "tests/rc-building-verification-application.test.ts",
+        "tests/rc-building-verification-compile-time.test.ts"
       ],
       "validationEvidence": ["0032-ntc2018-rc-building-kernels", "0036-rc-building-strict-typing"],
       "status": "exact-parity",
@@ -32063,7 +32213,8 @@
         "tests/ntc2018-structural-regularity.test.ts",
         "tests/rc-building-closure.test.ts",
         "tests/rc-building-live-parity.test.ts",
-        "tests/rc-building-verification-application.test.ts"
+        "tests/rc-building-verification-application.test.ts",
+        "tests/rc-building-verification-compile-time.test.ts"
       ],
       "validationEvidence": [
         "0034-rc-building-verification-application-and-producer-conformance",
@@ -34040,12 +34191,27 @@
         "numericParity": "absolute and relative tolerance 1e-12 where exact JSON equality is not applicable",
         "publicStrings": "exact Unicode code-point equality"
       }
+    },
+    {
+      "sliceId": "0037-application-registry-code-metadata",
+      "sourceRevision": "6f33baead8b88166c4b2cf94af41763412e3c751",
+      "method": "Strict declaration consumer coverage and independently executed pinned JavaScript versus built TypeScript registry, catalog, design-code, serialized-output, Unicode-string, and error-behavior comparisons.",
+      "targetTests": [
+        "tests/application-registry-code-metadata-compile-time.test.ts",
+        "tests/application-registry-code-metadata-live-parity.test.ts"
+      ],
+      "fixture": null,
+      "tolerances": {
+        "serializedParity": "exact JSON serialization for catalog, manifests, placeholder results, and design-code context",
+        "numericParity": "absolute and relative tolerance 1e-12 where numerical values are encountered",
+        "publicStrings": "exact equality plus Unicode code-point equality"
+      }
     }
   ],
   "counts": {
     "rootExports": {
       "javascript": 841,
-      "typescript": 354
+      "typescript": 357
     },
     "applicationsExports": {
       "javascript": 309,
@@ -34061,7 +34227,7 @@
     },
     "applicationCatalogEntries": {
       "javascript": 30,
-      "typescript": 0
+      "typescript": 30
     },
     "serializedSchemas": {
       "javascript": 49,
@@ -34069,11 +34235,11 @@
     },
     "sourceFiles": {
       "javascript": 480,
-      "typescript": 238
+      "typescript": 244
     },
     "tests": {
       "javascript": 131,
-      "typescript": 55
+      "typescript": 62
     },
     "validationCampaigns": {
       "javascript": 17,
@@ -34659,7 +34825,7 @@
       "statusCounts": {
         "exact-parity": 0,
         "partial": 16,
-        "missing": 467,
+        "missing": 431,
         "intentionally-excluded": 0,
         "decision-required": 0
       },
@@ -34865,36 +35031,6 @@
         "application-export:verifySteelShearTorsionInteraction",
         "application-export:verifySteelWebShearBuckling",
         "application-export:verifyTimberLateralTorsionalStability",
-        "catalog:geotechnical-deep-foundations",
-        "catalog:geotechnical-earth-pressures",
-        "catalog:geotechnical-embedded-retaining-walls",
-        "catalog:geotechnical-ground-anchors",
-        "catalog:geotechnical-lateral-piles",
-        "catalog:geotechnical-retaining-walls",
-        "catalog:geotechnical-shallow-foundations",
-        "catalog:geotechnical-slope-stability",
-        "catalog:global-fem-postprocessing",
-        "catalog:masonry-out-of-plane",
-        "catalog:masonry-piers",
-        "catalog:masonry-ring-beams",
-        "catalog:masonry-wall-openings",
-        "catalog:micropiles-broms",
-        "catalog:rc-building-verification",
-        "catalog:rc-cracked-deflection",
-        "catalog:reinforced-concrete-beam-column-joints",
-        "catalog:reinforced-concrete-columns",
-        "catalog:reinforced-concrete-foundation-beams",
-        "catalog:reinforced-concrete-isolated-footings",
-        "catalog:reinforced-concrete-plates",
-        "catalog:reinforced-concrete-punching",
-        "catalog:reinforced-concrete-sections",
-        "catalog:reinforced-concrete-strut-and-tie",
-        "catalog:single-beam-design",
-        "catalog:steel-frames",
-        "catalog:timber-beams",
-        "catalog:timber-concrete-composite-beams",
-        "catalog:timber-xlam-composite-beams",
-        "catalog:xlam-panels-out-of-plane",
         "registry:geotechnical-deep-foundations",
         "registry:geotechnical-earth-pressures",
         "registry:geotechnical-embedded-retaining-walls",
@@ -34926,18 +35062,15 @@
         "registry:timber-xlam-composite-beams",
         "registry:xlam-panels-out-of-plane",
         "root-export:ALIGNMENT_STATE_COMPARISON_REPORT_SCHEMA_VERSION",
-        "root-export:APPLICATION_CATALOG",
         "root-export:AlignmentEquivalentFramePushoverAnalysis",
         "root-export:AlignmentSeismicAggregatedAnalysis",
         "root-export:AlignmentStateComparisonAnalysis",
         "root-export:AlignmentStateComparisonMarkdownRenderer",
         "root-export:AlignmentStateComparisonReportBuilder",
         "root-export:AlignmentStaticAnalysis",
-        "root-export:ApplicationRegistry",
         "root-export:BEAM_REPORT_SCHEMA_VERSION",
         "root-export:BeamReportBuilder",
         "root-export:BeamReportMarkdownRenderer",
-        "root-export:DesignCodeContext",
         "root-export:GeotechnicalEarthPressureApplication",
         "root-export:GeotechnicalEmbeddedRetainingWallApplication",
         "root-export:GeotechnicalGroundAnchorApplication",
@@ -35143,10 +35276,7 @@
         "source:src/applications/xlam-panels-out-of-plane/XlamOutOfPlanePanelApplication.js",
         "source:src/applications/xlam-panels-out-of-plane/checks/XlamOutOfPlanePanelVerification.js",
         "source:src/applications/xlam-panels-out-of-plane/index.js",
-        "source:src/applications/xlam-panels-out-of-plane/models/XlamOutOfPlanePanelModel.js",
-        "source:src/config/applicationCatalog.js",
-        "source:src/core/applications/ApplicationRegistry.js",
-        "source:src/core/codes/DesignCodeContext.js"
+        "source:src/applications/xlam-panels-out-of-plane/models/XlamOutOfPlanePanelModel.js"
       ]
     },
     "packageValidation": {

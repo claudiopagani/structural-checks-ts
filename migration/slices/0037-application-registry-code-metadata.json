@@ -1,0 +1,92 @@
+{
+  "schemaVersion": 1,
+  "sliceId": "0037-application-registry-code-metadata",
+  "title": "Application registry primitive, catalog metadata, and design-code context",
+  "migrationType": "mechanical-parity",
+  "implementationStatus": "implemented",
+  "dependencies": ["0001-foundation"],
+  "source": {
+    "repository": "https://github.com/claudiopagani/strutture-js",
+    "revision": "6f33baead8b88166c4b2cf94af41763412e3c751"
+  },
+  "normativeCorpusRevision": "41da3faa489600173106935bbcf726119300e48d",
+  "sourceFiles": [
+    {
+      "path": "src/core/applications/ApplicationRegistry.js",
+      "gitBlobSha1": "c8879313e59614467b011e06d07fec7c2092fb83",
+      "targetPath": "src/core/applications/ApplicationRegistry.ts"
+    },
+    {
+      "path": "src/core/codes/DesignCodeContext.js",
+      "gitBlobSha1": "f246359f71c60524131918df17bf5c2d270fc034",
+      "targetPath": "src/core/codes/DesignCodeContext.ts"
+    },
+    {
+      "path": "src/config/applicationCatalog.js",
+      "gitBlobSha1": "748431c802f834d6df0b75c0273eb295064d7398",
+      "targetPath": "src/config/applicationCatalog.ts"
+    }
+  ],
+  "supportingSourceFiles": [
+    {
+      "path": "src/index.js",
+      "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7",
+      "targetPath": "src/index.ts",
+      "coverage": "root public exports for the migrated registry, catalog, and code context"
+    },
+    {
+      "path": "src/core/applications/StructuralApplication.js",
+      "gitBlobSha1": "673e1f25c22eadc27e111853cc3a8c012f5fcad3",
+      "targetPath": "src/core/applications/StructuralApplication.ts",
+      "coverage": "existing structural application fixture used by registry parity tests"
+    }
+  ],
+  "sourceOracles": [
+    {
+      "path": "tests/architecture/applicationRegistry.test.js",
+      "gitBlobSha1": "f7c4ab649b9f19600ab5894ea112bf7613466cd4"
+    }
+  ],
+  "sourcePublicExport": {
+    "path": "src/index.js",
+    "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
+  },
+  "targetTests": [
+    "tests/baseline-parity.test.ts",
+    "tests/application-registry-code-metadata-compile-time.test.ts",
+    "tests/application-registry-code-metadata-live-parity.test.ts"
+  ],
+  "publicExports": [
+    "APPLICATION_CATALOG",
+    "ApplicationCatalogEntry",
+    "ApplicationMaturity",
+    "ApplicationRegistry",
+    "ApplicationRegistryApplication",
+    "DesignCodeContext",
+    "DesignCodeContextJson",
+    "DesignCodeContextOptions"
+  ],
+  "normativeReferences": {
+    "resolved": [],
+    "outsideCorpus": [],
+    "normativeConformityClaimed": false,
+    "status": "classified-for-declared-scope"
+  },
+  "independentValidation": {
+    "method": "Strict declaration consumer coverage and independently executed pinned JavaScript versus built TypeScript registry, catalog, design-code, serialized-output, Unicode-string, and error-behavior comparisons.",
+    "targetTests": [
+      "tests/application-registry-code-metadata-compile-time.test.ts",
+      "tests/application-registry-code-metadata-live-parity.test.ts"
+    ],
+    "tolerances": {
+      "serializedParity": "exact JSON serialization for catalog, manifests, placeholder results, and design-code context",
+      "numericParity": "absolute and relative tolerance 1e-12 where numerical values are encountered",
+      "publicStrings": "exact equality plus Unicode code-point equality"
+    }
+  },
+  "parityDifferences": [
+    "The slice adds explicit TypeScript declarations and preserves source runtime validation, insertion order, null lookup behavior, duplicate-registration errors, unknown-application errors, catalog maturity values, and serialized design-code fields.",
+    "The source default application factory and its dependent application entrypoints remain outside this bounded slice and are still tracked as incomplete inventory items."
+  ],
+  "engineeringFunctionality": "Strict solver-neutral registry and metadata primitives only; no application calculations, formulas, normative identifiers, or application maturity statuses are changed."
+}

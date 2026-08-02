@@ -13,6 +13,7 @@ const baselinePath = process.env.STRUTTURE_JS_BASELINE_PATH
   ? path.resolve(process.env.STRUTTURE_JS_BASELINE_PATH)
   : path.resolve(import.meta.dirname, "..", "..", "strutture-js");
 const expectedExports = [
+  "APPLICATION_CATALOG",
   "AXIAL_PILE_BASE_RESISTANCE_METHODS",
   "AXIAL_PILE_CAPACITY_REFERENCE",
   "AXIAL_PILE_CAPACITY_RESULT_SCHEMA_VERSION",
@@ -44,6 +45,7 @@ const expectedExports = [
   "AxialPileCapacityAnalysis",
   "AxialPileLoadScenario",
   "AxialMember2D",
+  "ApplicationRegistry",
   "BEAM_SUPPORT_PRESETS",
   "DeepFoundationModel",
   "GeotechnicalDeepFoundationApplication",
@@ -73,6 +75,7 @@ const expectedExports = [
   "GLOBAL_FEM_SECTION_CUT_COMPONENTS",
   "GLOBAL_FEM_SHELL_RESULTANT_COMPONENTS",
   "DenseLinearSolver",
+  "DesignCodeContext",
   "DistributedLoad",
   "DofRegistry",
   "DEFAULT_SECTION_ROTATION",

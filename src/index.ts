@@ -1,5 +1,8 @@
 export { CalculationResult } from "./core/results/CalculationResult.js";
+export { ApplicationRegistry } from "./core/applications/ApplicationRegistry.js";
 export { StructuralApplication } from "./core/applications/StructuralApplication.js";
+export { DesignCodeContext } from "./core/codes/DesignCodeContext.js";
+export { APPLICATION_CATALOG } from "./config/applicationCatalog.js";
 export { VerificationResult } from "./core/results/VerificationResult.js";
 export {
   RESULT_STATUS,
@@ -432,6 +435,12 @@ export type {
   CalculationResultJson,
   CalculationResultOptions,
 } from "./core/results/CalculationResult.js";
+export type { ApplicationRegistryApplication } from "./core/applications/ApplicationRegistry.js";
+export type { ApplicationCatalogEntry, ApplicationMaturity } from "./config/applicationCatalog.js";
+export type {
+  DesignCodeContextJson,
+  DesignCodeContextOptions,
+} from "./core/codes/DesignCodeContext.js";
 export type {
   PlaceholderResultOptions,
   StructuralApplicationManifest,

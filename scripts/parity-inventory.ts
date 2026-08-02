@@ -277,10 +277,14 @@ async function loadTargetFiles(): Promise<TargetFiles> {
     .trim()
     .split(/\r?\n/)
     .filter(Boolean);
-  const paths = new Set(tracked);
+  const untracked = (await execGit(repositoryRoot, ["ls-files", "--others", "--exclude-standard"]))
+    .trim()
+    .split(/\r?\n/)
+    .filter(Boolean);
+  const paths = new Set([...tracked, ...untracked]);
   const texts = new Map<string, string>();
   await Promise.all(
-    tracked
+    [...paths]
       .filter((filePath) => filePath.endsWith(".ts") || filePath.endsWith(".json"))
       .map(async (filePath) => {
         try {
