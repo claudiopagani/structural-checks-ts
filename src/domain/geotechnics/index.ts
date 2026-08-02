@@ -36,6 +36,18 @@ export {
   type GroundwaterModel,
 } from "./GroundProfile.js";
 export {
+  CIRCULAR_SLIP_SURFACE_2D_SCHEMA_VERSION,
+  CircularSlipSurface2D,
+  SLOPE_MOVEMENT_DIRECTIONS,
+  type CircularSlipSurface2DChordAndSagittaOptions,
+  type CircularSlipSurface2DJson,
+  type CircularSlipSurface2DOptions,
+  type SlipSurfaceIntersection,
+  type SlipSurfacePoint,
+  type SlipSurfacePointInput,
+  type SlopeMovementDirection,
+} from "./CircularSlipSurface2D.js";
+export {
   GEOTECHNICAL_INTERNAL_UNITS,
   SOIL_DEFORMATION_MODELS,
   SOIL_DRAINAGE_CONDITIONS,

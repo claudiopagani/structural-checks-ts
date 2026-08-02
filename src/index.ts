@@ -363,6 +363,9 @@ export {
   AxialPileCapacityAnalysis,
 } from "./norms/geotechnics/AxialPileCapacityAnalysis.js";
 export {
+  CIRCULAR_SLIP_SURFACE_2D_SCHEMA_VERSION,
+  CircularSlipSurface2D,
+  SLOPE_MOVEMENT_DIRECTIONS,
   AXIAL_PILE_BASE_RESISTANCE_METHODS,
   AXIAL_PILE_EFFECTIVE_STRESS_COEFFICIENT_MODELS,
   AXIAL_PILE_LOAD_DIRECTIONS,
@@ -1164,6 +1167,9 @@ export type {
 } from "./norms/geotechnics/AxialPileCapacityAnalysis.js";
 export type {
   AxialPileLoadScenarioInput,
+  CircularSlipSurface2DChordAndSagittaOptions,
+  CircularSlipSurface2DJson,
+  CircularSlipSurface2DOptions,
   DeepFoundationModelInput,
   GeotechnicalDesignSituationInput,
   GroundLayer,
@@ -1171,6 +1177,10 @@ export type {
   GroundModelInput,
   GroundProfileInput,
   GroundwaterModel,
+  SlipSurfaceIntersection,
+  SlipSurfacePoint,
+  SlipSurfacePointInput,
+  SlopeMovementDirection,
   SoilDeformationParameterSet,
   SoilDeformationParameterSetInput,
   SoilMaterialInput,

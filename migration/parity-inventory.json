@@ -889,8 +889,10 @@
         "BeamLinePreprocessor2D",
         "BeamSectionActionVerifier",
         "BeamSystem",
+        "CIRCULAR_SLIP_SURFACE_2D_SCHEMA_VERSION",
         "CalculationResult",
         "CircularSection",
+        "CircularSlipSurface2D",
         "ClimaticAction",
         "Combination",
         "CompositeSection",
@@ -1079,6 +1081,7 @@
         "ReinforcedConcreteStrutAndTieVerification",
         "ReinforcedConcreteTorsionVerification",
         "ReinforcementBar",
+        "SLOPE_MOVEMENT_DIRECTIONS",
         "SOIL_DEFORMATION_MODELS",
         "SOIL_DRAINAGE_CONDITIONS",
         "SOIL_MODULUS_DEFINITIONS",
@@ -4337,11 +4340,15 @@
       "sourcePath": "src/domain/geotechnics/CircularSlipSurface2D.js",
       "sourceBlobSha1": "17884ca9689d1e36ea1a0391578831cc808a346c",
       "targetPath": "src/domain/geotechnics/CircularSlipSurface2D.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0065-domain-circular-slip-surface"],
+      "sourceOracles": ["tests/geotechnicalSlopeStability.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/circular-slip-surface-compile-time.test.ts",
+        "tests/circular-slip-surface-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0065-domain-circular-slip-surface"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -4389,11 +4396,15 @@
       "sourcePath": "src/domain/geotechnics/CircularSlipSurface2D.js",
       "sourceBlobSha1": "17884ca9689d1e36ea1a0391578831cc808a346c",
       "targetPath": "src/domain/geotechnics/CircularSlipSurface2D.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0065-domain-circular-slip-surface"],
+      "sourceOracles": ["tests/geotechnicalSlopeStability.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/circular-slip-surface-compile-time.test.ts",
+        "tests/circular-slip-surface-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0065-domain-circular-slip-surface"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -14706,11 +14717,15 @@
       "sourcePath": "src/domain/geotechnics/CircularSlipSurface2D.js",
       "sourceBlobSha1": "17884ca9689d1e36ea1a0391578831cc808a346c",
       "targetPath": "src/domain/geotechnics/CircularSlipSurface2D.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0065-domain-circular-slip-surface"],
+      "sourceOracles": ["tests/geotechnicalSlopeStability.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/circular-slip-surface-compile-time.test.ts",
+        "tests/circular-slip-surface-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0065-domain-circular-slip-surface"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -23558,11 +23573,15 @@
       "sourcePath": "src/domain/geotechnics/CircularSlipSurface2D.js",
       "sourceBlobSha1": "17884ca9689d1e36ea1a0391578831cc808a346c",
       "targetPath": "src/domain/geotechnics/CircularSlipSurface2D.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0065-domain-circular-slip-surface"],
+      "sourceOracles": ["tests/geotechnicalSlopeStability.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/circular-slip-surface-compile-time.test.ts",
+        "tests/circular-slip-surface-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0065-domain-circular-slip-surface"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7",
       "value": "circular-slip-surface-2d/v1"
@@ -29157,11 +29176,15 @@
       "sourcePath": "src/domain/geotechnics/CircularSlipSurface2D.js",
       "sourceBlobSha1": "17884ca9689d1e36ea1a0391578831cc808a346c",
       "targetPath": "src/domain/geotechnics/CircularSlipSurface2D.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing"
+      "migrationSlices": ["0065-domain-circular-slip-surface"],
+      "sourceOracles": ["tests/geotechnicalSlopeStability.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/circular-slip-surface-compile-time.test.ts",
+        "tests/circular-slip-surface-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0065-domain-circular-slip-surface"],
+      "status": "exact-parity"
     },
     {
       "id": "src/domain/geotechnics/CircularSlopeStabilityAnalysis.js",
@@ -30577,7 +30600,8 @@
         "0061-domain-masonry-material",
         "0062-domain-displacement-control-nonlinear-solver",
         "0063-domain-existing-masonry-material",
-        "0064-domain-timber-material-hierarchy"
+        "0064-domain-timber-material-hierarchy",
+        "0065-domain-circular-slip-surface"
       ],
       "sourceOracles": [
         "tests/architecture/applicationRegistry.test.js",
@@ -32175,11 +32199,15 @@
       "sourcePath": "tests/geotechnicalSlopeStability.test.js",
       "sourceBlobSha1": "ccb2cab5ccf35b8b35de4d3fcff9d23aed949173",
       "targetPath": "tests/geotechnicalSlopeStability.test.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0065-domain-circular-slip-surface"],
+      "sourceOracles": ["tests/geotechnicalSlopeStability.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/circular-slip-surface-compile-time.test.ts",
+        "tests/circular-slip-surface-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0065-domain-circular-slip-surface"],
+      "status": "exact-parity",
       "testKind": "test"
     },
     {
@@ -35552,12 +35580,28 @@
         "publicStrings": "exact equality plus Unicode code-point preservation",
         "errors": "exact error name and message equality"
       }
+    },
+    {
+      "sliceId": "0065-domain-circular-slip-surface",
+      "sourceRevision": "6f33baead8b88166c4b2cf94af41763412e3c751",
+      "method": "Strict public declaration consumer coverage and independently executed pinned JavaScript versus built TypeScript comparison of chord-and-sagitta circle geometry, lower-arc evaluation, base inclination, segment and polyline intersections, exact unit conversion, serialization, Unicode metadata and error paths.",
+      "targetTests": [
+        "tests/circular-slip-surface-compile-time.test.ts",
+        "tests/circular-slip-surface-live-parity.test.ts"
+      ],
+      "fixture": null,
+      "tolerances": {
+        "serializedParity": "exact deep equality and JSON serialization",
+        "numericParity": "exact equality for shared calculations",
+        "publicStrings": "exact equality plus Unicode code-point preservation",
+        "errors": "exact error name and message equality"
+      }
     }
   ],
   "counts": {
     "rootExports": {
       "javascript": 841,
-      "typescript": 439
+      "typescript": 442
     },
     "applicationsExports": {
       "javascript": 309,
@@ -35577,15 +35621,15 @@
     },
     "serializedSchemas": {
       "javascript": 49,
-      "typescript": 13
+      "typescript": 14
     },
     "sourceFiles": {
       "javascript": 480,
-      "typescript": 299
+      "typescript": 300
     },
     "tests": {
       "javascript": 131,
-      "typescript": 116
+      "typescript": 118
     },
     "validationCampaigns": {
       "javascript": 17,
@@ -35617,15 +35661,13 @@
       "statusCounts": {
         "exact-parity": 0,
         "partial": 20,
-        "missing": 204,
+        "missing": 200,
         "intentionally-excluded": 0,
         "decision-required": 0
       },
       "itemIds": [
-        "root-export:CIRCULAR_SLIP_SURFACE_2D_SCHEMA_VERSION",
         "root-export:CIRCULAR_SLOPE_STABILITY_RESULT_SCHEMA_VERSION",
         "root-export:CYCLIC_MASONRY_INTERNAL_UNITS",
-        "root-export:CircularSlipSurface2D",
         "root-export:CircularSlopeStabilityAnalysis",
         "root-export:CyclicMasonryCompressionMaterial",
         "root-export:CyclicMasonryPier2D",
@@ -35734,7 +35776,6 @@
         "root-export:SHALLOW_FOUNDATION_SHAPES",
         "root-export:SHALLOW_FOUNDATION_SLS_RESULT_SCHEMA_VERSION",
         "root-export:SHALLOW_FOUNDATION_ULS_RESULT_SCHEMA_VERSION",
-        "root-export:SLOPE_MOVEMENT_DIRECTIONS",
         "root-export:SLOPE_SLICE_DISCRETIZATION_2D_SCHEMA_VERSION",
         "root-export:SLOPE_STABILITY_ANALYSIS_MODES",
         "root-export:SLOPE_STABILITY_METHODS",
@@ -35792,7 +35833,6 @@
         "source:src/domain/fem/index.js",
         "source:src/domain/fem/nonlinear/CyclicMasonryPierAnalysis2D.js",
         "source:src/domain/fem/nonlinear/index.js",
-        "source:src/domain/geotechnics/CircularSlipSurface2D.js",
         "source:src/domain/geotechnics/CircularSlopeStabilityAnalysis.js",
         "source:src/domain/geotechnics/EmbeddedRetainingWallAnalysis.js",
         "source:src/domain/geotechnics/EmbeddedRetainingWallModel.js",
@@ -36494,7 +36534,7 @@
       "statusCounts": {
         "exact-parity": 0,
         "partial": 3,
-        "missing": 147,
+        "missing": 146,
         "intentionally-excluded": 0,
         "decision-required": 0
       },
@@ -36618,7 +36658,6 @@
         "test:tests/geotechnicalShallowFoundationServiceabilityValidationCampaign.test.js",
         "test:tests/geotechnicalShallowFoundationValidationCampaign.test.js",
         "test:tests/geotechnicalShallowFoundations.test.js",
-        "test:tests/geotechnicalSlopeStability.test.js",
         "test:tests/geotechnicalSlopeStabilityValidationCampaign.test.js",
         "test:tests/geotechnicalValidationCampaign.test.js",
         "test:tests/masonryFiberInterface2D.test.js",

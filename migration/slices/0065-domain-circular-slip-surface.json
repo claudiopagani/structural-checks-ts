@@ -1,0 +1,93 @@
+{
+  "schemaVersion": 1,
+  "sliceId": "0065-domain-circular-slip-surface",
+  "title": "Domain circular slip surface",
+  "migrationType": "mechanical-parity",
+  "implementationStatus": "implemented",
+  "dependencies": ["0064-domain-timber-material-hierarchy"],
+  "source": {
+    "repository": "https://github.com/claudiopagani/strutture-js",
+    "revision": "6f33baead8b88166c4b2cf94af41763412e3c751"
+  },
+  "normativeCorpusRevision": "41da3faa489600173106935bbcf726119300e48d",
+  "sourceFiles": [
+    {
+      "path": "src/domain/geotechnics/CircularSlipSurface2D.js",
+      "gitBlobSha1": "17884ca9689d1e36ea1a0391578831cc808a346c",
+      "targetPath": "src/domain/geotechnics/CircularSlipSurface2D.ts"
+    }
+  ],
+  "supportingSourceFiles": [
+    {
+      "path": "src/domain/geotechnics/SoilMaterial.js",
+      "gitBlobSha1": "5dfaafe73a7e65586de313e262cacf7e257535b9",
+      "targetPath": "src/domain/geotechnics/SoilMaterial.ts",
+      "coverage": "Circular slip surfaces use the already migrated canonical geotechnical internal units"
+    },
+    {
+      "path": "src/domain/geotechnics/index.js",
+      "gitBlobSha1": "41ed2053fc2e37dc90da412846609f4050af9668",
+      "targetPath": "src/domain/geotechnics/index.ts",
+      "coverage": "Geotechnical public export for the migrated circular slip surface"
+    },
+    {
+      "path": "src/index.js",
+      "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7",
+      "targetPath": "src/index.ts",
+      "coverage": "Root public exports for the migrated circular slip surface"
+    }
+  ],
+  "sourceOracles": [
+    {
+      "path": "tests/geotechnicalSlopeStability.test.js",
+      "gitBlobSha1": "ccb2cab5ccf35b8b35de4d3fcff9d23aed949173",
+      "coverage": "Circular slip-surface chord and sagitta construction, lower-arc geometry, unit conversion, serialization and validation"
+    }
+  ],
+  "sourcePublicExport": {
+    "path": "src/index.js",
+    "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
+  },
+  "targetTests": [
+    "tests/baseline-parity.test.ts",
+    "tests/circular-slip-surface-compile-time.test.ts",
+    "tests/circular-slip-surface-live-parity.test.ts"
+  ],
+  "publicExports": [
+    "CIRCULAR_SLIP_SURFACE_2D_SCHEMA_VERSION",
+    "CircularSlipSurface2D",
+    "SLOPE_MOVEMENT_DIRECTIONS"
+  ],
+  "publicTypeExports": [
+    "CircularSlipSurface2DChordAndSagittaOptions",
+    "CircularSlipSurface2DJson",
+    "CircularSlipSurface2DOptions",
+    "SlipSurfaceIntersection",
+    "SlipSurfacePoint",
+    "SlipSurfacePointInput",
+    "SlopeMovementDirection"
+  ],
+  "normativeReferences": {
+    "resolved": [],
+    "outsideCorpus": [],
+    "normativeConformityClaimed": false,
+    "status": "classified-for-declared-scope"
+  },
+  "independentValidation": {
+    "method": "Strict public declaration consumer coverage and independently executed pinned JavaScript versus built TypeScript comparison of chord-and-sagitta circle geometry, lower-arc evaluation, base inclination, segment and polyline intersections, exact unit conversion, serialization, Unicode metadata and error paths.",
+    "targetTests": [
+      "tests/circular-slip-surface-compile-time.test.ts",
+      "tests/circular-slip-surface-live-parity.test.ts"
+    ],
+    "tolerances": {
+      "serializedParity": "exact deep equality and JSON serialization",
+      "numericParity": "exact equality for shared calculations",
+      "publicStrings": "exact equality plus Unicode code-point preservation",
+      "errors": "exact error name and message equality"
+    }
+  },
+  "parityDifferences": [
+    "The strict TypeScript declarations describe the existing JavaScript circular slip-surface primitive without adding runtime behavior."
+  ],
+  "engineeringFunctionality": "Serializable circular lower slip surface geometry with chord-and-sagitta construction, unit normalization, lower-arc elevation and inclination queries, segment/polyline intersections and movement-direction metadata."
+}
