@@ -49,6 +49,10 @@ export { BaseMaterial } from "./domain/materials/BaseMaterial.js";
 export { ConcreteMaterial } from "./domain/materials/ConcreteMaterial.js";
 export { ExistingMaterial } from "./domain/materials/ExistingMaterial.js";
 export { ExistingMasonryMaterial } from "./domain/materials/ExistingMasonryMaterial.js";
+export { GlulamTimberMaterial } from "./domain/materials/GlulamTimberMaterial.js";
+export { SolidTimberMaterial } from "./domain/materials/SolidTimberMaterial.js";
+export { TimberMaterial } from "./domain/materials/TimberMaterial.js";
+export { XlamMaterial } from "./domain/materials/XlamMaterial.js";
 export { MasonryMaterial } from "./domain/materials/MasonryMaterial.js";
 export { SteelMaterial } from "./domain/materials/SteelMaterial.js";
 export {
@@ -633,6 +637,23 @@ export type {
   ExistingMasonryProperties,
   ExistingMasonryPropertyValue,
 } from "./domain/materials/ExistingMasonryMaterial.js";
+export type {
+  GlulamTimberMaterialJson,
+  GlulamTimberMaterialOptions,
+} from "./domain/materials/GlulamTimberMaterial.js";
+export type {
+  SolidTimberMaterialJson,
+  SolidTimberMaterialOptions,
+} from "./domain/materials/SolidTimberMaterial.js";
+export type {
+  TimberMaterialJson,
+  TimberMaterialOptions,
+} from "./domain/materials/TimberMaterial.js";
+export type {
+  XlamMaterialJson,
+  XlamMaterialMetadata,
+  XlamMaterialOptions,
+} from "./domain/materials/XlamMaterial.js";
 export type {
   MasonryMaterialJson,
   MasonryMaterialOptions,

@@ -1,0 +1,121 @@
+{
+  "schemaVersion": 1,
+  "sliceId": "0064-domain-timber-material-hierarchy",
+  "title": "Domain timber material hierarchy",
+  "migrationType": "mechanical-parity",
+  "implementationStatus": "implemented",
+  "dependencies": ["0063-domain-existing-masonry-material"],
+  "source": {
+    "repository": "https://github.com/claudiopagani/strutture-js",
+    "revision": "6f33baead8b88166c4b2cf94af41763412e3c751"
+  },
+  "normativeCorpusRevision": "41da3faa489600173106935bbcf726119300e48d",
+  "sourceFiles": [
+    {
+      "path": "src/domain/materials/TimberMaterial.js",
+      "gitBlobSha1": "cdc52ff3ae8dfae91b3678b60bd7aa5788cd8ead",
+      "targetPath": "src/domain/materials/TimberMaterial.ts"
+    },
+    {
+      "path": "src/domain/materials/SolidTimberMaterial.js",
+      "gitBlobSha1": "3f2e3d7a45cdbe079e19fca36bfa872d3e66435d",
+      "targetPath": "src/domain/materials/SolidTimberMaterial.ts"
+    },
+    {
+      "path": "src/domain/materials/GlulamTimberMaterial.js",
+      "gitBlobSha1": "669829f3aa3c61ef3922eb26719ca2bb170942f9",
+      "targetPath": "src/domain/materials/GlulamTimberMaterial.ts"
+    },
+    {
+      "path": "src/domain/materials/XlamMaterial.js",
+      "gitBlobSha1": "821a62d7a32e74f7dcb6e8af3a529ff0cfe13bf8",
+      "targetPath": "src/domain/materials/XlamMaterial.ts"
+    }
+  ],
+  "supportingSourceFiles": [
+    {
+      "path": "src/domain/materials/BaseMaterial.js",
+      "gitBlobSha1": "863b59f075a9a12dc636bd2adc8f08b554caf062",
+      "targetPath": "src/domain/materials/BaseMaterial.ts",
+      "coverage": "Timber material hierarchy extends the already migrated BaseMaterial contract"
+    },
+    {
+      "path": "src/domain/units/UnitSystem.js",
+      "gitBlobSha1": "b8f2f4926aff645efbf7b9f458b69eba264ed59a",
+      "targetPath": "src/domain/units/UnitSystem.ts",
+      "coverage": "Timber material strength fields preserve the already migrated explicit unit conversion boundary"
+    },
+    {
+      "path": "src/index.js",
+      "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7",
+      "targetPath": "src/index.ts",
+      "coverage": "Root public exports for the migrated timber material hierarchy"
+    }
+  ],
+  "sourceOracles": [
+    {
+      "path": "tests/timberMaterialHierarchy.test.js",
+      "gitBlobSha1": "4ac2410a6d9201e28ffc4f413250cdfc1c454936",
+      "coverage": "Timber, solid-timber and glulam inheritance and serialized material contracts"
+    },
+    {
+      "path": "tests/xlamOutOfPlanePanel.test.js",
+      "gitBlobSha1": "3ade818fb4c2023fd76db27340c9b7fa12c7f13a",
+      "coverage": "XLAM material explicit strengths and derived mean stiffness properties"
+    },
+    {
+      "path": "tests/timberXlamCompositeBeam.test.js",
+      "gitBlobSha1": "cddaa0e637e8f72fea9b83c9feaac71d027a07b7",
+      "coverage": "Generic timber material construction used by the XLAM composite beam workflow"
+    }
+  ],
+  "sourcePublicExport": {
+    "path": "src/index.js",
+    "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
+  },
+  "targetTests": [
+    "tests/baseline-parity.test.ts",
+    "tests/timber-material-hierarchy-compile-time.test.ts",
+    "tests/timber-material-hierarchy-live-parity.test.ts"
+  ],
+  "publicExports": [
+    "GlulamTimberMaterial",
+    "SolidTimberMaterial",
+    "TimberMaterial",
+    "XlamMaterial"
+  ],
+  "publicTypeExports": [
+    "GlulamTimberMaterialJson",
+    "GlulamTimberMaterialOptions",
+    "SolidTimberMaterialJson",
+    "SolidTimberMaterialOptions",
+    "TimberMaterialJson",
+    "TimberMaterialOptions",
+    "XlamMaterialJson",
+    "XlamMaterialMetadata",
+    "XlamMaterialOptions"
+  ],
+  "normativeReferences": {
+    "resolved": [],
+    "outsideCorpus": [],
+    "normativeConformityClaimed": false,
+    "status": "classified-for-declared-scope"
+  },
+  "independentValidation": {
+    "method": "Strict public declaration consumer coverage and independently executed pinned JavaScript versus built TypeScript comparison of timber inheritance, exact unit-normalized strength values, XLAM derived properties, clone serialization, Unicode metadata, enumerable order and missing-unit errors.",
+    "targetTests": [
+      "tests/timber-material-hierarchy-compile-time.test.ts",
+      "tests/timber-material-hierarchy-live-parity.test.ts"
+    ],
+    "tolerances": {
+      "serializedParity": "exact deep equality and JSON serialization",
+      "numericParity": "exact equality for converted and derived strength and stiffness properties",
+      "publicStrings": "exact equality plus Unicode code-point preservation",
+      "errors": "exact error name and message equality"
+    }
+  },
+  "parityDifferences": [
+    "The strict TypeScript declarations describe the existing JavaScript timber material hierarchy without adding runtime behavior."
+  ],
+  "engineeringFunctionality": "Timber, solid-timber, glulam and XLAM material classes with explicit unit-normalized strength fields, derived XLAM stiffness properties, inheritance semantics and serializable metadata."
+}

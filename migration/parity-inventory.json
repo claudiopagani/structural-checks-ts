@@ -960,6 +960,7 @@
         "GeotechnicalDeepFoundationApplication",
         "GeotechnicalDesignSituation",
         "GlobalFemPostProcessingApplication",
+        "GlulamTimberMaterial",
         "GroundModel",
         "GroundProfile",
         "HyperstaticDeflectionIteration",
@@ -1099,6 +1100,7 @@
         "SlidingStrengthModel",
         "SnowAction",
         "SoilMaterial",
+        "SolidTimberMaterial",
         "SteelBeamSectionProvider",
         "SteelCompoundProfileSection",
         "SteelElasticLaw",
@@ -1119,6 +1121,7 @@
         "ThermalAction",
         "TimberBeamSectionProvider",
         "TimberDowelConnector",
+        "TimberMaterial",
         "TrafficAction",
         "TurnsekSheppardModel",
         "VariableAction",
@@ -1128,6 +1131,7 @@
         "WALL_BIAXIAL_REFERENCE",
         "WindAction",
         "XlamBeamSectionProvider",
+        "XlamMaterial",
         "XlamPanelSection",
         "amplifyNTC2018DiaphragmActions",
         "assertExplicitUnitSystem",
@@ -8425,11 +8429,19 @@
       "sourcePath": "src/domain/materials/GlulamTimberMaterial.js",
       "sourceBlobSha1": "669829f3aa3c61ef3922eb26719ca2bb170942f9",
       "targetPath": "src/domain/materials/GlulamTimberMaterial.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0064-domain-timber-material-hierarchy"],
+      "sourceOracles": [
+        "tests/timberMaterialHierarchy.test.js",
+        "tests/timberXlamCompositeBeam.test.js",
+        "tests/xlamOutOfPlanePanel.test.js"
+      ],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/timber-material-hierarchy-compile-time.test.ts",
+        "tests/timber-material-hierarchy-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0064-domain-timber-material-hierarchy"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -14978,11 +14990,19 @@
       "sourcePath": "src/domain/materials/SolidTimberMaterial.js",
       "sourceBlobSha1": "3f2e3d7a45cdbe079e19fca36bfa872d3e66435d",
       "targetPath": "src/domain/materials/SolidTimberMaterial.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0064-domain-timber-material-hierarchy"],
+      "sourceOracles": [
+        "tests/timberMaterialHierarchy.test.js",
+        "tests/timberXlamCompositeBeam.test.js",
+        "tests/xlamOutOfPlanePanel.test.js"
+      ],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/timber-material-hierarchy-compile-time.test.ts",
+        "tests/timber-material-hierarchy-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0064-domain-timber-material-hierarchy"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -15822,11 +15842,19 @@
       "sourcePath": "src/domain/materials/TimberMaterial.js",
       "sourceBlobSha1": "cdc52ff3ae8dfae91b3678b60bd7aa5788cd8ead",
       "targetPath": "src/domain/materials/TimberMaterial.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0064-domain-timber-material-hierarchy"],
+      "sourceOracles": [
+        "tests/timberMaterialHierarchy.test.js",
+        "tests/timberXlamCompositeBeam.test.js",
+        "tests/xlamOutOfPlanePanel.test.js"
+      ],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/timber-material-hierarchy-compile-time.test.ts",
+        "tests/timber-material-hierarchy-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0064-domain-timber-material-hierarchy"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -16879,11 +16907,19 @@
       "sourcePath": "src/domain/materials/XlamMaterial.js",
       "sourceBlobSha1": "821a62d7a32e74f7dcb6e8af3a529ff0cfe13bf8",
       "targetPath": "src/domain/materials/XlamMaterial.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0064-domain-timber-material-hierarchy"],
+      "sourceOracles": [
+        "tests/timberMaterialHierarchy.test.js",
+        "tests/timberXlamCompositeBeam.test.js",
+        "tests/xlamOutOfPlanePanel.test.js"
+      ],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/timber-material-hierarchy-compile-time.test.ts",
+        "tests/timber-material-hierarchy-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0064-domain-timber-material-hierarchy"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -29737,11 +29773,19 @@
       "sourcePath": "src/domain/materials/GlulamTimberMaterial.js",
       "sourceBlobSha1": "669829f3aa3c61ef3922eb26719ca2bb170942f9",
       "targetPath": "src/domain/materials/GlulamTimberMaterial.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing"
+      "migrationSlices": ["0064-domain-timber-material-hierarchy"],
+      "sourceOracles": [
+        "tests/timberMaterialHierarchy.test.js",
+        "tests/timberXlamCompositeBeam.test.js",
+        "tests/xlamOutOfPlanePanel.test.js"
+      ],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/timber-material-hierarchy-compile-time.test.ts",
+        "tests/timber-material-hierarchy-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0064-domain-timber-material-hierarchy"],
+      "status": "exact-parity"
     },
     {
       "id": "src/domain/materials/MasonryMaterial.js",
@@ -29763,11 +29807,19 @@
       "sourcePath": "src/domain/materials/SolidTimberMaterial.js",
       "sourceBlobSha1": "3f2e3d7a45cdbe079e19fca36bfa872d3e66435d",
       "targetPath": "src/domain/materials/SolidTimberMaterial.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing"
+      "migrationSlices": ["0064-domain-timber-material-hierarchy"],
+      "sourceOracles": [
+        "tests/timberMaterialHierarchy.test.js",
+        "tests/timberXlamCompositeBeam.test.js",
+        "tests/xlamOutOfPlanePanel.test.js"
+      ],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/timber-material-hierarchy-compile-time.test.ts",
+        "tests/timber-material-hierarchy-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0064-domain-timber-material-hierarchy"],
+      "status": "exact-parity"
     },
     {
       "id": "src/domain/materials/SteelMaterial.js",
@@ -29797,22 +29849,38 @@
       "sourcePath": "src/domain/materials/TimberMaterial.js",
       "sourceBlobSha1": "cdc52ff3ae8dfae91b3678b60bd7aa5788cd8ead",
       "targetPath": "src/domain/materials/TimberMaterial.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing"
+      "migrationSlices": ["0064-domain-timber-material-hierarchy"],
+      "sourceOracles": [
+        "tests/timberMaterialHierarchy.test.js",
+        "tests/timberXlamCompositeBeam.test.js",
+        "tests/xlamOutOfPlanePanel.test.js"
+      ],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/timber-material-hierarchy-compile-time.test.ts",
+        "tests/timber-material-hierarchy-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0064-domain-timber-material-hierarchy"],
+      "status": "exact-parity"
     },
     {
       "id": "src/domain/materials/XlamMaterial.js",
       "sourcePath": "src/domain/materials/XlamMaterial.js",
       "sourceBlobSha1": "821a62d7a32e74f7dcb6e8af3a529ff0cfe13bf8",
       "targetPath": "src/domain/materials/XlamMaterial.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing"
+      "migrationSlices": ["0064-domain-timber-material-hierarchy"],
+      "sourceOracles": [
+        "tests/timberMaterialHierarchy.test.js",
+        "tests/timberXlamCompositeBeam.test.js",
+        "tests/xlamOutOfPlanePanel.test.js"
+      ],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/timber-material-hierarchy-compile-time.test.ts",
+        "tests/timber-material-hierarchy-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0064-domain-timber-material-hierarchy"],
+      "status": "exact-parity"
     },
     {
       "id": "src/domain/materials/existingMaterialConfidence.js",
@@ -30508,7 +30576,8 @@
         "0060-domain-existing-material",
         "0061-domain-masonry-material",
         "0062-domain-displacement-control-nonlinear-solver",
-        "0063-domain-existing-masonry-material"
+        "0063-domain-existing-masonry-material",
+        "0064-domain-timber-material-hierarchy"
       ],
       "sourceOracles": [
         "tests/architecture/applicationRegistry.test.js",
@@ -33565,11 +33634,15 @@
       "sourcePath": "tests/timberMaterialHierarchy.test.js",
       "sourceBlobSha1": "4ac2410a6d9201e28ffc4f413250cdfc1c454936",
       "targetPath": "tests/timberMaterialHierarchy.test.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0064-domain-timber-material-hierarchy"],
+      "sourceOracles": ["tests/timberMaterialHierarchy.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/timber-material-hierarchy-compile-time.test.ts",
+        "tests/timber-material-hierarchy-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0064-domain-timber-material-hierarchy"],
+      "status": "exact-parity",
       "testKind": "test"
     },
     {
@@ -33577,18 +33650,25 @@
       "sourcePath": "tests/timberXlamCompositeBeam.test.js",
       "sourceBlobSha1": "cddaa0e637e8f72fea9b83c9feaac71d027a07b7",
       "targetPath": "tests/timberXlamCompositeBeam.test.ts",
-      "migrationSlices": ["0044-domain-timber-dowel-connector", "0053-domain-xlam-panel-section"],
+      "migrationSlices": [
+        "0044-domain-timber-dowel-connector",
+        "0053-domain-xlam-panel-section",
+        "0064-domain-timber-material-hierarchy"
+      ],
       "sourceOracles": ["tests/timberXlamCompositeBeam.test.js"],
       "targetTests": [
         "tests/baseline-parity.test.ts",
         "tests/timber-dowel-connector-compile-time.test.ts",
         "tests/timber-dowel-connector-live-parity.test.ts",
+        "tests/timber-material-hierarchy-compile-time.test.ts",
+        "tests/timber-material-hierarchy-live-parity.test.ts",
         "tests/xlam-panel-section-compile-time.test.ts",
         "tests/xlam-panel-section-live-parity.test.ts"
       ],
       "validationEvidence": [
         "0044-domain-timber-dowel-connector",
-        "0053-domain-xlam-panel-section"
+        "0053-domain-xlam-panel-section",
+        "0064-domain-timber-material-hierarchy"
       ],
       "status": "exact-parity",
       "testKind": "test"
@@ -33640,16 +33720,26 @@
       "sourcePath": "tests/xlamOutOfPlanePanel.test.js",
       "sourceBlobSha1": "3ade818fb4c2023fd76db27340c9b7fa12c7f13a",
       "targetPath": "tests/xlamOutOfPlanePanel.test.ts",
-      "migrationSlices": ["0042-domain-xlam-panel-catalog", "0053-domain-xlam-panel-section"],
+      "migrationSlices": [
+        "0042-domain-xlam-panel-catalog",
+        "0053-domain-xlam-panel-section",
+        "0064-domain-timber-material-hierarchy"
+      ],
       "sourceOracles": ["tests/xlamOutOfPlanePanel.test.js"],
       "targetTests": [
         "tests/baseline-parity.test.ts",
+        "tests/timber-material-hierarchy-compile-time.test.ts",
+        "tests/timber-material-hierarchy-live-parity.test.ts",
         "tests/xlam-panel-catalog-compile-time.test.ts",
         "tests/xlam-panel-catalog-live-parity.test.ts",
         "tests/xlam-panel-section-compile-time.test.ts",
         "tests/xlam-panel-section-live-parity.test.ts"
       ],
-      "validationEvidence": ["0042-domain-xlam-panel-catalog", "0053-domain-xlam-panel-section"],
+      "validationEvidence": [
+        "0042-domain-xlam-panel-catalog",
+        "0053-domain-xlam-panel-section",
+        "0064-domain-timber-material-hierarchy"
+      ],
       "status": "exact-parity",
       "testKind": "test"
     }
@@ -35446,12 +35536,28 @@
         "publicStrings": "exact equality plus Unicode code-point preservation",
         "errors": "exact error name and message equality"
       }
+    },
+    {
+      "sliceId": "0064-domain-timber-material-hierarchy",
+      "sourceRevision": "6f33baead8b88166c4b2cf94af41763412e3c751",
+      "method": "Strict public declaration consumer coverage and independently executed pinned JavaScript versus built TypeScript comparison of timber inheritance, exact unit-normalized strength values, XLAM derived properties, clone serialization, Unicode metadata, enumerable order and missing-unit errors.",
+      "targetTests": [
+        "tests/timber-material-hierarchy-compile-time.test.ts",
+        "tests/timber-material-hierarchy-live-parity.test.ts"
+      ],
+      "fixture": null,
+      "tolerances": {
+        "serializedParity": "exact deep equality and JSON serialization",
+        "numericParity": "exact equality for converted and derived strength and stiffness properties",
+        "publicStrings": "exact equality plus Unicode code-point preservation",
+        "errors": "exact error name and message equality"
+      }
     }
   ],
   "counts": {
     "rootExports": {
       "javascript": 841,
-      "typescript": 435
+      "typescript": 439
     },
     "applicationsExports": {
       "javascript": 309,
@@ -35475,11 +35581,11 @@
     },
     "sourceFiles": {
       "javascript": 480,
-      "typescript": 295
+      "typescript": 299
     },
     "tests": {
       "javascript": 131,
-      "typescript": 114
+      "typescript": 116
     },
     "validationCampaigns": {
       "javascript": 17,
@@ -35511,7 +35617,7 @@
       "statusCounts": {
         "exact-parity": 0,
         "partial": 20,
-        "missing": 212,
+        "missing": 204,
         "intentionally-excluded": 0,
         "decision-required": 0
       },
@@ -35569,7 +35675,6 @@
         "root-export:GROUND_MODEL_SCHEMA_VERSION",
         "root-export:GROUND_PROFILE_SCHEMA_VERSION",
         "root-export:GROUND_SECTION_2D_SCHEMA_VERSION",
-        "root-export:GlulamTimberMaterial",
         "root-export:GroundAnchorAnalysis",
         "root-export:GroundAnchorDesignScenario",
         "root-export:GroundAnchorModel",
@@ -35650,18 +35755,15 @@
         "root-export:SlopeSliceDiscretizer2D",
         "root-export:SlopeSurfaceSurcharge2D",
         "root-export:SoilStructureInterface",
-        "root-export:SolidTimberMaterial",
         "root-export:StructuralModel",
         "root-export:SurfaceLoad",
         "root-export:TERRAIN_ELEVATION_GRID_SCHEMA_VERSION",
-        "root-export:TimberMaterial",
         "root-export:VariableLoad",
         "root-export:WALL_SOIL_REACTION_EXTRAPOLATION_MODELS",
         "root-export:WALL_SOIL_REACTION_LAW_SCHEMA_VERSION",
         "root-export:WALL_SOIL_REACTION_MODELS",
         "root-export:WallLoad",
         "root-export:WallSoilReactionLaw",
-        "root-export:XlamMaterial",
         "root-export:calculateRetainingWallPolygonProperties",
         "root-export:calculateRigidFoundationElasticStiffness",
         "root-export:calculateSchmertmannStrainInfluence",
@@ -35724,10 +35826,6 @@
         "source:src/domain/geotechnics/index.js",
         "source:src/domain/geotechnics/slopeStabilityMethods.js",
         "source:src/domain/geotechnics/spencerMethod.js",
-        "source:src/domain/materials/GlulamTimberMaterial.js",
-        "source:src/domain/materials/SolidTimberMaterial.js",
-        "source:src/domain/materials/TimberMaterial.js",
-        "source:src/domain/materials/XlamMaterial.js",
         "source:src/domain/materials/masonry/CyclicMasonryCompressionMaterial.js",
         "source:src/domain/materials/masonry/CyclicMasonryShearMaterial.js",
         "source:src/domain/materials/masonry/index.js",
@@ -36396,7 +36494,7 @@
       "statusCounts": {
         "exact-parity": 0,
         "partial": 3,
-        "missing": 148,
+        "missing": 147,
         "intentionally-excluded": 0,
         "decision-required": 0
       },
@@ -36550,8 +36648,7 @@
         "test:tests/run-tests.js",
         "test:tests/steelFrameAdvancedVerification.test.js",
         "test:tests/steelRingFramePushover.test.js",
-        "test:tests/timberConcreteCompositeBeam.test.js",
-        "test:tests/timberMaterialHierarchy.test.js"
+        "test:tests/timberConcreteCompositeBeam.test.js"
       ]
     }
   },
