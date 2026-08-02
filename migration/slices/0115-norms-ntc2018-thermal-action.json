@@ -1,0 +1,142 @@
+{
+  "schemaVersion": 1,
+  "sliceId": "0115-norms-ntc2018-thermal-action",
+  "title": "NTC 2018 thermal temperatures, expansion, and building actions",
+  "migrationType": "mechanical-parity",
+  "implementationStatus": "implemented",
+  "dependencies": ["0039-ntc2018-action-parameters-and-factories", "0001-foundation"],
+  "source": {
+    "repository": "https://github.com/claudiopagani/strutture-js",
+    "revision": "6f33baead8b88166c4b2cf94af41763412e3c751"
+  },
+  "normativeCorpusRevision": "41da3faa489600173106935bbcf726119300e48d",
+  "sourceFiles": [
+    {
+      "path": "src/norms/ntc2018/actions/ntc2018ThermalAction.js",
+      "gitBlobSha1": "41a539db5ad7b6e68e5904c03f208b73260e5883",
+      "targetPath": "src/norms/ntc2018/actions/ntc2018ThermalAction.ts"
+    }
+  ],
+  "supportingSourceFiles": [
+    {
+      "path": "src/core/results/CalculationResult.js",
+      "gitBlobSha1": "de58f9d2a201435dd955cbfd4c4981d0b78610d4",
+      "targetPath": "src/core/results/CalculationResult.ts",
+      "coverage": "Already-migrated serializable result DTO consumed by the building thermal-action workflow."
+    },
+    {
+      "path": "src/domain/units/UnitSystem.js",
+      "gitBlobSha1": "b8f2f4926aff645efbf7b9f458b69eba264ed59a",
+      "targetPath": "src/domain/units/UnitSystem.ts",
+      "coverage": "Already-migrated explicit unit validation and altitude conversion dependency."
+    },
+    {
+      "path": "src/norms/ntc2018/actions/createNTC2018Action.js",
+      "gitBlobSha1": "06c4c6a75e2482bdf3e6d3288c7153aa72738c8a",
+      "targetPath": "src/norms/ntc2018/actions/createNTC2018Action.ts",
+      "coverage": "Already-migrated NTC 2018 thermal action factory consumed by the workflow."
+    },
+    {
+      "path": "src/norms/ntc2018/index.js",
+      "gitBlobSha1": "0ac4cf551c455ec2a57d9bf8849db46fb14e0dcc",
+      "targetPath": "src/index.ts",
+      "coverage": "Source norm index export context; only migrated thermal symbols receive root support."
+    },
+    {
+      "path": "src/index.js",
+      "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7",
+      "targetPath": "src/index.ts",
+      "coverage": "Root public exports for the migrated thermal catalogs and calculation workflow."
+    }
+  ],
+  "sourceOracles": [
+    {
+      "path": "tests/ntc2018ThermalAction.test.js",
+      "gitBlobSha1": "dc39790b7d54b77a0061a126b5531ad883f137ac",
+      "coverage": "Thermal catalogs, external and internal temperatures, solar increments, expansion coefficients, strain, building actions, serialization, and errors."
+    },
+    {
+      "path": "tests/packageExports.test.js",
+      "gitBlobSha1": "8dde24b4c97dd3dae7100207d07d9d96c52b9c74",
+      "coverage": "Root public export behavior."
+    }
+  ],
+  "sourcePublicExport": {
+    "path": "src/index.js",
+    "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
+  },
+  "targetTests": [
+    "tests/baseline-parity.test.ts",
+    "tests/ntc2018-thermal-action-compile-time.test.ts",
+    "tests/ntc2018-thermal-action-live-parity.test.ts"
+  ],
+  "publicExports": [
+    "NTC2018_EXTERNAL_AIR_TEMPERATURE_ZONES",
+    "NTC2018_SIMPLIFIED_BUILDING_TEMPERATURE_CHANGES",
+    "NTC2018_SUMMER_SOLAR_TEMPERATURE_INCREMENTS",
+    "NTC2018_THERMAL_EXPANSION_COEFFICIENTS",
+    "NTC2018_THERMAL_REFERENCES",
+    "calculateNTC2018BuildingThermalActions",
+    "calculateNTC2018ExternalAirTemperatures",
+    "calculateNTC2018FreeThermalStrain",
+    "calculateNTC2018MeanElementTemperature",
+    "calculateNTC2018UniformTemperatureChange",
+    "getNTC2018ExternalAirTemperatureZoneDefinition",
+    "getNTC2018SimplifiedBuildingTemperatureChange",
+    "getNTC2018SolarTemperatureIncrement",
+    "getNTC2018ThermalExpansionCoefficientDefinition",
+    "resolveNTC2018InitialTemperature",
+    "resolveNTC2018InternalAirTemperature",
+    "resolveNTC2018ThermalExpansionCoefficient"
+  ],
+  "publicTypeExports": [
+    "CalculateNTC2018BuildingThermalActionsOptions",
+    "CalculateNTC2018ExternalAirTemperaturesOptions",
+    "CalculateNTC2018FreeThermalStrainOptions",
+    "CalculateNTC2018MeanElementTemperatureOptions",
+    "CalculateNTC2018UniformTemperatureChangeOptions",
+    "GetNTC2018SolarTemperatureIncrementOptions",
+    "Ntc2018ExternalAirTemperatureZoneDefinition",
+    "Ntc2018ExternalAirTemperaturesResult",
+    "Ntc2018FreeThermalStrainResult",
+    "Ntc2018MeanElementTemperatureResult",
+    "Ntc2018SimplifiedBuildingTemperatureChangeDefinition",
+    "Ntc2018SolarTemperatureIncrementResult",
+    "Ntc2018TemperatureResolution",
+    "Ntc2018ThermalExpansionCoefficientDefinition",
+    "Ntc2018UniformTemperatureChangeResult",
+    "ResolveNTC2018InitialTemperatureOptions",
+    "ResolveNTC2018InternalAirTemperatureOptions",
+    "ResolveNTC2018ThermalExpansionCoefficientOptions"
+  ],
+  "normativeReferences": {
+    "resolved": [],
+    "outsideCorpus": [
+      "D.M. 17/01/2018, NTC 2018, section 2.5.2, Table 2.5.I",
+      "D.M. 17/01/2018, NTC 2018, section 3.5.2, equations [3.5.1]-[3.5.8]",
+      "D.M. 17/01/2018, NTC 2018, section 3.5.3",
+      "D.M. 17/01/2018, NTC 2018, section 3.5.4, Table 3.5.I",
+      "D.M. 17/01/2018, NTC 2018, section 3.5.5, Table 3.5.II",
+      "D.M. 17/01/2018, NTC 2018, section 3.5.7, Table 3.5.III"
+    ],
+    "normativeConformityClaimed": false,
+    "status": "classified-for-declared-scope"
+  },
+  "independentValidation": {
+    "method": "Strict declaration consumer coverage and independently executed pinned JavaScript versus built TypeScript comparison of the complete thermal module, exact export order and JSON serialization, numerical unit conversion and temperature branches, Unicode-safe public strings, immutable catalogs, root aliases, and error paths.",
+    "targetTests": [
+      "tests/ntc2018-thermal-action-compile-time.test.ts",
+      "tests/ntc2018-thermal-action-live-parity.test.ts"
+    ],
+    "tolerances": {
+      "serializedParity": "exact catalog, temperature, coefficient, action, and CalculationResult JSON",
+      "numericParity": "exact equality for converted temperatures and calculated values",
+      "publicStrings": "exact equality plus Unicode code-point preservation",
+      "errors": "exact error name and message equality for unsupported zones, units, missing sources, coefficient bounds, and contradictory modes"
+    }
+  },
+  "parityDifferences": [
+    "The TypeScript module adds strict declarations and the root export support required by the migrated thermal behavior; runtime module exports match the pinned source module."
+  ],
+  "engineeringFunctionality": "Source-compatible NTC 2018 external and internal temperature normalization, solar increments, thermal expansion coefficients, free strain, and serializable building thermal-action cases."
+}

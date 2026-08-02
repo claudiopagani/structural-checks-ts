@@ -619,6 +619,25 @@ export {
   getNTC2018SnowGroundZoneDefinition,
 } from "./norms/ntc2018/actions/ntc2018SnowLoad.js";
 export {
+  NTC2018_EXTERNAL_AIR_TEMPERATURE_ZONES,
+  NTC2018_SIMPLIFIED_BUILDING_TEMPERATURE_CHANGES,
+  NTC2018_SUMMER_SOLAR_TEMPERATURE_INCREMENTS,
+  NTC2018_THERMAL_EXPANSION_COEFFICIENTS,
+  NTC2018_THERMAL_REFERENCES,
+  calculateNTC2018BuildingThermalActions,
+  calculateNTC2018ExternalAirTemperatures,
+  calculateNTC2018FreeThermalStrain,
+  calculateNTC2018MeanElementTemperature,
+  calculateNTC2018UniformTemperatureChange,
+  getNTC2018ExternalAirTemperatureZoneDefinition,
+  getNTC2018SimplifiedBuildingTemperatureChange,
+  getNTC2018SolarTemperatureIncrement,
+  getNTC2018ThermalExpansionCoefficientDefinition,
+  resolveNTC2018InitialTemperature,
+  resolveNTC2018InternalAirTemperature,
+  resolveNTC2018ThermalExpansionCoefficient,
+} from "./norms/ntc2018/actions/ntc2018ThermalAction.js";
+export {
   NTC2018_CONCRETE_CLASSES,
   NTC2018_EXISTING_MATERIAL_KNOWLEDGE_LEVELS,
   NTC2018_REINFORCEMENT_STEEL_GRADES,
@@ -1807,6 +1826,26 @@ export type {
   Ntc2018SnowExposureClassDefinition,
   Ntc2018SnowGroundZoneDefinition,
 } from "./norms/ntc2018/actions/ntc2018SnowLoad.js";
+export type {
+  CalculateNTC2018BuildingThermalActionsOptions,
+  CalculateNTC2018ExternalAirTemperaturesOptions,
+  CalculateNTC2018FreeThermalStrainOptions,
+  CalculateNTC2018MeanElementTemperatureOptions,
+  CalculateNTC2018UniformTemperatureChangeOptions,
+  GetNTC2018SolarTemperatureIncrementOptions,
+  Ntc2018ExternalAirTemperaturesResult,
+  Ntc2018FreeThermalStrainResult,
+  Ntc2018MeanElementTemperatureResult,
+  Ntc2018SimplifiedBuildingTemperatureChangeDefinition,
+  Ntc2018SolarTemperatureIncrementResult,
+  Ntc2018TemperatureResolution,
+  Ntc2018ThermalExpansionCoefficientDefinition,
+  Ntc2018UniformTemperatureChangeResult,
+  Ntc2018ExternalAirTemperatureZoneDefinition,
+  ResolveNTC2018InitialTemperatureOptions,
+  ResolveNTC2018InternalAirTemperatureOptions,
+  ResolveNTC2018ThermalExpansionCoefficientOptions,
+} from "./norms/ntc2018/actions/ntc2018ThermalAction.js";
 export type {
   NTC2018ConcreteClassPreset,
   NTC2018ConcreteStrengthClass,

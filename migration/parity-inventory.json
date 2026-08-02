@@ -1071,6 +1071,7 @@
         "NTC2018_DRIFT_LIMITS",
         "NTC2018_ELEVATION_REGULARITY",
         "NTC2018_EXISTING_MATERIAL_KNOWLEDGE_LEVELS",
+        "NTC2018_EXTERNAL_AIR_TEMPERATURE_ZONES",
         "NTC2018_LINEAR_DYNAMIC_REFERENCES",
         "NTC2018_LOAD_DURATION_CLASSES",
         "NTC2018_OVERSTRENGTH_FACTORS",
@@ -1085,6 +1086,7 @@
         "NTC2018_SEISMIC_LIMIT_STATES",
         "NTC2018_SEISMIC_REFERENCES",
         "NTC2018_SHEAR_WALL_REFERENCES",
+        "NTC2018_SIMPLIFIED_BUILDING_TEMPERATURE_CHANGES",
         "NTC2018_SITE_HAZARD_SOURCE_KINDS",
         "NTC2018_SNOW_EXPOSURE_CLASSES",
         "NTC2018_SNOW_GROUND_ZONES",
@@ -1093,6 +1095,9 @@
         "NTC2018_STRUCTURAL_BEHAVIOR_REFERENCES",
         "NTC2018_STRUCTURAL_TYPE",
         "NTC2018_SUBSOIL_SPECTRUM_COEFFICIENTS",
+        "NTC2018_SUMMER_SOLAR_TEMPERATURE_INCREMENTS",
+        "NTC2018_THERMAL_EXPANSION_COEFFICIENTS",
+        "NTC2018_THERMAL_REFERENCES",
         "NTC2018_TIMBER_KMOD",
         "NTC2018_TOPOGRAPHIC_AMPLIFICATION_MAXIMA",
         "NTC2018_WALL_SYSTEM_REFERENCES",
@@ -1284,17 +1289,22 @@
         "calculateEn1992StrutAndTieNuPrime",
         "calculateEn1992StrutDesignStrength",
         "calculateEn1992TieResistance",
+        "calculateNTC2018BuildingThermalActions",
         "calculateNTC2018EffectiveJointWidth",
+        "calculateNTC2018ExternalAirTemperatures",
+        "calculateNTC2018FreeThermalStrain",
         "calculateNTC2018GroundSnowLoad",
         "calculateNTC2018HorizontalElasticSpectrum",
         "calculateNTC2018HorizontalSpectrumParameters",
         "calculateNTC2018JointCompressionCapacity",
         "calculateNTC2018JointShearDemand",
         "calculateNTC2018JointTensionReinforcement",
+        "calculateNTC2018MeanElementTemperature",
         "calculateNTC2018PitchedRoofShapeCoefficient",
         "calculateNTC2018RoofSnowLoad",
         "calculateNTC2018SnowAreaLoad",
         "calculateNTC2018StratigraphicSpectrumCoefficients",
+        "calculateNTC2018UniformTemperatureChange",
         "calculateRetainingWallPolygonProperties",
         "calculateRigidFoundationElasticStiffness",
         "calculateSchmertmannStrainInfluence",
@@ -1386,13 +1396,17 @@
         "getItalianHistoricalReinforcementSteelGrade",
         "getNTC2018ActionCombinationFactors",
         "getNTC2018ActionPartialFactors",
+        "getNTC2018ExternalAirTemperatureZoneDefinition",
         "getNTC2018LoadDurationClass",
         "getNTC2018LoadDurationDefinition",
         "getNTC2018RcBuildingCoverage",
         "getNTC2018SeismicLimitStateDefinition",
+        "getNTC2018SimplifiedBuildingTemperatureChange",
         "getNTC2018SnowExposureClassDefinition",
         "getNTC2018SnowGroundZoneDefinition",
+        "getNTC2018SolarTemperatureIncrement",
         "getNTC2018SubsoilSpectrumCoefficientDefinition",
+        "getNTC2018ThermalExpansionCoefficientDefinition",
         "getNTC2018TimberKmod",
         "getNTC2018TopographicAmplificationDefinition",
         "getRcPunchingDesignCodeManifest",
@@ -1437,6 +1451,9 @@
         "resolveExistingMaterialState",
         "resolveNTC2018AlphaRatio",
         "resolveNTC2018GoverningLoadDuration",
+        "resolveNTC2018InitialTemperature",
+        "resolveNTC2018InternalAirTemperature",
+        "resolveNTC2018ThermalExpansionCoefficient",
         "resolveNTC2018TopographicAmplification",
         "resolvePrincipalSectionFrame",
         "resolvePunchingTransferFromJointActions",
@@ -3698,11 +3715,15 @@
       "sourcePath": "src/norms/ntc2018/actions/ntc2018ThermalAction.js",
       "sourceBlobSha1": "41a539db5ad7b6e68e5904c03f208b73260e5883",
       "targetPath": "src/norms/ntc2018/actions/ntc2018ThermalAction.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0115-norms-ntc2018-thermal-action"],
+      "sourceOracles": ["tests/ntc2018ThermalAction.test.js", "tests/packageExports.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/ntc2018-thermal-action-compile-time.test.ts",
+        "tests/ntc2018-thermal-action-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0115-norms-ntc2018-thermal-action"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -3746,11 +3767,15 @@
       "sourcePath": "src/norms/ntc2018/actions/ntc2018ThermalAction.js",
       "sourceBlobSha1": "41a539db5ad7b6e68e5904c03f208b73260e5883",
       "targetPath": "src/norms/ntc2018/actions/ntc2018ThermalAction.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0115-norms-ntc2018-thermal-action"],
+      "sourceOracles": ["tests/ntc2018ThermalAction.test.js", "tests/packageExports.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/ntc2018-thermal-action-compile-time.test.ts",
+        "tests/ntc2018-thermal-action-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0115-norms-ntc2018-thermal-action"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -3760,11 +3785,15 @@
       "sourcePath": "src/norms/ntc2018/actions/ntc2018ThermalAction.js",
       "sourceBlobSha1": "41a539db5ad7b6e68e5904c03f208b73260e5883",
       "targetPath": "src/norms/ntc2018/actions/ntc2018ThermalAction.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0115-norms-ntc2018-thermal-action"],
+      "sourceOracles": ["tests/ntc2018ThermalAction.test.js", "tests/packageExports.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/ntc2018-thermal-action-compile-time.test.ts",
+        "tests/ntc2018-thermal-action-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0115-norms-ntc2018-thermal-action"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -4014,11 +4043,15 @@
       "sourcePath": "src/norms/ntc2018/actions/ntc2018ThermalAction.js",
       "sourceBlobSha1": "41a539db5ad7b6e68e5904c03f208b73260e5883",
       "targetPath": "src/norms/ntc2018/actions/ntc2018ThermalAction.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0115-norms-ntc2018-thermal-action"],
+      "sourceOracles": ["tests/ntc2018ThermalAction.test.js", "tests/packageExports.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/ntc2018-thermal-action-compile-time.test.ts",
+        "tests/ntc2018-thermal-action-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0115-norms-ntc2018-thermal-action"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -4170,11 +4203,15 @@
       "sourcePath": "src/norms/ntc2018/actions/ntc2018ThermalAction.js",
       "sourceBlobSha1": "41a539db5ad7b6e68e5904c03f208b73260e5883",
       "targetPath": "src/norms/ntc2018/actions/ntc2018ThermalAction.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0115-norms-ntc2018-thermal-action"],
+      "sourceOracles": ["tests/ntc2018ThermalAction.test.js", "tests/packageExports.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/ntc2018-thermal-action-compile-time.test.ts",
+        "tests/ntc2018-thermal-action-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0115-norms-ntc2018-thermal-action"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -8165,11 +8202,15 @@
       "sourcePath": "src/norms/ntc2018/actions/ntc2018ThermalAction.js",
       "sourceBlobSha1": "41a539db5ad7b6e68e5904c03f208b73260e5883",
       "targetPath": "src/norms/ntc2018/actions/ntc2018ThermalAction.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0115-norms-ntc2018-thermal-action"],
+      "sourceOracles": ["tests/ntc2018ThermalAction.test.js", "tests/packageExports.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/ntc2018-thermal-action-compile-time.test.ts",
+        "tests/ntc2018-thermal-action-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0115-norms-ntc2018-thermal-action"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -8276,11 +8317,15 @@
       "sourcePath": "src/norms/ntc2018/actions/ntc2018ThermalAction.js",
       "sourceBlobSha1": "41a539db5ad7b6e68e5904c03f208b73260e5883",
       "targetPath": "src/norms/ntc2018/actions/ntc2018ThermalAction.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0115-norms-ntc2018-thermal-action"],
+      "sourceOracles": ["tests/ntc2018ThermalAction.test.js", "tests/packageExports.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/ntc2018-thermal-action-compile-time.test.ts",
+        "tests/ntc2018-thermal-action-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0115-norms-ntc2018-thermal-action"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -8354,11 +8399,15 @@
       "sourcePath": "src/norms/ntc2018/actions/ntc2018ThermalAction.js",
       "sourceBlobSha1": "41a539db5ad7b6e68e5904c03f208b73260e5883",
       "targetPath": "src/norms/ntc2018/actions/ntc2018ThermalAction.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0115-norms-ntc2018-thermal-action"],
+      "sourceOracles": ["tests/ntc2018ThermalAction.test.js", "tests/packageExports.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/ntc2018-thermal-action-compile-time.test.ts",
+        "tests/ntc2018-thermal-action-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0115-norms-ntc2018-thermal-action"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -8400,11 +8449,15 @@
       "sourcePath": "src/norms/ntc2018/actions/ntc2018ThermalAction.js",
       "sourceBlobSha1": "41a539db5ad7b6e68e5904c03f208b73260e5883",
       "targetPath": "src/norms/ntc2018/actions/ntc2018ThermalAction.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0115-norms-ntc2018-thermal-action"],
+      "sourceOracles": ["tests/ntc2018ThermalAction.test.js", "tests/packageExports.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/ntc2018-thermal-action-compile-time.test.ts",
+        "tests/ntc2018-thermal-action-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0115-norms-ntc2018-thermal-action"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -11530,11 +11583,15 @@
       "sourcePath": "src/norms/ntc2018/actions/ntc2018ThermalAction.js",
       "sourceBlobSha1": "41a539db5ad7b6e68e5904c03f208b73260e5883",
       "targetPath": "src/norms/ntc2018/actions/ntc2018ThermalAction.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0115-norms-ntc2018-thermal-action"],
+      "sourceOracles": ["tests/ntc2018ThermalAction.test.js", "tests/packageExports.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/ntc2018-thermal-action-compile-time.test.ts",
+        "tests/ntc2018-thermal-action-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0115-norms-ntc2018-thermal-action"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -12023,11 +12080,15 @@
       "sourcePath": "src/norms/ntc2018/actions/ntc2018ThermalAction.js",
       "sourceBlobSha1": "41a539db5ad7b6e68e5904c03f208b73260e5883",
       "targetPath": "src/norms/ntc2018/actions/ntc2018ThermalAction.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0115-norms-ntc2018-thermal-action"],
+      "sourceOracles": ["tests/ntc2018ThermalAction.test.js", "tests/packageExports.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/ntc2018-thermal-action-compile-time.test.ts",
+        "tests/ntc2018-thermal-action-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0115-norms-ntc2018-thermal-action"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -12256,11 +12317,15 @@
       "sourcePath": "src/norms/ntc2018/actions/ntc2018ThermalAction.js",
       "sourceBlobSha1": "41a539db5ad7b6e68e5904c03f208b73260e5883",
       "targetPath": "src/norms/ntc2018/actions/ntc2018ThermalAction.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0115-norms-ntc2018-thermal-action"],
+      "sourceOracles": ["tests/ntc2018ThermalAction.test.js", "tests/packageExports.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/ntc2018-thermal-action-compile-time.test.ts",
+        "tests/ntc2018-thermal-action-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0115-norms-ntc2018-thermal-action"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -12270,11 +12335,15 @@
       "sourcePath": "src/norms/ntc2018/actions/ntc2018ThermalAction.js",
       "sourceBlobSha1": "41a539db5ad7b6e68e5904c03f208b73260e5883",
       "targetPath": "src/norms/ntc2018/actions/ntc2018ThermalAction.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0115-norms-ntc2018-thermal-action"],
+      "sourceOracles": ["tests/ntc2018ThermalAction.test.js", "tests/packageExports.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/ntc2018-thermal-action-compile-time.test.ts",
+        "tests/ntc2018-thermal-action-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0115-norms-ntc2018-thermal-action"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -12284,11 +12353,15 @@
       "sourcePath": "src/norms/ntc2018/actions/ntc2018ThermalAction.js",
       "sourceBlobSha1": "41a539db5ad7b6e68e5904c03f208b73260e5883",
       "targetPath": "src/norms/ntc2018/actions/ntc2018ThermalAction.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0115-norms-ntc2018-thermal-action"],
+      "sourceOracles": ["tests/ntc2018ThermalAction.test.js", "tests/packageExports.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/ntc2018-thermal-action-compile-time.test.ts",
+        "tests/ntc2018-thermal-action-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0115-norms-ntc2018-thermal-action"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -14293,11 +14366,15 @@
       "sourcePath": "src/norms/ntc2018/actions/ntc2018ThermalAction.js",
       "sourceBlobSha1": "41a539db5ad7b6e68e5904c03f208b73260e5883",
       "targetPath": "src/norms/ntc2018/actions/ntc2018ThermalAction.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0115-norms-ntc2018-thermal-action"],
+      "sourceOracles": ["tests/ntc2018ThermalAction.test.js", "tests/packageExports.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/ntc2018-thermal-action-compile-time.test.ts",
+        "tests/ntc2018-thermal-action-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0115-norms-ntc2018-thermal-action"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -14307,11 +14384,15 @@
       "sourcePath": "src/norms/ntc2018/actions/ntc2018ThermalAction.js",
       "sourceBlobSha1": "41a539db5ad7b6e68e5904c03f208b73260e5883",
       "targetPath": "src/norms/ntc2018/actions/ntc2018ThermalAction.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0115-norms-ntc2018-thermal-action"],
+      "sourceOracles": ["tests/ntc2018ThermalAction.test.js", "tests/packageExports.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/ntc2018-thermal-action-compile-time.test.ts",
+        "tests/ntc2018-thermal-action-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0115-norms-ntc2018-thermal-action"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -14335,11 +14416,15 @@
       "sourcePath": "src/norms/ntc2018/actions/ntc2018ThermalAction.js",
       "sourceBlobSha1": "41a539db5ad7b6e68e5904c03f208b73260e5883",
       "targetPath": "src/norms/ntc2018/actions/ntc2018ThermalAction.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0115-norms-ntc2018-thermal-action"],
+      "sourceOracles": ["tests/ntc2018ThermalAction.test.js", "tests/packageExports.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/ntc2018-thermal-action-compile-time.test.ts",
+        "tests/ntc2018-thermal-action-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0115-norms-ntc2018-thermal-action"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -32689,7 +32774,8 @@
         "0111-norms-en1992-public-index",
         "0112-norms-italian-historical-reinforcement-steel",
         "0113-norms-ntc2018-seismic-action",
-        "0114-norms-ntc2018-snow-load"
+        "0114-norms-ntc2018-snow-load",
+        "0115-norms-ntc2018-thermal-action"
       ],
       "sourceOracles": [
         "tests/architecture/applicationRegistry.test.js",
@@ -33065,11 +33151,15 @@
       "sourcePath": "src/norms/ntc2018/actions/ntc2018ThermalAction.js",
       "sourceBlobSha1": "41a539db5ad7b6e68e5904c03f208b73260e5883",
       "targetPath": "src/norms/ntc2018/actions/ntc2018ThermalAction.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing"
+      "migrationSlices": ["0115-norms-ntc2018-thermal-action"],
+      "sourceOracles": ["tests/ntc2018ThermalAction.test.js", "tests/packageExports.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/ntc2018-thermal-action-compile-time.test.ts",
+        "tests/ntc2018-thermal-action-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0115-norms-ntc2018-thermal-action"],
+      "status": "exact-parity"
     },
     {
       "id": "src/norms/ntc2018/actions/ntc2018TopographicClassification.js",
@@ -35283,11 +35373,15 @@
       "sourcePath": "tests/ntc2018ThermalAction.test.js",
       "sourceBlobSha1": "dc39790b7d54b77a0061a126b5531ad883f137ac",
       "targetPath": "tests/ntc2018ThermalAction.test.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0115-norms-ntc2018-thermal-action"],
+      "sourceOracles": ["tests/ntc2018ThermalAction.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/ntc2018-thermal-action-compile-time.test.ts",
+        "tests/ntc2018-thermal-action-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0115-norms-ntc2018-thermal-action"],
+      "status": "exact-parity",
       "testKind": "test"
     },
     {
@@ -35380,7 +35474,8 @@
         "0111-norms-en1992-public-index",
         "0112-norms-italian-historical-reinforcement-steel",
         "0113-norms-ntc2018-seismic-action",
-        "0114-norms-ntc2018-snow-load"
+        "0114-norms-ntc2018-snow-load",
+        "0115-norms-ntc2018-thermal-action"
       ],
       "sourceOracles": ["tests/packageExports.test.js"],
       "targetTests": [
@@ -35441,6 +35536,8 @@
         "tests/ntc2018-seismic-action-live-parity.test.ts",
         "tests/ntc2018-snow-load-compile-time.test.ts",
         "tests/ntc2018-snow-load-live-parity.test.ts",
+        "tests/ntc2018-thermal-action-compile-time.test.ts",
+        "tests/ntc2018-thermal-action-live-parity.test.ts",
         "tests/rc-cracked-deflection.test.ts",
         "tests/reinforced-concrete-beam-column-joint.test.ts",
         "tests/reinforced-concrete-foundation-beam.test.ts",
@@ -35525,7 +35622,8 @@
         "0111-norms-en1992-public-index",
         "0112-norms-italian-historical-reinforcement-steel",
         "0113-norms-ntc2018-seismic-action",
-        "0114-norms-ntc2018-snow-load"
+        "0114-norms-ntc2018-snow-load",
+        "0115-norms-ntc2018-thermal-action"
       ],
       "status": "exact-parity",
       "testKind": "test"
@@ -38948,12 +39046,28 @@
         "publicStrings": "exact equality plus Unicode code-point preservation",
         "errors": "exact error name and message equality for missing units, unsupported zones, ambiguous coefficients, missing sources, and floors"
       }
+    },
+    {
+      "sliceId": "0115-norms-ntc2018-thermal-action",
+      "sourceRevision": "6f33baead8b88166c4b2cf94af41763412e3c751",
+      "method": "Strict declaration consumer coverage and independently executed pinned JavaScript versus built TypeScript comparison of the complete thermal module, exact export order and JSON serialization, numerical unit conversion and temperature branches, Unicode-safe public strings, immutable catalogs, root aliases, and error paths.",
+      "targetTests": [
+        "tests/ntc2018-thermal-action-compile-time.test.ts",
+        "tests/ntc2018-thermal-action-live-parity.test.ts"
+      ],
+      "fixture": null,
+      "tolerances": {
+        "serializedParity": "exact catalog, temperature, coefficient, action, and CalculationResult JSON",
+        "numericParity": "exact equality for converted temperatures and calculated values",
+        "publicStrings": "exact equality plus Unicode code-point preservation",
+        "errors": "exact error name and message equality for unsupported zones, units, missing sources, coefficient bounds, and contradictory modes"
+      }
     }
   ],
   "counts": {
     "rootExports": {
       "javascript": 841,
-      "typescript": 617
+      "typescript": 634
     },
     "applicationsExports": {
       "javascript": 309,
@@ -38977,11 +39091,11 @@
     },
     "sourceFiles": {
       "javascript": 480,
-      "typescript": 360
+      "typescript": 361
     },
     "tests": {
       "javascript": 131,
-      "typescript": 216
+      "typescript": 218
     },
     "validationCampaigns": {
       "javascript": 17,
@@ -39040,7 +39154,7 @@
       "statusCounts": {
         "exact-parity": 0,
         "partial": 15,
-        "missing": 123,
+        "missing": 105,
         "intentionally-excluded": 0,
         "decision-required": 0
       },
@@ -39055,7 +39169,6 @@
         "root-export:NTC2018_EXISTING_MASONRY_MODIFIER_DEFINITIONS",
         "root-export:NTC2018_EXISTING_MASONRY_PARAMETER_LEVELS",
         "root-export:NTC2018_EXISTING_MASONRY_TYPOLOGIES",
-        "root-export:NTC2018_EXTERNAL_AIR_TEMPERATURE_ZONES",
         "root-export:NTC2018_GLULAM_TIMBER_STRENGTH_CLASSES",
         "root-export:NTC2018_IMPOSED_LOAD_CATALOG",
         "root-export:NTC2018_IMPOSED_LOAD_REFERENCES",
@@ -39068,14 +39181,10 @@
         "root-export:NTC2018_RC_CHAPTER_7_4_REFERENCES",
         "root-export:NTC2018_RC_OUTSIDE_CORPUS_REFERENCES",
         "root-export:NTC2018_RETAINING_WALL_SEISMIC_REFERENCE",
-        "root-export:NTC2018_SIMPLIFIED_BUILDING_TEMPERATURE_CHANGES",
         "root-export:NTC2018_SLAB_MATERIAL_WEIGHT_DATABASE",
         "root-export:NTC2018_SLAB_VARIABLE_ACTIONS_DATABASE",
         "root-export:NTC2018_SOLID_TIMBER_STRENGTH_CLASSES",
         "root-export:NTC2018_STRUCTURAL_STEEL_GRADES",
-        "root-export:NTC2018_SUMMER_SOLAR_TEMPERATURE_INCREMENTS",
-        "root-export:NTC2018_THERMAL_EXPANSION_COEFFICIENTS",
-        "root-export:NTC2018_THERMAL_REFERENCES",
         "root-export:NTC2018_TIMBER_STRENGTH_CLASSES",
         "root-export:NTC2018_TOPOGRAPHIC_CLASSIFICATION_METHOD",
         "root-export:NTC2018_TOPOGRAPHIC_CLASSIFICATION_REFERENCES",
@@ -39091,10 +39200,7 @@
         "root-export:applyNTC2018ExistingMasonryModifierToggle",
         "root-export:calculateNTC2018AreaSelfWeight",
         "root-export:calculateNTC2018BaseWindSpeed",
-        "root-export:calculateNTC2018BuildingThermalActions",
         "root-export:calculateNTC2018EquivalentPartitionAreaLoad",
-        "root-export:calculateNTC2018ExternalAirTemperatures",
-        "root-export:calculateNTC2018FreeThermalStrain",
         "root-export:calculateNTC2018ImposedLoadAreaReduction",
         "root-export:calculateNTC2018ImposedLoadMultiStoreyReduction",
         "root-export:calculateNTC2018LineSelfWeight",
@@ -39104,13 +39210,11 @@
         "root-export:calculateNTC2018MasonryPierRegularDiagonalCapacity",
         "root-export:calculateNTC2018MasonryPierSlidingCapacity",
         "root-export:calculateNTC2018MasonryPierUltimateDisplacement",
-        "root-export:calculateNTC2018MeanElementTemperature",
         "root-export:calculateNTC2018PermanentAreaLoads",
         "root-export:calculateNTC2018ReferenceWindPressure",
         "root-export:calculateNTC2018ReferenceWindSpeed",
         "root-export:calculateNTC2018RetainingWallSeismicCoefficients",
         "root-export:calculateNTC2018SelfWeight",
-        "root-export:calculateNTC2018UniformTemperatureChange",
         "root-export:calculateNTC2018WindAreaLoad",
         "root-export:calculateNTC2018WindExposureCoefficient",
         "root-export:calculateNTC2018WindPressure",
@@ -39130,14 +39234,10 @@
         "root-export:evaluateNTC2018ExistingMasonryWorkflow",
         "root-export:evaluateNTC2018MasonryPier",
         "root-export:getNTC2018ExistingMasonryModifierDefinition",
-        "root-export:getNTC2018ExternalAirTemperatureZoneDefinition",
         "root-export:getNTC2018ImposedLoadDefinition",
-        "root-export:getNTC2018SimplifiedBuildingTemperatureChange",
         "root-export:getNTC2018SlabVariableAction",
         "root-export:getNTC2018SlabWeightValue",
-        "root-export:getNTC2018SolarTemperatureIncrement",
         "root-export:getNTC2018TabulatedMasonryProperties",
-        "root-export:getNTC2018ThermalExpansionCoefficientDefinition",
         "root-export:getNTC2018UnitWeightDefinition",
         "root-export:getNTC2018WindExposureCategoryDefinition",
         "root-export:getNTC2018WindZoneDefinition",
@@ -39150,17 +39250,13 @@
         "root-export:listSlabMaterialWeightPresetEntries",
         "root-export:modifierSelectionsFromState",
         "root-export:resolveNTC2018ImposedLoadDefinition",
-        "root-export:resolveNTC2018InitialTemperature",
-        "root-export:resolveNTC2018InternalAirTemperature",
         "root-export:resolveNTC2018MasonryTypology",
-        "root-export:resolveNTC2018ThermalExpansionCoefficient",
         "root-export:resolveNTC2018UnitWeight",
         "root-export:selectNTC2018ExistingMasonryParameterLevel",
         "root-export:selectNTC2018ExistingMasonryTypology",
         "root-export:selectNTC2018MasonryPierGoverningCapacity",
         "root-export:toggleNTC2018ExistingMasonryModifier",
         "root-export:updateNTC2018ExistingMasonryMaltaBuona",
-        "source:src/norms/ntc2018/actions/ntc2018ThermalAction.js",
         "source:src/norms/ntc2018/actions/ntc2018TopographicClassification.js",
         "source:src/norms/ntc2018/actions/ntc2018WindLoad.js",
         "source:src/norms/ntc2018/actions/topographicClassification.constants.js",
@@ -39550,7 +39646,7 @@
       "statusCounts": {
         "exact-parity": 0,
         "partial": 4,
-        "missing": 129,
+        "missing": 128,
         "intentionally-excluded": 0,
         "decision-required": 0
       },
@@ -39680,7 +39776,6 @@
         "test:tests/ntc2018MasonryPierModel.test.js",
         "test:tests/ntc2018NormativeReferences.test.js",
         "test:tests/ntc2018PermanentLoads.test.js",
-        "test:tests/ntc2018ThermalAction.test.js",
         "test:tests/ntc2018TopographicClassification.test.js",
         "test:tests/ntc2018WindLoad.test.js",
         "test:tests/rcFiberAnalysis.test.js",
