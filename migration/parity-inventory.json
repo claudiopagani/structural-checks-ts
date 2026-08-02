@@ -1091,6 +1091,7 @@
         "SteelMaterial",
         "StrainField",
         "StructuralApplication",
+        "StructuralElement",
         "StrutAndTieAnalysis2D",
         "StrutAndTieModel2D",
         "Support",
@@ -15350,11 +15351,14 @@
       "sourcePath": "src/domain/elements/StructuralElement.js",
       "sourceBlobSha1": "7020fd4ebcd703985ca175c40fc17cab6a96eb91",
       "targetPath": "src/domain/elements/StructuralElement.ts",
-      "migrationSlices": [],
+      "migrationSlices": ["0049-domain-structural-element"],
       "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "targetTests": [
+        "tests/structural-element-compile-time.test.ts",
+        "tests/structural-element-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0049-domain-structural-element"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -28297,11 +28301,14 @@
       "sourcePath": "src/domain/elements/StructuralElement.js",
       "sourceBlobSha1": "7020fd4ebcd703985ca175c40fc17cab6a96eb91",
       "targetPath": "src/domain/elements/StructuralElement.ts",
-      "migrationSlices": [],
+      "migrationSlices": ["0049-domain-structural-element"],
       "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing"
+      "targetTests": [
+        "tests/structural-element-compile-time.test.ts",
+        "tests/structural-element-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0049-domain-structural-element"],
+      "status": "exact-parity"
     },
     {
       "id": "src/domain/fem/BeamLinePreprocessor2D.js",
@@ -30253,7 +30260,8 @@
         "0045-domain-tecnaria-connector-catalog",
         "0046-domain-tecnaria-connector",
         "0047-domain-create-tecnaria-connector",
-        "0048-domain-constitutive-laws-index"
+        "0048-domain-constitutive-laws-index",
+        "0049-domain-structural-element"
       ],
       "sourceOracles": [
         "tests/architecture/applicationRegistry.test.js",
@@ -34892,12 +34900,27 @@
         "numericParity": "exact equality for representative constitutive-law stress values",
         "publicStrings": "exact equality plus Unicode code-point equality for exported names"
       }
+    },
+    {
+      "sliceId": "0049-domain-structural-element",
+      "sourceRevision": "6f33baead8b88166c4b2cf94af41763412e3c751",
+      "method": "Strict declaration consumer coverage and independently executed pinned JavaScript versus built TypeScript StructuralElement modules, including root re-export identity, instanceof isolation, exact JSON serialization, mutation/chaining, Unicode values and constructor errors.",
+      "targetTests": [
+        "tests/structural-element-compile-time.test.ts",
+        "tests/structural-element-live-parity.test.ts"
+      ],
+      "fixture": null,
+      "tolerances": {
+        "serializedParity": "exact JSON serialization",
+        "numericParity": "not applicable; this slice contains no numerical formulas",
+        "publicStrings": "exact equality plus Unicode code-point equality"
+      }
     }
   ],
   "counts": {
     "rootExports": {
       "javascript": 841,
-      "typescript": 406
+      "typescript": 407
     },
     "applicationsExports": {
       "javascript": 309,
@@ -34921,11 +34944,11 @@
     },
     "sourceFiles": {
       "javascript": 480,
-      "typescript": 271
+      "typescript": 272
     },
     "tests": {
       "javascript": 131,
-      "typescript": 84
+      "typescript": 86
     },
     "validationCampaigns": {
       "javascript": 17,
@@ -34957,7 +34980,7 @@
       "statusCounts": {
         "exact-parity": 0,
         "partial": 18,
-        "missing": 265,
+        "missing": 263,
         "intentionally-excluded": 0,
         "decision-required": 0
       },
@@ -35114,7 +35137,6 @@
         "root-export:SolidTimberMaterial",
         "root-export:SteelCompoundProfileSection",
         "root-export:SteelProfileSection",
-        "root-export:StructuralElement",
         "root-export:StructuralModel",
         "root-export:SurfaceLoad",
         "root-export:TERRAIN_ELEVATION_GRID_SCHEMA_VERSION",
@@ -35161,7 +35183,6 @@
         "root-export:spencerMethod",
         "source:src/domain/elements/BeamElement.js",
         "source:src/domain/elements/BeamSystem.js",
-        "source:src/domain/elements/StructuralElement.js",
         "source:src/domain/fem/elements/FrameElement2DTimoshenkoRigidOffsets.js",
         "source:src/domain/fem/elements/index.js",
         "source:src/domain/fem/elements/masonry/CyclicMasonryPier2D.js",

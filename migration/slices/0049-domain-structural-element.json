@@ -1,0 +1,62 @@
+{
+  "schemaVersion": 1,
+  "sliceId": "0049-domain-structural-element",
+  "title": "Domain StructuralElement primitive",
+  "migrationType": "mechanical-parity",
+  "implementationStatus": "implemented",
+  "dependencies": [],
+  "source": {
+    "repository": "https://github.com/claudiopagani/strutture-js",
+    "revision": "6f33baead8b88166c4b2cf94af41763412e3c751"
+  },
+  "normativeCorpusRevision": "41da3faa489600173106935bbcf726119300e48d",
+  "sourceFiles": [
+    {
+      "path": "src/domain/elements/StructuralElement.js",
+      "gitBlobSha1": "7020fd4ebcd703985ca175c40fc17cab6a96eb91",
+      "targetPath": "src/domain/elements/StructuralElement.ts"
+    }
+  ],
+  "supportingSourceFiles": [
+    {
+      "path": "src/index.js",
+      "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7",
+      "targetPath": "src/index.ts",
+      "coverage": "Root StructuralElement export is re-exported from the migrated implementation"
+    }
+  ],
+  "sourceOracles": [],
+  "sourcePublicExport": {
+    "path": "src/index.js",
+    "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
+  },
+  "targetTests": [
+    "tests/structural-element-compile-time.test.ts",
+    "tests/structural-element-live-parity.test.ts"
+  ],
+  "publicExports": ["StructuralElement"],
+  "publicTypeExports": ["StructuralElementInput", "StructuralElementJson", "StructuralElementNode"],
+  "normativeReferences": {
+    "resolved": [],
+    "outsideCorpus": [],
+    "normativeConformityClaimed": false,
+    "status": "classified-for-declared-scope"
+  },
+  "independentValidation": {
+    "method": "Strict declaration consumer coverage and independently executed pinned JavaScript versus built TypeScript StructuralElement modules, including root re-export identity, instanceof isolation, exact JSON serialization, mutation/chaining, Unicode values and constructor errors.",
+    "targetTests": [
+      "tests/structural-element-compile-time.test.ts",
+      "tests/structural-element-live-parity.test.ts"
+    ],
+    "tolerances": {
+      "serializedParity": "exact JSON serialization",
+      "numericParity": "not applicable; this slice contains no numerical formulas",
+      "publicStrings": "exact equality plus Unicode code-point equality"
+    }
+  },
+  "parityDifferences": [
+    "The strict TypeScript declarations describe the existing JavaScript StructuralElement contract without adding runtime behavior.",
+    "BeamElement, BeamSystem and other element implementations remain outside this slice."
+  ],
+  "engineeringFunctionality": "Generic structural-element identity, node membership, metadata and serialization primitive only."
+}

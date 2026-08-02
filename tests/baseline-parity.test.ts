@@ -222,6 +222,7 @@ const expectedExports = [
   "StrutAndTieModel2D",
   "StrainField",
   "StructuralApplication",
+  "StructuralElement",
   "Support",
   "TSection",
   "TECNARIA_CONNECTOR_CATALOG",

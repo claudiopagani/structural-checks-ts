@@ -166,6 +166,12 @@ export { LoadCase } from "./domain/analysis/LoadCase.js";
 export { LoadCombination } from "./domain/analysis/LoadCombination.js";
 export { DistributedLoad, LineLoad, Load, NodalLoad, PointLoad } from "./domain/loads/index.js";
 export { Support } from "./domain/supports/index.js";
+export { StructuralElement } from "./domain/elements/StructuralElement.js";
+export type {
+  StructuralElementInput,
+  StructuralElementJson,
+  StructuralElementNode,
+} from "./domain/elements/StructuralElement.js";
 export {
   AxialMember2D,
   STRUT_AND_TIE_MEMBER_TYPES,
