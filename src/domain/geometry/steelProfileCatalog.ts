@@ -4,7 +4,43 @@
 import sectionDatabase from "../../data/section_database.json" with { type: "json" };
 
 export interface SteelProfileSectionData extends Record<string, unknown> {
+  A: number;
+  Av_y: number;
+  Av_z: number;
+  IT: number;
+  I_strong: number;
+  I_weak: number;
+  Iw: number;
+  Iy: number;
+  Iz: number;
+  WT: number;
+  Wel_strong: number;
+  Wel_weak: number;
+  Wel_y: number;
+  Wel_z: number;
+  Wpl_strong: number;
+  Wpl_weak: number;
+  Wpl_y: number;
+  Wpl_z: number;
+  Ww: number;
+  b: number;
   family: string;
+  h: number;
+  iy: number;
+  iz: number;
+  mass_per_length: number;
+  perimeter: number;
+  r: number;
+  tf: number;
+  tw: number;
+  catalog_source?: string;
+  catalog_source_url?: string;
+  centroid_y?: number;
+  centroid_z?: number;
+  producer?: string;
+  property_model?: string;
+  property_standard?: string;
+  shape?: string;
 }
 
 export interface SteelProfileCatalogUnits {

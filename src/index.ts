@@ -78,6 +78,12 @@ export {
 } from "./domain/geometry/SectionMassProperties.js";
 export { TSection } from "./domain/geometry/TSection.js";
 export { XlamPanelSection } from "./domain/geometry/XlamPanelSection.js";
+export { SteelProfileSection } from "./domain/geometry/SteelProfileSection.js";
+export { createSteelProfileSection } from "./domain/geometry/createSteelProfileSection.js";
+export type {
+  SteelProfileSectionJson,
+  SteelProfileSectionOptions,
+} from "./domain/geometry/SteelProfileSection.js";
 export { createXlamPanelSection } from "./domain/geometry/createXlamPanelSection.js";
 export {
   STEEL_PROFILE_FAMILIES,

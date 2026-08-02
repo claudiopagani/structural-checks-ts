@@ -1,0 +1,75 @@
+{
+  "schemaVersion": 1,
+  "sliceId": "0055-domain-steel-profile-section",
+  "title": "Domain steel profile section and factory",
+  "migrationType": "mechanical-parity",
+  "implementationStatus": "implemented",
+  "dependencies": ["0054-domain-steel-profile-catalog"],
+  "source": {
+    "repository": "https://github.com/claudiopagani/strutture-js",
+    "revision": "6f33baead8b88166c4b2cf94af41763412e3c751"
+  },
+  "normativeCorpusRevision": "41da3faa489600173106935bbcf726119300e48d",
+  "sourceFiles": [
+    {
+      "path": "src/domain/geometry/SteelProfileSection.js",
+      "gitBlobSha1": "db4345bb0809c387907b906408c1664aecd8d165",
+      "targetPath": "src/domain/geometry/SteelProfileSection.ts"
+    },
+    {
+      "path": "src/domain/geometry/createSteelProfileSection.js",
+      "gitBlobSha1": "429099fb4502b79e97279753f21aea2de63b0677",
+      "targetPath": "src/domain/geometry/createSteelProfileSection.ts"
+    }
+  ],
+  "supportingSourceFiles": [
+    {
+      "path": "src/index.js",
+      "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7",
+      "targetPath": "src/index.ts",
+      "coverage": "Root public exports for the migrated steel profile section class and factory"
+    }
+  ],
+  "sourceOracles": [
+    {
+      "path": "tests/steelProfileSection.test.js",
+      "gitBlobSha1": "5efc3c77bec5ac81a8b2b748f0a0bd04f6a36f76",
+      "coverage": "Steel profile construction, unit conversion, overrides, catalog family behavior and unsupported profile errors"
+    }
+  ],
+  "sourcePublicExport": {
+    "path": "src/index.js",
+    "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
+  },
+  "targetTests": [
+    "tests/baseline-parity.test.ts",
+    "tests/steel-profile-section-compile-time.test.ts",
+    "tests/steel-profile-section-live-parity.test.ts"
+  ],
+  "publicExports": ["SteelProfileSection", "createSteelProfileSection"],
+  "publicTypeExports": ["SteelProfileSectionJson", "SteelProfileSectionOptions"],
+  "normativeReferences": {
+    "resolved": [],
+    "outsideCorpus": [],
+    "normativeConformityClaimed": false,
+    "status": "classified-for-declared-scope"
+  },
+  "independentValidation": {
+    "method": "Strict declaration consumer coverage and independently executed pinned JavaScript versus built TypeScript steel profile section and factory modules, including CrossSection inheritance isolation, exact serialized and enumerable-property parity, catalog conversion, override conversion, Unicode metadata, factory delegation and unsupported-input error parity.",
+    "targetTests": [
+      "tests/steel-profile-section-compile-time.test.ts",
+      "tests/steel-profile-section-live-parity.test.ts"
+    ],
+    "tolerances": {
+      "serializedParity": "exact JSON serialization",
+      "numericParity": "exact equality for converted section properties and catalog data",
+      "publicStrings": "exact equality plus Unicode code-point equality",
+      "errors": "exact error name and message equality"
+    }
+  },
+  "parityDifferences": [
+    "The strict TypeScript declarations describe the existing JavaScript steel profile section and factory contract without adding runtime behavior.",
+    "The class uses null-preserving strict declarations for inherited section fields; runtime property initialization and serialization remain source-compatible."
+  ],
+  "engineeringFunctionality": "Solver-neutral steel profile cross-section construction from the pinned catalog, internal-unit conversion, explicit property overrides, section metadata and serialization."
+}

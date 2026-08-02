@@ -1096,6 +1096,7 @@
         "SteelElasticPerfectlyPlasticLaw",
         "SteelElasticPlasticHardeningLaw",
         "SteelMaterial",
+        "SteelProfileSection",
         "StrainField",
         "StructuralApplication",
         "StructuralElement",
@@ -1190,6 +1191,7 @@
         "createScaServiceDeflectionAnalysisResult",
         "createServiceDeflectionAnalysisResult",
         "createSteelBeamSectionProvider",
+        "createSteelProfileSection",
         "createTecnariaConnector",
         "createTimberBeamSectionProvider",
         "createUnitResolver",
@@ -6105,11 +6107,15 @@
       "sourcePath": "src/domain/geometry/createSteelProfileSection.js",
       "sourceBlobSha1": "429099fb4502b79e97279753f21aea2de63b0677",
       "targetPath": "src/domain/geometry/createSteelProfileSection.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0055-domain-steel-profile-section"],
+      "sourceOracles": ["tests/steelProfileSection.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/steel-profile-section-compile-time.test.ts",
+        "tests/steel-profile-section-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0055-domain-steel-profile-section"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -15304,11 +15310,15 @@
       "sourcePath": "src/domain/geometry/SteelProfileSection.js",
       "sourceBlobSha1": "db4345bb0809c387907b906408c1664aecd8d165",
       "targetPath": "src/domain/geometry/SteelProfileSection.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0055-domain-steel-profile-section"],
+      "sourceOracles": ["tests/steelProfileSection.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/steel-profile-section-compile-time.test.ts",
+        "tests/steel-profile-section-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0055-domain-steel-profile-section"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -28901,11 +28911,15 @@
       "sourcePath": "src/domain/geometry/SteelProfileSection.js",
       "sourceBlobSha1": "db4345bb0809c387907b906408c1664aecd8d165",
       "targetPath": "src/domain/geometry/SteelProfileSection.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing"
+      "migrationSlices": ["0055-domain-steel-profile-section"],
+      "sourceOracles": ["tests/steelProfileSection.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/steel-profile-section-compile-time.test.ts",
+        "tests/steel-profile-section-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0055-domain-steel-profile-section"],
+      "status": "exact-parity"
     },
     {
       "id": "src/domain/geometry/TSection.js",
@@ -28951,11 +28965,15 @@
       "sourcePath": "src/domain/geometry/createSteelProfileSection.js",
       "sourceBlobSha1": "429099fb4502b79e97279753f21aea2de63b0677",
       "targetPath": "src/domain/geometry/createSteelProfileSection.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing"
+      "migrationSlices": ["0055-domain-steel-profile-section"],
+      "sourceOracles": ["tests/steelProfileSection.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/steel-profile-section-compile-time.test.ts",
+        "tests/steel-profile-section-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0055-domain-steel-profile-section"],
+      "status": "exact-parity"
     },
     {
       "id": "src/domain/geometry/createXlamPanelSection.js",
@@ -30355,7 +30373,8 @@
         "0051-domain-beam-system",
         "0052-domain-fem-timoshenko-rigid-offsets",
         "0053-domain-xlam-panel-section",
-        "0054-domain-steel-profile-catalog"
+        "0054-domain-steel-profile-catalog",
+        "0055-domain-steel-profile-section"
       ],
       "sourceOracles": [
         "tests/architecture/applicationRegistry.test.js",
@@ -33313,14 +33332,19 @@
       "sourcePath": "tests/steelProfileSection.test.js",
       "sourceBlobSha1": "5efc3c77bec5ac81a8b2b748f0a0bd04f6a36f76",
       "targetPath": "tests/steelProfileSection.test.ts",
-      "migrationSlices": ["0054-domain-steel-profile-catalog"],
+      "migrationSlices": ["0054-domain-steel-profile-catalog", "0055-domain-steel-profile-section"],
       "sourceOracles": ["tests/steelProfileSection.test.js"],
       "targetTests": [
         "tests/baseline-parity.test.ts",
         "tests/steel-profile-catalog-compile-time.test.ts",
-        "tests/steel-profile-catalog-live-parity.test.ts"
+        "tests/steel-profile-catalog-live-parity.test.ts",
+        "tests/steel-profile-section-compile-time.test.ts",
+        "tests/steel-profile-section-live-parity.test.ts"
       ],
-      "validationEvidence": ["0054-domain-steel-profile-catalog"],
+      "validationEvidence": [
+        "0054-domain-steel-profile-catalog",
+        "0055-domain-steel-profile-section"
+      ],
       "status": "exact-parity",
       "testKind": "test"
     },
@@ -35106,12 +35130,28 @@
         "publicStrings": "exact equality for profile names, families, units and Unicode code points",
         "errors": "no new error path; null and unsupported family behavior compared exactly"
       }
+    },
+    {
+      "sliceId": "0055-domain-steel-profile-section",
+      "sourceRevision": "6f33baead8b88166c4b2cf94af41763412e3c751",
+      "method": "Strict declaration consumer coverage and independently executed pinned JavaScript versus built TypeScript steel profile section and factory modules, including CrossSection inheritance isolation, exact serialized and enumerable-property parity, catalog conversion, override conversion, Unicode metadata, factory delegation and unsupported-input error parity.",
+      "targetTests": [
+        "tests/steel-profile-section-compile-time.test.ts",
+        "tests/steel-profile-section-live-parity.test.ts"
+      ],
+      "fixture": null,
+      "tolerances": {
+        "serializedParity": "exact JSON serialization",
+        "numericParity": "exact equality for converted section properties and catalog data",
+        "publicStrings": "exact equality plus Unicode code-point equality",
+        "errors": "exact error name and message equality"
+      }
     }
   ],
   "counts": {
     "rootExports": {
       "javascript": 841,
-      "typescript": 418
+      "typescript": 420
     },
     "applicationsExports": {
       "javascript": 309,
@@ -35135,11 +35175,11 @@
     },
     "sourceFiles": {
       "javascript": 480,
-      "typescript": 278
+      "typescript": 280
     },
     "tests": {
       "javascript": 131,
-      "typescript": 96
+      "typescript": 98
     },
     "validationCampaigns": {
       "javascript": 17,
@@ -35171,7 +35211,7 @@
       "statusCounts": {
         "exact-parity": 0,
         "partial": 18,
-        "missing": 246,
+        "missing": 242,
         "intentionally-excluded": 0,
         "decision-required": 0
       },
@@ -35320,7 +35360,6 @@
         "root-export:SoilStructureInterface",
         "root-export:SolidTimberMaterial",
         "root-export:SteelCompoundProfileSection",
-        "root-export:SteelProfileSection",
         "root-export:StructuralModel",
         "root-export:SurfaceLoad",
         "root-export:TERRAIN_ELEVATION_GRID_SCHEMA_VERSION",
@@ -35348,7 +35387,6 @@
         "root-export:createDoubleUPNBackToBackSection",
         "root-export:createMasonryShearStrengthModel",
         "root-export:createSteelCompoundProfileSection",
-        "root-export:createSteelProfileSection",
         "root-export:cyclicMasonryPierHistoryToCsv",
         "root-export:getGroundAnchorBondCatalogEntry",
         "root-export:groundAnchorDemandFromEmbeddedWallResult",
@@ -35370,8 +35408,6 @@
         "source:src/domain/fem/nonlinear/DisplacementControlNonlinearStaticSolver2D.js",
         "source:src/domain/fem/nonlinear/index.js",
         "source:src/domain/geometry/SteelCompoundProfileSection.js",
-        "source:src/domain/geometry/SteelProfileSection.js",
-        "source:src/domain/geometry/createSteelProfileSection.js",
         "source:src/domain/geotechnics/CircularSlipSurface2D.js",
         "source:src/domain/geotechnics/CircularSlopeStabilityAnalysis.js",
         "source:src/domain/geotechnics/EmbeddedRetainingWallAnalysis.js",
