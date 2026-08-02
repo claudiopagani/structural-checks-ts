@@ -578,6 +578,10 @@ export {
   NTC2018_TIMBER_KMOD,
 } from "./norms/ntc2018/actions/ntc2018ActionParameters.js";
 export {
+  NTC2018_ULS_PARTIAL_FACTORS,
+  NTC2018_VARIABLE_ACTION_CATEGORIES,
+} from "./norms/ntc2018/loads/ntc2018LoadParameters.js";
+export {
   CIRC2019_RC_REFERENCES,
   NORMATIVE_REFERENCE_RELATIONS,
   NORMATIVE_REFERENCE_RESOLUTION_STATUS,
@@ -1935,6 +1939,10 @@ export type {
   NTC2018TimberStrengthClass,
   NTC2018TimberStrengthClassPreset,
 } from "./norms/ntc2018/materials/ntc2018MaterialCatalogs.js";
+export type {
+  NTC2018UlsPartialFactors,
+  NTC2018VariableActionCategory,
+} from "./norms/ntc2018/loads/ntc2018LoadParameters.js";
 export type {
   Ntc2018ExistingMasonryMechanicalProperties,
   Ntc2018ExistingMasonryModifierDefinition,
