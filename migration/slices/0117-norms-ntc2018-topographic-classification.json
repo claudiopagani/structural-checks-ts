@@ -1,0 +1,115 @@
+{
+  "schemaVersion": 1,
+  "sliceId": "0117-norms-ntc2018-topographic-classification",
+  "title": "NTC 2018 topographic classification and Mascandola raster procedure",
+  "migrationType": "mechanical-parity",
+  "implementationStatus": "implemented",
+  "dependencies": ["0104-domain-terrain-elevation-grid", "0001-foundation"],
+  "source": {
+    "repository": "https://github.com/claudiopagani/strutture-js",
+    "revision": "6f33baead8b88166c4b2cf94af41763412e3c751"
+  },
+  "normativeCorpusRevision": "41da3faa489600173106935bbcf726119300e48d",
+  "sourceFiles": [
+    {
+      "path": "src/norms/ntc2018/actions/ntc2018TopographicClassification.js",
+      "gitBlobSha1": "1c29c682b80b84eec6798ab22bc504bb4899f8a1",
+      "targetPath": "src/norms/ntc2018/actions/ntc2018TopographicClassification.ts"
+    },
+    {
+      "path": "src/norms/ntc2018/actions/topographicClassification.constants.js",
+      "gitBlobSha1": "f6b3e3a08d2c4b42abb71797e32e09c06f1404dc",
+      "targetPath": "src/norms/ntc2018/actions/topographicClassification.constants.ts"
+    },
+    {
+      "path": "src/norms/ntc2018/actions/topographicClassification.js",
+      "gitBlobSha1": "419a33f834481c43a7d188d65b40ee34aa26f15c",
+      "targetPath": "src/norms/ntc2018/actions/topographicClassification.ts"
+    }
+  ],
+  "supportingSourceFiles": [
+    {
+      "path": "src/core/results/CalculationResult.js",
+      "gitBlobSha1": "de58f9d2a201435dd955cbfd4c4981d0b78610d4",
+      "targetPath": "src/core/results/CalculationResult.ts",
+      "coverage": "Already-migrated serializable calculation-result DTO consumed by the classification workflow."
+    },
+    {
+      "path": "src/domain/terrain/TerrainElevationGrid.js",
+      "gitBlobSha1": "4d34e3d4025cf8f25a1d173fde9e1a80656271de",
+      "targetPath": "src/domain/terrain/TerrainElevationGrid.ts",
+      "coverage": "Already-migrated terrain-grid normalization dependency."
+    },
+    {
+      "path": "src/norms/ntc2018/index.js",
+      "gitBlobSha1": "0ac4cf551c455ec2a57d9bf8849db46fb14e0dcc",
+      "targetPath": "src/index.ts",
+      "coverage": "Source norm-index export context; only migrated topographic-classification symbols receive root support."
+    },
+    {
+      "path": "src/index.js",
+      "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7",
+      "targetPath": "src/index.ts",
+      "coverage": "Root public exports for the migrated topographic-classification workflow."
+    }
+  ],
+  "sourceOracles": [
+    {
+      "path": "tests/ntc2018TopographicClassification.test.js",
+      "gitBlobSha1": "37ae013bca52acb5bb7cdb594b5d4d86d3ff2f98",
+      "coverage": "Terrain normalization, flat/slope/ridge classification, diagnostic 250 m mode, incomplete grids, method metadata, serialization, and warnings."
+    },
+    {
+      "path": "tests/packageExports.test.js",
+      "gitBlobSha1": "8dde24b4c97dd3dae7100207d07d9d96c52b9c74",
+      "coverage": "Root public export behavior."
+    }
+  ],
+  "sourcePublicExport": {
+    "path": "src/index.js",
+    "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
+  },
+  "targetTests": [
+    "tests/baseline-parity.test.ts",
+    "tests/ntc2018-topographic-classification-compile-time.test.ts",
+    "tests/ntc2018-topographic-classification-live-parity.test.ts"
+  ],
+  "publicExports": [
+    "NTC2018_TOPOGRAPHIC_CLASSIFICATION_METHOD",
+    "NTC2018_TOPOGRAPHIC_CLASSIFICATION_REFERENCES",
+    "classifyNTC2018Topography"
+  ],
+  "publicTypeExports": [
+    "Ntc2018TopographicClassificationMethod",
+    "Ntc2018TopographicClassificationOptions",
+    "Ntc2018TopographicClassificationOutputs",
+    "Ntc2018TopographicClassificationReferences"
+  ],
+  "normativeReferences": {
+    "resolved": [],
+    "outsideCorpus": [
+      "D.M. 17 gennaio 2018, NTC 2018, §3.2.2, Table 3.2.III and Table 3.2.V",
+      "Mascandola, Luzi, Felicetta, Pacor (2021), Soil Dynamics and Earthquake Engineering 148, 106848, DOI 10.1016/j.soildyn.2021.106848",
+      "Tarquini et al. (2023), TINITALY v1.1, DOI 10.13127/tinitaly/1.1"
+    ],
+    "normativeConformityClaimed": false,
+    "status": "classified-for-declared-scope"
+  },
+  "independentValidation": {
+    "method": "Strict declaration consumer coverage and independently executed pinned JavaScript versus built TypeScript comparison of the complete topographic workflow, exact method/reference JSON, flat/slope/incomplete-grid numerical and serialized results, Unicode strings, frozen metadata, diagnostic mode, unsupported-input behavior, and error paths.",
+    "targetTests": [
+      "tests/ntc2018-topographic-classification-compile-time.test.ts",
+      "tests/ntc2018-topographic-classification-live-parity.test.ts"
+    ],
+    "tolerances": {
+      "serializedParity": "exact method metadata, classification diagnostics, terrain summaries, warnings, assumptions, and CalculationResult JSON",
+      "numericParity": "exact equality for slope, TPI, elevation-range, and amplification-factor outputs",
+      "publicStrings": "exact equality plus Unicode code-point preservation",
+      "errors": "exact error name and message equality for unsupported preprocessing modes"
+    }
+  },
+  "parityDifferences": [
+    "The TypeScript modules add strict declarations and the root export support required by the migrated topographic behavior; runtime module exports match the pinned source module."
+  ],
+  "engineeringFunctionality": "Source-compatible NTC 2018 topographic category classification, validated Mascandola et al. raster preprocessing, slope/TPI/ridge diagnostics, amplification factors, warnings, and serializable calculation results."
+}

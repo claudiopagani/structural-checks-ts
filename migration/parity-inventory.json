@@ -1100,6 +1100,8 @@
         "NTC2018_THERMAL_REFERENCES",
         "NTC2018_TIMBER_KMOD",
         "NTC2018_TOPOGRAPHIC_AMPLIFICATION_MAXIMA",
+        "NTC2018_TOPOGRAPHIC_CLASSIFICATION_METHOD",
+        "NTC2018_TOPOGRAPHIC_CLASSIFICATION_REFERENCES",
         "NTC2018_WALL_SYSTEM_REFERENCES",
         "NTC2018_WIND_EXPOSURE_CATEGORIES",
         "NTC2018_WIND_REFERENCES",
@@ -1328,6 +1330,7 @@
         "checkNonDissipativeAdmissibility",
         "classifyGlobalFemStructuralEntities",
         "classifyNTC2018JointConfinement",
+        "classifyNTC2018Topography",
         "collectConcurrentJointActionStates",
         "collectConcurrentLineElementActionStates",
         "collectConcurrentMemberActionStates",
@@ -4819,11 +4822,18 @@
       "sourcePath": "src/norms/ntc2018/actions/ntc2018TopographicClassification.js",
       "sourceBlobSha1": "1c29c682b80b84eec6798ab22bc504bb4899f8a1",
       "targetPath": "src/norms/ntc2018/actions/ntc2018TopographicClassification.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0117-norms-ntc2018-topographic-classification"],
+      "sourceOracles": [
+        "tests/ntc2018TopographicClassification.test.js",
+        "tests/packageExports.test.js"
+      ],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/ntc2018-topographic-classification-compile-time.test.ts",
+        "tests/ntc2018-topographic-classification-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0117-norms-ntc2018-topographic-classification"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -12469,11 +12479,18 @@
       "sourcePath": "src/norms/ntc2018/actions/ntc2018TopographicClassification.js",
       "sourceBlobSha1": "1c29c682b80b84eec6798ab22bc504bb4899f8a1",
       "targetPath": "src/norms/ntc2018/actions/ntc2018TopographicClassification.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0117-norms-ntc2018-topographic-classification"],
+      "sourceOracles": [
+        "tests/ntc2018TopographicClassification.test.js",
+        "tests/packageExports.test.js"
+      ],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/ntc2018-topographic-classification-compile-time.test.ts",
+        "tests/ntc2018-topographic-classification-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0117-norms-ntc2018-topographic-classification"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -12483,11 +12500,18 @@
       "sourcePath": "src/norms/ntc2018/actions/ntc2018TopographicClassification.js",
       "sourceBlobSha1": "1c29c682b80b84eec6798ab22bc504bb4899f8a1",
       "targetPath": "src/norms/ntc2018/actions/ntc2018TopographicClassification.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0117-norms-ntc2018-topographic-classification"],
+      "sourceOracles": [
+        "tests/ntc2018TopographicClassification.test.js",
+        "tests/packageExports.test.js"
+      ],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/ntc2018-topographic-classification-compile-time.test.ts",
+        "tests/ntc2018-topographic-classification-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0117-norms-ntc2018-topographic-classification"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -32836,7 +32860,8 @@
         "0113-norms-ntc2018-seismic-action",
         "0114-norms-ntc2018-snow-load",
         "0115-norms-ntc2018-thermal-action",
-        "0116-norms-ntc2018-wind-load"
+        "0116-norms-ntc2018-wind-load",
+        "0117-norms-ntc2018-topographic-classification"
       ],
       "sourceOracles": [
         "tests/architecture/applicationRegistry.test.js",
@@ -33227,11 +33252,18 @@
       "sourcePath": "src/norms/ntc2018/actions/ntc2018TopographicClassification.js",
       "sourceBlobSha1": "1c29c682b80b84eec6798ab22bc504bb4899f8a1",
       "targetPath": "src/norms/ntc2018/actions/ntc2018TopographicClassification.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing"
+      "migrationSlices": ["0117-norms-ntc2018-topographic-classification"],
+      "sourceOracles": [
+        "tests/ntc2018TopographicClassification.test.js",
+        "tests/packageExports.test.js"
+      ],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/ntc2018-topographic-classification-compile-time.test.ts",
+        "tests/ntc2018-topographic-classification-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0117-norms-ntc2018-topographic-classification"],
+      "status": "exact-parity"
     },
     {
       "id": "src/norms/ntc2018/actions/ntc2018WindLoad.js",
@@ -33253,22 +33285,36 @@
       "sourcePath": "src/norms/ntc2018/actions/topographicClassification.constants.js",
       "sourceBlobSha1": "f6b3e3a08d2c4b42abb71797e32e09c06f1404dc",
       "targetPath": "src/norms/ntc2018/actions/topographicClassification.constants.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing"
+      "migrationSlices": ["0117-norms-ntc2018-topographic-classification"],
+      "sourceOracles": [
+        "tests/ntc2018TopographicClassification.test.js",
+        "tests/packageExports.test.js"
+      ],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/ntc2018-topographic-classification-compile-time.test.ts",
+        "tests/ntc2018-topographic-classification-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0117-norms-ntc2018-topographic-classification"],
+      "status": "exact-parity"
     },
     {
       "id": "src/norms/ntc2018/actions/topographicClassification.js",
       "sourcePath": "src/norms/ntc2018/actions/topographicClassification.js",
       "sourceBlobSha1": "419a33f834481c43a7d188d65b40ee34aa26f15c",
       "targetPath": "src/norms/ntc2018/actions/topographicClassification.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing"
+      "migrationSlices": ["0117-norms-ntc2018-topographic-classification"],
+      "sourceOracles": [
+        "tests/ntc2018TopographicClassification.test.js",
+        "tests/packageExports.test.js"
+      ],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/ntc2018-topographic-classification-compile-time.test.ts",
+        "tests/ntc2018-topographic-classification-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0117-norms-ntc2018-topographic-classification"],
+      "status": "exact-parity"
     },
     {
       "id": "src/norms/ntc2018/beams/createNTC2018BeamCombinations.js",
@@ -35454,11 +35500,15 @@
       "sourcePath": "tests/ntc2018TopographicClassification.test.js",
       "sourceBlobSha1": "37ae013bca52acb5bb7cdb594b5d4d86d3ff2f98",
       "targetPath": "tests/ntc2018TopographicClassification.test.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0117-norms-ntc2018-topographic-classification"],
+      "sourceOracles": ["tests/ntc2018TopographicClassification.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/ntc2018-topographic-classification-compile-time.test.ts",
+        "tests/ntc2018-topographic-classification-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0117-norms-ntc2018-topographic-classification"],
+      "status": "exact-parity",
       "testKind": "test"
     },
     {
@@ -35545,7 +35595,8 @@
         "0113-norms-ntc2018-seismic-action",
         "0114-norms-ntc2018-snow-load",
         "0115-norms-ntc2018-thermal-action",
-        "0116-norms-ntc2018-wind-load"
+        "0116-norms-ntc2018-wind-load",
+        "0117-norms-ntc2018-topographic-classification"
       ],
       "sourceOracles": ["tests/packageExports.test.js"],
       "targetTests": [
@@ -35608,6 +35659,8 @@
         "tests/ntc2018-snow-load-live-parity.test.ts",
         "tests/ntc2018-thermal-action-compile-time.test.ts",
         "tests/ntc2018-thermal-action-live-parity.test.ts",
+        "tests/ntc2018-topographic-classification-compile-time.test.ts",
+        "tests/ntc2018-topographic-classification-live-parity.test.ts",
         "tests/ntc2018-wind-load-compile-time.test.ts",
         "tests/ntc2018-wind-load-live-parity.test.ts",
         "tests/rc-cracked-deflection.test.ts",
@@ -35696,7 +35749,8 @@
         "0113-norms-ntc2018-seismic-action",
         "0114-norms-ntc2018-snow-load",
         "0115-norms-ntc2018-thermal-action",
-        "0116-norms-ntc2018-wind-load"
+        "0116-norms-ntc2018-wind-load",
+        "0117-norms-ntc2018-topographic-classification"
       ],
       "status": "exact-parity",
       "testKind": "test"
@@ -39151,12 +39205,28 @@
         "publicStrings": "exact equality plus Unicode code-point preservation",
         "errors": "exact error name and message equality for unsupported zones, units, floors, ambiguous coefficients, and height limits"
       }
+    },
+    {
+      "sliceId": "0117-norms-ntc2018-topographic-classification",
+      "sourceRevision": "6f33baead8b88166c4b2cf94af41763412e3c751",
+      "method": "Strict declaration consumer coverage and independently executed pinned JavaScript versus built TypeScript comparison of the complete topographic workflow, exact method/reference JSON, flat/slope/incomplete-grid numerical and serialized results, Unicode strings, frozen metadata, diagnostic mode, unsupported-input behavior, and error paths.",
+      "targetTests": [
+        "tests/ntc2018-topographic-classification-compile-time.test.ts",
+        "tests/ntc2018-topographic-classification-live-parity.test.ts"
+      ],
+      "fixture": null,
+      "tolerances": {
+        "serializedParity": "exact method metadata, classification diagnostics, terrain summaries, warnings, assumptions, and CalculationResult JSON",
+        "numericParity": "exact equality for slope, TPI, elevation-range, and amplification-factor outputs",
+        "publicStrings": "exact equality plus Unicode code-point preservation",
+        "errors": "exact error name and message equality for unsupported preprocessing modes"
+      }
     }
   ],
   "counts": {
     "rootExports": {
       "javascript": 841,
-      "typescript": 646
+      "typescript": 649
     },
     "applicationsExports": {
       "javascript": 309,
@@ -39180,11 +39250,11 @@
     },
     "sourceFiles": {
       "javascript": 480,
-      "typescript": 362
+      "typescript": 365
     },
     "tests": {
       "javascript": 131,
-      "typescript": 220
+      "typescript": 222
     },
     "validationCampaigns": {
       "javascript": 17,
@@ -39243,7 +39313,7 @@
       "statusCounts": {
         "exact-parity": 0,
         "partial": 15,
-        "missing": 92,
+        "missing": 86,
         "intentionally-excluded": 0,
         "decision-required": 0
       },
@@ -39275,8 +39345,6 @@
         "root-export:NTC2018_SOLID_TIMBER_STRENGTH_CLASSES",
         "root-export:NTC2018_STRUCTURAL_STEEL_GRADES",
         "root-export:NTC2018_TIMBER_STRENGTH_CLASSES",
-        "root-export:NTC2018_TOPOGRAPHIC_CLASSIFICATION_METHOD",
-        "root-export:NTC2018_TOPOGRAPHIC_CLASSIFICATION_REFERENCES",
         "root-export:NTC2018_ULS_PARTIAL_FACTORS",
         "root-export:NTC2018_UNIT_WEIGHT_CATALOG",
         "root-export:NTC2018_VARIABLE_ACTION_CATEGORIES",
@@ -39298,7 +39366,6 @@
         "root-export:calculateNTC2018PermanentAreaLoads",
         "root-export:calculateNTC2018RetainingWallSeismicCoefficients",
         "root-export:calculateNTC2018SelfWeight",
-        "root-export:classifyNTC2018Topography",
         "root-export:createNTC2018BeamCombinations",
         "root-export:createNTC2018ExistingMasonryMaterial",
         "root-export:createNTC2018ExistingMasonryModifierState",
@@ -39334,9 +39401,6 @@
         "root-export:selectNTC2018MasonryPierGoverningCapacity",
         "root-export:toggleNTC2018ExistingMasonryModifier",
         "root-export:updateNTC2018ExistingMasonryMaltaBuona",
-        "source:src/norms/ntc2018/actions/ntc2018TopographicClassification.js",
-        "source:src/norms/ntc2018/actions/topographicClassification.constants.js",
-        "source:src/norms/ntc2018/actions/topographicClassification.js",
         "source:src/norms/ntc2018/beams/createNTC2018BeamCombinations.js",
         "source:src/norms/ntc2018/geotechnics/ntc2018RetainingWallSeismic.js",
         "source:src/norms/ntc2018/index.js",
@@ -39722,7 +39786,7 @@
       "statusCounts": {
         "exact-parity": 0,
         "partial": 4,
-        "missing": 127,
+        "missing": 126,
         "intentionally-excluded": 0,
         "decision-required": 0
       },
@@ -39852,7 +39916,6 @@
         "test:tests/ntc2018MasonryPierModel.test.js",
         "test:tests/ntc2018NormativeReferences.test.js",
         "test:tests/ntc2018PermanentLoads.test.js",
-        "test:tests/ntc2018TopographicClassification.test.js",
         "test:tests/rcFiberAnalysis.test.js",
         "test:tests/run-tests.js",
         "test:tests/steelFrameAdvancedVerification.test.js",

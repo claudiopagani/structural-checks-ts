@@ -608,6 +608,11 @@ export {
   resolveNTC2018TopographicAmplification,
 } from "./norms/ntc2018/actions/ntc2018SeismicAction.js";
 export {
+  NTC2018_TOPOGRAPHIC_CLASSIFICATION_METHOD,
+  NTC2018_TOPOGRAPHIC_CLASSIFICATION_REFERENCES,
+  classifyNTC2018Topography,
+} from "./norms/ntc2018/actions/ntc2018TopographicClassification.js";
+export {
   NTC2018_SNOW_EXPOSURE_CLASSES,
   NTC2018_SNOW_GROUND_ZONES,
   NTC2018_SNOW_REFERENCES,
@@ -1877,6 +1882,12 @@ export type {
   Ntc2018WindReturnCoefficientResult,
   Ntc2018WindZoneDefinition,
 } from "./norms/ntc2018/actions/ntc2018WindLoad.js";
+export type {
+  Ntc2018TopographicClassificationMethod,
+  Ntc2018TopographicClassificationOptions,
+  Ntc2018TopographicClassificationOutputs,
+  Ntc2018TopographicClassificationReferences,
+} from "./norms/ntc2018/actions/ntc2018TopographicClassification.js";
 export type {
   NTC2018ConcreteClassPreset,
   NTC2018ConcreteStrengthClass,
