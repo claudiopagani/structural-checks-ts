@@ -1,0 +1,88 @@
+{
+  "schemaVersion": 1,
+  "sliceId": "0053-domain-xlam-panel-section",
+  "title": "Domain XLAM panel section and factory",
+  "migrationType": "mechanical-parity",
+  "implementationStatus": "implemented",
+  "dependencies": ["0042-domain-xlam-panel-catalog"],
+  "source": {
+    "repository": "https://github.com/claudiopagani/strutture-js",
+    "revision": "6f33baead8b88166c4b2cf94af41763412e3c751"
+  },
+  "normativeCorpusRevision": "41da3faa489600173106935bbcf726119300e48d",
+  "sourceFiles": [
+    {
+      "path": "src/domain/geometry/XlamPanelSection.js",
+      "gitBlobSha1": "e0f900d15717b0ab8467baf6d0abd3bcc0303a70",
+      "targetPath": "src/domain/geometry/XlamPanelSection.ts"
+    },
+    {
+      "path": "src/domain/geometry/createXlamPanelSection.js",
+      "gitBlobSha1": "cc1653315b0e8f340db8d6800f04869af58fe6e2",
+      "targetPath": "src/domain/geometry/createXlamPanelSection.ts"
+    }
+  ],
+  "supportingSourceFiles": [
+    {
+      "path": "src/index.js",
+      "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7",
+      "targetPath": "src/index.ts",
+      "coverage": "Root XLAM panel section and factory exports are re-exported from migrated implementations"
+    }
+  ],
+  "sourceOracles": [
+    {
+      "path": "tests/xlamOutOfPlanePanel.test.js",
+      "gitBlobSha1": "3ade818fb4c2023fd76db27340c9b7fa12c7f13a"
+    },
+    {
+      "path": "tests/timberXlamCompositeBeam.test.js",
+      "gitBlobSha1": "cddaa0e637e8f72fea9b83c9feaac71d027a07b7"
+    },
+    {
+      "path": "tests/xlamBeamProviderVerification.test.js",
+      "gitBlobSha1": "9450e10ffcd5206057308a5942aaafdaf5831103"
+    }
+  ],
+  "sourcePublicExport": {
+    "path": "src/index.js",
+    "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
+  },
+  "targetTests": [
+    "tests/xlam-panel-section-compile-time.test.ts",
+    "tests/xlam-panel-section-live-parity.test.ts"
+  ],
+  "publicExports": ["XlamPanelSection", "createXlamPanelSection"],
+  "publicTypeExports": [
+    "CreateXlamPanelSectionOptions",
+    "XlamPanelLayer",
+    "XlamPanelMaterialLike",
+    "XlamPanelSectionJson",
+    "XlamPanelSectionOptions",
+    "XlamPanelShearStiffness"
+  ],
+  "normativeReferences": {
+    "resolved": [],
+    "outsideCorpus": [],
+    "normativeConformityClaimed": false,
+    "status": "classified-for-declared-scope"
+  },
+  "independentValidation": {
+    "method": "Strict declaration consumer coverage and independently executed pinned JavaScript versus built TypeScript XLAM section and factory modules, including root export identity, CrossSection inheritance isolation, exact JSON serialization, exact section arithmetic, unit conversion, Unicode metadata, defaults, and constructor and factory errors.",
+    "targetTests": [
+      "tests/xlam-panel-section-compile-time.test.ts",
+      "tests/xlam-panel-section-live-parity.test.ts"
+    ],
+    "tolerances": {
+      "serializedParity": "exact JSON serialization",
+      "numericParity": "exact equality for section geometry, bending and shear calculations",
+      "publicStrings": "exact equality plus Unicode code-point equality",
+      "errors": "exact error name and message equality"
+    }
+  },
+  "parityDifferences": [
+    "The strict TypeScript declarations describe the existing JavaScript XLAM section and factory contract without adding runtime behavior.",
+    "The factory preserves the catalog-defined fallback layer indexes and metadata merge order."
+  ],
+  "engineeringFunctionality": "Solver-neutral XLAM panel cross-section geometry, active and cross-layer partitioning, transformed bending stiffness, layered shear stiffness approximation, system strength factor, serialization, and catalog-backed construction."
+}

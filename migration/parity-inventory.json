@@ -1112,6 +1112,7 @@
         "WALL_BIAXIAL_REFERENCE",
         "WindAction",
         "XlamBeamSectionProvider",
+        "XlamPanelSection",
         "amplifyNTC2018DiaphragmActions",
         "assertExplicitUnitSystem",
         "assertPositiveCheckValue",
@@ -1191,6 +1192,7 @@
         "createWallHeightSystemAssessment",
         "createWallSectionAssessment",
         "createXlamBeamSectionProvider",
+        "createXlamPanelSection",
         "evaluateGlobalFemVerificationReadiness",
         "evaluateNTC2018ElevationRegularity",
         "evaluateNTC2018PlanRegularity",
@@ -6251,11 +6253,18 @@
       "sourcePath": "src/domain/geometry/createXlamPanelSection.js",
       "sourceBlobSha1": "cc1653315b0e8f340db8d6800f04869af58fe6e2",
       "targetPath": "src/domain/geometry/createXlamPanelSection.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0053-domain-xlam-panel-section"],
+      "sourceOracles": [
+        "tests/timberXlamCompositeBeam.test.js",
+        "tests/xlamBeamProviderVerification.test.js",
+        "tests/xlamOutOfPlanePanel.test.js"
+      ],
+      "targetTests": [
+        "tests/xlam-panel-section-compile-time.test.ts",
+        "tests/xlam-panel-section-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0053-domain-xlam-panel-section"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -16811,11 +16820,18 @@
       "sourcePath": "src/domain/geometry/XlamPanelSection.js",
       "sourceBlobSha1": "e0f900d15717b0ab8467baf6d0abd3bcc0303a70",
       "targetPath": "src/domain/geometry/XlamPanelSection.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0053-domain-xlam-panel-section"],
+      "sourceOracles": [
+        "tests/timberXlamCompositeBeam.test.js",
+        "tests/xlamBeamProviderVerification.test.js",
+        "tests/xlamOutOfPlanePanel.test.js"
+      ],
+      "targetTests": [
+        "tests/xlam-panel-section-compile-time.test.ts",
+        "tests/xlam-panel-section-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0053-domain-xlam-panel-section"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     }
@@ -28883,11 +28899,18 @@
       "sourcePath": "src/domain/geometry/XlamPanelSection.js",
       "sourceBlobSha1": "e0f900d15717b0ab8467baf6d0abd3bcc0303a70",
       "targetPath": "src/domain/geometry/XlamPanelSection.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing"
+      "migrationSlices": ["0053-domain-xlam-panel-section"],
+      "sourceOracles": [
+        "tests/timberXlamCompositeBeam.test.js",
+        "tests/xlamBeamProviderVerification.test.js",
+        "tests/xlamOutOfPlanePanel.test.js"
+      ],
+      "targetTests": [
+        "tests/xlam-panel-section-compile-time.test.ts",
+        "tests/xlam-panel-section-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0053-domain-xlam-panel-section"],
+      "status": "exact-parity"
     },
     {
       "id": "src/domain/geometry/createSteelProfileSection.js",
@@ -28905,11 +28928,18 @@
       "sourcePath": "src/domain/geometry/createXlamPanelSection.js",
       "sourceBlobSha1": "cc1653315b0e8f340db8d6800f04869af58fe6e2",
       "targetPath": "src/domain/geometry/createXlamPanelSection.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing"
+      "migrationSlices": ["0053-domain-xlam-panel-section"],
+      "sourceOracles": [
+        "tests/timberXlamCompositeBeam.test.js",
+        "tests/xlamBeamProviderVerification.test.js",
+        "tests/xlamOutOfPlanePanel.test.js"
+      ],
+      "targetTests": [
+        "tests/xlam-panel-section-compile-time.test.ts",
+        "tests/xlam-panel-section-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0053-domain-xlam-panel-section"],
+      "status": "exact-parity"
     },
     {
       "id": "src/domain/geometry/steelProfileCatalog.js",
@@ -30285,7 +30315,8 @@
         "0049-domain-structural-element",
         "0050-domain-beam-element",
         "0051-domain-beam-system",
-        "0052-domain-fem-timoshenko-rigid-offsets"
+        "0052-domain-fem-timoshenko-rigid-offsets",
+        "0053-domain-xlam-panel-section"
       ],
       "sourceOracles": [
         "tests/architecture/applicationRegistry.test.js",
@@ -33307,14 +33338,19 @@
       "sourcePath": "tests/timberXlamCompositeBeam.test.js",
       "sourceBlobSha1": "cddaa0e637e8f72fea9b83c9feaac71d027a07b7",
       "targetPath": "tests/timberXlamCompositeBeam.test.ts",
-      "migrationSlices": ["0044-domain-timber-dowel-connector"],
+      "migrationSlices": ["0044-domain-timber-dowel-connector", "0053-domain-xlam-panel-section"],
       "sourceOracles": ["tests/timberXlamCompositeBeam.test.js"],
       "targetTests": [
         "tests/baseline-parity.test.ts",
         "tests/timber-dowel-connector-compile-time.test.ts",
-        "tests/timber-dowel-connector-live-parity.test.ts"
+        "tests/timber-dowel-connector-live-parity.test.ts",
+        "tests/xlam-panel-section-compile-time.test.ts",
+        "tests/xlam-panel-section-live-parity.test.ts"
       ],
-      "validationEvidence": ["0044-domain-timber-dowel-connector"],
+      "validationEvidence": [
+        "0044-domain-timber-dowel-connector",
+        "0053-domain-xlam-panel-section"
+      ],
       "status": "exact-parity",
       "testKind": "test"
     },
@@ -33344,14 +33380,19 @@
       "sourcePath": "tests/xlamBeamProviderVerification.test.js",
       "sourceBlobSha1": "9450e10ffcd5206057308a5942aaafdaf5831103",
       "targetPath": "tests/xlamBeamProviderVerification.test.ts",
-      "migrationSlices": ["0041-domain-beam-section-providers"],
+      "migrationSlices": ["0041-domain-beam-section-providers", "0053-domain-xlam-panel-section"],
       "sourceOracles": ["tests/xlamBeamProviderVerification.test.js"],
       "targetTests": [
         "tests/baseline-parity.test.ts",
         "tests/beam-section-providers-compile-time.test.ts",
-        "tests/beam-section-providers-live-parity.test.ts"
+        "tests/beam-section-providers-live-parity.test.ts",
+        "tests/xlam-panel-section-compile-time.test.ts",
+        "tests/xlam-panel-section-live-parity.test.ts"
       ],
-      "validationEvidence": ["0041-domain-beam-section-providers"],
+      "validationEvidence": [
+        "0041-domain-beam-section-providers",
+        "0053-domain-xlam-panel-section"
+      ],
       "status": "exact-parity",
       "testKind": "test"
     },
@@ -33360,14 +33401,16 @@
       "sourcePath": "tests/xlamOutOfPlanePanel.test.js",
       "sourceBlobSha1": "3ade818fb4c2023fd76db27340c9b7fa12c7f13a",
       "targetPath": "tests/xlamOutOfPlanePanel.test.ts",
-      "migrationSlices": ["0042-domain-xlam-panel-catalog"],
+      "migrationSlices": ["0042-domain-xlam-panel-catalog", "0053-domain-xlam-panel-section"],
       "sourceOracles": ["tests/xlamOutOfPlanePanel.test.js"],
       "targetTests": [
         "tests/baseline-parity.test.ts",
         "tests/xlam-panel-catalog-compile-time.test.ts",
-        "tests/xlam-panel-catalog-live-parity.test.ts"
+        "tests/xlam-panel-catalog-live-parity.test.ts",
+        "tests/xlam-panel-section-compile-time.test.ts",
+        "tests/xlam-panel-section-live-parity.test.ts"
       ],
-      "validationEvidence": ["0042-domain-xlam-panel-catalog"],
+      "validationEvidence": ["0042-domain-xlam-panel-catalog", "0053-domain-xlam-panel-section"],
       "status": "exact-parity",
       "testKind": "test"
     }
@@ -34988,12 +35031,28 @@
         "publicStrings": "exact equality plus Unicode code-point equality",
         "errors": "exact error name and message equality"
       }
+    },
+    {
+      "sliceId": "0053-domain-xlam-panel-section",
+      "sourceRevision": "6f33baead8b88166c4b2cf94af41763412e3c751",
+      "method": "Strict declaration consumer coverage and independently executed pinned JavaScript versus built TypeScript XLAM section and factory modules, including root export identity, CrossSection inheritance isolation, exact JSON serialization, exact section arithmetic, unit conversion, Unicode metadata, defaults, and constructor and factory errors.",
+      "targetTests": [
+        "tests/xlam-panel-section-compile-time.test.ts",
+        "tests/xlam-panel-section-live-parity.test.ts"
+      ],
+      "fixture": null,
+      "tolerances": {
+        "serializedParity": "exact JSON serialization",
+        "numericParity": "exact equality for section geometry, bending and shear calculations",
+        "publicStrings": "exact equality plus Unicode code-point equality",
+        "errors": "exact error name and message equality"
+      }
     }
   ],
   "counts": {
     "rootExports": {
       "javascript": 841,
-      "typescript": 410
+      "typescript": 412
     },
     "applicationsExports": {
       "javascript": 309,
@@ -35017,11 +35076,11 @@
     },
     "sourceFiles": {
       "javascript": 480,
-      "typescript": 275
+      "typescript": 277
     },
     "tests": {
       "javascript": 131,
-      "typescript": 92
+      "typescript": 94
     },
     "validationCampaigns": {
       "javascript": 17,
@@ -35053,7 +35112,7 @@
       "statusCounts": {
         "exact-parity": 0,
         "partial": 18,
-        "missing": 257,
+        "missing": 253,
         "intentionally-excluded": 0,
         "decision-required": 0
       },
@@ -35220,7 +35279,6 @@
         "root-export:WallLoad",
         "root-export:WallSoilReactionLaw",
         "root-export:XlamMaterial",
-        "root-export:XlamPanelSection",
         "root-export:calculateRetainingWallPolygonProperties",
         "root-export:calculateRigidFoundationElasticStiffness",
         "root-export:calculateSchmertmannStrainInfluence",
@@ -35236,7 +35294,6 @@
         "root-export:createMasonryShearStrengthModel",
         "root-export:createSteelCompoundProfileSection",
         "root-export:createSteelProfileSection",
-        "root-export:createXlamPanelSection",
         "root-export:cyclicMasonryPierHistoryToCsv",
         "root-export:getGroundAnchorBondCatalogEntry",
         "root-export:getSteelProfileSectionData",
@@ -35261,9 +35318,7 @@
         "source:src/domain/fem/nonlinear/index.js",
         "source:src/domain/geometry/SteelCompoundProfileSection.js",
         "source:src/domain/geometry/SteelProfileSection.js",
-        "source:src/domain/geometry/XlamPanelSection.js",
         "source:src/domain/geometry/createSteelProfileSection.js",
-        "source:src/domain/geometry/createXlamPanelSection.js",
         "source:src/domain/geometry/steelProfileCatalog.js",
         "source:src/domain/geotechnics/CircularSlipSurface2D.js",
         "source:src/domain/geotechnics/CircularSlopeStabilityAnalysis.js",

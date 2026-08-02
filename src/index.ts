@@ -77,6 +77,8 @@ export {
   rotateSecondMoments,
 } from "./domain/geometry/SectionMassProperties.js";
 export { TSection } from "./domain/geometry/TSection.js";
+export { XlamPanelSection } from "./domain/geometry/XlamPanelSection.js";
+export { createXlamPanelSection } from "./domain/geometry/createXlamPanelSection.js";
 export { Node } from "./domain/geometry/Node.js";
 export { ReinforcementBar } from "./domain/reinforcement/ReinforcementBar.js";
 export { createLongitudinalReinforcementLayout } from "./domain/reinforcement/createLongitudinalReinforcementLayout.js";
@@ -643,6 +645,14 @@ export type {
   SectionMassPropertyInput,
 } from "./domain/geometry/SectionMassProperties.js";
 export type { TSectionJson, TSectionOptions } from "./domain/geometry/TSection.js";
+export type {
+  XlamPanelLayer,
+  XlamPanelMaterialLike,
+  XlamPanelSectionJson,
+  XlamPanelSectionOptions,
+  XlamPanelShearStiffness,
+} from "./domain/geometry/XlamPanelSection.js";
+export type { CreateXlamPanelSectionOptions } from "./domain/geometry/createXlamPanelSection.js";
 export type {
   ReinforcementBarJson,
   ReinforcementBarOptions,
