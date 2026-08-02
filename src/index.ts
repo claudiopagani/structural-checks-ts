@@ -43,6 +43,8 @@ export {
   TECNARIA_CONNECTOR_TYPES,
   getTecnariaConnectorData,
 } from "./domain/connectors/tecnariaConnectorCatalog.js";
+export { TecnariaConnector } from "./domain/connectors/TecnariaConnector.js";
+export { createTecnariaConnector } from "./domain/connectors/createTecnariaConnector.js";
 export { BaseMaterial } from "./domain/materials/BaseMaterial.js";
 export { ConcreteMaterial } from "./domain/materials/ConcreteMaterial.js";
 export { SteelMaterial } from "./domain/materials/SteelMaterial.js";
@@ -537,6 +539,10 @@ export type {
   TecnariaConnectorData,
   TecnariaConnectorFamily,
 } from "./domain/connectors/tecnariaConnectorCatalog.js";
+export type {
+  TecnariaConnectorJson,
+  TecnariaConnectorOptions,
+} from "./domain/connectors/TecnariaConnector.js";
 export type * from "./domain/actions/index.js";
 export type * from "./domain/slabs/punching/types.js";
 export type * from "./applications/reinforced-concrete-punching/index.js";

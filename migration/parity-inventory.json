@@ -1097,6 +1097,7 @@
         "TECNARIA_CONNECTOR_CATALOG",
         "TECNARIA_CONNECTOR_TYPES",
         "TSection",
+        "TecnariaConnector",
         "ThermalAction",
         "TimberBeamSectionProvider",
         "TimberDowelConnector",
@@ -1180,6 +1181,7 @@
         "createScaServiceDeflectionAnalysisResult",
         "createServiceDeflectionAnalysisResult",
         "createSteelBeamSectionProvider",
+        "createTecnariaConnector",
         "createTimberBeamSectionProvider",
         "createUnitResolver",
         "createWallHeightSystemAssessment",
@@ -6066,11 +6068,15 @@
       "sourcePath": "src/domain/connectors/createTecnariaConnector.js",
       "sourceBlobSha1": "df20e42a3bd88e9f427793e3a11b07fec91e5ee5",
       "targetPath": "src/domain/connectors/createTecnariaConnector.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0047-domain-create-tecnaria-connector"],
+      "sourceOracles": ["tests/reinforcementAndConnector.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/tecnaria-connector-factory-compile-time.test.ts",
+        "tests/tecnaria-connector-factory-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0047-domain-create-tecnaria-connector"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -15438,11 +15444,15 @@
       "sourcePath": "src/domain/connectors/TecnariaConnector.js",
       "sourceBlobSha1": "ed2f125c7fb8a1c72178362821630eb4e62d6b17",
       "targetPath": "src/domain/connectors/TecnariaConnector.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0046-domain-tecnaria-connector"],
+      "sourceOracles": ["tests/reinforcementAndConnector.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/tecnaria-connector-compile-time.test.ts",
+        "tests/tecnaria-connector-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0046-domain-tecnaria-connector"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -28003,11 +28013,15 @@
       "sourcePath": "src/domain/connectors/TecnariaConnector.js",
       "sourceBlobSha1": "ed2f125c7fb8a1c72178362821630eb4e62d6b17",
       "targetPath": "src/domain/connectors/TecnariaConnector.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing"
+      "migrationSlices": ["0046-domain-tecnaria-connector"],
+      "sourceOracles": ["tests/reinforcementAndConnector.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/tecnaria-connector-compile-time.test.ts",
+        "tests/tecnaria-connector-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0046-domain-tecnaria-connector"],
+      "status": "exact-parity"
     },
     {
       "id": "src/domain/connectors/TimberDowelConnector.js",
@@ -28029,11 +28043,15 @@
       "sourcePath": "src/domain/connectors/createTecnariaConnector.js",
       "sourceBlobSha1": "df20e42a3bd88e9f427793e3a11b07fec91e5ee5",
       "targetPath": "src/domain/connectors/createTecnariaConnector.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing"
+      "migrationSlices": ["0047-domain-create-tecnaria-connector"],
+      "sourceOracles": ["tests/reinforcementAndConnector.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/tecnaria-connector-factory-compile-time.test.ts",
+        "tests/tecnaria-connector-factory-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0047-domain-create-tecnaria-connector"],
+      "status": "exact-parity"
     },
     {
       "id": "src/domain/connectors/tecnariaConnectorCatalog.js",
@@ -30171,7 +30189,9 @@
         "0042-domain-xlam-panel-catalog",
         "0043-domain-shear-connector",
         "0044-domain-timber-dowel-connector",
-        "0045-domain-tecnaria-connector-catalog"
+        "0045-domain-tecnaria-connector-catalog",
+        "0046-domain-tecnaria-connector",
+        "0047-domain-create-tecnaria-connector"
       ],
       "sourceOracles": [
         "tests/architecture/applicationRegistry.test.js",
@@ -32988,7 +33008,9 @@
         "0002-reinforced-concrete-sections",
         "0003-concrete-materials",
         "0043-domain-shear-connector",
-        "0045-domain-tecnaria-connector-catalog"
+        "0045-domain-tecnaria-connector-catalog",
+        "0046-domain-tecnaria-connector",
+        "0047-domain-create-tecnaria-connector"
       ],
       "sourceOracles": ["tests/reinforcementAndConnector.test.js"],
       "targetTests": [
@@ -33001,11 +33023,17 @@
         "tests/shear-connector-compile-time.test.ts",
         "tests/shear-connector-live-parity.test.ts",
         "tests/tecnaria-connector-catalog-compile-time.test.ts",
-        "tests/tecnaria-connector-catalog-live-parity.test.ts"
+        "tests/tecnaria-connector-catalog-live-parity.test.ts",
+        "tests/tecnaria-connector-compile-time.test.ts",
+        "tests/tecnaria-connector-factory-compile-time.test.ts",
+        "tests/tecnaria-connector-factory-live-parity.test.ts",
+        "tests/tecnaria-connector-live-parity.test.ts"
       ],
       "validationEvidence": [
         "0043-domain-shear-connector",
-        "0045-domain-tecnaria-connector-catalog"
+        "0045-domain-tecnaria-connector-catalog",
+        "0046-domain-tecnaria-connector",
+        "0047-domain-create-tecnaria-connector"
       ],
       "status": "exact-parity",
       "testKind": "test"
@@ -34749,12 +34777,42 @@
         "numericParity": "exact equality for every fvrk, kser and ku value and lookup result",
         "publicStrings": "exact equality plus Unicode code-point equality"
       }
+    },
+    {
+      "sliceId": "0046-domain-tecnaria-connector",
+      "sourceRevision": "6f33baead8b88166c4b2cf94af41763412e3c751",
+      "method": "Strict declaration consumer coverage and independently executed pinned JavaScript versus built TypeScript TecnariaConnector classes, including exact unit-normalized JSON, numerical connector properties, Unicode, defaults, inherited instanceof boundaries, clone isolation and unsupported/error paths.",
+      "targetTests": [
+        "tests/tecnaria-connector-compile-time.test.ts",
+        "tests/tecnaria-connector-live-parity.test.ts"
+      ],
+      "fixture": null,
+      "tolerances": {
+        "serializedParity": "exact JSON serialization for normalized connector, metadata and inherited fields",
+        "numericParity": "exact equality for normalized Kser, Ku, Fvrk and board thickness",
+        "publicStrings": "exact equality plus Unicode code-point equality"
+      }
+    },
+    {
+      "sliceId": "0047-domain-create-tecnaria-connector",
+      "sourceRevision": "6f33baead8b88166c4b2cf94af41763412e3c751",
+      "method": "Strict declaration consumer coverage and independently executed pinned JavaScript versus built TypeScript factory modules, including exact delegated JSON, Unicode, inherited instanceof behavior, default construction and delegated unsupported/error paths.",
+      "targetTests": [
+        "tests/tecnaria-connector-factory-compile-time.test.ts",
+        "tests/tecnaria-connector-factory-live-parity.test.ts"
+      ],
+      "fixture": null,
+      "tolerances": {
+        "serializedParity": "exact JSON serialization of the delegated TecnariaConnector result",
+        "numericParity": "exact equality of all delegated normalized connector values",
+        "publicStrings": "exact equality plus Unicode code-point equality"
+      }
     }
   ],
   "counts": {
     "rootExports": {
       "javascript": 841,
-      "typescript": 404
+      "typescript": 406
     },
     "applicationsExports": {
       "javascript": 309,
@@ -34778,11 +34836,11 @@
     },
     "sourceFiles": {
       "javascript": 480,
-      "typescript": 268
+      "typescript": 270
     },
     "tests": {
       "javascript": 131,
-      "typescript": 78
+      "typescript": 82
     },
     "validationCampaigns": {
       "javascript": 17,
@@ -34814,7 +34872,7 @@
       "statusCounts": {
         "exact-parity": 0,
         "partial": 18,
-        "missing": 270,
+        "missing": 266,
         "intentionally-excluded": 0,
         "decision-required": 0
       },
@@ -34975,7 +35033,6 @@
         "root-export:StructuralModel",
         "root-export:SurfaceLoad",
         "root-export:TERRAIN_ELEVATION_GRID_SCHEMA_VERSION",
-        "root-export:TecnariaConnector",
         "root-export:TimberMaterial",
         "root-export:TurnsekSheppardModel",
         "root-export:VariableLoad",
@@ -35002,7 +35059,6 @@
         "root-export:createMasonryShearStrengthModel",
         "root-export:createSteelCompoundProfileSection",
         "root-export:createSteelProfileSection",
-        "root-export:createTecnariaConnector",
         "root-export:createXlamPanelSection",
         "root-export:cyclicMasonryPierHistoryToCsv",
         "root-export:getGroundAnchorBondCatalogEntry",
@@ -35018,8 +35074,6 @@
         "root-export:rankineEarthPressureCoefficients",
         "root-export:simplifiedBishop",
         "root-export:spencerMethod",
-        "source:src/domain/connectors/TecnariaConnector.js",
-        "source:src/domain/connectors/createTecnariaConnector.js",
         "source:src/domain/constitutive-laws/index.js",
         "source:src/domain/elements/BeamElement.js",
         "source:src/domain/elements/BeamSystem.js",

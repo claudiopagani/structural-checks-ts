@@ -1,0 +1,69 @@
+{
+  "schemaVersion": 1,
+  "sliceId": "0047-domain-create-tecnaria-connector",
+  "title": "Domain Tecnaria connector factory",
+  "migrationType": "mechanical-parity",
+  "implementationStatus": "implemented",
+  "dependencies": ["0046-domain-tecnaria-connector"],
+  "source": {
+    "repository": "https://github.com/claudiopagani/strutture-js",
+    "revision": "6f33baead8b88166c4b2cf94af41763412e3c751"
+  },
+  "normativeCorpusRevision": "41da3faa489600173106935bbcf726119300e48d",
+  "sourceFiles": [
+    {
+      "path": "src/domain/connectors/createTecnariaConnector.js",
+      "gitBlobSha1": "df20e42a3bd88e9f427793e3a11b07fec91e5ee5",
+      "targetPath": "src/domain/connectors/createTecnariaConnector.ts"
+    }
+  ],
+  "supportingSourceFiles": [
+    {
+      "path": "src/index.js",
+      "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7",
+      "targetPath": "src/index.ts",
+      "coverage": "Root public export for createTecnariaConnector"
+    }
+  ],
+  "sourceOracles": [
+    {
+      "path": "tests/reinforcementAndConnector.test.js",
+      "gitBlobSha1": "f49bc76477da083db1d8333ccf1d55088b2c4bfe",
+      "coverage": "Source factory is consumed in Tecnaria connector construction; direct delegation, serialization, inheritance and delegated error parity are covered by the independent live test"
+    }
+  ],
+  "sourcePublicExport": {
+    "path": "src/index.js",
+    "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
+  },
+  "targetTests": [
+    "tests/baseline-parity.test.ts",
+    "tests/tecnaria-connector-factory-compile-time.test.ts",
+    "tests/tecnaria-connector-factory-live-parity.test.ts"
+  ],
+  "publicExports": ["createTecnariaConnector"],
+  "publicTypeExports": [],
+  "normativeReferences": {
+    "resolved": [],
+    "outsideCorpus": [],
+    "normativeConformityClaimed": false,
+    "status": "classified-for-declared-scope"
+  },
+  "independentValidation": {
+    "method": "Strict declaration consumer coverage and independently executed pinned JavaScript versus built TypeScript factory modules, including exact delegated JSON, Unicode, inherited instanceof behavior, default construction and delegated unsupported/error paths.",
+    "targetTests": [
+      "tests/tecnaria-connector-factory-compile-time.test.ts",
+      "tests/tecnaria-connector-factory-live-parity.test.ts"
+    ],
+    "tolerances": {
+      "serializedParity": "exact JSON serialization of the delegated TecnariaConnector result",
+      "numericParity": "exact equality of all delegated normalized connector values",
+      "publicStrings": "exact equality plus Unicode code-point equality"
+    }
+  },
+  "parityDifferences": [
+    "The slice preserves the source factory's direct TecnariaConnector delegation, returned subclass identity, defaults, serialization and delegated errors.",
+    "No additional factory behavior or connector/application functionality is introduced."
+  ],
+  "engineeringFunctionality": "Generic Tecnaria connector factory delegation only."
+}

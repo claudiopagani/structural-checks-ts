@@ -1,0 +1,69 @@
+{
+  "schemaVersion": 1,
+  "sliceId": "0046-domain-tecnaria-connector",
+  "title": "Domain Tecnaria connector",
+  "migrationType": "mechanical-parity",
+  "implementationStatus": "implemented",
+  "dependencies": ["0045-domain-tecnaria-connector-catalog"],
+  "source": {
+    "repository": "https://github.com/claudiopagani/strutture-js",
+    "revision": "6f33baead8b88166c4b2cf94af41763412e3c751"
+  },
+  "normativeCorpusRevision": "41da3faa489600173106935bbcf726119300e48d",
+  "sourceFiles": [
+    {
+      "path": "src/domain/connectors/TecnariaConnector.js",
+      "gitBlobSha1": "ed2f125c7fb8a1c72178362821630eb4e62d6b17",
+      "targetPath": "src/domain/connectors/TecnariaConnector.ts"
+    }
+  ],
+  "supportingSourceFiles": [
+    {
+      "path": "src/index.js",
+      "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7",
+      "targetPath": "src/index.ts",
+      "coverage": "Root public export for TecnariaConnector"
+    }
+  ],
+  "sourceOracles": [
+    {
+      "path": "tests/reinforcementAndConnector.test.js",
+      "gitBlobSha1": "f49bc76477da083db1d8333ccf1d55088b2c4bfe",
+      "coverage": "TecnariaConnector construction, catalog resolution, inheritance and normalized connector properties; direct serialization, defaults and error parity are covered by the independent live test"
+    }
+  ],
+  "sourcePublicExport": {
+    "path": "src/index.js",
+    "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
+  },
+  "targetTests": [
+    "tests/baseline-parity.test.ts",
+    "tests/tecnaria-connector-compile-time.test.ts",
+    "tests/tecnaria-connector-live-parity.test.ts"
+  ],
+  "publicExports": ["TecnariaConnector"],
+  "publicTypeExports": ["TecnariaConnectorJson", "TecnariaConnectorOptions"],
+  "normativeReferences": {
+    "resolved": [],
+    "outsideCorpus": [],
+    "normativeConformityClaimed": false,
+    "status": "classified-for-declared-scope"
+  },
+  "independentValidation": {
+    "method": "Strict declaration consumer coverage and independently executed pinned JavaScript versus built TypeScript TecnariaConnector classes, including exact unit-normalized JSON, numerical connector properties, Unicode, defaults, inherited instanceof boundaries, clone isolation and unsupported/error paths.",
+    "targetTests": [
+      "tests/tecnaria-connector-compile-time.test.ts",
+      "tests/tecnaria-connector-live-parity.test.ts"
+    ],
+    "tolerances": {
+      "serializedParity": "exact JSON serialization for normalized connector, metadata and inherited fields",
+      "numericParity": "exact equality for normalized Kser, Ku, Fvrk and board thickness",
+      "publicStrings": "exact equality plus Unicode code-point equality"
+    }
+  },
+  "parityDifferences": [
+    "The slice preserves the source TecnariaConnector defaults, catalog-unit conversion, generated name, metadata, inheritance, serialization, direct type and numeric board-thickness properties, and unsupported/error behavior.",
+    "createTecnariaConnector and additional connector, material and application functionality remain outside this bounded slice."
+  ],
+  "engineeringFunctionality": "Generic Tecnaria connector construction from the migrated catalog only; no connector factory or verification is introduced."
+}
