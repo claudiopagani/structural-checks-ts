@@ -1,0 +1,114 @@
+{
+  "schemaVersion": 1,
+  "sliceId": "0111-norms-en1992-public-index",
+  "title": "EN 1992 public index and package entry point",
+  "migrationType": "mechanical-parity-with-minimal-dependency-support",
+  "implementationStatus": "implemented",
+  "dependencies": [
+    "0012-reinforced-concrete-detailing",
+    "0016-reinforced-concrete-punching",
+    "0027-reinforced-concrete-strut-and-tie"
+  ],
+  "source": {
+    "repository": "https://github.com/claudiopagani/strutture-js",
+    "revision": "6f33baead8b88166c4b2cf94af41763412e3c751"
+  },
+  "normativeCorpusRevision": "41da3faa489600173106935bbcf726119300e48d",
+  "sourceFiles": [
+    {
+      "path": "src/norms/en1992/index.js",
+      "gitBlobSha1": "3540c261f26eb6922a916adb203669650ca08970",
+      "targetPath": "src/norms/en1992/index.ts"
+    }
+  ],
+  "supportingSourceFiles": [
+    {
+      "path": "src/norms/en1992/punching/index.js",
+      "gitBlobSha1": "0196975acc9bd2bb27e82f0824896026669e71bb",
+      "targetPath": "src/norms/en1992/punching/index.ts",
+      "coverage": "Migrated EN 1992 punching subindex re-exported by the top-level index."
+    },
+    {
+      "path": "src/norms/en1992/strut-and-tie/index.js",
+      "gitBlobSha1": "0f708f1691eaa6a58a3097083e36255b80a3e81c",
+      "targetPath": "src/norms/en1992/strut-and-tie/index.ts",
+      "coverage": "Migrated EN 1992 strut-and-tie subindex re-exported by the top-level index."
+    },
+    {
+      "path": "src/norms/en1992/reinforced-concrete/index.js",
+      "gitBlobSha1": "70d0caf624c25e69f99f5b1d2acb1085851a4057",
+      "targetPath": "src/norms/en1992/reinforced-concrete/index.ts",
+      "coverage": "Migrated EN 1992 reinforced-concrete subindex re-exported by the top-level index."
+    },
+    {
+      "path": "src/norms/en1992/normativeReferences.js",
+      "gitBlobSha1": "991a183cdc30a567472ad6ff66736f0cd2eb1a0f",
+      "targetPath": "src/norms/en1992/normativeReferences.ts",
+      "coverage": "Canonical EN 1992 external reference export re-exported by the top-level index; the existing target object property order was minimally aligned with the pinned source for exact serialized parity."
+    },
+    {
+      "path": "src/index.js",
+      "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7",
+      "targetPath": "src/index.ts",
+      "coverage": "Root EN 1992 public export support, including EN1992_RC_EXTERNAL_REFERENCES."
+    },
+    {
+      "path": "package.json",
+      "gitBlobSha1": "9133db99ac7e23988ba0dfc569cabc26db7426cb",
+      "targetPath": "package.json",
+      "coverage": "Source-compatible ./norms/en1992 package subpath; package identity remains unchanged."
+    }
+  ],
+  "sourceOracles": [
+    {
+      "path": "tests/reinforcedConcreteStrutAndTieApplication.test.js",
+      "gitBlobSha1": "afa7b00b790f4c1fc2b4a9836aec66864af184ed",
+      "coverage": "EN 1992 strut-and-tie public consumer behavior."
+    },
+    {
+      "path": "tests/punchingVerification.test.js",
+      "gitBlobSha1": "0dcde846de4153a37d0cf14bb7024e023be7b758",
+      "coverage": "EN 1992 punching public consumer behavior."
+    },
+    {
+      "path": "tests/packageExports.test.js",
+      "gitBlobSha1": "8dde24b4c97dd3dae7100207d07d9d96c52b9c74",
+      "coverage": "Root public export behavior."
+    }
+  ],
+  "sourcePublicExport": {
+    "path": "src/index.js",
+    "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
+  },
+  "targetTests": [
+    "tests/baseline-parity.test.ts",
+    "tests/en1992-public-index-compile-time.test.ts",
+    "tests/en1992-public-index-live-parity.test.ts"
+  ],
+  "publicExports": ["EN1992_RC_EXTERNAL_REFERENCES"],
+  "publicTypeExports": [],
+  "normativeReferences": {
+    "resolved": [],
+    "outsideCorpus": [],
+    "normativeConformityClaimed": false,
+    "status": "classified-for-declared-scope"
+  },
+  "independentValidation": {
+    "method": "Strict declaration consumer coverage and independently executed pinned JavaScript versus built TypeScript comparison of the complete EN 1992 index, exact export order, serialized normative metadata, Unicode-safe values, independent function identity and root aliases; underlying numerical and error behavior remains covered by dependency-slice tests.",
+    "targetTests": [
+      "tests/en1992-public-index-compile-time.test.ts",
+      "tests/en1992-public-index-live-parity.test.ts"
+    ],
+    "tolerances": {
+      "serializedParity": "exact export keys, order and JSON serialization",
+      "numericParity": "underlying EN 1992 numerical behavior remains covered by dependency slices",
+      "publicStrings": "exact equality plus Unicode code-point preservation",
+      "errors": "underlying EN 1992 errors remain covered by dependency slices"
+    }
+  },
+  "parityDifferences": [
+    "The TypeScript index adds type-only re-exports for the already-migrated strict declarations; runtime exports match the pinned source index.",
+    "The source-compatible ./norms/en1992 package subpath is added without changing package identity or version."
+  ],
+  "engineeringFunctionality": "Source-compatible EN 1992 punching, reinforced-concrete detailing and strut-and-tie public composition with canonical reference metadata."
+}

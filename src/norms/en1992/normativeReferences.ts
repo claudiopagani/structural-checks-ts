@@ -40,6 +40,9 @@ export const EN1992_RC_EXTERNAL_REFERENCES = Object.freeze({
   deflection: externalEn1992Reference({
     citation: "EN 1992-1-1:2004 § 7.4.3, espressioni (7.18)-(7.21)",
   }),
+  shrinkageCurvature: externalEn1992Reference({
+    citation: "EN 1992-1-1:2004 § 7.4.3(6), espressione (7.21)",
+  }),
   strutAndTie: externalEn1992Reference({
     citation: "EN 1992-1-1:2004 § 6.5",
   }),
@@ -50,8 +53,5 @@ export const EN1992_RC_EXTERNAL_REFERENCES = Object.freeze({
     documentId: "en1992-1-1-2023",
     citation: "EN 1992-1-1:2023 §§ 8.4 e 12.5.1",
     href: SECOND_GENERATION_EUROCODES_OVERVIEW,
-  }),
-  shrinkageCurvature: externalEn1992Reference({
-    citation: "EN 1992-1-1:2004 § 7.4.3(6), espressione (7.21)",
   }),
 });

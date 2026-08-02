@@ -21,6 +21,11 @@
       "types": "./dist/domain/math/index.d.ts",
       "import": "./dist/domain/math/index.js",
       "default": "./dist/domain/math/index.js"
+    },
+    "./norms/en1992": {
+      "types": "./dist/norms/en1992/index.d.ts",
+      "import": "./dist/norms/en1992/index.js",
+      "default": "./dist/norms/en1992/index.js"
     }
   },
   "files": [

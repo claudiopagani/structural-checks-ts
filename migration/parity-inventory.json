@@ -935,6 +935,7 @@
         "EMBEDDED_RETAINING_WALL_SUPPORT_BEHAVIORS",
         "EMBEDDED_RETAINING_WALL_SUPPORT_TYPES",
         "EMBEDDED_RETAINING_WALL_TYPES",
+        "EN1992_RC_EXTERNAL_REFERENCES",
         "EN1992_STRUT_AND_TIE_NODE_TYPES",
         "EN1992_STRUT_STRENGTH_MODELS",
         "EXISTING_MATERIAL_CONFIDENCE_LEVELS",
@@ -2490,9 +2491,9 @@
         "generateEn1992PunchingPerimeterAtOffset",
         "generateEn1992PunchingPerimeters"
       ],
-      "targetPath": null,
-      "targetExportNames": [],
-      "status": "missing"
+      "targetPath": "src/norms/en1992/index.ts",
+      "targetExportNames": ["EN1992_RC_EXTERNAL_REFERENCES"],
+      "status": "partial"
     },
     {
       "id": "./norms/italian-historical",
@@ -7238,11 +7239,19 @@
       "sourcePath": "src/norms/en1992/normativeReferences.js",
       "sourceBlobSha1": "991a183cdc30a567472ad6ff66736f0cd2eb1a0f",
       "targetPath": "src/norms/en1992/normativeReferences.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "partial",
+      "migrationSlices": ["0111-norms-en1992-public-index"],
+      "sourceOracles": [
+        "tests/packageExports.test.js",
+        "tests/punchingVerification.test.js",
+        "tests/reinforcedConcreteStrutAndTieApplication.test.js"
+      ],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/en1992-public-index-compile-time.test.ts",
+        "tests/en1992-public-index-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0111-norms-en1992-public-index"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -32511,7 +32520,8 @@
         "0107-domain-masonry-section-public-index",
         "0108-domain-slab-public-index",
         "0109-domain-solvers-public-index",
-        "0110-domain-terrain-public-index"
+        "0110-domain-terrain-public-index",
+        "0111-norms-en1992-public-index"
       ],
       "sourceOracles": [
         "tests/architecture/applicationRegistry.test.js",
@@ -32553,11 +32563,19 @@
       "sourcePath": "src/norms/en1992/index.js",
       "sourceBlobSha1": "3540c261f26eb6922a916adb203669650ca08970",
       "targetPath": "src/norms/en1992/index.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing"
+      "migrationSlices": ["0111-norms-en1992-public-index"],
+      "sourceOracles": [
+        "tests/packageExports.test.js",
+        "tests/punchingVerification.test.js",
+        "tests/reinforcedConcreteStrutAndTieApplication.test.js"
+      ],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/en1992-public-index-compile-time.test.ts",
+        "tests/en1992-public-index-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0111-norms-en1992-public-index"],
+      "status": "exact-parity"
     },
     {
       "id": "src/norms/en1992/normativeReferences.js",
@@ -35144,7 +35162,8 @@
         "0107-domain-masonry-section-public-index",
         "0108-domain-slab-public-index",
         "0109-domain-solvers-public-index",
-        "0110-domain-terrain-public-index"
+        "0110-domain-terrain-public-index",
+        "0111-norms-en1992-public-index"
       ],
       "sourceOracles": ["tests/packageExports.test.js"],
       "targetTests": [
@@ -35176,6 +35195,8 @@
         "tests/embedded-retaining-wall-analysis-live-parity.test.ts",
         "tests/embedded-retaining-wall-scenario-compile-time.test.ts",
         "tests/embedded-retaining-wall-scenario-live-parity.test.ts",
+        "tests/en1992-public-index-compile-time.test.ts",
+        "tests/en1992-public-index-live-parity.test.ts",
         "tests/fem-public-indexes-compile-time.test.ts",
         "tests/fem-public-indexes-live-parity.test.ts",
         "tests/foundation-beam-analysis.test.ts",
@@ -35277,7 +35298,8 @@
         "0107-domain-masonry-section-public-index",
         "0108-domain-slab-public-index",
         "0109-domain-solvers-public-index",
-        "0110-domain-terrain-public-index"
+        "0110-domain-terrain-public-index",
+        "0111-norms-en1992-public-index"
       ],
       "status": "exact-parity",
       "testKind": "test"
@@ -35304,15 +35326,25 @@
       "sourcePath": "tests/punchingVerification.test.js",
       "sourceBlobSha1": "0dcde846de4153a37d0cf14bb7024e023be7b758",
       "targetPath": "tests/punchingVerification.test.ts",
-      "migrationSlices": ["0016-reinforced-concrete-punching", "0108-domain-slab-public-index"],
+      "migrationSlices": [
+        "0016-reinforced-concrete-punching",
+        "0108-domain-slab-public-index",
+        "0111-norms-en1992-public-index"
+      ],
       "sourceOracles": ["tests/punchingVerification.test.js"],
       "targetTests": [
         "tests/baseline-parity.test.ts",
         "tests/concrete-punching.test.ts",
+        "tests/en1992-public-index-compile-time.test.ts",
+        "tests/en1992-public-index-live-parity.test.ts",
         "tests/slab-public-index-compile-time.test.ts",
         "tests/slab-public-index-live-parity.test.ts"
       ],
-      "validationEvidence": ["0016-reinforced-concrete-punching", "0108-domain-slab-public-index"],
+      "validationEvidence": [
+        "0016-reinforced-concrete-punching",
+        "0108-domain-slab-public-index",
+        "0111-norms-en1992-public-index"
+      ],
       "status": "exact-parity",
       "testKind": "test"
     },
@@ -35738,13 +35770,21 @@
       "sourcePath": "tests/reinforcedConcreteStrutAndTieApplication.test.js",
       "sourceBlobSha1": "afa7b00b790f4c1fc2b4a9836aec66864af184ed",
       "targetPath": "tests/reinforcedConcreteStrutAndTieApplication.test.ts",
-      "migrationSlices": ["0027-reinforced-concrete-strut-and-tie"],
+      "migrationSlices": [
+        "0027-reinforced-concrete-strut-and-tie",
+        "0111-norms-en1992-public-index"
+      ],
       "sourceOracles": ["tests/reinforcedConcreteStrutAndTieApplication.test.js"],
       "targetTests": [
         "tests/baseline-parity.test.ts",
+        "tests/en1992-public-index-compile-time.test.ts",
+        "tests/en1992-public-index-live-parity.test.ts",
         "tests/reinforced-concrete-strut-and-tie.test.ts"
       ],
-      "validationEvidence": ["0027-reinforced-concrete-strut-and-tie"],
+      "validationEvidence": [
+        "0027-reinforced-concrete-strut-and-tie",
+        "0111-norms-en1992-public-index"
+      ],
       "status": "exact-parity",
       "testKind": "test"
     },
@@ -38618,12 +38658,28 @@
         "publicStrings": "exact equality plus Unicode code-point preservation",
         "errors": "underlying terrain normalization errors remain covered by the dependency slice"
       }
+    },
+    {
+      "sliceId": "0111-norms-en1992-public-index",
+      "sourceRevision": "6f33baead8b88166c4b2cf94af41763412e3c751",
+      "method": "Strict declaration consumer coverage and independently executed pinned JavaScript versus built TypeScript comparison of the complete EN 1992 index, exact export order, serialized normative metadata, Unicode-safe values, independent function identity and root aliases; underlying numerical and error behavior remains covered by dependency-slice tests.",
+      "targetTests": [
+        "tests/en1992-public-index-compile-time.test.ts",
+        "tests/en1992-public-index-live-parity.test.ts"
+      ],
+      "fixture": null,
+      "tolerances": {
+        "serializedParity": "exact export keys, order and JSON serialization",
+        "numericParity": "underlying EN 1992 numerical behavior remains covered by dependency slices",
+        "publicStrings": "exact equality plus Unicode code-point preservation",
+        "errors": "underlying EN 1992 errors remain covered by dependency slices"
+      }
     }
   ],
   "counts": {
     "rootExports": {
       "javascript": 841,
-      "typescript": 588
+      "typescript": 589
     },
     "applicationsExports": {
       "javascript": 309,
@@ -38631,7 +38687,7 @@
     },
     "packageEntryPoints": {
       "javascript": 14,
-      "typescript": 2
+      "typescript": 3
     },
     "applicationRegistryEntries": {
       "javascript": 30,
@@ -38647,11 +38703,11 @@
     },
     "sourceFiles": {
       "javascript": 480,
-      "typescript": 354
+      "typescript": 355
     },
     "tests": {
       "javascript": 131,
-      "typescript": 208
+      "typescript": 210
     },
     "validationCampaigns": {
       "javascript": 17,
@@ -38709,8 +38765,8 @@
     "norms": {
       "statusCounts": {
         "exact-parity": 0,
-        "partial": 16,
-        "missing": 157,
+        "partial": 15,
+        "missing": 156,
         "intentionally-excluded": 0,
         "decision-required": 0
       },
@@ -38718,7 +38774,6 @@
         "root-export:CIRC2019_RC_REFERENCES",
         "root-export:DM522023_AMENDMENTS",
         "root-export:DM522023_REFERENCES",
-        "root-export:EN1992_RC_EXTERNAL_REFERENCES",
         "root-export:ITALIAN_HISTORICAL_REINFORCEMENT_STEEL_GRADES",
         "root-export:ITALIAN_HISTORICAL_REINFORCEMENT_STEEL_GRADE_NAMES",
         "root-export:ITALIAN_HISTORICAL_REINFORCEMENT_STEEL_STANDARDS",
@@ -38859,7 +38914,6 @@
         "root-export:selectNTC2018MasonryPierGoverningCapacity",
         "root-export:toggleNTC2018ExistingMasonryModifier",
         "root-export:updateNTC2018ExistingMasonryMaltaBuona",
-        "source:src/norms/en1992/index.js",
         "source:src/norms/italian-historical/index.js",
         "source:src/norms/italian-historical/materials/createItalianHistoricalMaterial.js",
         "source:src/norms/italian-historical/materials/historicalReinforcementSteelCatalogs.js",
@@ -39254,8 +39308,8 @@
     "packageValidation": {
       "statusCounts": {
         "exact-parity": 0,
-        "partial": 3,
-        "missing": 133,
+        "partial": 4,
+        "missing": 132,
         "intentionally-excluded": 0,
         "decision-required": 0
       },

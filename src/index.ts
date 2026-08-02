@@ -710,6 +710,7 @@ export {
   calculateEn1992DesignBondStrength,
   calculateEn1992LocalBearingResistance,
   calculateEn1992ShrinkageCurvature,
+  EN1992_RC_EXTERNAL_REFERENCES,
 } from "./norms/en1992/reinforced-concrete/index.js";
 export {
   calculateEn1992NodalDesignStrength,
