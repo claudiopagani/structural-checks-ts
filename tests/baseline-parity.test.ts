@@ -129,6 +129,7 @@ const expectedExports = [
   "Load",
   "LoadCase",
   "LoadCombination",
+  "MasonryMaterial",
   "MohrCoulombModel",
   "NTC2018_ACTION_COMBINATION_FACTORS",
   "NTC2018_ACTION_PARTIAL_FACTORS",

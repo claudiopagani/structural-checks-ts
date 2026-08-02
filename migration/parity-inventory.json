@@ -971,6 +971,7 @@
         "Load",
         "LoadCase",
         "LoadCombination",
+        "MasonryMaterial",
         "MohrCoulombModel",
         "NTC2018_ACTION_COMBINATION_FACTORS",
         "NTC2018_ACTION_PARTIAL_FACTORS",
@@ -9731,11 +9732,15 @@
       "sourcePath": "src/domain/materials/MasonryMaterial.js",
       "sourceBlobSha1": "c1dce5786c4147e58b28347d4d7035d99b00019c",
       "targetPath": "src/domain/materials/MasonryMaterial.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0061-domain-masonry-material"],
+      "sourceOracles": ["tests/masonryWallOpeningsMaterialResolution.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/masonry-material-compile-time.test.ts",
+        "tests/masonry-material-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0061-domain-masonry-material"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -29725,11 +29730,15 @@
       "sourcePath": "src/domain/materials/MasonryMaterial.js",
       "sourceBlobSha1": "c1dce5786c4147e58b28347d4d7035d99b00019c",
       "targetPath": "src/domain/materials/MasonryMaterial.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing"
+      "migrationSlices": ["0061-domain-masonry-material"],
+      "sourceOracles": ["tests/masonryWallOpeningsMaterialResolution.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/masonry-material-compile-time.test.ts",
+        "tests/masonry-material-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0061-domain-masonry-material"],
+      "status": "exact-parity"
     },
     {
       "id": "src/domain/materials/SolidTimberMaterial.js",
@@ -30478,7 +30487,8 @@
         "0057-domain-area-element-volume-loads",
         "0058-domain-masonry-pier-kinematics",
         "0059-domain-masonry-shear-strength-strategies",
-        "0060-domain-existing-material"
+        "0060-domain-existing-material",
+        "0061-domain-masonry-material"
       ],
       "sourceOracles": [
         "tests/architecture/applicationRegistry.test.js",
@@ -32304,11 +32314,15 @@
       "sourcePath": "tests/masonryWallOpeningsMaterialResolution.test.js",
       "sourceBlobSha1": "a72fc9a4a35ca1dca3bbef650d42ab48192a71f8",
       "targetPath": "tests/masonryWallOpeningsMaterialResolution.test.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0061-domain-masonry-material"],
+      "sourceOracles": ["tests/masonryWallOpeningsMaterialResolution.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/masonry-material-compile-time.test.ts",
+        "tests/masonry-material-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0061-domain-masonry-material"],
+      "status": "exact-parity",
       "testKind": "test"
     },
     {
@@ -35356,12 +35370,28 @@
         "publicStrings": "exact equality plus Unicode code-point equality",
         "errors": "exact error name and message equality"
       }
+    },
+    {
+      "sliceId": "0061-domain-masonry-material",
+      "sourceRevision": "6f33baead8b88166c4b2cf94af41763412e3c751",
+      "method": "Strict public declaration consumer coverage and independently executed pinned JavaScript versus built TypeScript comparison of MasonryMaterial BaseMaterial inheritance, exact unit-converted strength fields, metadata and Unicode, enumerable order, clone serialization, existing-material classification and missing-unit errors.",
+      "targetTests": [
+        "tests/masonry-material-compile-time.test.ts",
+        "tests/masonry-material-live-parity.test.ts"
+      ],
+      "fixture": null,
+      "tolerances": {
+        "serializedParity": "exact JSON serialization and enumerable-key order",
+        "numericParity": "exact equality for unit-converted strengths",
+        "publicStrings": "exact equality plus Unicode code-point equality",
+        "errors": "exact error name and message equality"
+      }
     }
   ],
   "counts": {
     "rootExports": {
       "javascript": 841,
-      "typescript": 432
+      "typescript": 433
     },
     "applicationsExports": {
       "javascript": 309,
@@ -35385,11 +35415,11 @@
     },
     "sourceFiles": {
       "javascript": 480,
-      "typescript": 291
+      "typescript": 292
     },
     "tests": {
       "javascript": 131,
-      "typescript": 108
+      "typescript": 110
     },
     "validationCampaigns": {
       "javascript": 17,
@@ -35421,7 +35451,7 @@
       "statusCounts": {
         "exact-parity": 0,
         "partial": 19,
-        "missing": 219,
+        "missing": 217,
         "intentionally-excluded": 0,
         "decision-required": 0
       },
@@ -35511,7 +35541,6 @@
         "root-export:LinearLoadFromLineWeight",
         "root-export:LinearLoadFromVolumeWeight",
         "root-export:MasonryFiberInterface2D",
-        "root-export:MasonryMaterial",
         "root-export:NTC2018SlabLoadAnalysis",
         "root-export:PILE_TRANSFER_CURVE_MODELS",
         "root-export:PILE_TRANSFER_EXTRAPOLATION_MODELS",
@@ -35640,7 +35669,6 @@
         "source:src/domain/geotechnics/spencerMethod.js",
         "source:src/domain/materials/ExistingMasonryMaterial.js",
         "source:src/domain/materials/GlulamTimberMaterial.js",
-        "source:src/domain/materials/MasonryMaterial.js",
         "source:src/domain/materials/SolidTimberMaterial.js",
         "source:src/domain/materials/TimberMaterial.js",
         "source:src/domain/materials/XlamMaterial.js",
@@ -36312,7 +36340,7 @@
       "statusCounts": {
         "exact-parity": 0,
         "partial": 3,
-        "missing": 151,
+        "missing": 150,
         "intentionally-excluded": 0,
         "decision-required": 0
       },
@@ -36445,7 +36473,6 @@
         "test:tests/masonryWallOpeningsEquivalentFrameBuilder.test.js",
         "test:tests/masonryWallOpeningsEquivalentFramePushover.test.js",
         "test:tests/masonryWallOpeningsExtraction.test.js",
-        "test:tests/masonryWallOpeningsMaterialResolution.test.js",
         "test:tests/masonryWallOpeningsPierCapacityCurveComparisonReport.test.js",
         "test:tests/masonryWallOpeningsSanitization.test.js",
         "test:tests/masonryWallOpeningsSeismicAnalysis.test.js",

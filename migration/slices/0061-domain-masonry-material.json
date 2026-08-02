@@ -1,0 +1,75 @@
+{
+  "schemaVersion": 1,
+  "sliceId": "0061-domain-masonry-material",
+  "title": "Domain masonry material",
+  "migrationType": "mechanical-parity",
+  "implementationStatus": "implemented",
+  "dependencies": ["0060-domain-existing-material"],
+  "source": {
+    "repository": "https://github.com/claudiopagani/strutture-js",
+    "revision": "6f33baead8b88166c4b2cf94af41763412e3c751"
+  },
+  "normativeCorpusRevision": "41da3faa489600173106935bbcf726119300e48d",
+  "sourceFiles": [
+    {
+      "path": "src/domain/materials/MasonryMaterial.js",
+      "gitBlobSha1": "c1dce5786c4147e58b28347d4d7035d99b00019c",
+      "targetPath": "src/domain/materials/MasonryMaterial.ts"
+    }
+  ],
+  "supportingSourceFiles": [
+    {
+      "path": "src/domain/materials/BaseMaterial.js",
+      "gitBlobSha1": "863b59f075a9a12dc636bd2adc8f08b554caf062",
+      "targetPath": "src/domain/materials/BaseMaterial.ts",
+      "coverage": "MasonryMaterial extends the already migrated BaseMaterial contract"
+    },
+    {
+      "path": "src/index.js",
+      "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7",
+      "targetPath": "src/index.ts",
+      "coverage": "Root public export for the migrated MasonryMaterial class"
+    }
+  ],
+  "sourceOracles": [
+    {
+      "path": "tests/masonryWallOpeningsMaterialResolution.test.js",
+      "gitBlobSha1": "a72fc9a4a35ca1dca3bbef650d42ab48192a71f8",
+      "coverage": "Masonry material mechanical properties and source units consumed by masonry wall material resolution"
+    }
+  ],
+  "sourcePublicExport": {
+    "path": "src/index.js",
+    "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
+  },
+  "targetTests": [
+    "tests/baseline-parity.test.ts",
+    "tests/masonry-material-compile-time.test.ts",
+    "tests/masonry-material-live-parity.test.ts"
+  ],
+  "publicExports": ["MasonryMaterial"],
+  "publicTypeExports": ["MasonryMaterialJson", "MasonryMaterialOptions"],
+  "normativeReferences": {
+    "resolved": [],
+    "outsideCorpus": [],
+    "normativeConformityClaimed": false,
+    "status": "classified-for-declared-scope"
+  },
+  "independentValidation": {
+    "method": "Strict public declaration consumer coverage and independently executed pinned JavaScript versus built TypeScript comparison of MasonryMaterial BaseMaterial inheritance, exact unit-converted strength fields, metadata and Unicode, enumerable order, clone serialization, existing-material classification and missing-unit errors.",
+    "targetTests": [
+      "tests/masonry-material-compile-time.test.ts",
+      "tests/masonry-material-live-parity.test.ts"
+    ],
+    "tolerances": {
+      "serializedParity": "exact JSON serialization and enumerable-key order",
+      "numericParity": "exact equality for unit-converted strengths",
+      "publicStrings": "exact equality plus Unicode code-point equality",
+      "errors": "exact error name and message equality"
+    }
+  },
+  "parityDifferences": [
+    "The strict TypeScript declarations describe the existing JavaScript masonry material without adding runtime behavior."
+  ],
+  "engineeringFunctionality": "Solver-neutral masonry material with explicit N/mm unit conversion, masonry, unit and mortar descriptors, mechanical strength properties, BaseMaterial metadata and serializable inheritance."
+}
