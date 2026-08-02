@@ -1,0 +1,70 @@
+{
+  "schemaVersion": 1,
+  "sliceId": "0102-domain-structural-model",
+  "title": "Domain structural model",
+  "migrationType": "mechanical-parity-with-minimal-dependency-support",
+  "implementationStatus": "implemented",
+  "dependencies": [],
+  "source": {
+    "repository": "https://github.com/claudiopagani/strutture-js",
+    "revision": "6f33baead8b88166c4b2cf94af41763412e3c751"
+  },
+  "normativeCorpusRevision": "41da3faa489600173106935bbcf726119300e48d",
+  "sourceFiles": [
+    {
+      "path": "src/domain/model/StructuralModel.js",
+      "gitBlobSha1": "5cb555578f157eda9326d299c9e29618b1b0ec60",
+      "targetPath": "src/domain/model/StructuralModel.ts"
+    }
+  ],
+  "supportingSourceFiles": [
+    {
+      "path": "src/index.js",
+      "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7",
+      "targetPath": "src/index.ts",
+      "coverage": "Root public export for StructuralModel."
+    }
+  ],
+  "sourceOracles": [
+    {
+      "path": "tests/packageExports.test.js",
+      "gitBlobSha1": "8dde24b4c97dd3dae7100207d07d9d96c52b9c74",
+      "coverage": "Root public export behavior."
+    }
+  ],
+  "sourcePublicExport": {
+    "path": "src/index.js",
+    "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
+  },
+  "targetTests": [
+    "tests/baseline-parity.test.ts",
+    "tests/structural-model-compile-time.test.ts",
+    "tests/structural-model-live-parity.test.ts"
+  ],
+  "publicExports": ["StructuralModel"],
+  "publicTypeExports": ["StructuralModelOptions", "StructuralModelSummary"],
+  "normativeReferences": {
+    "resolved": [],
+    "outsideCorpus": [],
+    "normativeConformityClaimed": false,
+    "status": "not-applicable"
+  },
+  "independentValidation": {
+    "method": "Strict public declaration consumer coverage and independently executed pinned JavaScript versus built TypeScript comparison of collection cloning, fluent mutation, summary serialization, Unicode metadata and exact constructor errors.",
+    "targetTests": [
+      "tests/structural-model-compile-time.test.ts",
+      "tests/structural-model-live-parity.test.ts"
+    ],
+    "tolerances": {
+      "serializedParity": "exact deep equality and JSON serialization",
+      "numericParity": "not applicable",
+      "publicStrings": "exact equality plus Unicode code-point preservation",
+      "errors": "exact error name and message equality"
+    }
+  },
+  "parityDifferences": [],
+  "engineeringFunctionality": "Serializable structural model container with source-compatible collections, fluent additions and summary counts.",
+  "notes": [
+    "Structural elements, loads, combinations and solver behavior remain separate bounded slices."
+  ]
+}

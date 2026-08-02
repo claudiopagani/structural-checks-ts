@@ -214,6 +214,11 @@ export { Combination } from "./domain/analysis/Combination.js";
 export { LoadCase } from "./domain/analysis/LoadCase.js";
 export { LoadCombination } from "./domain/analysis/LoadCombination.js";
 export {
+  StructuralModel,
+  type StructuralModelOptions,
+  type StructuralModelSummary,
+} from "./domain/model/StructuralModel.js";
+export {
   AreaLoad,
   DistributedLoad,
   ElementPointLoad,

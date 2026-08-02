@@ -1223,6 +1223,7 @@
         "StrainField",
         "StructuralApplication",
         "StructuralElement",
+        "StructuralModel",
         "StrutAndTieAnalysis2D",
         "StrutAndTieModel2D",
         "Support",
@@ -16282,11 +16283,15 @@
       "sourcePath": "src/domain/model/StructuralModel.js",
       "sourceBlobSha1": "5cb555578f157eda9326d299c9e29618b1b0ec60",
       "targetPath": "src/domain/model/StructuralModel.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0102-domain-structural-model"],
+      "sourceOracles": ["tests/packageExports.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/structural-model-compile-time.test.ts",
+        "tests/structural-model-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0102-domain-structural-model"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -31731,11 +31736,15 @@
       "sourcePath": "src/domain/model/StructuralModel.js",
       "sourceBlobSha1": "5cb555578f157eda9326d299c9e29618b1b0ec60",
       "targetPath": "src/domain/model/StructuralModel.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing"
+      "migrationSlices": ["0102-domain-structural-model"],
+      "sourceOracles": ["tests/packageExports.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/structural-model-compile-time.test.ts",
+        "tests/structural-model-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0102-domain-structural-model"],
+      "status": "exact-parity"
     },
     {
       "id": "src/domain/reinforcement/ReinforcementBar.js",
@@ -32240,7 +32249,8 @@
         "0098-domain-retaining-wall-model-scenario",
         "0099-domain-shallow-foundation-ultimate-limit-state-analysis",
         "0100-domain-retaining-wall-analysis",
-        "0101-domain-shallow-foundation-serviceability-analysis"
+        "0101-domain-shallow-foundation-serviceability-analysis",
+        "0102-domain-structural-model"
       ],
       "sourceOracles": [
         "tests/architecture/applicationRegistry.test.js",
@@ -34800,7 +34810,8 @@
         "0098-domain-retaining-wall-model-scenario",
         "0099-domain-shallow-foundation-ultimate-limit-state-analysis",
         "0100-domain-retaining-wall-analysis",
-        "0101-domain-shallow-foundation-serviceability-analysis"
+        "0101-domain-shallow-foundation-serviceability-analysis",
+        "0102-domain-structural-model"
       ],
       "sourceOracles": ["tests/packageExports.test.js"],
       "targetTests": [
@@ -34867,6 +34878,8 @@
         "tests/slope-surface-surcharge-live-parity.test.ts",
         "tests/spencer-method-compile-time.test.ts",
         "tests/spencer-method-live-parity.test.ts",
+        "tests/structural-model-compile-time.test.ts",
+        "tests/structural-model-live-parity.test.ts",
         "tests/wall-soil-reaction-law-compile-time.test.ts",
         "tests/wall-soil-reaction-law-live-parity.test.ts"
       ],
@@ -34906,7 +34919,8 @@
         "0098-domain-retaining-wall-model-scenario",
         "0099-domain-shallow-foundation-ultimate-limit-state-analysis",
         "0100-domain-retaining-wall-analysis",
-        "0101-domain-shallow-foundation-serviceability-analysis"
+        "0101-domain-shallow-foundation-serviceability-analysis",
+        "0102-domain-structural-model"
       ],
       "status": "exact-parity",
       "testKind": "test"
@@ -38089,12 +38103,28 @@
         "publicStrings": "exact equality plus Unicode code-point preservation",
         "errors": "exact error name and message equality"
       }
+    },
+    {
+      "sliceId": "0102-domain-structural-model",
+      "sourceRevision": "6f33baead8b88166c4b2cf94af41763412e3c751",
+      "method": "Strict public declaration consumer coverage and independently executed pinned JavaScript versus built TypeScript comparison of collection cloning, fluent mutation, summary serialization, Unicode metadata and exact constructor errors.",
+      "targetTests": [
+        "tests/structural-model-compile-time.test.ts",
+        "tests/structural-model-live-parity.test.ts"
+      ],
+      "fixture": null,
+      "tolerances": {
+        "serializedParity": "exact deep equality and JSON serialization",
+        "numericParity": "not applicable",
+        "publicStrings": "exact equality plus Unicode code-point preservation",
+        "errors": "exact error name and message equality"
+      }
     }
   ],
   "counts": {
     "rootExports": {
       "javascript": 841,
-      "typescript": 576
+      "typescript": 577
     },
     "applicationsExports": {
       "javascript": 309,
@@ -38118,11 +38148,11 @@
     },
     "sourceFiles": {
       "javascript": 480,
-      "typescript": 337
+      "typescript": 338
     },
     "tests": {
       "javascript": 131,
-      "typescript": 190
+      "typescript": 192
     },
     "validationCampaigns": {
       "javascript": 17,
@@ -38154,7 +38184,7 @@
       "statusCounts": {
         "exact-parity": 0,
         "partial": 20,
-        "missing": 29,
+        "missing": 27,
         "intentionally-excluded": 0,
         "decision-required": 0
       },
@@ -38180,7 +38210,6 @@
         "root-export:SOIL_SETTLEMENT_COMPONENTS",
         "root-export:SOIL_STRENGTH_MODELS",
         "root-export:SlabLoad",
-        "root-export:StructuralModel",
         "root-export:SurfaceLoad",
         "root-export:TERRAIN_ELEVATION_GRID_SCHEMA_VERSION",
         "root-export:VariableLoad",
@@ -38193,7 +38222,6 @@
         "source:src/domain/geotechnics/index.js",
         "source:src/domain/materials/masonry/index.js",
         "source:src/domain/materials/masonry/shearStrength/index.js",
-        "source:src/domain/model/StructuralModel.js",
         "source:src/domain/sections/masonry/index.js",
         "source:src/domain/slabs/FloorSlab.js",
         "source:src/domain/slabs/LayerLoad.js",

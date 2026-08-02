@@ -101,6 +101,7 @@ const expectedExports = [
   "SHALLOW_FOUNDATION_BEARING_SELECTIONS",
   "SHALLOW_FOUNDATION_ULS_RESULT_SCHEMA_VERSION",
   "ShallowFoundationUltimateLimitStateAnalysis",
+  "StructuralModel",
   "calculateShallowFoundationBearingCapacity",
   "calculateShallowFoundationEffectiveGeometry",
   "calculateShallowFoundationSlidingResistance",
