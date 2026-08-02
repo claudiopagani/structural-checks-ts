@@ -30248,11 +30248,21 @@
       "sourcePath": "src/domain/fem/elements/index.js",
       "sourceBlobSha1": "01bc9064c8484d7ac39e9195f66e4ccfcb6a667f",
       "targetPath": "src/domain/fem/elements/index.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "partial"
+      "migrationSlices": ["0105-domain-fem-public-indexes"],
+      "sourceOracles": [
+        "tests/cyclicMasonryPier2D.test.js",
+        "tests/displacementControlNonlinearStaticSolver2D.test.js",
+        "tests/femCore2D.test.js",
+        "tests/frameElement2DTimoshenkoRigidOffsets.test.js",
+        "tests/packageExports.test.js"
+      ],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/fem-public-indexes-compile-time.test.ts",
+        "tests/fem-public-indexes-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0105-domain-fem-public-indexes"],
+      "status": "exact-parity"
     },
     {
       "id": "src/domain/fem/elements/masonry/CyclicMasonryPier2D.js",
@@ -30288,22 +30298,42 @@
       "sourcePath": "src/domain/fem/elements/masonry/index.js",
       "sourceBlobSha1": "27f2e41e82d4ec656f195eb6ab80df9fcbb3a73b",
       "targetPath": "src/domain/fem/elements/masonry/index.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing"
+      "migrationSlices": ["0105-domain-fem-public-indexes"],
+      "sourceOracles": [
+        "tests/cyclicMasonryPier2D.test.js",
+        "tests/displacementControlNonlinearStaticSolver2D.test.js",
+        "tests/femCore2D.test.js",
+        "tests/frameElement2DTimoshenkoRigidOffsets.test.js",
+        "tests/packageExports.test.js"
+      ],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/fem-public-indexes-compile-time.test.ts",
+        "tests/fem-public-indexes-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0105-domain-fem-public-indexes"],
+      "status": "exact-parity"
     },
     {
       "id": "src/domain/fem/index.js",
       "sourcePath": "src/domain/fem/index.js",
       "sourceBlobSha1": "500ed76831bf15f757c0ed2c7eff05844c39511c",
       "targetPath": "src/domain/fem/index.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "partial"
+      "migrationSlices": ["0105-domain-fem-public-indexes"],
+      "sourceOracles": [
+        "tests/cyclicMasonryPier2D.test.js",
+        "tests/displacementControlNonlinearStaticSolver2D.test.js",
+        "tests/femCore2D.test.js",
+        "tests/frameElement2DTimoshenkoRigidOffsets.test.js",
+        "tests/packageExports.test.js"
+      ],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/fem-public-indexes-compile-time.test.ts",
+        "tests/fem-public-indexes-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0105-domain-fem-public-indexes"],
+      "status": "exact-parity"
     },
     {
       "id": "src/domain/fem/nonlinear/CyclicMasonryPierAnalysis2D.js",
@@ -30340,11 +30370,21 @@
       "sourcePath": "src/domain/fem/nonlinear/index.js",
       "sourceBlobSha1": "e3b6ebfc8d7e8eba91dd1311b6a82c1657eaf8a5",
       "targetPath": "src/domain/fem/nonlinear/index.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "partial"
+      "migrationSlices": ["0105-domain-fem-public-indexes"],
+      "sourceOracles": [
+        "tests/cyclicMasonryPier2D.test.js",
+        "tests/displacementControlNonlinearStaticSolver2D.test.js",
+        "tests/femCore2D.test.js",
+        "tests/frameElement2DTimoshenkoRigidOffsets.test.js",
+        "tests/packageExports.test.js"
+      ],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/fem-public-indexes-compile-time.test.ts",
+        "tests/fem-public-indexes-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0105-domain-fem-public-indexes"],
+      "status": "exact-parity"
     },
     {
       "id": "src/domain/foundations/FoundationBeamAnalysis.js",
@@ -32423,7 +32463,8 @@
         "0101-domain-shallow-foundation-serviceability-analysis",
         "0102-domain-structural-model",
         "0103-domain-slab-load-hierarchy",
-        "0104-domain-terrain-elevation-grid"
+        "0104-domain-terrain-elevation-grid",
+        "0105-domain-fem-public-indexes"
       ],
       "sourceOracles": [
         "tests/architecture/applicationRegistry.test.js",
@@ -33605,7 +33646,8 @@
         "0058-domain-masonry-pier-kinematics",
         "0059-domain-masonry-shear-strength-strategies",
         "0086-domain-cyclic-masonry-pier-2d",
-        "0087-domain-cyclic-masonry-pier-analysis-2d"
+        "0087-domain-cyclic-masonry-pier-analysis-2d",
+        "0105-domain-fem-public-indexes"
       ],
       "sourceOracles": ["tests/cyclicMasonryPier2D.test.js"],
       "targetTests": [
@@ -33614,6 +33656,8 @@
         "tests/cyclic-masonry-pier-analysis-live-parity.test.ts",
         "tests/cyclic-masonry-pier-compile-time.test.ts",
         "tests/cyclic-masonry-pier-live-parity.test.ts",
+        "tests/fem-public-indexes-compile-time.test.ts",
+        "tests/fem-public-indexes-live-parity.test.ts",
         "tests/masonry-pier-kinematics-compile-time.test.ts",
         "tests/masonry-pier-kinematics-live-parity.test.ts",
         "tests/masonry-shear-strength-compile-time.test.ts",
@@ -33623,7 +33667,8 @@
         "0058-domain-masonry-pier-kinematics",
         "0059-domain-masonry-shear-strength-strategies",
         "0086-domain-cyclic-masonry-pier-2d",
-        "0087-domain-cyclic-masonry-pier-analysis-2d"
+        "0087-domain-cyclic-masonry-pier-analysis-2d",
+        "0105-domain-fem-public-indexes"
       ],
       "status": "exact-parity",
       "testKind": "test"
@@ -33677,14 +33722,22 @@
       "sourcePath": "tests/displacementControlNonlinearStaticSolver2D.test.js",
       "sourceBlobSha1": "25bbaf105f0d635ce5901a22b9f21047517e1618",
       "targetPath": "tests/displacementControlNonlinearStaticSolver2D.test.ts",
-      "migrationSlices": ["0062-domain-displacement-control-nonlinear-solver"],
+      "migrationSlices": [
+        "0062-domain-displacement-control-nonlinear-solver",
+        "0105-domain-fem-public-indexes"
+      ],
       "sourceOracles": ["tests/displacementControlNonlinearStaticSolver2D.test.js"],
       "targetTests": [
         "tests/baseline-parity.test.ts",
         "tests/displacement-control-solver-compile-time.test.ts",
-        "tests/displacement-control-solver-live-parity.test.ts"
+        "tests/displacement-control-solver-live-parity.test.ts",
+        "tests/fem-public-indexes-compile-time.test.ts",
+        "tests/fem-public-indexes-live-parity.test.ts"
       ],
-      "validationEvidence": ["0062-domain-displacement-control-nonlinear-solver"],
+      "validationEvidence": [
+        "0062-domain-displacement-control-nonlinear-solver",
+        "0105-domain-fem-public-indexes"
+      ],
       "status": "exact-parity",
       "testKind": "test"
     },
@@ -33717,10 +33770,15 @@
       "sourcePath": "tests/femCore2D.test.js",
       "sourceBlobSha1": "f6b11da64fb1b9bc7c1e00c775a9946cdfecc16e",
       "targetPath": "tests/femCore2D.test.ts",
-      "migrationSlices": ["0020-linear-frame-fem-2d"],
+      "migrationSlices": ["0020-linear-frame-fem-2d", "0105-domain-fem-public-indexes"],
       "sourceOracles": ["tests/femCore2D.test.js"],
-      "targetTests": ["tests/fem-frame-2d.test.ts"],
-      "validationEvidence": ["0020-linear-frame-fem-2d"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/fem-frame-2d.test.ts",
+        "tests/fem-public-indexes-compile-time.test.ts",
+        "tests/fem-public-indexes-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0020-linear-frame-fem-2d", "0105-domain-fem-public-indexes"],
       "status": "exact-parity",
       "testKind": "test"
     },
@@ -33789,13 +33847,22 @@
       "sourcePath": "tests/frameElement2DTimoshenkoRigidOffsets.test.js",
       "sourceBlobSha1": "ba913c72b4821b94714489a5b84df501814d6b61",
       "targetPath": "tests/frameElement2DTimoshenkoRigidOffsets.test.ts",
-      "migrationSlices": ["0052-domain-fem-timoshenko-rigid-offsets"],
+      "migrationSlices": [
+        "0052-domain-fem-timoshenko-rigid-offsets",
+        "0105-domain-fem-public-indexes"
+      ],
       "sourceOracles": ["tests/frameElement2DTimoshenkoRigidOffsets.test.js"],
       "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/fem-public-indexes-compile-time.test.ts",
+        "tests/fem-public-indexes-live-parity.test.ts",
         "tests/frame-element-timoshenko-rigid-offsets-compile-time.test.ts",
         "tests/frame-element-timoshenko-rigid-offsets-live-parity.test.ts"
       ],
-      "validationEvidence": ["0052-domain-fem-timoshenko-rigid-offsets"],
+      "validationEvidence": [
+        "0052-domain-fem-timoshenko-rigid-offsets",
+        "0105-domain-fem-public-indexes"
+      ],
       "status": "exact-parity",
       "testKind": "test"
     },
@@ -34994,7 +35061,8 @@
         "0101-domain-shallow-foundation-serviceability-analysis",
         "0102-domain-structural-model",
         "0103-domain-slab-load-hierarchy",
-        "0104-domain-terrain-elevation-grid"
+        "0104-domain-terrain-elevation-grid",
+        "0105-domain-fem-public-indexes"
       ],
       "sourceOracles": ["tests/packageExports.test.js"],
       "targetTests": [
@@ -35026,6 +35094,8 @@
         "tests/embedded-retaining-wall-analysis-live-parity.test.ts",
         "tests/embedded-retaining-wall-scenario-compile-time.test.ts",
         "tests/embedded-retaining-wall-scenario-live-parity.test.ts",
+        "tests/fem-public-indexes-compile-time.test.ts",
+        "tests/fem-public-indexes-live-parity.test.ts",
         "tests/foundation-beam-analysis.test.ts",
         "tests/ground-anchor-analysis-compile-time.test.ts",
         "tests/ground-anchor-analysis-live-parity.test.ts",
@@ -35109,7 +35179,8 @@
         "0101-domain-shallow-foundation-serviceability-analysis",
         "0102-domain-structural-model",
         "0103-domain-slab-load-hierarchy",
-        "0104-domain-terrain-elevation-grid"
+        "0104-domain-terrain-elevation-grid",
+        "0105-domain-fem-public-indexes"
       ],
       "status": "exact-parity",
       "testKind": "test"
@@ -38340,6 +38411,22 @@
         "publicStrings": "exact equality plus Unicode code-point preservation",
         "errors": "exact error name and message equality"
       }
+    },
+    {
+      "sliceId": "0105-domain-fem-public-indexes",
+      "sourceRevision": "6f33baead8b88166c4b2cf94af41763412e3c751",
+      "method": "Strict declaration consumer coverage and independently executed pinned JavaScript versus built TypeScript comparison of FEM index export order, export identity, nested masonry and nonlinear barrels, root wiring and Unicode-safe serialized constant values.",
+      "targetTests": [
+        "tests/fem-public-indexes-compile-time.test.ts",
+        "tests/fem-public-indexes-live-parity.test.ts"
+      ],
+      "fixture": null,
+      "tolerances": {
+        "serializedParity": "exact export keys, order and JSON serialization",
+        "numericParity": "not applicable; underlying FEM implementations are unchanged",
+        "publicStrings": "exact equality plus Unicode code-point preservation",
+        "errors": "underlying FEM constructor and solver errors remain covered by their dependency slices"
+      }
     }
   ],
   "counts": {
@@ -38369,11 +38456,11 @@
     },
     "sourceFiles": {
       "javascript": 480,
-      "typescript": 350
+      "typescript": 351
     },
     "tests": {
       "javascript": 131,
-      "typescript": 196
+      "typescript": 198
     },
     "validationCampaigns": {
       "javascript": 17,
@@ -38404,8 +38491,8 @@
     "domain": {
       "statusCounts": {
         "exact-parity": 0,
-        "partial": 22,
-        "missing": 4,
+        "partial": 19,
+        "missing": 3,
         "intentionally-excluded": 0,
         "decision-required": 0
       },
@@ -38425,10 +38512,6 @@
         "root-export:SOIL_PARAMETER_BASES",
         "root-export:SOIL_SETTLEMENT_COMPONENTS",
         "root-export:SOIL_STRENGTH_MODELS",
-        "source:src/domain/fem/elements/index.js",
-        "source:src/domain/fem/elements/masonry/index.js",
-        "source:src/domain/fem/index.js",
-        "source:src/domain/fem/nonlinear/index.js",
         "source:src/domain/geotechnics/index.js",
         "source:src/domain/materials/masonry/index.js",
         "source:src/domain/materials/masonry/shearStrength/index.js",

@@ -1,0 +1,113 @@
+{
+  "schemaVersion": 1,
+  "sliceId": "0105-domain-fem-public-indexes",
+  "title": "Domain FEM public index composition",
+  "migrationType": "mechanical-parity-with-minimal-dependency-support",
+  "implementationStatus": "implemented",
+  "dependencies": [
+    "0020-linear-frame-fem-2d",
+    "0028-global-fem-shared-contracts",
+    "0029-global-fem-result-mapping-contract-set",
+    "0052-domain-fem-timoshenko-rigid-offsets",
+    "0062-domain-displacement-control-nonlinear-solver",
+    "0086-domain-cyclic-masonry-pier-2d",
+    "0087-domain-cyclic-masonry-pier-analysis-2d"
+  ],
+  "source": {
+    "repository": "https://github.com/claudiopagani/strutture-js",
+    "revision": "6f33baead8b88166c4b2cf94af41763412e3c751"
+  },
+  "normativeCorpusRevision": "41da3faa489600173106935bbcf726119300e48d",
+  "sourceFiles": [
+    {
+      "path": "src/domain/fem/elements/index.js",
+      "gitBlobSha1": "01bc9064c8484d7ac39e9195f66e4ccfcb6a667f",
+      "targetPath": "src/domain/fem/elements/index.ts"
+    },
+    {
+      "path": "src/domain/fem/elements/masonry/index.js",
+      "gitBlobSha1": "27f2e41e82d4ec656f195eb6ab80df9fcbb3a73b",
+      "targetPath": "src/domain/fem/elements/masonry/index.ts"
+    },
+    {
+      "path": "src/domain/fem/index.js",
+      "gitBlobSha1": "500ed76831bf15f757c0ed2c7eff05844c39511c",
+      "targetPath": "src/domain/fem/index.ts"
+    },
+    {
+      "path": "src/domain/fem/nonlinear/index.js",
+      "gitBlobSha1": "e3b6ebfc8d7e8eba91dd1311b6a82c1657eaf8a5",
+      "targetPath": "src/domain/fem/nonlinear/index.ts"
+    }
+  ],
+  "supportingSourceFiles": [
+    {
+      "path": "src/index.js",
+      "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7",
+      "targetPath": "src/index.ts",
+      "coverage": "Existing root FEM exports remain wired to the completed FEM public index composition."
+    }
+  ],
+  "sourceOracles": [
+    {
+      "path": "tests/packageExports.test.js",
+      "gitBlobSha1": "8dde24b4c97dd3dae7100207d07d9d96c52b9c74",
+      "coverage": "Root public FEM export behavior."
+    },
+    {
+      "path": "tests/femCore2D.test.js",
+      "gitBlobSha1": "f6b11da64fb1b9bc7c1e00c775a9946cdfecc16e",
+      "coverage": "Frame-element and FEM public construction paths."
+    },
+    {
+      "path": "tests/frameElement2DTimoshenkoRigidOffsets.test.js",
+      "gitBlobSha1": "ba913c72b4821b94714489a5b84df501814d6b61",
+      "coverage": "Rigid-offset FEM element public path."
+    },
+    {
+      "path": "tests/displacementControlNonlinearStaticSolver2D.test.js",
+      "gitBlobSha1": "25bbaf105f0d635ce5901a22b9f21047517e1618",
+      "coverage": "Nonlinear FEM public path."
+    },
+    {
+      "path": "tests/cyclicMasonryPier2D.test.js",
+      "gitBlobSha1": "286b6e2168c8d551e0603ba08d2b8bd8e205f589",
+      "coverage": "Cyclic masonry FEM element and analysis public paths."
+    }
+  ],
+  "sourcePublicExport": {
+    "path": "src/index.js",
+    "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
+  },
+  "targetTests": [
+    "tests/baseline-parity.test.ts",
+    "tests/fem-public-indexes-compile-time.test.ts",
+    "tests/fem-public-indexes-live-parity.test.ts"
+  ],
+  "publicExports": [],
+  "publicTypeExports": [],
+  "normativeReferences": {
+    "resolved": [],
+    "outsideCorpus": [],
+    "normativeConformityClaimed": false,
+    "status": "not-applicable"
+  },
+  "independentValidation": {
+    "method": "Strict declaration consumer coverage and independently executed pinned JavaScript versus built TypeScript comparison of FEM index export order, export identity, nested masonry and nonlinear barrels, root wiring and Unicode-safe serialized constant values.",
+    "targetTests": [
+      "tests/fem-public-indexes-compile-time.test.ts",
+      "tests/fem-public-indexes-live-parity.test.ts"
+    ],
+    "tolerances": {
+      "serializedParity": "exact export keys, order and JSON serialization",
+      "numericParity": "not applicable; underlying FEM implementations are unchanged",
+      "publicStrings": "exact equality plus Unicode code-point preservation",
+      "errors": "underlying FEM constructor and solver errors remain covered by their dependency slices"
+    }
+  },
+  "parityDifferences": [
+    "No root runtime export is added; this slice completes existing FEM barrels.",
+    "Two TypeScript-only direct FEM-index runtime exports, DEFAULT_NODE_DOFS_2D and createElementLoadIndex, are removed because they are absent from the pinned JavaScript FEM index."
+  ],
+  "engineeringFunctionality": "Source-compatible FEM public index composition across linear, nonlinear and cyclic masonry element boundaries."
+}
