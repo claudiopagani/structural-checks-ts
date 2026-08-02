@@ -286,4 +286,14 @@ export {
   type MononobeOkabeEarthPressureOptions,
   type RankineEarthPressureCoefficients,
 } from "./earthPressureCoefficients.js";
+export {
+  GROUND_ANCHOR_BOND_CATALOG,
+  GROUND_ANCHOR_BOND_CATALOG_IDS,
+  GROUND_ANCHOR_BOND_CATALOG_REFERENCE,
+  getGroundAnchorBondCatalogEntry,
+  listGroundAnchorBondCatalogEntries,
+  type GroundAnchorBondCatalogEntry,
+  type GroundAnchorBondCatalogReference,
+  type GroundAnchorBondGroundClass,
+} from "./groundAnchorBondCatalog.js";
 export { VerticalStressProfile } from "./VerticalStressProfile.js";

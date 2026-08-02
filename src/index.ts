@@ -433,6 +433,11 @@ export {
   jakyAtRestCoefficient,
   mononobeOkabeActiveEarthPressureCoefficient,
   rankineEarthPressureCoefficients,
+  GROUND_ANCHOR_BOND_CATALOG,
+  GROUND_ANCHOR_BOND_CATALOG_IDS,
+  GROUND_ANCHOR_BOND_CATALOG_REFERENCE,
+  getGroundAnchorBondCatalogEntry,
+  listGroundAnchorBondCatalogEntries,
   AxialPileLoadScenario,
   DeepFoundationModel,
   GeotechnicalDesignSituation,
@@ -1384,6 +1389,9 @@ export type {
   MononobeOkabeActiveEarthPressureCoefficient,
   MononobeOkabeEarthPressureOptions,
   RankineEarthPressureCoefficients,
+  GroundAnchorBondCatalogEntry,
+  GroundAnchorBondCatalogReference,
+  GroundAnchorBondGroundClass,
 } from "./domain/geotechnics/index.js";
 export type {
   BiaxialCompressedSide,

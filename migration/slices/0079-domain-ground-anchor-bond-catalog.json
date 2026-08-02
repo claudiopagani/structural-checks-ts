@@ -1,0 +1,90 @@
+{
+  "schemaVersion": 1,
+  "sliceId": "0079-domain-ground-anchor-bond-catalog",
+  "title": "Domain ground-anchor bond catalog",
+  "migrationType": "mechanical-parity",
+  "implementationStatus": "implemented",
+  "dependencies": [],
+  "source": {
+    "repository": "https://github.com/claudiopagani/strutture-js",
+    "revision": "6f33baead8b88166c4b2cf94af41763412e3c751"
+  },
+  "normativeCorpusRevision": "41da3faa489600173106935bbcf726119300e48d",
+  "sourceFiles": [
+    {
+      "path": "src/domain/geotechnics/groundAnchorBondCatalog.js",
+      "gitBlobSha1": "aad1c9ec167f2e078daa6d41067a78b0d295832c",
+      "targetPath": "src/domain/geotechnics/groundAnchorBondCatalog.ts"
+    }
+  ],
+  "supportingSourceFiles": [
+    {
+      "path": "src/domain/geotechnics/index.js",
+      "gitBlobSha1": "41ed2053fc2e37dc90da412846609f4050af9668",
+      "targetPath": "src/domain/geotechnics/index.ts",
+      "coverage": "Geotechnical public exports for the migrated catalog and lookup functions."
+    },
+    {
+      "path": "src/index.js",
+      "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7",
+      "targetPath": "src/index.ts",
+      "coverage": "Root public exports for the migrated catalog and lookup functions."
+    }
+  ],
+  "sourceOracles": [
+    {
+      "path": "tests/geotechnicalGroundAnchors.test.js",
+      "gitBlobSha1": "e18bd13b5f6910266435fc3cc3f24cf8502dc3a7",
+      "coverage": "Complete FHWA bond catalog values, defensive cloning, immutability and lookup error behavior."
+    },
+    {
+      "path": "tests/packageExports.test.js",
+      "gitBlobSha1": "8dde24b4c97dd3dae7100207d07d9d96c52b9c74",
+      "coverage": "Root and geotechnics subpath public export behavior."
+    }
+  ],
+  "sourcePublicExport": {
+    "path": "src/index.js",
+    "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
+  },
+  "targetTests": [
+    "tests/baseline-parity.test.ts",
+    "tests/ground-anchor-bond-catalog-compile-time.test.ts",
+    "tests/ground-anchor-bond-catalog-live-parity.test.ts"
+  ],
+  "publicExports": [
+    "GROUND_ANCHOR_BOND_CATALOG",
+    "GROUND_ANCHOR_BOND_CATALOG_IDS",
+    "GROUND_ANCHOR_BOND_CATALOG_REFERENCE",
+    "getGroundAnchorBondCatalogEntry",
+    "listGroundAnchorBondCatalogEntries"
+  ],
+  "publicTypeExports": [
+    "GroundAnchorBondCatalogEntry",
+    "GroundAnchorBondCatalogReference",
+    "GroundAnchorBondGroundClass"
+  ],
+  "normativeReferences": {
+    "resolved": [],
+    "outsideCorpus": [],
+    "normativeConformityClaimed": false,
+    "status": "classified-for-declared-scope"
+  },
+  "independentValidation": {
+    "method": "Strict public declaration consumer coverage and independently executed pinned JavaScript versus built TypeScript comparison of all catalog constants, exact numeric and Unicode values, defensive cloning, serialization, immutable source entries and exact unknown-id errors.",
+    "targetTests": [
+      "tests/ground-anchor-bond-catalog-compile-time.test.ts",
+      "tests/ground-anchor-bond-catalog-live-parity.test.ts"
+    ],
+    "tolerances": {
+      "serializedParity": "exact deep equality and JSON serialization",
+      "numericParity": "exact equality for all catalog transfer loads and divisors",
+      "publicStrings": "exact equality plus Unicode code-point preservation",
+      "errors": "exact error name and message equality"
+    }
+  },
+  "parityDifferences": [
+    "The strict TypeScript declarations describe the existing JavaScript ground-anchor catalog without adding anchor design or normative review behavior."
+  ],
+  "engineeringFunctionality": "Immutable FHWA presumptive ground-anchor bond catalog with complete soil and competent-rock entries, defensive lookup/list cloning and traceable source metadata."
+}
