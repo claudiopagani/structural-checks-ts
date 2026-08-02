@@ -967,6 +967,7 @@
         "GROUND_ANCHOR_TENDON_TYPES",
         "GROUND_MODEL_SCHEMA_VERSION",
         "GROUND_PROFILE_SCHEMA_VERSION",
+        "GROUND_SECTION_2D_SCHEMA_VERSION",
         "GeotechnicalDeepFoundationApplication",
         "GeotechnicalDesignSituation",
         "GlobalFemPostProcessingApplication",
@@ -974,6 +975,7 @@
         "GroundAnchorModel",
         "GroundModel",
         "GroundProfile",
+        "GroundSection2D",
         "HyperstaticDeflectionIteration",
         "IDENTITY_RESISTANCE_AXIS_TRANSFORMATION",
         "IllinoisRootSolver",
@@ -8825,11 +8827,15 @@
       "sourcePath": "src/domain/geotechnics/GroundSection2D.js",
       "sourceBlobSha1": "d4f1168ac4127c832ca3bb1f6eeb9be5c68260bb",
       "targetPath": "src/domain/geotechnics/GroundSection2D.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0070-domain-ground-section"],
+      "sourceOracles": ["tests/geotechnicalGroundModel.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/ground-section-2d-compile-time.test.ts",
+        "tests/ground-section-2d-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0070-domain-ground-section"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -8941,11 +8947,15 @@
       "sourcePath": "src/domain/geotechnics/GroundSection2D.js",
       "sourceBlobSha1": "d4f1168ac4127c832ca3bb1f6eeb9be5c68260bb",
       "targetPath": "src/domain/geotechnics/GroundSection2D.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0070-domain-ground-section"],
+      "sourceOracles": ["tests/geotechnicalGroundModel.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/ground-section-2d-compile-time.test.ts",
+        "tests/ground-section-2d-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0070-domain-ground-section"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -23993,11 +24003,15 @@
       "sourcePath": "src/domain/geotechnics/GroundSection2D.js",
       "sourceBlobSha1": "d4f1168ac4127c832ca3bb1f6eeb9be5c68260bb",
       "targetPath": "src/domain/geotechnics/GroundSection2D.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0070-domain-ground-section"],
+      "sourceOracles": ["tests/geotechnicalGroundModel.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/ground-section-2d-compile-time.test.ts",
+        "tests/ground-section-2d-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0070-domain-ground-section"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7",
       "value": "ground-section-2d/v1"
@@ -29458,11 +29472,15 @@
       "sourcePath": "src/domain/geotechnics/GroundSection2D.js",
       "sourceBlobSha1": "d4f1168ac4127c832ca3bb1f6eeb9be5c68260bb",
       "targetPath": "src/domain/geotechnics/GroundSection2D.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing"
+      "migrationSlices": ["0070-domain-ground-section"],
+      "sourceOracles": ["tests/geotechnicalGroundModel.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/ground-section-2d-compile-time.test.ts",
+        "tests/ground-section-2d-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0070-domain-ground-section"],
+      "status": "exact-parity"
     },
     {
       "id": "src/domain/geotechnics/LateralEarthPressureAnalysis.js",
@@ -30748,7 +30766,8 @@
         "0066-domain-embedded-retaining-wall-model",
         "0067-domain-ground-anchor-model",
         "0068-domain-pressure-diagram",
-        "0069-domain-pore-pressure-field"
+        "0069-domain-pore-pressure-field",
+        "0070-domain-ground-section"
       ],
       "sourceOracles": [
         "tests/architecture/applicationRegistry.test.js",
@@ -32226,14 +32245,16 @@
       "sourcePath": "tests/geotechnicalGroundModel.test.js",
       "sourceBlobSha1": "430775c7d7077ac71dbc3f8b03e8cd2f4a6bb289",
       "targetPath": "tests/geotechnicalGroundModel.test.ts",
-      "migrationSlices": ["0069-domain-pore-pressure-field"],
+      "migrationSlices": ["0069-domain-pore-pressure-field", "0070-domain-ground-section"],
       "sourceOracles": ["tests/geotechnicalGroundModel.test.js"],
       "targetTests": [
         "tests/baseline-parity.test.ts",
+        "tests/ground-section-2d-compile-time.test.ts",
+        "tests/ground-section-2d-live-parity.test.ts",
         "tests/pore-pressure-field-2d-compile-time.test.ts",
         "tests/pore-pressure-field-2d-live-parity.test.ts"
       ],
-      "validationEvidence": ["0069-domain-pore-pressure-field"],
+      "validationEvidence": ["0069-domain-pore-pressure-field", "0070-domain-ground-section"],
       "status": "exact-parity",
       "testKind": "test"
     },
@@ -35823,12 +35844,28 @@
         "publicStrings": "exact equality plus Unicode code-point preservation",
         "errors": "exact error name and message equality"
       }
+    },
+    {
+      "sliceId": "0070-domain-ground-section",
+      "sourceRevision": "6f33baead8b88166c4b2cf94af41763412e3c751",
+      "method": "Strict public declaration consumer coverage and independently executed pinned JavaScript versus built TypeScript comparison of polygon validation, surface interpolation, spatial queries, profile extrusion, unit conversion, exact serialization, Unicode metadata and error paths.",
+      "targetTests": [
+        "tests/ground-section-2d-compile-time.test.ts",
+        "tests/ground-section-2d-live-parity.test.ts"
+      ],
+      "fixture": null,
+      "tolerances": {
+        "serializedParity": "exact deep equality and JSON serialization",
+        "numericParity": "exact equality for surface elevations and normalized coordinates",
+        "publicStrings": "exact equality plus Unicode code-point preservation",
+        "errors": "exact error name and message equality"
+      }
     }
   ],
   "counts": {
     "rootExports": {
       "javascript": 841,
-      "typescript": 457
+      "typescript": 459
     },
     "applicationsExports": {
       "javascript": 309,
@@ -35848,15 +35885,15 @@
     },
     "serializedSchemas": {
       "javascript": 49,
-      "typescript": 18
+      "typescript": 19
     },
     "sourceFiles": {
       "javascript": 480,
-      "typescript": 304
+      "typescript": 305
     },
     "tests": {
       "javascript": 131,
-      "typescript": 126
+      "typescript": 128
     },
     "validationCampaigns": {
       "javascript": 17,
@@ -35888,7 +35925,7 @@
       "statusCounts": {
         "exact-parity": 0,
         "partial": 20,
-        "missing": 181,
+        "missing": 178,
         "intentionally-excluded": 0,
         "decision-required": 0
       },
@@ -35935,11 +35972,9 @@
         "root-export:GROUND_ANCHOR_TEST_TYPES",
         "root-export:GROUND_MODEL_SCHEMA_VERSION",
         "root-export:GROUND_PROFILE_SCHEMA_VERSION",
-        "root-export:GROUND_SECTION_2D_SCHEMA_VERSION",
         "root-export:GroundAnchorAnalysis",
         "root-export:GroundAnchorDesignScenario",
         "root-export:GroundAnchorStabilityAction2D",
-        "root-export:GroundSection2D",
         "root-export:LATERAL_PILE_ACTION_REFERENCE_POINTS",
         "root-export:LATERAL_PILE_BEHAVIOR_CLASSIFICATIONS",
         "root-export:LATERAL_PILE_BROMS_REFERENCE",
@@ -36051,7 +36086,6 @@
         "source:src/domain/geotechnics/GroundAnchorAnalysis.js",
         "source:src/domain/geotechnics/GroundAnchorDesignScenario.js",
         "source:src/domain/geotechnics/GroundAnchorStabilityAction2D.js",
-        "source:src/domain/geotechnics/GroundSection2D.js",
         "source:src/domain/geotechnics/LateralEarthPressureAnalysis.js",
         "source:src/domain/geotechnics/LateralPileBeamOnSpringsAnalysis.js",
         "source:src/domain/geotechnics/LateralPileCapacityAnalysis.js",

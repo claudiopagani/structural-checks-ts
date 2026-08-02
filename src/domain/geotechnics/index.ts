@@ -36,6 +36,21 @@ export {
   type GroundwaterModel,
 } from "./GroundProfile.js";
 export {
+  GROUND_SECTION_2D_SCHEMA_VERSION,
+  GroundSection2D,
+  type GroundSection2DJson,
+  type GroundSection2DOptions,
+  type GroundSectionPoint,
+  type GroundSectionPointInput,
+  type GroundSectionPointQueryOptions,
+  type GroundSectionSurface,
+  type GroundSectionSurfaceInput,
+  type GroundSectionZone,
+  type GroundSectionZoneBounds,
+  type GroundSectionZoneInput,
+  type GroundSectionZoneJson,
+} from "./GroundSection2D.js";
+export {
   PORE_PRESSURE_FIELD_2D_MODELS,
   PORE_PRESSURE_FIELD_2D_SCHEMA_VERSION,
   PorePressureField2D,

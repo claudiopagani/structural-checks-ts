@@ -1,0 +1,105 @@
+{
+  "schemaVersion": 1,
+  "sliceId": "0070-domain-ground-section",
+  "title": "Domain ground section",
+  "migrationType": "mechanical-parity",
+  "implementationStatus": "implemented",
+  "dependencies": ["0069-domain-pore-pressure-field"],
+  "source": {
+    "repository": "https://github.com/claudiopagani/strutture-js",
+    "revision": "6f33baead8b88166c4b2cf94af41763412e3c751"
+  },
+  "normativeCorpusRevision": "41da3faa489600173106935bbcf726119300e48d",
+  "sourceFiles": [
+    {
+      "path": "src/domain/geotechnics/GroundSection2D.js",
+      "gitBlobSha1": "d4f1168ac4127c832ca3bb1f6eeb9be5c68260bb",
+      "targetPath": "src/domain/geotechnics/GroundSection2D.ts"
+    }
+  ],
+  "supportingSourceFiles": [
+    {
+      "path": "src/domain/geotechnics/GroundProfile.js",
+      "gitBlobSha1": "6a4f206074bcbda08fefed813bf77e30bf095f41",
+      "targetPath": "src/domain/geotechnics/GroundProfile.ts",
+      "coverage": "Ground-section profile extrusion constructs from the already migrated ground profile model"
+    },
+    {
+      "path": "src/domain/geotechnics/SoilMaterial.js",
+      "gitBlobSha1": "5dfaafe73a7e65586de313e262cacf7e257535b9",
+      "targetPath": "src/domain/geotechnics/SoilMaterial.ts",
+      "coverage": "Ground-section zones preserve material identifiers and the migrated geotechnical units"
+    },
+    {
+      "path": "src/domain/units/UnitSystem.js",
+      "gitBlobSha1": "b8f2f4926aff645efbf7b9f458b69eba264ed59a",
+      "targetPath": "src/domain/units/UnitSystem.ts",
+      "coverage": "Ground-section coordinates use the migrated explicit unit resolver"
+    },
+    {
+      "path": "src/domain/geotechnics/index.js",
+      "gitBlobSha1": "41ed2053fc2e37dc90da412846609f4050af9668",
+      "targetPath": "src/domain/geotechnics/index.ts",
+      "coverage": "Geotechnical public export for the migrated ground section model"
+    },
+    {
+      "path": "src/index.js",
+      "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7",
+      "targetPath": "src/index.ts",
+      "coverage": "Root public export for the migrated ground section model"
+    }
+  ],
+  "sourceOracles": [
+    {
+      "path": "tests/geotechnicalGroundModel.test.js",
+      "gitBlobSha1": "430775c7d7077ac71dbc3f8b03e8cd2f4a6bb289",
+      "coverage": "Ground-section geometry validation, deterministic spatial queries, surface interpolation, profile extrusion, unit conversion, serialization and error behavior"
+    }
+  ],
+  "sourcePublicExport": {
+    "path": "src/index.js",
+    "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
+  },
+  "targetTests": [
+    "tests/baseline-parity.test.ts",
+    "tests/ground-section-2d-compile-time.test.ts",
+    "tests/ground-section-2d-live-parity.test.ts"
+  ],
+  "publicExports": ["GROUND_SECTION_2D_SCHEMA_VERSION", "GroundSection2D"],
+  "publicTypeExports": [
+    "GroundSection2DJson",
+    "GroundSection2DOptions",
+    "GroundSectionPoint",
+    "GroundSectionPointInput",
+    "GroundSectionPointQueryOptions",
+    "GroundSectionSurface",
+    "GroundSectionSurfaceInput",
+    "GroundSectionZone",
+    "GroundSectionZoneBounds",
+    "GroundSectionZoneInput",
+    "GroundSectionZoneJson"
+  ],
+  "normativeReferences": {
+    "resolved": [],
+    "outsideCorpus": [],
+    "normativeConformityClaimed": false,
+    "status": "classified-for-declared-scope"
+  },
+  "independentValidation": {
+    "method": "Strict public declaration consumer coverage and independently executed pinned JavaScript versus built TypeScript comparison of polygon validation, surface interpolation, spatial queries, profile extrusion, unit conversion, exact serialization, Unicode metadata and error paths.",
+    "targetTests": [
+      "tests/ground-section-2d-compile-time.test.ts",
+      "tests/ground-section-2d-live-parity.test.ts"
+    ],
+    "tolerances": {
+      "serializedParity": "exact deep equality and JSON serialization",
+      "numericParity": "exact equality for surface elevations and normalized coordinates",
+      "publicStrings": "exact equality plus Unicode code-point preservation",
+      "errors": "exact error name and message equality"
+    }
+  },
+  "parityDifferences": [
+    "The strict TypeScript declarations describe the existing JavaScript ground-section model without adding runtime behavior."
+  ],
+  "engineeringFunctionality": "Serializable two-dimensional ground section with validated simple polygons, surface interpolation, material-zone spatial queries, profile extrusion and explicit unit conversion."
+}
