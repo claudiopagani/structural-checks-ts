@@ -1,0 +1,106 @@
+{
+  "schemaVersion": 1,
+  "sliceId": "0067-domain-ground-anchor-model",
+  "title": "Domain ground anchor model",
+  "migrationType": "mechanical-parity",
+  "implementationStatus": "implemented",
+  "dependencies": ["0066-domain-embedded-retaining-wall-model"],
+  "source": {
+    "repository": "https://github.com/claudiopagani/strutture-js",
+    "revision": "6f33baead8b88166c4b2cf94af41763412e3c751"
+  },
+  "normativeCorpusRevision": "41da3faa489600173106935bbcf726119300e48d",
+  "sourceFiles": [
+    {
+      "path": "src/domain/geotechnics/GroundAnchorModel.js",
+      "gitBlobSha1": "3ca1ca0a2cee3cc7129125214b64f5ca7d2c1e41",
+      "targetPath": "src/domain/geotechnics/GroundAnchorModel.ts"
+    }
+  ],
+  "supportingSourceFiles": [
+    {
+      "path": "src/domain/geotechnics/SoilMaterial.js",
+      "gitBlobSha1": "5dfaafe73a7e65586de313e262cacf7e257535b9",
+      "targetPath": "src/domain/geotechnics/SoilMaterial.ts",
+      "coverage": "Ground anchor models use the already migrated canonical geotechnical internal units"
+    },
+    {
+      "path": "src/domain/geotechnics/index.js",
+      "gitBlobSha1": "41ed2053fc2e37dc90da412846609f4050af9668",
+      "targetPath": "src/domain/geotechnics/index.ts",
+      "coverage": "Geotechnical public export for the migrated ground anchor model"
+    },
+    {
+      "path": "src/index.js",
+      "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7",
+      "targetPath": "src/index.ts",
+      "coverage": "Root public exports for the migrated ground anchor model"
+    }
+  ],
+  "sourceOracles": [
+    {
+      "path": "tests/geotechnicalGroundAnchors.test.js",
+      "gitBlobSha1": "e18bd13b5f6910266435fc3cc3f24cf8502dc3a7",
+      "coverage": "Ground anchor geometry, tendon and corrosion metadata, anchorage capacities, installation provenance, serialization and validation"
+    }
+  ],
+  "sourcePublicExport": {
+    "path": "src/index.js",
+    "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
+  },
+  "targetTests": [
+    "tests/baseline-parity.test.ts",
+    "tests/ground-anchor-model-compile-time.test.ts",
+    "tests/ground-anchor-model-live-parity.test.ts"
+  ],
+  "publicExports": [
+    "GROUND_ANCHOR_CORROSION_CLASSES",
+    "GROUND_ANCHOR_HORIZONTAL_DIRECTIONS",
+    "GROUND_ANCHOR_MODEL_SCHEMA_VERSION",
+    "GROUND_ANCHOR_TENDON_TYPES",
+    "GroundAnchorModel"
+  ],
+  "publicTypeExports": [
+    "GroundAnchorAnchorage",
+    "GroundAnchorAnchorageInput",
+    "GroundAnchorAssignedCapacity",
+    "GroundAnchorAssignedCapacityInput",
+    "GroundAnchorCorrosionClass",
+    "GroundAnchorCorrosionProtection",
+    "GroundAnchorCorrosionProtectionInput",
+    "GroundAnchorHorizontalDirection",
+    "GroundAnchorInstallation",
+    "GroundAnchorInstallationInput",
+    "GroundAnchorModelJson",
+    "GroundAnchorModelOptions",
+    "GroundAnchorPoint",
+    "GroundAnchorPointInput",
+    "GroundAnchorProvenance",
+    "GroundAnchorTendon",
+    "GroundAnchorTendonInput",
+    "GroundAnchorTendonType"
+  ],
+  "normativeReferences": {
+    "resolved": [],
+    "outsideCorpus": [],
+    "normativeConformityClaimed": false,
+    "status": "classified-for-declared-scope"
+  },
+  "independentValidation": {
+    "method": "Strict public declaration consumer coverage and independently executed pinned JavaScript versus built TypeScript comparison of ground anchor unit normalization, geometry, tendon and corrosion metadata, assigned capacities, installation provenance, exact serialization, Unicode metadata and error paths.",
+    "targetTests": [
+      "tests/ground-anchor-model-compile-time.test.ts",
+      "tests/ground-anchor-model-live-parity.test.ts"
+    ],
+    "tolerances": {
+      "serializedParity": "exact deep equality and JSON serialization",
+      "numericParity": "exact equality for normalized geometry and capacities",
+      "publicStrings": "exact equality plus Unicode code-point preservation",
+      "errors": "exact error name and message equality"
+    }
+  },
+  "parityDifferences": [
+    "The strict TypeScript declarations describe the existing JavaScript ground anchor model without adding runtime behavior."
+  ],
+  "engineeringFunctionality": "Serializable ground anchor geometry and metadata model with unit-normalized dimensions, tendon and corrosion protection properties, assigned anchorage capacities, installation provenance and anchor-axis point queries."
+}
