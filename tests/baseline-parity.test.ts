@@ -597,6 +597,8 @@ const expectedExports = [
   "SnowAction",
   "ThermalAction",
   "TrafficAction",
+  "TERRAIN_ELEVATION_GRID_SCHEMA_VERSION",
+  "normalizeTerrainElevationGrid",
   "VariableAction",
   "WindAction",
 ].sort();

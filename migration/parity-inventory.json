@@ -1236,6 +1236,7 @@
         "SurfaceLoad",
         "TECNARIA_CONNECTOR_CATALOG",
         "TECNARIA_CONNECTOR_TYPES",
+        "TERRAIN_ELEVATION_GRID_SCHEMA_VERSION",
         "TSection",
         "TecnariaConnector",
         "ThermalAction",
@@ -1388,6 +1389,7 @@
         "normalizeNTC2018StructuralBehavior",
         "normalizeNTC2018StructuralType",
         "normalizeSectionRotation",
+        "normalizeTerrainElevationGrid",
         "normalizeUnitSystem",
         "ntc2018JointOverstrengthFactor",
         "ordinaryMethodOfSlices",
@@ -10847,11 +10849,15 @@
       "sourcePath": "src/domain/terrain/TerrainElevationGrid.js",
       "sourceBlobSha1": "4d34e3d4025cf8f25a1d173fde9e1a80656271de",
       "targetPath": "src/domain/terrain/TerrainElevationGrid.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0104-domain-terrain-elevation-grid"],
+      "sourceOracles": ["tests/packageExports.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/terrain-elevation-grid-compile-time.test.ts",
+        "tests/terrain-elevation-grid-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0104-domain-terrain-elevation-grid"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -16508,11 +16514,15 @@
       "sourcePath": "src/domain/terrain/TerrainElevationGrid.js",
       "sourceBlobSha1": "4d34e3d4025cf8f25a1d173fde9e1a80656271de",
       "targetPath": "src/domain/terrain/TerrainElevationGrid.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0104-domain-terrain-elevation-grid"],
+      "sourceOracles": ["tests/packageExports.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/terrain-elevation-grid-compile-time.test.ts",
+        "tests/terrain-elevation-grid-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0104-domain-terrain-elevation-grid"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -25726,11 +25736,15 @@
       "sourcePath": "src/domain/terrain/TerrainElevationGrid.js",
       "sourceBlobSha1": "4d34e3d4025cf8f25a1d173fde9e1a80656271de",
       "targetPath": "src/domain/terrain/TerrainElevationGrid.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0104-domain-terrain-elevation-grid"],
+      "sourceOracles": ["tests/packageExports.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/terrain-elevation-grid-compile-time.test.ts",
+        "tests/terrain-elevation-grid-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0104-domain-terrain-elevation-grid"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7",
       "value": "terrain-elevation-grid/v1"
@@ -32260,11 +32274,15 @@
       "sourcePath": "src/domain/terrain/TerrainElevationGrid.js",
       "sourceBlobSha1": "4d34e3d4025cf8f25a1d173fde9e1a80656271de",
       "targetPath": "src/domain/terrain/TerrainElevationGrid.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing"
+      "migrationSlices": ["0104-domain-terrain-elevation-grid"],
+      "sourceOracles": ["tests/packageExports.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/terrain-elevation-grid-compile-time.test.ts",
+        "tests/terrain-elevation-grid-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0104-domain-terrain-elevation-grid"],
+      "status": "exact-parity"
     },
     {
       "id": "src/domain/terrain/index.js",
@@ -32275,7 +32293,7 @@
       "sourceOracles": [],
       "targetTests": [],
       "validationEvidence": [],
-      "status": "missing"
+      "status": "partial"
     },
     {
       "id": "src/domain/units/UnitSystem.js",
@@ -32404,7 +32422,8 @@
         "0100-domain-retaining-wall-analysis",
         "0101-domain-shallow-foundation-serviceability-analysis",
         "0102-domain-structural-model",
-        "0103-domain-slab-load-hierarchy"
+        "0103-domain-slab-load-hierarchy",
+        "0104-domain-terrain-elevation-grid"
       ],
       "sourceOracles": [
         "tests/architecture/applicationRegistry.test.js",
@@ -34974,7 +34993,8 @@
         "0100-domain-retaining-wall-analysis",
         "0101-domain-shallow-foundation-serviceability-analysis",
         "0102-domain-structural-model",
-        "0103-domain-slab-load-hierarchy"
+        "0103-domain-slab-load-hierarchy",
+        "0104-domain-terrain-elevation-grid"
       ],
       "sourceOracles": ["tests/packageExports.test.js"],
       "targetTests": [
@@ -35045,6 +35065,8 @@
         "tests/spencer-method-live-parity.test.ts",
         "tests/structural-model-compile-time.test.ts",
         "tests/structural-model-live-parity.test.ts",
+        "tests/terrain-elevation-grid-compile-time.test.ts",
+        "tests/terrain-elevation-grid-live-parity.test.ts",
         "tests/wall-soil-reaction-law-compile-time.test.ts",
         "tests/wall-soil-reaction-law-live-parity.test.ts"
       ],
@@ -35086,7 +35108,8 @@
         "0100-domain-retaining-wall-analysis",
         "0101-domain-shallow-foundation-serviceability-analysis",
         "0102-domain-structural-model",
-        "0103-domain-slab-load-hierarchy"
+        "0103-domain-slab-load-hierarchy",
+        "0104-domain-terrain-elevation-grid"
       ],
       "status": "exact-parity",
       "testKind": "test"
@@ -38301,12 +38324,28 @@
         "publicStrings": "exact equality plus Unicode code-point preservation",
         "errors": "exact error name and message equality"
       }
+    },
+    {
+      "sliceId": "0104-domain-terrain-elevation-grid",
+      "sourceRevision": "6f33baead8b88166c4b2cf94af41763412e3c751",
+      "method": "Strict declaration consumer coverage and independently executed pinned JavaScript versus built TypeScript comparison of grid-size inference, orientation normalization, elevation aliases, no-data and fallback flags, bounds, quality metadata, provenance cloning, Unicode metadata and validation errors.",
+      "targetTests": [
+        "tests/terrain-elevation-grid-compile-time.test.ts",
+        "tests/terrain-elevation-grid-live-parity.test.ts"
+      ],
+      "fixture": null,
+      "tolerances": {
+        "serializedParity": "exact deep equality and JSON serialization",
+        "numericParity": "exact equality for normalized coordinates, elevations, bounds and quality ratios",
+        "publicStrings": "exact equality plus Unicode code-point preservation",
+        "errors": "exact error name and message equality"
+      }
     }
   ],
   "counts": {
     "rootExports": {
       "javascript": 841,
-      "typescript": 586
+      "typescript": 588
     },
     "applicationsExports": {
       "javascript": 309,
@@ -38326,15 +38365,15 @@
     },
     "serializedSchemas": {
       "javascript": 49,
-      "typescript": 42
+      "typescript": 43
     },
     "sourceFiles": {
       "javascript": 480,
-      "typescript": 348
+      "typescript": 350
     },
     "tests": {
       "javascript": 131,
-      "typescript": 194
+      "typescript": 196
     },
     "validationCampaigns": {
       "javascript": 17,
@@ -38365,8 +38404,8 @@
     "domain": {
       "statusCounts": {
         "exact-parity": 0,
-        "partial": 21,
-        "missing": 8,
+        "partial": 22,
+        "missing": 4,
         "intentionally-excluded": 0,
         "decision-required": 0
       },
@@ -38386,8 +38425,6 @@
         "root-export:SOIL_PARAMETER_BASES",
         "root-export:SOIL_SETTLEMENT_COMPONENTS",
         "root-export:SOIL_STRENGTH_MODELS",
-        "root-export:TERRAIN_ELEVATION_GRID_SCHEMA_VERSION",
-        "root-export:normalizeTerrainElevationGrid",
         "source:src/domain/fem/elements/index.js",
         "source:src/domain/fem/elements/masonry/index.js",
         "source:src/domain/fem/index.js",
@@ -38398,7 +38435,6 @@
         "source:src/domain/sections/masonry/index.js",
         "source:src/domain/slabs/index.js",
         "source:src/domain/solvers/index.js",
-        "source:src/domain/terrain/TerrainElevationGrid.js",
         "source:src/domain/terrain/index.js"
       ]
     },

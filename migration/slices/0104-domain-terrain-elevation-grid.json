@@ -1,0 +1,79 @@
+{
+  "schemaVersion": 1,
+  "sliceId": "0104-domain-terrain-elevation-grid",
+  "title": "Domain terrain elevation-grid normalization",
+  "migrationType": "mechanical-parity-with-minimal-dependency-support",
+  "implementationStatus": "implemented",
+  "dependencies": [],
+  "source": {
+    "repository": "https://github.com/claudiopagani/strutture-js",
+    "revision": "6f33baead8b88166c4b2cf94af41763412e3c751"
+  },
+  "normativeCorpusRevision": "41da3faa489600173106935bbcf726119300e48d",
+  "sourceFiles": [
+    {
+      "path": "src/domain/terrain/TerrainElevationGrid.js",
+      "gitBlobSha1": "4d34e3d4025cf8f25a1d173fde9e1a80656271de",
+      "targetPath": "src/domain/terrain/TerrainElevationGrid.ts"
+    }
+  ],
+  "supportingSourceFiles": [
+    {
+      "path": "src/domain/terrain/index.js",
+      "gitBlobSha1": "7f603da8d378a3569c506844d42f847edd84bd22",
+      "targetPath": "src/domain/terrain/index.ts",
+      "coverage": "Domain terrain elevation-grid public exports."
+    },
+    {
+      "path": "src/index.js",
+      "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7",
+      "targetPath": "src/index.ts",
+      "coverage": "Root public exports for terrain elevation-grid normalization."
+    }
+  ],
+  "sourceOracles": [
+    {
+      "path": "tests/packageExports.test.js",
+      "gitBlobSha1": "8dde24b4c97dd3dae7100207d07d9d96c52b9c74",
+      "coverage": "Root public export behavior; no dedicated terrain behavior oracle exists in the pinned test suite."
+    }
+  ],
+  "sourcePublicExport": {
+    "path": "src/index.js",
+    "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
+  },
+  "targetTests": [
+    "tests/baseline-parity.test.ts",
+    "tests/terrain-elevation-grid-compile-time.test.ts",
+    "tests/terrain-elevation-grid-live-parity.test.ts"
+  ],
+  "publicExports": ["TERRAIN_ELEVATION_GRID_SCHEMA_VERSION", "normalizeTerrainElevationGrid"],
+  "publicTypeExports": [
+    "TerrainElevationGrid",
+    "TerrainElevationGridCell",
+    "TerrainElevationGridInput"
+  ],
+  "normativeReferences": {
+    "resolved": [],
+    "outsideCorpus": [],
+    "normativeConformityClaimed": false,
+    "status": "not-applicable"
+  },
+  "independentValidation": {
+    "method": "Strict declaration consumer coverage and independently executed pinned JavaScript versus built TypeScript comparison of grid-size inference, orientation normalization, elevation aliases, no-data and fallback flags, bounds, quality metadata, provenance cloning, Unicode metadata and validation errors.",
+    "targetTests": [
+      "tests/terrain-elevation-grid-compile-time.test.ts",
+      "tests/terrain-elevation-grid-live-parity.test.ts"
+    ],
+    "tolerances": {
+      "serializedParity": "exact deep equality and JSON serialization",
+      "numericParity": "exact equality for normalized coordinates, elevations, bounds and quality ratios",
+      "publicStrings": "exact equality plus Unicode code-point preservation",
+      "errors": "exact error name and message equality"
+    }
+  },
+  "parityDifferences": [
+    "The strict TypeScript declarations describe the existing JavaScript terrain normalizer without adding runtime behavior."
+  ],
+  "engineeringFunctionality": "Solver-neutral normalization of square terrain elevation grids into oriented cells with coordinates, bounds, quality metadata and serializable provenance."
+}

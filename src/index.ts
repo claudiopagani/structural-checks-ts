@@ -293,6 +293,10 @@ export {
   WallLoad,
 } from "./domain/slabs/index.js";
 export {
+  TERRAIN_ELEVATION_GRID_SCHEMA_VERSION,
+  normalizeTerrainElevationGrid,
+} from "./domain/terrain/index.js";
+export {
   BeamSectionActionVerifier,
   verifyBeamSectionActions,
 } from "./domain/beams/BeamSectionActionVerifier.js";
@@ -776,6 +780,7 @@ export type {
 export type * from "./domain/actions/index.js";
 export type * from "./domain/slabs/index.js";
 export type * from "./domain/slabs/punching/types.js";
+export type * from "./domain/terrain/index.js";
 export type * from "./applications/reinforced-concrete-punching/index.js";
 export type {
   BaseMaterialJson,
