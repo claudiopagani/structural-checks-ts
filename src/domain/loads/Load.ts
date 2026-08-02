@@ -11,6 +11,8 @@ export interface LoadCaseLike {
 
 export interface LoadTarget {
   id?: string | null;
+  area?: number | (() => number);
+  volume?: number | (() => number);
 }
 
 export interface LoadInput {
@@ -20,7 +22,7 @@ export interface LoadInput {
   dimension: string;
   action?: LoadAction | null;
   loadCase?: LoadCaseLike | null;
-  target?: LoadTarget | null;
+  target?: LoadTarget | null | undefined;
   metadata?: Record<string, unknown>;
 }
 
@@ -49,7 +51,7 @@ export class Load {
   loadCase: LoadCaseLike | null;
   target: LoadTarget | null;
   metadata: Record<string, unknown>;
-  units?: UnitSystem;
+  declare units?: UnitSystem;
 
   constructor({
     id = null,

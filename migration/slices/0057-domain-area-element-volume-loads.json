@@ -1,0 +1,101 @@
+{
+  "schemaVersion": 1,
+  "sliceId": "0057-domain-area-element-volume-loads",
+  "title": "Domain area, element-point and volume loads",
+  "migrationType": "mechanical-parity",
+  "implementationStatus": "implemented",
+  "dependencies": ["0020-linear-frame-fem-2d"],
+  "source": {
+    "repository": "https://github.com/claudiopagani/strutture-js",
+    "revision": "6f33baead8b88166c4b2cf94af41763412e3c751"
+  },
+  "normativeCorpusRevision": "41da3faa489600173106935bbcf726119300e48d",
+  "sourceFiles": [
+    {
+      "path": "src/domain/loads/AreaLoad.js",
+      "gitBlobSha1": "591691e6d11c49a34b6a645b579a4e590d958ca8",
+      "targetPath": "src/domain/loads/AreaLoad.ts"
+    },
+    {
+      "path": "src/domain/loads/ElementPointLoad.js",
+      "gitBlobSha1": "871ed2619563706d9753b4407412e1be6a2c2cd9",
+      "targetPath": "src/domain/loads/ElementPointLoad.ts"
+    },
+    {
+      "path": "src/domain/loads/VolumeLoad.js",
+      "gitBlobSha1": "7ff14156d458564b353bd98a11814a07abdcb55d",
+      "targetPath": "src/domain/loads/VolumeLoad.ts"
+    }
+  ],
+  "supportingSourceFiles": [
+    {
+      "path": "src/domain/loads/Load.js",
+      "gitBlobSha1": "bfb925967704de75dcad9a0ac305b6b7087263fb",
+      "targetPath": "src/domain/loads/Load.ts",
+      "coverage": "Inherited units declaration and target geometry contracts preserve source enumerable-property order and resolution behavior"
+    },
+    {
+      "path": "src/domain/loads/PointLoad.js",
+      "gitBlobSha1": "f79250599ad30238bf6389dd0127af02b4ec6c92",
+      "targetPath": "src/domain/loads/PointLoad.ts",
+      "coverage": "Element-point load inherits the migrated point-load resultant and serialization contract"
+    },
+    {
+      "path": "src/index.js",
+      "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7",
+      "targetPath": "src/index.ts",
+      "coverage": "Root public exports for the migrated area, element-point and volume load classes"
+    }
+  ],
+  "sourceOracles": [
+    {
+      "path": "tests/loadAbstractions.test.js",
+      "gitBlobSha1": "5ace2205648a6fb833e786618c19e3ca32c985ae",
+      "coverage": "Point, element-point, area and volume load construction, resultants and public fields"
+    }
+  ],
+  "sourcePublicExport": {
+    "path": "src/index.js",
+    "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
+  },
+  "targetTests": [
+    "tests/baseline-parity.test.ts",
+    "tests/area-element-volume-loads-compile-time.test.ts",
+    "tests/area-element-volume-loads-live-parity.test.ts"
+  ],
+  "publicExports": ["AreaLoad", "ElementPointLoad", "VolumeLoad"],
+  "publicTypeExports": [
+    "AreaLoadInput",
+    "AreaLoadJson",
+    "AreaLoadTarget",
+    "ElementPointLoadInput",
+    "ElementPointLoadJson",
+    "VolumeLoadInput",
+    "VolumeLoadJson",
+    "VolumeLoadTarget"
+  ],
+  "normativeReferences": {
+    "resolved": [],
+    "outsideCorpus": [],
+    "normativeConformityClaimed": false,
+    "status": "classified-for-declared-scope"
+  },
+  "independentValidation": {
+    "method": "Strict declaration consumer coverage and independently executed pinned JavaScript versus built TypeScript area, element-point and volume load modules, including exact enumerable-property order, serialized output, unit conversion, target geometry fallback, Unicode identifiers and metadata, inheritance, resultants and validation errors.",
+    "targetTests": [
+      "tests/area-element-volume-loads-compile-time.test.ts",
+      "tests/area-element-volume-loads-live-parity.test.ts"
+    ],
+    "tolerances": {
+      "serializedParity": "exact JSON serialization and enumerable-key order",
+      "numericParity": "exact equality for converted intensities and resultants",
+      "publicStrings": "exact equality plus Unicode code-point equality",
+      "errors": "exact error name and message equality"
+    }
+  },
+  "parityDifferences": [
+    "The strict TypeScript declarations describe the existing JavaScript load classes without adding runtime behavior.",
+    "The inherited Load units declaration is emitted-free so subclass assignment order remains identical to the pinned JavaScript baseline."
+  ],
+  "engineeringFunctionality": "Solver-neutral area, element-point and volume load DTOs with explicit unit conversion, target-derived geometry, resultants, metadata and serializable public fields."
+}

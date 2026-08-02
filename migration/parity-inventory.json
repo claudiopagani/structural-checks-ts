@@ -878,6 +878,7 @@
         "AccidentalAction",
         "Action",
         "ApplicationRegistry",
+        "AreaLoad",
         "AxialMember2D",
         "AxialPileCapacityAnalysis",
         "AxialPileLoadScenario",
@@ -917,6 +918,7 @@
         "EN1992_STRUT_STRENGTH_MODELS",
         "EXISTING_MATERIAL_CONFIDENCE_LEVELS",
         "ElasticBeamSectionProvider",
+        "ElementPointLoad",
         "FEM_ANALYSIS_CAPABILITY_KEYS",
         "FEM_ANALYSIS_TYPES",
         "FEM_CONTRACT_SCHEMAS",
@@ -1115,6 +1117,7 @@
         "VariableAction",
         "VerificationResult",
         "VerticalStressProfile",
+        "VolumeLoad",
         "WALL_BIAXIAL_REFERENCE",
         "WindAction",
         "XlamBeamSectionProvider",
@@ -2829,11 +2832,15 @@
       "sourcePath": "src/domain/loads/AreaLoad.js",
       "sourceBlobSha1": "591691e6d11c49a34b6a645b579a4e590d958ca8",
       "targetPath": "src/domain/loads/AreaLoad.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0057-domain-area-element-volume-loads"],
+      "sourceOracles": ["tests/loadAbstractions.test.js"],
+      "targetTests": [
+        "tests/area-element-volume-loads-compile-time.test.ts",
+        "tests/area-element-volume-loads-live-parity.test.ts",
+        "tests/baseline-parity.test.ts"
+      ],
+      "validationEvidence": ["0057-domain-area-element-volume-loads"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -6689,11 +6696,15 @@
       "sourcePath": "src/domain/loads/ElementPointLoad.js",
       "sourceBlobSha1": "871ed2619563706d9753b4407412e1be6a2c2cd9",
       "targetPath": "src/domain/loads/ElementPointLoad.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0057-domain-area-element-volume-loads"],
+      "sourceOracles": ["tests/loadAbstractions.test.js"],
+      "targetTests": [
+        "tests/area-element-volume-loads-compile-time.test.ts",
+        "tests/area-element-volume-loads-live-parity.test.ts",
+        "tests/baseline-parity.test.ts"
+      ],
+      "validationEvidence": ["0057-domain-area-element-volume-loads"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -16658,11 +16669,15 @@
       "sourcePath": "src/domain/loads/VolumeLoad.js",
       "sourceBlobSha1": "7ff14156d458564b353bd98a11814a07abdcb55d",
       "targetPath": "src/domain/loads/VolumeLoad.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0057-domain-area-element-volume-loads"],
+      "sourceOracles": ["tests/loadAbstractions.test.js"],
+      "targetTests": [
+        "tests/area-element-volume-loads-compile-time.test.ts",
+        "tests/area-element-volume-loads-live-parity.test.ts",
+        "tests/baseline-parity.test.ts"
+      ],
+      "validationEvidence": ["0057-domain-area-element-volume-loads"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -29499,11 +29514,15 @@
       "sourcePath": "src/domain/loads/AreaLoad.js",
       "sourceBlobSha1": "591691e6d11c49a34b6a645b579a4e590d958ca8",
       "targetPath": "src/domain/loads/AreaLoad.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing"
+      "migrationSlices": ["0057-domain-area-element-volume-loads"],
+      "sourceOracles": ["tests/loadAbstractions.test.js"],
+      "targetTests": [
+        "tests/area-element-volume-loads-compile-time.test.ts",
+        "tests/area-element-volume-loads-live-parity.test.ts",
+        "tests/baseline-parity.test.ts"
+      ],
+      "validationEvidence": ["0057-domain-area-element-volume-loads"],
+      "status": "exact-parity"
     },
     {
       "id": "src/domain/loads/DistributedLoad.js",
@@ -29521,11 +29540,15 @@
       "sourcePath": "src/domain/loads/ElementPointLoad.js",
       "sourceBlobSha1": "871ed2619563706d9753b4407412e1be6a2c2cd9",
       "targetPath": "src/domain/loads/ElementPointLoad.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing"
+      "migrationSlices": ["0057-domain-area-element-volume-loads"],
+      "sourceOracles": ["tests/loadAbstractions.test.js"],
+      "targetTests": [
+        "tests/area-element-volume-loads-compile-time.test.ts",
+        "tests/area-element-volume-loads-live-parity.test.ts",
+        "tests/baseline-parity.test.ts"
+      ],
+      "validationEvidence": ["0057-domain-area-element-volume-loads"],
+      "status": "exact-parity"
     },
     {
       "id": "src/domain/loads/LineLoad.js",
@@ -29576,11 +29599,15 @@
       "sourcePath": "src/domain/loads/VolumeLoad.js",
       "sourceBlobSha1": "7ff14156d458564b353bd98a11814a07abdcb55d",
       "targetPath": "src/domain/loads/VolumeLoad.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing"
+      "migrationSlices": ["0057-domain-area-element-volume-loads"],
+      "sourceOracles": ["tests/loadAbstractions.test.js"],
+      "targetTests": [
+        "tests/area-element-volume-loads-compile-time.test.ts",
+        "tests/area-element-volume-loads-live-parity.test.ts",
+        "tests/baseline-parity.test.ts"
+      ],
+      "validationEvidence": ["0057-domain-area-element-volume-loads"],
+      "status": "exact-parity"
     },
     {
       "id": "src/domain/materials/BaseMaterial.js",
@@ -30399,7 +30426,8 @@
         "0053-domain-xlam-panel-section",
         "0054-domain-steel-profile-catalog",
         "0055-domain-steel-profile-section",
-        "0056-domain-steel-compound-profile-section"
+        "0056-domain-steel-compound-profile-section",
+        "0057-domain-area-element-volume-loads"
       ],
       "sourceOracles": [
         "tests/architecture/applicationRegistry.test.js",
@@ -32108,14 +32136,22 @@
       "sourcePath": "tests/loadAbstractions.test.js",
       "sourceBlobSha1": "5ace2205648a6fb833e786618c19e3ca32c985ae",
       "targetPath": "tests/loadAbstractions.test.ts",
-      "migrationSlices": ["0040-domain-analysis-load-cases-and-combinations"],
+      "migrationSlices": [
+        "0040-domain-analysis-load-cases-and-combinations",
+        "0057-domain-area-element-volume-loads"
+      ],
       "sourceOracles": ["tests/loadAbstractions.test.js"],
       "targetTests": [
+        "tests/area-element-volume-loads-compile-time.test.ts",
+        "tests/area-element-volume-loads-live-parity.test.ts",
         "tests/baseline-parity.test.ts",
         "tests/domain-analysis-compile-time.test.ts",
         "tests/domain-analysis-live-parity.test.ts"
       ],
-      "validationEvidence": ["0040-domain-analysis-load-cases-and-combinations"],
+      "validationEvidence": [
+        "0040-domain-analysis-load-cases-and-combinations",
+        "0057-domain-area-element-volume-loads"
+      ],
       "status": "exact-parity",
       "testKind": "test"
     },
@@ -35191,12 +35227,28 @@
         "publicStrings": "exact equality for public Italian metadata and Unicode code points",
         "errors": "exact error name and message equality"
       }
+    },
+    {
+      "sliceId": "0057-domain-area-element-volume-loads",
+      "sourceRevision": "6f33baead8b88166c4b2cf94af41763412e3c751",
+      "method": "Strict declaration consumer coverage and independently executed pinned JavaScript versus built TypeScript area, element-point and volume load modules, including exact enumerable-property order, serialized output, unit conversion, target geometry fallback, Unicode identifiers and metadata, inheritance, resultants and validation errors.",
+      "targetTests": [
+        "tests/area-element-volume-loads-compile-time.test.ts",
+        "tests/area-element-volume-loads-live-parity.test.ts"
+      ],
+      "fixture": null,
+      "tolerances": {
+        "serializedParity": "exact JSON serialization and enumerable-key order",
+        "numericParity": "exact equality for converted intensities and resultants",
+        "publicStrings": "exact equality plus Unicode code-point equality",
+        "errors": "exact error name and message equality"
+      }
     }
   ],
   "counts": {
     "rootExports": {
       "javascript": 841,
-      "typescript": 424
+      "typescript": 427
     },
     "applicationsExports": {
       "javascript": 309,
@@ -35220,11 +35272,11 @@
     },
     "sourceFiles": {
       "javascript": 480,
-      "typescript": 281
+      "typescript": 284
     },
     "tests": {
       "javascript": 131,
-      "typescript": 100
+      "typescript": 102
     },
     "validationCampaigns": {
       "javascript": 17,
@@ -35256,12 +35308,11 @@
       "statusCounts": {
         "exact-parity": 0,
         "partial": 18,
-        "missing": 237,
+        "missing": 231,
         "intentionally-excluded": 0,
         "decision-required": 0
       },
       "itemIds": [
-        "root-export:AreaLoad",
         "root-export:CIRCULAR_SLIP_SURFACE_2D_SCHEMA_VERSION",
         "root-export:CIRCULAR_SLOPE_STABILITY_RESULT_SCHEMA_VERSION",
         "root-export:CYCLIC_MASONRY_INTERNAL_UNITS",
@@ -35283,7 +35334,6 @@
         "root-export:EMBEDDED_RETAINING_WALL_SUPPORT_BEHAVIORS",
         "root-export:EMBEDDED_RETAINING_WALL_SUPPORT_TYPES",
         "root-export:EMBEDDED_RETAINING_WALL_TYPES",
-        "root-export:ElementPointLoad",
         "root-export:EmbeddedRetainingWallAnalysis",
         "root-export:EmbeddedRetainingWallModel",
         "root-export:EmbeddedRetainingWallScenario",
@@ -35410,7 +35460,6 @@
         "root-export:TimberMaterial",
         "root-export:TurnsekSheppardModel",
         "root-export:VariableLoad",
-        "root-export:VolumeLoad",
         "root-export:WALL_SOIL_REACTION_EXTRAPOLATION_MODELS",
         "root-export:WALL_SOIL_REACTION_LAW_SCHEMA_VERSION",
         "root-export:WALL_SOIL_REACTION_MODELS",
@@ -35482,9 +35531,6 @@
         "source:src/domain/geotechnics/index.js",
         "source:src/domain/geotechnics/slopeStabilityMethods.js",
         "source:src/domain/geotechnics/spencerMethod.js",
-        "source:src/domain/loads/AreaLoad.js",
-        "source:src/domain/loads/ElementPointLoad.js",
-        "source:src/domain/loads/VolumeLoad.js",
         "source:src/domain/materials/ExistingMasonryMaterial.js",
         "source:src/domain/materials/ExistingMaterial.js",
         "source:src/domain/materials/GlulamTimberMaterial.js",

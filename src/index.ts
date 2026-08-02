@@ -196,7 +196,16 @@ export type * from "./applications/global-fem-postprocessing/index.js";
 export { Combination } from "./domain/analysis/Combination.js";
 export { LoadCase } from "./domain/analysis/LoadCase.js";
 export { LoadCombination } from "./domain/analysis/LoadCombination.js";
-export { DistributedLoad, LineLoad, Load, NodalLoad, PointLoad } from "./domain/loads/index.js";
+export {
+  AreaLoad,
+  DistributedLoad,
+  ElementPointLoad,
+  LineLoad,
+  Load,
+  NodalLoad,
+  PointLoad,
+  VolumeLoad,
+} from "./domain/loads/index.js";
 export { Support } from "./domain/supports/index.js";
 export { StructuralElement } from "./domain/elements/StructuralElement.js";
 export type {
@@ -1051,6 +1060,8 @@ export type {
 export type {
   DistributedLoadInput,
   DistributedLoadJson,
+  ElementPointLoadInput,
+  ElementPointLoadJson,
   LineLoadInput,
   LineLoadJson,
   LoadAction,
@@ -1064,6 +1075,12 @@ export type {
   PointLoadComponentsInput,
   PointLoadInput,
   PointLoadJson,
+  AreaLoadInput,
+  AreaLoadJson,
+  AreaLoadTarget,
+  VolumeLoadInput,
+  VolumeLoadJson,
+  VolumeLoadTarget,
 } from "./domain/loads/index.js";
 export type {
   DofRestraints,
