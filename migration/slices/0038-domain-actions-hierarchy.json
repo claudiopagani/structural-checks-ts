@@ -1,0 +1,155 @@
+{
+  "schemaVersion": 1,
+  "sliceId": "0038-domain-actions-hierarchy",
+  "title": "Complete domain action hierarchy",
+  "migrationType": "mechanical-parity",
+  "implementationStatus": "implemented",
+  "dependencies": ["0001-foundation"],
+  "source": {
+    "repository": "https://github.com/claudiopagani/strutture-js",
+    "revision": "6f33baead8b88166c4b2cf94af41763412e3c751"
+  },
+  "normativeCorpusRevision": "41da3faa489600173106935bbcf726119300e48d",
+  "sourceFiles": [
+    {
+      "path": "src/domain/actions/Action.js",
+      "gitBlobSha1": "063b09d68f0573afb6a936d5d330ec04ccec3d7c",
+      "targetPath": "src/domain/actions/Action.ts"
+    },
+    {
+      "path": "src/domain/actions/PermanentAction.js",
+      "gitBlobSha1": "f200c9c5f3fd3b1573b0eb2648f8ccba3201f451",
+      "targetPath": "src/domain/actions/PermanentAction.ts"
+    },
+    {
+      "path": "src/domain/actions/VariableAction.js",
+      "gitBlobSha1": "e63bf33e785e76217d3416a64111ddbcf5b06f46",
+      "targetPath": "src/domain/actions/VariableAction.ts"
+    },
+    {
+      "path": "src/domain/actions/ClimaticAction.js",
+      "gitBlobSha1": "d36574f41ff93ff6799ba05b4fcfaf0b022c5085",
+      "targetPath": "src/domain/actions/ClimaticAction.ts"
+    },
+    {
+      "path": "src/domain/actions/ImposedAction.js",
+      "gitBlobSha1": "5b846a3a1f7cfc9221738698989eb85290d3be1b",
+      "targetPath": "src/domain/actions/ImposedAction.ts"
+    },
+    {
+      "path": "src/domain/actions/TrafficAction.js",
+      "gitBlobSha1": "0921f663a592de82f27c3884d7ed47f21552a461",
+      "targetPath": "src/domain/actions/TrafficAction.ts"
+    },
+    {
+      "path": "src/domain/actions/SnowAction.js",
+      "gitBlobSha1": "0669ea7b6cdc78a4cad0bafa64944946bb0bb32a",
+      "targetPath": "src/domain/actions/SnowAction.ts"
+    },
+    {
+      "path": "src/domain/actions/WindAction.js",
+      "gitBlobSha1": "8d04aa4714d3295d676967458ecf59c64e8560b6",
+      "targetPath": "src/domain/actions/WindAction.ts"
+    },
+    {
+      "path": "src/domain/actions/ThermalAction.js",
+      "gitBlobSha1": "e0986d3b76966aade235830ed8fe47394782cf8b",
+      "targetPath": "src/domain/actions/ThermalAction.ts"
+    },
+    {
+      "path": "src/domain/actions/AccidentalAction.js",
+      "gitBlobSha1": "b1145044836e99710e664d6c642d997696391515",
+      "targetPath": "src/domain/actions/AccidentalAction.ts"
+    },
+    {
+      "path": "src/domain/actions/SeismicAction.js",
+      "gitBlobSha1": "6f33b604db4bd782f7ac1338fd70caa1b8c4b278",
+      "targetPath": "src/domain/actions/SeismicAction.ts"
+    },
+    {
+      "path": "src/domain/actions/index.js",
+      "gitBlobSha1": "04ed2381b3ccab4b792e3bea7e6a638c355b467f",
+      "targetPath": "src/domain/actions/index.ts"
+    }
+  ],
+  "supportingSourceFiles": [
+    {
+      "path": "src/index.js",
+      "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7",
+      "targetPath": "src/index.ts",
+      "coverage": "root public exports for the migrated action hierarchy"
+    }
+  ],
+  "sourceOracles": [
+    {
+      "path": "tests/ntc2018Actions.test.js",
+      "gitBlobSha1": "b421aa2af994a2ddce7865ae513c5ff67de43d2e",
+      "coverage": "source hierarchy inheritance, categories, factors and duration behavior; NTC factories remain outside this slice"
+    }
+  ],
+  "sourcePublicExport": {
+    "path": "src/index.js",
+    "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
+  },
+  "targetTests": [
+    "tests/baseline-parity.test.ts",
+    "tests/domain-actions-compile-time.test.ts",
+    "tests/domain-actions-live-parity.test.ts"
+  ],
+  "publicExports": [
+    "AccidentalAction",
+    "Action",
+    "ActionCombinationFactorValue",
+    "ActionCombinationFactors",
+    "ActionJson",
+    "ActionLoadCaseReference",
+    "ActionOptions",
+    "ActionPartialFactorOptions",
+    "ActionPartialFactorSet",
+    "ActionPartialFactorValue",
+    "ActionPartialFactors",
+    "ClimaticAction",
+    "ClimaticActionOptions",
+    "ImposedAction",
+    "ImposedActionOptions",
+    "PermanentAction",
+    "PermanentActionJson",
+    "PermanentActionOptions",
+    "SeismicAction",
+    "SeismicActionOptions",
+    "SnowAction",
+    "SnowActionOptions",
+    "ThermalAction",
+    "ThermalActionOptions",
+    "TrafficAction",
+    "TrafficActionOptions",
+    "VariableAction",
+    "VariableActionJson",
+    "VariableActionOptions",
+    "WindAction",
+    "WindActionOptions"
+  ],
+  "normativeReferences": {
+    "resolved": [],
+    "outsideCorpus": [],
+    "normativeConformityClaimed": false,
+    "status": "classified-for-declared-scope"
+  },
+  "independentValidation": {
+    "method": "Strict declaration consumer coverage and independently executed pinned JavaScript versus built TypeScript action hierarchy, inheritance, defaults, categories, factors, durations, metadata, serialization, cloning isolation, Unicode strings, and error behavior comparisons.",
+    "targetTests": [
+      "tests/domain-actions-compile-time.test.ts",
+      "tests/domain-actions-live-parity.test.ts"
+    ],
+    "tolerances": {
+      "serializedParity": "exact JSON serialization for every migrated action class and assigned load-case state",
+      "numericParity": "absolute and relative tolerance 1e-12 where numerical values are encountered",
+      "publicStrings": "exact equality plus Unicode code-point equality"
+    }
+  },
+  "parityDifferences": [
+    "The slice preserves the source hierarchy, constructors, defaults, validation order, inheritance, factors, duration classes, metadata copying, serialization and error messages without migrating NTC action catalogs or formulas.",
+    "The source NTC action factories and their catalog/formula dependencies remain outside this bounded slice and are tracked for a later dependency-compatible A4 slice."
+  ],
+  "engineeringFunctionality": "Solver-neutral domain action hierarchy only; no NTC action catalogs, load-combination formulas, or normative branches are introduced."
+}

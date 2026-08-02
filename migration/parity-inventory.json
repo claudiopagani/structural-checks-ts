@@ -875,6 +875,8 @@
         "AXIAL_PILE_LOAD_SCENARIO_SCHEMA_VERSION",
         "AXIAL_PILE_RESISTANCE_CONVERSION_MODELS",
         "AXIAL_PILE_SHAFT_RESISTANCE_METHODS",
+        "AccidentalAction",
+        "Action",
         "ApplicationRegistry",
         "AxialMember2D",
         "AxialPileCapacityAnalysis",
@@ -886,6 +888,7 @@
         "BeamSectionActionVerifier",
         "CalculationResult",
         "CircularSection",
+        "ClimaticAction",
         "CompositeSection",
         "CompositeSectionComponent",
         "ConcreteMaterial",
@@ -953,17 +956,22 @@
         "HyperstaticDeflectionIteration",
         "IDENTITY_RESISTANCE_AXIS_TRANSFORMATION",
         "IllinoisRootSolver",
+        "ImposedAction",
         "KinematicConstraintReducer2D",
         "LENGTH_UNIT_FACTORS",
         "LineLoad",
         "LinearStaticSolver2D",
         "Load",
+        "NTC2018_ACTION_COMBINATION_FACTORS",
+        "NTC2018_ACTION_PARTIAL_FACTORS",
         "NTC2018_ANALYSIS_METHOD",
         "NTC2018_BASE_Q_FACTORS",
         "NTC2018_BEAM_COLUMN_JOINT_TENSION_METHODS",
         "NTC2018_BEAM_COLUMN_JOINT_TYPES",
         "NTC2018_CAPACITY_DESIGN_REFERENCES",
+        "NTC2018_CASE_BY_CASE_COMBINATION_CATEGORIES",
         "NTC2018_CONCRETE_CLASSES",
+        "NTC2018_DEFAULT_DURATION_CLASS_BY_ACTION",
         "NTC2018_DIAPHRAGM_FORCE_FACTOR",
         "NTC2018_DIAPHRAGM_REFERENCES",
         "NTC2018_DISPLACEMENT_REFERENCES",
@@ -972,6 +980,7 @@
         "NTC2018_ELEVATION_REGULARITY",
         "NTC2018_EXISTING_MATERIAL_KNOWLEDGE_LEVELS",
         "NTC2018_LINEAR_DYNAMIC_REFERENCES",
+        "NTC2018_LOAD_DURATION_CLASSES",
         "NTC2018_OVERSTRENGTH_FACTORS",
         "NTC2018_PDELTA_THRESHOLDS",
         "NTC2018_PLAN_REGULARITY",
@@ -985,6 +994,7 @@
         "NTC2018_STRUCTURAL_BEHAVIOR",
         "NTC2018_STRUCTURAL_BEHAVIOR_REFERENCES",
         "NTC2018_STRUCTURAL_TYPE",
+        "NTC2018_TIMBER_KMOD",
         "NTC2018_WALL_SYSTEM_REFERENCES",
         "NodalLoad",
         "Node",
@@ -992,6 +1002,7 @@
         "PUNCHING_CONNECTION_SCHEMA_VERSION",
         "PUNCHING_CONTROL_PERIMETER_SCHEMA_VERSION",
         "PUNCHING_VERIFICATION_REQUEST_SCHEMA_VERSION",
+        "PermanentAction",
         "PointLoad",
         "PolygonSection",
         "PunchingActionState",
@@ -1063,9 +1074,11 @@
         "STRUT_AND_TIE_MEMBER_TYPES",
         "SectionFiberDiscretizer",
         "SectionMomentCurvatureCurve",
+        "SeismicAction",
         "SingleBeamAnalysis",
         "SingleBeamFemBuilder",
         "SingleBeamModel",
+        "SnowAction",
         "SoilMaterial",
         "SteelElasticLaw",
         "SteelElasticPerfectlyPlasticLaw",
@@ -1077,9 +1090,13 @@
         "StrutAndTieModel2D",
         "Support",
         "TSection",
+        "ThermalAction",
+        "TrafficAction",
+        "VariableAction",
         "VerificationResult",
         "VerticalStressProfile",
         "WALL_BIAXIAL_REFERENCE",
+        "WindAction",
         "amplifyNTC2018DiaphragmActions",
         "assertExplicitUnitSystem",
         "assertPositiveCheckValue",
@@ -1136,11 +1153,18 @@
         "createGlobalFemModelContract",
         "createGlobalFemResultContract",
         "createLongitudinalReinforcementLayout",
+        "createNTC2018AccidentalAction",
         "createNTC2018ConcreteMaterial",
         "createNTC2018LinearDynamicAssessment",
+        "createNTC2018PermanentAction",
         "createNTC2018RegularityAssessment",
         "createNTC2018ReinforcementSteelMaterial",
+        "createNTC2018SeismicAction",
+        "createNTC2018SnowAction",
         "createNTC2018StructuralBehavior",
+        "createNTC2018ThermalAction",
+        "createNTC2018VariableAction",
+        "createNTC2018WindAction",
         "createPlateStripSection",
         "createReinforcedConcreteBeamSectionProvider",
         "createScaServiceDeflectionAnalysisResult",
@@ -1154,7 +1178,12 @@
         "evaluateNTC2018RcBuildingCompleteness",
         "extractGlobalFemDemands",
         "filterConcurrentFemStates",
+        "getNTC2018ActionCombinationFactors",
+        "getNTC2018ActionPartialFactors",
+        "getNTC2018LoadDurationClass",
+        "getNTC2018LoadDurationDefinition",
         "getNTC2018RcBuildingCoverage",
+        "getNTC2018TimberKmod",
         "getRcPunchingDesignCodeManifest",
         "governingCheck",
         "integrateFootingPressureStrip",
@@ -1180,6 +1209,7 @@
         "resolveBeamSupportPreset",
         "resolveExistingMaterialState",
         "resolveNTC2018AlphaRatio",
+        "resolveNTC2018GoverningLoadDuration",
         "resolvePrincipalSectionFrame",
         "resolvePunchingTransferFromJointActions",
         "rotatePlateMoments",
@@ -2536,11 +2566,15 @@
       "sourcePath": "src/domain/actions/AccidentalAction.js",
       "sourceBlobSha1": "b1145044836e99710e664d6c642d997696391515",
       "targetPath": "src/domain/actions/AccidentalAction.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0038-domain-actions-hierarchy"],
+      "sourceOracles": ["tests/ntc2018Actions.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/domain-actions-compile-time.test.ts",
+        "tests/domain-actions-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0038-domain-actions-hierarchy"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -2550,11 +2584,15 @@
       "sourcePath": "src/domain/actions/Action.js",
       "sourceBlobSha1": "063b09d68f0573afb6a936d5d330ec04ccec3d7c",
       "targetPath": "src/domain/actions/Action.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0038-domain-actions-hierarchy"],
+      "sourceOracles": ["tests/ntc2018Actions.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/domain-actions-compile-time.test.ts",
+        "tests/domain-actions-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0038-domain-actions-hierarchy"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -4388,11 +4426,15 @@
       "sourcePath": "src/domain/actions/ClimaticAction.js",
       "sourceBlobSha1": "d36574f41ff93ff6799ba05b4fcfaf0b022c5085",
       "targetPath": "src/domain/actions/ClimaticAction.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0038-domain-actions-hierarchy"],
+      "sourceOracles": ["tests/ntc2018Actions.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/domain-actions-compile-time.test.ts",
+        "tests/domain-actions-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0038-domain-actions-hierarchy"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -5449,11 +5491,15 @@
       "sourcePath": "src/norms/ntc2018/actions/createNTC2018Action.js",
       "sourceBlobSha1": "06c4c6a75e2482bdf3e6d3288c7153aa72738c8a",
       "targetPath": "src/norms/ntc2018/actions/createNTC2018Action.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0039-ntc2018-action-parameters-and-factories"],
+      "sourceOracles": ["tests/ntc2018Actions.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/ntc2018-action-compile-time.test.ts",
+        "tests/ntc2018-action-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0039-ntc2018-action-parameters-and-factories"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -5587,11 +5633,15 @@
       "sourcePath": "src/norms/ntc2018/actions/createNTC2018Action.js",
       "sourceBlobSha1": "06c4c6a75e2482bdf3e6d3288c7153aa72738c8a",
       "targetPath": "src/norms/ntc2018/actions/createNTC2018Action.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0039-ntc2018-action-parameters-and-factories"],
+      "sourceOracles": ["tests/ntc2018Actions.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/ntc2018-action-compile-time.test.ts",
+        "tests/ntc2018-action-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0039-ntc2018-action-parameters-and-factories"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -5655,11 +5705,15 @@
       "sourcePath": "src/norms/ntc2018/actions/createNTC2018Action.js",
       "sourceBlobSha1": "06c4c6a75e2482bdf3e6d3288c7153aa72738c8a",
       "targetPath": "src/norms/ntc2018/actions/createNTC2018Action.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0039-ntc2018-action-parameters-and-factories"],
+      "sourceOracles": ["tests/ntc2018Actions.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/ntc2018-action-compile-time.test.ts",
+        "tests/ntc2018-action-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0039-ntc2018-action-parameters-and-factories"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -5697,11 +5751,15 @@
       "sourcePath": "src/norms/ntc2018/actions/createNTC2018Action.js",
       "sourceBlobSha1": "06c4c6a75e2482bdf3e6d3288c7153aa72738c8a",
       "targetPath": "src/norms/ntc2018/actions/createNTC2018Action.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0039-ntc2018-action-parameters-and-factories"],
+      "sourceOracles": ["tests/ntc2018Actions.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/ntc2018-action-compile-time.test.ts",
+        "tests/ntc2018-action-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0039-ntc2018-action-parameters-and-factories"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -5756,11 +5814,15 @@
       "sourcePath": "src/norms/ntc2018/actions/createNTC2018Action.js",
       "sourceBlobSha1": "06c4c6a75e2482bdf3e6d3288c7153aa72738c8a",
       "targetPath": "src/norms/ntc2018/actions/createNTC2018Action.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0039-ntc2018-action-parameters-and-factories"],
+      "sourceOracles": ["tests/ntc2018Actions.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/ntc2018-action-compile-time.test.ts",
+        "tests/ntc2018-action-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0039-ntc2018-action-parameters-and-factories"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -5798,11 +5860,15 @@
       "sourcePath": "src/norms/ntc2018/actions/createNTC2018Action.js",
       "sourceBlobSha1": "06c4c6a75e2482bdf3e6d3288c7153aa72738c8a",
       "targetPath": "src/norms/ntc2018/actions/createNTC2018Action.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0039-ntc2018-action-parameters-and-factories"],
+      "sourceOracles": ["tests/ntc2018Actions.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/ntc2018-action-compile-time.test.ts",
+        "tests/ntc2018-action-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0039-ntc2018-action-parameters-and-factories"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -5812,11 +5878,15 @@
       "sourcePath": "src/norms/ntc2018/actions/createNTC2018Action.js",
       "sourceBlobSha1": "06c4c6a75e2482bdf3e6d3288c7153aa72738c8a",
       "targetPath": "src/norms/ntc2018/actions/createNTC2018Action.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0039-ntc2018-action-parameters-and-factories"],
+      "sourceOracles": ["tests/ntc2018Actions.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/ntc2018-action-compile-time.test.ts",
+        "tests/ntc2018-action-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0039-ntc2018-action-parameters-and-factories"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -7435,11 +7505,15 @@
       "sourcePath": "src/norms/ntc2018/actions/createNTC2018Action.js",
       "sourceBlobSha1": "06c4c6a75e2482bdf3e6d3288c7153aa72738c8a",
       "targetPath": "src/norms/ntc2018/actions/createNTC2018Action.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0039-ntc2018-action-parameters-and-factories"],
+      "sourceOracles": ["tests/ntc2018Actions.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/ntc2018-action-compile-time.test.ts",
+        "tests/ntc2018-action-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0039-ntc2018-action-parameters-and-factories"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -7449,11 +7523,15 @@
       "sourcePath": "src/norms/ntc2018/actions/createNTC2018Action.js",
       "sourceBlobSha1": "06c4c6a75e2482bdf3e6d3288c7153aa72738c8a",
       "targetPath": "src/norms/ntc2018/actions/createNTC2018Action.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0039-ntc2018-action-parameters-and-factories"],
+      "sourceOracles": ["tests/ntc2018Actions.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/ntc2018-action-compile-time.test.ts",
+        "tests/ntc2018-action-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0039-ntc2018-action-parameters-and-factories"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -7505,11 +7583,15 @@
       "sourcePath": "src/norms/ntc2018/actions/createNTC2018Action.js",
       "sourceBlobSha1": "06c4c6a75e2482bdf3e6d3288c7153aa72738c8a",
       "targetPath": "src/norms/ntc2018/actions/createNTC2018Action.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0039-ntc2018-action-parameters-and-factories"],
+      "sourceOracles": ["tests/ntc2018Actions.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/ntc2018-action-compile-time.test.ts",
+        "tests/ntc2018-action-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0039-ntc2018-action-parameters-and-factories"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -7519,11 +7601,15 @@
       "sourcePath": "src/norms/ntc2018/actions/createNTC2018Action.js",
       "sourceBlobSha1": "06c4c6a75e2482bdf3e6d3288c7153aa72738c8a",
       "targetPath": "src/norms/ntc2018/actions/createNTC2018Action.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0039-ntc2018-action-parameters-and-factories"],
+      "sourceOracles": ["tests/ntc2018Actions.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/ntc2018-action-compile-time.test.ts",
+        "tests/ntc2018-action-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0039-ntc2018-action-parameters-and-factories"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -7702,11 +7788,15 @@
       "sourcePath": "src/norms/ntc2018/actions/createNTC2018Action.js",
       "sourceBlobSha1": "06c4c6a75e2482bdf3e6d3288c7153aa72738c8a",
       "targetPath": "src/norms/ntc2018/actions/createNTC2018Action.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0039-ntc2018-action-parameters-and-factories"],
+      "sourceOracles": ["tests/ntc2018Actions.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/ntc2018-action-compile-time.test.ts",
+        "tests/ntc2018-action-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0039-ntc2018-action-parameters-and-factories"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -8668,11 +8758,15 @@
       "sourcePath": "src/domain/actions/ImposedAction.js",
       "sourceBlobSha1": "5b846a3a1f7cfc9221738698989eb85290d3be1b",
       "targetPath": "src/domain/actions/ImposedAction.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0038-domain-actions-hierarchy"],
+      "sourceOracles": ["tests/ntc2018Actions.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/domain-actions-compile-time.test.ts",
+        "tests/domain-actions-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0038-domain-actions-hierarchy"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -10004,11 +10098,15 @@
       "sourcePath": "src/norms/ntc2018/actions/ntc2018ActionParameters.js",
       "sourceBlobSha1": "fb00fa75c6453a901d6361d7308cd4fd3800d082",
       "targetPath": "src/norms/ntc2018/actions/ntc2018ActionParameters.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0039-ntc2018-action-parameters-and-factories"],
+      "sourceOracles": ["tests/ntc2018Actions.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/ntc2018-action-compile-time.test.ts",
+        "tests/ntc2018-action-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0039-ntc2018-action-parameters-and-factories"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -10018,11 +10116,15 @@
       "sourcePath": "src/norms/ntc2018/actions/ntc2018ActionParameters.js",
       "sourceBlobSha1": "fb00fa75c6453a901d6361d7308cd4fd3800d082",
       "targetPath": "src/norms/ntc2018/actions/ntc2018ActionParameters.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0039-ntc2018-action-parameters-and-factories"],
+      "sourceOracles": ["tests/ntc2018Actions.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/ntc2018-action-compile-time.test.ts",
+        "tests/ntc2018-action-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0039-ntc2018-action-parameters-and-factories"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -10159,11 +10261,15 @@
       "sourcePath": "src/norms/ntc2018/actions/ntc2018ActionParameters.js",
       "sourceBlobSha1": "fb00fa75c6453a901d6361d7308cd4fd3800d082",
       "targetPath": "src/norms/ntc2018/actions/ntc2018ActionParameters.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0039-ntc2018-action-parameters-and-factories"],
+      "sourceOracles": ["tests/ntc2018Actions.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/ntc2018-action-compile-time.test.ts",
+        "tests/ntc2018-action-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0039-ntc2018-action-parameters-and-factories"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -10199,11 +10305,15 @@
       "sourcePath": "src/norms/ntc2018/actions/ntc2018ActionParameters.js",
       "sourceBlobSha1": "fb00fa75c6453a901d6361d7308cd4fd3800d082",
       "targetPath": "src/norms/ntc2018/actions/ntc2018ActionParameters.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0039-ntc2018-action-parameters-and-factories"],
+      "sourceOracles": ["tests/ntc2018Actions.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/ntc2018-action-compile-time.test.ts",
+        "tests/ntc2018-action-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0039-ntc2018-action-parameters-and-factories"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -10547,11 +10657,15 @@
       "sourcePath": "src/norms/ntc2018/actions/ntc2018ActionParameters.js",
       "sourceBlobSha1": "fb00fa75c6453a901d6361d7308cd4fd3800d082",
       "targetPath": "src/norms/ntc2018/actions/ntc2018ActionParameters.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0039-ntc2018-action-parameters-and-factories"],
+      "sourceOracles": ["tests/ntc2018Actions.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/ntc2018-action-compile-time.test.ts",
+        "tests/ntc2018-action-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0039-ntc2018-action-parameters-and-factories"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -11199,11 +11313,15 @@
       "sourcePath": "src/norms/ntc2018/actions/ntc2018ActionParameters.js",
       "sourceBlobSha1": "fb00fa75c6453a901d6361d7308cd4fd3800d082",
       "targetPath": "src/norms/ntc2018/actions/ntc2018ActionParameters.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0039-ntc2018-action-parameters-and-factories"],
+      "sourceOracles": ["tests/ntc2018Actions.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/ntc2018-action-compile-time.test.ts",
+        "tests/ntc2018-action-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0039-ntc2018-action-parameters-and-factories"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -11457,11 +11575,15 @@
       "sourcePath": "src/domain/actions/PermanentAction.js",
       "sourceBlobSha1": "f200c9c5f3fd3b1573b0eb2648f8ccba3201f451",
       "targetPath": "src/domain/actions/PermanentAction.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0038-domain-actions-hierarchy"],
+      "sourceOracles": ["tests/ntc2018Actions.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/domain-actions-compile-time.test.ts",
+        "tests/domain-actions-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0038-domain-actions-hierarchy"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -13090,11 +13212,15 @@
       "sourcePath": "src/norms/ntc2018/actions/createNTC2018Action.js",
       "sourceBlobSha1": "06c4c6a75e2482bdf3e6d3288c7153aa72738c8a",
       "targetPath": "src/norms/ntc2018/actions/createNTC2018Action.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0039-ntc2018-action-parameters-and-factories"],
+      "sourceOracles": ["tests/ntc2018Actions.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/ntc2018-action-compile-time.test.ts",
+        "tests/ntc2018-action-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0039-ntc2018-action-parameters-and-factories"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -13859,11 +13985,15 @@
       "sourcePath": "src/domain/actions/SeismicAction.js",
       "sourceBlobSha1": "6f33b604db4bd782f7ac1338fd70caa1b8c4b278",
       "targetPath": "src/domain/actions/SeismicAction.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0038-domain-actions-hierarchy"],
+      "sourceOracles": ["tests/ntc2018Actions.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/domain-actions-compile-time.test.ts",
+        "tests/domain-actions-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0038-domain-actions-hierarchy"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -14445,11 +14575,15 @@
       "sourcePath": "src/domain/actions/SnowAction.js",
       "sourceBlobSha1": "0669ea7b6cdc78a4cad0bafa64944946bb0bb32a",
       "targetPath": "src/domain/actions/SnowAction.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0038-domain-actions-hierarchy"],
+      "sourceOracles": ["tests/ntc2018Actions.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/domain-actions-compile-time.test.ts",
+        "tests/domain-actions-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0038-domain-actions-hierarchy"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -15243,11 +15377,15 @@
       "sourcePath": "src/domain/actions/ThermalAction.js",
       "sourceBlobSha1": "e0986d3b76966aade235830ed8fe47394782cf8b",
       "targetPath": "src/domain/actions/ThermalAction.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0038-domain-actions-hierarchy"],
+      "sourceOracles": ["tests/ntc2018Actions.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/domain-actions-compile-time.test.ts",
+        "tests/domain-actions-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0038-domain-actions-hierarchy"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -15467,11 +15605,15 @@
       "sourcePath": "src/domain/actions/TrafficAction.js",
       "sourceBlobSha1": "0921f663a592de82f27c3884d7ed47f21552a461",
       "targetPath": "src/domain/actions/TrafficAction.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0038-domain-actions-hierarchy"],
+      "sourceOracles": ["tests/ntc2018Actions.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/domain-actions-compile-time.test.ts",
+        "tests/domain-actions-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0038-domain-actions-hierarchy"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -15739,11 +15881,15 @@
       "sourcePath": "src/domain/actions/VariableAction.js",
       "sourceBlobSha1": "e63bf33e785e76217d3416a64111ddbcf5b06f46",
       "targetPath": "src/domain/actions/VariableAction.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0038-domain-actions-hierarchy"],
+      "sourceOracles": ["tests/ntc2018Actions.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/domain-actions-compile-time.test.ts",
+        "tests/domain-actions-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0038-domain-actions-hierarchy"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -16356,11 +16502,15 @@
       "sourcePath": "src/domain/actions/WindAction.js",
       "sourceBlobSha1": "8d04aa4714d3295d676967458ecf59c64e8560b6",
       "targetPath": "src/domain/actions/WindAction.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0038-domain-actions-hierarchy"],
+      "sourceOracles": ["tests/ntc2018Actions.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/domain-actions-compile-time.test.ts",
+        "tests/domain-actions-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0038-domain-actions-hierarchy"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -27217,132 +27367,180 @@
       "sourcePath": "src/domain/actions/AccidentalAction.js",
       "sourceBlobSha1": "b1145044836e99710e664d6c642d997696391515",
       "targetPath": "src/domain/actions/AccidentalAction.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing"
+      "migrationSlices": ["0038-domain-actions-hierarchy"],
+      "sourceOracles": ["tests/ntc2018Actions.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/domain-actions-compile-time.test.ts",
+        "tests/domain-actions-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0038-domain-actions-hierarchy"],
+      "status": "exact-parity"
     },
     {
       "id": "src/domain/actions/Action.js",
       "sourcePath": "src/domain/actions/Action.js",
       "sourceBlobSha1": "063b09d68f0573afb6a936d5d330ec04ccec3d7c",
       "targetPath": "src/domain/actions/Action.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing"
+      "migrationSlices": ["0038-domain-actions-hierarchy"],
+      "sourceOracles": ["tests/ntc2018Actions.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/domain-actions-compile-time.test.ts",
+        "tests/domain-actions-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0038-domain-actions-hierarchy"],
+      "status": "exact-parity"
     },
     {
       "id": "src/domain/actions/ClimaticAction.js",
       "sourcePath": "src/domain/actions/ClimaticAction.js",
       "sourceBlobSha1": "d36574f41ff93ff6799ba05b4fcfaf0b022c5085",
       "targetPath": "src/domain/actions/ClimaticAction.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing"
+      "migrationSlices": ["0038-domain-actions-hierarchy"],
+      "sourceOracles": ["tests/ntc2018Actions.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/domain-actions-compile-time.test.ts",
+        "tests/domain-actions-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0038-domain-actions-hierarchy"],
+      "status": "exact-parity"
     },
     {
       "id": "src/domain/actions/ImposedAction.js",
       "sourcePath": "src/domain/actions/ImposedAction.js",
       "sourceBlobSha1": "5b846a3a1f7cfc9221738698989eb85290d3be1b",
       "targetPath": "src/domain/actions/ImposedAction.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing"
+      "migrationSlices": ["0038-domain-actions-hierarchy"],
+      "sourceOracles": ["tests/ntc2018Actions.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/domain-actions-compile-time.test.ts",
+        "tests/domain-actions-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0038-domain-actions-hierarchy"],
+      "status": "exact-parity"
     },
     {
       "id": "src/domain/actions/PermanentAction.js",
       "sourcePath": "src/domain/actions/PermanentAction.js",
       "sourceBlobSha1": "f200c9c5f3fd3b1573b0eb2648f8ccba3201f451",
       "targetPath": "src/domain/actions/PermanentAction.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing"
+      "migrationSlices": ["0038-domain-actions-hierarchy"],
+      "sourceOracles": ["tests/ntc2018Actions.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/domain-actions-compile-time.test.ts",
+        "tests/domain-actions-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0038-domain-actions-hierarchy"],
+      "status": "exact-parity"
     },
     {
       "id": "src/domain/actions/SeismicAction.js",
       "sourcePath": "src/domain/actions/SeismicAction.js",
       "sourceBlobSha1": "6f33b604db4bd782f7ac1338fd70caa1b8c4b278",
       "targetPath": "src/domain/actions/SeismicAction.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing"
+      "migrationSlices": ["0038-domain-actions-hierarchy"],
+      "sourceOracles": ["tests/ntc2018Actions.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/domain-actions-compile-time.test.ts",
+        "tests/domain-actions-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0038-domain-actions-hierarchy"],
+      "status": "exact-parity"
     },
     {
       "id": "src/domain/actions/SnowAction.js",
       "sourcePath": "src/domain/actions/SnowAction.js",
       "sourceBlobSha1": "0669ea7b6cdc78a4cad0bafa64944946bb0bb32a",
       "targetPath": "src/domain/actions/SnowAction.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing"
+      "migrationSlices": ["0038-domain-actions-hierarchy"],
+      "sourceOracles": ["tests/ntc2018Actions.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/domain-actions-compile-time.test.ts",
+        "tests/domain-actions-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0038-domain-actions-hierarchy"],
+      "status": "exact-parity"
     },
     {
       "id": "src/domain/actions/ThermalAction.js",
       "sourcePath": "src/domain/actions/ThermalAction.js",
       "sourceBlobSha1": "e0986d3b76966aade235830ed8fe47394782cf8b",
       "targetPath": "src/domain/actions/ThermalAction.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing"
+      "migrationSlices": ["0038-domain-actions-hierarchy"],
+      "sourceOracles": ["tests/ntc2018Actions.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/domain-actions-compile-time.test.ts",
+        "tests/domain-actions-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0038-domain-actions-hierarchy"],
+      "status": "exact-parity"
     },
     {
       "id": "src/domain/actions/TrafficAction.js",
       "sourcePath": "src/domain/actions/TrafficAction.js",
       "sourceBlobSha1": "0921f663a592de82f27c3884d7ed47f21552a461",
       "targetPath": "src/domain/actions/TrafficAction.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing"
+      "migrationSlices": ["0038-domain-actions-hierarchy"],
+      "sourceOracles": ["tests/ntc2018Actions.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/domain-actions-compile-time.test.ts",
+        "tests/domain-actions-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0038-domain-actions-hierarchy"],
+      "status": "exact-parity"
     },
     {
       "id": "src/domain/actions/VariableAction.js",
       "sourcePath": "src/domain/actions/VariableAction.js",
       "sourceBlobSha1": "e63bf33e785e76217d3416a64111ddbcf5b06f46",
       "targetPath": "src/domain/actions/VariableAction.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing"
+      "migrationSlices": ["0038-domain-actions-hierarchy"],
+      "sourceOracles": ["tests/ntc2018Actions.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/domain-actions-compile-time.test.ts",
+        "tests/domain-actions-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0038-domain-actions-hierarchy"],
+      "status": "exact-parity"
     },
     {
       "id": "src/domain/actions/WindAction.js",
       "sourcePath": "src/domain/actions/WindAction.js",
       "sourceBlobSha1": "8d04aa4714d3295d676967458ecf59c64e8560b6",
       "targetPath": "src/domain/actions/WindAction.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing"
+      "migrationSlices": ["0038-domain-actions-hierarchy"],
+      "sourceOracles": ["tests/ntc2018Actions.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/domain-actions-compile-time.test.ts",
+        "tests/domain-actions-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0038-domain-actions-hierarchy"],
+      "status": "exact-parity"
     },
     {
       "id": "src/domain/actions/index.js",
       "sourcePath": "src/domain/actions/index.js",
       "sourceBlobSha1": "04ed2381b3ccab4b792e3bea7e6a638c355b467f",
       "targetPath": "src/domain/actions/index.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing"
+      "migrationSlices": ["0038-domain-actions-hierarchy"],
+      "sourceOracles": ["tests/ntc2018Actions.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/domain-actions-compile-time.test.ts",
+        "tests/domain-actions-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0038-domain-actions-hierarchy"],
+      "status": "exact-parity"
     },
     {
       "id": "src/domain/analysis/Combination.js",
@@ -29804,7 +30002,9 @@
         "0034-rc-building-verification-application-and-producer-conformance",
         "0035-rc-building-closure-audit",
         "0036-rc-building-strict-typing",
-        "0037-application-registry-code-metadata"
+        "0037-application-registry-code-metadata",
+        "0038-domain-actions-hierarchy",
+        "0039-ntc2018-action-parameters-and-factories"
       ],
       "sourceOracles": [
         "tests/architecture/applicationRegistry.test.js",
@@ -30091,22 +30291,30 @@
       "sourcePath": "src/norms/ntc2018/actions/createNTC2018Action.js",
       "sourceBlobSha1": "06c4c6a75e2482bdf3e6d3288c7153aa72738c8a",
       "targetPath": "src/norms/ntc2018/actions/createNTC2018Action.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing"
+      "migrationSlices": ["0039-ntc2018-action-parameters-and-factories"],
+      "sourceOracles": ["tests/ntc2018Actions.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/ntc2018-action-compile-time.test.ts",
+        "tests/ntc2018-action-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0039-ntc2018-action-parameters-and-factories"],
+      "status": "exact-parity"
     },
     {
       "id": "src/norms/ntc2018/actions/ntc2018ActionParameters.js",
       "sourcePath": "src/norms/ntc2018/actions/ntc2018ActionParameters.js",
       "sourceBlobSha1": "fb00fa75c6453a901d6361d7308cd4fd3800d082",
       "targetPath": "src/norms/ntc2018/actions/ntc2018ActionParameters.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing"
+      "migrationSlices": ["0039-ntc2018-action-parameters-and-factories"],
+      "sourceOracles": ["tests/ntc2018Actions.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/ntc2018-action-compile-time.test.ts",
+        "tests/ntc2018-action-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0039-ntc2018-action-parameters-and-factories"],
+      "status": "exact-parity"
     },
     {
       "id": "src/norms/ntc2018/actions/ntc2018SeismicAction.js",
@@ -31677,11 +31885,23 @@
       "sourcePath": "tests/ntc2018Actions.test.js",
       "sourceBlobSha1": "b421aa2af994a2ddce7865ae513c5ff67de43d2e",
       "targetPath": "tests/ntc2018Actions.test.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": [
+        "0038-domain-actions-hierarchy",
+        "0039-ntc2018-action-parameters-and-factories"
+      ],
+      "sourceOracles": ["tests/ntc2018Actions.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/domain-actions-compile-time.test.ts",
+        "tests/domain-actions-live-parity.test.ts",
+        "tests/ntc2018-action-compile-time.test.ts",
+        "tests/ntc2018-action-live-parity.test.ts"
+      ],
+      "validationEvidence": [
+        "0038-domain-actions-hierarchy",
+        "0039-ntc2018-action-parameters-and-factories"
+      ],
+      "status": "exact-parity",
       "testKind": "test"
     },
     {
@@ -34206,12 +34426,42 @@
         "numericParity": "absolute and relative tolerance 1e-12 where numerical values are encountered",
         "publicStrings": "exact equality plus Unicode code-point equality"
       }
+    },
+    {
+      "sliceId": "0038-domain-actions-hierarchy",
+      "sourceRevision": "6f33baead8b88166c4b2cf94af41763412e3c751",
+      "method": "Strict declaration consumer coverage and independently executed pinned JavaScript versus built TypeScript action hierarchy, inheritance, defaults, categories, factors, durations, metadata, serialization, cloning isolation, Unicode strings, and error behavior comparisons.",
+      "targetTests": [
+        "tests/domain-actions-compile-time.test.ts",
+        "tests/domain-actions-live-parity.test.ts"
+      ],
+      "fixture": null,
+      "tolerances": {
+        "serializedParity": "exact JSON serialization for every migrated action class and assigned load-case state",
+        "numericParity": "absolute and relative tolerance 1e-12 where numerical values are encountered",
+        "publicStrings": "exact equality plus Unicode code-point equality"
+      }
+    },
+    {
+      "sliceId": "0039-ntc2018-action-parameters-and-factories",
+      "sourceRevision": "6f33baead8b88166c4b2cf94af41763412e3c751",
+      "method": "Strict declaration consumer coverage and independently executed pinned JavaScript versus built TypeScript parameter catalogs and generic action factories, including exact JSON, Unicode, metadata, inheritance, cloning and error-path comparisons.",
+      "targetTests": [
+        "tests/ntc2018-action-compile-time.test.ts",
+        "tests/ntc2018-action-live-parity.test.ts"
+      ],
+      "fixture": null,
+      "tolerances": {
+        "serializedParity": "exact JSON serialization for every migrated parameter table and generic action factory scenario",
+        "numericParity": "exact equality for the finite catalog and factory values",
+        "publicStrings": "exact equality plus Unicode code-point equality"
+      }
     }
   ],
   "counts": {
     "rootExports": {
       "javascript": 841,
-      "typescript": 357
+      "typescript": 387
     },
     "applicationsExports": {
       "javascript": 309,
@@ -34235,11 +34485,11 @@
     },
     "sourceFiles": {
       "javascript": 480,
-      "typescript": 244
+      "typescript": 258
     },
     "tests": {
       "javascript": 131,
-      "typescript": 62
+      "typescript": 66
     },
     "validationCampaigns": {
       "javascript": 17,
@@ -34271,13 +34521,11 @@
       "statusCounts": {
         "exact-parity": 0,
         "partial": 18,
-        "missing": 320,
+        "missing": 297,
         "intentionally-excluded": 0,
         "decision-required": 0
       },
       "itemIds": [
-        "root-export:AccidentalAction",
-        "root-export:Action",
         "root-export:AreaLoad",
         "root-export:BeamElement",
         "root-export:BeamSystem",
@@ -34286,7 +34534,6 @@
         "root-export:CYCLIC_MASONRY_INTERNAL_UNITS",
         "root-export:CircularSlipSurface2D",
         "root-export:CircularSlopeStabilityAnalysis",
-        "root-export:ClimaticAction",
         "root-export:Combination",
         "root-export:CyclicMasonryCompressionMaterial",
         "root-export:CyclicMasonryPier2D",
@@ -34347,7 +34594,6 @@
         "root-export:GroundAnchorModel",
         "root-export:GroundAnchorStabilityAction2D",
         "root-export:GroundSection2D",
-        "root-export:ImposedAction",
         "root-export:LATERAL_PILE_ACTION_REFERENCE_POINTS",
         "root-export:LATERAL_PILE_BEHAVIOR_CLASSIFICATIONS",
         "root-export:LATERAL_PILE_BROMS_REFERENCE",
@@ -34384,7 +34630,6 @@
         "root-export:PORE_PRESSURE_FIELD_2D_MODELS",
         "root-export:PORE_PRESSURE_FIELD_2D_SCHEMA_VERSION",
         "root-export:PRESSURE_DIAGRAM_2D_SCHEMA_VERSION",
-        "root-export:PermanentAction",
         "root-export:PileTransferLaw",
         "root-export:PorePressureField2D",
         "root-export:PressureDiagram2D",
@@ -34424,7 +34669,6 @@
         "root-export:STEEL_PROFILE_FAMILIES",
         "root-export:STEEL_PROFILE_SECTION_DATABASE",
         "root-export:STEEL_PROFILE_SECTION_NAMES",
-        "root-export:SeismicAction",
         "root-export:ShallowFoundationActionState",
         "root-export:ShallowFoundationModel",
         "root-export:ShallowFoundationServiceabilityAnalysis",
@@ -34434,7 +34678,6 @@
         "root-export:SlidingStrengthModel",
         "root-export:SlopeSliceDiscretizer2D",
         "root-export:SlopeSurfaceSurcharge2D",
-        "root-export:SnowAction",
         "root-export:SoilStructureInterface",
         "root-export:SolidTimberMaterial",
         "root-export:SteelBeamSectionProvider",
@@ -34447,13 +34690,10 @@
         "root-export:TECNARIA_CONNECTOR_TYPES",
         "root-export:TERRAIN_ELEVATION_GRID_SCHEMA_VERSION",
         "root-export:TecnariaConnector",
-        "root-export:ThermalAction",
         "root-export:TimberBeamSectionProvider",
         "root-export:TimberDowelConnector",
         "root-export:TimberMaterial",
-        "root-export:TrafficAction",
         "root-export:TurnsekSheppardModel",
-        "root-export:VariableAction",
         "root-export:VariableLoad",
         "root-export:VolumeLoad",
         "root-export:WALL_SOIL_REACTION_EXTRAPOLATION_MODELS",
@@ -34461,7 +34701,6 @@
         "root-export:WALL_SOIL_REACTION_MODELS",
         "root-export:WallLoad",
         "root-export:WallSoilReactionLaw",
-        "root-export:WindAction",
         "root-export:XlamBeamSectionProvider",
         "root-export:XlamMaterial",
         "root-export:XlamPanelSection",
@@ -34503,18 +34742,6 @@
         "root-export:registerXlamPanelProduct",
         "root-export:simplifiedBishop",
         "root-export:spencerMethod",
-        "source:src/domain/actions/AccidentalAction.js",
-        "source:src/domain/actions/Action.js",
-        "source:src/domain/actions/ClimaticAction.js",
-        "source:src/domain/actions/ImposedAction.js",
-        "source:src/domain/actions/PermanentAction.js",
-        "source:src/domain/actions/SeismicAction.js",
-        "source:src/domain/actions/SnowAction.js",
-        "source:src/domain/actions/ThermalAction.js",
-        "source:src/domain/actions/TrafficAction.js",
-        "source:src/domain/actions/VariableAction.js",
-        "source:src/domain/actions/WindAction.js",
-        "source:src/domain/actions/index.js",
         "source:src/domain/analysis/Combination.js",
         "source:src/domain/analysis/LoadCase.js",
         "source:src/domain/analysis/LoadCombination.js",
@@ -34620,7 +34847,7 @@
       "statusCounts": {
         "exact-parity": 0,
         "partial": 16,
-        "missing": 178,
+        "missing": 157,
         "intentionally-excluded": 0,
         "decision-required": 0
       },
@@ -34635,10 +34862,6 @@
         "root-export:NORMATIVE_REFERENCE_RELATIONS",
         "root-export:NORMATIVE_REFERENCE_RESOLUTION_STATUS",
         "root-export:NTC2018ExistingMasonryMaterial",
-        "root-export:NTC2018_ACTION_COMBINATION_FACTORS",
-        "root-export:NTC2018_ACTION_PARTIAL_FACTORS",
-        "root-export:NTC2018_CASE_BY_CASE_COMBINATION_CATEGORIES",
-        "root-export:NTC2018_DEFAULT_DURATION_CLASS_BY_ACTION",
         "root-export:NTC2018_EXISTING_MASONRY_KNOWLEDGE_LEVELS",
         "root-export:NTC2018_EXISTING_MASONRY_MODIFIER_DEFINITIONS",
         "root-export:NTC2018_EXISTING_MASONRY_PARAMETER_LEVELS",
@@ -34647,7 +34870,6 @@
         "root-export:NTC2018_GLULAM_TIMBER_STRENGTH_CLASSES",
         "root-export:NTC2018_IMPOSED_LOAD_CATALOG",
         "root-export:NTC2018_IMPOSED_LOAD_REFERENCES",
-        "root-export:NTC2018_LOAD_DURATION_CLASSES",
         "root-export:NTC2018_MASONRY_PIER_CAPACITY_REFERENCES",
         "root-export:NTC2018_MASONRY_PIER_DEFORMATION_REFERENCES",
         "root-export:NTC2018_MASONRY_PIER_STIFFNESS_REFERENCE",
@@ -34672,7 +34894,6 @@
         "root-export:NTC2018_SUMMER_SOLAR_TEMPERATURE_INCREMENTS",
         "root-export:NTC2018_THERMAL_EXPANSION_COEFFICIENTS",
         "root-export:NTC2018_THERMAL_REFERENCES",
-        "root-export:NTC2018_TIMBER_KMOD",
         "root-export:NTC2018_TIMBER_STRENGTH_CLASSES",
         "root-export:NTC2018_TOPOGRAPHIC_AMPLIFICATION_MAXIMA",
         "root-export:NTC2018_TOPOGRAPHIC_CLASSIFICATION_METHOD",
@@ -34722,34 +34943,23 @@
         "root-export:calculateNTC2018WindReturnCoefficient",
         "root-export:classifyNTC2018Topography",
         "root-export:createItalianHistoricalReinforcementSteelMaterial",
-        "root-export:createNTC2018AccidentalAction",
         "root-export:createNTC2018BeamCombinations",
         "root-export:createNTC2018ExistingMasonryMaterial",
         "root-export:createNTC2018ExistingMasonryModifierState",
         "root-export:createNTC2018ExistingMasonryWorkflowState",
         "root-export:createNTC2018MononobeOkabeSeismicInput",
-        "root-export:createNTC2018PermanentAction",
         "root-export:createNTC2018SLECombination",
-        "root-export:createNTC2018SeismicAction",
         "root-export:createNTC2018SlabVariableLoad",
-        "root-export:createNTC2018SnowAction",
         "root-export:createNTC2018StructuralSteelMaterial",
-        "root-export:createNTC2018ThermalAction",
         "root-export:createNTC2018TimberMaterial",
         "root-export:createNTC2018ULSFundamentalCombination",
-        "root-export:createNTC2018VariableAction",
-        "root-export:createNTC2018WindAction",
         "root-export:describeDM522023Amendment",
         "root-export:evaluateNTC2018ExistingMasonryWorkflow",
         "root-export:evaluateNTC2018MasonryPier",
         "root-export:getItalianHistoricalReinforcementSteelGrade",
-        "root-export:getNTC2018ActionCombinationFactors",
-        "root-export:getNTC2018ActionPartialFactors",
         "root-export:getNTC2018ExistingMasonryModifierDefinition",
         "root-export:getNTC2018ExternalAirTemperatureZoneDefinition",
         "root-export:getNTC2018ImposedLoadDefinition",
-        "root-export:getNTC2018LoadDurationClass",
-        "root-export:getNTC2018LoadDurationDefinition",
         "root-export:getNTC2018SeismicLimitStateDefinition",
         "root-export:getNTC2018SimplifiedBuildingTemperatureChange",
         "root-export:getNTC2018SlabVariableAction",
@@ -34760,7 +34970,6 @@
         "root-export:getNTC2018SubsoilSpectrumCoefficientDefinition",
         "root-export:getNTC2018TabulatedMasonryProperties",
         "root-export:getNTC2018ThermalExpansionCoefficientDefinition",
-        "root-export:getNTC2018TimberKmod",
         "root-export:getNTC2018TopographicAmplificationDefinition",
         "root-export:getNTC2018UnitWeightDefinition",
         "root-export:getNTC2018WindExposureCategoryDefinition",
@@ -34775,7 +34984,6 @@
         "root-export:listSlabMaterialWeightPresetEntries",
         "root-export:modifierSelectionsFromState",
         "root-export:normalizeNTC2018SiteHazardParameters",
-        "root-export:resolveNTC2018GoverningLoadDuration",
         "root-export:resolveNTC2018ImposedLoadDefinition",
         "root-export:resolveNTC2018InitialTemperature",
         "root-export:resolveNTC2018InternalAirTemperature",
@@ -34792,8 +35000,6 @@
         "source:src/norms/italian-historical/index.js",
         "source:src/norms/italian-historical/materials/createItalianHistoricalMaterial.js",
         "source:src/norms/italian-historical/materials/historicalReinforcementSteelCatalogs.js",
-        "source:src/norms/ntc2018/actions/createNTC2018Action.js",
-        "source:src/norms/ntc2018/actions/ntc2018ActionParameters.js",
         "source:src/norms/ntc2018/actions/ntc2018SeismicAction.js",
         "source:src/norms/ntc2018/actions/ntc2018SnowLoad.js",
         "source:src/norms/ntc2018/actions/ntc2018ThermalAction.js",
@@ -35283,7 +35489,7 @@
       "statusCounts": {
         "exact-parity": 0,
         "partial": 3,
-        "missing": 162,
+        "missing": 161,
         "intentionally-excluded": 0,
         "decision-required": 0
       },
@@ -35426,7 +35632,6 @@
         "test:tests/masonryWallOpeningsStateComparison.test.js",
         "test:tests/masonryWallOpeningsStateComparisonReport.test.js",
         "test:tests/masonryWallOpeningsStaticAnalysis.test.js",
-        "test:tests/ntc2018Actions.test.js",
         "test:tests/ntc2018BeamCombinations.test.js",
         "test:tests/ntc2018ExistingMasonryMaterial.test.js",
         "test:tests/ntc2018ExistingMasonryWorkflow.test.js",

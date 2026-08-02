@@ -1,0 +1,172 @@
+// Mechanical TypeScript migration from strutture-js 6f33baead8b88166c4b2cf94af41763412e3c751; source path: src/norms/ntc2018/actions/ntc2018ActionParameters.js.
+
+export interface NTC2018ActionCombinationFactorDefinition {
+  psi0: number;
+  psi1: number;
+  psi2: number;
+  description: string;
+  [key: string]: number | string;
+}
+
+export type NTC2018ActionCombinationFactorCatalog = Record<
+  string,
+  NTC2018ActionCombinationFactorDefinition
+>;
+
+export interface NTC2018CaseByCaseCombinationCategory {
+  description: string;
+}
+
+export type NTC2018CaseByCaseCombinationCategoryCatalog = Record<
+  string,
+  NTC2018CaseByCaseCombinationCategory
+>;
+
+export interface NTC2018PartialFactorDefinition {
+  favourable: number;
+  unfavourable: number;
+}
+
+export type NTC2018ActionPartialFactorCatalog = Record<
+  string,
+  Record<string, Record<string, NTC2018PartialFactorDefinition>>
+>;
+
+export interface NTC2018LoadDurationDefinition {
+  order: number;
+  description: string;
+}
+
+export type NTC2018LoadDurationCatalog = Record<string, NTC2018LoadDurationDefinition>;
+
+export type NTC2018DefaultDurationClassCatalog = Record<string, string>;
+
+export type NTC2018TimberKmodCatalog = Record<string, Record<number, Record<string, number>>>;
+
+export const NTC2018_ACTION_COMBINATION_FACTORS: NTC2018ActionCombinationFactorCatalog = {
+  A: { psi0: 0.7, psi1: 0.5, psi2: 0.3, description: "residenziale" },
+  B: { psi0: 0.7, psi1: 0.5, psi2: 0.3, description: "uffici" },
+  C: { psi0: 0.7, psi1: 0.7, psi2: 0.6, description: "affollamento" },
+  D: { psi0: 0.7, psi1: 0.7, psi2: 0.6, description: "commerciale" },
+  E: { psi0: 1.0, psi1: 0.9, psi2: 0.8, description: "magazzini e industriale" },
+  F: { psi0: 0.7, psi1: 0.7, psi2: 0.6, description: "rimesse e traffico leggero" },
+  G: { psi0: 0.7, psi1: 0.5, psi2: 0.3, description: "traffico medio" },
+  H: { psi0: 0.0, psi1: 0.0, psi2: 0.0, description: "coperture per manutenzione" },
+  WIND: { psi0: 0.6, psi1: 0.2, psi2: 0.0, description: "vento" },
+  SNOW_LOW: { psi0: 0.5, psi1: 0.2, psi2: 0.0, description: "neve <= 1000 m s.l.m." },
+  SNOW_HIGH: { psi0: 0.7, psi1: 0.5, psi2: 0.2, description: "neve > 1000 m s.l.m." },
+  THERMAL: { psi0: 0.6, psi1: 0.5, psi2: 0.0, description: "variazioni termiche" },
+  ACCIDENTAL: { psi0: 0.0, psi1: 0.0, psi2: 0.0, description: "azione eccezionale" },
+  SEISMIC: { psi0: 0.0, psi1: 0.0, psi2: 0.0, description: "azione sismica" },
+};
+
+export const NTC2018_CASE_BY_CASE_COMBINATION_CATEGORIES: Readonly<NTC2018CaseByCaseCombinationCategoryCatalog> =
+  Object.freeze({
+    I: { description: "coperture praticabili" },
+    K: { description: "coperture per usi speciali" },
+  });
+
+export const NTC2018_ACTION_PARTIAL_FACTORS: NTC2018ActionPartialFactorCatalog = {
+  permanent: {
+    G1: {
+      A1: { favourable: 1.0, unfavourable: 1.3 },
+      A2: { favourable: 1.0, unfavourable: 1.0 },
+    },
+    G2: {
+      A1: { favourable: 0.8, unfavourable: 1.5 },
+      A2: { favourable: 0.8, unfavourable: 1.3 },
+    },
+  },
+  variable: {
+    imposed: {
+      A1: { favourable: 0.0, unfavourable: 1.5 },
+      A2: { favourable: 0.0, unfavourable: 1.3 },
+    },
+    traffic: {
+      A1: { favourable: 0.0, unfavourable: 1.5 },
+      A2: { favourable: 0.0, unfavourable: 1.3 },
+    },
+    roadBridgeTraffic: {
+      A1: { favourable: 0.0, unfavourable: 1.35 },
+      A2: { favourable: 0.0, unfavourable: 1.15 },
+    },
+    wind: {
+      A1: { favourable: 0.0, unfavourable: 1.5 },
+      A2: { favourable: 0.0, unfavourable: 1.3 },
+    },
+    snow: {
+      A1: { favourable: 0.0, unfavourable: 1.5 },
+      A2: { favourable: 0.0, unfavourable: 1.3 },
+    },
+    thermal: {
+      A1: { favourable: 0.0, unfavourable: 1.5 },
+      A2: { favourable: 0.0, unfavourable: 1.3 },
+    },
+    climatic: {
+      A1: { favourable: 0.0, unfavourable: 1.5 },
+      A2: { favourable: 0.0, unfavourable: 1.3 },
+    },
+  },
+  accidental: {
+    accidental: {
+      A1: { favourable: 0.0, unfavourable: 1.0 },
+      A2: { favourable: 0.0, unfavourable: 1.0 },
+    },
+  },
+  seismic: {
+    seismic: {
+      A1: { favourable: 0.0, unfavourable: 1.0 },
+      A2: { favourable: 0.0, unfavourable: 1.0 },
+    },
+  },
+};
+
+export const NTC2018_LOAD_DURATION_CLASSES: NTC2018LoadDurationCatalog = {
+  permanent: { order: 5, description: "permanente" },
+  long: { order: 4, description: "lunga durata" },
+  medium: { order: 3, description: "media durata" },
+  short: { order: 2, description: "breve durata" },
+  instantaneous: { order: 1, description: "istantanea" },
+};
+
+export const NTC2018_DEFAULT_DURATION_CLASS_BY_ACTION: NTC2018DefaultDurationClassCatalog = {
+  G1: "permanent",
+  G2: "permanent",
+  A: "medium",
+  B: "medium",
+  C: "medium",
+  D: "medium",
+  E: "long",
+  F: "short",
+  G: "short",
+  H: "short",
+  WIND: "instantaneous",
+  SNOW_LOW: "short",
+  SNOW_HIGH: "short",
+  THERMAL: "medium",
+  ACCIDENTAL: "instantaneous",
+  SEISMIC: "instantaneous",
+};
+
+export const NTC2018_TIMBER_KMOD: NTC2018TimberKmodCatalog = {
+  solid_timber: {
+    1: { permanent: 0.6, long: 0.7, medium: 0.8, short: 0.9, instantaneous: 1.1 },
+    2: { permanent: 0.6, long: 0.7, medium: 0.8, short: 0.9, instantaneous: 1.1 },
+    3: { permanent: 0.5, long: 0.55, medium: 0.65, short: 0.7, instantaneous: 0.9 },
+  },
+  glulam: {
+    1: { permanent: 0.6, long: 0.7, medium: 0.8, short: 0.9, instantaneous: 1.1 },
+    2: { permanent: 0.6, long: 0.7, medium: 0.8, short: 0.9, instantaneous: 1.1 },
+    3: { permanent: 0.5, long: 0.55, medium: 0.65, short: 0.7, instantaneous: 0.9 },
+  },
+  lvL: {
+    1: { permanent: 0.6, long: 0.7, medium: 0.8, short: 0.9, instantaneous: 1.1 },
+    2: { permanent: 0.6, long: 0.7, medium: 0.8, short: 0.9, instantaneous: 1.1 },
+    3: { permanent: 0.5, long: 0.55, medium: 0.65, short: 0.7, instantaneous: 0.9 },
+  },
+  wood_based_panels: {
+    1: { permanent: 0.6, long: 0.7, medium: 0.8, short: 0.9, instantaneous: 1.1 },
+    2: { permanent: 0.6, long: 0.7, medium: 0.8, short: 0.9, instantaneous: 1.1 },
+    3: { permanent: 0.5, long: 0.55, medium: 0.65, short: 0.7, instantaneous: 0.9 },
+  },
+};

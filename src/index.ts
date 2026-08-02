@@ -154,6 +154,19 @@ export {
   StrutAndTieModel2D,
 } from "./domain/strut-and-tie/index.js";
 export {
+  AccidentalAction,
+  Action,
+  ClimaticAction,
+  ImposedAction,
+  PermanentAction,
+  SeismicAction,
+  SnowAction,
+  ThermalAction,
+  TrafficAction,
+  VariableAction,
+  WindAction,
+} from "./domain/actions/index.js";
+export {
   PUNCHING_ACTION_SCHEMA_VERSION,
   PUNCHING_CONNECTION_SCHEMA_VERSION,
   PUNCHING_CONTROL_PERIMETER_SCHEMA_VERSION,
@@ -303,6 +316,29 @@ export {
   createNTC2018ConcreteMaterial,
   createNTC2018ReinforcementSteelMaterial,
 } from "./norms/ntc2018/materials/createNTC2018Material.js";
+export {
+  NTC2018_ACTION_COMBINATION_FACTORS,
+  NTC2018_ACTION_PARTIAL_FACTORS,
+  NTC2018_CASE_BY_CASE_COMBINATION_CATEGORIES,
+  NTC2018_DEFAULT_DURATION_CLASS_BY_ACTION,
+  NTC2018_LOAD_DURATION_CLASSES,
+  NTC2018_TIMBER_KMOD,
+} from "./norms/ntc2018/actions/ntc2018ActionParameters.js";
+export {
+  createNTC2018AccidentalAction,
+  createNTC2018PermanentAction,
+  createNTC2018SeismicAction,
+  createNTC2018SnowAction,
+  createNTC2018ThermalAction,
+  createNTC2018VariableAction,
+  createNTC2018WindAction,
+  getNTC2018ActionCombinationFactors,
+  getNTC2018ActionPartialFactors,
+  getNTC2018LoadDurationClass,
+  getNTC2018LoadDurationDefinition,
+  getNTC2018TimberKmod,
+  resolveNTC2018GoverningLoadDuration,
+} from "./norms/ntc2018/actions/createNTC2018Action.js";
 export {
   NTC2018_CONCRETE_CLASSES,
   NTC2018_EXISTING_MATERIAL_KNOWLEDGE_LEVELS,
@@ -462,6 +498,7 @@ export type {
   UnitSystem,
   UnitSystemInput,
 } from "./domain/units/UnitSystem.js";
+export type * from "./domain/actions/index.js";
 export type * from "./domain/slabs/punching/types.js";
 export type * from "./applications/reinforced-concrete-punching/index.js";
 export type {
@@ -980,6 +1017,32 @@ export type {
   CreateNTC2018ConcreteMaterialOptions,
   CreateNTC2018ReinforcementSteelMaterialOptions,
 } from "./norms/ntc2018/materials/createNTC2018Material.js";
+export type {
+  NTC2018ActionCombinationFactorCatalog,
+  NTC2018ActionCombinationFactorDefinition,
+  NTC2018ActionPartialFactorCatalog,
+  NTC2018CaseByCaseCombinationCategory,
+  NTC2018CaseByCaseCombinationCategoryCatalog,
+  NTC2018DefaultDurationClassCatalog,
+  NTC2018LoadDurationCatalog,
+  NTC2018LoadDurationDefinition,
+  NTC2018PartialFactorDefinition,
+  NTC2018TimberKmodCatalog,
+} from "./norms/ntc2018/actions/ntc2018ActionParameters.js";
+export type {
+  CreateNTC2018AccidentalActionOptions,
+  CreateNTC2018PermanentActionOptions,
+  CreateNTC2018SeismicActionOptions,
+  CreateNTC2018SnowActionOptions,
+  CreateNTC2018ThermalActionOptions,
+  CreateNTC2018VariableActionOptions,
+  CreateNTC2018WindActionOptions,
+  GetNTC2018ActionPartialFactorsOptions,
+  GetNTC2018TimberKmodOptions,
+  NTC2018ActionDurationLike,
+  NTC2018CombinationFactorsSource,
+  NTC2018ExplicitCombinationFactors,
+} from "./norms/ntc2018/actions/createNTC2018Action.js";
 export type {
   NTC2018ConcreteClassPreset,
   NTC2018ConcreteStrengthClass,

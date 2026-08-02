@@ -1,0 +1,121 @@
+{
+  "schemaVersion": 1,
+  "sliceId": "0039-ntc2018-action-parameters-and-factories",
+  "title": "NTC 2018 action parameters and generic action factories",
+  "migrationType": "mechanical-parity",
+  "implementationStatus": "implemented",
+  "dependencies": ["0038-domain-actions-hierarchy"],
+  "source": {
+    "repository": "https://github.com/claudiopagani/strutture-js",
+    "revision": "6f33baead8b88166c4b2cf94af41763412e3c751"
+  },
+  "normativeCorpusRevision": "41da3faa489600173106935bbcf726119300e48d",
+  "sourceFiles": [
+    {
+      "path": "src/norms/ntc2018/actions/ntc2018ActionParameters.js",
+      "gitBlobSha1": "fb00fa75c6453a901d6361d7308cd4fd3800d082",
+      "targetPath": "src/norms/ntc2018/actions/ntc2018ActionParameters.ts"
+    },
+    {
+      "path": "src/norms/ntc2018/actions/createNTC2018Action.js",
+      "gitBlobSha1": "06c4c6a75e2482bdf3e6d3288c7153aa72738c8a",
+      "targetPath": "src/norms/ntc2018/actions/createNTC2018Action.ts"
+    }
+  ],
+  "supportingSourceFiles": [
+    {
+      "path": "src/norms/ntc2018/index.js",
+      "gitBlobSha1": "0ac4cf551c455ec2a57d9bf8849db46fb14e0dcc",
+      "targetPath": "src/index.ts",
+      "coverage": "NTC 2018 public exports represented by the bounded action-parameter and factory subset; specialized action modules remain outside this slice"
+    },
+    {
+      "path": "src/index.js",
+      "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7",
+      "targetPath": "src/index.ts",
+      "coverage": "root public exports for the migrated NTC 2018 action subset"
+    }
+  ],
+  "sourceOracles": [
+    {
+      "path": "tests/ntc2018Actions.test.js",
+      "gitBlobSha1": "b421aa2af994a2ddce7865ae513c5ff67de43d2e",
+      "coverage": "NTC 2018 action factories, factor tables, duration helpers, metadata and inheritance; load cases and combinations remain outside this slice"
+    }
+  ],
+  "sourcePublicExport": {
+    "path": "src/index.js",
+    "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
+  },
+  "targetTests": [
+    "tests/baseline-parity.test.ts",
+    "tests/ntc2018-action-compile-time.test.ts",
+    "tests/ntc2018-action-live-parity.test.ts"
+  ],
+  "publicExports": [
+    "NTC2018_ACTION_COMBINATION_FACTORS",
+    "NTC2018_ACTION_PARTIAL_FACTORS",
+    "NTC2018_CASE_BY_CASE_COMBINATION_CATEGORIES",
+    "NTC2018_DEFAULT_DURATION_CLASS_BY_ACTION",
+    "NTC2018_LOAD_DURATION_CLASSES",
+    "NTC2018_TIMBER_KMOD",
+    "createNTC2018AccidentalAction",
+    "createNTC2018PermanentAction",
+    "createNTC2018SeismicAction",
+    "createNTC2018SnowAction",
+    "createNTC2018ThermalAction",
+    "createNTC2018VariableAction",
+    "createNTC2018WindAction",
+    "getNTC2018ActionCombinationFactors",
+    "getNTC2018ActionPartialFactors",
+    "getNTC2018LoadDurationClass",
+    "getNTC2018LoadDurationDefinition",
+    "getNTC2018TimberKmod",
+    "resolveNTC2018GoverningLoadDuration",
+    "CreateNTC2018AccidentalActionOptions",
+    "CreateNTC2018PermanentActionOptions",
+    "CreateNTC2018SeismicActionOptions",
+    "CreateNTC2018SnowActionOptions",
+    "CreateNTC2018ThermalActionOptions",
+    "CreateNTC2018VariableActionOptions",
+    "CreateNTC2018WindActionOptions",
+    "GetNTC2018ActionPartialFactorsOptions",
+    "GetNTC2018TimberKmodOptions",
+    "NTC2018ActionCombinationFactorCatalog",
+    "NTC2018ActionCombinationFactorDefinition",
+    "NTC2018ActionDurationLike",
+    "NTC2018ActionPartialFactorCatalog",
+    "NTC2018CaseByCaseCombinationCategory",
+    "NTC2018CaseByCaseCombinationCategoryCatalog",
+    "NTC2018CombinationFactorsSource",
+    "NTC2018DefaultDurationClassCatalog",
+    "NTC2018ExplicitCombinationFactors",
+    "NTC2018LoadDurationCatalog",
+    "NTC2018LoadDurationDefinition",
+    "NTC2018PartialFactorDefinition",
+    "NTC2018TimberKmodCatalog"
+  ],
+  "normativeReferences": {
+    "resolved": [],
+    "outsideCorpus": [],
+    "normativeConformityClaimed": false,
+    "status": "classified-for-declared-scope"
+  },
+  "independentValidation": {
+    "method": "Strict declaration consumer coverage and independently executed pinned JavaScript versus built TypeScript parameter catalogs and generic action factories, including exact JSON, Unicode, metadata, inheritance, cloning and error-path comparisons.",
+    "targetTests": [
+      "tests/ntc2018-action-compile-time.test.ts",
+      "tests/ntc2018-action-live-parity.test.ts"
+    ],
+    "tolerances": {
+      "serializedParity": "exact JSON serialization for every migrated parameter table and generic action factory scenario",
+      "numericParity": "exact equality for the finite catalog and factory values",
+      "publicStrings": "exact equality plus Unicode code-point equality"
+    }
+  },
+  "parityDifferences": [
+    "The slice preserves the source NTC 2018 factor tables, duration and timber-kmod parameters, generic action factories, metadata and error behavior.",
+    "Specialized NTC 2018 snow, wind, thermal, seismic and topographic calculations, NTC action/load catalogs, domain loads, LoadCase and load-combination formulas remain outside this bounded slice."
+  ],
+  "engineeringFunctionality": "NTC 2018 action parameter catalogs and generic solver-neutral action factories only; no specialized load formulas or load-combination implementation is introduced."
+}
