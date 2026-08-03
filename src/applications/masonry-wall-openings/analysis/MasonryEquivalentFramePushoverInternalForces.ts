@@ -1,4 +1,5 @@
 import { DenseLinearSolver } from "../../../domain/math/DenseLinearSolver.js";
+import type { DofNodeLike, DofRegistry } from "../../../domain/fem/DofRegistry.js";
 import {
   createZeroMatrix,
   createZeroVector,
@@ -72,12 +73,6 @@ export interface CreateMasonryEquivalentFrameContributorDefinitionInput {
   topRotation?: string;
 }
 
-interface DofRegistry {
-  size: () => number;
-  getIndex: (nodeOrDofId: unknown, dof?: string) => number;
-  getDofId: (node: unknown, dof: string) => string;
-}
-
 interface SteelEvaluationInput {
   globalDisplacements: NumericVector;
   dofRegistry: DofRegistry;
@@ -98,8 +93,8 @@ interface FrameElement {
   id: string;
   type?: string;
   metadata?: JsonRecord;
-  startNode: unknown;
-  endNode: unknown;
+  startNode: string | DofNodeLike;
+  endNode: string | DofNodeLike;
   localStiffness: () => NumericMatrix;
   localDisplacements: (displacements: NumericVector, dofRegistry: DofRegistry) => NumericVector;
   transformationMatrix: () => NumericMatrix;
@@ -121,7 +116,7 @@ export interface MasonryEquivalentFramePushoverInternalForcesEvaluateInput {
   frame?: MasonryEquivalentFramePushoverFrame;
   model?: MasonryEquivalentFramePushoverFrame;
   displacements?: NumericVector;
-  state?: Record<string, unknown>;
+  state?: unknown;
   yieldTolerance?: number;
 }
 
@@ -134,6 +129,7 @@ export interface MasonryEquivalentFramePushoverInternalForcesEvaluation {
   hingeStatesByElementId: Record<string, ContributorState>;
   hingeEvents: JsonRecord[];
   elementResponses: JsonRecord[];
+  [key: string]: unknown;
 }
 
 interface ElementEvaluation {
@@ -968,6 +964,8 @@ export class MasonryEquivalentFramePushoverInternalForces {
     const events: JsonRecord[] = [];
     const responses: JsonRecord[] = [];
 
+    const stateByElementId = isRecord(state) ? state : {};
+
     for (const element of resolvedFrame.elements ?? []) {
       const contributor = this.contributorsByElementId[element.id];
 
@@ -985,7 +983,7 @@ export class MasonryEquivalentFramePushoverInternalForces {
             element,
             displacements,
             contributor,
-            state: state?.[element.id],
+            state: stateByElementId[element.id],
             yieldTolerance,
           })
         : isSteelPlasticHingeFrameElement(element)
@@ -993,7 +991,7 @@ export class MasonryEquivalentFramePushoverInternalForces {
               frame: resolvedFrame,
               element,
               displacements,
-              state: state?.[element.id],
+              state: stateByElementId[element.id],
               yieldTolerance,
             })
           : evaluateElasticElement({

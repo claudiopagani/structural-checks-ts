@@ -1,0 +1,79 @@
+{
+  "schemaVersion": 1,
+  "sliceId": "0162-applications-masonry-equivalent-frame-pushover-solver",
+  "title": "Masonry equivalent-frame pushover solver orchestration",
+  "migrationType": "mechanical-parity-with-minimal-dependency-support",
+  "implementationStatus": "implemented",
+  "dependencies": ["0161-applications-masonry-equivalent-frame-pushover-internal-forces"],
+  "source": {
+    "repository": "https://github.com/claudiopagani/strutture-js",
+    "revision": "6f33baead8b88166c4b2cf94af41763412e3c751"
+  },
+  "normativeCorpusRevision": "41da3faa489600173106935bbcf726119300e48d",
+  "sourceFiles": [
+    {
+      "path": "src/applications/masonry-wall-openings/analysis/MasonryEquivalentFramePushoverSolver2D.js",
+      "gitBlobSha1": "44ff631746ef4a687e0951cb1eab8cb9f6001fcb",
+      "targetPath": "src/applications/masonry-wall-openings/analysis/MasonryEquivalentFramePushoverSolver2D.ts"
+    }
+  ],
+  "supportingSourceFiles": [
+    {
+      "path": "src/domain/fem/nonlinear/DisplacementControlNonlinearStaticSolver2D.js",
+      "gitBlobSha1": "6786d2fcd98d7e0b73b841a29f513685b8726f9f",
+      "targetPath": "src/domain/fem/nonlinear/DisplacementControlNonlinearStaticSolver2D.ts",
+      "coverage": "Already-migrated displacement-control nonlinear solver orchestrated by this wrapper."
+    },
+    {
+      "path": "src/domain/math/DenseLinearSolver.js",
+      "gitBlobSha1": "46b6461d6a63255abbfcf7a92b22309ad0a47cac",
+      "targetPath": "src/domain/math/DenseLinearSolver.ts",
+      "coverage": "Already-migrated default dense linear solver dependency."
+    },
+    {
+      "path": "src/applications/masonry-wall-openings/analysis/MasonryEquivalentFramePushoverInternalForces.js",
+      "gitBlobSha1": "9049e63e341ff21756662064421e20ec7a89876f",
+      "targetPath": "src/applications/masonry-wall-openings/analysis/MasonryEquivalentFramePushoverInternalForces.ts",
+      "coverage": "Migrated in slice 0161 and supplied as the nonlinear evaluator."
+    }
+  ],
+  "sourceOracles": [
+    {
+      "path": "tests/masonryWallOpeningsEquivalentFramePushover.test.js",
+      "gitBlobSha1": "e3c4f8a2cbbfeff3a0976ad28684a352fd185a6a",
+      "coverage": "Pinned equivalent-frame pushover orchestration and solver-result context."
+    }
+  ],
+  "sourcePublicExport": {
+    "path": "src/applications/masonry-wall-openings/analysis/MasonryEquivalentFramePushoverSolver2D.js",
+    "gitBlobSha1": "44ff631746ef4a687e0951cb1eab8cb9f6001fcb"
+  },
+  "targetTests": [
+    "tests/masonry-equivalent-frame-pushover-solver-compile-time.test.ts",
+    "tests/masonry-equivalent-frame-pushover-solver-live-parity.test.ts"
+  ],
+  "publicExports": [],
+  "publicTypeExports": [],
+  "normativeReferences": {
+    "resolved": [],
+    "outsideCorpus": [],
+    "normativeConformityClaimed": false,
+    "status": "classified-for-declared-scope"
+  },
+  "independentValidation": {
+    "method": "Strict internal declaration coverage and independently executed pinned JavaScript versus built TypeScript comparison of custom nonlinear-solver delegation, exact hinge-event/final-state augmentation, Unicode metadata and default validation errors.",
+    "targetTests": [
+      "tests/masonry-equivalent-frame-pushover-solver-compile-time.test.ts",
+      "tests/masonry-equivalent-frame-pushover-solver-live-parity.test.ts"
+    ],
+    "fixture": "Custom solver delegation with frame/contributor inputs, yield tolerance, Unicode event metadata and default missing-model validation.",
+    "tolerances": {
+      "serializedParity": "exact solver-result JSON",
+      "numericParity": "not applicable to custom orchestration fixture",
+      "publicStrings": "exact validation messages and Unicode event metadata",
+      "errors": "exact default nonlinear-solver validation error name and message"
+    }
+  },
+  "parityDifferences": [],
+  "engineeringFunctionality": "Source-compatible internal displacement-control equivalent-frame pushover orchestration."
+}
