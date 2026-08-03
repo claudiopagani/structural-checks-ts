@@ -1,0 +1,83 @@
+{
+  "schemaVersion": 1,
+  "sliceId": "0176-applications-beam-report-builder",
+  "title": "Beam report builder",
+  "migrationType": "mechanical-parity",
+  "implementationStatus": "implemented",
+  "dependencies": ["0175-applications-beam-report-markdown-renderer"],
+  "source": {
+    "repository": "https://github.com/claudiopagani/strutture-js",
+    "revision": "6f33baead8b88166c4b2cf94af41763412e3c751"
+  },
+  "normativeCorpusRevision": "41da3faa489600173106935bbcf726119300e48d",
+  "sourceFiles": [
+    {
+      "path": "src/applications/single-beam-design/reports/BeamReportBuilder.js",
+      "gitBlobSha1": "b4fe4929cb13b2f8e63b7d77e0598f07534923e0",
+      "targetPath": "src/applications/single-beam-design/reports/BeamReportBuilder.ts"
+    }
+  ],
+  "supportingSourceFiles": [
+    {
+      "path": "src/applications/single-beam-design/index.js",
+      "gitBlobSha1": "ccbf9e38bbd7042b92e86ed607a77ee8d95da2a1",
+      "targetPath": "src/index.ts",
+      "coverage": "Pinned single-beam public barrel export for BeamReportBuilder."
+    },
+    {
+      "path": "src/applications/index.js",
+      "gitBlobSha1": "b70179c7cdd2a819f2151dc092c0f59cbce30ba6",
+      "targetPath": "src/index.ts",
+      "coverage": "Pinned applications public barrel export for BeamReportBuilder."
+    },
+    {
+      "path": "src/index.js",
+      "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7",
+      "targetPath": "src/index.ts",
+      "coverage": "Pinned root public export for BeamReportBuilder."
+    }
+  ],
+  "sourceOracles": [
+    {
+      "path": "tests/singleBeamDesignApplication.test.js",
+      "gitBlobSha1": "5e423cda0e4f6ad910fbd7cc7abd02969976f24d",
+      "coverage": "Pinned single-beam report generation and Markdown delegation behavior."
+    },
+    {
+      "path": "tests/packageExports.test.js",
+      "gitBlobSha1": "8dde24b4c97dd3dae7100207d07d9d96c52b9c74",
+      "coverage": "Pinned root public-export behavior."
+    }
+  ],
+  "sourcePublicExport": {
+    "path": "src/index.js",
+    "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
+  },
+  "targetTests": [
+    "tests/beam-report-builder-compile-time.test.ts",
+    "tests/beam-report-builder-live-parity.test.ts"
+  ],
+  "publicExports": ["BeamReportBuilder"],
+  "normativeReferences": {
+    "resolved": [],
+    "outsideCorpus": [],
+    "normativeConformityClaimed": false,
+    "status": "classified-for-declared-scope"
+  },
+  "independentValidation": {
+    "method": "Strict typed consumer declarations and independently executed pinned JavaScript versus built TypeScript comparison of exact report JSON, plain and circular serialization, summaries, envelopes, governing checks, warnings, assumptions, Unicode and renderer delegation/error behavior.",
+    "targetTests": [
+      "tests/beam-report-builder-compile-time.test.ts",
+      "tests/beam-report-builder-live-parity.test.ts"
+    ],
+    "fixture": "Synthetic beam model and analysis result with custom toJSON classes, circular data, load-case and combination summaries, stiffness metadata, envelopes, verification checks, duplicate warnings/assumptions and custom renderers.",
+    "tolerances": {
+      "serializedParity": "exact report object and JSON.stringify output",
+      "numericParity": "exact summarized force, displacement, rigidity and envelope values",
+      "publicStrings": "exact schema/application identifiers, generated metadata, Unicode and error messages",
+      "errors": "exact missing model, missing analysis result and invalid renderer errors"
+    }
+  },
+  "parityDifferences": [],
+  "engineeringFunctionality": "Source-compatible strict TypeScript construction and rendering of single-beam report DTOs."
+}
