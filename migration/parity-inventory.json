@@ -1010,6 +1010,7 @@
         "GeotechnicalEarthPressureApplication",
         "GeotechnicalEmbeddedRetainingWallApplication",
         "GeotechnicalGroundAnchorApplication",
+        "GeotechnicalLateralPileApplication",
         "GlobalFemPostProcessingApplication",
         "GlulamTimberMaterial",
         "GroundAnchorAnalysis",
@@ -9519,11 +9520,15 @@
       "sourcePath": "src/applications/geotechnical-lateral-piles/GeotechnicalLateralPileApplication.js",
       "sourceBlobSha1": "835ea859bf06ebcf46b981f62a17597fa29eb622",
       "targetPath": "src/applications/geotechnical-lateral-piles/GeotechnicalLateralPileApplication.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0144-applications-geotechnical-lateral-pile-application"],
+      "sourceOracles": ["tests/geotechnicalLateralPiles.test.js", "tests/packageExports.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/geotechnical-lateral-pile-application-compile-time.test.ts",
+        "tests/geotechnical-lateral-pile-application-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0144-applications-geotechnical-lateral-pile-application"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -22440,11 +22445,15 @@
       "sourcePath": "src/applications/geotechnical-lateral-piles/GeotechnicalLateralPileApplication.js",
       "sourceBlobSha1": "835ea859bf06ebcf46b981f62a17597fa29eb622",
       "targetPath": "src/applications/geotechnical-lateral-piles/GeotechnicalLateralPileApplication.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0144-applications-geotechnical-lateral-pile-application"],
+      "sourceOracles": ["tests/geotechnicalLateralPiles.test.js", "tests/packageExports.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/geotechnical-lateral-pile-application-compile-time.test.ts",
+        "tests/geotechnical-lateral-pile-application-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0144-applications-geotechnical-lateral-pile-application"],
+      "status": "exact-parity",
       "publicEntryPath": "src/applications/index.js",
       "publicEntryBlobSha1": "b70179c7cdd2a819f2151dc092c0f59cbce30ba6"
     },
@@ -27447,13 +27456,17 @@
         "tests/reinforcedConcreteFoundationBeamApplication.test.js",
         "tests/reinforcedConcreteStrutAndTieApplication.test.js"
       ],
-      "targetTests": [],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/geotechnical-lateral-pile-application-compile-time.test.ts",
+        "tests/geotechnical-lateral-pile-application-live-parity.test.ts"
+      ],
       "validationEvidence": [
         "0024-reinforced-concrete-foundation-beams",
         "0026-reinforced-concrete-beam-column-joints",
         "0027-reinforced-concrete-strut-and-tie"
       ],
-      "status": "missing",
+      "status": "partial",
       "notes": ["Default registry construction is not present in the current TypeScript target."],
       "applicationId": "geotechnical-lateral-piles",
       "applicationClass": "GeotechnicalLateralPileApplication",
@@ -29259,22 +29272,30 @@
       "sourcePath": "src/applications/geotechnical-lateral-piles/GeotechnicalLateralPileApplication.js",
       "sourceBlobSha1": "835ea859bf06ebcf46b981f62a17597fa29eb622",
       "targetPath": "src/applications/geotechnical-lateral-piles/GeotechnicalLateralPileApplication.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing"
+      "migrationSlices": ["0144-applications-geotechnical-lateral-pile-application"],
+      "sourceOracles": ["tests/geotechnicalLateralPiles.test.js", "tests/packageExports.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/geotechnical-lateral-pile-application-compile-time.test.ts",
+        "tests/geotechnical-lateral-pile-application-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0144-applications-geotechnical-lateral-pile-application"],
+      "status": "exact-parity"
     },
     {
       "id": "src/applications/geotechnical-lateral-piles/index.js",
       "sourcePath": "src/applications/geotechnical-lateral-piles/index.js",
       "sourceBlobSha1": "607bd26c03e2765406522333249b7ca2608c66ef",
       "targetPath": "src/applications/geotechnical-lateral-piles/index.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing"
+      "migrationSlices": ["0144-applications-geotechnical-lateral-pile-application"],
+      "sourceOracles": ["tests/geotechnicalLateralPiles.test.js", "tests/packageExports.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/geotechnical-lateral-pile-application-compile-time.test.ts",
+        "tests/geotechnical-lateral-pile-application-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0144-applications-geotechnical-lateral-pile-application"],
+      "status": "exact-parity"
     },
     {
       "id": "src/applications/geotechnical-retaining-walls/GeotechnicalRetainingWallApplication.js",
@@ -35995,7 +36016,8 @@
         "0140-applications-rc-isolated-footings-public-index",
         "0141-applications-geotechnical-earth-pressure-application",
         "0142-applications-geotechnical-embedded-retaining-wall-application",
-        "0143-applications-geotechnical-ground-anchor-application"
+        "0143-applications-geotechnical-ground-anchor-application",
+        "0144-applications-geotechnical-lateral-pile-application"
       ],
       "sourceOracles": [
         "tests/architecture/applicationRegistry.test.js",
@@ -37888,11 +37910,14 @@
       "targetPath": "tests/geotechnicalLateralPiles.test.ts",
       "migrationSlices": [
         "0073-domain-lateral-pile-load-scenario",
-        "0097-domain-lateral-pile-capacity-analysis"
+        "0097-domain-lateral-pile-capacity-analysis",
+        "0144-applications-geotechnical-lateral-pile-application"
       ],
       "sourceOracles": ["tests/geotechnicalLateralPiles.test.js"],
       "targetTests": [
         "tests/baseline-parity.test.ts",
+        "tests/geotechnical-lateral-pile-application-compile-time.test.ts",
+        "tests/geotechnical-lateral-pile-application-live-parity.test.ts",
         "tests/lateral-pile-capacity-compile-time.test.ts",
         "tests/lateral-pile-capacity-live-parity.test.ts",
         "tests/lateral-pile-load-scenario-compile-time.test.ts",
@@ -37900,7 +37925,8 @@
       ],
       "validationEvidence": [
         "0073-domain-lateral-pile-load-scenario",
-        "0097-domain-lateral-pile-capacity-analysis"
+        "0097-domain-lateral-pile-capacity-analysis",
+        "0144-applications-geotechnical-lateral-pile-application"
       ],
       "status": "exact-parity",
       "testKind": "test"
@@ -38993,7 +39019,8 @@
         "0140-applications-rc-isolated-footings-public-index",
         "0141-applications-geotechnical-earth-pressure-application",
         "0142-applications-geotechnical-embedded-retaining-wall-application",
-        "0143-applications-geotechnical-ground-anchor-application"
+        "0143-applications-geotechnical-ground-anchor-application",
+        "0144-applications-geotechnical-lateral-pile-application"
       ],
       "sourceOracles": ["tests/packageExports.test.js"],
       "targetTests": [
@@ -39043,6 +39070,8 @@
         "tests/geotechnical-embedded-retaining-wall-application-live-parity.test.ts",
         "tests/geotechnical-ground-anchor-application-compile-time.test.ts",
         "tests/geotechnical-ground-anchor-application-live-parity.test.ts",
+        "tests/geotechnical-lateral-pile-application-compile-time.test.ts",
+        "tests/geotechnical-lateral-pile-application-live-parity.test.ts",
         "tests/ground-anchor-analysis-compile-time.test.ts",
         "tests/ground-anchor-analysis-live-parity.test.ts",
         "tests/ground-anchor-bond-catalog-compile-time.test.ts",
@@ -39226,7 +39255,8 @@
         "0140-applications-rc-isolated-footings-public-index",
         "0141-applications-geotechnical-earth-pressure-application",
         "0142-applications-geotechnical-embedded-retaining-wall-application",
-        "0143-applications-geotechnical-ground-anchor-application"
+        "0143-applications-geotechnical-ground-anchor-application",
+        "0144-applications-geotechnical-lateral-pile-application"
       ],
       "status": "exact-parity",
       "testKind": "test"
@@ -43174,16 +43204,32 @@
         "publicStrings": "exact manifest, summaries, metadata and Unicode strings",
         "errors": "exact missing-input result behavior"
       }
+    },
+    {
+      "sliceId": "0144-applications-geotechnical-lateral-pile-application",
+      "sourceRevision": "6f33baead8b88166c4b2cf94af41763412e3c751",
+      "method": "Strict declaration consumer coverage and independently executed pinned JavaScript versus built TypeScript comparison of the application barrel, root aliases, application manifest, complete serialized results, Unicode identifiers, missing-input and unsupported beam-on-p-y behavior, plus null-input error parity.",
+      "targetTests": [
+        "tests/geotechnical-lateral-pile-application-compile-time.test.ts",
+        "tests/geotechnical-lateral-pile-application-live-parity.test.ts"
+      ],
+      "fixture": "cohesionless Broms lateral-pile application with Unicode identifiers and an unsupported beam-on-p-y dispatch fixture",
+      "tolerances": {
+        "serializedParity": "exact complete CalculationResult JSON",
+        "numericParity": "exact lateral capacity and wrapper output values",
+        "publicStrings": "exact manifest, summaries, metadata and Unicode strings",
+        "errors": "exact null-input error, missing-input result and unsupported beam-on-p-y result behavior"
+      }
     }
   ],
   "counts": {
     "rootExports": {
       "javascript": 841,
-      "typescript": 736
+      "typescript": 737
     },
     "applicationsExports": {
       "javascript": 309,
-      "typescript": 209
+      "typescript": 210
     },
     "packageEntryPoints": {
       "javascript": 14,
@@ -43203,11 +43249,11 @@
     },
     "sourceFiles": {
       "javascript": 480,
-      "typescript": 389
+      "typescript": 391
     },
     "tests": {
       "javascript": 131,
-      "typescript": 274
+      "typescript": 276
     },
     "validationCampaigns": {
       "javascript": 17,
@@ -43258,8 +43304,8 @@
     "applications": {
       "statusCounts": {
         "exact-parity": 0,
-        "partial": 15,
-        "missing": 319,
+        "partial": 16,
+        "missing": 314,
         "intentionally-excluded": 0,
         "decision-required": 0
       },
@@ -43274,7 +43320,6 @@
         "application-export:BEAM_REPORT_SCHEMA_VERSION",
         "application-export:BeamReportBuilder",
         "application-export:BeamReportMarkdownRenderer",
-        "application-export:GeotechnicalLateralPileApplication",
         "application-export:GeotechnicalRetainingWallApplication",
         "application-export:GeotechnicalShallowFoundationApplication",
         "application-export:GeotechnicalSlopeStabilityApplication",
@@ -43404,7 +43449,6 @@
         "root-export:BEAM_REPORT_SCHEMA_VERSION",
         "root-export:BeamReportBuilder",
         "root-export:BeamReportMarkdownRenderer",
-        "root-export:GeotechnicalLateralPileApplication",
         "root-export:GeotechnicalRetainingWallApplication",
         "root-export:GeotechnicalShallowFoundationApplication",
         "root-export:GeotechnicalSlopeStabilityApplication",
@@ -43494,8 +43538,6 @@
         "root-export:verifySteelShearTorsionInteraction",
         "root-export:verifySteelWebShearBuckling",
         "root-export:verifyTimberLateralTorsionalStability",
-        "source:src/applications/geotechnical-lateral-piles/GeotechnicalLateralPileApplication.js",
-        "source:src/applications/geotechnical-lateral-piles/index.js",
         "source:src/applications/geotechnical-retaining-walls/GeotechnicalRetainingWallApplication.js",
         "source:src/applications/geotechnical-retaining-walls/index.js",
         "source:src/applications/geotechnical-shallow-foundations/GeotechnicalShallowFoundationApplication.js",

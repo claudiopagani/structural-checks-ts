@@ -1,0 +1,123 @@
+{
+  "schemaVersion": 1,
+  "sliceId": "0144-applications-geotechnical-lateral-pile-application",
+  "title": "Geotechnical lateral-pile application",
+  "migrationType": "mechanical-parity-with-minimal-dependency-support",
+  "implementationStatus": "implemented",
+  "dependencies": [
+    "0019-axial-single-pile-capacity",
+    "0073-domain-lateral-pile-load-scenario",
+    "0074-domain-pile-transfer-law",
+    "0075-domain-lateral-pile-response-scenario",
+    "0076-domain-lateral-pile-beam-on-springs-analysis",
+    "0097-domain-lateral-pile-capacity-analysis"
+  ],
+  "source": {
+    "repository": "https://github.com/claudiopagani/strutture-js",
+    "revision": "6f33baead8b88166c4b2cf94af41763412e3c751"
+  },
+  "normativeCorpusRevision": "41da3faa489600173106935bbcf726119300e48d",
+  "sourceFiles": [
+    {
+      "path": "src/applications/geotechnical-lateral-piles/GeotechnicalLateralPileApplication.js",
+      "gitBlobSha1": "835ea859bf06ebcf46b981f62a17597fa29eb622",
+      "targetPath": "src/applications/geotechnical-lateral-piles/GeotechnicalLateralPileApplication.ts"
+    },
+    {
+      "path": "src/applications/geotechnical-lateral-piles/index.js",
+      "gitBlobSha1": "607bd26c03e2765406522333249b7ca2608c66ef",
+      "targetPath": "src/applications/geotechnical-lateral-piles/index.ts"
+    }
+  ],
+  "supportingSourceFiles": [
+    {
+      "path": "src/index.js",
+      "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7",
+      "targetPath": "src/index.ts",
+      "coverage": "Pinned root public-export context for the geotechnical lateral-pile application."
+    },
+    {
+      "path": "src/domain/geotechnics/DeepFoundationModel.js",
+      "gitBlobSha1": "07f2d143e3c8895e8b2bfb34cb270797bfc9c684",
+      "targetPath": "src/domain/geotechnics/DeepFoundationModel.ts",
+      "coverage": "Migrated deep-foundation model re-exported by the application barrel."
+    },
+    {
+      "path": "src/domain/geotechnics/LateralPileLoadScenario.js",
+      "gitBlobSha1": "4940fdc6977922bb8300e3a4755645b111d70657",
+      "targetPath": "src/domain/geotechnics/LateralPileLoadScenario.ts",
+      "coverage": "Migrated lateral-pile capacity scenario dependency re-exported by the application barrel."
+    },
+    {
+      "path": "src/domain/geotechnics/LateralPileResponseScenario.js",
+      "gitBlobSha1": "1acc8c98fbe4ed2ba35319752307d613d498b632",
+      "targetPath": "src/domain/geotechnics/LateralPileResponseScenario.ts",
+      "coverage": "Migrated lateral-pile response scenario dependency re-exported by the application barrel."
+    },
+    {
+      "path": "src/domain/geotechnics/LateralPileCapacityAnalysis.js",
+      "gitBlobSha1": "a3c32ebb96a49d8c40fe091ced10baab07647371",
+      "targetPath": "src/domain/geotechnics/LateralPileCapacityAnalysis.ts",
+      "coverage": "Migrated Broms capacity analysis delegated by the application wrapper."
+    },
+    {
+      "path": "src/domain/geotechnics/LateralPileBeamOnSpringsAnalysis.js",
+      "gitBlobSha1": "50ec8c6bd6a492b7505c6b05b942f71f21798ae7",
+      "targetPath": "src/domain/geotechnics/LateralPileBeamOnSpringsAnalysis.ts",
+      "coverage": "Migrated beam-on-p-y-springs analysis delegated by the application wrapper."
+    },
+    {
+      "path": "src/domain/geotechnics/PileTransferLaw.js",
+      "gitBlobSha1": "e3bd7079d93e9c3ddd8b49f2195597c415fb85cd",
+      "targetPath": "src/domain/geotechnics/PileTransferLaw.ts",
+      "coverage": "Migrated pile-transfer law exports re-exported by the application barrel."
+    }
+  ],
+  "sourceOracles": [
+    {
+      "path": "tests/geotechnicalLateralPiles.test.js",
+      "gitBlobSha1": "4fb4df49422b449fee8307a02c8e98c4416160e4",
+      "coverage": "Application wrapper delegation, capacity result serialization and beam-on-p-y bridge behavior."
+    },
+    {
+      "path": "tests/packageExports.test.js",
+      "gitBlobSha1": "8dde24b4c97dd3dae7100207d07d9d96c52b9c74",
+      "coverage": "Pinned root and application public exports."
+    }
+  ],
+  "sourcePublicExport": {
+    "path": "src/index.js",
+    "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
+  },
+  "targetTests": [
+    "tests/baseline-parity.test.ts",
+    "tests/geotechnical-lateral-pile-application-compile-time.test.ts",
+    "tests/geotechnical-lateral-pile-application-live-parity.test.ts"
+  ],
+  "publicExports": ["GeotechnicalLateralPileApplication"],
+  "publicTypeExports": ["GeotechnicalLateralPileApplicationInput"],
+  "normativeReferences": {
+    "resolved": [],
+    "outsideCorpus": [],
+    "normativeConformityClaimed": false,
+    "status": "classified-for-declared-scope"
+  },
+  "independentValidation": {
+    "method": "Strict declaration consumer coverage and independently executed pinned JavaScript versus built TypeScript comparison of the application barrel, root aliases, application manifest, complete serialized results, Unicode identifiers, missing-input and unsupported beam-on-p-y behavior, plus null-input error parity.",
+    "targetTests": [
+      "tests/geotechnical-lateral-pile-application-compile-time.test.ts",
+      "tests/geotechnical-lateral-pile-application-live-parity.test.ts"
+    ],
+    "fixture": "cohesionless Broms lateral-pile application with Unicode identifiers and an unsupported beam-on-p-y dispatch fixture",
+    "tolerances": {
+      "serializedParity": "exact complete CalculationResult JSON",
+      "numericParity": "exact lateral capacity and wrapper output values",
+      "publicStrings": "exact manifest, summaries, metadata and Unicode strings",
+      "errors": "exact null-input error, missing-input result and unsupported beam-on-p-y result behavior"
+    }
+  },
+  "parityDifferences": [
+    "The TypeScript application exposes a strict union input declaration and selects the same migrated capacity or beam-on-p-y analysis based on the source scenario dispatch rules while preserving the JavaScript wrapper and serialized CalculationResult shape."
+  ],
+  "engineeringFunctionality": "Public geotechnical lateral-pile application wrapper for Broms lateral capacity and static nonlinear beam-on-p-y-springs response delegation."
+}
