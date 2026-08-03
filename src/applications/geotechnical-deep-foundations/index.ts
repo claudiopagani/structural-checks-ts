@@ -18,3 +18,10 @@ export {
   AxialPileLoadScenario,
   DeepFoundationModel,
 } from "../../domain/geotechnics/index.js";
+
+export type {
+  AxialPileCapacityAnalysisInput,
+  AxialPileCapacityAnalysisResult,
+} from "../../norms/geotechnics/AxialPileCapacityAnalysis.js";
+export type { AxialPileLoadScenarioInput } from "../../domain/geotechnics/AxialPileLoadScenario.js";
+export type { DeepFoundationModelInput } from "../../domain/geotechnics/DeepFoundationModel.js";

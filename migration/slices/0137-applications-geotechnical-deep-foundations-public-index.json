@@ -1,0 +1,130 @@
+{
+  "schemaVersion": 1,
+  "sliceId": "0137-applications-geotechnical-deep-foundations-public-index",
+  "title": "Geotechnical deep-foundation application public index",
+  "migrationType": "mechanical-parity-with-minimal-dependency-support",
+  "implementationStatus": "implemented",
+  "dependencies": ["0019-axial-single-pile-capacity"],
+  "source": {
+    "repository": "https://github.com/claudiopagani/strutture-js",
+    "revision": "6f33baead8b88166c4b2cf94af41763412e3c751"
+  },
+  "normativeCorpusRevision": "41da3faa489600173106935bbcf726119300e48d",
+  "sourceFiles": [
+    {
+      "path": "src/applications/geotechnical-deep-foundations/index.js",
+      "gitBlobSha1": "f508983d7edcd2d88f7de517f15c0dcef1e78e8d",
+      "targetPath": "src/applications/geotechnical-deep-foundations/index.ts"
+    }
+  ],
+  "supportingSourceFiles": [
+    {
+      "path": "src/applications/geotechnical-deep-foundations/GeotechnicalDeepFoundationApplication.js",
+      "gitBlobSha1": "768a4f7e8a345744e984a2ee48a0c3cb6c50881e",
+      "targetPath": "src/applications/geotechnical-deep-foundations/GeotechnicalDeepFoundationApplication.ts",
+      "coverage": "Already-migrated application implementation re-exported by the public index."
+    },
+    {
+      "path": "src/domain/geotechnics/index.js",
+      "gitBlobSha1": "41ed2053fc2e37dc90da412846609f4050af9668",
+      "targetPath": "src/domain/geotechnics/index.ts",
+      "coverage": "Pinned source export context for the domain constants and DTO classes re-exported by the application index; the capacity analysis export is resolved through its already-migrated norms-layer target to preserve domain independence."
+    },
+    {
+      "path": "src/domain/geotechnics/AxialPileLoadScenario.js",
+      "gitBlobSha1": "e91abcba148d51425a5086bdaee14fdc57465501",
+      "targetPath": "src/domain/geotechnics/AxialPileLoadScenario.ts",
+      "coverage": "Already-migrated DTO class and strict input declaration re-exported by the public index."
+    },
+    {
+      "path": "src/domain/geotechnics/DeepFoundationModel.js",
+      "gitBlobSha1": "07f2d143e3c8895e8b2bfb34cb270797bfc9c684",
+      "targetPath": "src/domain/geotechnics/DeepFoundationModel.ts",
+      "coverage": "Already-migrated DTO class and strict input declaration re-exported by the public index."
+    },
+    {
+      "path": "src/domain/geotechnics/AxialPileCapacityAnalysis.js",
+      "gitBlobSha1": "32ffe7a6388956f3fcf0b4acde303590139d9301",
+      "targetPath": "src/norms/geotechnics/AxialPileCapacityAnalysis.ts",
+      "coverage": "Already-migrated capacity analysis, constants and strict declarations re-exported through the norms-layer target required by the domain-independence architecture rule."
+    },
+    {
+      "path": "src/index.js",
+      "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7",
+      "targetPath": "src/index.ts",
+      "coverage": "Root public export context and aliases for the application index exports."
+    }
+  ],
+  "sourceOracles": [
+    {
+      "path": "tests/geotechnicalDeepFoundations.test.js",
+      "gitBlobSha1": "74ed3de9868e48cce4fdea00b3ed41481dd71813",
+      "coverage": "Application metadata, axial-capacity delegation and result serialization."
+    },
+    {
+      "path": "tests/packageExports.test.js",
+      "gitBlobSha1": "8dde24b4c97dd3dae7100207d07d9d96c52b9c74",
+      "coverage": "Public root export behavior."
+    }
+  ],
+  "sourcePublicExport": {
+    "path": "src/index.js",
+    "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
+  },
+  "targetTests": [
+    "tests/baseline-parity.test.ts",
+    "tests/geotechnical-deep-foundations-index-compile-time.test.ts",
+    "tests/geotechnical-deep-foundations-index-live-parity.test.ts"
+  ],
+  "publicExports": [
+    "GeotechnicalDeepFoundationApplication",
+    "AXIAL_PILE_BASE_RESISTANCE_METHODS",
+    "AXIAL_PILE_CAPACITY_REFERENCE",
+    "AXIAL_PILE_CAPACITY_RESULT_SCHEMA_VERSION",
+    "AXIAL_PILE_EFFECTIVE_STRESS_COEFFICIENT_MODELS",
+    "AXIAL_PILE_LOAD_DIRECTIONS",
+    "AXIAL_PILE_LOAD_SCENARIO_SCHEMA_VERSION",
+    "AXIAL_PILE_RESISTANCE_CONVERSION_MODELS",
+    "AXIAL_PILE_SHAFT_RESISTANCE_METHODS",
+    "DEEP_FOUNDATION_DISPLACEMENT_CLASSES",
+    "DEEP_FOUNDATION_ELEMENT_TYPES",
+    "DEEP_FOUNDATION_GEOMETRY_MODELS",
+    "DEEP_FOUNDATION_MODEL_SCHEMA_VERSION",
+    "AxialPileCapacityAnalysis",
+    "AxialPileLoadScenario",
+    "DeepFoundationModel"
+  ],
+  "publicTypeExports": [
+    "AxialPileCapacityAnalysisInput",
+    "AxialPileCapacityAnalysisResult",
+    "AxialPileLoadScenarioInput",
+    "DeepFoundationModelInput"
+  ],
+  "normativeReferences": {
+    "resolved": [],
+    "outsideCorpus": [
+      "USACE EM 1110-2-2906 (1991), paragraphs 4-3a(1)-(4), equations for axial pile capacity"
+    ],
+    "normativeConformityClaimed": false,
+    "status": "classified-for-declared-scope"
+  },
+  "independentValidation": {
+    "method": "Strict declaration consumer coverage and independently executed pinned JavaScript versus built TypeScript comparison of the complete application index, exact export order, exact serialized constants and application manifest, Unicode-safe values, independent function identity, root aliases, and existing delegated capacity behavior.",
+    "targetTests": [
+      "tests/geotechnical-deep-foundations-index-compile-time.test.ts",
+      "tests/geotechnical-deep-foundations-index-live-parity.test.ts"
+    ],
+    "fixture": null,
+    "tolerances": {
+      "serializedParity": "exact export keys, order, constants and application manifest JSON",
+      "numericParity": "exact delegated capacity behavior remains covered by the dependency slice",
+      "publicStrings": "exact equality plus Unicode code-point preservation",
+      "errors": "exact delegated application and capacity error behavior remains covered by dependency slices"
+    }
+  },
+  "parityDifferences": [
+    "The TypeScript index adds strict type-only re-exports for already-migrated declarations; runtime export names and order match the pinned source index.",
+    "The source index obtains AxialPileCapacityAnalysis through domain/geotechnics/index.js, while the TypeScript index obtains the already-migrated implementation from norms/geotechnics/AxialPileCapacityAnalysis.ts to preserve the repository's domain-to-norms dependency boundary without changing the public root API."
+  ],
+  "engineeringFunctionality": "Source-compatible public composition for the method-neutral geotechnical deep-foundation application and its existing single-pile axial-capacity API. This slice does not add new geotechnical calculations or application functionality."
+}

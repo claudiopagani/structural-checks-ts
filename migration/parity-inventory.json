@@ -3523,10 +3523,24 @@
       "sourcePath": "src/domain/geotechnics/AxialPileLoadScenario.js",
       "sourceBlobSha1": "e91abcba148d51425a5086bdaee14fdc57465501",
       "targetPath": "src/domain/geotechnics/AxialPileLoadScenario.ts",
-      "migrationSlices": ["0019-axial-single-pile-capacity"],
-      "sourceOracles": ["tests/geotechnicalDeepFoundations.test.js"],
-      "targetTests": ["tests/geotechnical-axial-pile.test.ts"],
-      "validationEvidence": ["0019-axial-single-pile-capacity"],
+      "migrationSlices": [
+        "0019-axial-single-pile-capacity",
+        "0137-applications-geotechnical-deep-foundations-public-index"
+      ],
+      "sourceOracles": [
+        "tests/geotechnicalDeepFoundations.test.js",
+        "tests/packageExports.test.js"
+      ],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/geotechnical-axial-pile.test.ts",
+        "tests/geotechnical-deep-foundations-index-compile-time.test.ts",
+        "tests/geotechnical-deep-foundations-index-live-parity.test.ts"
+      ],
+      "validationEvidence": [
+        "0019-axial-single-pile-capacity",
+        "0137-applications-geotechnical-deep-foundations-public-index"
+      ],
       "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
@@ -3537,10 +3551,24 @@
       "sourcePath": "src/domain/geotechnics/AxialPileCapacityAnalysis.js",
       "sourceBlobSha1": "32ffe7a6388956f3fcf0b4acde303590139d9301",
       "targetPath": "src/norms/geotechnics/AxialPileCapacityAnalysis.ts",
-      "migrationSlices": ["0019-axial-single-pile-capacity"],
-      "sourceOracles": ["tests/geotechnicalDeepFoundations.test.js"],
-      "targetTests": ["tests/geotechnical-axial-pile.test.ts"],
-      "validationEvidence": ["0019-axial-single-pile-capacity"],
+      "migrationSlices": [
+        "0019-axial-single-pile-capacity",
+        "0137-applications-geotechnical-deep-foundations-public-index"
+      ],
+      "sourceOracles": [
+        "tests/geotechnicalDeepFoundations.test.js",
+        "tests/packageExports.test.js"
+      ],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/geotechnical-axial-pile.test.ts",
+        "tests/geotechnical-deep-foundations-index-compile-time.test.ts",
+        "tests/geotechnical-deep-foundations-index-live-parity.test.ts"
+      ],
+      "validationEvidence": [
+        "0019-axial-single-pile-capacity",
+        "0137-applications-geotechnical-deep-foundations-public-index"
+      ],
       "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
@@ -3551,10 +3579,24 @@
       "sourcePath": "src/domain/geotechnics/AxialPileCapacityAnalysis.js",
       "sourceBlobSha1": "32ffe7a6388956f3fcf0b4acde303590139d9301",
       "targetPath": "src/norms/geotechnics/AxialPileCapacityAnalysis.ts",
-      "migrationSlices": ["0019-axial-single-pile-capacity"],
-      "sourceOracles": ["tests/geotechnicalDeepFoundations.test.js"],
-      "targetTests": ["tests/geotechnical-axial-pile.test.ts"],
-      "validationEvidence": ["0019-axial-single-pile-capacity"],
+      "migrationSlices": [
+        "0019-axial-single-pile-capacity",
+        "0137-applications-geotechnical-deep-foundations-public-index"
+      ],
+      "sourceOracles": [
+        "tests/geotechnicalDeepFoundations.test.js",
+        "tests/packageExports.test.js"
+      ],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/geotechnical-axial-pile.test.ts",
+        "tests/geotechnical-deep-foundations-index-compile-time.test.ts",
+        "tests/geotechnical-deep-foundations-index-live-parity.test.ts"
+      ],
+      "validationEvidence": [
+        "0019-axial-single-pile-capacity",
+        "0137-applications-geotechnical-deep-foundations-public-index"
+      ],
       "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
@@ -3565,10 +3607,24 @@
       "sourcePath": "src/domain/geotechnics/AxialPileLoadScenario.js",
       "sourceBlobSha1": "e91abcba148d51425a5086bdaee14fdc57465501",
       "targetPath": "src/domain/geotechnics/AxialPileLoadScenario.ts",
-      "migrationSlices": ["0019-axial-single-pile-capacity"],
-      "sourceOracles": ["tests/geotechnicalDeepFoundations.test.js"],
-      "targetTests": ["tests/geotechnical-axial-pile.test.ts"],
-      "validationEvidence": ["0019-axial-single-pile-capacity"],
+      "migrationSlices": [
+        "0019-axial-single-pile-capacity",
+        "0137-applications-geotechnical-deep-foundations-public-index"
+      ],
+      "sourceOracles": [
+        "tests/geotechnicalDeepFoundations.test.js",
+        "tests/packageExports.test.js"
+      ],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/geotechnical-axial-pile.test.ts",
+        "tests/geotechnical-deep-foundations-index-compile-time.test.ts",
+        "tests/geotechnical-deep-foundations-index-live-parity.test.ts"
+      ],
+      "validationEvidence": [
+        "0019-axial-single-pile-capacity",
+        "0137-applications-geotechnical-deep-foundations-public-index"
+      ],
       "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
@@ -3579,10 +3635,24 @@
       "sourcePath": "src/domain/geotechnics/AxialPileLoadScenario.js",
       "sourceBlobSha1": "e91abcba148d51425a5086bdaee14fdc57465501",
       "targetPath": "src/domain/geotechnics/AxialPileLoadScenario.ts",
-      "migrationSlices": ["0019-axial-single-pile-capacity"],
-      "sourceOracles": ["tests/geotechnicalDeepFoundations.test.js"],
-      "targetTests": ["tests/geotechnical-axial-pile.test.ts"],
-      "validationEvidence": ["0019-axial-single-pile-capacity"],
+      "migrationSlices": [
+        "0019-axial-single-pile-capacity",
+        "0137-applications-geotechnical-deep-foundations-public-index"
+      ],
+      "sourceOracles": [
+        "tests/geotechnicalDeepFoundations.test.js",
+        "tests/packageExports.test.js"
+      ],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/geotechnical-axial-pile.test.ts",
+        "tests/geotechnical-deep-foundations-index-compile-time.test.ts",
+        "tests/geotechnical-deep-foundations-index-live-parity.test.ts"
+      ],
+      "validationEvidence": [
+        "0019-axial-single-pile-capacity",
+        "0137-applications-geotechnical-deep-foundations-public-index"
+      ],
       "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
@@ -3593,10 +3663,24 @@
       "sourcePath": "src/domain/geotechnics/AxialPileLoadScenario.js",
       "sourceBlobSha1": "e91abcba148d51425a5086bdaee14fdc57465501",
       "targetPath": "src/domain/geotechnics/AxialPileLoadScenario.ts",
-      "migrationSlices": ["0019-axial-single-pile-capacity"],
-      "sourceOracles": ["tests/geotechnicalDeepFoundations.test.js"],
-      "targetTests": ["tests/geotechnical-axial-pile.test.ts"],
-      "validationEvidence": ["0019-axial-single-pile-capacity"],
+      "migrationSlices": [
+        "0019-axial-single-pile-capacity",
+        "0137-applications-geotechnical-deep-foundations-public-index"
+      ],
+      "sourceOracles": [
+        "tests/geotechnicalDeepFoundations.test.js",
+        "tests/packageExports.test.js"
+      ],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/geotechnical-axial-pile.test.ts",
+        "tests/geotechnical-deep-foundations-index-compile-time.test.ts",
+        "tests/geotechnical-deep-foundations-index-live-parity.test.ts"
+      ],
+      "validationEvidence": [
+        "0019-axial-single-pile-capacity",
+        "0137-applications-geotechnical-deep-foundations-public-index"
+      ],
       "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
@@ -3607,10 +3691,24 @@
       "sourcePath": "src/domain/geotechnics/AxialPileLoadScenario.js",
       "sourceBlobSha1": "e91abcba148d51425a5086bdaee14fdc57465501",
       "targetPath": "src/domain/geotechnics/AxialPileLoadScenario.ts",
-      "migrationSlices": ["0019-axial-single-pile-capacity"],
-      "sourceOracles": ["tests/geotechnicalDeepFoundations.test.js"],
-      "targetTests": ["tests/geotechnical-axial-pile.test.ts"],
-      "validationEvidence": ["0019-axial-single-pile-capacity"],
+      "migrationSlices": [
+        "0019-axial-single-pile-capacity",
+        "0137-applications-geotechnical-deep-foundations-public-index"
+      ],
+      "sourceOracles": [
+        "tests/geotechnicalDeepFoundations.test.js",
+        "tests/packageExports.test.js"
+      ],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/geotechnical-axial-pile.test.ts",
+        "tests/geotechnical-deep-foundations-index-compile-time.test.ts",
+        "tests/geotechnical-deep-foundations-index-live-parity.test.ts"
+      ],
+      "validationEvidence": [
+        "0019-axial-single-pile-capacity",
+        "0137-applications-geotechnical-deep-foundations-public-index"
+      ],
       "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
@@ -3621,10 +3719,24 @@
       "sourcePath": "src/domain/geotechnics/AxialPileLoadScenario.js",
       "sourceBlobSha1": "e91abcba148d51425a5086bdaee14fdc57465501",
       "targetPath": "src/domain/geotechnics/AxialPileLoadScenario.ts",
-      "migrationSlices": ["0019-axial-single-pile-capacity"],
-      "sourceOracles": ["tests/geotechnicalDeepFoundations.test.js"],
-      "targetTests": ["tests/geotechnical-axial-pile.test.ts"],
-      "validationEvidence": ["0019-axial-single-pile-capacity"],
+      "migrationSlices": [
+        "0019-axial-single-pile-capacity",
+        "0137-applications-geotechnical-deep-foundations-public-index"
+      ],
+      "sourceOracles": [
+        "tests/geotechnicalDeepFoundations.test.js",
+        "tests/packageExports.test.js"
+      ],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/geotechnical-axial-pile.test.ts",
+        "tests/geotechnical-deep-foundations-index-compile-time.test.ts",
+        "tests/geotechnical-deep-foundations-index-live-parity.test.ts"
+      ],
+      "validationEvidence": [
+        "0019-axial-single-pile-capacity",
+        "0137-applications-geotechnical-deep-foundations-public-index"
+      ],
       "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
@@ -3655,10 +3767,24 @@
       "sourcePath": "src/domain/geotechnics/AxialPileCapacityAnalysis.js",
       "sourceBlobSha1": "32ffe7a6388956f3fcf0b4acde303590139d9301",
       "targetPath": "src/norms/geotechnics/AxialPileCapacityAnalysis.ts",
-      "migrationSlices": ["0019-axial-single-pile-capacity"],
-      "sourceOracles": ["tests/geotechnicalDeepFoundations.test.js"],
-      "targetTests": ["tests/geotechnical-axial-pile.test.ts"],
-      "validationEvidence": ["0019-axial-single-pile-capacity"],
+      "migrationSlices": [
+        "0019-axial-single-pile-capacity",
+        "0137-applications-geotechnical-deep-foundations-public-index"
+      ],
+      "sourceOracles": [
+        "tests/geotechnicalDeepFoundations.test.js",
+        "tests/packageExports.test.js"
+      ],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/geotechnical-axial-pile.test.ts",
+        "tests/geotechnical-deep-foundations-index-compile-time.test.ts",
+        "tests/geotechnical-deep-foundations-index-live-parity.test.ts"
+      ],
+      "validationEvidence": [
+        "0019-axial-single-pile-capacity",
+        "0137-applications-geotechnical-deep-foundations-public-index"
+      ],
       "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
@@ -3669,10 +3795,24 @@
       "sourcePath": "src/domain/geotechnics/AxialPileLoadScenario.js",
       "sourceBlobSha1": "e91abcba148d51425a5086bdaee14fdc57465501",
       "targetPath": "src/domain/geotechnics/AxialPileLoadScenario.ts",
-      "migrationSlices": ["0019-axial-single-pile-capacity"],
-      "sourceOracles": ["tests/geotechnicalDeepFoundations.test.js"],
-      "targetTests": ["tests/geotechnical-axial-pile.test.ts"],
-      "validationEvidence": ["0019-axial-single-pile-capacity"],
+      "migrationSlices": [
+        "0019-axial-single-pile-capacity",
+        "0137-applications-geotechnical-deep-foundations-public-index"
+      ],
+      "sourceOracles": [
+        "tests/geotechnicalDeepFoundations.test.js",
+        "tests/packageExports.test.js"
+      ],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/geotechnical-axial-pile.test.ts",
+        "tests/geotechnical-deep-foundations-index-compile-time.test.ts",
+        "tests/geotechnical-deep-foundations-index-live-parity.test.ts"
+      ],
+      "validationEvidence": [
+        "0019-axial-single-pile-capacity",
+        "0137-applications-geotechnical-deep-foundations-public-index"
+      ],
       "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
@@ -7931,10 +8071,24 @@
       "sourcePath": "src/domain/geotechnics/DeepFoundationModel.js",
       "sourceBlobSha1": "07f2d143e3c8895e8b2bfb34cb270797bfc9c684",
       "targetPath": "src/domain/geotechnics/DeepFoundationModel.ts",
-      "migrationSlices": ["0019-axial-single-pile-capacity"],
-      "sourceOracles": ["tests/geotechnicalDeepFoundations.test.js"],
-      "targetTests": ["tests/geotechnical-axial-pile.test.ts"],
-      "validationEvidence": ["0019-axial-single-pile-capacity"],
+      "migrationSlices": [
+        "0019-axial-single-pile-capacity",
+        "0137-applications-geotechnical-deep-foundations-public-index"
+      ],
+      "sourceOracles": [
+        "tests/geotechnicalDeepFoundations.test.js",
+        "tests/packageExports.test.js"
+      ],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/geotechnical-axial-pile.test.ts",
+        "tests/geotechnical-deep-foundations-index-compile-time.test.ts",
+        "tests/geotechnical-deep-foundations-index-live-parity.test.ts"
+      ],
+      "validationEvidence": [
+        "0019-axial-single-pile-capacity",
+        "0137-applications-geotechnical-deep-foundations-public-index"
+      ],
       "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
@@ -7945,10 +8099,24 @@
       "sourcePath": "src/domain/geotechnics/DeepFoundationModel.js",
       "sourceBlobSha1": "07f2d143e3c8895e8b2bfb34cb270797bfc9c684",
       "targetPath": "src/domain/geotechnics/DeepFoundationModel.ts",
-      "migrationSlices": ["0019-axial-single-pile-capacity"],
-      "sourceOracles": ["tests/geotechnicalDeepFoundations.test.js"],
-      "targetTests": ["tests/geotechnical-axial-pile.test.ts"],
-      "validationEvidence": ["0019-axial-single-pile-capacity"],
+      "migrationSlices": [
+        "0019-axial-single-pile-capacity",
+        "0137-applications-geotechnical-deep-foundations-public-index"
+      ],
+      "sourceOracles": [
+        "tests/geotechnicalDeepFoundations.test.js",
+        "tests/packageExports.test.js"
+      ],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/geotechnical-axial-pile.test.ts",
+        "tests/geotechnical-deep-foundations-index-compile-time.test.ts",
+        "tests/geotechnical-deep-foundations-index-live-parity.test.ts"
+      ],
+      "validationEvidence": [
+        "0019-axial-single-pile-capacity",
+        "0137-applications-geotechnical-deep-foundations-public-index"
+      ],
       "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
@@ -7959,10 +8127,24 @@
       "sourcePath": "src/domain/geotechnics/DeepFoundationModel.js",
       "sourceBlobSha1": "07f2d143e3c8895e8b2bfb34cb270797bfc9c684",
       "targetPath": "src/domain/geotechnics/DeepFoundationModel.ts",
-      "migrationSlices": ["0019-axial-single-pile-capacity"],
-      "sourceOracles": ["tests/geotechnicalDeepFoundations.test.js"],
-      "targetTests": ["tests/geotechnical-axial-pile.test.ts"],
-      "validationEvidence": ["0019-axial-single-pile-capacity"],
+      "migrationSlices": [
+        "0019-axial-single-pile-capacity",
+        "0137-applications-geotechnical-deep-foundations-public-index"
+      ],
+      "sourceOracles": [
+        "tests/geotechnicalDeepFoundations.test.js",
+        "tests/packageExports.test.js"
+      ],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/geotechnical-axial-pile.test.ts",
+        "tests/geotechnical-deep-foundations-index-compile-time.test.ts",
+        "tests/geotechnical-deep-foundations-index-live-parity.test.ts"
+      ],
+      "validationEvidence": [
+        "0019-axial-single-pile-capacity",
+        "0137-applications-geotechnical-deep-foundations-public-index"
+      ],
       "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
@@ -7973,10 +8155,24 @@
       "sourcePath": "src/domain/geotechnics/DeepFoundationModel.js",
       "sourceBlobSha1": "07f2d143e3c8895e8b2bfb34cb270797bfc9c684",
       "targetPath": "src/domain/geotechnics/DeepFoundationModel.ts",
-      "migrationSlices": ["0019-axial-single-pile-capacity"],
-      "sourceOracles": ["tests/geotechnicalDeepFoundations.test.js"],
-      "targetTests": ["tests/geotechnical-axial-pile.test.ts"],
-      "validationEvidence": ["0019-axial-single-pile-capacity"],
+      "migrationSlices": [
+        "0019-axial-single-pile-capacity",
+        "0137-applications-geotechnical-deep-foundations-public-index"
+      ],
+      "sourceOracles": [
+        "tests/geotechnicalDeepFoundations.test.js",
+        "tests/packageExports.test.js"
+      ],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/geotechnical-axial-pile.test.ts",
+        "tests/geotechnical-deep-foundations-index-compile-time.test.ts",
+        "tests/geotechnical-deep-foundations-index-live-parity.test.ts"
+      ],
+      "validationEvidence": [
+        "0019-axial-single-pile-capacity",
+        "0137-applications-geotechnical-deep-foundations-public-index"
+      ],
       "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
@@ -7987,10 +8183,24 @@
       "sourcePath": "src/domain/geotechnics/DeepFoundationModel.js",
       "sourceBlobSha1": "07f2d143e3c8895e8b2bfb34cb270797bfc9c684",
       "targetPath": "src/domain/geotechnics/DeepFoundationModel.ts",
-      "migrationSlices": ["0019-axial-single-pile-capacity"],
-      "sourceOracles": ["tests/geotechnicalDeepFoundations.test.js"],
-      "targetTests": ["tests/geotechnical-axial-pile.test.ts"],
-      "validationEvidence": ["0019-axial-single-pile-capacity"],
+      "migrationSlices": [
+        "0019-axial-single-pile-capacity",
+        "0137-applications-geotechnical-deep-foundations-public-index"
+      ],
+      "sourceOracles": [
+        "tests/geotechnicalDeepFoundations.test.js",
+        "tests/packageExports.test.js"
+      ],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/geotechnical-axial-pile.test.ts",
+        "tests/geotechnical-deep-foundations-index-compile-time.test.ts",
+        "tests/geotechnical-deep-foundations-index-live-parity.test.ts"
+      ],
+      "validationEvidence": [
+        "0019-axial-single-pile-capacity",
+        "0137-applications-geotechnical-deep-foundations-public-index"
+      ],
       "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
@@ -9178,10 +9388,24 @@
       "sourcePath": "src/applications/geotechnical-deep-foundations/GeotechnicalDeepFoundationApplication.js",
       "sourceBlobSha1": "768a4f7e8a345744e984a2ee48a0c3cb6c50881e",
       "targetPath": "src/applications/geotechnical-deep-foundations/GeotechnicalDeepFoundationApplication.ts",
-      "migrationSlices": ["0019-axial-single-pile-capacity"],
-      "sourceOracles": ["tests/geotechnicalDeepFoundations.test.js"],
-      "targetTests": ["tests/geotechnical-axial-pile.test.ts"],
-      "validationEvidence": ["0019-axial-single-pile-capacity"],
+      "migrationSlices": [
+        "0019-axial-single-pile-capacity",
+        "0137-applications-geotechnical-deep-foundations-public-index"
+      ],
+      "sourceOracles": [
+        "tests/geotechnicalDeepFoundations.test.js",
+        "tests/packageExports.test.js"
+      ],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/geotechnical-axial-pile.test.ts",
+        "tests/geotechnical-deep-foundations-index-compile-time.test.ts",
+        "tests/geotechnical-deep-foundations-index-live-parity.test.ts"
+      ],
+      "validationEvidence": [
+        "0019-axial-single-pile-capacity",
+        "0137-applications-geotechnical-deep-foundations-public-index"
+      ],
       "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
@@ -20669,10 +20893,24 @@
       "sourcePath": "src/domain/geotechnics/AxialPileLoadScenario.js",
       "sourceBlobSha1": "e91abcba148d51425a5086bdaee14fdc57465501",
       "targetPath": "src/domain/geotechnics/AxialPileLoadScenario.ts",
-      "migrationSlices": ["0019-axial-single-pile-capacity"],
-      "sourceOracles": ["tests/geotechnicalDeepFoundations.test.js"],
-      "targetTests": ["tests/geotechnical-axial-pile.test.ts"],
-      "validationEvidence": ["0019-axial-single-pile-capacity"],
+      "migrationSlices": [
+        "0019-axial-single-pile-capacity",
+        "0137-applications-geotechnical-deep-foundations-public-index"
+      ],
+      "sourceOracles": [
+        "tests/geotechnicalDeepFoundations.test.js",
+        "tests/packageExports.test.js"
+      ],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/geotechnical-axial-pile.test.ts",
+        "tests/geotechnical-deep-foundations-index-compile-time.test.ts",
+        "tests/geotechnical-deep-foundations-index-live-parity.test.ts"
+      ],
+      "validationEvidence": [
+        "0019-axial-single-pile-capacity",
+        "0137-applications-geotechnical-deep-foundations-public-index"
+      ],
       "status": "exact-parity",
       "publicEntryPath": "src/applications/index.js",
       "publicEntryBlobSha1": "b70179c7cdd2a819f2151dc092c0f59cbce30ba6"
@@ -20683,10 +20921,24 @@
       "sourcePath": "src/domain/geotechnics/AxialPileCapacityAnalysis.js",
       "sourceBlobSha1": "32ffe7a6388956f3fcf0b4acde303590139d9301",
       "targetPath": "src/norms/geotechnics/AxialPileCapacityAnalysis.ts",
-      "migrationSlices": ["0019-axial-single-pile-capacity"],
-      "sourceOracles": ["tests/geotechnicalDeepFoundations.test.js"],
-      "targetTests": ["tests/geotechnical-axial-pile.test.ts"],
-      "validationEvidence": ["0019-axial-single-pile-capacity"],
+      "migrationSlices": [
+        "0019-axial-single-pile-capacity",
+        "0137-applications-geotechnical-deep-foundations-public-index"
+      ],
+      "sourceOracles": [
+        "tests/geotechnicalDeepFoundations.test.js",
+        "tests/packageExports.test.js"
+      ],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/geotechnical-axial-pile.test.ts",
+        "tests/geotechnical-deep-foundations-index-compile-time.test.ts",
+        "tests/geotechnical-deep-foundations-index-live-parity.test.ts"
+      ],
+      "validationEvidence": [
+        "0019-axial-single-pile-capacity",
+        "0137-applications-geotechnical-deep-foundations-public-index"
+      ],
       "status": "exact-parity",
       "publicEntryPath": "src/applications/index.js",
       "publicEntryBlobSha1": "b70179c7cdd2a819f2151dc092c0f59cbce30ba6"
@@ -20697,10 +20949,24 @@
       "sourcePath": "src/domain/geotechnics/AxialPileCapacityAnalysis.js",
       "sourceBlobSha1": "32ffe7a6388956f3fcf0b4acde303590139d9301",
       "targetPath": "src/norms/geotechnics/AxialPileCapacityAnalysis.ts",
-      "migrationSlices": ["0019-axial-single-pile-capacity"],
-      "sourceOracles": ["tests/geotechnicalDeepFoundations.test.js"],
-      "targetTests": ["tests/geotechnical-axial-pile.test.ts"],
-      "validationEvidence": ["0019-axial-single-pile-capacity"],
+      "migrationSlices": [
+        "0019-axial-single-pile-capacity",
+        "0137-applications-geotechnical-deep-foundations-public-index"
+      ],
+      "sourceOracles": [
+        "tests/geotechnicalDeepFoundations.test.js",
+        "tests/packageExports.test.js"
+      ],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/geotechnical-axial-pile.test.ts",
+        "tests/geotechnical-deep-foundations-index-compile-time.test.ts",
+        "tests/geotechnical-deep-foundations-index-live-parity.test.ts"
+      ],
+      "validationEvidence": [
+        "0019-axial-single-pile-capacity",
+        "0137-applications-geotechnical-deep-foundations-public-index"
+      ],
       "status": "exact-parity",
       "publicEntryPath": "src/applications/index.js",
       "publicEntryBlobSha1": "b70179c7cdd2a819f2151dc092c0f59cbce30ba6"
@@ -20711,10 +20977,24 @@
       "sourcePath": "src/domain/geotechnics/AxialPileLoadScenario.js",
       "sourceBlobSha1": "e91abcba148d51425a5086bdaee14fdc57465501",
       "targetPath": "src/domain/geotechnics/AxialPileLoadScenario.ts",
-      "migrationSlices": ["0019-axial-single-pile-capacity"],
-      "sourceOracles": ["tests/geotechnicalDeepFoundations.test.js"],
-      "targetTests": ["tests/geotechnical-axial-pile.test.ts"],
-      "validationEvidence": ["0019-axial-single-pile-capacity"],
+      "migrationSlices": [
+        "0019-axial-single-pile-capacity",
+        "0137-applications-geotechnical-deep-foundations-public-index"
+      ],
+      "sourceOracles": [
+        "tests/geotechnicalDeepFoundations.test.js",
+        "tests/packageExports.test.js"
+      ],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/geotechnical-axial-pile.test.ts",
+        "tests/geotechnical-deep-foundations-index-compile-time.test.ts",
+        "tests/geotechnical-deep-foundations-index-live-parity.test.ts"
+      ],
+      "validationEvidence": [
+        "0019-axial-single-pile-capacity",
+        "0137-applications-geotechnical-deep-foundations-public-index"
+      ],
       "status": "exact-parity",
       "publicEntryPath": "src/applications/index.js",
       "publicEntryBlobSha1": "b70179c7cdd2a819f2151dc092c0f59cbce30ba6"
@@ -20725,10 +21005,24 @@
       "sourcePath": "src/domain/geotechnics/AxialPileLoadScenario.js",
       "sourceBlobSha1": "e91abcba148d51425a5086bdaee14fdc57465501",
       "targetPath": "src/domain/geotechnics/AxialPileLoadScenario.ts",
-      "migrationSlices": ["0019-axial-single-pile-capacity"],
-      "sourceOracles": ["tests/geotechnicalDeepFoundations.test.js"],
-      "targetTests": ["tests/geotechnical-axial-pile.test.ts"],
-      "validationEvidence": ["0019-axial-single-pile-capacity"],
+      "migrationSlices": [
+        "0019-axial-single-pile-capacity",
+        "0137-applications-geotechnical-deep-foundations-public-index"
+      ],
+      "sourceOracles": [
+        "tests/geotechnicalDeepFoundations.test.js",
+        "tests/packageExports.test.js"
+      ],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/geotechnical-axial-pile.test.ts",
+        "tests/geotechnical-deep-foundations-index-compile-time.test.ts",
+        "tests/geotechnical-deep-foundations-index-live-parity.test.ts"
+      ],
+      "validationEvidence": [
+        "0019-axial-single-pile-capacity",
+        "0137-applications-geotechnical-deep-foundations-public-index"
+      ],
       "status": "exact-parity",
       "publicEntryPath": "src/applications/index.js",
       "publicEntryBlobSha1": "b70179c7cdd2a819f2151dc092c0f59cbce30ba6"
@@ -20739,10 +21033,24 @@
       "sourcePath": "src/domain/geotechnics/AxialPileLoadScenario.js",
       "sourceBlobSha1": "e91abcba148d51425a5086bdaee14fdc57465501",
       "targetPath": "src/domain/geotechnics/AxialPileLoadScenario.ts",
-      "migrationSlices": ["0019-axial-single-pile-capacity"],
-      "sourceOracles": ["tests/geotechnicalDeepFoundations.test.js"],
-      "targetTests": ["tests/geotechnical-axial-pile.test.ts"],
-      "validationEvidence": ["0019-axial-single-pile-capacity"],
+      "migrationSlices": [
+        "0019-axial-single-pile-capacity",
+        "0137-applications-geotechnical-deep-foundations-public-index"
+      ],
+      "sourceOracles": [
+        "tests/geotechnicalDeepFoundations.test.js",
+        "tests/packageExports.test.js"
+      ],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/geotechnical-axial-pile.test.ts",
+        "tests/geotechnical-deep-foundations-index-compile-time.test.ts",
+        "tests/geotechnical-deep-foundations-index-live-parity.test.ts"
+      ],
+      "validationEvidence": [
+        "0019-axial-single-pile-capacity",
+        "0137-applications-geotechnical-deep-foundations-public-index"
+      ],
       "status": "exact-parity",
       "publicEntryPath": "src/applications/index.js",
       "publicEntryBlobSha1": "b70179c7cdd2a819f2151dc092c0f59cbce30ba6"
@@ -20753,10 +21061,24 @@
       "sourcePath": "src/domain/geotechnics/AxialPileLoadScenario.js",
       "sourceBlobSha1": "e91abcba148d51425a5086bdaee14fdc57465501",
       "targetPath": "src/domain/geotechnics/AxialPileLoadScenario.ts",
-      "migrationSlices": ["0019-axial-single-pile-capacity"],
-      "sourceOracles": ["tests/geotechnicalDeepFoundations.test.js"],
-      "targetTests": ["tests/geotechnical-axial-pile.test.ts"],
-      "validationEvidence": ["0019-axial-single-pile-capacity"],
+      "migrationSlices": [
+        "0019-axial-single-pile-capacity",
+        "0137-applications-geotechnical-deep-foundations-public-index"
+      ],
+      "sourceOracles": [
+        "tests/geotechnicalDeepFoundations.test.js",
+        "tests/packageExports.test.js"
+      ],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/geotechnical-axial-pile.test.ts",
+        "tests/geotechnical-deep-foundations-index-compile-time.test.ts",
+        "tests/geotechnical-deep-foundations-index-live-parity.test.ts"
+      ],
+      "validationEvidence": [
+        "0019-axial-single-pile-capacity",
+        "0137-applications-geotechnical-deep-foundations-public-index"
+      ],
       "status": "exact-parity",
       "publicEntryPath": "src/applications/index.js",
       "publicEntryBlobSha1": "b70179c7cdd2a819f2151dc092c0f59cbce30ba6"
@@ -20767,10 +21089,24 @@
       "sourcePath": "src/domain/geotechnics/AxialPileLoadScenario.js",
       "sourceBlobSha1": "e91abcba148d51425a5086bdaee14fdc57465501",
       "targetPath": "src/domain/geotechnics/AxialPileLoadScenario.ts",
-      "migrationSlices": ["0019-axial-single-pile-capacity"],
-      "sourceOracles": ["tests/geotechnicalDeepFoundations.test.js"],
-      "targetTests": ["tests/geotechnical-axial-pile.test.ts"],
-      "validationEvidence": ["0019-axial-single-pile-capacity"],
+      "migrationSlices": [
+        "0019-axial-single-pile-capacity",
+        "0137-applications-geotechnical-deep-foundations-public-index"
+      ],
+      "sourceOracles": [
+        "tests/geotechnicalDeepFoundations.test.js",
+        "tests/packageExports.test.js"
+      ],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/geotechnical-axial-pile.test.ts",
+        "tests/geotechnical-deep-foundations-index-compile-time.test.ts",
+        "tests/geotechnical-deep-foundations-index-live-parity.test.ts"
+      ],
+      "validationEvidence": [
+        "0019-axial-single-pile-capacity",
+        "0137-applications-geotechnical-deep-foundations-public-index"
+      ],
       "status": "exact-parity",
       "publicEntryPath": "src/applications/index.js",
       "publicEntryBlobSha1": "b70179c7cdd2a819f2151dc092c0f59cbce30ba6"
@@ -20781,10 +21117,24 @@
       "sourcePath": "src/domain/geotechnics/AxialPileCapacityAnalysis.js",
       "sourceBlobSha1": "32ffe7a6388956f3fcf0b4acde303590139d9301",
       "targetPath": "src/norms/geotechnics/AxialPileCapacityAnalysis.ts",
-      "migrationSlices": ["0019-axial-single-pile-capacity"],
-      "sourceOracles": ["tests/geotechnicalDeepFoundations.test.js"],
-      "targetTests": ["tests/geotechnical-axial-pile.test.ts"],
-      "validationEvidence": ["0019-axial-single-pile-capacity"],
+      "migrationSlices": [
+        "0019-axial-single-pile-capacity",
+        "0137-applications-geotechnical-deep-foundations-public-index"
+      ],
+      "sourceOracles": [
+        "tests/geotechnicalDeepFoundations.test.js",
+        "tests/packageExports.test.js"
+      ],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/geotechnical-axial-pile.test.ts",
+        "tests/geotechnical-deep-foundations-index-compile-time.test.ts",
+        "tests/geotechnical-deep-foundations-index-live-parity.test.ts"
+      ],
+      "validationEvidence": [
+        "0019-axial-single-pile-capacity",
+        "0137-applications-geotechnical-deep-foundations-public-index"
+      ],
       "status": "exact-parity",
       "publicEntryPath": "src/applications/index.js",
       "publicEntryBlobSha1": "b70179c7cdd2a819f2151dc092c0f59cbce30ba6"
@@ -20795,10 +21145,24 @@
       "sourcePath": "src/domain/geotechnics/AxialPileLoadScenario.js",
       "sourceBlobSha1": "e91abcba148d51425a5086bdaee14fdc57465501",
       "targetPath": "src/domain/geotechnics/AxialPileLoadScenario.ts",
-      "migrationSlices": ["0019-axial-single-pile-capacity"],
-      "sourceOracles": ["tests/geotechnicalDeepFoundations.test.js"],
-      "targetTests": ["tests/geotechnical-axial-pile.test.ts"],
-      "validationEvidence": ["0019-axial-single-pile-capacity"],
+      "migrationSlices": [
+        "0019-axial-single-pile-capacity",
+        "0137-applications-geotechnical-deep-foundations-public-index"
+      ],
+      "sourceOracles": [
+        "tests/geotechnicalDeepFoundations.test.js",
+        "tests/packageExports.test.js"
+      ],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/geotechnical-axial-pile.test.ts",
+        "tests/geotechnical-deep-foundations-index-compile-time.test.ts",
+        "tests/geotechnical-deep-foundations-index-live-parity.test.ts"
+      ],
+      "validationEvidence": [
+        "0019-axial-single-pile-capacity",
+        "0137-applications-geotechnical-deep-foundations-public-index"
+      ],
       "status": "exact-parity",
       "publicEntryPath": "src/applications/index.js",
       "publicEntryBlobSha1": "b70179c7cdd2a819f2151dc092c0f59cbce30ba6"
@@ -21345,10 +21709,24 @@
       "sourcePath": "src/domain/geotechnics/DeepFoundationModel.js",
       "sourceBlobSha1": "07f2d143e3c8895e8b2bfb34cb270797bfc9c684",
       "targetPath": "src/domain/geotechnics/DeepFoundationModel.ts",
-      "migrationSlices": ["0019-axial-single-pile-capacity"],
-      "sourceOracles": ["tests/geotechnicalDeepFoundations.test.js"],
-      "targetTests": ["tests/geotechnical-axial-pile.test.ts"],
-      "validationEvidence": ["0019-axial-single-pile-capacity"],
+      "migrationSlices": [
+        "0019-axial-single-pile-capacity",
+        "0137-applications-geotechnical-deep-foundations-public-index"
+      ],
+      "sourceOracles": [
+        "tests/geotechnicalDeepFoundations.test.js",
+        "tests/packageExports.test.js"
+      ],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/geotechnical-axial-pile.test.ts",
+        "tests/geotechnical-deep-foundations-index-compile-time.test.ts",
+        "tests/geotechnical-deep-foundations-index-live-parity.test.ts"
+      ],
+      "validationEvidence": [
+        "0019-axial-single-pile-capacity",
+        "0137-applications-geotechnical-deep-foundations-public-index"
+      ],
       "status": "exact-parity",
       "publicEntryPath": "src/applications/index.js",
       "publicEntryBlobSha1": "b70179c7cdd2a819f2151dc092c0f59cbce30ba6"
@@ -21359,10 +21737,24 @@
       "sourcePath": "src/domain/geotechnics/DeepFoundationModel.js",
       "sourceBlobSha1": "07f2d143e3c8895e8b2bfb34cb270797bfc9c684",
       "targetPath": "src/domain/geotechnics/DeepFoundationModel.ts",
-      "migrationSlices": ["0019-axial-single-pile-capacity"],
-      "sourceOracles": ["tests/geotechnicalDeepFoundations.test.js"],
-      "targetTests": ["tests/geotechnical-axial-pile.test.ts"],
-      "validationEvidence": ["0019-axial-single-pile-capacity"],
+      "migrationSlices": [
+        "0019-axial-single-pile-capacity",
+        "0137-applications-geotechnical-deep-foundations-public-index"
+      ],
+      "sourceOracles": [
+        "tests/geotechnicalDeepFoundations.test.js",
+        "tests/packageExports.test.js"
+      ],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/geotechnical-axial-pile.test.ts",
+        "tests/geotechnical-deep-foundations-index-compile-time.test.ts",
+        "tests/geotechnical-deep-foundations-index-live-parity.test.ts"
+      ],
+      "validationEvidence": [
+        "0019-axial-single-pile-capacity",
+        "0137-applications-geotechnical-deep-foundations-public-index"
+      ],
       "status": "exact-parity",
       "publicEntryPath": "src/applications/index.js",
       "publicEntryBlobSha1": "b70179c7cdd2a819f2151dc092c0f59cbce30ba6"
@@ -21373,10 +21765,24 @@
       "sourcePath": "src/domain/geotechnics/DeepFoundationModel.js",
       "sourceBlobSha1": "07f2d143e3c8895e8b2bfb34cb270797bfc9c684",
       "targetPath": "src/domain/geotechnics/DeepFoundationModel.ts",
-      "migrationSlices": ["0019-axial-single-pile-capacity"],
-      "sourceOracles": ["tests/geotechnicalDeepFoundations.test.js"],
-      "targetTests": ["tests/geotechnical-axial-pile.test.ts"],
-      "validationEvidence": ["0019-axial-single-pile-capacity"],
+      "migrationSlices": [
+        "0019-axial-single-pile-capacity",
+        "0137-applications-geotechnical-deep-foundations-public-index"
+      ],
+      "sourceOracles": [
+        "tests/geotechnicalDeepFoundations.test.js",
+        "tests/packageExports.test.js"
+      ],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/geotechnical-axial-pile.test.ts",
+        "tests/geotechnical-deep-foundations-index-compile-time.test.ts",
+        "tests/geotechnical-deep-foundations-index-live-parity.test.ts"
+      ],
+      "validationEvidence": [
+        "0019-axial-single-pile-capacity",
+        "0137-applications-geotechnical-deep-foundations-public-index"
+      ],
       "status": "exact-parity",
       "publicEntryPath": "src/applications/index.js",
       "publicEntryBlobSha1": "b70179c7cdd2a819f2151dc092c0f59cbce30ba6"
@@ -21387,10 +21793,24 @@
       "sourcePath": "src/domain/geotechnics/DeepFoundationModel.js",
       "sourceBlobSha1": "07f2d143e3c8895e8b2bfb34cb270797bfc9c684",
       "targetPath": "src/domain/geotechnics/DeepFoundationModel.ts",
-      "migrationSlices": ["0019-axial-single-pile-capacity"],
-      "sourceOracles": ["tests/geotechnicalDeepFoundations.test.js"],
-      "targetTests": ["tests/geotechnical-axial-pile.test.ts"],
-      "validationEvidence": ["0019-axial-single-pile-capacity"],
+      "migrationSlices": [
+        "0019-axial-single-pile-capacity",
+        "0137-applications-geotechnical-deep-foundations-public-index"
+      ],
+      "sourceOracles": [
+        "tests/geotechnicalDeepFoundations.test.js",
+        "tests/packageExports.test.js"
+      ],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/geotechnical-axial-pile.test.ts",
+        "tests/geotechnical-deep-foundations-index-compile-time.test.ts",
+        "tests/geotechnical-deep-foundations-index-live-parity.test.ts"
+      ],
+      "validationEvidence": [
+        "0019-axial-single-pile-capacity",
+        "0137-applications-geotechnical-deep-foundations-public-index"
+      ],
       "status": "exact-parity",
       "publicEntryPath": "src/applications/index.js",
       "publicEntryBlobSha1": "b70179c7cdd2a819f2151dc092c0f59cbce30ba6"
@@ -21401,10 +21821,24 @@
       "sourcePath": "src/domain/geotechnics/DeepFoundationModel.js",
       "sourceBlobSha1": "07f2d143e3c8895e8b2bfb34cb270797bfc9c684",
       "targetPath": "src/domain/geotechnics/DeepFoundationModel.ts",
-      "migrationSlices": ["0019-axial-single-pile-capacity"],
-      "sourceOracles": ["tests/geotechnicalDeepFoundations.test.js"],
-      "targetTests": ["tests/geotechnical-axial-pile.test.ts"],
-      "validationEvidence": ["0019-axial-single-pile-capacity"],
+      "migrationSlices": [
+        "0019-axial-single-pile-capacity",
+        "0137-applications-geotechnical-deep-foundations-public-index"
+      ],
+      "sourceOracles": [
+        "tests/geotechnicalDeepFoundations.test.js",
+        "tests/packageExports.test.js"
+      ],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/geotechnical-axial-pile.test.ts",
+        "tests/geotechnical-deep-foundations-index-compile-time.test.ts",
+        "tests/geotechnical-deep-foundations-index-live-parity.test.ts"
+      ],
+      "validationEvidence": [
+        "0019-axial-single-pile-capacity",
+        "0137-applications-geotechnical-deep-foundations-public-index"
+      ],
       "status": "exact-parity",
       "publicEntryPath": "src/applications/index.js",
       "publicEntryBlobSha1": "b70179c7cdd2a819f2151dc092c0f59cbce30ba6"
@@ -21800,10 +22234,24 @@
       "sourcePath": "src/applications/geotechnical-deep-foundations/GeotechnicalDeepFoundationApplication.js",
       "sourceBlobSha1": "768a4f7e8a345744e984a2ee48a0c3cb6c50881e",
       "targetPath": "src/applications/geotechnical-deep-foundations/GeotechnicalDeepFoundationApplication.ts",
-      "migrationSlices": ["0019-axial-single-pile-capacity"],
-      "sourceOracles": ["tests/geotechnicalDeepFoundations.test.js"],
-      "targetTests": ["tests/geotechnical-axial-pile.test.ts"],
-      "validationEvidence": ["0019-axial-single-pile-capacity"],
+      "migrationSlices": [
+        "0019-axial-single-pile-capacity",
+        "0137-applications-geotechnical-deep-foundations-public-index"
+      ],
+      "sourceOracles": [
+        "tests/geotechnicalDeepFoundations.test.js",
+        "tests/packageExports.test.js"
+      ],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/geotechnical-axial-pile.test.ts",
+        "tests/geotechnical-deep-foundations-index-compile-time.test.ts",
+        "tests/geotechnical-deep-foundations-index-live-parity.test.ts"
+      ],
+      "validationEvidence": [
+        "0019-axial-single-pile-capacity",
+        "0137-applications-geotechnical-deep-foundations-public-index"
+      ],
       "status": "exact-parity",
       "publicEntryPath": "src/applications/index.js",
       "publicEntryBlobSha1": "b70179c7cdd2a819f2151dc092c0f59cbce30ba6"
@@ -26704,7 +27152,12 @@
         "tests/reinforcedConcreteFoundationBeamApplication.test.js",
         "tests/reinforcedConcreteStrutAndTieApplication.test.js"
       ],
-      "targetTests": ["tests/baseline-parity.test.ts", "tests/geotechnical-axial-pile.test.ts"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/geotechnical-axial-pile.test.ts",
+        "tests/geotechnical-deep-foundations-index-compile-time.test.ts",
+        "tests/geotechnical-deep-foundations-index-live-parity.test.ts"
+      ],
       "validationEvidence": [
         "0024-reinforced-concrete-foundation-beams",
         "0026-reinforced-concrete-beam-column-joints",
@@ -27513,10 +27966,24 @@
       "sourcePath": "src/domain/geotechnics/AxialPileCapacityAnalysis.js",
       "sourceBlobSha1": "32ffe7a6388956f3fcf0b4acde303590139d9301",
       "targetPath": "src/norms/geotechnics/AxialPileCapacityAnalysis.ts",
-      "migrationSlices": ["0019-axial-single-pile-capacity"],
-      "sourceOracles": ["tests/geotechnicalDeepFoundations.test.js"],
-      "targetTests": ["tests/geotechnical-axial-pile.test.ts"],
-      "validationEvidence": ["0019-axial-single-pile-capacity"],
+      "migrationSlices": [
+        "0019-axial-single-pile-capacity",
+        "0137-applications-geotechnical-deep-foundations-public-index"
+      ],
+      "sourceOracles": [
+        "tests/geotechnicalDeepFoundations.test.js",
+        "tests/packageExports.test.js"
+      ],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/geotechnical-axial-pile.test.ts",
+        "tests/geotechnical-deep-foundations-index-compile-time.test.ts",
+        "tests/geotechnical-deep-foundations-index-live-parity.test.ts"
+      ],
+      "validationEvidence": [
+        "0019-axial-single-pile-capacity",
+        "0137-applications-geotechnical-deep-foundations-public-index"
+      ],
       "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7",
@@ -27528,10 +27995,24 @@
       "sourcePath": "src/domain/geotechnics/AxialPileLoadScenario.js",
       "sourceBlobSha1": "e91abcba148d51425a5086bdaee14fdc57465501",
       "targetPath": "src/domain/geotechnics/AxialPileLoadScenario.ts",
-      "migrationSlices": ["0019-axial-single-pile-capacity"],
-      "sourceOracles": ["tests/geotechnicalDeepFoundations.test.js"],
-      "targetTests": ["tests/geotechnical-axial-pile.test.ts"],
-      "validationEvidence": ["0019-axial-single-pile-capacity"],
+      "migrationSlices": [
+        "0019-axial-single-pile-capacity",
+        "0137-applications-geotechnical-deep-foundations-public-index"
+      ],
+      "sourceOracles": [
+        "tests/geotechnicalDeepFoundations.test.js",
+        "tests/packageExports.test.js"
+      ],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/geotechnical-axial-pile.test.ts",
+        "tests/geotechnical-deep-foundations-index-compile-time.test.ts",
+        "tests/geotechnical-deep-foundations-index-live-parity.test.ts"
+      ],
+      "validationEvidence": [
+        "0019-axial-single-pile-capacity",
+        "0137-applications-geotechnical-deep-foundations-public-index"
+      ],
       "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7",
@@ -27543,10 +28024,24 @@
       "sourcePath": "src/domain/geotechnics/AxialPileLoadScenario.js",
       "sourceBlobSha1": "e91abcba148d51425a5086bdaee14fdc57465501",
       "targetPath": "src/domain/geotechnics/AxialPileLoadScenario.ts",
-      "migrationSlices": ["0019-axial-single-pile-capacity"],
-      "sourceOracles": ["tests/geotechnicalDeepFoundations.test.js"],
-      "targetTests": ["tests/geotechnical-axial-pile.test.ts"],
-      "validationEvidence": ["0019-axial-single-pile-capacity"],
+      "migrationSlices": [
+        "0019-axial-single-pile-capacity",
+        "0137-applications-geotechnical-deep-foundations-public-index"
+      ],
+      "sourceOracles": [
+        "tests/geotechnicalDeepFoundations.test.js",
+        "tests/packageExports.test.js"
+      ],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/geotechnical-axial-pile.test.ts",
+        "tests/geotechnical-deep-foundations-index-compile-time.test.ts",
+        "tests/geotechnical-deep-foundations-index-live-parity.test.ts"
+      ],
+      "validationEvidence": [
+        "0019-axial-single-pile-capacity",
+        "0137-applications-geotechnical-deep-foundations-public-index"
+      ],
       "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7",
@@ -27611,10 +28106,24 @@
       "sourcePath": "src/domain/geotechnics/DeepFoundationModel.js",
       "sourceBlobSha1": "07f2d143e3c8895e8b2bfb34cb270797bfc9c684",
       "targetPath": "src/domain/geotechnics/DeepFoundationModel.ts",
-      "migrationSlices": ["0019-axial-single-pile-capacity"],
-      "sourceOracles": ["tests/geotechnicalDeepFoundations.test.js"],
-      "targetTests": ["tests/geotechnical-axial-pile.test.ts"],
-      "validationEvidence": ["0019-axial-single-pile-capacity"],
+      "migrationSlices": [
+        "0019-axial-single-pile-capacity",
+        "0137-applications-geotechnical-deep-foundations-public-index"
+      ],
+      "sourceOracles": [
+        "tests/geotechnicalDeepFoundations.test.js",
+        "tests/packageExports.test.js"
+      ],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/geotechnical-axial-pile.test.ts",
+        "tests/geotechnical-deep-foundations-index-compile-time.test.ts",
+        "tests/geotechnical-deep-foundations-index-live-parity.test.ts"
+      ],
+      "validationEvidence": [
+        "0019-axial-single-pile-capacity",
+        "0137-applications-geotechnical-deep-foundations-public-index"
+      ],
       "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7",
@@ -28429,11 +28938,18 @@
       "sourcePath": "src/applications/geotechnical-deep-foundations/index.js",
       "sourceBlobSha1": "f508983d7edcd2d88f7de517f15c0dcef1e78e8d",
       "targetPath": "src/applications/geotechnical-deep-foundations/index.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "partial"
+      "migrationSlices": ["0137-applications-geotechnical-deep-foundations-public-index"],
+      "sourceOracles": [
+        "tests/geotechnicalDeepFoundations.test.js",
+        "tests/packageExports.test.js"
+      ],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/geotechnical-deep-foundations-index-compile-time.test.ts",
+        "tests/geotechnical-deep-foundations-index-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0137-applications-geotechnical-deep-foundations-public-index"],
+      "status": "exact-parity"
     },
     {
       "id": "src/applications/geotechnical-earth-pressures/GeotechnicalEarthPressureApplication.js",
@@ -35177,7 +35693,8 @@
         "0133-norms-ntc2018-structural-steel-factory",
         "0134-norms-ntc2018-timber-factory",
         "0135-norms-ntc2018-public-index",
-        "0136-norms-ntc2018-masonry-public-index"
+        "0136-norms-ntc2018-masonry-public-index",
+        "0137-applications-geotechnical-deep-foundations-public-index"
       ],
       "sourceOracles": [
         "tests/architecture/applicationRegistry.test.js",
@@ -36821,10 +37338,21 @@
       "sourcePath": "tests/geotechnicalDeepFoundations.test.js",
       "sourceBlobSha1": "74ed3de9868e48cce4fdea00b3ed41481dd71813",
       "targetPath": "tests/geotechnicalDeepFoundations.test.ts",
-      "migrationSlices": ["0019-axial-single-pile-capacity"],
+      "migrationSlices": [
+        "0019-axial-single-pile-capacity",
+        "0137-applications-geotechnical-deep-foundations-public-index"
+      ],
       "sourceOracles": ["tests/geotechnicalDeepFoundations.test.js"],
-      "targetTests": ["tests/geotechnical-axial-pile.test.ts"],
-      "validationEvidence": ["0019-axial-single-pile-capacity"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/geotechnical-axial-pile.test.ts",
+        "tests/geotechnical-deep-foundations-index-compile-time.test.ts",
+        "tests/geotechnical-deep-foundations-index-live-parity.test.ts"
+      ],
+      "validationEvidence": [
+        "0019-axial-single-pile-capacity",
+        "0137-applications-geotechnical-deep-foundations-public-index"
+      ],
       "status": "exact-parity",
       "testKind": "test"
     },
@@ -38135,7 +38663,8 @@
         "0133-norms-ntc2018-structural-steel-factory",
         "0134-norms-ntc2018-timber-factory",
         "0135-norms-ntc2018-public-index",
-        "0136-norms-ntc2018-masonry-public-index"
+        "0136-norms-ntc2018-masonry-public-index",
+        "0137-applications-geotechnical-deep-foundations-public-index"
       ],
       "sourceOracles": ["tests/packageExports.test.js"],
       "targetTests": [
@@ -38174,6 +38703,8 @@
         "tests/fem-public-indexes-compile-time.test.ts",
         "tests/fem-public-indexes-live-parity.test.ts",
         "tests/foundation-beam-analysis.test.ts",
+        "tests/geotechnical-deep-foundations-index-compile-time.test.ts",
+        "tests/geotechnical-deep-foundations-index-live-parity.test.ts",
         "tests/ground-anchor-analysis-compile-time.test.ts",
         "tests/ground-anchor-analysis-live-parity.test.ts",
         "tests/ground-anchor-bond-catalog-compile-time.test.ts",
@@ -38346,7 +38877,8 @@
         "0133-norms-ntc2018-structural-steel-factory",
         "0134-norms-ntc2018-timber-factory",
         "0135-norms-ntc2018-public-index",
-        "0136-norms-ntc2018-masonry-public-index"
+        "0136-norms-ntc2018-masonry-public-index",
+        "0137-applications-geotechnical-deep-foundations-public-index"
       ],
       "status": "exact-parity",
       "testKind": "test"
@@ -42146,6 +42678,22 @@
         "publicStrings": "exact equality plus Unicode code-point preservation",
         "errors": "exact error name and message equality for unsupported and missing inputs"
       }
+    },
+    {
+      "sliceId": "0137-applications-geotechnical-deep-foundations-public-index",
+      "sourceRevision": "6f33baead8b88166c4b2cf94af41763412e3c751",
+      "method": "Strict declaration consumer coverage and independently executed pinned JavaScript versus built TypeScript comparison of the complete application index, exact export order, exact serialized constants and application manifest, Unicode-safe values, independent function identity, root aliases, and existing delegated capacity behavior.",
+      "targetTests": [
+        "tests/geotechnical-deep-foundations-index-compile-time.test.ts",
+        "tests/geotechnical-deep-foundations-index-live-parity.test.ts"
+      ],
+      "fixture": null,
+      "tolerances": {
+        "serializedParity": "exact export keys, order, constants and application manifest JSON",
+        "numericParity": "exact delegated capacity behavior remains covered by the dependency slice",
+        "publicStrings": "exact equality plus Unicode code-point preservation",
+        "errors": "exact delegated application and capacity error behavior remains covered by dependency slices"
+      }
     }
   ],
   "counts": {
@@ -42179,7 +42727,7 @@
     },
     "tests": {
       "javascript": 131,
-      "typescript": 260
+      "typescript": 262
     },
     "validationCampaigns": {
       "javascript": 17,
@@ -42247,7 +42795,7 @@
     "applications": {
       "statusCounts": {
         "exact-parity": 0,
-        "partial": 16,
+        "partial": 15,
         "missing": 334,
         "intentionally-excluded": 0,
         "decision-required": 0
@@ -42491,7 +43039,6 @@
         "root-export:verifySteelShearTorsionInteraction",
         "root-export:verifySteelWebShearBuckling",
         "root-export:verifyTimberLateralTorsionalStability",
-        "source:src/applications/geotechnical-deep-foundations/index.js",
         "source:src/applications/geotechnical-earth-pressures/GeotechnicalEarthPressureApplication.js",
         "source:src/applications/geotechnical-earth-pressures/index.js",
         "source:src/applications/geotechnical-embedded-retaining-walls/GeotechnicalEmbeddedRetainingWallApplication.js",
