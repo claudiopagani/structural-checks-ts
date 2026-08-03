@@ -1436,6 +1436,7 @@
         "createNTC2018SlabVariableLoad",
         "createNTC2018SnowAction",
         "createNTC2018StructuralBehavior",
+        "createNTC2018StructuralSteelMaterial",
         "createNTC2018ThermalAction",
         "createNTC2018ULSFundamentalCombination",
         "createNTC2018VariableAction",
@@ -6487,11 +6488,15 @@
       "sourcePath": "src/norms/ntc2018/materials/createNTC2018Material.js",
       "sourceBlobSha1": "fc10a704f3abbdf4b6a7f2834200f4b566b53b04",
       "targetPath": "src/norms/ntc2018/materials/createNTC2018Material.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "partial",
+      "migrationSlices": ["0133-norms-ntc2018-structural-steel-factory"],
+      "sourceOracles": ["tests/packageExports.test.js", "tests/steelBeamSectionProvider.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/ntc2018-structural-steel-factory-compile-time.test.ts",
+        "tests/ntc2018-structural-steel-factory-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0133-norms-ntc2018-structural-steel-factory"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -33353,7 +33358,8 @@
         "0129-norms-ntc2018-permanent-loads",
         "0130-norms-ntc2018-masonry-pier-kernels",
         "0131-norms-ntc2018-slab-load-catalogs",
-        "0132-norms-ntc2018-existing-masonry-workflow"
+        "0132-norms-ntc2018-existing-masonry-workflow",
+        "0133-norms-ntc2018-structural-steel-factory"
       ],
       "sourceOracles": [
         "tests/architecture/applicationRegistry.test.js",
@@ -34039,12 +34045,14 @@
       "sourcePath": "src/norms/ntc2018/materials/createNTC2018Material.js",
       "sourceBlobSha1": "fc10a704f3abbdf4b6a7f2834200f4b566b53b04",
       "targetPath": "src/norms/ntc2018/materials/createNTC2018Material.ts",
-      "migrationSlices": ["0003-concrete-materials"],
+      "migrationSlices": ["0003-concrete-materials", "0133-norms-ntc2018-structural-steel-factory"],
       "sourceOracles": [
         "tests/compositeSections.test.js",
         "tests/italianHistoricalReinforcementSteel.test.js",
         "tests/longitudinalReinforcementLayout.test.js",
+        "tests/packageExports.test.js",
         "tests/reinforcementAndConnector.test.js",
+        "tests/steelBeamSectionProvider.test.js",
         "tests/unitConversionLayer.test.js"
       ],
       "targetTests": [
@@ -34052,9 +34060,11 @@
         "tests/concrete-materials.test.ts",
         "tests/concrete-sections.test.ts",
         "tests/material-baseline-parity.test.ts",
+        "tests/ntc2018-structural-steel-factory-compile-time.test.ts",
+        "tests/ntc2018-structural-steel-factory-live-parity.test.ts",
         "tests/reinforcement-layout.test.ts"
       ],
-      "validationEvidence": [],
+      "validationEvidence": ["0133-norms-ntc2018-structural-steel-factory"],
       "status": "exact-parity"
     },
     {
@@ -36276,7 +36286,8 @@
         "0129-norms-ntc2018-permanent-loads",
         "0130-norms-ntc2018-masonry-pier-kernels",
         "0131-norms-ntc2018-slab-load-catalogs",
-        "0132-norms-ntc2018-existing-masonry-workflow"
+        "0132-norms-ntc2018-existing-masonry-workflow",
+        "0133-norms-ntc2018-structural-steel-factory"
       ],
       "sourceOracles": ["tests/packageExports.test.js"],
       "targetTests": [
@@ -36367,6 +36378,8 @@
         "tests/ntc2018-slab-load-catalogs-live-parity.test.ts",
         "tests/ntc2018-snow-load-compile-time.test.ts",
         "tests/ntc2018-snow-load-live-parity.test.ts",
+        "tests/ntc2018-structural-steel-factory-compile-time.test.ts",
+        "tests/ntc2018-structural-steel-factory-live-parity.test.ts",
         "tests/ntc2018-thermal-action-compile-time.test.ts",
         "tests/ntc2018-thermal-action-live-parity.test.ts",
         "tests/ntc2018-topographic-classification-compile-time.test.ts",
@@ -36475,7 +36488,8 @@
         "0129-norms-ntc2018-permanent-loads",
         "0130-norms-ntc2018-masonry-pier-kernels",
         "0131-norms-ntc2018-slab-load-catalogs",
-        "0132-norms-ntc2018-existing-masonry-workflow"
+        "0132-norms-ntc2018-existing-masonry-workflow",
+        "0133-norms-ntc2018-structural-steel-factory"
       ],
       "status": "exact-parity",
       "testKind": "test"
@@ -37075,14 +37089,22 @@
       "sourcePath": "tests/steelBeamSectionProvider.test.js",
       "sourceBlobSha1": "0c0b3548262ac408961ea9a48c5649b228c0bebd",
       "targetPath": "tests/steelBeamSectionProvider.test.ts",
-      "migrationSlices": ["0041-domain-beam-section-providers"],
+      "migrationSlices": [
+        "0041-domain-beam-section-providers",
+        "0133-norms-ntc2018-structural-steel-factory"
+      ],
       "sourceOracles": ["tests/steelBeamSectionProvider.test.js"],
       "targetTests": [
         "tests/baseline-parity.test.ts",
         "tests/beam-section-providers-compile-time.test.ts",
-        "tests/beam-section-providers-live-parity.test.ts"
+        "tests/beam-section-providers-live-parity.test.ts",
+        "tests/ntc2018-structural-steel-factory-compile-time.test.ts",
+        "tests/ntc2018-structural-steel-factory-live-parity.test.ts"
       ],
-      "validationEvidence": ["0041-domain-beam-section-providers"],
+      "validationEvidence": [
+        "0041-domain-beam-section-providers",
+        "0133-norms-ntc2018-structural-steel-factory"
+      ],
       "status": "exact-parity",
       "testKind": "test"
     },
@@ -40191,12 +40213,28 @@
         "publicStrings": "exact equality plus Unicode code-point preservation for Italian workflow labels and errors",
         "errors": "exact error name and message equality for unsupported typologies, knowledge levels, and missing units"
       }
+    },
+    {
+      "sliceId": "0133-norms-ntc2018-structural-steel-factory",
+      "sourceRevision": "6f33baead8b88166c4b2cf94af41763412e3c751",
+      "method": "Strict declaration consumer coverage and independently executed pinned JavaScript versus built TypeScript comparisons of S235/S275/S355 defaults, unit conversion, density and modulus overrides, Unicode metadata, serialization, root delegation, and exact factory error paths.",
+      "targetTests": [
+        "tests/ntc2018-structural-steel-factory-compile-time.test.ts",
+        "tests/ntc2018-structural-steel-factory-live-parity.test.ts"
+      ],
+      "fixture": null,
+      "tolerances": {
+        "serializedParity": "exact SteelMaterial JSON and metadata",
+        "numericParity": "exact density, modulus, characteristic and design-strength equality",
+        "publicStrings": "exact equality plus Unicode preservation for names, metadata, and assumptions",
+        "errors": "exact error name and message equality for missing units, unsupported grades, and unsupported units"
+      }
     }
   ],
   "counts": {
     "rootExports": {
       "javascript": 841,
-      "typescript": 730
+      "typescript": 731
     },
     "applicationsExports": {
       "javascript": 309,
@@ -40224,7 +40262,7 @@
     },
     "tests": {
       "javascript": 131,
-      "typescript": 252
+      "typescript": 254
     },
     "validationCampaigns": {
       "javascript": 17,
@@ -40282,13 +40320,12 @@
     "norms": {
       "statusCounts": {
         "exact-parity": 0,
-        "partial": 3,
+        "partial": 2,
         "missing": 1,
         "intentionally-excluded": 0,
         "decision-required": 0
       },
       "itemIds": [
-        "root-export:createNTC2018StructuralSteelMaterial",
         "root-export:createNTC2018TimberMaterial",
         "source:src/norms/ntc2018/index.js",
         "source:src/norms/ntc2018/masonry/index.js"

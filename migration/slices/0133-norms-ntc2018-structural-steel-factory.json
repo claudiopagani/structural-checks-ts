@@ -1,0 +1,93 @@
+{
+  "schemaVersion": 1,
+  "sliceId": "0133-norms-ntc2018-structural-steel-factory",
+  "title": "NTC 2018 structural-steel material factory",
+  "migrationType": "mechanical-parity",
+  "implementationStatus": "implemented",
+  "dependencies": ["0122-norms-ntc2018-material-catalogs"],
+  "source": {
+    "repository": "https://github.com/claudiopagani/strutture-js",
+    "revision": "6f33baead8b88166c4b2cf94af41763412e3c751"
+  },
+  "normativeCorpusRevision": "41da3faa489600173106935bbcf726119300e48d",
+  "sourceFiles": [
+    {
+      "path": "src/norms/ntc2018/materials/createNTC2018Material.js",
+      "gitBlobSha1": "fc10a704f3abbdf4b6a7f2834200f4b566b53b04",
+      "targetPath": "src/norms/ntc2018/materials/createNTC2018Material.ts"
+    }
+  ],
+  "supportingSourceFiles": [
+    {
+      "path": "src/norms/ntc2018/materials/ntc2018MaterialCatalogs.js",
+      "gitBlobSha1": "db88567dee5a0f1e95cfdf081960e5c1d6d7be1a",
+      "targetPath": "src/norms/ntc2018/materials/ntc2018MaterialCatalogs.ts",
+      "coverage": "Already-migrated structural-steel grade catalog dependency."
+    },
+    {
+      "path": "src/domain/materials/SteelMaterial.js",
+      "gitBlobSha1": "c5e35e468ed9c862c8986af29b30ab90713249bd",
+      "targetPath": "src/domain/materials/SteelMaterial.ts",
+      "coverage": "Already-migrated steel material construction and serialization dependency."
+    },
+    {
+      "path": "src/norms/ntc2018/index.js",
+      "gitBlobSha1": "0ac4cf551c455ec2a57d9bf8849db46fb14e0dcc",
+      "targetPath": "src/index.ts",
+      "coverage": "Pinned NTC 2018 norm-index export context."
+    },
+    {
+      "path": "src/index.js",
+      "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7",
+      "targetPath": "src/index.ts",
+      "coverage": "Root public export for the structural-steel factory."
+    }
+  ],
+  "sourceOracles": [
+    {
+      "path": "tests/steelBeamSectionProvider.test.js",
+      "gitBlobSha1": "0c0b3548262ac408961ea9a48c5649b228c0bebd",
+      "coverage": "Structural-steel factory defaults, explicit units, grades, and material properties used by the beam-provider oracle."
+    },
+    {
+      "path": "tests/packageExports.test.js",
+      "gitBlobSha1": "8dde24b4c97dd3dae7100207d07d9d96c52b9c74",
+      "coverage": "Root public export behavior."
+    }
+  ],
+  "sourcePublicExport": {
+    "path": "src/index.js",
+    "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
+  },
+  "targetTests": [
+    "tests/baseline-parity.test.ts",
+    "tests/ntc2018-structural-steel-factory-compile-time.test.ts",
+    "tests/ntc2018-structural-steel-factory-live-parity.test.ts"
+  ],
+  "publicExports": ["createNTC2018StructuralSteelMaterial"],
+  "publicTypeExports": ["CreateNTC2018StructuralSteelMaterialOptions"],
+  "normativeReferences": {
+    "resolved": [],
+    "outsideCorpus": [],
+    "normativeConformityClaimed": false,
+    "status": "classified-for-declared-scope"
+  },
+  "independentValidation": {
+    "method": "Strict declaration consumer coverage and independently executed pinned JavaScript versus built TypeScript comparisons of S235/S275/S355 defaults, unit conversion, density and modulus overrides, Unicode metadata, serialization, root delegation, and exact factory error paths.",
+    "targetTests": [
+      "tests/ntc2018-structural-steel-factory-compile-time.test.ts",
+      "tests/ntc2018-structural-steel-factory-live-parity.test.ts"
+    ],
+    "fixture": null,
+    "tolerances": {
+      "serializedParity": "exact SteelMaterial JSON and metadata",
+      "numericParity": "exact density, modulus, characteristic and design-strength equality",
+      "publicStrings": "exact equality plus Unicode preservation for names, metadata, and assumptions",
+      "errors": "exact error name and message equality for missing units, unsupported grades, and unsupported units"
+    }
+  },
+  "parityDifferences": [
+    "The TypeScript module adds strict factory-option declarations and a root type export; factory defaults, catalog values, unit conversion, material inheritance, metadata, serialization, strings, and errors match the pinned source."
+  ],
+  "engineeringFunctionality": "Usable NTC 2018 structural-steel material construction with catalog strengths, explicit units, and traceable factory metadata."
+}

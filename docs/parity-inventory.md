@@ -14,14 +14,14 @@ establish behavioral parity.
 
 | Surface                           | Pinned JavaScript | Current TypeScript |
 | --------------------------------- | ----------------: | -----------------: |
-| Root exports                      |               841 |                730 |
+| Root exports                      |               841 |                731 |
 | Applications exports              |               309 |                205 |
 | Package entry points              |                14 |                  4 |
 | ApplicationRegistry entries       |                30 |                  0 |
 | Application catalog entries       |                30 |                 30 |
 | Serialized schema/version symbols |                49 |                 43 |
 | Source files                      |               480 |                382 |
-| Tests                             |               131 |                252 |
+| Tests                             |               131 |                254 |
 | Validation campaigns              |                17 |                  0 |
 | Validation files                  |                27 |                  0 |
 | Examples                          |                32 |                  0 |
@@ -35,7 +35,7 @@ The JSON inventory contains the exact item IDs for every non-exact item. The gro
 implementation order required by the repository architecture.
 
 - **domain** — partial: 16.
-- **norms** — partial: 3, missing: 1.
+- **norms** — partial: 2, missing: 1.
 - **applications** — partial: 16, missing: 334.
 - **packageValidation** — partial: 4, missing: 119.
 

@@ -487,6 +487,7 @@ const expectedExports = [
   "createNTC2018PermanentAction",
   "createNTC2018RegularityAssessment",
   "createNTC2018ReinforcementSteelMaterial",
+  "createNTC2018StructuralSteelMaterial",
   "createNTC2018SeismicAction",
   "createNTC2018SnowAction",
   "createNTC2018ULSFundamentalCombination",

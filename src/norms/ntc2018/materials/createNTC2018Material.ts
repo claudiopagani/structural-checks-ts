@@ -21,10 +21,13 @@ import {
   NTC2018_CONCRETE_CLASSES,
   NTC2018_EXISTING_MASONRY_KNOWLEDGE_LEVELS,
   NTC2018_REINFORCEMENT_STEEL_GRADES,
+  NTC2018_STRUCTURAL_STEEL_GRADES,
   type NTC2018ConcreteClassPreset,
   type NTC2018ConcreteStrengthClass,
   type NTC2018ReinforcementSteelGrade,
   type NTC2018ReinforcementSteelPreset,
+  type NTC2018StructuralSteelGrade,
+  type NTC2018StructuralSteelGradePreset,
 } from "./ntc2018MaterialCatalogs.js";
 import { NTC2018ExistingMasonryMaterial } from "./NTC2018ExistingMasonryMaterial.js";
 import type { ExistingMasonryProperties } from "../../../domain/materials/ExistingMasonryMaterial.js";
@@ -245,6 +248,56 @@ export function createNTC2018ReinforcementSteelMaterial({
         NTC2018_RC_OUTSIDE_CORPUS_REFERENCES.materialQualification,
       ],
     ),
+  });
+}
+
+export interface CreateNTC2018StructuralSteelMaterialOptions {
+  grade?: NTC2018StructuralSteelGrade;
+  id?: string;
+  name?: string;
+  gammaM0?: number;
+  density?: number;
+  elasticModulus?: number | null;
+  units?: UnitSystemInput | null;
+  metadata?: Record<string, unknown>;
+}
+
+export function createNTC2018StructuralSteelMaterial({
+  grade = "S235",
+  id = grade,
+  name = `Acciaio carpenteria ${grade}`,
+  gammaM0 = 1.05,
+  density = 7850,
+  elasticModulus = null,
+  units = null,
+  metadata = {},
+}: CreateNTC2018StructuralSteelMaterialOptions): SteelMaterial {
+  assertExplicitUnitSystem(units, "createNTC2018StructuralSteelMaterial");
+  const unitResolver = createUnitResolver(units, INTERNAL_UNITS);
+  const preset = assertCatalogEntry<NTC2018StructuralSteelGradePreset>(
+    NTC2018_STRUCTURAL_STEEL_GRADES,
+    grade,
+    `Unsupported NTC 2018 structural steel grade: ${grade}.`,
+  );
+
+  return new SteelMaterial({
+    id,
+    name,
+    grade,
+    density: unitResolver.volumeLoad(density),
+    elasticModulus: elasticModulus == null ? 210000 : unitResolver.stress(elasticModulus),
+    fyk: preset.fyk,
+    fyd: round(preset.fyk / gammaM0, 2),
+    ftk: preset.ftk,
+    units: INTERNAL_UNITS,
+    metadata: {
+      ...metadata,
+      normativePreset: "NTC2018",
+      ntcReference: NTC2018_REFERENCE,
+      steelUse: "structural",
+      gammaM0,
+      thicknessAssumption: "valori caratteristici assunti per spessori ordinari",
+    },
   });
 }
 
