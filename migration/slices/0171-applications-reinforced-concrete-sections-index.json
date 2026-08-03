@@ -1,0 +1,150 @@
+{
+  "schemaVersion": 1,
+  "sliceId": "0171-applications-reinforced-concrete-sections-index",
+  "title": "Reinforced concrete sections public index",
+  "migrationType": "mechanical-parity-public-index",
+  "implementationStatus": "implemented",
+  "dependencies": [
+    "0004-ntc2018-uls-uniaxial-concrete-resistance",
+    "0005-ntc2018-uls-uniaxial-domain",
+    "0006-ntc2018-uls-biaxial-domain",
+    "0008-reinforced-concrete-service-stress",
+    "0009-reinforced-concrete-moment-curvature",
+    "0010-reinforced-concrete-shear",
+    "0011-reinforced-concrete-torsion",
+    "0012-reinforced-concrete-detailing",
+    "0014-reinforced-concrete-beam-member",
+    "0025-standalone-reinforced-concrete-cracked-section-deflection",
+    "0139-applications-rc-section-state-integrator-public-export",
+    "0170-applications-reinforced-concrete-sections-analysis-index"
+  ],
+  "source": {
+    "repository": "https://github.com/claudiopagani/strutture-js",
+    "revision": "6f33baead8b88166c4b2cf94af41763412e3c751"
+  },
+  "normativeCorpusRevision": "41da3faa489600173106935bbcf726119300e48d",
+  "sourceFiles": [
+    {
+      "path": "src/applications/reinforced-concrete-sections/index.js",
+      "gitBlobSha1": "ab1faced34c1970449fb9ffe3be080d286739313",
+      "targetPath": "src/applications/reinforced-concrete-sections/index.ts"
+    }
+  ],
+  "supportingSourceFiles": [
+    {
+      "path": "src/applications/reinforced-concrete-sections/ReinforcedConcreteSectionApplication.js",
+      "gitBlobSha1": "086a35c7d233527a2e32eb07be857f39b9947d6e",
+      "targetPath": "src/applications/reinforced-concrete-sections/ReinforcedConcreteSectionApplication.ts",
+      "coverage": "Already-migrated runtime dependency re-exported by the index."
+    },
+    {
+      "path": "src/applications/reinforced-concrete-sections/checks/ReinforcedConcreteBeamVerification.js",
+      "gitBlobSha1": "f132e9d4b7faf05651cfc4d808ec858d80616423",
+      "targetPath": "src/applications/reinforced-concrete-sections/checks/ReinforcedConcreteBeamVerification.ts",
+      "coverage": "Already-migrated runtime dependency re-exported by the index."
+    },
+    {
+      "path": "src/applications/reinforced-concrete-sections/checks/ReinforcedConcreteBeamDetailingVerification.js",
+      "gitBlobSha1": "35461ce2cadba5fc352e51082016be0d94507957",
+      "targetPath": "src/applications/reinforced-concrete-sections/checks/ReinforcedConcreteBeamDetailingVerification.ts",
+      "coverage": "Already-migrated runtime dependency re-exported by the index."
+    },
+    {
+      "path": "src/applications/reinforced-concrete-sections/checks/ReinforcedConcreteShearVerification.js",
+      "gitBlobSha1": "255e09f8b54af35bbfa7be012bf591b428cefa5f",
+      "targetPath": "src/applications/reinforced-concrete-sections/checks/ReinforcedConcreteShearVerification.ts",
+      "coverage": "Already-migrated runtime dependency re-exported by the index."
+    },
+    {
+      "path": "src/applications/reinforced-concrete-sections/checks/ReinforcedConcreteTorsionVerification.js",
+      "gitBlobSha1": "34c0442ebd2f3d2bf73b2c6fc30b8dc66c161358",
+      "targetPath": "src/applications/reinforced-concrete-sections/checks/ReinforcedConcreteTorsionVerification.ts",
+      "coverage": "Already-migrated runtime dependency re-exported by the index."
+    },
+    {
+      "path": "src/applications/reinforced-concrete-sections/checks/ReinforcedConcreteServiceabilityVerification.js",
+      "gitBlobSha1": "6e855107e5e1d98808ac5bb6d4f1ed44f129fd6c",
+      "targetPath": "src/applications/reinforced-concrete-sections/checks/ReinforcedConcreteServiceabilityVerification.ts",
+      "coverage": "Already-migrated runtime dependency re-exported by the index."
+    },
+    {
+      "path": "src/applications/reinforced-concrete-sections/checks/ReinforcedConcreteSectionVerification.js",
+      "gitBlobSha1": "37ad8803cd6630c12e69af9586f6d965e30befd8",
+      "targetPath": "src/applications/reinforced-concrete-sections/checks/ReinforcedConcreteSectionVerification.ts",
+      "coverage": "Already-migrated runtime dependency re-exported by the index."
+    },
+    {
+      "path": "src/applications/reinforced-concrete-sections/models/ReinforcedConcreteSectionModel.js",
+      "gitBlobSha1": "7ef4ccf31cb5fade91c452939990805be4f93413",
+      "targetPath": "src/applications/reinforced-concrete-sections/models/ReinforcedConcreteSectionModel.ts",
+      "coverage": "Already-migrated runtime dependency re-exported by the index."
+    },
+    {
+      "path": "src/applications/reinforced-concrete-sections/analysis/index.js",
+      "gitBlobSha1": "19bd7b79855f3826b835568bbed5992b8ff65105",
+      "targetPath": "src/applications/reinforced-concrete-sections/analysis/index.ts",
+      "coverage": "Migrated in slice 0170 and re-exported by the public index."
+    }
+  ],
+  "sourceOracles": [
+    {
+      "path": "tests/packageExports.test.js",
+      "gitBlobSha1": "8dde24b4c97dd3dae7100207d07d9d96c52b9c74",
+      "coverage": "Pinned package public export behavior."
+    },
+    {
+      "path": "tests/reinforcedConcreteSectionApplication.test.js",
+      "gitBlobSha1": "7fd90534d22039aff783adfb33f008673cfaba14",
+      "coverage": "Pinned reinforced-concrete section application and analysis public behavior."
+    }
+  ],
+  "sourcePublicExport": {
+    "path": "src/applications/reinforced-concrete-sections/index.js",
+    "gitBlobSha1": "ab1faced34c1970449fb9ffe3be080d286739313"
+  },
+  "targetTests": [
+    "tests/reinforced-concrete-sections-index-compile-time.test.ts",
+    "tests/reinforced-concrete-sections-index-live-parity.test.ts"
+  ],
+  "publicExports": [
+    "ReinforcedConcreteSectionApplication",
+    "ReinforcedConcreteBeamVerification",
+    "ReinforcedConcreteBeamDetailingVerification",
+    "ReinforcedConcreteShearVerification",
+    "ReinforcedConcreteTorsionVerification",
+    "ReinforcedConcreteServiceabilityVerification",
+    "ReinforcedConcreteSectionVerification",
+    "ReinforcedConcreteSectionModel",
+    "RCBiaxialDomainBuilder",
+    "RCMomentCurvatureAnalyzer",
+    "RCServiceStressSolver",
+    "RCUltimateSectionSolver",
+    "RCSectionStateIntegrator",
+    "RCUniaxialDomainBuilder",
+    "SectionFiberDiscretizer",
+    "StrainField"
+  ],
+  "publicTypeExports": [],
+  "normativeReferences": {
+    "resolved": [],
+    "outsideCorpus": [],
+    "normativeConformityClaimed": false,
+    "status": "classified-for-declared-scope"
+  },
+  "independentValidation": {
+    "method": "Strict root consumer declarations and independently executed pinned JavaScript versus built TypeScript comparison of exact public index export names, function kinds, root aliases and independent constructor identities.",
+    "targetTests": [
+      "tests/reinforced-concrete-sections-index-compile-time.test.ts",
+      "tests/reinforced-concrete-sections-index-live-parity.test.ts"
+    ],
+    "fixture": "Reinforced-concrete sections public index with eight already-migrated direct runtime dependencies and its migrated analysis sub-index.",
+    "tolerances": {
+      "serializedParity": "exact sorted export-name JSON",
+      "numericParity": "not applicable to this public-index slice",
+      "publicStrings": "exact export names",
+      "errors": "not applicable to this public-index slice"
+    }
+  },
+  "parityDifferences": [],
+  "engineeringFunctionality": "Source-compatible reinforced-concrete sections public index composition."
+}
