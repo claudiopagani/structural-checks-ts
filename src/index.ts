@@ -471,6 +471,18 @@ export type {
   AlignmentStateComparisonAnalysisInput,
   AlignmentStateComparisonAnalysisResult,
 } from "./applications/masonry-wall-openings/analysis/AlignmentStateComparisonAnalysis.js";
+export { AlignmentEquivalentFramePushoverAnalysis } from "./applications/masonry-wall-openings/analysis/AlignmentEquivalentFramePushoverAnalysis.js";
+export type {
+  AlignmentEquivalentFramePushoverAnalysisInput,
+  AlignmentEquivalentFramePushoverAnalysisOptions,
+  AlignmentEquivalentFramePushoverAnalysisResult,
+} from "./applications/masonry-wall-openings/analysis/AlignmentEquivalentFramePushoverAnalysis.js";
+export { MasonryPierCapacityCurveComparisonAnalysis } from "./applications/masonry-wall-openings/analysis/MasonryPierCapacityCurveComparisonAnalysis.js";
+export type {
+  MasonryPierCapacityCurveComparisonAnalysisInput,
+  MasonryPierCapacityCurveComparisonAnalysisOptions,
+  MasonryPierCapacityCurveComparisonAnalysisResult,
+} from "./applications/masonry-wall-openings/analysis/MasonryPierCapacityCurveComparisonAnalysis.js";
 export { sanitizeAlignmentOpenings } from "./applications/masonry-wall-openings/geometry/sanitizeAlignmentOpenings.js";
 export type {
   SanitizeAlignmentOpeningsResult,

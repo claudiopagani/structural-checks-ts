@@ -1,0 +1,99 @@
+{
+  "schemaVersion": 1,
+  "sliceId": "0204-applications-masonry-wall-opening-equivalent-frame-analysis",
+  "title": "Masonry wall-opening equivalent-frame analyses",
+  "migrationType": "mechanical-parity",
+  "implementationStatus": "implemented",
+  "dependencies": [
+    "0202-applications-masonry-wall-opening-seismic-aggregated-analysis",
+    "0198-applications-masonry-equivalent-frame-builder",
+    "0199-applications-steel-ring-frame-pushover-analysis",
+    "0203-applications-masonry-wall-opening-state-comparison-analysis"
+  ],
+  "source": {
+    "repository": "https://github.com/claudiopagani/strutture-js",
+    "revision": "6f33baead8b88166c4b2cf94af41763412e3c751"
+  },
+  "normativeCorpusRevision": "41da3faa489600173106935bbcf726119300e48d",
+  "sourceFiles": [
+    {
+      "path": "src/applications/masonry-wall-openings/analysis/AlignmentEquivalentFramePushoverAnalysis.js",
+      "gitBlobSha1": "931f0236cf314ffe4316a7405ce60d2d2edb8c67",
+      "targetPath": "src/applications/masonry-wall-openings/analysis/AlignmentEquivalentFramePushoverAnalysis.ts"
+    },
+    {
+      "path": "src/applications/masonry-wall-openings/analysis/MasonryPierCapacityCurveComparisonAnalysis.js",
+      "gitBlobSha1": "2224d58cdf86ac125552bc2593c29156c1c81756",
+      "targetPath": "src/applications/masonry-wall-openings/analysis/MasonryPierCapacityCurveComparisonAnalysis.ts"
+    }
+  ],
+  "supportingSourceFiles": [
+    {
+      "path": "src/applications/masonry-wall-openings/index.js",
+      "gitBlobSha1": "eff11642dcba529d9307f41cd5e19afc32cc99b1",
+      "coverage": "Pinned masonry wall-opening barrel context; only root exports for the two migrated analyses are supported in this slice."
+    },
+    {
+      "path": "src/index.js",
+      "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7",
+      "coverage": "Pinned root public export context for the two equivalent-frame analysis classes."
+    }
+  ],
+  "sourceOracles": [
+    {
+      "path": "tests/masonryWallOpeningsEquivalentFramePushover.test.js",
+      "gitBlobSha1": "e3c4f8a2cbbfeff3a0976ad28684a352fd185a6a",
+      "coverage": "Pinned whole-alignment equivalent-frame pushover, explicit spandrels, ring frames, shear-governed piers, numerical behavior, serialization, Unicode and missing-input oracle."
+    },
+    {
+      "path": "tests/masonryWallOpeningsPierCapacityCurveComparisonReport.test.js",
+      "gitBlobSha1": "218b108cfe215595042aa31e7a4eae3e077aaa2c",
+      "coverage": "Pinned single-pier capacity-curve comparison, axial commitment behavior, numerical outputs, serialization, Unicode and error-path oracle; report builders remain outside this slice."
+    }
+  ],
+  "sourcePublicExport": {
+    "path": "src/index.js",
+    "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
+  },
+  "targetTests": [
+    "tests/baseline-parity.test.ts",
+    "tests/masonry-wall-openings-equivalent-frame-analysis-compile-time.test.ts",
+    "tests/masonry-wall-openings-equivalent-frame-analysis-live-parity.test.ts"
+  ],
+  "publicExports": [
+    "AlignmentEquivalentFramePushoverAnalysis",
+    "MasonryPierCapacityCurveComparisonAnalysis"
+  ],
+  "publicTypeExports": [
+    "AlignmentEquivalentFramePushoverAnalysisInput",
+    "AlignmentEquivalentFramePushoverAnalysisOptions",
+    "AlignmentEquivalentFramePushoverAnalysisResult",
+    "MasonryPierCapacityCurveComparisonAnalysisInput",
+    "MasonryPierCapacityCurveComparisonAnalysisOptions",
+    "MasonryPierCapacityCurveComparisonAnalysisResult"
+  ],
+  "normativeReferences": {
+    "resolved": [],
+    "outsideCorpus": [],
+    "normativeConformityClaimed": false,
+    "status": "classified-for-declared-scope"
+  },
+  "independentValidation": {
+    "method": "Strict typed consumer declarations and independently executed pinned JavaScript versus built TypeScript differential comparison for direct and root class identities, complete CalculationResult JSON, numerical curves and summaries, Unicode code points, and exact missing-input and unsupported-top-rotation errors.",
+    "targetTests": [
+      "tests/masonry-wall-openings-equivalent-frame-analysis-compile-time.test.ts",
+      "tests/masonry-wall-openings-equivalent-frame-analysis-live-parity.test.ts"
+    ],
+    "fixture": "Independent masonry alignment fixtures with Unicode identifiers, whole-alignment equivalent-frame pushover and single-pier capacity-curve comparison inputs.",
+    "tolerances": {
+      "serializedParity": "exact complete CalculationResult JSON",
+      "numericParity": "exact curve points, bilinearized summaries, metrics, metadata and statuses",
+      "publicStrings": "exact Italian readings, English errors and assumptions, identifiers and Unicode code points",
+      "errors": "exact missing-alignment and unsupported-top-rotation error name and message comparison"
+    }
+  },
+  "parityDifferences": [
+    "Strict TypeScript declarations are added for both migrated analyses and their public input, options and result types."
+  ],
+  "engineeringFunctionality": "Strict TypeScript parity for whole-alignment equivalent-frame masonry pushover and single-pier capacity-curve comparison analyses; the masonry wall-opening application orchestrator and report builders remain outside this slice."
+}
