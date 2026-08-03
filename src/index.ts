@@ -435,6 +435,26 @@ export type {
   NTC2018MasonryPierResolvedMaterial,
   NTC2018MasonryPierNormativeState,
 } from "./applications/masonry-piers/index.js";
+export { MasonryWallOpeningsModel } from "./applications/masonry-wall-openings/models/MasonryWallOpeningsModel.js";
+export type {
+  MasonryWallOpeningInput,
+  MasonryWallOpeningsLineLoadPayload,
+  MasonryWallOpeningsModelInput,
+  MasonryWallOpeningsNormalizedOpening,
+  MasonryWallOpeningsNormalizedWall,
+  MasonryWallOpeningsSettingsInput,
+  MasonryWallOpeningsWallInput,
+} from "./applications/masonry-wall-openings/models/MasonryWallOpeningsModel.js";
+export { MasonryWallPierModel } from "./applications/masonry-wall-openings/models/MasonryWallPierModel.js";
+export type {
+  MasonryWallPierModelInput,
+  MasonryWallPierModelJson,
+} from "./applications/masonry-wall-openings/models/MasonryWallPierModel.js";
+export { MasonryWallSpandrelModel } from "./applications/masonry-wall-openings/models/MasonryWallSpandrelModel.js";
+export type {
+  MasonryWallSpandrelModelInput,
+  MasonryWallSpandrelModelJson,
+} from "./applications/masonry-wall-openings/models/MasonryWallSpandrelModel.js";
 export {
   AXIAL_PILE_CAPACITY_REFERENCE,
   AXIAL_PILE_CAPACITY_RESULT_SCHEMA_VERSION,

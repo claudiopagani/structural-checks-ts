@@ -1,0 +1,108 @@
+{
+  "schemaVersion": 1,
+  "sliceId": "0151-applications-masonry-wall-opening-models",
+  "title": "Masonry wall opening models",
+  "migrationType": "mechanical-parity-with-minimal-dependency-support",
+  "implementationStatus": "implemented",
+  "dependencies": ["0001-foundation"],
+  "source": {
+    "repository": "https://github.com/claudiopagani/strutture-js",
+    "revision": "6f33baead8b88166c4b2cf94af41763412e3c751"
+  },
+  "normativeCorpusRevision": "41da3faa489600173106935bbcf726119300e48d",
+  "sourceFiles": [
+    {
+      "path": "src/applications/masonry-wall-openings/models/MasonryWallOpeningsModel.js",
+      "gitBlobSha1": "ec1f0829ec9cfbd1861d8c29224cb6fc382bd12a",
+      "targetPath": "src/applications/masonry-wall-openings/models/MasonryWallOpeningsModel.ts"
+    },
+    {
+      "path": "src/applications/masonry-wall-openings/models/MasonryWallPierModel.js",
+      "gitBlobSha1": "f833e2e20d5d217de04cd826e60dc774bfcee287",
+      "targetPath": "src/applications/masonry-wall-openings/models/MasonryWallPierModel.ts"
+    },
+    {
+      "path": "src/applications/masonry-wall-openings/models/MasonryWallSpandrelModel.js",
+      "gitBlobSha1": "ef126c841a375d0b63315b764ca56cc9a63bcc26",
+      "targetPath": "src/applications/masonry-wall-openings/models/MasonryWallSpandrelModel.ts"
+    }
+  ],
+  "supportingSourceFiles": [
+    {
+      "path": "src/domain/units/UnitSystem.js",
+      "gitBlobSha1": "b8f2f4926aff645efbf7b9f458b69eba264ed59a",
+      "targetPath": "src/domain/units/UnitSystem.ts",
+      "coverage": "Already-migrated unit normalization and line-load/length conversions used by the openings model."
+    },
+    {
+      "path": "src/index.js",
+      "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7",
+      "targetPath": "src/index.ts",
+      "coverage": "Pinned root public-export context for the three migrated wall-opening model constructors."
+    }
+  ],
+  "sourceOracles": [
+    {
+      "path": "tests/masonryWallOpeningsSanitization.test.js",
+      "gitBlobSha1": "36ba701f3edc0fd36273cc4b0bf027e42fb0efe8",
+      "coverage": "Masonry wall openings model construction, normalized units and opening DTO behavior used by sanitization."
+    },
+    {
+      "path": "tests/masonryWallOpeningsMaterialResolution.test.js",
+      "gitBlobSha1": "a72fc9a4a35ca1dca3bbef650d42ab48192a71f8",
+      "coverage": "Masonry wall openings model fixtures, defaults and serialized inputs used by material resolution."
+    },
+    {
+      "path": "tests/packageExports.test.js",
+      "gitBlobSha1": "8dde24b4c97dd3dae7100207d07d9d96c52b9c74",
+      "coverage": "Pinned root public export behavior."
+    }
+  ],
+  "sourcePublicExport": {
+    "path": "src/index.js",
+    "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
+  },
+  "targetTests": [
+    "tests/baseline-parity.test.ts",
+    "tests/masonry-wall-opening-models-compile-time.test.ts",
+    "tests/masonry-wall-opening-models-live-parity.test.ts"
+  ],
+  "publicExports": ["MasonryWallOpeningsModel", "MasonryWallPierModel", "MasonryWallSpandrelModel"],
+  "publicTypeExports": [
+    "MasonryWallOpeningInput",
+    "MasonryWallOpeningsLineLoadPayload",
+    "MasonryWallOpeningsModelInput",
+    "MasonryWallOpeningsNormalizedOpening",
+    "MasonryWallOpeningsNormalizedWall",
+    "MasonryWallOpeningsSettingsInput",
+    "MasonryWallOpeningsWallInput",
+    "MasonryWallPierModelInput",
+    "MasonryWallPierModelJson",
+    "MasonryWallSpandrelModelInput",
+    "MasonryWallSpandrelModelJson"
+  ],
+  "normativeReferences": {
+    "resolved": [],
+    "outsideCorpus": [],
+    "normativeConformityClaimed": false,
+    "status": "classified-for-declared-scope"
+  },
+  "independentValidation": {
+    "method": "Strict declaration consumer coverage and independently executed pinned JavaScript versus built TypeScript comparison of three root-exported model constructors, exact normalized JSON, numeric helper methods, unit conversion, defaults, Unicode metadata, independent function identity and matching validation errors.",
+    "targetTests": [
+      "tests/masonry-wall-opening-models-compile-time.test.ts",
+      "tests/masonry-wall-opening-models-live-parity.test.ts"
+    ],
+    "fixture": "Two explicitly-unitized masonry walls with line loads and opening metadata, plus pier and spandrel DTOs with duplicate source-wall identifiers and Unicode labels.",
+    "tolerances": {
+      "serializedParity": "exact model JSON and JSON.stringify output",
+      "numericParity": "exact unit-normalized lengths, loads and helper-method results",
+      "publicStrings": "exact error messages and Unicode strings",
+      "errors": "exact missing-units, missing-wall and invalid-geometry errors"
+    }
+  },
+  "parityDifferences": [
+    "The slice exports only the three migrated model constructors from the root; the broader masonry-wall-openings application barrel remains deferred until its analysis and report dependencies are migrated."
+  ],
+  "engineeringFunctionality": "Source-compatible serializable masonry wall, pier and spandrel model DTOs with explicit unit normalization and geometry helper methods."
+}
