@@ -1,0 +1,103 @@
+{
+  "schemaVersion": 1,
+  "sliceId": "0189-applications-steel-compression-buckling",
+  "title": "Steel compression buckling checks",
+  "migrationType": "mechanical-parity",
+  "implementationStatus": "implemented",
+  "dependencies": [],
+  "source": {
+    "repository": "https://github.com/claudiopagani/strutture-js",
+    "revision": "6f33baead8b88166c4b2cf94af41763412e3c751"
+  },
+  "normativeCorpusRevision": "41da3faa489600173106935bbcf726119300e48d",
+  "sourceFiles": [
+    {
+      "path": "src/applications/steel-frames/checks/SteelCompressionBuckling.js",
+      "gitBlobSha1": "832b665142f64bf3057aa3114242487909213236",
+      "targetPath": "src/applications/steel-frames/checks/SteelCompressionBuckling.ts"
+    }
+  ],
+  "supportingSourceFiles": [
+    {
+      "path": "src/applications/steel-frames/index.js",
+      "gitBlobSha1": "00b0b647649aff91fa05b523a18df186f588223f",
+      "coverage": "Pinned steel-frames barrel exports for curve inference, axis resistance and compression buckling verification."
+    },
+    {
+      "path": "src/applications/index.js",
+      "gitBlobSha1": "b70179c7cdd2a819f2151dc092c0f59cbce30ba6",
+      "coverage": "Pinned applications barrel reexports for the compression buckling functions."
+    },
+    {
+      "path": "src/index.js",
+      "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7",
+      "coverage": "Pinned root public exports for compression buckling curve, axis and verification functions."
+    }
+  ],
+  "sourceOracles": [
+    {
+      "path": "tests/steelFrameAdvancedVerification.test.js",
+      "gitBlobSha1": "a3feaae57dc36a9f749a98cc43e9382ec4e12174",
+      "coverage": "Pinned numerical compression buckling verification scenario and axis metadata."
+    },
+    {
+      "path": "tests/steelBeamSectionProvider.test.js",
+      "gitBlobSha1": "0c0b3548262ac408961ea9a48c5649b228c0bebd",
+      "coverage": "Pinned standalone compression buckling, curve inference and missing-input branches."
+    },
+    {
+      "path": "tests/packageExports.test.js",
+      "gitBlobSha1": "8dde24b4c97dd3dae7100207d07d9d96c52b9c74",
+      "coverage": "Pinned public package export and root-alias oracle."
+    }
+  ],
+  "sourcePublicExport": {
+    "path": "src/index.js",
+    "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
+  },
+  "targetTests": [
+    "tests/baseline-parity.test.ts",
+    "tests/steel-compression-buckling-compile-time.test.ts",
+    "tests/steel-compression-buckling-live-parity.test.ts"
+  ],
+  "publicExports": [
+    "calculateSteelCompressionBucklingAxis",
+    "inferSteelCompressionBucklingCurves",
+    "steelBucklingCurveImperfectionFactor",
+    "verifySteelCompressionBuckling"
+  ],
+  "publicTypeExports": [
+    "CalculateSteelCompressionBucklingAxisOptions",
+    "SteelBucklingAxisResult",
+    "SteelCompressionBucklingCatalogPropertiesLike",
+    "SteelCompressionBucklingCheck",
+    "SteelCompressionBucklingCurves",
+    "SteelCompressionBucklingMaterialLike",
+    "SteelCompressionBucklingResult",
+    "SteelCompressionBucklingSectionLike",
+    "SteelCompressionBucklingSectionMetadataLike",
+    "VerifySteelCompressionBucklingOptions"
+  ],
+  "normativeReferences": {
+    "resolved": [],
+    "outsideCorpus": [],
+    "normativeConformityClaimed": false,
+    "status": "classified-for-declared-scope"
+  },
+  "independentValidation": {
+    "method": "Strict typed consumer declarations and independently executed pinned JavaScript versus built TypeScript comparison of curve inference, exact axis and verification JSON, numerical metadata, unit normalization, public aliases, Unicode warnings, unsupported behavior and null-input errors.",
+    "targetTests": [
+      "tests/steel-compression-buckling-compile-time.test.ts",
+      "tests/steel-compression-buckling-live-parity.test.ts"
+    ],
+    "fixture": "Independent IPE, UPN, CHS, L and unsupported-family fixtures covering NTC curve branches, Euler-axis resistance, compression-sign conventions, class-4 and missing-length refusal, open-section flexural-only warning, Unicode warnings and null-input errors.",
+    "tolerances": {
+      "serializedParity": "exact JSON and enumerable result key order",
+      "numericParity": "exact Euler loads, slenderness, reduction factors, resistances and utilization values",
+      "publicStrings": "exact curve-source identifiers, warnings, descriptions and Unicode code-point comparison",
+      "errors": "exact TypeError name and message for null options"
+    }
+  },
+  "parityDifferences": [],
+  "engineeringFunctionality": "Strict TypeScript parity for steel compression curve inference, Euler-axis resistance and automatic flexural buckling verification; beam-column interactions, lateral-torsional buckling, member orchestration and steel application composition remain outside this slice."
+}

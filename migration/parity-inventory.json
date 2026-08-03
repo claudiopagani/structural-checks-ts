@@ -1416,6 +1416,7 @@
         "calculateShallowFoundationEffectiveGeometry",
         "calculateShallowFoundationSlidingResistance",
         "calculateShallowFoundationVerticalStressInfluence",
+        "calculateSteelCompressionBucklingAxis",
         "calculateSteelMethodBInteractionCoefficients",
         "calculateSteelMethodBInteractionCoefficientsMyMz",
         "calculateSteelMomentDiagramFactor",
@@ -1547,6 +1548,7 @@
         "getXlamPanelProduct",
         "governingCheck",
         "groundAnchorDemandFromEmbeddedWallResult",
+        "inferSteelCompressionBucklingCurves",
         "integrateFootingPressureStrip",
         "integratePressureSegments",
         "isFinitePositive",
@@ -1620,6 +1622,7 @@
         "simplifiedBishop",
         "spencerMethod",
         "splitPrincipalActions",
+        "steelBucklingCurveImperfectionFactor",
         "steelNotSupportedCheck",
         "toggleNTC2018ExistingMasonryModifier",
         "uniqueStrings",
@@ -1647,6 +1650,7 @@
         "verifySteelBeamColumnInteractionMy",
         "verifySteelBeamColumnInteractionMyMz",
         "verifySteelBendingShearInteraction",
+        "verifySteelCompressionBuckling",
         "verifySteelConcentratedWebLoad",
         "verifySteelShearTorsionInteraction",
         "verifySteelWebShearBuckling",
@@ -5382,11 +5386,19 @@
       "sourcePath": "src/applications/steel-frames/checks/SteelCompressionBuckling.js",
       "sourceBlobSha1": "832b665142f64bf3057aa3114242487909213236",
       "targetPath": "src/applications/steel-frames/checks/SteelCompressionBuckling.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0189-applications-steel-compression-buckling"],
+      "sourceOracles": [
+        "tests/packageExports.test.js",
+        "tests/steelBeamSectionProvider.test.js",
+        "tests/steelFrameAdvancedVerification.test.js"
+      ],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/steel-compression-buckling-compile-time.test.ts",
+        "tests/steel-compression-buckling-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0189-applications-steel-compression-buckling"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -11434,11 +11446,19 @@
       "sourcePath": "src/applications/steel-frames/checks/SteelCompressionBuckling.js",
       "sourceBlobSha1": "832b665142f64bf3057aa3114242487909213236",
       "targetPath": "src/applications/steel-frames/checks/SteelCompressionBuckling.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0189-applications-steel-compression-buckling"],
+      "sourceOracles": [
+        "tests/packageExports.test.js",
+        "tests/steelBeamSectionProvider.test.js",
+        "tests/steelFrameAdvancedVerification.test.js"
+      ],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/steel-compression-buckling-compile-time.test.ts",
+        "tests/steel-compression-buckling-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0189-applications-steel-compression-buckling"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -19458,11 +19478,19 @@
       "sourcePath": "src/applications/steel-frames/checks/SteelCompressionBuckling.js",
       "sourceBlobSha1": "832b665142f64bf3057aa3114242487909213236",
       "targetPath": "src/applications/steel-frames/checks/SteelCompressionBuckling.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0189-applications-steel-compression-buckling"],
+      "sourceOracles": [
+        "tests/packageExports.test.js",
+        "tests/steelBeamSectionProvider.test.js",
+        "tests/steelFrameAdvancedVerification.test.js"
+      ],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/steel-compression-buckling-compile-time.test.ts",
+        "tests/steel-compression-buckling-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0189-applications-steel-compression-buckling"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -20977,11 +21005,19 @@
       "sourcePath": "src/applications/steel-frames/checks/SteelCompressionBuckling.js",
       "sourceBlobSha1": "832b665142f64bf3057aa3114242487909213236",
       "targetPath": "src/applications/steel-frames/checks/SteelCompressionBuckling.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0189-applications-steel-compression-buckling"],
+      "sourceOracles": [
+        "tests/packageExports.test.js",
+        "tests/steelBeamSectionProvider.test.js",
+        "tests/steelFrameAdvancedVerification.test.js"
+      ],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/steel-compression-buckling-compile-time.test.ts",
+        "tests/steel-compression-buckling-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0189-applications-steel-compression-buckling"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -22304,11 +22340,19 @@
       "sourcePath": "src/applications/steel-frames/checks/SteelCompressionBuckling.js",
       "sourceBlobSha1": "832b665142f64bf3057aa3114242487909213236",
       "targetPath": "src/applications/steel-frames/checks/SteelCompressionBuckling.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0189-applications-steel-compression-buckling"],
+      "sourceOracles": [
+        "tests/packageExports.test.js",
+        "tests/steelBeamSectionProvider.test.js",
+        "tests/steelFrameAdvancedVerification.test.js"
+      ],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/steel-compression-buckling-compile-time.test.ts",
+        "tests/steel-compression-buckling-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0189-applications-steel-compression-buckling"],
+      "status": "exact-parity",
       "publicEntryPath": "src/applications/index.js",
       "publicEntryBlobSha1": "b70179c7cdd2a819f2151dc092c0f59cbce30ba6"
     },
@@ -24085,11 +24129,19 @@
       "sourcePath": "src/applications/steel-frames/checks/SteelCompressionBuckling.js",
       "sourceBlobSha1": "832b665142f64bf3057aa3114242487909213236",
       "targetPath": "src/applications/steel-frames/checks/SteelCompressionBuckling.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0189-applications-steel-compression-buckling"],
+      "sourceOracles": [
+        "tests/packageExports.test.js",
+        "tests/steelBeamSectionProvider.test.js",
+        "tests/steelFrameAdvancedVerification.test.js"
+      ],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/steel-compression-buckling-compile-time.test.ts",
+        "tests/steel-compression-buckling-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0189-applications-steel-compression-buckling"],
+      "status": "exact-parity",
       "publicEntryPath": "src/applications/index.js",
       "publicEntryBlobSha1": "b70179c7cdd2a819f2151dc092c0f59cbce30ba6"
     },
@@ -27090,11 +27142,19 @@
       "sourcePath": "src/applications/steel-frames/checks/SteelCompressionBuckling.js",
       "sourceBlobSha1": "832b665142f64bf3057aa3114242487909213236",
       "targetPath": "src/applications/steel-frames/checks/SteelCompressionBuckling.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0189-applications-steel-compression-buckling"],
+      "sourceOracles": [
+        "tests/packageExports.test.js",
+        "tests/steelBeamSectionProvider.test.js",
+        "tests/steelFrameAdvancedVerification.test.js"
+      ],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/steel-compression-buckling-compile-time.test.ts",
+        "tests/steel-compression-buckling-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0189-applications-steel-compression-buckling"],
+      "status": "exact-parity",
       "publicEntryPath": "src/applications/index.js",
       "publicEntryBlobSha1": "b70179c7cdd2a819f2151dc092c0f59cbce30ba6"
     },
@@ -27649,11 +27709,19 @@
       "sourcePath": "src/applications/steel-frames/checks/SteelCompressionBuckling.js",
       "sourceBlobSha1": "832b665142f64bf3057aa3114242487909213236",
       "targetPath": "src/applications/steel-frames/checks/SteelCompressionBuckling.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0189-applications-steel-compression-buckling"],
+      "sourceOracles": [
+        "tests/packageExports.test.js",
+        "tests/steelBeamSectionProvider.test.js",
+        "tests/steelFrameAdvancedVerification.test.js"
+      ],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/steel-compression-buckling-compile-time.test.ts",
+        "tests/steel-compression-buckling-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0189-applications-steel-compression-buckling"],
+      "status": "exact-parity",
       "publicEntryPath": "src/applications/index.js",
       "publicEntryBlobSha1": "b70179c7cdd2a819f2151dc092c0f59cbce30ba6"
     },
@@ -33875,11 +33943,19 @@
       "sourcePath": "src/applications/steel-frames/checks/SteelCompressionBuckling.js",
       "sourceBlobSha1": "832b665142f64bf3057aa3114242487909213236",
       "targetPath": "src/applications/steel-frames/checks/SteelCompressionBuckling.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing"
+      "migrationSlices": ["0189-applications-steel-compression-buckling"],
+      "sourceOracles": [
+        "tests/packageExports.test.js",
+        "tests/steelBeamSectionProvider.test.js",
+        "tests/steelFrameAdvancedVerification.test.js"
+      ],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/steel-compression-buckling-compile-time.test.ts",
+        "tests/steel-compression-buckling-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0189-applications-steel-compression-buckling"],
+      "status": "exact-parity"
     },
     {
       "id": "src/applications/steel-frames/checks/SteelFem3DVerification.js",
@@ -37830,7 +37906,8 @@
         "0185-applications-steel-ring-frame-internal-forces",
         "0186-applications-steel-displacement-control-pushover-solver",
         "0187-applications-steel-advanced-member-checks",
-        "0188-applications-steel-beam-column-interaction"
+        "0188-applications-steel-beam-column-interaction",
+        "0189-applications-steel-compression-buckling"
       ],
       "sourceOracles": [
         "tests/architecture/applicationRegistry.test.js",
@@ -40993,7 +41070,8 @@
         "0184-applications-steel-plastic-hinge-frame-element",
         "0186-applications-steel-displacement-control-pushover-solver",
         "0187-applications-steel-advanced-member-checks",
-        "0188-applications-steel-beam-column-interaction"
+        "0188-applications-steel-beam-column-interaction",
+        "0189-applications-steel-compression-buckling"
       ],
       "sourceOracles": ["tests/packageExports.test.js"],
       "targetTests": [
@@ -41199,6 +41277,8 @@
         "tests/steel-advanced-member-checks-live-parity.test.ts",
         "tests/steel-beam-column-interaction-compile-time.test.ts",
         "tests/steel-beam-column-interaction-live-parity.test.ts",
+        "tests/steel-compression-buckling-compile-time.test.ts",
+        "tests/steel-compression-buckling-live-parity.test.ts",
         "tests/steel-displacement-control-pushover-solver-compile-time.test.ts",
         "tests/steel-displacement-control-pushover-solver-live-parity.test.ts",
         "tests/steel-frame-model-compile-time.test.ts",
@@ -41328,7 +41408,8 @@
         "0184-applications-steel-plastic-hinge-frame-element",
         "0186-applications-steel-displacement-control-pushover-solver",
         "0187-applications-steel-advanced-member-checks",
-        "0188-applications-steel-beam-column-interaction"
+        "0188-applications-steel-beam-column-interaction",
+        "0189-applications-steel-compression-buckling"
       ],
       "status": "exact-parity",
       "testKind": "test"
@@ -42014,7 +42095,8 @@
       "migrationSlices": [
         "0041-domain-beam-section-providers",
         "0133-norms-ntc2018-structural-steel-factory",
-        "0188-applications-steel-beam-column-interaction"
+        "0188-applications-steel-beam-column-interaction",
+        "0189-applications-steel-compression-buckling"
       ],
       "sourceOracles": ["tests/steelBeamSectionProvider.test.js"],
       "targetTests": [
@@ -42024,12 +42106,15 @@
         "tests/ntc2018-structural-steel-factory-compile-time.test.ts",
         "tests/ntc2018-structural-steel-factory-live-parity.test.ts",
         "tests/steel-beam-column-interaction-compile-time.test.ts",
-        "tests/steel-beam-column-interaction-live-parity.test.ts"
+        "tests/steel-beam-column-interaction-live-parity.test.ts",
+        "tests/steel-compression-buckling-compile-time.test.ts",
+        "tests/steel-compression-buckling-live-parity.test.ts"
       ],
       "validationEvidence": [
         "0041-domain-beam-section-providers",
         "0133-norms-ntc2018-structural-steel-factory",
-        "0188-applications-steel-beam-column-interaction"
+        "0188-applications-steel-beam-column-interaction",
+        "0189-applications-steel-compression-buckling"
       ],
       "status": "exact-parity",
       "testKind": "test"
@@ -42057,7 +42142,8 @@
       "targetPath": "tests/steelFrameAdvancedVerification.test.ts",
       "migrationSlices": [
         "0187-applications-steel-advanced-member-checks",
-        "0188-applications-steel-beam-column-interaction"
+        "0188-applications-steel-beam-column-interaction",
+        "0189-applications-steel-compression-buckling"
       ],
       "sourceOracles": ["tests/steelFrameAdvancedVerification.test.js"],
       "targetTests": [
@@ -42065,11 +42151,14 @@
         "tests/steel-advanced-member-checks-compile-time.test.ts",
         "tests/steel-advanced-member-checks-live-parity.test.ts",
         "tests/steel-beam-column-interaction-compile-time.test.ts",
-        "tests/steel-beam-column-interaction-live-parity.test.ts"
+        "tests/steel-beam-column-interaction-live-parity.test.ts",
+        "tests/steel-compression-buckling-compile-time.test.ts",
+        "tests/steel-compression-buckling-live-parity.test.ts"
       ],
       "validationEvidence": [
         "0187-applications-steel-advanced-member-checks",
-        "0188-applications-steel-beam-column-interaction"
+        "0188-applications-steel-beam-column-interaction",
+        "0189-applications-steel-compression-buckling"
       ],
       "status": "exact-parity",
       "testKind": "test"
@@ -46064,16 +46153,32 @@
         "publicStrings": "exact Method B identifiers, warnings, descriptions and Unicode code-point comparison",
         "errors": "exact TypeError name and message for null options"
       }
+    },
+    {
+      "sliceId": "0189-applications-steel-compression-buckling",
+      "sourceRevision": "6f33baead8b88166c4b2cf94af41763412e3c751",
+      "method": "Strict typed consumer declarations and independently executed pinned JavaScript versus built TypeScript comparison of curve inference, exact axis and verification JSON, numerical metadata, unit normalization, public aliases, Unicode warnings, unsupported behavior and null-input errors.",
+      "targetTests": [
+        "tests/steel-compression-buckling-compile-time.test.ts",
+        "tests/steel-compression-buckling-live-parity.test.ts"
+      ],
+      "fixture": "Independent IPE, UPN, CHS, L and unsupported-family fixtures covering NTC curve branches, Euler-axis resistance, compression-sign conventions, class-4 and missing-length refusal, open-section flexural-only warning, Unicode warnings and null-input errors.",
+      "tolerances": {
+        "serializedParity": "exact JSON and enumerable result key order",
+        "numericParity": "exact Euler loads, slenderness, reduction factors, resistances and utilization values",
+        "publicStrings": "exact curve-source identifiers, warnings, descriptions and Unicode code-point comparison",
+        "errors": "exact TypeError name and message for null options"
+      }
     }
   ],
   "counts": {
     "rootExports": {
       "javascript": 841,
-      "typescript": 792
+      "typescript": 796
     },
     "applicationsExports": {
       "javascript": 309,
-      "typescript": 265
+      "typescript": 269
     },
     "packageEntryPoints": {
       "javascript": 14,
@@ -46093,11 +46198,11 @@
     },
     "sourceFiles": {
       "javascript": 480,
-      "typescript": 450
+      "typescript": 451
     },
     "tests": {
       "javascript": 131,
-      "typescript": 362
+      "typescript": 364
     },
     "validationCampaigns": {
       "javascript": 17,
@@ -46149,7 +46254,7 @@
       "statusCounts": {
         "exact-parity": 0,
         "partial": 26,
-        "missing": 135,
+        "missing": 126,
         "intentionally-excluded": 0,
         "decision-required": 0
       },
@@ -46182,7 +46287,6 @@
         "application-export:XlamOutOfPlanePanelModel",
         "application-export:XlamOutOfPlanePanelVerification",
         "application-export:calculateElasticCriticalMomentLT",
-        "application-export:calculateSteelCompressionBucklingAxis",
         "application-export:calculateTimberLateralBucklingReduction",
         "application-export:calculateTimberRectangularCriticalBendingStress",
         "application-export:classifySteelSection",
@@ -46191,11 +46295,8 @@
         "application-export:createTimberConcreteCompositeBeamSectionProvider",
         "application-export:createTimberXlamCompositeBeamSectionProvider",
         "application-export:getSteelVerificationCapabilities",
-        "application-export:inferSteelCompressionBucklingCurves",
-        "application-export:steelBucklingCurveImperfectionFactor",
         "application-export:steelMemberFem3DToLegacyAnalysisResult",
         "application-export:validateSteelMemberFem3DResult",
-        "application-export:verifySteelCompressionBuckling",
         "application-export:verifySteelLateralTorsionalBuckling",
         "application-export:verifyTimberLateralTorsionalStability",
         "registry:geotechnical-deep-foundations",
@@ -46256,7 +46357,6 @@
         "root-export:XlamOutOfPlanePanelModel",
         "root-export:XlamOutOfPlanePanelVerification",
         "root-export:calculateElasticCriticalMomentLT",
-        "root-export:calculateSteelCompressionBucklingAxis",
         "root-export:calculateTimberLateralBucklingReduction",
         "root-export:calculateTimberRectangularCriticalBendingStress",
         "root-export:classifySteelSection",
@@ -46265,11 +46365,8 @@
         "root-export:createTimberConcreteCompositeBeamSectionProvider",
         "root-export:createTimberXlamCompositeBeamSectionProvider",
         "root-export:getSteelVerificationCapabilities",
-        "root-export:inferSteelCompressionBucklingCurves",
-        "root-export:steelBucklingCurveImperfectionFactor",
         "root-export:steelMemberFem3DToLegacyAnalysisResult",
         "root-export:validateSteelMemberFem3DResult",
-        "root-export:verifySteelCompressionBuckling",
         "root-export:verifySteelLateralTorsionalBuckling",
         "root-export:verifyTimberLateralTorsionalStability",
         "source:src/applications/masonry-wall-openings/MasonryWallOpeningsApplication.js",
@@ -46284,7 +46381,6 @@
         "source:src/applications/steel-frames/SteelFrameApplication.js",
         "source:src/applications/steel-frames/analysis/SteelRingFrame2DBuilder.js",
         "source:src/applications/steel-frames/analysis/SteelRingFramePushoverAnalysis.js",
-        "source:src/applications/steel-frames/checks/SteelCompressionBuckling.js",
         "source:src/applications/steel-frames/checks/SteelFem3DVerification.js",
         "source:src/applications/steel-frames/checks/SteelLateralTorsionalBuckling.js",
         "source:src/applications/steel-frames/checks/SteelMemberVerification.js",

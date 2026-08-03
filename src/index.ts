@@ -838,6 +838,24 @@ export type {
   VerifySteelBeamColumnInteractionMyMzOptions,
   VerifySteelBeamColumnInteractionMyOptions,
 } from "./applications/steel-frames/checks/SteelBeamColumnInteraction.js";
+export {
+  calculateSteelCompressionBucklingAxis,
+  inferSteelCompressionBucklingCurves,
+  steelBucklingCurveImperfectionFactor,
+  verifySteelCompressionBuckling,
+} from "./applications/steel-frames/checks/SteelCompressionBuckling.js";
+export type {
+  CalculateSteelCompressionBucklingAxisOptions,
+  SteelBucklingAxisResult,
+  SteelCompressionBucklingCatalogPropertiesLike,
+  SteelCompressionBucklingCheck,
+  SteelCompressionBucklingCurves,
+  SteelCompressionBucklingMaterialLike,
+  SteelCompressionBucklingResult,
+  SteelCompressionBucklingSectionLike,
+  SteelCompressionBucklingSectionMetadataLike,
+  VerifySteelCompressionBucklingOptions,
+} from "./applications/steel-frames/checks/SteelCompressionBuckling.js";
 export { SteelPlasticHingeFrameElement2D } from "./applications/steel-frames/analysis/SteelPlasticHingeFrameElement2D.js";
 export type {
   SteelPlasticHingeCondensationOperators,
