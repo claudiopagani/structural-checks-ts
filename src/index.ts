@@ -390,6 +390,8 @@ export type { GeotechnicalLateralPileApplicationInput } from "./applications/geo
 export { GeotechnicalRetainingWallApplication } from "./applications/geotechnical-retaining-walls/index.js";
 export { GeotechnicalShallowFoundationApplication } from "./applications/geotechnical-shallow-foundations/index.js";
 export type { GeotechnicalShallowFoundationApplicationInput } from "./applications/geotechnical-shallow-foundations/index.js";
+export { GeotechnicalSlopeStabilityApplication } from "./applications/geotechnical-slope-stability/index.js";
+export type { GeotechnicalSlopeStabilityApplicationInput } from "./applications/geotechnical-slope-stability/index.js";
 export {
   AXIAL_PILE_CAPACITY_REFERENCE,
   AXIAL_PILE_CAPACITY_RESULT_SCHEMA_VERSION,

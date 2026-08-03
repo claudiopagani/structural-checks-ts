@@ -1,0 +1,122 @@
+{
+  "schemaVersion": 1,
+  "sliceId": "0147-applications-geotechnical-slope-stability-application",
+  "title": "Geotechnical slope-stability application",
+  "migrationType": "mechanical-parity-with-minimal-dependency-support",
+  "implementationStatus": "implemented",
+  "dependencies": ["0094-domain-circular-slope-stability-analysis"],
+  "source": {
+    "repository": "https://github.com/claudiopagani/strutture-js",
+    "revision": "6f33baead8b88166c4b2cf94af41763412e3c751"
+  },
+  "normativeCorpusRevision": "41da3faa489600173106935bbcf726119300e48d",
+  "sourceFiles": [
+    {
+      "path": "src/applications/geotechnical-slope-stability/GeotechnicalSlopeStabilityApplication.js",
+      "gitBlobSha1": "e9c40b7536d9142d3debc96e3b28b5c5b59a51da",
+      "targetPath": "src/applications/geotechnical-slope-stability/GeotechnicalSlopeStabilityApplication.ts"
+    },
+    {
+      "path": "src/applications/geotechnical-slope-stability/index.js",
+      "gitBlobSha1": "86d0e17fe20b328ebbb700520c8f4ddb448d1f54",
+      "targetPath": "src/applications/geotechnical-slope-stability/index.ts"
+    }
+  ],
+  "supportingSourceFiles": [
+    {
+      "path": "src/index.js",
+      "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7",
+      "targetPath": "src/index.ts",
+      "coverage": "Pinned root public-export context for the geotechnical slope-stability application."
+    },
+    {
+      "path": "src/domain/geotechnics/CircularSlipSurface2D.js",
+      "gitBlobSha1": "17884ca9689d1e36ea1a0391578831cc808a346c",
+      "targetPath": "src/domain/geotechnics/CircularSlipSurface2D.ts",
+      "coverage": "Migrated circular slip-surface constructor re-exported by the application barrel."
+    },
+    {
+      "path": "src/domain/geotechnics/CircularSlopeStabilityAnalysis.js",
+      "gitBlobSha1": "0dead170cabae9ee29fcee4e3cf11ff7924436c1",
+      "targetPath": "src/domain/geotechnics/CircularSlopeStabilityAnalysis.ts",
+      "coverage": "Migrated circular slope-stability analysis delegated by the application wrapper."
+    },
+    {
+      "path": "src/domain/geotechnics/GroundAnchorStabilityAction2D.js",
+      "gitBlobSha1": "ac025cd5b971af3b5ba70c99dcf5bb2bac869d29",
+      "targetPath": "src/domain/geotechnics/GroundAnchorStabilityAction2D.ts",
+      "coverage": "Migrated ground-anchor action type re-exported by the application barrel."
+    },
+    {
+      "path": "src/domain/geotechnics/SlopeSliceDiscretizer2D.js",
+      "gitBlobSha1": "df35605b3e1650c57bad6c94b0001cb7ec66f5ae",
+      "targetPath": "src/domain/geotechnics/SlopeSliceDiscretizer2D.ts",
+      "coverage": "Migrated slope-slice discretizer re-exported by the application barrel."
+    },
+    {
+      "path": "src/domain/geotechnics/SlopeSurfaceSurcharge2D.js",
+      "gitBlobSha1": "922580dc6c51f89e348ec1f9d55e88925a270396",
+      "targetPath": "src/domain/geotechnics/SlopeSurfaceSurcharge2D.ts",
+      "coverage": "Migrated slope-surface surcharge type re-exported by the application barrel."
+    },
+    {
+      "path": "src/domain/geotechnics/slopeStabilityMethods.js",
+      "gitBlobSha1": "1f87183f033601a45665dcd064fba95af560a0cf",
+      "targetPath": "src/domain/geotechnics/slopeStabilityMethods.ts",
+      "coverage": "Migrated Ordinary, Bishop and slope-stability method constants re-exported by the application barrel."
+    },
+    {
+      "path": "src/domain/geotechnics/spencerMethod.js",
+      "gitBlobSha1": "a7c41732a11d6f7785123da2155e86ef5bca0bc9",
+      "targetPath": "src/domain/geotechnics/spencerMethod.ts",
+      "coverage": "Migrated Spencer method re-exported by the application barrel."
+    }
+  ],
+  "sourceOracles": [
+    {
+      "path": "tests/geotechnicalSlopeStability.test.js",
+      "gitBlobSha1": "ccb2cab5ccf35b8b35de4d3fcff9d23aed949173",
+      "coverage": "Application wrapper, circular slope-stability result, unsupported method, missing-input and error behavior."
+    },
+    {
+      "path": "tests/packageExports.test.js",
+      "gitBlobSha1": "8dde24b4c97dd3dae7100207d07d9d96c52b9c74",
+      "coverage": "Pinned root and application public exports."
+    }
+  ],
+  "sourcePublicExport": {
+    "path": "src/index.js",
+    "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
+  },
+  "targetTests": [
+    "tests/baseline-parity.test.ts",
+    "tests/geotechnical-slope-stability-application-compile-time.test.ts",
+    "tests/geotechnical-slope-stability-application-live-parity.test.ts"
+  ],
+  "publicExports": ["GeotechnicalSlopeStabilityApplication"],
+  "publicTypeExports": ["GeotechnicalSlopeStabilityApplicationInput"],
+  "normativeReferences": {
+    "resolved": [],
+    "outsideCorpus": [],
+    "normativeConformityClaimed": false,
+    "status": "classified-for-declared-scope"
+  },
+  "independentValidation": {
+    "method": "Strict declaration consumer coverage and independently executed pinned JavaScript versus built TypeScript comparison of the application barrel, root aliases, application manifest, complete serialized assigned-surface results, Unicode identifiers, unsupported method, missing-input and null-input error behavior.",
+    "targetTests": [
+      "tests/geotechnical-slope-stability-application-compile-time.test.ts",
+      "tests/geotechnical-slope-stability-application-live-parity.test.ts"
+    ],
+    "fixture": "representative drained homogeneous two-dimensional circular slope section with Unicode identifiers",
+    "tolerances": {
+      "serializedParity": "exact complete CalculationResult JSON",
+      "numericParity": "exact circular slope-stability outputs, factors, methods and metadata",
+      "publicStrings": "exact manifest, summaries, metadata and Unicode strings",
+      "errors": "exact null-input error and unsupported/missing-input behavior"
+    }
+  },
+  "parityDifferences": [
+    "The TypeScript application exposes the strict CircularSlopeStabilityAnalysisInput declaration while preserving the JavaScript wrapper, delegated analysis and serialized CalculationResult shape."
+  ],
+  "engineeringFunctionality": "Public method-neutral static and pseudostatic circular slope-stability application with bounded critical-surface search and ground-anchor interaction."
+}

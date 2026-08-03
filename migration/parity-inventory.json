@@ -1013,6 +1013,7 @@
         "GeotechnicalLateralPileApplication",
         "GeotechnicalRetainingWallApplication",
         "GeotechnicalShallowFoundationApplication",
+        "GeotechnicalSlopeStabilityApplication",
         "GlobalFemPostProcessingApplication",
         "GlulamTimberMaterial",
         "GroundAnchorAnalysis",
@@ -9579,11 +9580,15 @@
       "sourcePath": "src/applications/geotechnical-slope-stability/GeotechnicalSlopeStabilityApplication.js",
       "sourceBlobSha1": "e9c40b7536d9142d3debc96e3b28b5c5b59a51da",
       "targetPath": "src/applications/geotechnical-slope-stability/GeotechnicalSlopeStabilityApplication.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0147-applications-geotechnical-slope-stability-application"],
+      "sourceOracles": ["tests/geotechnicalSlopeStability.test.js", "tests/packageExports.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/geotechnical-slope-stability-application-compile-time.test.ts",
+        "tests/geotechnical-slope-stability-application-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0147-applications-geotechnical-slope-stability-application"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -22515,11 +22520,15 @@
       "sourcePath": "src/applications/geotechnical-slope-stability/GeotechnicalSlopeStabilityApplication.js",
       "sourceBlobSha1": "e9c40b7536d9142d3debc96e3b28b5c5b59a51da",
       "targetPath": "src/applications/geotechnical-slope-stability/GeotechnicalSlopeStabilityApplication.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0147-applications-geotechnical-slope-stability-application"],
+      "sourceOracles": ["tests/geotechnicalSlopeStability.test.js", "tests/packageExports.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/geotechnical-slope-stability-application-compile-time.test.ts",
+        "tests/geotechnical-slope-stability-application-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0147-applications-geotechnical-slope-stability-application"],
+      "status": "exact-parity",
       "publicEntryPath": "src/applications/index.js",
       "publicEntryBlobSha1": "b70179c7cdd2a819f2151dc092c0f59cbce30ba6"
     },
@@ -27628,13 +27637,17 @@
         "tests/reinforcedConcreteFoundationBeamApplication.test.js",
         "tests/reinforcedConcreteStrutAndTieApplication.test.js"
       ],
-      "targetTests": [],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/geotechnical-slope-stability-application-compile-time.test.ts",
+        "tests/geotechnical-slope-stability-application-live-parity.test.ts"
+      ],
       "validationEvidence": [
         "0024-reinforced-concrete-foundation-beams",
         "0026-reinforced-concrete-beam-column-joints",
         "0027-reinforced-concrete-strut-and-tie"
       ],
-      "status": "missing",
+      "status": "partial",
       "notes": ["Default registry construction is not present in the current TypeScript target."],
       "applicationId": "geotechnical-slope-stability",
       "applicationClass": "GeotechnicalSlopeStabilityApplication",
@@ -29400,22 +29413,30 @@
       "sourcePath": "src/applications/geotechnical-slope-stability/GeotechnicalSlopeStabilityApplication.js",
       "sourceBlobSha1": "e9c40b7536d9142d3debc96e3b28b5c5b59a51da",
       "targetPath": "src/applications/geotechnical-slope-stability/GeotechnicalSlopeStabilityApplication.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing"
+      "migrationSlices": ["0147-applications-geotechnical-slope-stability-application"],
+      "sourceOracles": ["tests/geotechnicalSlopeStability.test.js", "tests/packageExports.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/geotechnical-slope-stability-application-compile-time.test.ts",
+        "tests/geotechnical-slope-stability-application-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0147-applications-geotechnical-slope-stability-application"],
+      "status": "exact-parity"
     },
     {
       "id": "src/applications/geotechnical-slope-stability/index.js",
       "sourcePath": "src/applications/geotechnical-slope-stability/index.js",
       "sourceBlobSha1": "86d0e17fe20b328ebbb700520c8f4ddb448d1f54",
       "targetPath": "src/applications/geotechnical-slope-stability/index.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing"
+      "migrationSlices": ["0147-applications-geotechnical-slope-stability-application"],
+      "sourceOracles": ["tests/geotechnicalSlopeStability.test.js", "tests/packageExports.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/geotechnical-slope-stability-application-compile-time.test.ts",
+        "tests/geotechnical-slope-stability-application-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0147-applications-geotechnical-slope-stability-application"],
+      "status": "exact-parity"
     },
     {
       "id": "src/applications/global-fem-postprocessing/GlobalFemDemandExtractor.js",
@@ -36073,7 +36094,8 @@
         "0143-applications-geotechnical-ground-anchor-application",
         "0144-applications-geotechnical-lateral-pile-application",
         "0145-applications-geotechnical-retaining-wall-application",
-        "0146-applications-geotechnical-shallow-foundation-application"
+        "0146-applications-geotechnical-shallow-foundation-application",
+        "0147-applications-geotechnical-slope-stability-application"
       ],
       "sourceOracles": [
         "tests/architecture/applicationRegistry.test.js",
@@ -38111,7 +38133,8 @@
         "0089-domain-slope-slice-discretizer-2d",
         "0090-domain-ground-anchor-stability-action-2d",
         "0093-domain-spencer-method",
-        "0094-domain-circular-slope-stability-analysis"
+        "0094-domain-circular-slope-stability-analysis",
+        "0147-applications-geotechnical-slope-stability-application"
       ],
       "sourceOracles": ["tests/geotechnicalSlopeStability.test.js"],
       "targetTests": [
@@ -38120,6 +38143,8 @@
         "tests/circular-slip-surface-live-parity.test.ts",
         "tests/circular-slope-stability-analysis-compile-time.test.ts",
         "tests/circular-slope-stability-analysis-live-parity.test.ts",
+        "tests/geotechnical-slope-stability-application-compile-time.test.ts",
+        "tests/geotechnical-slope-stability-application-live-parity.test.ts",
         "tests/ground-anchor-stability-action-compile-time.test.ts",
         "tests/ground-anchor-stability-action-live-parity.test.ts",
         "tests/slope-slice-discretizer-compile-time.test.ts",
@@ -38138,7 +38163,8 @@
         "0089-domain-slope-slice-discretizer-2d",
         "0090-domain-ground-anchor-stability-action-2d",
         "0093-domain-spencer-method",
-        "0094-domain-circular-slope-stability-analysis"
+        "0094-domain-circular-slope-stability-analysis",
+        "0147-applications-geotechnical-slope-stability-application"
       ],
       "status": "exact-parity",
       "testKind": "test"
@@ -39086,7 +39112,8 @@
         "0143-applications-geotechnical-ground-anchor-application",
         "0144-applications-geotechnical-lateral-pile-application",
         "0145-applications-geotechnical-retaining-wall-application",
-        "0146-applications-geotechnical-shallow-foundation-application"
+        "0146-applications-geotechnical-shallow-foundation-application",
+        "0147-applications-geotechnical-slope-stability-application"
       ],
       "sourceOracles": ["tests/packageExports.test.js"],
       "targetTests": [
@@ -39142,6 +39169,8 @@
         "tests/geotechnical-retaining-wall-application-live-parity.test.ts",
         "tests/geotechnical-shallow-foundation-application-compile-time.test.ts",
         "tests/geotechnical-shallow-foundation-application-live-parity.test.ts",
+        "tests/geotechnical-slope-stability-application-compile-time.test.ts",
+        "tests/geotechnical-slope-stability-application-live-parity.test.ts",
         "tests/ground-anchor-analysis-compile-time.test.ts",
         "tests/ground-anchor-analysis-live-parity.test.ts",
         "tests/ground-anchor-bond-catalog-compile-time.test.ts",
@@ -39328,7 +39357,8 @@
         "0143-applications-geotechnical-ground-anchor-application",
         "0144-applications-geotechnical-lateral-pile-application",
         "0145-applications-geotechnical-retaining-wall-application",
-        "0146-applications-geotechnical-shallow-foundation-application"
+        "0146-applications-geotechnical-shallow-foundation-application",
+        "0147-applications-geotechnical-slope-stability-application"
       ],
       "status": "exact-parity",
       "testKind": "test"
@@ -43324,16 +43354,32 @@
         "publicStrings": "exact manifest, summaries, metadata and Unicode strings",
         "errors": "exact null-input error, missing-input result and unsupported SLS result behavior"
       }
+    },
+    {
+      "sliceId": "0147-applications-geotechnical-slope-stability-application",
+      "sourceRevision": "6f33baead8b88166c4b2cf94af41763412e3c751",
+      "method": "Strict declaration consumer coverage and independently executed pinned JavaScript versus built TypeScript comparison of the application barrel, root aliases, application manifest, complete serialized assigned-surface results, Unicode identifiers, unsupported method, missing-input and null-input error behavior.",
+      "targetTests": [
+        "tests/geotechnical-slope-stability-application-compile-time.test.ts",
+        "tests/geotechnical-slope-stability-application-live-parity.test.ts"
+      ],
+      "fixture": "representative drained homogeneous two-dimensional circular slope section with Unicode identifiers",
+      "tolerances": {
+        "serializedParity": "exact complete CalculationResult JSON",
+        "numericParity": "exact circular slope-stability outputs, factors, methods and metadata",
+        "publicStrings": "exact manifest, summaries, metadata and Unicode strings",
+        "errors": "exact null-input error and unsupported/missing-input behavior"
+      }
     }
   ],
   "counts": {
     "rootExports": {
       "javascript": 841,
-      "typescript": 739
+      "typescript": 740
     },
     "applicationsExports": {
       "javascript": 309,
-      "typescript": 212
+      "typescript": 213
     },
     "packageEntryPoints": {
       "javascript": 14,
@@ -43353,11 +43399,11 @@
     },
     "sourceFiles": {
       "javascript": 480,
-      "typescript": 395
+      "typescript": 397
     },
     "tests": {
       "javascript": 131,
-      "typescript": 280
+      "typescript": 282
     },
     "validationCampaigns": {
       "javascript": 17,
@@ -43408,8 +43454,8 @@
     "applications": {
       "statusCounts": {
         "exact-parity": 0,
-        "partial": 18,
-        "missing": 304,
+        "partial": 19,
+        "missing": 299,
         "intentionally-excluded": 0,
         "decision-required": 0
       },
@@ -43424,7 +43470,6 @@
         "application-export:BEAM_REPORT_SCHEMA_VERSION",
         "application-export:BeamReportBuilder",
         "application-export:BeamReportMarkdownRenderer",
-        "application-export:GeotechnicalSlopeStabilityApplication",
         "application-export:MASONRY_PIER_CAPACITY_CURVE_COMPARISON_REPORT_SCHEMA_VERSION",
         "application-export:MasonryEquivalentFrameBuilder",
         "application-export:MasonryOutOfPlaneApplication",
@@ -43551,7 +43596,6 @@
         "root-export:BEAM_REPORT_SCHEMA_VERSION",
         "root-export:BeamReportBuilder",
         "root-export:BeamReportMarkdownRenderer",
-        "root-export:GeotechnicalSlopeStabilityApplication",
         "root-export:MASONRY_PIER_CAPACITY_CURVE_COMPARISON_REPORT_SCHEMA_VERSION",
         "root-export:MasonryEquivalentFrameBuilder",
         "root-export:MasonryOutOfPlaneApplication",
@@ -43638,8 +43682,6 @@
         "root-export:verifySteelShearTorsionInteraction",
         "root-export:verifySteelWebShearBuckling",
         "root-export:verifyTimberLateralTorsionalStability",
-        "source:src/applications/geotechnical-slope-stability/GeotechnicalSlopeStabilityApplication.js",
-        "source:src/applications/geotechnical-slope-stability/index.js",
         "source:src/applications/masonry-out-of-plane/MasonryOutOfPlaneApplication.js",
         "source:src/applications/masonry-out-of-plane/analysis/MasonryOutOfPlaneKinematicAnalysis.js",
         "source:src/applications/masonry-out-of-plane/index.js",

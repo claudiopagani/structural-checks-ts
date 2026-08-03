@@ -93,6 +93,7 @@ const expectedExports = [
   "GeotechnicalLateralPileApplication",
   "GeotechnicalRetainingWallApplication",
   "GeotechnicalShallowFoundationApplication",
+  "GeotechnicalSlopeStabilityApplication",
   "GeotechnicalDesignSituation",
   "GroundModel",
   "GroundProfile",
