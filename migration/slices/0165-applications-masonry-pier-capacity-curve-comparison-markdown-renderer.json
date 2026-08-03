@@ -1,0 +1,68 @@
+{
+  "schemaVersion": 1,
+  "sliceId": "0165-applications-masonry-pier-capacity-curve-comparison-markdown-renderer",
+  "title": "Masonry pier capacity-curve comparison Markdown renderer",
+  "migrationType": "mechanical-parity-with-minimal-public-export-support",
+  "implementationStatus": "implemented",
+  "dependencies": [],
+  "source": {
+    "repository": "https://github.com/claudiopagani/strutture-js",
+    "revision": "6f33baead8b88166c4b2cf94af41763412e3c751"
+  },
+  "normativeCorpusRevision": "41da3faa489600173106935bbcf726119300e48d",
+  "sourceFiles": [
+    {
+      "path": "src/applications/masonry-wall-openings/reports/MasonryPierCapacityCurveComparisonMarkdownRenderer.js",
+      "gitBlobSha1": "8ccb4051614a38439afe2ce6ab9e330b4d5d5ca0",
+      "targetPath": "src/applications/masonry-wall-openings/reports/MasonryPierCapacityCurveComparisonMarkdownRenderer.ts"
+    }
+  ],
+  "supportingSourceFiles": [
+    {
+      "path": "src/index.js",
+      "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7",
+      "targetPath": "src/index.ts",
+      "coverage": "Minimal root export support for the renderer and its strict report type."
+    }
+  ],
+  "sourceOracles": [
+    {
+      "path": "tests/masonryWallOpeningsPierCapacityCurveComparisonReport.test.js",
+      "gitBlobSha1": "218b108cfe215595042aa31e7a4eae3e077aaa2c",
+      "coverage": "Pinned masonry pier capacity-curve comparison report and Markdown expectations."
+    }
+  ],
+  "sourcePublicExport": {
+    "path": "src/index.js",
+    "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
+  },
+  "targetTests": [
+    "tests/baseline-parity.test.ts",
+    "tests/masonry-pier-capacity-curve-comparison-markdown-renderer-compile-time.test.ts",
+    "tests/masonry-pier-capacity-curve-comparison-markdown-renderer-live-parity.test.ts"
+  ],
+  "publicExports": ["MasonryPierCapacityCurveComparisonMarkdownRenderer"],
+  "publicTypeExports": ["MasonryPierCapacityCurveComparisonReport"],
+  "normativeReferences": {
+    "resolved": [],
+    "outsideCorpus": [],
+    "normativeConformityClaimed": false,
+    "status": "classified-for-declared-scope"
+  },
+  "independentValidation": {
+    "method": "Strict public declaration coverage and independently executed pinned JavaScript versus built TypeScript comparison of exact Markdown, formatted numbers, empty-table behavior, optional defaults, warnings, assumptions, Unicode, pipe escaping and runtime errors.",
+    "targetTests": [
+      "tests/masonry-pier-capacity-curve-comparison-markdown-renderer-compile-time.test.ts",
+      "tests/masonry-pier-capacity-curve-comparison-markdown-renderer-live-parity.test.ts"
+    ],
+    "fixture": "Synthetic comparison report covering aggregated and FEM performance, termination metadata, metrics, sampled curve points, non-finite numbers, Unicode, pipe escaping, warnings, assumptions and empty defaults.",
+    "tolerances": {
+      "serializedParity": "exact Markdown string",
+      "numericParity": "exact formatted numeric output",
+      "publicStrings": "exact Italian headings, defaults, Unicode and escaped pipes",
+      "errors": "exact null and undefined report errors"
+    }
+  },
+  "parityDifferences": [],
+  "engineeringFunctionality": "Source-compatible Markdown rendering for masonry pier capacity-curve comparison reports."
+}

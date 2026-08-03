@@ -527,6 +527,8 @@ export type {
   AlignmentStateComparisonReportBuilderRendererObject,
   AlignmentStateComparisonReportBuilderReport,
 } from "./applications/masonry-wall-openings/reports/AlignmentStateComparisonReportBuilder.js";
+export { MasonryPierCapacityCurveComparisonMarkdownRenderer } from "./applications/masonry-wall-openings/reports/MasonryPierCapacityCurveComparisonMarkdownRenderer.js";
+export type { MasonryPierCapacityCurveComparisonReport } from "./applications/masonry-wall-openings/reports/MasonryPierCapacityCurveComparisonMarkdownRenderer.js";
 export { MasonryRingBeamModel } from "./applications/masonry-ring-beams/models/MasonryRingBeamModel.js";
 export type { MasonryRingBeamModelInput } from "./applications/masonry-ring-beams/models/MasonryRingBeamModel.js";
 export { MasonryRingBeamApplication } from "./applications/masonry-ring-beams/MasonryRingBeamApplication.js";

@@ -1069,6 +1069,7 @@
         "MasonryOutOfPlaneKinematicAnalysis",
         "MasonryOutOfPlaneModel",
         "MasonryPierApplication",
+        "MasonryPierCapacityCurveComparisonMarkdownRenderer",
         "MasonryPierEquivalentFrameBuilder",
         "MasonryPierModel",
         "MasonryPierVerticalVerification",
@@ -12423,11 +12424,19 @@
       "sourcePath": "src/applications/masonry-wall-openings/reports/MasonryPierCapacityCurveComparisonMarkdownRenderer.js",
       "sourceBlobSha1": "8ccb4051614a38439afe2ce6ab9e330b4d5d5ca0",
       "targetPath": "src/applications/masonry-wall-openings/reports/MasonryPierCapacityCurveComparisonMarkdownRenderer.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": [
+        "0165-applications-masonry-pier-capacity-curve-comparison-markdown-renderer"
+      ],
+      "sourceOracles": ["tests/masonryWallOpeningsPierCapacityCurveComparisonReport.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/masonry-pier-capacity-curve-comparison-markdown-renderer-compile-time.test.ts",
+        "tests/masonry-pier-capacity-curve-comparison-markdown-renderer-live-parity.test.ts"
+      ],
+      "validationEvidence": [
+        "0165-applications-masonry-pier-capacity-curve-comparison-markdown-renderer"
+      ],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -23976,11 +23985,19 @@
       "sourcePath": "src/applications/masonry-wall-openings/reports/MasonryPierCapacityCurveComparisonMarkdownRenderer.js",
       "sourceBlobSha1": "8ccb4051614a38439afe2ce6ab9e330b4d5d5ca0",
       "targetPath": "src/applications/masonry-wall-openings/reports/MasonryPierCapacityCurveComparisonMarkdownRenderer.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": [
+        "0165-applications-masonry-pier-capacity-curve-comparison-markdown-renderer"
+      ],
+      "sourceOracles": ["tests/masonryWallOpeningsPierCapacityCurveComparisonReport.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/masonry-pier-capacity-curve-comparison-markdown-renderer-compile-time.test.ts",
+        "tests/masonry-pier-capacity-curve-comparison-markdown-renderer-live-parity.test.ts"
+      ],
+      "validationEvidence": [
+        "0165-applications-masonry-pier-capacity-curve-comparison-markdown-renderer"
+      ],
+      "status": "exact-parity",
       "publicEntryPath": "src/applications/index.js",
       "publicEntryBlobSha1": "b70179c7cdd2a819f2151dc092c0f59cbce30ba6"
     },
@@ -30539,11 +30556,19 @@
       "sourcePath": "src/applications/masonry-wall-openings/reports/MasonryPierCapacityCurveComparisonMarkdownRenderer.js",
       "sourceBlobSha1": "8ccb4051614a38439afe2ce6ab9e330b4d5d5ca0",
       "targetPath": "src/applications/masonry-wall-openings/reports/MasonryPierCapacityCurveComparisonMarkdownRenderer.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing"
+      "migrationSlices": [
+        "0165-applications-masonry-pier-capacity-curve-comparison-markdown-renderer"
+      ],
+      "sourceOracles": ["tests/masonryWallOpeningsPierCapacityCurveComparisonReport.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/masonry-pier-capacity-curve-comparison-markdown-renderer-compile-time.test.ts",
+        "tests/masonry-pier-capacity-curve-comparison-markdown-renderer-live-parity.test.ts"
+      ],
+      "validationEvidence": [
+        "0165-applications-masonry-pier-capacity-curve-comparison-markdown-renderer"
+      ],
+      "status": "exact-parity"
     },
     {
       "id": "src/applications/masonry-wall-openings/reports/MasonryPierCapacityCurveComparisonReportArtifacts.js",
@@ -36645,7 +36670,8 @@
         "0158-applications-masonry-ring-beam-verification",
         "0159-applications-masonry-ring-beam-application",
         "0163-applications-alignment-state-comparison-report-utilities",
-        "0164-applications-alignment-state-comparison-report-builder"
+        "0164-applications-alignment-state-comparison-report-builder",
+        "0165-applications-masonry-pier-capacity-curve-comparison-markdown-renderer"
       ],
       "sourceOracles": [
         "tests/architecture/applicationRegistry.test.js",
@@ -39036,11 +39062,19 @@
       "sourcePath": "tests/masonryWallOpeningsPierCapacityCurveComparisonReport.test.js",
       "sourceBlobSha1": "218b108cfe215595042aa31e7a4eae3e077aaa2c",
       "targetPath": "tests/masonryWallOpeningsPierCapacityCurveComparisonReport.test.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": [
+        "0165-applications-masonry-pier-capacity-curve-comparison-markdown-renderer"
+      ],
+      "sourceOracles": ["tests/masonryWallOpeningsPierCapacityCurveComparisonReport.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/masonry-pier-capacity-curve-comparison-markdown-renderer-compile-time.test.ts",
+        "tests/masonry-pier-capacity-curve-comparison-markdown-renderer-live-parity.test.ts"
+      ],
+      "validationEvidence": [
+        "0165-applications-masonry-pier-capacity-curve-comparison-markdown-renderer"
+      ],
+      "status": "exact-parity",
       "testKind": "test"
     },
     {
@@ -44308,16 +44342,32 @@
         "publicStrings": "exact schema, Italian, Unicode and renderer strings",
         "errors": "exact missing-input and invalid-renderer errors"
       }
+    },
+    {
+      "sliceId": "0165-applications-masonry-pier-capacity-curve-comparison-markdown-renderer",
+      "sourceRevision": "6f33baead8b88166c4b2cf94af41763412e3c751",
+      "method": "Strict public declaration coverage and independently executed pinned JavaScript versus built TypeScript comparison of exact Markdown, formatted numbers, empty-table behavior, optional defaults, warnings, assumptions, Unicode, pipe escaping and runtime errors.",
+      "targetTests": [
+        "tests/masonry-pier-capacity-curve-comparison-markdown-renderer-compile-time.test.ts",
+        "tests/masonry-pier-capacity-curve-comparison-markdown-renderer-live-parity.test.ts"
+      ],
+      "fixture": "Synthetic comparison report covering aggregated and FEM performance, termination metadata, metrics, sampled curve points, non-finite numbers, Unicode, pipe escaping, warnings, assumptions and empty defaults.",
+      "tolerances": {
+        "serializedParity": "exact Markdown string",
+        "numericParity": "exact formatted numeric output",
+        "publicStrings": "exact Italian headings, defaults, Unicode and escaped pipes",
+        "errors": "exact null and undefined report errors"
+      }
     }
   ],
   "counts": {
     "rootExports": {
       "javascript": 841,
-      "typescript": 764
+      "typescript": 765
     },
     "applicationsExports": {
       "javascript": 309,
-      "typescript": 237
+      "typescript": 238
     },
     "packageEntryPoints": {
       "javascript": 14,
@@ -44337,11 +44387,11 @@
     },
     "sourceFiles": {
       "javascript": 480,
-      "typescript": 426
+      "typescript": 427
     },
     "tests": {
       "javascript": 131,
-      "typescript": 314
+      "typescript": 316
     },
     "validationCampaigns": {
       "javascript": 17,
@@ -44393,7 +44443,7 @@
       "statusCounts": {
         "exact-parity": 0,
         "partial": 23,
-        "missing": 218,
+        "missing": 215,
         "intentionally-excluded": 0,
         "decision-required": 0
       },
@@ -44408,7 +44458,6 @@
         "application-export:MASONRY_PIER_CAPACITY_CURVE_COMPARISON_REPORT_SCHEMA_VERSION",
         "application-export:MasonryEquivalentFrameBuilder",
         "application-export:MasonryPierCapacityCurveComparisonAnalysis",
-        "application-export:MasonryPierCapacityCurveComparisonMarkdownRenderer",
         "application-export:MasonryPierCapacityCurveComparisonReportBuilder",
         "application-export:MasonryWallOpeningsApplication",
         "application-export:MicropileBromsAnalysis",
@@ -44510,7 +44559,6 @@
         "root-export:MASONRY_PIER_CAPACITY_CURVE_COMPARISON_REPORT_SCHEMA_VERSION",
         "root-export:MasonryEquivalentFrameBuilder",
         "root-export:MasonryPierCapacityCurveComparisonAnalysis",
-        "root-export:MasonryPierCapacityCurveComparisonMarkdownRenderer",
         "root-export:MasonryPierCapacityCurveComparisonReportBuilder",
         "root-export:MasonryWallOpeningsApplication",
         "root-export:MicropileBromsAnalysis",
@@ -44580,7 +44628,6 @@
         "source:src/applications/masonry-wall-openings/analysis/MasonryEquivalentFrameBuilder.js",
         "source:src/applications/masonry-wall-openings/analysis/MasonryPierCapacityCurveComparisonAnalysis.js",
         "source:src/applications/masonry-wall-openings/index.js",
-        "source:src/applications/masonry-wall-openings/reports/MasonryPierCapacityCurveComparisonMarkdownRenderer.js",
         "source:src/applications/masonry-wall-openings/reports/MasonryPierCapacityCurveComparisonReportArtifacts.js",
         "source:src/applications/masonry-wall-openings/reports/MasonryPierCapacityCurveComparisonReportBuilder.js",
         "source:src/applications/micropiles-broms/MicropileBromsApplication.js",
@@ -44645,7 +44692,7 @@
       "statusCounts": {
         "exact-parity": 0,
         "partial": 4,
-        "missing": 111,
+        "missing": 110,
         "intentionally-excluded": 0,
         "decision-required": 0
       },
@@ -44758,7 +44805,6 @@
         "test:tests/geotechnicalSlopeStabilityValidationCampaign.test.js",
         "test:tests/geotechnicalValidationCampaign.test.js",
         "test:tests/masonryWallOpeningsEquivalentFrameBuilder.test.js",
-        "test:tests/masonryWallOpeningsPierCapacityCurveComparisonReport.test.js",
         "test:tests/masonryWallOpeningsStateComparison.test.js",
         "test:tests/masonryWallOpeningsStaticAnalysis.test.js",
         "test:tests/run-tests.js",
