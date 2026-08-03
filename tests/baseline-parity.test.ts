@@ -465,6 +465,7 @@ const expectedExports = [
   "SteelFrameModel",
   "SteelRingFramePushoverModel",
   "SteelRingFrame2DBuilder",
+  "SteelRingFramePushoverAnalysis",
   "SteelDisplacementControlPushoverSolver2D",
   "calculateSteelMomentDiagramFactor",
   "steelNotSupportedCheck",
