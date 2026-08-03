@@ -1009,6 +1009,7 @@
         "GeotechnicalDesignSituation",
         "GeotechnicalEarthPressureApplication",
         "GeotechnicalEmbeddedRetainingWallApplication",
+        "GeotechnicalGroundAnchorApplication",
         "GlobalFemPostProcessingApplication",
         "GlulamTimberMaterial",
         "GroundAnchorAnalysis",
@@ -9499,11 +9500,16 @@
       "sourcePath": "src/applications/geotechnical-ground-anchors/GeotechnicalGroundAnchorApplication.js",
       "sourceBlobSha1": "73c93e4da9673520a7336c369c8ff827fb9923c7",
       "targetPath": "src/applications/geotechnical-ground-anchors/GeotechnicalGroundAnchorApplication.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0143-applications-geotechnical-ground-anchor-application"],
+      "sourceOracles": ["tests/geotechnicalGroundAnchors.test.js", "tests/packageExports.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/geotechnical-ground-anchor-application-compile-time.test.ts",
+        "tests/geotechnical-ground-anchor-application-live-parity.test.ts",
+        "tests/ground-anchor-analysis-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0143-applications-geotechnical-ground-anchor-application"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -22415,11 +22421,16 @@
       "sourcePath": "src/applications/geotechnical-ground-anchors/GeotechnicalGroundAnchorApplication.js",
       "sourceBlobSha1": "73c93e4da9673520a7336c369c8ff827fb9923c7",
       "targetPath": "src/applications/geotechnical-ground-anchors/GeotechnicalGroundAnchorApplication.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0143-applications-geotechnical-ground-anchor-application"],
+      "sourceOracles": ["tests/geotechnicalGroundAnchors.test.js", "tests/packageExports.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/geotechnical-ground-anchor-application-compile-time.test.ts",
+        "tests/geotechnical-ground-anchor-application-live-parity.test.ts",
+        "tests/ground-anchor-analysis-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0143-applications-geotechnical-ground-anchor-application"],
+      "status": "exact-parity",
       "publicEntryPath": "src/applications/index.js",
       "publicEntryBlobSha1": "b70179c7cdd2a819f2151dc092c0f59cbce30ba6"
     },
@@ -27399,13 +27410,17 @@
         "tests/reinforcedConcreteFoundationBeamApplication.test.js",
         "tests/reinforcedConcreteStrutAndTieApplication.test.js"
       ],
-      "targetTests": [],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/geotechnical-ground-anchor-application-compile-time.test.ts",
+        "tests/geotechnical-ground-anchor-application-live-parity.test.ts"
+      ],
       "validationEvidence": [
         "0024-reinforced-concrete-foundation-beams",
         "0026-reinforced-concrete-beam-column-joints",
         "0027-reinforced-concrete-strut-and-tie"
       ],
-      "status": "missing",
+      "status": "partial",
       "notes": ["Default registry construction is not present in the current TypeScript target."],
       "applicationId": "geotechnical-ground-anchors",
       "applicationClass": "GeotechnicalGroundAnchorApplication",
@@ -29212,22 +29227,32 @@
       "sourcePath": "src/applications/geotechnical-ground-anchors/GeotechnicalGroundAnchorApplication.js",
       "sourceBlobSha1": "73c93e4da9673520a7336c369c8ff827fb9923c7",
       "targetPath": "src/applications/geotechnical-ground-anchors/GeotechnicalGroundAnchorApplication.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing"
+      "migrationSlices": ["0143-applications-geotechnical-ground-anchor-application"],
+      "sourceOracles": ["tests/geotechnicalGroundAnchors.test.js", "tests/packageExports.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/geotechnical-ground-anchor-application-compile-time.test.ts",
+        "tests/geotechnical-ground-anchor-application-live-parity.test.ts",
+        "tests/ground-anchor-analysis-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0143-applications-geotechnical-ground-anchor-application"],
+      "status": "exact-parity"
     },
     {
       "id": "src/applications/geotechnical-ground-anchors/index.js",
       "sourcePath": "src/applications/geotechnical-ground-anchors/index.js",
       "sourceBlobSha1": "fcf2f3d3be1a96e326106d6568ce3fcb032f415f",
       "targetPath": "src/applications/geotechnical-ground-anchors/index.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing"
+      "migrationSlices": ["0143-applications-geotechnical-ground-anchor-application"],
+      "sourceOracles": ["tests/geotechnicalGroundAnchors.test.js", "tests/packageExports.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/geotechnical-ground-anchor-application-compile-time.test.ts",
+        "tests/geotechnical-ground-anchor-application-live-parity.test.ts",
+        "tests/ground-anchor-analysis-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0143-applications-geotechnical-ground-anchor-application"],
+      "status": "exact-parity"
     },
     {
       "id": "src/applications/geotechnical-lateral-piles/GeotechnicalLateralPileApplication.js",
@@ -35969,7 +35994,8 @@
         "0139-applications-rc-section-state-integrator-public-export",
         "0140-applications-rc-isolated-footings-public-index",
         "0141-applications-geotechnical-earth-pressure-application",
-        "0142-applications-geotechnical-embedded-retaining-wall-application"
+        "0142-applications-geotechnical-embedded-retaining-wall-application",
+        "0143-applications-geotechnical-ground-anchor-application"
       ],
       "sourceOracles": [
         "tests/architecture/applicationRegistry.test.js",
@@ -37745,11 +37771,14 @@
         "0079-domain-ground-anchor-bond-catalog",
         "0090-domain-ground-anchor-stability-action-2d",
         "0091-domain-ground-anchor-design-scenario",
-        "0092-domain-ground-anchor-analysis"
+        "0092-domain-ground-anchor-analysis",
+        "0143-applications-geotechnical-ground-anchor-application"
       ],
       "sourceOracles": ["tests/geotechnicalGroundAnchors.test.js"],
       "targetTests": [
         "tests/baseline-parity.test.ts",
+        "tests/geotechnical-ground-anchor-application-compile-time.test.ts",
+        "tests/geotechnical-ground-anchor-application-live-parity.test.ts",
         "tests/ground-anchor-analysis-compile-time.test.ts",
         "tests/ground-anchor-analysis-live-parity.test.ts",
         "tests/ground-anchor-bond-catalog-compile-time.test.ts",
@@ -37766,7 +37795,8 @@
         "0079-domain-ground-anchor-bond-catalog",
         "0090-domain-ground-anchor-stability-action-2d",
         "0091-domain-ground-anchor-design-scenario",
-        "0092-domain-ground-anchor-analysis"
+        "0092-domain-ground-anchor-analysis",
+        "0143-applications-geotechnical-ground-anchor-application"
       ],
       "status": "exact-parity",
       "testKind": "test"
@@ -38962,7 +38992,8 @@
         "0139-applications-rc-section-state-integrator-public-export",
         "0140-applications-rc-isolated-footings-public-index",
         "0141-applications-geotechnical-earth-pressure-application",
-        "0142-applications-geotechnical-embedded-retaining-wall-application"
+        "0142-applications-geotechnical-embedded-retaining-wall-application",
+        "0143-applications-geotechnical-ground-anchor-application"
       ],
       "sourceOracles": ["tests/packageExports.test.js"],
       "targetTests": [
@@ -39010,6 +39041,8 @@
         "tests/geotechnical-earth-pressure-application-live-parity.test.ts",
         "tests/geotechnical-embedded-retaining-wall-application-compile-time.test.ts",
         "tests/geotechnical-embedded-retaining-wall-application-live-parity.test.ts",
+        "tests/geotechnical-ground-anchor-application-compile-time.test.ts",
+        "tests/geotechnical-ground-anchor-application-live-parity.test.ts",
         "tests/ground-anchor-analysis-compile-time.test.ts",
         "tests/ground-anchor-analysis-live-parity.test.ts",
         "tests/ground-anchor-bond-catalog-compile-time.test.ts",
@@ -39192,7 +39225,8 @@
         "0139-applications-rc-section-state-integrator-public-export",
         "0140-applications-rc-isolated-footings-public-index",
         "0141-applications-geotechnical-earth-pressure-application",
-        "0142-applications-geotechnical-embedded-retaining-wall-application"
+        "0142-applications-geotechnical-embedded-retaining-wall-application",
+        "0143-applications-geotechnical-ground-anchor-application"
       ],
       "status": "exact-parity",
       "testKind": "test"
@@ -43124,16 +43158,32 @@
         "publicStrings": "exact manifest, summaries, metadata and Unicode strings",
         "errors": "exact missing-input and unsupported pseudostatic result behavior"
       }
+    },
+    {
+      "sliceId": "0143-applications-geotechnical-ground-anchor-application",
+      "sourceRevision": "6f33baead8b88166c4b2cf94af41763412e3c751",
+      "method": "Strict declaration consumer coverage and independently executed pinned JavaScript versus built TypeScript comparison of the application barrel, root aliases, application manifest, complete serialized results, Unicode identifiers and missing-input behavior.",
+      "targetTests": [
+        "tests/geotechnical-ground-anchor-application-compile-time.test.ts",
+        "tests/geotechnical-ground-anchor-application-live-parity.test.ts"
+      ],
+      "fixture": "FHWA ground-anchor design scenario with Unicode identifiers",
+      "tolerances": {
+        "serializedParity": "exact complete CalculationResult JSON",
+        "numericParity": "exact anchor demand, bond, tendon and testing values for the wrapper fixture",
+        "publicStrings": "exact manifest, summaries, metadata and Unicode strings",
+        "errors": "exact missing-input result behavior"
+      }
     }
   ],
   "counts": {
     "rootExports": {
       "javascript": 841,
-      "typescript": 735
+      "typescript": 736
     },
     "applicationsExports": {
       "javascript": 309,
-      "typescript": 208
+      "typescript": 209
     },
     "packageEntryPoints": {
       "javascript": 14,
@@ -43153,11 +43203,11 @@
     },
     "sourceFiles": {
       "javascript": 480,
-      "typescript": 387
+      "typescript": 389
     },
     "tests": {
       "javascript": 131,
-      "typescript": 272
+      "typescript": 274
     },
     "validationCampaigns": {
       "javascript": 17,
@@ -43208,8 +43258,8 @@
     "applications": {
       "statusCounts": {
         "exact-parity": 0,
-        "partial": 14,
-        "missing": 324,
+        "partial": 15,
+        "missing": 319,
         "intentionally-excluded": 0,
         "decision-required": 0
       },
@@ -43224,7 +43274,6 @@
         "application-export:BEAM_REPORT_SCHEMA_VERSION",
         "application-export:BeamReportBuilder",
         "application-export:BeamReportMarkdownRenderer",
-        "application-export:GeotechnicalGroundAnchorApplication",
         "application-export:GeotechnicalLateralPileApplication",
         "application-export:GeotechnicalRetainingWallApplication",
         "application-export:GeotechnicalShallowFoundationApplication",
@@ -43355,7 +43404,6 @@
         "root-export:BEAM_REPORT_SCHEMA_VERSION",
         "root-export:BeamReportBuilder",
         "root-export:BeamReportMarkdownRenderer",
-        "root-export:GeotechnicalGroundAnchorApplication",
         "root-export:GeotechnicalLateralPileApplication",
         "root-export:GeotechnicalRetainingWallApplication",
         "root-export:GeotechnicalShallowFoundationApplication",
@@ -43446,8 +43494,6 @@
         "root-export:verifySteelShearTorsionInteraction",
         "root-export:verifySteelWebShearBuckling",
         "root-export:verifyTimberLateralTorsionalStability",
-        "source:src/applications/geotechnical-ground-anchors/GeotechnicalGroundAnchorApplication.js",
-        "source:src/applications/geotechnical-ground-anchors/index.js",
         "source:src/applications/geotechnical-lateral-piles/GeotechnicalLateralPileApplication.js",
         "source:src/applications/geotechnical-lateral-piles/index.js",
         "source:src/applications/geotechnical-retaining-walls/GeotechnicalRetainingWallApplication.js",

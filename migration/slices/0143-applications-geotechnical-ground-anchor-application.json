@@ -1,0 +1,117 @@
+{
+  "schemaVersion": 1,
+  "sliceId": "0143-applications-geotechnical-ground-anchor-application",
+  "title": "Geotechnical ground-anchor application",
+  "migrationType": "mechanical-parity-with-minimal-dependency-support",
+  "implementationStatus": "implemented",
+  "dependencies": [
+    "0067-domain-ground-anchor-model",
+    "0079-domain-ground-anchor-bond-catalog",
+    "0090-domain-ground-anchor-stability-action-2d",
+    "0091-domain-ground-anchor-design-scenario",
+    "0092-domain-ground-anchor-analysis"
+  ],
+  "source": {
+    "repository": "https://github.com/claudiopagani/strutture-js",
+    "revision": "6f33baead8b88166c4b2cf94af41763412e3c751"
+  },
+  "normativeCorpusRevision": "41da3faa489600173106935bbcf726119300e48d",
+  "sourceFiles": [
+    {
+      "path": "src/applications/geotechnical-ground-anchors/GeotechnicalGroundAnchorApplication.js",
+      "gitBlobSha1": "73c93e4da9673520a7336c369c8ff827fb9923c7",
+      "targetPath": "src/applications/geotechnical-ground-anchors/GeotechnicalGroundAnchorApplication.ts"
+    },
+    {
+      "path": "src/applications/geotechnical-ground-anchors/index.js",
+      "gitBlobSha1": "fcf2f3d3be1a96e326106d6568ce3fcb032f415f",
+      "targetPath": "src/applications/geotechnical-ground-anchors/index.ts"
+    }
+  ],
+  "supportingSourceFiles": [
+    {
+      "path": "src/index.js",
+      "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7",
+      "targetPath": "src/index.ts",
+      "coverage": "Pinned root public-export context for the ground-anchor application."
+    },
+    {
+      "path": "src/domain/geotechnics/GroundAnchorAnalysis.js",
+      "gitBlobSha1": "336c25953c55a204b06cb9548fa20cb8afd716a8",
+      "targetPath": "src/domain/geotechnics/GroundAnchorAnalysis.ts",
+      "coverage": "Migrated analysis dependency consumed by the application wrapper."
+    },
+    {
+      "path": "src/domain/geotechnics/GroundAnchorDesignScenario.js",
+      "gitBlobSha1": "6cc1114f6f8337f68eda2cd503399b4adc912faa",
+      "targetPath": "src/domain/geotechnics/GroundAnchorDesignScenario.ts",
+      "coverage": "Migrated scenario dependency re-exported by the application barrel."
+    },
+    {
+      "path": "src/domain/geotechnics/GroundAnchorModel.js",
+      "gitBlobSha1": "3ca1ca0a2cee3cc7129125214b64f5ca7d2c1e41",
+      "targetPath": "src/domain/geotechnics/GroundAnchorModel.ts",
+      "coverage": "Migrated anchor model dependency re-exported by the application barrel."
+    },
+    {
+      "path": "src/domain/geotechnics/GroundAnchorStabilityAction2D.js",
+      "gitBlobSha1": "ac025cd5b971af3b5ba70c99dcf5bb2bac869d29",
+      "targetPath": "src/domain/geotechnics/GroundAnchorStabilityAction2D.ts",
+      "coverage": "Migrated stability-action dependency re-exported by the application barrel."
+    },
+    {
+      "path": "src/domain/geotechnics/groundAnchorBondCatalog.js",
+      "gitBlobSha1": "aad1c9ec167f2e078daa6d41067a78b0d295832c",
+      "targetPath": "src/domain/geotechnics/groundAnchorBondCatalog.ts",
+      "coverage": "Migrated bond catalog dependency re-exported by the application barrel."
+    }
+  ],
+  "sourceOracles": [
+    {
+      "path": "tests/geotechnicalGroundAnchors.test.js",
+      "gitBlobSha1": "e18bd13b5f6910266435fc3cc3f24cf8502dc3a7",
+      "coverage": "Application wrapper result, anchor design serialization and failure behavior."
+    },
+    {
+      "path": "tests/packageExports.test.js",
+      "gitBlobSha1": "8dde24b4c97dd3dae7100207d07d9d96c52b9c74",
+      "coverage": "Pinned root and application public exports."
+    }
+  ],
+  "sourcePublicExport": {
+    "path": "src/index.js",
+    "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
+  },
+  "targetTests": [
+    "tests/baseline-parity.test.ts",
+    "tests/ground-anchor-analysis-live-parity.test.ts",
+    "tests/geotechnical-ground-anchor-application-compile-time.test.ts",
+    "tests/geotechnical-ground-anchor-application-live-parity.test.ts"
+  ],
+  "publicExports": ["GeotechnicalGroundAnchorApplication"],
+  "publicTypeExports": [],
+  "normativeReferences": {
+    "resolved": [],
+    "outsideCorpus": [],
+    "normativeConformityClaimed": false,
+    "status": "classified-for-declared-scope"
+  },
+  "independentValidation": {
+    "method": "Strict declaration consumer coverage and independently executed pinned JavaScript versus built TypeScript comparison of the application barrel, root aliases, application manifest, complete serialized results, Unicode identifiers and missing-input behavior.",
+    "targetTests": [
+      "tests/geotechnical-ground-anchor-application-compile-time.test.ts",
+      "tests/geotechnical-ground-anchor-application-live-parity.test.ts"
+    ],
+    "fixture": "FHWA ground-anchor design scenario with Unicode identifiers",
+    "tolerances": {
+      "serializedParity": "exact complete CalculationResult JSON",
+      "numericParity": "exact anchor demand, bond, tendon and testing values for the wrapper fixture",
+      "publicStrings": "exact manifest, summaries, metadata and Unicode strings",
+      "errors": "exact missing-input result behavior"
+    }
+  },
+  "parityDifferences": [
+    "The TypeScript application uses the migrated strict GroundAnchorAnalysisOptions declaration while preserving the JavaScript wrapper delegation and serialized CalculationResult shape."
+  ],
+  "engineeringFunctionality": "Public geotechnical ground-anchor application wrapper for cement-grouted anchor design, wall-demand conversion, bond, tendon, corrosion protection and acceptance-test checks."
+}

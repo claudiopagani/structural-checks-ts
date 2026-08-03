@@ -384,6 +384,7 @@ export {
 export { GeotechnicalDeepFoundationApplication } from "./applications/geotechnical-deep-foundations/GeotechnicalDeepFoundationApplication.js";
 export { GeotechnicalEarthPressureApplication } from "./applications/geotechnical-earth-pressures/index.js";
 export { GeotechnicalEmbeddedRetainingWallApplication } from "./applications/geotechnical-embedded-retaining-walls/index.js";
+export { GeotechnicalGroundAnchorApplication } from "./applications/geotechnical-ground-anchors/index.js";
 export {
   AXIAL_PILE_CAPACITY_REFERENCE,
   AXIAL_PILE_CAPACITY_RESULT_SCHEMA_VERSION,
