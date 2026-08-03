@@ -1,0 +1,71 @@
+{
+  "schemaVersion": 1,
+  "sliceId": "0181-applications-micropile-broms-index",
+  "title": "Micropile Broms public index",
+  "migrationType": "mechanical-parity",
+  "implementationStatus": "implemented",
+  "dependencies": ["0180-applications-micropile-broms-application"],
+  "source": {
+    "repository": "https://github.com/claudiopagani/strutture-js",
+    "revision": "6f33baead8b88166c4b2cf94af41763412e3c751"
+  },
+  "normativeCorpusRevision": "41da3faa489600173106935bbcf726119300e48d",
+  "sourceFiles": [
+    {
+      "path": "src/applications/micropiles-broms/index.js",
+      "gitBlobSha1": "fcdf21e5571acc737868b6b74257cd6c785dcc8b",
+      "targetPath": "src/applications/micropiles-broms/index.ts"
+    }
+  ],
+  "supportingSourceFiles": [
+    {
+      "path": "src/index.js",
+      "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7",
+      "targetPath": "src/index.ts",
+      "coverage": "Pinned root aliases for all Micropile Broms public barrel exports."
+    }
+  ],
+  "sourceOracles": [
+    {
+      "path": "tests/geotechnicalLateralPiles.test.js",
+      "gitBlobSha1": "4fb4df49422b449fee8307a02c8e98c4416160e4",
+      "coverage": "Pinned Micropile Broms application, analysis and model behavior."
+    },
+    {
+      "path": "tests/packageExports.test.js",
+      "gitBlobSha1": "8dde24b4c97dd3dae7100207d07d9d96c52b9c74",
+      "coverage": "Pinned root public-export aliases."
+    }
+  ],
+  "sourcePublicExport": {
+    "path": "src/applications/micropiles-broms/index.js",
+    "gitBlobSha1": "fcdf21e5571acc737868b6b74257cd6c785dcc8b"
+  },
+  "targetTests": [
+    "tests/micropile-broms-index-compile-time.test.ts",
+    "tests/micropile-broms-index-live-parity.test.ts"
+  ],
+  "publicExports": ["MicropileBromsApplication", "MicropileBromsAnalysis", "MicropileBromsModel"],
+  "normativeReferences": {
+    "resolved": [],
+    "outsideCorpus": [],
+    "normativeConformityClaimed": false,
+    "status": "classified-for-declared-scope"
+  },
+  "independentValidation": {
+    "method": "Strict typed consumer declarations and independently executed pinned JavaScript versus built TypeScript comparison of exact barrel export names, export kinds, root aliases and application constructor compatibility.",
+    "targetTests": [
+      "tests/micropile-broms-index-compile-time.test.ts",
+      "tests/micropile-broms-index-live-parity.test.ts"
+    ],
+    "fixture": "Micropile Broms public barrel with its application, analysis and model exports.",
+    "tolerances": {
+      "serializedParity": "exact export-name sequence and structural constructor prototype shape",
+      "numericParity": "not applicable to this public index slice",
+      "publicStrings": "exact public export names and root aliases",
+      "errors": "not applicable to this public index slice"
+    }
+  },
+  "parityDifferences": [],
+  "engineeringFunctionality": "Source-compatible strict TypeScript public barrel for the complete Micropile Broms compatibility surface."
+}
