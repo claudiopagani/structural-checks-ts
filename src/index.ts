@@ -854,6 +854,8 @@ export type {
   TimberLateralTorsionalStabilityInput,
   TimberLateralTorsionalStabilityResult,
 } from "./applications/timber-beams/checks/TimberLateralTorsionalStability.js";
+export { TimberBeamModel } from "./applications/timber-beams/models/TimberBeamModel.js";
+export type { TimberBeamModelOptions } from "./applications/timber-beams/models/TimberBeamModel.js";
 export { SteelRingFrame2DBuilder } from "./applications/steel-frames/analysis/SteelRingFrame2DBuilder.js";
 export type {
   SteelRingFrame2DBuilderOptions,

@@ -124,6 +124,7 @@ const expectedExports = [
   "calculateTimberLateralBucklingReduction",
   "calculateTimberRectangularCriticalBendingStress",
   "verifyTimberLateralTorsionalStability",
+  "TimberBeamModel",
   "MasonryWallPierModel",
   "MasonryWallSpandrelModel",
   "NTC2018MasonryPierAnalysis",

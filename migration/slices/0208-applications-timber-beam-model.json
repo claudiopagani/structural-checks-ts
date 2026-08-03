@@ -1,0 +1,83 @@
+{
+  "schemaVersion": 1,
+  "sliceId": "0208-applications-timber-beam-model",
+  "title": "Timber beam model DTO",
+  "migrationType": "mechanical-parity",
+  "implementationStatus": "implemented",
+  "dependencies": [
+    "0207-applications-timber-lateral-torsional-stability",
+    "0041-domain-beam-section-providers",
+    "0064-domain-timber-material-hierarchy"
+  ],
+  "source": {
+    "repository": "https://github.com/claudiopagani/strutture-js",
+    "revision": "6f33baead8b88166c4b2cf94af41763412e3c751"
+  },
+  "normativeCorpusRevision": "41da3faa489600173106935bbcf726119300e48d",
+  "sourceFiles": [
+    {
+      "path": "src/applications/timber-beams/models/TimberBeamModel.js",
+      "gitBlobSha1": "15e0ce798d14a27a32ec77fc47854cfd5e360c32",
+      "targetPath": "src/applications/timber-beams/models/TimberBeamModel.ts"
+    }
+  ],
+  "supportingSourceFiles": [
+    {
+      "path": "src/applications/timber-beams/index.js",
+      "gitBlobSha1": "b1a6dbf458601210a81815d0ce722831b347465c",
+      "coverage": "Pinned timber-beams barrel context; only TimberBeamModel is supported in this slice."
+    },
+    {
+      "path": "src/index.js",
+      "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7",
+      "coverage": "Pinned root public export context for TimberBeamModel."
+    }
+  ],
+  "sourceOracles": [
+    {
+      "path": "tests/timberBeamSectionProvider.test.js",
+      "gitBlobSha1": "e5303c179d99849a13ad94f5b1be88acfa23bdef",
+      "coverage": "Pinned timber beam section/material DTO context and units used by the model."
+    },
+    {
+      "path": "tests/packageExports.test.js",
+      "gitBlobSha1": "8dde24b4c97dd3dae7100207d07d9d96c52b9c74",
+      "coverage": "Pinned public TimberBeamModel export behavior."
+    }
+  ],
+  "sourcePublicExport": {
+    "path": "src/index.js",
+    "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
+  },
+  "targetTests": [
+    "tests/baseline-parity.test.ts",
+    "tests/timber-beam-model-compile-time.test.ts",
+    "tests/timber-beam-model-live-parity.test.ts"
+  ],
+  "publicExports": ["TimberBeamModel"],
+  "publicTypeExports": ["TimberBeamModelOptions"],
+  "normativeReferences": {
+    "resolved": [],
+    "outsideCorpus": [],
+    "normativeConformityClaimed": false,
+    "status": "classified-for-declared-scope"
+  },
+  "independentValidation": {
+    "method": "Strict typed consumer declarations and independently executed pinned JavaScript versus built TypeScript differential comparison for complete model serialization, defaults, cloning behavior, public Unicode metadata and exact missing-id error behavior.",
+    "targetTests": [
+      "tests/timber-beam-model-compile-time.test.ts",
+      "tests/timber-beam-model-live-parity.test.ts"
+    ],
+    "fixture": "Independent timber beam model DTO with span, section, material, restraints, load cases and Unicode metadata.",
+    "tolerances": {
+      "serializedParity": "exact enumerable model JSON",
+      "numericParity": "exact span and nested numeric values",
+      "publicStrings": "exact identifiers, metadata and Unicode code points",
+      "errors": "exact missing model id error name and message comparison"
+    }
+  },
+  "parityDifferences": [
+    "Strict TypeScript declarations are added for TimberBeamModel and TimberBeamModelOptions."
+  ],
+  "engineeringFunctionality": "Strict TypeScript parity for the serializable timber beam model DTO, defaults, shallow cloning and validation; TimberBeamVerification and TimberBeamApplication remain outside this slice."
+}
