@@ -1,0 +1,70 @@
+{
+  "schemaVersion": 1,
+  "sliceId": "0213-applications-reinforced-concrete-plates-documentation",
+  "title": "Reinforced-concrete plates documentation support",
+  "migrationType": "mechanical-parity",
+  "implementationStatus": "implemented",
+  "dependencies": ["0015-reinforced-concrete-plates"],
+  "source": {
+    "repository": "https://github.com/claudiopagani/strutture-js",
+    "revision": "6f33baead8b88166c4b2cf94af41763412e3c751"
+  },
+  "normativeCorpusRevision": "41da3faa489600173106935bbcf726119300e48d",
+  "sourceFiles": [
+    {
+      "path": "src/applications/reinforced-concrete-plates/README.md",
+      "gitBlobSha1": "ba943a0a8e0e8fbb22dbff6675041801a69d57c6",
+      "targetPath": "src/applications/reinforced-concrete-plates/README.md"
+    }
+  ],
+  "supportingSourceFiles": [
+    {
+      "path": "src/applications/reinforced-concrete-plates/index.js",
+      "gitBlobSha1": "61286c729fcb978ce2bc30c10f611bc8caf8e045",
+      "coverage": "Already-migrated reinforced-concrete plates public index retained in the revised A4 scope."
+    },
+    {
+      "path": "src/index.js",
+      "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7",
+      "coverage": "Pinned root public export context for the already-migrated plate application."
+    }
+  ],
+  "sourceOracles": [
+    {
+      "path": "tests/reinforcedConcretePlateApplication.test.js",
+      "gitBlobSha1": "498dbffb3c8a372dc85f3590d6a0dbe9832281e0",
+      "coverage": "Pinned reinforced-concrete plates public workflow and entrypoint context."
+    },
+    {
+      "path": "tests/packageExports.test.js",
+      "gitBlobSha1": "8dde24b4c97dd3dae7100207d07d9d96c52b9c74",
+      "coverage": "Pinned application subpath export context."
+    }
+  ],
+  "sourcePublicExport": {
+    "path": "src/index.js",
+    "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
+  },
+  "targetTests": ["tests/reinforced-concrete-plates-documentation-parity.test.ts"],
+  "publicExports": [],
+  "publicTypeExports": [],
+  "normativeReferences": {
+    "resolved": [],
+    "outsideCorpus": [],
+    "normativeConformityClaimed": false,
+    "status": "classified-for-declared-scope"
+  },
+  "independentValidation": {
+    "method": "Independent pinned-source Git-blob and target-file comparison with exact UTF-8 and Unicode code-point equality.",
+    "targetTests": ["tests/reinforced-concrete-plates-documentation-parity.test.ts"],
+    "fixture": "The complete reinforced-concrete plates README and the already-migrated public index context.",
+    "tolerances": {
+      "serializedParity": "exact documentation bytes decoded as UTF-8",
+      "numericParity": "not applicable",
+      "publicStrings": "exact documentation strings and Unicode code points",
+      "errors": "not applicable"
+    }
+  },
+  "parityDifferences": [],
+  "engineeringFunctionality": "Documentation-only support for the already-migrated reinforced-concrete plates application. No new engineering implementation or public runtime export is added."
+}

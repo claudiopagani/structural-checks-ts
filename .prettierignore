@@ -4,3 +4,4 @@ coverage/
 LICENSE
 package-lock.json
 tmp/
+src/applications/reinforced-concrete-plates/README.md

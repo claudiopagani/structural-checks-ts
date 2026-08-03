@@ -12,6 +12,7 @@ export type InventoryStatus =
   | "exact-parity"
   | "partial"
   | "missing"
+  | "deferred"
   | "intentionally-excluded"
   | "decision-required";
 
@@ -92,8 +93,23 @@ export interface StatusCounts {
   "exact-parity": number;
   partial: number;
   missing: number;
+  deferred: number;
   "intentionally-excluded": number;
   "decision-required": number;
+}
+
+export interface PhaseA4Scope {
+  schemaVersion: 1;
+  phase: "A4";
+  status: "revised";
+  sourceRevision: string;
+  normativeRevision: string;
+  retainedSourcePaths: string[];
+  deferredSourcePaths: string[];
+  deferredApplicationExports: string[];
+  deferredRootExports: string[];
+  deferredRegistryApplicationIds: string[];
+  decision: string;
 }
 
 export interface InventoryCounts {
@@ -149,6 +165,7 @@ export interface ParityInventory {
   browserGates: InventoryItem[];
   webWorkerGates: InventoryItem[];
   validationEvidence: ValidationEvidenceInventoryItem[];
+  phaseA4Scope: PhaseA4Scope;
   counts: InventoryCounts;
   remainingBacklog: {
     domain: BacklogGroup;
@@ -225,6 +242,7 @@ interface SourceContext {
   exportToTargetTests: Map<string, string[]>;
   exportToValidation: Map<string, string[]>;
   validationEvidence: ValidationEvidenceInventoryItem[];
+  phaseA4Scope: PhaseA4Scope;
 }
 
 const repositoryRoot = path.resolve(import.meta.dirname, "..");
@@ -270,6 +288,42 @@ async function execGit(repositoryPath: string, args: string[]): Promise<string> 
 
 async function readJson(filePath: string): Promise<unknown> {
   return JSON.parse(await readFile(filePath, "utf8")) as unknown;
+}
+
+function parsePhaseA4Scope(value: unknown): PhaseA4Scope {
+  if (!isRecord(value)) {
+    throw new Error("migration/phase-a4-scope.json is not an object.");
+  }
+
+  if (value.schemaVersion !== 1 || value.phase !== "A4" || value.status !== "revised") {
+    throw new Error("migration/phase-a4-scope.json has unsupported scope metadata.");
+  }
+
+  const sourceRevision = stringValue(value.sourceRevision, "");
+  const normativeRevision = stringValue(value.normativeRevision, "");
+  if (sourceRevision !== SOURCE_REVISION || normativeRevision !== NORMATIVE_REVISION) {
+    throw new Error("migration/phase-a4-scope.json revisions do not match the pinned baselines.");
+  }
+
+  return {
+    schemaVersion: 1,
+    phase: "A4",
+    status: "revised",
+    sourceRevision,
+    normativeRevision,
+    retainedSourcePaths: stringArray(value.retainedSourcePaths),
+    deferredSourcePaths: stringArray(value.deferredSourcePaths),
+    deferredApplicationExports: stringArray(value.deferredApplicationExports),
+    deferredRootExports: stringArray(value.deferredRootExports),
+    deferredRegistryApplicationIds: stringArray(value.deferredRegistryApplicationIds),
+    decision: stringValue(value.decision, ""),
+  };
+}
+
+async function loadPhaseA4Scope(): Promise<PhaseA4Scope> {
+  return parsePhaseA4Scope(
+    await readJson(path.join(repositoryRoot, "migration", "phase-a4-scope.json")),
+  );
 }
 
 async function loadTargetFiles(): Promise<TargetFiles> {
@@ -714,11 +768,21 @@ function makeStatusCounts(items: Array<{ status: InventoryStatus }>): StatusCoun
     "exact-parity": 0,
     partial: 0,
     missing: 0,
+    deferred: 0,
     "intentionally-excluded": 0,
     "decision-required": 0,
   };
   for (const item of items) result[item.status] += 1;
   return result;
+}
+
+function applyPhaseA4Scope<T extends { status: InventoryStatus }>(
+  items: T[],
+  shouldDefer: (item: T) => boolean,
+): T[] {
+  return items.map((item) =>
+    item.status !== "exact-parity" && shouldDefer(item) ? { ...item, status: "deferred" } : item,
+  );
 }
 
 function defaultTargetTestsForSource(sourcePath: string): string[] {
@@ -1017,6 +1081,7 @@ export async function buildParityInventory(
     options.normativePath ?? process.env.STRUTTURE_NORMATIVE_PATH ?? defaultNormativePath,
   );
   const { sourcePackage, sourceTree } = await verifyPinnedRepositories(sourcePath, normativePath);
+  const phaseA4Scope = await loadPhaseA4Scope();
   const targetFiles = await loadTargetFiles();
   const slices = await loadSlices();
   const maps = buildSliceMaps(slices);
@@ -1028,32 +1093,42 @@ export async function buildParityInventory(
     normativePath,
     targetFiles,
     slices,
+    phaseA4Scope,
     ...maps,
   };
   const targetPackage = parseTargetPackage(
     await readJson(path.join(repositoryRoot, "package.json")),
   );
-  const rootExports = await buildSourceExportItems(
-    context,
-    "src/index.js",
-    maps.exportToSlices,
-    maps.exportToOracles,
-    maps.exportToTargetTests,
-    maps.exportToValidation,
+  const rootExports = applyPhaseA4Scope(
+    await buildSourceExportItems(
+      context,
+      "src/index.js",
+      maps.exportToSlices,
+      maps.exportToOracles,
+      maps.exportToTargetTests,
+      maps.exportToValidation,
+    ),
+    (item) => phaseA4Scope.deferredRootExports.includes(item.id),
   );
-  const applicationsExports = await buildSourceExportItems(
-    context,
-    "src/applications/index.js",
-    maps.exportToSlices,
-    maps.exportToOracles,
-    maps.exportToTargetTests,
-    maps.exportToValidation,
+  const applicationsExports = applyPhaseA4Scope(
+    await buildSourceExportItems(
+      context,
+      "src/applications/index.js",
+      maps.exportToSlices,
+      maps.exportToOracles,
+      maps.exportToTargetTests,
+      maps.exportToValidation,
+    ),
+    (item) => phaseA4Scope.deferredApplicationExports.includes(item.id),
   );
 
-  const sourceFiles = [...sourceTree.keys()]
-    .filter((filePath) => filePath.startsWith("src/"))
-    .sort()
-    .map((filePath) => itemFromSource(context, filePath));
+  const sourceFiles = applyPhaseA4Scope(
+    [...sourceTree.keys()]
+      .filter((filePath) => filePath.startsWith("src/"))
+      .sort()
+      .map((filePath) => itemFromSource(context, filePath)),
+    (item) => phaseA4Scope.deferredSourcePaths.includes(item.sourcePath),
+  );
   const sourceTests = [...sourceTree.keys()]
     .filter((filePath) => filePath.startsWith("tests/"))
     .sort()
@@ -1122,27 +1197,30 @@ export async function buildParityInventory(
   const registryPath = "src/applications/index.js";
   const registryText = await loadSourceText(context, registryPath);
   const registryEntries = parseRegistryEntries(registryText, catalog);
-  const applicationRegistryEntries: RegistryInventoryItem[] = registryEntries.map((entry) => {
-    const item = itemFromSource(context, registryPath, {
-      id: entry.applicationId,
-      name: entry.applicationClass,
-      targetPath: "src/applications/index.ts",
-      targetTests: [],
-      notes: ["Default registry construction is not present in the current TypeScript target."],
-    });
-    const targetApplicationExists = [...targetFiles.paths].some((filePath) =>
-      filePath.startsWith(`${entry.targetApplicationPath}/`),
-    );
-    const status: InventoryStatus = targetApplicationExists ? "partial" : "missing";
-    return {
-      ...item,
-      status,
-      applicationId: entry.applicationId,
-      applicationClass: entry.applicationClass,
-      targetApplicationPath: entry.targetApplicationPath,
-      maturity: entry.maturity,
-    };
-  });
+  const applicationRegistryEntries: RegistryInventoryItem[] = applyPhaseA4Scope(
+    registryEntries.map((entry) => {
+      const item = itemFromSource(context, registryPath, {
+        id: entry.applicationId,
+        name: entry.applicationClass,
+        targetPath: "src/applications/index.ts",
+        targetTests: [],
+        notes: ["Default registry construction is not present in the current TypeScript target."],
+      });
+      const targetApplicationExists = [...targetFiles.paths].some((filePath) =>
+        filePath.startsWith(`${entry.targetApplicationPath}/`),
+      );
+      const status: InventoryStatus = targetApplicationExists ? "partial" : "missing";
+      return {
+        ...item,
+        status,
+        applicationId: entry.applicationId,
+        applicationClass: entry.applicationClass,
+        targetApplicationPath: entry.targetApplicationPath,
+        maturity: entry.maturity,
+      };
+    }),
+    (item) => phaseA4Scope.deferredRegistryApplicationIds.includes(item.applicationId),
+  );
 
   const schemaNames = uniqueSorted(
     rootExports
@@ -1401,6 +1479,7 @@ export async function buildParityInventory(
     browserGates,
     webWorkerGates,
     validationEvidence: maps.validationEvidence,
+    phaseA4Scope,
     counts,
     remainingBacklog: {
       domain: makeBacklogGroup(groups.domain),
@@ -1517,6 +1596,7 @@ export function renderParitySummary(inventory: ParityInventory): string {
     "- `exact-parity`: the target item exists and an existing migration slice/oracle or target test provides recorded evidence.",
     "- `partial`: a target exists but the inventory has not established complete source behavior.",
     "- `missing`: no target item was found at the planned TypeScript path.",
+    "- `deferred`: the item is explicitly outside the revised Phase A4 scope and remains untranslated for a later phase.",
     "- `intentionally-excluded`: the source item is outside the target library boundary and has a recorded reason.",
     "- `decision-required`: a maintainer decision is needed before mapping can be finalized.",
     "",

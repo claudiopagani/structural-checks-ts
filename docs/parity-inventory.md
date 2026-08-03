@@ -21,7 +21,7 @@ establish behavioral parity.
 | Application catalog entries       |                30 |                 30 |
 | Serialized schema/version symbols |                49 |                 49 |
 | Source files                      |               480 |                475 |
-| Tests                             |               131 |                410 |
+| Tests                             |               131 |                411 |
 | Validation campaigns              |                17 |                  0 |
 | Validation files                  |                27 |                  0 |
 | Examples                          |                32 |                  0 |
@@ -34,9 +34,9 @@ establish behavioral parity.
 The JSON inventory contains the exact item IDs for every non-exact item. The groups below are the
 implementation order required by the repository architecture.
 
-- **domain** — partial: 1.
+- **domain** — deferred: 1.
 - **norms** — no remaining items.
-- **applications** — partial: 28, missing: 44.
+- **applications** — deferred: 71.
 - **packageValidation** — partial: 4, missing: 104.
 
 ## Status semantics
@@ -45,6 +45,8 @@ implementation order required by the repository architecture.
   provides recorded evidence.
 - `partial`: a target exists but the inventory has not established complete source behavior.
 - `missing`: no target item was found at the planned TypeScript path.
+- `deferred`: the item is explicitly outside the revised Phase A4 scope and remains untranslated for
+  a later phase.
 - `intentionally-excluded`: the source item is outside the target library boundary and has a
   recorded reason.
 - `decision-required`: a maintainer decision is needed before mapping can be finalized.

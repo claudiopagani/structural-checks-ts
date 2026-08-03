@@ -6910,7 +6910,7 @@
       "sourceOracles": [],
       "targetTests": [],
       "validationEvidence": [],
-      "status": "missing",
+      "status": "deferred",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -7909,7 +7909,7 @@
       "sourceOracles": [],
       "targetTests": [],
       "validationEvidence": [],
-      "status": "missing",
+      "status": "deferred",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -8064,7 +8064,7 @@
       "sourceOracles": [],
       "targetTests": [],
       "validationEvidence": [],
-      "status": "missing",
+      "status": "deferred",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -10501,7 +10501,7 @@
       "sourceOracles": [],
       "targetTests": [],
       "validationEvidence": [],
-      "status": "missing",
+      "status": "deferred",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -12394,7 +12394,7 @@
       "sourceOracles": [],
       "targetTests": [],
       "validationEvidence": [],
-      "status": "missing",
+      "status": "deferred",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -19382,7 +19382,7 @@
       "sourceOracles": [],
       "targetTests": [],
       "validationEvidence": [],
-      "status": "missing",
+      "status": "deferred",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -19396,7 +19396,7 @@
       "sourceOracles": [],
       "targetTests": [],
       "validationEvidence": [],
-      "status": "missing",
+      "status": "deferred",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -20337,7 +20337,7 @@
       "sourceOracles": [],
       "targetTests": [],
       "validationEvidence": [],
-      "status": "missing",
+      "status": "deferred",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -20395,7 +20395,7 @@
       "sourceOracles": [],
       "targetTests": [],
       "validationEvidence": [],
-      "status": "missing",
+      "status": "deferred",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -20449,7 +20449,7 @@
       "sourceOracles": [],
       "targetTests": [],
       "validationEvidence": [],
-      "status": "missing",
+      "status": "deferred",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -20463,7 +20463,7 @@
       "sourceOracles": [],
       "targetTests": [],
       "validationEvidence": [],
-      "status": "missing",
+      "status": "deferred",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -20477,7 +20477,7 @@
       "sourceOracles": [],
       "targetTests": [],
       "validationEvidence": [],
-      "status": "missing",
+      "status": "deferred",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -20491,7 +20491,7 @@
       "sourceOracles": [],
       "targetTests": [],
       "validationEvidence": [],
-      "status": "missing",
+      "status": "deferred",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -21720,7 +21720,7 @@
       "sourceOracles": [],
       "targetTests": [],
       "validationEvidence": [],
-      "status": "missing",
+      "status": "deferred",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -21756,7 +21756,7 @@
       "sourceOracles": [],
       "targetTests": [],
       "validationEvidence": [],
-      "status": "missing",
+      "status": "deferred",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -21770,7 +21770,7 @@
       "sourceOracles": [],
       "targetTests": [],
       "validationEvidence": [],
-      "status": "missing",
+      "status": "deferred",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -21784,7 +21784,7 @@
       "sourceOracles": [],
       "targetTests": [],
       "validationEvidence": [],
-      "status": "missing",
+      "status": "deferred",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -22813,7 +22813,7 @@
       "sourceOracles": [],
       "targetTests": [],
       "validationEvidence": [],
-      "status": "missing",
+      "status": "deferred",
       "publicEntryPath": "src/applications/index.js",
       "publicEntryBlobSha1": "b70179c7cdd2a819f2151dc092c0f59cbce30ba6"
     },
@@ -22940,7 +22940,7 @@
       "sourceOracles": [],
       "targetTests": [],
       "validationEvidence": [],
-      "status": "missing",
+      "status": "deferred",
       "publicEntryPath": "src/applications/index.js",
       "publicEntryBlobSha1": "b70179c7cdd2a819f2151dc092c0f59cbce30ba6"
     },
@@ -27755,7 +27755,7 @@
       "sourceOracles": [],
       "targetTests": [],
       "validationEvidence": [],
-      "status": "missing",
+      "status": "deferred",
       "publicEntryPath": "src/applications/index.js",
       "publicEntryBlobSha1": "b70179c7cdd2a819f2151dc092c0f59cbce30ba6"
     },
@@ -27813,7 +27813,7 @@
       "sourceOracles": [],
       "targetTests": [],
       "validationEvidence": [],
-      "status": "missing",
+      "status": "deferred",
       "publicEntryPath": "src/applications/index.js",
       "publicEntryBlobSha1": "b70179c7cdd2a819f2151dc092c0f59cbce30ba6"
     },
@@ -27827,7 +27827,7 @@
       "sourceOracles": [],
       "targetTests": [],
       "validationEvidence": [],
-      "status": "missing",
+      "status": "deferred",
       "publicEntryPath": "src/applications/index.js",
       "publicEntryBlobSha1": "b70179c7cdd2a819f2151dc092c0f59cbce30ba6"
     },
@@ -27841,7 +27841,7 @@
       "sourceOracles": [],
       "targetTests": [],
       "validationEvidence": [],
-      "status": "missing",
+      "status": "deferred",
       "publicEntryPath": "src/applications/index.js",
       "publicEntryBlobSha1": "b70179c7cdd2a819f2151dc092c0f59cbce30ba6"
     },
@@ -27855,7 +27855,7 @@
       "sourceOracles": [],
       "targetTests": [],
       "validationEvidence": [],
-      "status": "missing",
+      "status": "deferred",
       "publicEntryPath": "src/applications/index.js",
       "publicEntryBlobSha1": "b70179c7cdd2a819f2151dc092c0f59cbce30ba6"
     },
@@ -27869,7 +27869,7 @@
       "sourceOracles": [],
       "targetTests": [],
       "validationEvidence": [],
-      "status": "missing",
+      "status": "deferred",
       "publicEntryPath": "src/applications/index.js",
       "publicEntryBlobSha1": "b70179c7cdd2a819f2151dc092c0f59cbce30ba6"
     },
@@ -28320,7 +28320,7 @@
       "sourceOracles": [],
       "targetTests": [],
       "validationEvidence": [],
-      "status": "missing",
+      "status": "deferred",
       "publicEntryPath": "src/applications/index.js",
       "publicEntryBlobSha1": "b70179c7cdd2a819f2151dc092c0f59cbce30ba6"
     },
@@ -28334,7 +28334,7 @@
       "sourceOracles": [],
       "targetTests": [],
       "validationEvidence": [],
-      "status": "missing",
+      "status": "deferred",
       "publicEntryPath": "src/applications/index.js",
       "publicEntryBlobSha1": "b70179c7cdd2a819f2151dc092c0f59cbce30ba6"
     },
@@ -28348,7 +28348,7 @@
       "sourceOracles": [],
       "targetTests": [],
       "validationEvidence": [],
-      "status": "missing",
+      "status": "deferred",
       "publicEntryPath": "src/applications/index.js",
       "publicEntryBlobSha1": "b70179c7cdd2a819f2151dc092c0f59cbce30ba6"
     },
@@ -28362,7 +28362,7 @@
       "sourceOracles": [],
       "targetTests": [],
       "validationEvidence": [],
-      "status": "missing",
+      "status": "deferred",
       "publicEntryPath": "src/applications/index.js",
       "publicEntryBlobSha1": "b70179c7cdd2a819f2151dc092c0f59cbce30ba6"
     }
@@ -28399,7 +28399,7 @@
         "0026-reinforced-concrete-beam-column-joints",
         "0027-reinforced-concrete-strut-and-tie"
       ],
-      "status": "partial",
+      "status": "deferred",
       "notes": ["Default registry construction is not present in the current TypeScript target."],
       "applicationId": "single-beam-design",
       "applicationClass": "SingleBeamDesignApplication",
@@ -28439,7 +28439,7 @@
         "0026-reinforced-concrete-beam-column-joints",
         "0027-reinforced-concrete-strut-and-tie"
       ],
-      "status": "partial",
+      "status": "deferred",
       "notes": ["Default registry construction is not present in the current TypeScript target."],
       "applicationId": "global-fem-postprocessing",
       "applicationClass": "GlobalFemPostProcessingApplication",
@@ -28476,7 +28476,7 @@
         "0026-reinforced-concrete-beam-column-joints",
         "0027-reinforced-concrete-strut-and-tie"
       ],
-      "status": "partial",
+      "status": "deferred",
       "notes": ["Default registry construction is not present in the current TypeScript target."],
       "applicationId": "steel-frames",
       "applicationClass": "SteelFrameApplication",
@@ -28515,7 +28515,7 @@
         "0026-reinforced-concrete-beam-column-joints",
         "0027-reinforced-concrete-strut-and-tie"
       ],
-      "status": "partial",
+      "status": "deferred",
       "notes": ["Default registry construction is not present in the current TypeScript target."],
       "applicationId": "masonry-ring-beams",
       "applicationClass": "MasonryRingBeamApplication",
@@ -28552,7 +28552,7 @@
         "0026-reinforced-concrete-beam-column-joints",
         "0027-reinforced-concrete-strut-and-tie"
       ],
-      "status": "partial",
+      "status": "deferred",
       "notes": ["Default registry construction is not present in the current TypeScript target."],
       "applicationId": "masonry-piers",
       "applicationClass": "MasonryPierApplication",
@@ -28589,7 +28589,7 @@
         "0026-reinforced-concrete-beam-column-joints",
         "0027-reinforced-concrete-strut-and-tie"
       ],
-      "status": "partial",
+      "status": "deferred",
       "notes": ["Default registry construction is not present in the current TypeScript target."],
       "applicationId": "masonry-wall-openings",
       "applicationClass": "MasonryWallOpeningsApplication",
@@ -28632,7 +28632,7 @@
         "0026-reinforced-concrete-beam-column-joints",
         "0027-reinforced-concrete-strut-and-tie"
       ],
-      "status": "partial",
+      "status": "deferred",
       "notes": ["Default registry construction is not present in the current TypeScript target."],
       "applicationId": "reinforced-concrete-sections",
       "applicationClass": "ReinforcedConcreteSectionApplication",
@@ -28665,7 +28665,7 @@
         "0026-reinforced-concrete-beam-column-joints",
         "0027-reinforced-concrete-strut-and-tie"
       ],
-      "status": "partial",
+      "status": "deferred",
       "notes": ["Default registry construction is not present in the current TypeScript target."],
       "applicationId": "reinforced-concrete-plates",
       "applicationClass": "ReinforcedConcretePlateApplication",
@@ -28698,7 +28698,7 @@
         "0026-reinforced-concrete-beam-column-joints",
         "0027-reinforced-concrete-strut-and-tie"
       ],
-      "status": "partial",
+      "status": "deferred",
       "notes": ["Default registry construction is not present in the current TypeScript target."],
       "applicationId": "reinforced-concrete-punching",
       "applicationClass": "ReinforcedConcretePunchingApplication",
@@ -28736,7 +28736,7 @@
         "0026-reinforced-concrete-beam-column-joints",
         "0027-reinforced-concrete-strut-and-tie"
       ],
-      "status": "partial",
+      "status": "deferred",
       "notes": ["Default registry construction is not present in the current TypeScript target."],
       "applicationId": "reinforced-concrete-columns",
       "applicationClass": "ReinforcedConcreteColumnApplication",
@@ -28774,7 +28774,7 @@
         "0026-reinforced-concrete-beam-column-joints",
         "0027-reinforced-concrete-strut-and-tie"
       ],
-      "status": "partial",
+      "status": "deferred",
       "notes": ["Default registry construction is not present in the current TypeScript target."],
       "applicationId": "reinforced-concrete-isolated-footings",
       "applicationClass": "ReinforcedConcreteIsolatedFootingApplication",
@@ -28810,7 +28810,7 @@
         "0026-reinforced-concrete-beam-column-joints",
         "0027-reinforced-concrete-strut-and-tie"
       ],
-      "status": "partial",
+      "status": "deferred",
       "notes": ["Default registry construction is not present in the current TypeScript target."],
       "applicationId": "reinforced-concrete-foundation-beams",
       "applicationClass": "ReinforcedConcreteFoundationBeamApplication",
@@ -28846,7 +28846,7 @@
         "0026-reinforced-concrete-beam-column-joints",
         "0027-reinforced-concrete-strut-and-tie"
       ],
-      "status": "partial",
+      "status": "deferred",
       "notes": ["Default registry construction is not present in the current TypeScript target."],
       "applicationId": "reinforced-concrete-beam-column-joints",
       "applicationClass": "ReinforcedConcreteBeamColumnJointApplication",
@@ -28882,7 +28882,7 @@
         "0026-reinforced-concrete-beam-column-joints",
         "0027-reinforced-concrete-strut-and-tie"
       ],
-      "status": "partial",
+      "status": "deferred",
       "notes": ["Default registry construction is not present in the current TypeScript target."],
       "applicationId": "reinforced-concrete-strut-and-tie",
       "applicationClass": "ReinforcedConcreteStrutAndTieApplication",
@@ -28921,7 +28921,7 @@
         "0026-reinforced-concrete-beam-column-joints",
         "0027-reinforced-concrete-strut-and-tie"
       ],
-      "status": "partial",
+      "status": "deferred",
       "notes": ["Default registry construction is not present in the current TypeScript target."],
       "applicationId": "rc-building-verification",
       "applicationClass": "RcBuildingVerificationApplication",
@@ -28958,7 +28958,7 @@
         "0026-reinforced-concrete-beam-column-joints",
         "0027-reinforced-concrete-strut-and-tie"
       ],
-      "status": "partial",
+      "status": "deferred",
       "notes": ["Default registry construction is not present in the current TypeScript target."],
       "applicationId": "timber-beams",
       "applicationClass": "TimberBeamApplication",
@@ -28991,7 +28991,7 @@
         "0026-reinforced-concrete-beam-column-joints",
         "0027-reinforced-concrete-strut-and-tie"
       ],
-      "status": "partial",
+      "status": "deferred",
       "notes": ["Default registry construction is not present in the current TypeScript target."],
       "applicationId": "timber-concrete-composite-beams",
       "applicationClass": "TimberConcreteCompositeBeamApplication",
@@ -29024,7 +29024,7 @@
         "0026-reinforced-concrete-beam-column-joints",
         "0027-reinforced-concrete-strut-and-tie"
       ],
-      "status": "missing",
+      "status": "deferred",
       "notes": ["Default registry construction is not present in the current TypeScript target."],
       "applicationId": "timber-xlam-composite-beams",
       "applicationClass": "TimberXlamCompositeBeamApplication",
@@ -29057,7 +29057,7 @@
         "0026-reinforced-concrete-beam-column-joints",
         "0027-reinforced-concrete-strut-and-tie"
       ],
-      "status": "missing",
+      "status": "deferred",
       "notes": ["Default registry construction is not present in the current TypeScript target."],
       "applicationId": "xlam-panels-out-of-plane",
       "applicationClass": "XlamOutOfPlanePanelApplication",
@@ -29090,7 +29090,7 @@
         "0026-reinforced-concrete-beam-column-joints",
         "0027-reinforced-concrete-strut-and-tie"
       ],
-      "status": "partial",
+      "status": "deferred",
       "notes": ["Default registry construction is not present in the current TypeScript target."],
       "applicationId": "rc-cracked-deflection",
       "applicationClass": "RCrackedDeflectionApplication",
@@ -29127,7 +29127,7 @@
         "0026-reinforced-concrete-beam-column-joints",
         "0027-reinforced-concrete-strut-and-tie"
       ],
-      "status": "partial",
+      "status": "deferred",
       "notes": ["Default registry construction is not present in the current TypeScript target."],
       "applicationId": "masonry-out-of-plane",
       "applicationClass": "MasonryOutOfPlaneApplication",
@@ -29165,7 +29165,7 @@
         "0026-reinforced-concrete-beam-column-joints",
         "0027-reinforced-concrete-strut-and-tie"
       ],
-      "status": "partial",
+      "status": "deferred",
       "notes": ["Default registry construction is not present in the current TypeScript target."],
       "applicationId": "micropiles-broms",
       "applicationClass": "MicropileBromsApplication",
@@ -29203,7 +29203,7 @@
         "0026-reinforced-concrete-beam-column-joints",
         "0027-reinforced-concrete-strut-and-tie"
       ],
-      "status": "partial",
+      "status": "deferred",
       "notes": ["Default registry construction is not present in the current TypeScript target."],
       "applicationId": "geotechnical-deep-foundations",
       "applicationClass": "GeotechnicalDeepFoundationApplication",
@@ -29240,7 +29240,7 @@
         "0026-reinforced-concrete-beam-column-joints",
         "0027-reinforced-concrete-strut-and-tie"
       ],
-      "status": "partial",
+      "status": "deferred",
       "notes": ["Default registry construction is not present in the current TypeScript target."],
       "applicationId": "geotechnical-embedded-retaining-walls",
       "applicationClass": "GeotechnicalEmbeddedRetainingWallApplication",
@@ -29277,7 +29277,7 @@
         "0026-reinforced-concrete-beam-column-joints",
         "0027-reinforced-concrete-strut-and-tie"
       ],
-      "status": "partial",
+      "status": "deferred",
       "notes": ["Default registry construction is not present in the current TypeScript target."],
       "applicationId": "geotechnical-ground-anchors",
       "applicationClass": "GeotechnicalGroundAnchorApplication",
@@ -29314,7 +29314,7 @@
         "0026-reinforced-concrete-beam-column-joints",
         "0027-reinforced-concrete-strut-and-tie"
       ],
-      "status": "partial",
+      "status": "deferred",
       "notes": ["Default registry construction is not present in the current TypeScript target."],
       "applicationId": "geotechnical-lateral-piles",
       "applicationClass": "GeotechnicalLateralPileApplication",
@@ -29351,7 +29351,7 @@
         "0026-reinforced-concrete-beam-column-joints",
         "0027-reinforced-concrete-strut-and-tie"
       ],
-      "status": "partial",
+      "status": "deferred",
       "notes": ["Default registry construction is not present in the current TypeScript target."],
       "applicationId": "geotechnical-earth-pressures",
       "applicationClass": "GeotechnicalEarthPressureApplication",
@@ -29388,7 +29388,7 @@
         "0026-reinforced-concrete-beam-column-joints",
         "0027-reinforced-concrete-strut-and-tie"
       ],
-      "status": "partial",
+      "status": "deferred",
       "notes": ["Default registry construction is not present in the current TypeScript target."],
       "applicationId": "geotechnical-shallow-foundations",
       "applicationClass": "GeotechnicalShallowFoundationApplication",
@@ -29425,7 +29425,7 @@
         "0026-reinforced-concrete-beam-column-joints",
         "0027-reinforced-concrete-strut-and-tie"
       ],
-      "status": "partial",
+      "status": "deferred",
       "notes": ["Default registry construction is not present in the current TypeScript target."],
       "applicationId": "geotechnical-retaining-walls",
       "applicationClass": "GeotechnicalRetainingWallApplication",
@@ -29462,7 +29462,7 @@
         "0026-reinforced-concrete-beam-column-joints",
         "0027-reinforced-concrete-strut-and-tie"
       ],
-      "status": "partial",
+      "status": "deferred",
       "notes": ["Default registry construction is not present in the current TypeScript target."],
       "applicationId": "geotechnical-slope-stability",
       "applicationClass": "GeotechnicalSlopeStabilityApplication",
@@ -31908,7 +31908,7 @@
       "sourceOracles": [],
       "targetTests": [],
       "validationEvidence": [],
-      "status": "missing"
+      "status": "deferred"
     },
     {
       "id": "src/applications/masonry-wall-openings/materials/resolveAlignmentMechanicalState.js",
@@ -32988,11 +32988,14 @@
       "sourcePath": "src/applications/reinforced-concrete-plates/README.md",
       "sourceBlobSha1": "ba943a0a8e0e8fbb22dbff6675041801a69d57c6",
       "targetPath": "src/applications/reinforced-concrete-plates/README.md",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing"
+      "migrationSlices": ["0213-applications-reinforced-concrete-plates-documentation"],
+      "sourceOracles": [
+        "tests/packageExports.test.js",
+        "tests/reinforcedConcretePlateApplication.test.js"
+      ],
+      "targetTests": ["tests/reinforced-concrete-plates-documentation-parity.test.ts"],
+      "validationEvidence": ["0213-applications-reinforced-concrete-plates-documentation"],
+      "status": "exact-parity"
     },
     {
       "id": "src/applications/reinforced-concrete-plates/ReinforcedConcretePlateApplication.js",
@@ -34527,7 +34530,7 @@
       "sourceOracles": [],
       "targetTests": [],
       "validationEvidence": [],
-      "status": "missing"
+      "status": "deferred"
     },
     {
       "id": "src/applications/steel-frames/models/SteelFrameModel.js",
@@ -34620,7 +34623,7 @@
       "sourceOracles": [],
       "targetTests": [],
       "validationEvidence": [],
-      "status": "missing"
+      "status": "deferred"
     },
     {
       "id": "src/applications/timber-beams/models/TimberBeamModel.js",
@@ -34646,7 +34649,7 @@
       "sourceOracles": [],
       "targetTests": [],
       "validationEvidence": [],
-      "status": "missing"
+      "status": "deferred"
     },
     {
       "id": "src/applications/timber-concrete-composite-beams/analysis/TimberConcreteCompositeBeamSectionProvider.js",
@@ -34676,7 +34679,7 @@
       "sourceOracles": [],
       "targetTests": [],
       "validationEvidence": [],
-      "status": "missing"
+      "status": "deferred"
     },
     {
       "id": "src/applications/timber-concrete-composite-beams/index.js",
@@ -34687,7 +34690,7 @@
       "sourceOracles": [],
       "targetTests": [],
       "validationEvidence": [],
-      "status": "missing"
+      "status": "deferred"
     },
     {
       "id": "src/applications/timber-concrete-composite-beams/models/TimberConcreteCompositeBeamModel.js",
@@ -34717,7 +34720,7 @@
       "sourceOracles": [],
       "targetTests": [],
       "validationEvidence": [],
-      "status": "missing"
+      "status": "deferred"
     },
     {
       "id": "src/applications/timber-xlam-composite-beams/analysis/TimberXlamCompositeBeamSectionProvider.js",
@@ -34728,7 +34731,7 @@
       "sourceOracles": [],
       "targetTests": [],
       "validationEvidence": [],
-      "status": "missing"
+      "status": "deferred"
     },
     {
       "id": "src/applications/timber-xlam-composite-beams/checks/TimberXlamCompositeBeamVerification.js",
@@ -34739,7 +34742,7 @@
       "sourceOracles": [],
       "targetTests": [],
       "validationEvidence": [],
-      "status": "missing"
+      "status": "deferred"
     },
     {
       "id": "src/applications/timber-xlam-composite-beams/index.js",
@@ -34750,7 +34753,7 @@
       "sourceOracles": [],
       "targetTests": [],
       "validationEvidence": [],
-      "status": "missing"
+      "status": "deferred"
     },
     {
       "id": "src/applications/timber-xlam-composite-beams/models/TimberXlamCompositeBeamModel.js",
@@ -34761,7 +34764,7 @@
       "sourceOracles": [],
       "targetTests": [],
       "validationEvidence": [],
-      "status": "missing"
+      "status": "deferred"
     },
     {
       "id": "src/applications/xlam-beams/checks/XlamBeamVerification.js",
@@ -34772,7 +34775,7 @@
       "sourceOracles": [],
       "targetTests": [],
       "validationEvidence": [],
-      "status": "missing"
+      "status": "deferred"
     },
     {
       "id": "src/applications/xlam-beams/index.js",
@@ -34783,7 +34786,7 @@
       "sourceOracles": [],
       "targetTests": [],
       "validationEvidence": [],
-      "status": "missing"
+      "status": "deferred"
     },
     {
       "id": "src/applications/xlam-panels-out-of-plane/XlamOutOfPlanePanelApplication.js",
@@ -34794,7 +34797,7 @@
       "sourceOracles": [],
       "targetTests": [],
       "validationEvidence": [],
-      "status": "missing"
+      "status": "deferred"
     },
     {
       "id": "src/applications/xlam-panels-out-of-plane/checks/XlamOutOfPlanePanelVerification.js",
@@ -34805,7 +34808,7 @@
       "sourceOracles": [],
       "targetTests": [],
       "validationEvidence": [],
-      "status": "missing"
+      "status": "deferred"
     },
     {
       "id": "src/applications/xlam-panels-out-of-plane/index.js",
@@ -34816,7 +34819,7 @@
       "sourceOracles": [],
       "targetTests": [],
       "validationEvidence": [],
-      "status": "missing"
+      "status": "deferred"
     },
     {
       "id": "src/applications/xlam-panels-out-of-plane/models/XlamOutOfPlanePanelModel.js",
@@ -34827,7 +34830,7 @@
       "sourceOracles": [],
       "targetTests": [],
       "validationEvidence": [],
-      "status": "missing"
+      "status": "deferred"
     },
     {
       "id": "src/catalogs/soil-types.js",
@@ -37165,7 +37168,7 @@
       "sourceOracles": [],
       "targetTests": [],
       "validationEvidence": [],
-      "status": "partial"
+      "status": "deferred"
     },
     {
       "id": "src/domain/geotechnics/slopeStabilityMethods.js",
@@ -38455,7 +38458,8 @@
         "0209-applications-timber-beam-verification",
         "0210-applications-timber-beam-application",
         "0211-applications-timber-concrete-composite-beam-model",
-        "0212-applications-timber-concrete-composite-beam-section-provider"
+        "0212-applications-timber-concrete-composite-beam-section-provider",
+        "0213-applications-reinforced-concrete-plates-documentation"
       ],
       "sourceOracles": [
         "tests/architecture/applicationRegistry.test.js",
@@ -41698,7 +41702,8 @@
         "0209-applications-timber-beam-verification",
         "0210-applications-timber-beam-application",
         "0211-applications-timber-concrete-composite-beam-model",
-        "0212-applications-timber-concrete-composite-beam-section-provider"
+        "0212-applications-timber-concrete-composite-beam-section-provider",
+        "0213-applications-reinforced-concrete-plates-documentation"
       ],
       "sourceOracles": ["tests/packageExports.test.js"],
       "targetTests": [
@@ -41871,6 +41876,7 @@
         "tests/rc-section-state-integrator-live-parity.test.ts",
         "tests/reinforced-concrete-beam-column-joint.test.ts",
         "tests/reinforced-concrete-foundation-beam.test.ts",
+        "tests/reinforced-concrete-plates-documentation-parity.test.ts",
         "tests/reinforced-concrete-sections-analysis-index-compile-time.test.ts",
         "tests/reinforced-concrete-sections-analysis-index-live-parity.test.ts",
         "tests/reinforced-concrete-sections-index-compile-time.test.ts",
@@ -42087,7 +42093,8 @@
         "0209-applications-timber-beam-verification",
         "0210-applications-timber-beam-application",
         "0211-applications-timber-concrete-composite-beam-model",
-        "0212-applications-timber-concrete-composite-beam-section-provider"
+        "0212-applications-timber-concrete-composite-beam-section-provider",
+        "0213-applications-reinforced-concrete-plates-documentation"
       ],
       "status": "exact-parity",
       "testKind": "test"
@@ -42487,10 +42494,19 @@
       "sourcePath": "tests/reinforcedConcretePlateApplication.test.js",
       "sourceBlobSha1": "498dbffb3c8a372dc85f3590d6a0dbe9832281e0",
       "targetPath": "tests/reinforcedConcretePlateApplication.test.ts",
-      "migrationSlices": ["0015-reinforced-concrete-plates"],
+      "migrationSlices": [
+        "0015-reinforced-concrete-plates",
+        "0213-applications-reinforced-concrete-plates-documentation"
+      ],
       "sourceOracles": ["tests/reinforcedConcretePlateApplication.test.js"],
-      "targetTests": ["tests/concrete-plate.test.ts"],
-      "validationEvidence": ["0015-reinforced-concrete-plates"],
+      "targetTests": [
+        "tests/concrete-plate.test.ts",
+        "tests/reinforced-concrete-plates-documentation-parity.test.ts"
+      ],
+      "validationEvidence": [
+        "0015-reinforced-concrete-plates",
+        "0213-applications-reinforced-concrete-plates-documentation"
+      ],
       "status": "exact-parity",
       "testKind": "test"
     },
@@ -47311,8 +47327,118 @@
         "publicStrings": "exact provider metadata, limit-state strings and Unicode code points",
         "errors": "exact missing-model and invalid-span error name and message comparisons"
       }
+    },
+    {
+      "sliceId": "0213-applications-reinforced-concrete-plates-documentation",
+      "sourceRevision": "6f33baead8b88166c4b2cf94af41763412e3c751",
+      "method": "Independent pinned-source Git-blob and target-file comparison with exact UTF-8 and Unicode code-point equality.",
+      "targetTests": ["tests/reinforced-concrete-plates-documentation-parity.test.ts"],
+      "fixture": "The complete reinforced-concrete plates README and the already-migrated public index context.",
+      "tolerances": {
+        "serializedParity": "exact documentation bytes decoded as UTF-8",
+        "numericParity": "not applicable",
+        "publicStrings": "exact documentation strings and Unicode code points",
+        "errors": "not applicable"
+      }
     }
   ],
+  "phaseA4Scope": {
+    "schemaVersion": 1,
+    "phase": "A4",
+    "status": "revised",
+    "sourceRevision": "6f33baead8b88166c4b2cf94af41763412e3c751",
+    "normativeRevision": "41da3faa489600173106935bbcf726119300e48d",
+    "retainedSourcePaths": [
+      "src/applications/reinforced-concrete-plates/README.md",
+      "src/applications/reinforced-concrete-plates/index.js"
+    ],
+    "deferredSourcePaths": [
+      "src/domain/geotechnics/index.js",
+      "src/applications/masonry-wall-openings/index.js",
+      "src/applications/steel-frames/index.js",
+      "src/applications/timber-beams/index.js",
+      "src/applications/timber-concrete-composite-beams/TimberConcreteCompositeBeamApplication.js",
+      "src/applications/timber-concrete-composite-beams/checks/TimberConcreteCompositeBeamVerification.js",
+      "src/applications/timber-concrete-composite-beams/index.js",
+      "src/applications/timber-xlam-composite-beams/TimberXlamCompositeBeamApplication.js",
+      "src/applications/timber-xlam-composite-beams/analysis/TimberXlamCompositeBeamSectionProvider.js",
+      "src/applications/timber-xlam-composite-beams/checks/TimberXlamCompositeBeamVerification.js",
+      "src/applications/timber-xlam-composite-beams/index.js",
+      "src/applications/timber-xlam-composite-beams/models/TimberXlamCompositeBeamModel.js",
+      "src/applications/xlam-beams/checks/XlamBeamVerification.js",
+      "src/applications/xlam-beams/index.js",
+      "src/applications/xlam-panels-out-of-plane/XlamOutOfPlanePanelApplication.js",
+      "src/applications/xlam-panels-out-of-plane/checks/XlamOutOfPlanePanelVerification.js",
+      "src/applications/xlam-panels-out-of-plane/index.js",
+      "src/applications/xlam-panels-out-of-plane/models/XlamOutOfPlanePanelModel.js"
+    ],
+    "deferredApplicationExports": [
+      "createDefaultApplicationRegistry",
+      "createTimberXlamCompositeBeamSectionProvider",
+      "TimberConcreteCompositeBeamApplication",
+      "TimberConcreteCompositeBeamVerification",
+      "TimberXlamCompositeBeamApplication",
+      "TimberXlamCompositeBeamModel",
+      "TimberXlamCompositeBeamSectionProvider",
+      "TimberXlamCompositeBeamVerification",
+      "XlamBeamVerification",
+      "XlamOutOfPlanePanelApplication",
+      "XlamOutOfPlanePanelModel",
+      "XlamOutOfPlanePanelVerification"
+    ],
+    "deferredRootExports": [
+      "createDefaultApplicationRegistry",
+      "createSoilMaterialFromType",
+      "createTimberXlamCompositeBeamSectionProvider",
+      "getSoilTypeData",
+      "listSoilTypes",
+      "SOIL_TYPE_CATALOG",
+      "SOIL_TYPE_IDS",
+      "TimberConcreteCompositeBeamApplication",
+      "TimberConcreteCompositeBeamVerification",
+      "TimberXlamCompositeBeamApplication",
+      "TimberXlamCompositeBeamModel",
+      "TimberXlamCompositeBeamSectionProvider",
+      "TimberXlamCompositeBeamVerification",
+      "XlamBeamVerification",
+      "XlamOutOfPlanePanelApplication",
+      "XlamOutOfPlanePanelModel",
+      "XlamOutOfPlanePanelVerification"
+    ],
+    "deferredRegistryApplicationIds": [
+      "single-beam-design",
+      "global-fem-postprocessing",
+      "steel-frames",
+      "masonry-ring-beams",
+      "masonry-piers",
+      "masonry-wall-openings",
+      "reinforced-concrete-sections",
+      "reinforced-concrete-plates",
+      "reinforced-concrete-punching",
+      "reinforced-concrete-columns",
+      "reinforced-concrete-isolated-footings",
+      "reinforced-concrete-foundation-beams",
+      "reinforced-concrete-beam-column-joints",
+      "reinforced-concrete-strut-and-tie",
+      "rc-building-verification",
+      "timber-beams",
+      "timber-concrete-composite-beams",
+      "timber-xlam-composite-beams",
+      "xlam-panels-out-of-plane",
+      "rc-cracked-deflection",
+      "masonry-out-of-plane",
+      "micropiles-broms",
+      "geotechnical-deep-foundations",
+      "geotechnical-embedded-retaining-walls",
+      "geotechnical-ground-anchors",
+      "geotechnical-lateral-piles",
+      "geotechnical-earth-pressures",
+      "geotechnical-shallow-foundations",
+      "geotechnical-retaining-walls",
+      "geotechnical-slope-stability"
+    ],
+    "decision": "Phase A4 is narrowed to the already-migrated reinforced-concrete plates public index plus exact source documentation support. The remaining application families, unresolved geotechnical barrel closure, public exports for those deferred families, and default application registry composition are deferred to later work. Deferred items remain untranslated and must not be described as implemented or exact parity."
+  },
   "counts": {
     "rootExports": {
       "javascript": 841,
@@ -47344,7 +47470,7 @@
     },
     "tests": {
       "javascript": 131,
-      "typescript": 410
+      "typescript": 411
     },
     "validationCampaigns": {
       "javascript": 17,
@@ -47375,8 +47501,9 @@
     "domain": {
       "statusCounts": {
         "exact-parity": 0,
-        "partial": 1,
+        "partial": 0,
         "missing": 0,
+        "deferred": 1,
         "intentionally-excluded": 0,
         "decision-required": 0
       },
@@ -47387,6 +47514,7 @@
         "exact-parity": 0,
         "partial": 0,
         "missing": 0,
+        "deferred": 0,
         "intentionally-excluded": 0,
         "decision-required": 0
       },
@@ -47395,8 +47523,9 @@
     "applications": {
       "statusCounts": {
         "exact-parity": 0,
-        "partial": 28,
-        "missing": 44,
+        "partial": 0,
+        "missing": 0,
+        "deferred": 71,
         "intentionally-excluded": 0,
         "decision-required": 0
       },
@@ -47456,7 +47585,6 @@
         "root-export:createDefaultApplicationRegistry",
         "root-export:createTimberXlamCompositeBeamSectionProvider",
         "source:src/applications/masonry-wall-openings/index.js",
-        "source:src/applications/reinforced-concrete-plates/README.md",
         "source:src/applications/steel-frames/index.js",
         "source:src/applications/timber-beams/index.js",
         "source:src/applications/timber-concrete-composite-beams/TimberConcreteCompositeBeamApplication.js",
@@ -47480,6 +47608,7 @@
         "exact-parity": 0,
         "partial": 4,
         "missing": 104,
+        "deferred": 0,
         "intentionally-excluded": 0,
         "decision-required": 0
       },

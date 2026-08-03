@@ -21,6 +21,16 @@ The corpus's proposed `integration/structural-checks-ts/manifest.json` records a
 commit and a dirty observed worktree. It is not used as the migration baseline. The committed pin in
 the clean source implementation and its passing resolver check are used instead.
 
+## Revised Phase A4 scope
+
+As of 2026-08-03, Phase A4 is intentionally narrowed to the already-migrated reinforced-concrete
+plates public index and exact source documentation support. The remaining timber, XLAM, unresolved
+geotechnical barrel, deferred application exports, and default application registry composition are
+recorded in `migration/phase-a4-scope.json` as `deferred`. They remain untranslated and are not
+presented as implemented or exact parity; they are eligible for later migration work after the
+revised A4 gate. Phase A5/A6 validation and package work must not infer implementation of these
+deferred capabilities.
+
 ## Implemented slice 0001
 
 Implementation state: **implemented** for the declared foundation scope.
