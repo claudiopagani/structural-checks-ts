@@ -1,0 +1,86 @@
+{
+  "schemaVersion": 1,
+  "sliceId": "0207-applications-timber-lateral-torsional-stability",
+  "title": "Timber lateral-torsional stability helpers",
+  "migrationType": "mechanical-parity",
+  "implementationStatus": "implemented",
+  "dependencies": [
+    "0206-applications-steel-frame-application",
+    "0041-domain-beam-section-providers",
+    "0039-norms-ntc2018-action-parameters-and-factories"
+  ],
+  "source": {
+    "repository": "https://github.com/claudiopagani/strutture-js",
+    "revision": "6f33baead8b88166c4b2cf94af41763412e3c751"
+  },
+  "normativeCorpusRevision": "41da3faa489600173106935bbcf726119300e48d",
+  "sourceFiles": [
+    {
+      "path": "src/applications/timber-beams/checks/TimberLateralTorsionalStability.js",
+      "gitBlobSha1": "c791c4f631078a19c90f17de43a26f090a9bb0b8",
+      "targetPath": "src/applications/timber-beams/checks/TimberLateralTorsionalStability.ts"
+    }
+  ],
+  "supportingSourceFiles": [
+    {
+      "path": "src/applications/timber-beams/index.js",
+      "gitBlobSha1": "b1a6dbf458601210a81815d0ce722831b347465c",
+      "coverage": "Pinned timber-beams barrel context; only the migrated lateral-torsional helper exports are supported in this slice."
+    },
+    {
+      "path": "src/index.js",
+      "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7",
+      "coverage": "Pinned root public export context for the three migrated helper functions."
+    }
+  ],
+  "sourceOracles": [
+    {
+      "path": "tests/timberBeamSectionProvider.test.js",
+      "gitBlobSha1": "e5303c179d99849a13ad94f5b1be88acfa23bdef",
+      "coverage": "Pinned timber beam section/material units and metadata context used by the lateral-torsional helper."
+    }
+  ],
+  "sourcePublicExport": {
+    "path": "src/index.js",
+    "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
+  },
+  "targetTests": [
+    "tests/baseline-parity.test.ts",
+    "tests/timber-lateral-torsional-stability-compile-time.test.ts",
+    "tests/timber-lateral-torsional-stability-live-parity.test.ts"
+  ],
+  "publicExports": [
+    "calculateTimberLateralBucklingReduction",
+    "calculateTimberRectangularCriticalBendingStress",
+    "verifyTimberLateralTorsionalStability"
+  ],
+  "publicTypeExports": [
+    "TimberLateralTorsionalCheck",
+    "TimberLateralTorsionalStabilityInput",
+    "TimberLateralTorsionalStabilityResult"
+  ],
+  "normativeReferences": {
+    "resolved": [],
+    "outsideCorpus": [],
+    "normativeConformityClaimed": false,
+    "status": "classified-for-declared-scope"
+  },
+  "independentValidation": {
+    "method": "Strict typed consumer declarations and independently executed pinned JavaScript versus built TypeScript differential comparison for reduction branches, critical-stress arithmetic, automatic rectangular stability, capped user kcrit, unsupported inputs, exact warnings, metadata, Unicode and errors.",
+    "targetTests": [
+      "tests/timber-lateral-torsional-stability-compile-time.test.ts",
+      "tests/timber-lateral-torsional-stability-live-parity.test.ts"
+    ],
+    "fixture": "Independent rectangular timber section and material properties with explicit strengths, modulus, biaxial moments, unbraced length and Unicode metadata.",
+    "tolerances": {
+      "serializedParity": "exact helper result JSON",
+      "numericParity": "exact reduction, critical stress, utilization, capacities and metadata values",
+      "publicStrings": "exact descriptions, warnings, sources, identifiers and Unicode code points",
+      "errors": "exact non-throwing null and unsupported-status behavior for incomplete and symbol inputs"
+    }
+  },
+  "parityDifferences": [
+    "Strict TypeScript declarations are added for the migrated helper inputs and result DTOs."
+  ],
+  "engineeringFunctionality": "Strict TypeScript parity for timber lateral-torsional critical stress, kcrit reduction and stability verification helpers; TimberBeamModel, TimberBeamVerification and TimberBeamApplication remain outside this slice."
+}

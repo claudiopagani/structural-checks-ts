@@ -1433,6 +1433,8 @@
         "calculateSteelMethodBInteractionCoefficients",
         "calculateSteelMethodBInteractionCoefficientsMyMz",
         "calculateSteelMomentDiagramFactor",
+        "calculateTimberLateralBucklingReduction",
+        "calculateTimberRectangularCriticalBendingStress",
         "characteristicValueFromExistingMean",
         "checkNonDissipativeAdmissibility",
         "classifyGlobalFemStructuralEntities",
@@ -1675,6 +1677,7 @@
         "verifySteelWebShearBuckling",
         "verifyStoreyDisplacements",
         "verifyStoreyDrift",
+        "verifyTimberLateralTorsionalStability",
         "verifyWallBiaxialBending",
         "verifyWallBoundaryConfinement",
         "verifyWallCurvatureDuctility",
@@ -5519,11 +5522,15 @@
       "sourcePath": "src/applications/timber-beams/checks/TimberLateralTorsionalStability.js",
       "sourceBlobSha1": "c791c4f631078a19c90f17de43a26f090a9bb0b8",
       "targetPath": "src/applications/timber-beams/checks/TimberLateralTorsionalStability.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0207-applications-timber-lateral-torsional-stability"],
+      "sourceOracles": ["tests/timberBeamSectionProvider.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/timber-lateral-torsional-stability-compile-time.test.ts",
+        "tests/timber-lateral-torsional-stability-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0207-applications-timber-lateral-torsional-stability"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -5533,11 +5540,15 @@
       "sourcePath": "src/applications/timber-beams/checks/TimberLateralTorsionalStability.js",
       "sourceBlobSha1": "c791c4f631078a19c90f17de43a26f090a9bb0b8",
       "targetPath": "src/applications/timber-beams/checks/TimberLateralTorsionalStability.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0207-applications-timber-lateral-torsional-stability"],
+      "sourceOracles": ["tests/timberBeamSectionProvider.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/timber-lateral-torsional-stability-compile-time.test.ts",
+        "tests/timber-lateral-torsional-stability-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0207-applications-timber-lateral-torsional-stability"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -21302,11 +21313,15 @@
       "sourcePath": "src/applications/timber-beams/checks/TimberLateralTorsionalStability.js",
       "sourceBlobSha1": "c791c4f631078a19c90f17de43a26f090a9bb0b8",
       "targetPath": "src/applications/timber-beams/checks/TimberLateralTorsionalStability.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0207-applications-timber-lateral-torsional-stability"],
+      "sourceOracles": ["tests/timberBeamSectionProvider.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/timber-lateral-torsional-stability-compile-time.test.ts",
+        "tests/timber-lateral-torsional-stability-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0207-applications-timber-lateral-torsional-stability"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -22588,11 +22603,15 @@
       "sourcePath": "src/applications/timber-beams/checks/TimberLateralTorsionalStability.js",
       "sourceBlobSha1": "c791c4f631078a19c90f17de43a26f090a9bb0b8",
       "targetPath": "src/applications/timber-beams/checks/TimberLateralTorsionalStability.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0207-applications-timber-lateral-torsional-stability"],
+      "sourceOracles": ["tests/timberBeamSectionProvider.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/timber-lateral-torsional-stability-compile-time.test.ts",
+        "tests/timber-lateral-torsional-stability-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0207-applications-timber-lateral-torsional-stability"],
+      "status": "exact-parity",
       "publicEntryPath": "src/applications/index.js",
       "publicEntryBlobSha1": "b70179c7cdd2a819f2151dc092c0f59cbce30ba6"
     },
@@ -22602,11 +22621,15 @@
       "sourcePath": "src/applications/timber-beams/checks/TimberLateralTorsionalStability.js",
       "sourceBlobSha1": "c791c4f631078a19c90f17de43a26f090a9bb0b8",
       "targetPath": "src/applications/timber-beams/checks/TimberLateralTorsionalStability.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0207-applications-timber-lateral-torsional-stability"],
+      "sourceOracles": ["tests/timberBeamSectionProvider.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/timber-lateral-torsional-stability-compile-time.test.ts",
+        "tests/timber-lateral-torsional-stability-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0207-applications-timber-lateral-torsional-stability"],
+      "status": "exact-parity",
       "publicEntryPath": "src/applications/index.js",
       "publicEntryBlobSha1": "b70179c7cdd2a819f2151dc092c0f59cbce30ba6"
     },
@@ -28057,11 +28080,15 @@
       "sourcePath": "src/applications/timber-beams/checks/TimberLateralTorsionalStability.js",
       "sourceBlobSha1": "c791c4f631078a19c90f17de43a26f090a9bb0b8",
       "targetPath": "src/applications/timber-beams/checks/TimberLateralTorsionalStability.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0207-applications-timber-lateral-torsional-stability"],
+      "sourceOracles": ["tests/timberBeamSectionProvider.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/timber-lateral-torsional-stability-compile-time.test.ts",
+        "tests/timber-lateral-torsional-stability-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0207-applications-timber-lateral-torsional-stability"],
+      "status": "exact-parity",
       "publicEntryPath": "src/applications/index.js",
       "publicEntryBlobSha1": "b70179c7cdd2a819f2151dc092c0f59cbce30ba6"
     },
@@ -28835,7 +28862,7 @@
         "0026-reinforced-concrete-beam-column-joints",
         "0027-reinforced-concrete-strut-and-tie"
       ],
-      "status": "missing",
+      "status": "partial",
       "notes": ["Default registry construction is not present in the current TypeScript target."],
       "applicationId": "timber-beams",
       "applicationClass": "TimberBeamApplication",
@@ -34463,11 +34490,15 @@
       "sourcePath": "src/applications/timber-beams/checks/TimberLateralTorsionalStability.js",
       "sourceBlobSha1": "c791c4f631078a19c90f17de43a26f090a9bb0b8",
       "targetPath": "src/applications/timber-beams/checks/TimberLateralTorsionalStability.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing"
+      "migrationSlices": ["0207-applications-timber-lateral-torsional-stability"],
+      "sourceOracles": ["tests/timberBeamSectionProvider.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/timber-lateral-torsional-stability-compile-time.test.ts",
+        "tests/timber-lateral-torsional-stability-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0207-applications-timber-lateral-torsional-stability"],
+      "status": "exact-parity"
     },
     {
       "id": "src/applications/timber-beams/index.js",
@@ -38287,7 +38318,8 @@
         "0203-applications-masonry-wall-opening-state-comparison-analysis",
         "0204-applications-masonry-wall-opening-equivalent-frame-analysis",
         "0205-applications-masonry-wall-openings-application",
-        "0206-applications-steel-frame-application"
+        "0206-applications-steel-frame-application",
+        "0207-applications-timber-lateral-torsional-stability"
       ],
       "sourceOracles": [
         "tests/architecture/applicationRegistry.test.js",
@@ -42761,7 +42793,8 @@
       "targetPath": "tests/timberBeamSectionProvider.test.ts",
       "migrationSlices": [
         "0041-domain-beam-section-providers",
-        "0134-norms-ntc2018-timber-factory"
+        "0134-norms-ntc2018-timber-factory",
+        "0207-applications-timber-lateral-torsional-stability"
       ],
       "sourceOracles": ["tests/timberBeamSectionProvider.test.js"],
       "targetTests": [
@@ -42769,11 +42802,14 @@
         "tests/beam-section-providers-compile-time.test.ts",
         "tests/beam-section-providers-live-parity.test.ts",
         "tests/ntc2018-timber-factory-compile-time.test.ts",
-        "tests/ntc2018-timber-factory-live-parity.test.ts"
+        "tests/ntc2018-timber-factory-live-parity.test.ts",
+        "tests/timber-lateral-torsional-stability-compile-time.test.ts",
+        "tests/timber-lateral-torsional-stability-live-parity.test.ts"
       ],
       "validationEvidence": [
         "0041-domain-beam-section-providers",
-        "0134-norms-ntc2018-timber-factory"
+        "0134-norms-ntc2018-timber-factory",
+        "0207-applications-timber-lateral-torsional-stability"
       ],
       "status": "exact-parity",
       "testKind": "test"
@@ -46979,16 +47015,32 @@
         "publicStrings": "exact summaries, assumptions, warnings, identifiers and Unicode code points",
         "errors": "exact missing ring-frame model error name and message comparison"
       }
+    },
+    {
+      "sliceId": "0207-applications-timber-lateral-torsional-stability",
+      "sourceRevision": "6f33baead8b88166c4b2cf94af41763412e3c751",
+      "method": "Strict typed consumer declarations and independently executed pinned JavaScript versus built TypeScript differential comparison for reduction branches, critical-stress arithmetic, automatic rectangular stability, capped user kcrit, unsupported inputs, exact warnings, metadata, Unicode and errors.",
+      "targetTests": [
+        "tests/timber-lateral-torsional-stability-compile-time.test.ts",
+        "tests/timber-lateral-torsional-stability-live-parity.test.ts"
+      ],
+      "fixture": "Independent rectangular timber section and material properties with explicit strengths, modulus, biaxial moments, unbraced length and Unicode metadata.",
+      "tolerances": {
+        "serializedParity": "exact helper result JSON",
+        "numericParity": "exact reduction, critical stress, utilization, capacities and metadata values",
+        "publicStrings": "exact descriptions, warnings, sources, identifiers and Unicode code points",
+        "errors": "exact unsupported symbol error name and message comparison"
+      }
     }
   ],
   "counts": {
     "rootExports": {
       "javascript": 841,
-      "typescript": 815
+      "typescript": 818
     },
     "applicationsExports": {
       "javascript": 309,
-      "typescript": 288
+      "typescript": 291
     },
     "packageEntryPoints": {
       "javascript": 14,
@@ -47008,11 +47060,11 @@
     },
     "sourceFiles": {
       "javascript": 480,
-      "typescript": 469
+      "typescript": 470
     },
     "tests": {
       "javascript": 131,
-      "typescript": 398
+      "typescript": 400
     },
     "validationCampaigns": {
       "javascript": 17,
@@ -47063,8 +47115,8 @@
     "applications": {
       "statusCounts": {
         "exact-parity": 0,
-        "partial": 26,
-        "missing": 70,
+        "partial": 27,
+        "missing": 62,
         "intentionally-excluded": 0,
         "decision-required": 0
       },
@@ -47084,12 +47136,9 @@
         "application-export:XlamOutOfPlanePanelApplication",
         "application-export:XlamOutOfPlanePanelModel",
         "application-export:XlamOutOfPlanePanelVerification",
-        "application-export:calculateTimberLateralBucklingReduction",
-        "application-export:calculateTimberRectangularCriticalBendingStress",
         "application-export:createDefaultApplicationRegistry",
         "application-export:createTimberConcreteCompositeBeamSectionProvider",
         "application-export:createTimberXlamCompositeBeamSectionProvider",
-        "application-export:verifyTimberLateralTorsionalStability",
         "registry:geotechnical-deep-foundations",
         "registry:geotechnical-earth-pressures",
         "registry:geotechnical-embedded-retaining-walls",
@@ -47135,18 +47184,14 @@
         "root-export:XlamOutOfPlanePanelApplication",
         "root-export:XlamOutOfPlanePanelModel",
         "root-export:XlamOutOfPlanePanelVerification",
-        "root-export:calculateTimberLateralBucklingReduction",
-        "root-export:calculateTimberRectangularCriticalBendingStress",
         "root-export:createDefaultApplicationRegistry",
         "root-export:createTimberConcreteCompositeBeamSectionProvider",
         "root-export:createTimberXlamCompositeBeamSectionProvider",
-        "root-export:verifyTimberLateralTorsionalStability",
         "source:src/applications/masonry-wall-openings/index.js",
         "source:src/applications/reinforced-concrete-plates/README.md",
         "source:src/applications/steel-frames/index.js",
         "source:src/applications/timber-beams/TimberBeamApplication.js",
         "source:src/applications/timber-beams/checks/TimberBeamVerification.js",
-        "source:src/applications/timber-beams/checks/TimberLateralTorsionalStability.js",
         "source:src/applications/timber-beams/index.js",
         "source:src/applications/timber-beams/models/TimberBeamModel.js",
         "source:src/applications/timber-concrete-composite-beams/TimberConcreteCompositeBeamApplication.js",

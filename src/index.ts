@@ -844,6 +844,16 @@ export type {
   SteelRingFrameSolver,
   SteelRingFrameSolverInput,
 } from "./applications/steel-frames/models/SteelRingFramePushoverModel.js";
+export {
+  calculateTimberLateralBucklingReduction,
+  calculateTimberRectangularCriticalBendingStress,
+  verifyTimberLateralTorsionalStability,
+} from "./applications/timber-beams/checks/TimberLateralTorsionalStability.js";
+export type {
+  TimberLateralTorsionalCheck,
+  TimberLateralTorsionalStabilityInput,
+  TimberLateralTorsionalStabilityResult,
+} from "./applications/timber-beams/checks/TimberLateralTorsionalStability.js";
 export { SteelRingFrame2DBuilder } from "./applications/steel-frames/analysis/SteelRingFrame2DBuilder.js";
 export type {
   SteelRingFrame2DBuilderOptions,
