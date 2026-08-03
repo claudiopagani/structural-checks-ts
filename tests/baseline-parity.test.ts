@@ -118,6 +118,7 @@ const expectedExports = [
   "AlignmentStateComparisonAnalysis",
   "AlignmentEquivalentFramePushoverAnalysis",
   "MasonryPierCapacityCurveComparisonAnalysis",
+  "MasonryWallOpeningsApplication",
   "MasonryWallOpeningsModel",
   "MasonryWallPierModel",
   "MasonryWallSpandrelModel",

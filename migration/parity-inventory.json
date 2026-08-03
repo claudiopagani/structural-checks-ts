@@ -1087,6 +1087,7 @@
         "MasonryRingBeamApplication",
         "MasonryRingBeamModel",
         "MasonryRingBeamVerification",
+        "MasonryWallOpeningsApplication",
         "MasonryWallOpeningsModel",
         "MasonryWallPierModel",
         "MasonryWallSpandrelModel",
@@ -12812,11 +12813,22 @@
       "sourcePath": "src/applications/masonry-wall-openings/MasonryWallOpeningsApplication.js",
       "sourceBlobSha1": "4db82e5731cf0479bb98c1a82fe2c9ecd4d15c5c",
       "targetPath": "src/applications/masonry-wall-openings/MasonryWallOpeningsApplication.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0205-applications-masonry-wall-openings-application"],
+      "sourceOracles": [
+        "tests/masonryWallOpeningsEquivalentFramePushover.test.js",
+        "tests/masonryWallOpeningsSeismicAnalysis.test.js",
+        "tests/masonryWallOpeningsStateComparison.test.js",
+        "tests/masonryWallOpeningsStateComparisonReport.test.js",
+        "tests/masonryWallOpeningsStaticAnalysis.test.js",
+        "tests/packageExports.test.js"
+      ],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/masonry-wall-openings-application-compile-time.test.ts",
+        "tests/masonry-wall-openings-application-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0205-applications-masonry-wall-openings-application"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -24979,11 +24991,22 @@
       "sourcePath": "src/applications/masonry-wall-openings/MasonryWallOpeningsApplication.js",
       "sourceBlobSha1": "4db82e5731cf0479bb98c1a82fe2c9ecd4d15c5c",
       "targetPath": "src/applications/masonry-wall-openings/MasonryWallOpeningsApplication.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0205-applications-masonry-wall-openings-application"],
+      "sourceOracles": [
+        "tests/masonryWallOpeningsEquivalentFramePushover.test.js",
+        "tests/masonryWallOpeningsSeismicAnalysis.test.js",
+        "tests/masonryWallOpeningsStateComparison.test.js",
+        "tests/masonryWallOpeningsStateComparisonReport.test.js",
+        "tests/masonryWallOpeningsStaticAnalysis.test.js",
+        "tests/packageExports.test.js"
+      ],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/masonry-wall-openings-application-compile-time.test.ts",
+        "tests/masonry-wall-openings-application-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0205-applications-masonry-wall-openings-application"],
+      "status": "exact-parity",
       "publicEntryPath": "src/applications/index.js",
       "publicEntryBlobSha1": "b70179c7cdd2a819f2151dc092c0f59cbce30ba6"
     },
@@ -28416,7 +28439,11 @@
         "tests/reinforcedConcreteFoundationBeamApplication.test.js",
         "tests/reinforcedConcreteStrutAndTieApplication.test.js"
       ],
-      "targetTests": [],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/masonry-wall-openings-application-compile-time.test.ts",
+        "tests/masonry-wall-openings-application-live-parity.test.ts"
+      ],
       "validationEvidence": [
         "0024-reinforced-concrete-foundation-beams",
         "0026-reinforced-concrete-beam-column-joints",
@@ -31529,11 +31556,22 @@
       "sourcePath": "src/applications/masonry-wall-openings/MasonryWallOpeningsApplication.js",
       "sourceBlobSha1": "4db82e5731cf0479bb98c1a82fe2c9ecd4d15c5c",
       "targetPath": "src/applications/masonry-wall-openings/MasonryWallOpeningsApplication.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing"
+      "migrationSlices": ["0205-applications-masonry-wall-openings-application"],
+      "sourceOracles": [
+        "tests/masonryWallOpeningsEquivalentFramePushover.test.js",
+        "tests/masonryWallOpeningsSeismicAnalysis.test.js",
+        "tests/masonryWallOpeningsStateComparison.test.js",
+        "tests/masonryWallOpeningsStateComparisonReport.test.js",
+        "tests/masonryWallOpeningsStaticAnalysis.test.js",
+        "tests/packageExports.test.js"
+      ],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/masonry-wall-openings-application-compile-time.test.ts",
+        "tests/masonry-wall-openings-application-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0205-applications-masonry-wall-openings-application"],
+      "status": "exact-parity"
     },
     {
       "id": "src/applications/masonry-wall-openings/analysis/AlignmentCapacityBilinearization.js",
@@ -38218,7 +38256,8 @@
         "0201-applications-masonry-wall-opening-static-analysis",
         "0202-applications-masonry-wall-opening-seismic-aggregated-analysis",
         "0203-applications-masonry-wall-opening-state-comparison-analysis",
-        "0204-applications-masonry-wall-opening-equivalent-frame-analysis"
+        "0204-applications-masonry-wall-opening-equivalent-frame-analysis",
+        "0205-applications-masonry-wall-openings-application"
       ],
       "sourceOracles": [
         "tests/architecture/applicationRegistry.test.js",
@@ -40561,7 +40600,8 @@
       "migrationSlices": [
         "0161-applications-masonry-equivalent-frame-pushover-internal-forces",
         "0162-applications-masonry-equivalent-frame-pushover-solver",
-        "0204-applications-masonry-wall-opening-equivalent-frame-analysis"
+        "0204-applications-masonry-wall-opening-equivalent-frame-analysis",
+        "0205-applications-masonry-wall-openings-application"
       ],
       "sourceOracles": ["tests/masonryWallOpeningsEquivalentFramePushover.test.js"],
       "targetTests": [
@@ -40570,13 +40610,16 @@
         "tests/masonry-equivalent-frame-pushover-internal-forces-live-parity.test.ts",
         "tests/masonry-equivalent-frame-pushover-solver-compile-time.test.ts",
         "tests/masonry-equivalent-frame-pushover-solver-live-parity.test.ts",
+        "tests/masonry-wall-openings-application-compile-time.test.ts",
+        "tests/masonry-wall-openings-application-live-parity.test.ts",
         "tests/masonry-wall-openings-equivalent-frame-analysis-compile-time.test.ts",
         "tests/masonry-wall-openings-equivalent-frame-analysis-live-parity.test.ts"
       ],
       "validationEvidence": [
         "0161-applications-masonry-equivalent-frame-pushover-internal-forces",
         "0162-applications-masonry-equivalent-frame-pushover-solver",
-        "0204-applications-masonry-wall-opening-equivalent-frame-analysis"
+        "0204-applications-masonry-wall-opening-equivalent-frame-analysis",
+        "0205-applications-masonry-wall-openings-application"
       ],
       "status": "exact-parity",
       "testKind": "test"
@@ -40692,7 +40735,8 @@
       "targetPath": "tests/masonryWallOpeningsSeismicAnalysis.test.ts",
       "migrationSlices": [
         "0156-applications-masonry-wall-opening-capacity-bilinearization",
-        "0202-applications-masonry-wall-opening-seismic-aggregated-analysis"
+        "0202-applications-masonry-wall-opening-seismic-aggregated-analysis",
+        "0205-applications-masonry-wall-openings-application"
       ],
       "sourceOracles": ["tests/masonryWallOpeningsSeismicAnalysis.test.js"],
       "targetTests": [
@@ -40700,11 +40744,14 @@
         "tests/alignment-seismic-aggregated-analysis-live-parity.test.ts",
         "tests/baseline-parity.test.ts",
         "tests/masonry-wall-opening-capacity-bilinearization-compile-time.test.ts",
-        "tests/masonry-wall-opening-capacity-bilinearization-live-parity.test.ts"
+        "tests/masonry-wall-opening-capacity-bilinearization-live-parity.test.ts",
+        "tests/masonry-wall-openings-application-compile-time.test.ts",
+        "tests/masonry-wall-openings-application-live-parity.test.ts"
       ],
       "validationEvidence": [
         "0156-applications-masonry-wall-opening-capacity-bilinearization",
-        "0202-applications-masonry-wall-opening-seismic-aggregated-analysis"
+        "0202-applications-masonry-wall-opening-seismic-aggregated-analysis",
+        "0205-applications-masonry-wall-openings-application"
       ],
       "status": "exact-parity",
       "testKind": "test"
@@ -40714,14 +40761,22 @@
       "sourcePath": "tests/masonryWallOpeningsStateComparison.test.js",
       "sourceBlobSha1": "3bf80d9c5cad2881c25508b67fc81559ef73eaec",
       "targetPath": "tests/masonryWallOpeningsStateComparison.test.ts",
-      "migrationSlices": ["0203-applications-masonry-wall-opening-state-comparison-analysis"],
+      "migrationSlices": [
+        "0203-applications-masonry-wall-opening-state-comparison-analysis",
+        "0205-applications-masonry-wall-openings-application"
+      ],
       "sourceOracles": ["tests/masonryWallOpeningsStateComparison.test.js"],
       "targetTests": [
         "tests/alignment-state-comparison-analysis-compile-time.test.ts",
         "tests/alignment-state-comparison-analysis-live-parity.test.ts",
-        "tests/baseline-parity.test.ts"
+        "tests/baseline-parity.test.ts",
+        "tests/masonry-wall-openings-application-compile-time.test.ts",
+        "tests/masonry-wall-openings-application-live-parity.test.ts"
       ],
-      "validationEvidence": ["0203-applications-masonry-wall-opening-state-comparison-analysis"],
+      "validationEvidence": [
+        "0203-applications-masonry-wall-opening-state-comparison-analysis",
+        "0205-applications-masonry-wall-openings-application"
+      ],
       "status": "exact-parity",
       "testKind": "test"
     },
@@ -40732,7 +40787,8 @@
       "targetPath": "tests/masonryWallOpeningsStateComparisonReport.test.ts",
       "migrationSlices": [
         "0163-applications-alignment-state-comparison-report-utilities",
-        "0164-applications-alignment-state-comparison-report-builder"
+        "0164-applications-alignment-state-comparison-report-builder",
+        "0205-applications-masonry-wall-openings-application"
       ],
       "sourceOracles": ["tests/masonryWallOpeningsStateComparisonReport.test.js"],
       "targetTests": [
@@ -40740,11 +40796,14 @@
         "tests/alignment-state-comparison-report-builder-live-parity.test.ts",
         "tests/alignment-state-comparison-report-compile-time.test.ts",
         "tests/alignment-state-comparison-report-live-parity.test.ts",
-        "tests/baseline-parity.test.ts"
+        "tests/baseline-parity.test.ts",
+        "tests/masonry-wall-openings-application-compile-time.test.ts",
+        "tests/masonry-wall-openings-application-live-parity.test.ts"
       ],
       "validationEvidence": [
         "0163-applications-alignment-state-comparison-report-utilities",
-        "0164-applications-alignment-state-comparison-report-builder"
+        "0164-applications-alignment-state-comparison-report-builder",
+        "0205-applications-masonry-wall-openings-application"
       ],
       "status": "exact-parity",
       "testKind": "test"
@@ -40754,15 +40813,23 @@
       "sourcePath": "tests/masonryWallOpeningsStaticAnalysis.test.js",
       "sourceBlobSha1": "c0675bc034e527c0af73280f8a9b019cd43a706d",
       "targetPath": "tests/masonryWallOpeningsStaticAnalysis.test.ts",
-      "migrationSlices": ["0201-applications-masonry-wall-opening-static-analysis"],
+      "migrationSlices": [
+        "0201-applications-masonry-wall-opening-static-analysis",
+        "0205-applications-masonry-wall-openings-application"
+      ],
       "sourceOracles": ["tests/masonryWallOpeningsStaticAnalysis.test.js"],
       "targetTests": [
         "tests/alignment-static-analysis-compile-time.test.ts",
         "tests/alignment-static-analysis-live-parity.test.ts",
         "tests/baseline-parity.test.ts",
+        "tests/masonry-wall-openings-application-compile-time.test.ts",
+        "tests/masonry-wall-openings-application-live-parity.test.ts",
         "tests/steel-member-verification-live-parity.test.ts"
       ],
-      "validationEvidence": ["0201-applications-masonry-wall-opening-static-analysis"],
+      "validationEvidence": [
+        "0201-applications-masonry-wall-opening-static-analysis",
+        "0205-applications-masonry-wall-openings-application"
+      ],
       "status": "exact-parity",
       "testKind": "test"
     },
@@ -41422,7 +41489,8 @@
         "0197-applications-steel-ring-frame-2d-builder",
         "0198-applications-masonry-equivalent-frame-builder",
         "0199-applications-steel-ring-frame-pushover-analysis",
-        "0200-applications-steel-member-verification"
+        "0200-applications-steel-member-verification",
+        "0205-applications-masonry-wall-openings-application"
       ],
       "sourceOracles": ["tests/packageExports.test.js"],
       "targetTests": [
@@ -41534,6 +41602,8 @@
         "tests/masonry-wall-opening-models-live-parity.test.ts",
         "tests/masonry-wall-opening-sanitization-compile-time.test.ts",
         "tests/masonry-wall-opening-sanitization-live-parity.test.ts",
+        "tests/masonry-wall-openings-application-compile-time.test.ts",
+        "tests/masonry-wall-openings-application-live-parity.test.ts",
         "tests/micropile-broms-analysis-compile-time.test.ts",
         "tests/micropile-broms-analysis-live-parity.test.ts",
         "tests/micropile-broms-application-compile-time.test.ts",
@@ -41790,7 +41860,8 @@
         "0197-applications-steel-ring-frame-2d-builder",
         "0198-applications-masonry-equivalent-frame-builder",
         "0199-applications-steel-ring-frame-pushover-analysis",
-        "0200-applications-steel-member-verification"
+        "0200-applications-steel-member-verification",
+        "0205-applications-masonry-wall-openings-application"
       ],
       "status": "exact-parity",
       "testKind": "test"
@@ -46834,16 +46905,32 @@
         "publicStrings": "exact Italian readings, English errors and assumptions, identifiers and Unicode code points",
         "errors": "exact missing-alignment and unsupported-top-rotation error name and message comparison"
       }
+    },
+    {
+      "sliceId": "0205-applications-masonry-wall-openings-application",
+      "sourceRevision": "6f33baead8b88166c4b2cf94af41763412e3c751",
+      "method": "Strict typed consumer declarations and independently executed pinned JavaScript versus built TypeScript differential comparison for application manifest, every supported dispatcher mode, complete CalculationResult JSON, public strings, Unicode code points, and exact model-construction errors.",
+      "targetTests": [
+        "tests/masonry-wall-openings-application-compile-time.test.ts",
+        "tests/masonry-wall-openings-application-live-parity.test.ts"
+      ],
+      "fixture": "Independent masonry alignment fixtures with Unicode identifiers, one wall, explicit units, material data, and vertical line load.",
+      "tolerances": {
+        "serializedParity": "exact complete CalculationResult JSON and application manifest JSON",
+        "numericParity": "exact delegated output values and metadata",
+        "publicStrings": "exact summaries, assumptions, warnings, identifiers and Unicode code points",
+        "errors": "exact missing-id and empty-wall error name and message comparison"
+      }
     }
   ],
   "counts": {
     "rootExports": {
       "javascript": 841,
-      "typescript": 813
+      "typescript": 814
     },
     "applicationsExports": {
       "javascript": 309,
-      "typescript": 286
+      "typescript": 287
     },
     "packageEntryPoints": {
       "javascript": 14,
@@ -46863,11 +46950,11 @@
     },
     "sourceFiles": {
       "javascript": 480,
-      "typescript": 467
+      "typescript": 468
     },
     "tests": {
       "javascript": 131,
-      "typescript": 394
+      "typescript": 396
     },
     "validationCampaigns": {
       "javascript": 17,
@@ -46919,12 +47006,11 @@
       "statusCounts": {
         "exact-parity": 0,
         "partial": 26,
-        "missing": 76,
+        "missing": 73,
         "intentionally-excluded": 0,
         "decision-required": 0
       },
       "itemIds": [
-        "application-export:MasonryWallOpeningsApplication",
         "application-export:SteelFrameApplication",
         "application-export:TimberBeamApplication",
         "application-export:TimberBeamModel",
@@ -46977,7 +47063,6 @@
         "registry:timber-concrete-composite-beams",
         "registry:timber-xlam-composite-beams",
         "registry:xlam-panels-out-of-plane",
-        "root-export:MasonryWallOpeningsApplication",
         "root-export:SteelFrameApplication",
         "root-export:TimberBeamApplication",
         "root-export:TimberBeamModel",
@@ -47000,7 +47085,6 @@
         "root-export:createTimberConcreteCompositeBeamSectionProvider",
         "root-export:createTimberXlamCompositeBeamSectionProvider",
         "root-export:verifyTimberLateralTorsionalStability",
-        "source:src/applications/masonry-wall-openings/MasonryWallOpeningsApplication.js",
         "source:src/applications/masonry-wall-openings/index.js",
         "source:src/applications/reinforced-concrete-plates/README.md",
         "source:src/applications/steel-frames/SteelFrameApplication.js",

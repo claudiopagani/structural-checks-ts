@@ -483,6 +483,12 @@ export type {
   MasonryPierCapacityCurveComparisonAnalysisOptions,
   MasonryPierCapacityCurveComparisonAnalysisResult,
 } from "./applications/masonry-wall-openings/analysis/MasonryPierCapacityCurveComparisonAnalysis.js";
+export { MasonryWallOpeningsApplication } from "./applications/masonry-wall-openings/MasonryWallOpeningsApplication.js";
+export type {
+  MasonryWallOpeningsApplicationInput,
+  MasonryWallOpeningsApplicationOptions,
+  MasonryWallOpeningsComparisonReportBuilder,
+} from "./applications/masonry-wall-openings/MasonryWallOpeningsApplication.js";
 export { sanitizeAlignmentOpenings } from "./applications/masonry-wall-openings/geometry/sanitizeAlignmentOpenings.js";
 export type {
   SanitizeAlignmentOpeningsResult,
