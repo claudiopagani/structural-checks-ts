@@ -27025,7 +27025,9 @@
       "targetTests": [
         "tests/baseline-parity.test.ts",
         "tests/masonry-ring-beam-application-compile-time.test.ts",
-        "tests/masonry-ring-beam-application-live-parity.test.ts"
+        "tests/masonry-ring-beam-application-live-parity.test.ts",
+        "tests/masonry-ring-beam-index-compile-time.test.ts",
+        "tests/masonry-ring-beam-index-live-parity.test.ts"
       ],
       "validationEvidence": [
         "0024-reinforced-concrete-foundation-beams",
@@ -30136,11 +30138,17 @@
       "sourcePath": "src/applications/masonry-ring-beams/index.js",
       "sourceBlobSha1": "2e0abaab2329b44c98f48a2e6aa73e707563b0b0",
       "targetPath": "src/applications/masonry-ring-beams/index.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing"
+      "migrationSlices": ["0160-applications-masonry-ring-beam-index"],
+      "sourceOracles": [
+        "tests/architecture/applicationRegistry.test.js",
+        "tests/packageExports.test.js"
+      ],
+      "targetTests": [
+        "tests/masonry-ring-beam-index-compile-time.test.ts",
+        "tests/masonry-ring-beam-index-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0160-applications-masonry-ring-beam-index"],
+      "status": "exact-parity"
     },
     {
       "id": "src/applications/masonry-ring-beams/models/MasonryRingBeamModel.js",
@@ -37828,7 +37836,8 @@
         "0126-norms-ntc2018-slab-load-analysis-export",
         "0157-applications-masonry-ring-beam-model",
         "0158-applications-masonry-ring-beam-verification",
-        "0159-applications-masonry-ring-beam-application"
+        "0159-applications-masonry-ring-beam-application",
+        "0160-applications-masonry-ring-beam-index"
       ],
       "sourceOracles": ["tests/architecture/applicationRegistry.test.js"],
       "targetTests": [
@@ -37838,6 +37847,8 @@
         "tests/check-utils.test.ts",
         "tests/masonry-ring-beam-application-compile-time.test.ts",
         "tests/masonry-ring-beam-application-live-parity.test.ts",
+        "tests/masonry-ring-beam-index-compile-time.test.ts",
+        "tests/masonry-ring-beam-index-live-parity.test.ts",
         "tests/masonry-ring-beam-model-compile-time.test.ts",
         "tests/masonry-ring-beam-model-live-parity.test.ts",
         "tests/masonry-ring-beam-verification-compile-time.test.ts",
@@ -37856,7 +37867,8 @@
         "0126-norms-ntc2018-slab-load-analysis-export",
         "0157-applications-masonry-ring-beam-model",
         "0158-applications-masonry-ring-beam-verification",
-        "0159-applications-masonry-ring-beam-application"
+        "0159-applications-masonry-ring-beam-application",
+        "0160-applications-masonry-ring-beam-index"
       ],
       "status": "exact-parity",
       "testKind": "test"
@@ -39662,7 +39674,8 @@
         "0156-applications-masonry-wall-opening-capacity-bilinearization",
         "0157-applications-masonry-ring-beam-model",
         "0158-applications-masonry-ring-beam-verification",
-        "0159-applications-masonry-ring-beam-application"
+        "0159-applications-masonry-ring-beam-application",
+        "0160-applications-masonry-ring-beam-index"
       ],
       "sourceOracles": ["tests/packageExports.test.js"],
       "targetTests": [
@@ -39744,6 +39757,8 @@
         "tests/masonry-piers-live-parity.test.ts",
         "tests/masonry-ring-beam-application-compile-time.test.ts",
         "tests/masonry-ring-beam-application-live-parity.test.ts",
+        "tests/masonry-ring-beam-index-compile-time.test.ts",
+        "tests/masonry-ring-beam-index-live-parity.test.ts",
         "tests/masonry-ring-beam-model-compile-time.test.ts",
         "tests/masonry-ring-beam-model-live-parity.test.ts",
         "tests/masonry-ring-beam-verification-compile-time.test.ts",
@@ -39940,7 +39955,8 @@
         "0156-applications-masonry-wall-opening-capacity-bilinearization",
         "0157-applications-masonry-ring-beam-model",
         "0158-applications-masonry-ring-beam-verification",
-        "0159-applications-masonry-ring-beam-application"
+        "0159-applications-masonry-ring-beam-application",
+        "0160-applications-masonry-ring-beam-index"
       ],
       "status": "exact-parity",
       "testKind": "test"
@@ -44128,6 +44144,22 @@
         "publicStrings": "exact application metadata, summaries, warnings, assumptions and Unicode identifiers",
         "errors": "exact null-input error name and message"
       }
+    },
+    {
+      "sliceId": "0160-applications-masonry-ring-beam-index",
+      "sourceRevision": "6f33baead8b88166c4b2cf94af41763412e3c751",
+      "method": "Strict declaration consumer coverage and independently executed pinned JavaScript versus built TypeScript comparison of exact sub-index export names, independent constructor identities, manifests, model state and verification JSON.",
+      "targetTests": [
+        "tests/masonry-ring-beam-index-compile-time.test.ts",
+        "tests/masonry-ring-beam-index-live-parity.test.ts"
+      ],
+      "fixture": "Application manifest, Unicode model identifier and default verification result.",
+      "tolerances": {
+        "serializedParity": "exact sub-index behavior JSON",
+        "numericParity": "not applicable to export composition",
+        "publicStrings": "exact manifest and Unicode identifiers",
+        "errors": "source-compatible constructor and default behavior"
+      }
     }
   ],
   "counts": {
@@ -44157,11 +44189,11 @@
     },
     "sourceFiles": {
       "javascript": 480,
-      "typescript": 420
+      "typescript": 421
     },
     "tests": {
       "javascript": 131,
-      "typescript": 304
+      "typescript": 306
     },
     "validationCampaigns": {
       "javascript": 17,
@@ -44213,7 +44245,7 @@
       "statusCounts": {
         "exact-parity": 0,
         "partial": 23,
-        "missing": 232,
+        "missing": 231,
         "intentionally-excluded": 0,
         "decision-required": 0
       },
@@ -44400,7 +44432,6 @@
         "root-export:verifySteelShearTorsionInteraction",
         "root-export:verifySteelWebShearBuckling",
         "root-export:verifyTimberLateralTorsionalStability",
-        "source:src/applications/masonry-ring-beams/index.js",
         "source:src/applications/masonry-wall-openings/MasonryWallOpeningsApplication.js",
         "source:src/applications/masonry-wall-openings/analysis/AlignmentEquivalentFramePushoverAnalysis.js",
         "source:src/applications/masonry-wall-openings/analysis/AlignmentSeismicAggregatedAnalysis.js",

@@ -1,0 +1,84 @@
+{
+  "schemaVersion": 1,
+  "sliceId": "0160-applications-masonry-ring-beam-index",
+  "title": "Masonry ring beam public sub-index",
+  "migrationType": "mechanical-parity-with-minimal-dependency-support",
+  "implementationStatus": "implemented",
+  "dependencies": ["0159-applications-masonry-ring-beam-application"],
+  "source": {
+    "repository": "https://github.com/claudiopagani/strutture-js",
+    "revision": "6f33baead8b88166c4b2cf94af41763412e3c751"
+  },
+  "normativeCorpusRevision": "41da3faa489600173106935bbcf726119300e48d",
+  "sourceFiles": [
+    {
+      "path": "src/applications/masonry-ring-beams/index.js",
+      "gitBlobSha1": "2e0abaab2329b44c98f48a2e6aa73e707563b0b0",
+      "targetPath": "src/applications/masonry-ring-beams/index.ts"
+    }
+  ],
+  "supportingSourceFiles": [
+    {
+      "path": "src/applications/masonry-ring-beams/MasonryRingBeamApplication.js",
+      "gitBlobSha1": "7f95d45f138653a447756ca1aa4c71c8a8869357",
+      "targetPath": "src/applications/masonry-ring-beams/MasonryRingBeamApplication.ts",
+      "coverage": "Migrated in slice 0159 and re-exported by this sub-index."
+    },
+    {
+      "path": "src/applications/masonry-ring-beams/checks/MasonryRingBeamVerification.js",
+      "gitBlobSha1": "1f06c75faa087b3bb98051e81990d404d612939b",
+      "targetPath": "src/applications/masonry-ring-beams/checks/MasonryRingBeamVerification.ts",
+      "coverage": "Migrated in slice 0158 and re-exported by this sub-index."
+    },
+    {
+      "path": "src/applications/masonry-ring-beams/models/MasonryRingBeamModel.js",
+      "gitBlobSha1": "16122b0a52dad78b36a98b4b98fedc54997725e3",
+      "targetPath": "src/applications/masonry-ring-beams/models/MasonryRingBeamModel.ts",
+      "coverage": "Migrated in slice 0157 and re-exported by this sub-index."
+    }
+  ],
+  "sourceOracles": [
+    {
+      "path": "tests/packageExports.test.js",
+      "gitBlobSha1": "8dde24b4c97dd3dae7100207d07d9d96c52b9c74",
+      "coverage": "Pinned package public export behavior."
+    },
+    {
+      "path": "tests/architecture/applicationRegistry.test.js",
+      "gitBlobSha1": "f7c4ab649b9f19600ab5894ea112bf7613466cd4",
+      "coverage": "Pinned application sub-index and constructor composition context."
+    }
+  ],
+  "sourcePublicExport": {
+    "path": "src/applications/masonry-ring-beams/index.js",
+    "gitBlobSha1": "2e0abaab2329b44c98f48a2e6aa73e707563b0b0"
+  },
+  "targetTests": [
+    "tests/masonry-ring-beam-index-compile-time.test.ts",
+    "tests/masonry-ring-beam-index-live-parity.test.ts"
+  ],
+  "publicExports": [],
+  "publicTypeExports": [],
+  "normativeReferences": {
+    "resolved": [],
+    "outsideCorpus": [],
+    "normativeConformityClaimed": false,
+    "status": "classified-for-declared-scope"
+  },
+  "independentValidation": {
+    "method": "Strict declaration consumer coverage and independently executed pinned JavaScript versus built TypeScript comparison of exact sub-index export names, independent constructor identities, manifests, model state and verification JSON.",
+    "targetTests": [
+      "tests/masonry-ring-beam-index-compile-time.test.ts",
+      "tests/masonry-ring-beam-index-live-parity.test.ts"
+    ],
+    "fixture": "Application manifest, Unicode model identifier and default verification result.",
+    "tolerances": {
+      "serializedParity": "exact sub-index behavior JSON",
+      "numericParity": "not applicable to export composition",
+      "publicStrings": "exact manifest and Unicode identifiers",
+      "errors": "source-compatible constructor and default behavior"
+    }
+  },
+  "parityDifferences": [],
+  "engineeringFunctionality": "Source-compatible masonry ring beam sub-index export composition."
+}
