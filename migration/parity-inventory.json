@@ -1560,6 +1560,7 @@
         "registerXlamPanelProduct",
         "resolveBeamSupportPreset",
         "resolveExistingMaterialState",
+        "resolveMasonryStageMaterial",
         "resolveNTC2018AlphaRatio",
         "resolveNTC2018GoverningLoadDuration",
         "resolveNTC2018ImposedLoadDefinition",
@@ -16853,11 +16854,18 @@
       "sourcePath": "src/applications/masonry-wall-openings/materials/resolveMasonryStageMaterial.js",
       "sourceBlobSha1": "abf7d6bbeb792e6ff46d914056a511ccd69ab72c",
       "targetPath": "src/applications/masonry-wall-openings/materials/resolveMasonryStageMaterial.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0154-applications-masonry-wall-opening-material-resolution"],
+      "sourceOracles": [
+        "tests/masonryWallOpeningsMaterialResolution.test.js",
+        "tests/packageExports.test.js"
+      ],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/masonry-wall-opening-material-resolution-compile-time.test.ts",
+        "tests/masonry-wall-opening-material-resolution-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0154-applications-masonry-wall-opening-material-resolution"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -25303,11 +25311,18 @@
       "sourcePath": "src/applications/masonry-wall-openings/materials/resolveMasonryStageMaterial.js",
       "sourceBlobSha1": "abf7d6bbeb792e6ff46d914056a511ccd69ab72c",
       "targetPath": "src/applications/masonry-wall-openings/materials/resolveMasonryStageMaterial.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0154-applications-masonry-wall-opening-material-resolution"],
+      "sourceOracles": [
+        "tests/masonryWallOpeningsMaterialResolution.test.js",
+        "tests/packageExports.test.js"
+      ],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/masonry-wall-opening-material-resolution-compile-time.test.ts",
+        "tests/masonry-wall-opening-material-resolution-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0154-applications-masonry-wall-opening-material-resolution"],
+      "status": "exact-parity",
       "publicEntryPath": "src/applications/index.js",
       "publicEntryBlobSha1": "b70179c7cdd2a819f2151dc092c0f59cbce30ba6"
     },
@@ -30218,22 +30233,36 @@
       "sourcePath": "src/applications/masonry-wall-openings/materials/resolveMasonryMaterialProperty.js",
       "sourceBlobSha1": "14ca52f7392faadf28fc6cb25e61d8a22fd75f38",
       "targetPath": "src/applications/masonry-wall-openings/materials/resolveMasonryMaterialProperty.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing"
+      "migrationSlices": ["0154-applications-masonry-wall-opening-material-resolution"],
+      "sourceOracles": [
+        "tests/masonryWallOpeningsMaterialResolution.test.js",
+        "tests/packageExports.test.js"
+      ],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/masonry-wall-opening-material-resolution-compile-time.test.ts",
+        "tests/masonry-wall-opening-material-resolution-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0154-applications-masonry-wall-opening-material-resolution"],
+      "status": "exact-parity"
     },
     {
       "id": "src/applications/masonry-wall-openings/materials/resolveMasonryStageMaterial.js",
       "sourcePath": "src/applications/masonry-wall-openings/materials/resolveMasonryStageMaterial.js",
       "sourceBlobSha1": "abf7d6bbeb792e6ff46d914056a511ccd69ab72c",
       "targetPath": "src/applications/masonry-wall-openings/materials/resolveMasonryStageMaterial.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing"
+      "migrationSlices": ["0154-applications-masonry-wall-opening-material-resolution"],
+      "sourceOracles": [
+        "tests/masonryWallOpeningsMaterialResolution.test.js",
+        "tests/packageExports.test.js"
+      ],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/masonry-wall-opening-material-resolution-compile-time.test.ts",
+        "tests/masonry-wall-opening-material-resolution-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0154-applications-masonry-wall-opening-material-resolution"],
+      "status": "exact-parity"
     },
     {
       "id": "src/applications/masonry-wall-openings/models/MasonryWallOpeningsModel.js",
@@ -36428,7 +36457,8 @@
         "0149-applications-masonry-piers",
         "0151-applications-masonry-wall-opening-models",
         "0152-applications-masonry-wall-opening-sanitization",
-        "0153-applications-masonry-wall-opening-extraction"
+        "0153-applications-masonry-wall-opening-extraction",
+        "0154-applications-masonry-wall-opening-material-resolution"
       ],
       "sourceOracles": [
         "tests/architecture/applicationRegistry.test.js",
@@ -38762,19 +38792,23 @@
       "targetPath": "tests/masonryWallOpeningsMaterialResolution.test.ts",
       "migrationSlices": [
         "0061-domain-masonry-material",
-        "0151-applications-masonry-wall-opening-models"
+        "0151-applications-masonry-wall-opening-models",
+        "0154-applications-masonry-wall-opening-material-resolution"
       ],
       "sourceOracles": ["tests/masonryWallOpeningsMaterialResolution.test.js"],
       "targetTests": [
         "tests/baseline-parity.test.ts",
         "tests/masonry-material-compile-time.test.ts",
         "tests/masonry-material-live-parity.test.ts",
+        "tests/masonry-wall-opening-material-resolution-compile-time.test.ts",
+        "tests/masonry-wall-opening-material-resolution-live-parity.test.ts",
         "tests/masonry-wall-opening-models-compile-time.test.ts",
         "tests/masonry-wall-opening-models-live-parity.test.ts"
       ],
       "validationEvidence": [
         "0061-domain-masonry-material",
-        "0151-applications-masonry-wall-opening-models"
+        "0151-applications-masonry-wall-opening-models",
+        "0154-applications-masonry-wall-opening-material-resolution"
       ],
       "status": "exact-parity",
       "testKind": "test"
@@ -39483,7 +39517,8 @@
         "0149-applications-masonry-piers",
         "0151-applications-masonry-wall-opening-models",
         "0152-applications-masonry-wall-opening-sanitization",
-        "0153-applications-masonry-wall-opening-extraction"
+        "0153-applications-masonry-wall-opening-extraction",
+        "0154-applications-masonry-wall-opening-material-resolution"
       ],
       "sourceOracles": ["tests/packageExports.test.js"],
       "targetTests": [
@@ -39567,6 +39602,8 @@
         "tests/masonry-section-index-live-parity.test.ts",
         "tests/masonry-wall-opening-extraction-compile-time.test.ts",
         "tests/masonry-wall-opening-extraction-live-parity.test.ts",
+        "tests/masonry-wall-opening-material-resolution-compile-time.test.ts",
+        "tests/masonry-wall-opening-material-resolution-live-parity.test.ts",
         "tests/masonry-wall-opening-models-compile-time.test.ts",
         "tests/masonry-wall-opening-models-live-parity.test.ts",
         "tests/masonry-wall-opening-sanitization-compile-time.test.ts",
@@ -39743,7 +39780,8 @@
         "0149-applications-masonry-piers",
         "0151-applications-masonry-wall-opening-models",
         "0152-applications-masonry-wall-opening-sanitization",
-        "0153-applications-masonry-wall-opening-extraction"
+        "0153-applications-masonry-wall-opening-extraction",
+        "0154-applications-masonry-wall-opening-material-resolution"
       ],
       "status": "exact-parity",
       "testKind": "test"
@@ -43835,16 +43873,32 @@
         "publicStrings": "exact assumptions, warnings, errors and Unicode identifiers",
         "errors": "exact incompatible-alignment error behavior"
       }
+    },
+    {
+      "sliceId": "0154-applications-masonry-wall-opening-material-resolution",
+      "sourceRevision": "6f33baead8b88166c4b2cf94af41763412e3c751",
+      "method": "Strict declaration consumer coverage and independently executed pinned JavaScript versus built TypeScript comparison of stage source selection, unit conversions, variants, overrides, confidence-factor adjustment, exact metadata, Unicode labels, private property lookup and matching unsupported-unit errors.",
+      "targetTests": [
+        "tests/masonry-wall-opening-material-resolution-compile-time.test.ts",
+        "tests/masonry-wall-opening-material-resolution-live-parity.test.ts"
+      ],
+      "fixture": "Missing material, manual state-of-fact and design materials, N/mm to N/m conversions, confidence-factor division, selection variants, explicit overrides, adjusted-property functions and unit-weight lookup.",
+      "tolerances": {
+        "serializedParity": "exact resolved material, properties and metadata JSON",
+        "numericParity": "exact converted stresses, stiffnesses and volume loads",
+        "publicStrings": "exact warnings, assumptions, errors and Unicode identifiers",
+        "errors": "exact unsupported-unit error behavior"
+      }
     }
   ],
   "counts": {
     "rootExports": {
       "javascript": 841,
-      "typescript": 754
+      "typescript": 755
     },
     "applicationsExports": {
       "javascript": 309,
-      "typescript": 227
+      "typescript": 228
     },
     "packageEntryPoints": {
       "javascript": 14,
@@ -43864,11 +43918,11 @@
     },
     "sourceFiles": {
       "javascript": 480,
-      "typescript": 413
+      "typescript": 415
     },
     "tests": {
       "javascript": 131,
-      "typescript": 292
+      "typescript": 294
     },
     "validationCampaigns": {
       "javascript": 17,
@@ -43920,7 +43974,7 @@
       "statusCounts": {
         "exact-parity": 0,
         "partial": 22,
-        "missing": 252,
+        "missing": 248,
         "intentionally-excluded": 0,
         "decision-required": 0
       },
@@ -43992,7 +44046,6 @@
         "application-export:getSteelVerificationCapabilities",
         "application-export:inferSteelCompressionBucklingCurves",
         "application-export:resolveAlignmentMechanicalState",
-        "application-export:resolveMasonryStageMaterial",
         "application-export:steelBucklingCurveImperfectionFactor",
         "application-export:steelMemberFem3DToLegacyAnalysisResult",
         "application-export:steelNotSupportedCheck",
@@ -44104,7 +44157,6 @@
         "root-export:getSteelVerificationCapabilities",
         "root-export:inferSteelCompressionBucklingCurves",
         "root-export:resolveAlignmentMechanicalState",
-        "root-export:resolveMasonryStageMaterial",
         "root-export:steelBucklingCurveImperfectionFactor",
         "root-export:steelMemberFem3DToLegacyAnalysisResult",
         "root-export:steelNotSupportedCheck",
@@ -44135,8 +44187,6 @@
         "source:src/applications/masonry-wall-openings/analysis/MasonryPierCapacityCurveComparisonAnalysis.js",
         "source:src/applications/masonry-wall-openings/index.js",
         "source:src/applications/masonry-wall-openings/materials/resolveAlignmentMechanicalState.js",
-        "source:src/applications/masonry-wall-openings/materials/resolveMasonryMaterialProperty.js",
-        "source:src/applications/masonry-wall-openings/materials/resolveMasonryStageMaterial.js",
         "source:src/applications/masonry-wall-openings/reports/AlignmentStateComparisonMarkdownRenderer.js",
         "source:src/applications/masonry-wall-openings/reports/AlignmentStateComparisonReportArtifacts.js",
         "source:src/applications/masonry-wall-openings/reports/AlignmentStateComparisonReportBuilder.js",

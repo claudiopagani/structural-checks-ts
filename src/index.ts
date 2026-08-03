@@ -465,6 +465,12 @@ export type {
   EquivalentFrameMembersResult,
   ExtractEquivalentFrameMembersInput,
 } from "./applications/masonry-wall-openings/geometry/extractEquivalentFrameMembers.js";
+export { resolveMasonryStageMaterial } from "./applications/masonry-wall-openings/materials/resolveMasonryStageMaterial.js";
+export type {
+  MasonryStageMaterialResolution,
+  MasonryStageMaterialSettings,
+  ResolveMasonryStageMaterialInput,
+} from "./applications/masonry-wall-openings/materials/resolveMasonryStageMaterial.js";
 export {
   AXIAL_PILE_CAPACITY_REFERENCE,
   AXIAL_PILE_CAPACITY_RESULT_SCHEMA_VERSION,

@@ -1,0 +1,96 @@
+{
+  "schemaVersion": 1,
+  "sliceId": "0154-applications-masonry-wall-opening-material-resolution",
+  "title": "Masonry wall opening material resolution",
+  "migrationType": "mechanical-parity-with-minimal-dependency-support",
+  "implementationStatus": "implemented",
+  "dependencies": ["0151-applications-masonry-wall-opening-models"],
+  "source": {
+    "repository": "https://github.com/claudiopagani/strutture-js",
+    "revision": "6f33baead8b88166c4b2cf94af41763412e3c751"
+  },
+  "normativeCorpusRevision": "41da3faa489600173106935bbcf726119300e48d",
+  "sourceFiles": [
+    {
+      "path": "src/applications/masonry-wall-openings/materials/resolveMasonryMaterialProperty.js",
+      "gitBlobSha1": "14ca52f7392faadf28fc6cb25e61d8a22fd75f38",
+      "targetPath": "src/applications/masonry-wall-openings/materials/resolveMasonryMaterialProperty.ts"
+    },
+    {
+      "path": "src/applications/masonry-wall-openings/materials/resolveMasonryStageMaterial.js",
+      "gitBlobSha1": "abf7d6bbeb792e6ff46d914056a511ccd69ab72c",
+      "targetPath": "src/applications/masonry-wall-openings/materials/resolveMasonryStageMaterial.ts"
+    }
+  ],
+  "supportingSourceFiles": [
+    {
+      "path": "src/domain/units/UnitSystem.js",
+      "gitBlobSha1": "b8f2f4926aff645efbf7b9f458b69eba264ed59a",
+      "targetPath": "src/domain/units/UnitSystem.ts",
+      "coverage": "Already-migrated unit resolver used for stress, length and volume-load conversion."
+    },
+    {
+      "path": "src/applications/index.js",
+      "gitBlobSha1": "b70179c7cdd2a819f2151dc092c0f59cbce30ba6",
+      "targetPath": "src/applications/index.ts",
+      "coverage": "Pinned application public-export context for the stage-material resolver."
+    },
+    {
+      "path": "src/index.js",
+      "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7",
+      "targetPath": "src/index.ts",
+      "coverage": "Pinned root public-export context for resolveMasonryStageMaterial."
+    }
+  ],
+  "sourceOracles": [
+    {
+      "path": "tests/masonryWallOpeningsMaterialResolution.test.js",
+      "gitBlobSha1": "a72fc9a4a35ca1dca3bbef650d42ab48192a71f8",
+      "coverage": "State-of-fact and design selection, corrective modifiers, variants, overrides, confidence-factor division and material-stage metadata."
+    },
+    {
+      "path": "tests/packageExports.test.js",
+      "gitBlobSha1": "8dde24b4c97dd3dae7100207d07d9d96c52b9c74",
+      "coverage": "Pinned root public export behavior."
+    }
+  ],
+  "sourcePublicExport": {
+    "path": "src/index.js",
+    "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
+  },
+  "targetTests": [
+    "tests/baseline-parity.test.ts",
+    "tests/masonry-wall-opening-material-resolution-compile-time.test.ts",
+    "tests/masonry-wall-opening-material-resolution-live-parity.test.ts"
+  ],
+  "publicExports": ["resolveMasonryStageMaterial"],
+  "publicTypeExports": [
+    "MasonryStageMaterialResolution",
+    "MasonryStageMaterialSettings",
+    "ResolveMasonryStageMaterialInput"
+  ],
+  "normativeReferences": {
+    "resolved": [],
+    "outsideCorpus": [],
+    "normativeConformityClaimed": false,
+    "status": "classified-for-declared-scope"
+  },
+  "independentValidation": {
+    "method": "Strict declaration consumer coverage and independently executed pinned JavaScript versus built TypeScript comparison of stage source selection, unit conversions, variants, overrides, confidence-factor adjustment, exact metadata, Unicode labels, private property lookup and matching unsupported-unit errors.",
+    "targetTests": [
+      "tests/masonry-wall-opening-material-resolution-compile-time.test.ts",
+      "tests/masonry-wall-opening-material-resolution-live-parity.test.ts"
+    ],
+    "fixture": "Missing material, manual state-of-fact and design materials, N/mm to N/m conversions, confidence-factor division, selection variants, explicit overrides, adjusted-property functions and unit-weight lookup.",
+    "tolerances": {
+      "serializedParity": "exact resolved material, properties and metadata JSON",
+      "numericParity": "exact converted stresses, stiffnesses and volume loads",
+      "publicStrings": "exact warnings, assumptions, errors and Unicode identifiers",
+      "errors": "exact unsupported-unit error behavior"
+    }
+  },
+  "parityDifferences": [
+    "The private property resolver remains available only to the migrated application implementation; the public root export is limited to the source-exported resolveMasonryStageMaterial resolver."
+  ],
+  "engineeringFunctionality": "Source-compatible masonry material property lookup and state-of-fact/design stage resolution for masonry wall-opening applications."
+}
