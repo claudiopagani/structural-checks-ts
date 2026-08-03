@@ -1,0 +1,64 @@
+{
+  "schemaVersion": 1,
+  "sliceId": "0217-phase-a6-euler-bernoulli-source-test-parity",
+  "title": "Phase A6 Euler-Bernoulli source-test parity evidence",
+  "migrationType": "compatibility-validation",
+  "implementationStatus": "implemented",
+  "dependencies": ["0020-linear-frame-fem-2d"],
+  "source": {
+    "repository": "https://github.com/claudiopagani/strutture-js",
+    "revision": "6f33baead8b88166c4b2cf94af41763412e3c751"
+  },
+  "normativeCorpusRevision": "41da3faa489600173106935bbcf726119300e48d",
+  "sourceFiles": [
+    {
+      "path": "src/domain/fem/elements/FrameElement2DEulerBernoulli.js",
+      "gitBlobSha1": "c78c4bd531835109725b901dd6dabf7418509e6c",
+      "targetPath": "src/domain/fem/elements/FrameElement2DEulerBernoulli.ts"
+    }
+  ],
+  "sourceOracles": [
+    {
+      "path": "tests/frameElement2DEulerBernoulli.test.js",
+      "gitBlobSha1": "c92b9ecaad557c8c3ed5935198817db7bb7cec9e",
+      "coverage": "Pinned local/global stiffness, frame analysis, internal-force recovery, full-span uniform loading, and tapered-load failure cases."
+    }
+  ],
+  "sourcePublicExport": {
+    "path": "src/index.js",
+    "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
+  },
+  "targetTests": ["tests/frame-element-euler-bernoulli-live-parity.test.ts"],
+  "publicExports": ["FrameElement2DEulerBernoulli"],
+  "normativeReferences": {
+    "resolved": [],
+    "outsideCorpus": [],
+    "normativeConformityClaimed": false,
+    "status": "classified-for-declared-scope"
+  },
+  "independentValidation": {
+    "evidenceClassification": "software-parity-test; not an engineering validation campaign",
+    "method": "Independent execution of the pinned JavaScript source test inputs and the built TypeScript target, with exact serialized/numeric comparison plus the source closed-form assertions.",
+    "targetTests": ["tests/frame-element-euler-bernoulli-live-parity.test.ts"],
+    "fixture": "Pinned tests/frameElement2DEulerBernoulli.test.js cases: 2 m horizontal and vertical elements, cantilever tip load, full-span 4 m uniform load, tapered-load rejection, and added missing-input/zero-length boundary checks with Unicode serialization.",
+    "tolerances": {
+      "serializedParity": "exact JSON.stringify equality for element DTOs and complete comparable solver-result fields",
+      "numericParity": "exact JavaScript/TypeScript paired values; source closed-form assertions retain the pinned absolute tolerance of 1e-9",
+      "publicStrings": "exact equality and Unicode code-point equality for identifiers, types, metadata labels, and errors",
+      "errors": "exact error name and message equality for tapered-load, missing-input, zero-length, and missing-DOF-registry cases"
+    },
+    "parityFixtures": [
+      "FrameElement2DEulerBernoulli local and global stiffness matrices",
+      "Euler-Bernoulli cantilever tip-load and local end-force recovery",
+      "Euler-Bernoulli full-span uniform-load reactions and internal-force samples",
+      "tapered-load rejection",
+      "missing id/node, zero-length, and missing-DOF-registry errors",
+      "Unicode element serialization"
+    ]
+  },
+  "parityDifferences": [
+    "No JavaScript/TypeScript numerical, serialized DTO, public-string, or tested error-behavior difference is known for this evidence group.",
+    "This is software parity evidence, not an engineering validation campaign or a normative conformity claim."
+  ],
+  "engineeringFunctionality": "No new engineering functionality; this slice records independent source-test parity evidence for the already-migrated solver-neutral Euler-Bernoulli frame element."
+}

@@ -10444,10 +10444,23 @@
       "sourcePath": "src/domain/fem/elements/FrameElement2DEulerBernoulli.js",
       "sourceBlobSha1": "c78c4bd531835109725b901dd6dabf7418509e6c",
       "targetPath": "src/domain/fem/elements/FrameElement2DEulerBernoulli.ts",
-      "migrationSlices": ["0020-linear-frame-fem-2d"],
-      "sourceOracles": ["tests/femBeamValidation.test.js", "tests/femCore2D.test.js"],
-      "targetTests": ["tests/fem-frame-2d.test.ts"],
-      "validationEvidence": ["0020-linear-frame-fem-2d"],
+      "migrationSlices": [
+        "0020-linear-frame-fem-2d",
+        "0217-phase-a6-euler-bernoulli-source-test-parity"
+      ],
+      "sourceOracles": [
+        "tests/femBeamValidation.test.js",
+        "tests/femCore2D.test.js",
+        "tests/frameElement2DEulerBernoulli.test.js"
+      ],
+      "targetTests": [
+        "tests/fem-frame-2d.test.ts",
+        "tests/frame-element-euler-bernoulli-live-parity.test.ts"
+      ],
+      "validationEvidence": [
+        "0020-linear-frame-fem-2d",
+        "0217-phase-a6-euler-bernoulli-source-test-parity"
+      ],
       "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
@@ -37613,10 +37626,23 @@
       "sourcePath": "src/domain/fem/elements/FrameElement2DEulerBernoulli.js",
       "sourceBlobSha1": "c78c4bd531835109725b901dd6dabf7418509e6c",
       "targetPath": "src/domain/fem/elements/FrameElement2DEulerBernoulli.ts",
-      "migrationSlices": ["0020-linear-frame-fem-2d"],
-      "sourceOracles": ["tests/femBeamValidation.test.js", "tests/femCore2D.test.js"],
-      "targetTests": ["tests/fem-frame-2d.test.ts"],
-      "validationEvidence": ["0020-linear-frame-fem-2d"],
+      "migrationSlices": [
+        "0020-linear-frame-fem-2d",
+        "0217-phase-a6-euler-bernoulli-source-test-parity"
+      ],
+      "sourceOracles": [
+        "tests/femBeamValidation.test.js",
+        "tests/femCore2D.test.js",
+        "tests/frameElement2DEulerBernoulli.test.js"
+      ],
+      "targetTests": [
+        "tests/fem-frame-2d.test.ts",
+        "tests/frame-element-euler-bernoulli-live-parity.test.ts"
+      ],
+      "validationEvidence": [
+        "0020-linear-frame-fem-2d",
+        "0217-phase-a6-euler-bernoulli-source-test-parity"
+      ],
       "status": "exact-parity"
     },
     {
@@ -40084,7 +40110,8 @@
         "0211-applications-timber-concrete-composite-beam-model",
         "0212-applications-timber-concrete-composite-beam-section-provider",
         "0213-applications-reinforced-concrete-plates-documentation",
-        "0214-phase-a5-root-applications-export-parity"
+        "0214-phase-a5-root-applications-export-parity",
+        "0217-phase-a6-euler-bernoulli-source-test-parity"
       ],
       "sourceOracles": [
         "tests/architecture/applicationRegistry.test.js",
@@ -41698,11 +41725,11 @@
       "sourcePath": "tests/frameElement2DEulerBernoulli.test.js",
       "sourceBlobSha1": "c92b9ecaad557c8c3ed5935198817db7bb7cec9e",
       "targetPath": "tests/frameElement2DEulerBernoulli.test.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0217-phase-a6-euler-bernoulli-source-test-parity"],
+      "sourceOracles": ["tests/frameElement2DEulerBernoulli.test.js"],
+      "targetTests": ["tests/frame-element-euler-bernoulli-live-parity.test.ts"],
+      "validationEvidence": ["0217-phase-a6-euler-bernoulli-source-test-parity"],
+      "status": "exact-parity",
       "testKind": "test"
     },
     {
@@ -49065,6 +49092,19 @@
         "publicStrings": "package identity, private flag, version, export targets and import specifiers are exact",
         "errors": "missing dist files, private source-path imports, unavailable package exports or failed bundle smoke tests fail the gate"
       }
+    },
+    {
+      "sliceId": "0217-phase-a6-euler-bernoulli-source-test-parity",
+      "sourceRevision": "6f33baead8b88166c4b2cf94af41763412e3c751",
+      "method": "Independent execution of the pinned JavaScript source test inputs and the built TypeScript target, with exact serialized/numeric comparison plus the source closed-form assertions.",
+      "targetTests": ["tests/frame-element-euler-bernoulli-live-parity.test.ts"],
+      "fixture": "Pinned tests/frameElement2DEulerBernoulli.test.js cases: 2 m horizontal and vertical elements, cantilever tip load, full-span 4 m uniform load, tapered-load rejection, and added missing-input/zero-length boundary checks with Unicode serialization.",
+      "tolerances": {
+        "serializedParity": "exact JSON.stringify equality for element DTOs and complete comparable solver-result fields",
+        "numericParity": "exact JavaScript/TypeScript paired values; source closed-form assertions retain the pinned absolute tolerance of 1e-9",
+        "publicStrings": "exact equality and Unicode code-point equality for identifiers, types, metadata labels, and errors",
+        "errors": "exact error name and message equality for tapered-load, missing-input, zero-length, and missing-DOF-registry cases"
+      }
     }
   ],
   "phaseA4Scope": {
@@ -49191,11 +49231,11 @@
     },
     "sourceFiles": {
       "javascript": 480,
-      "typescript": 496
+      "typescript": 494
     },
     "tests": {
       "javascript": 131,
-      "typescript": 414
+      "typescript": 415
     },
     "validationCampaigns": {
       "javascript": 17,
@@ -49260,7 +49300,7 @@
       "statusCounts": {
         "exact-parity": 0,
         "partial": 0,
-        "missing": 95,
+        "missing": 94,
         "deferred": 0,
         "intentionally-excluded": 0,
         "decision-required": 0
@@ -49349,7 +49389,6 @@
         "test:tests/beamValidationCampaign.test.js",
         "test:tests/cyclicMasonryPierValidationCampaign.test.js",
         "test:tests/fixtures/strutture-js-web-worker-entry.js",
-        "test:tests/frameElement2DEulerBernoulli.test.js",
         "test:tests/geotechnicalDeepFoundationValidationCampaign.test.js",
         "test:tests/geotechnicalEmbeddedRetainingWallValidationCampaign.test.js",
         "test:tests/geotechnicalGroundAnchorValidationCampaign.test.js",
