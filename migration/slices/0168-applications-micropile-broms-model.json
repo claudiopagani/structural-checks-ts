@@ -1,0 +1,68 @@
+{
+  "schemaVersion": 1,
+  "sliceId": "0168-applications-micropile-broms-model",
+  "title": "Micropile Broms model",
+  "migrationType": "mechanical-parity-with-minimal-public-export-support",
+  "implementationStatus": "implemented",
+  "dependencies": [],
+  "source": {
+    "repository": "https://github.com/claudiopagani/strutture-js",
+    "revision": "6f33baead8b88166c4b2cf94af41763412e3c751"
+  },
+  "normativeCorpusRevision": "41da3faa489600173106935bbcf726119300e48d",
+  "sourceFiles": [
+    {
+      "path": "src/applications/micropiles-broms/models/MicropileBromsModel.js",
+      "gitBlobSha1": "58b3c3c8414242f78b8876873b6234a2f95fea6f",
+      "targetPath": "src/applications/micropiles-broms/models/MicropileBromsModel.ts"
+    }
+  ],
+  "supportingSourceFiles": [
+    {
+      "path": "src/index.js",
+      "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7",
+      "targetPath": "src/index.ts",
+      "coverage": "Minimal root export support for MicropileBromsModel and its strict public options type."
+    }
+  ],
+  "sourceOracles": [
+    {
+      "path": "tests/geotechnicalLateralPiles.test.js",
+      "gitBlobSha1": "4fb4df49422b449fee8307a02c8e98c4416160e4",
+      "coverage": "Pinned MicropileBromsApplication legacy-model boundary and public application behavior."
+    }
+  ],
+  "sourcePublicExport": {
+    "path": "src/index.js",
+    "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
+  },
+  "targetTests": [
+    "tests/baseline-parity.test.ts",
+    "tests/micropile-broms-model-compile-time.test.ts",
+    "tests/micropile-broms-model-live-parity.test.ts"
+  ],
+  "publicExports": ["MicropileBromsModel"],
+  "publicTypeExports": ["MicropileBromsModelOptions"],
+  "normativeReferences": {
+    "resolved": [],
+    "outsideCorpus": [],
+    "normativeConformityClaimed": false,
+    "status": "classified-for-declared-scope"
+  },
+  "independentValidation": {
+    "method": "Strict public declaration coverage and independently executed pinned JavaScript versus built TypeScript comparison of constructor fields, shallow-copy serialization, defaults, null bags, Unicode, independent instanceof behavior, falsy identifiers and missing-input errors.",
+    "targetTests": [
+      "tests/micropile-broms-model-compile-time.test.ts",
+      "tests/micropile-broms-model-live-parity.test.ts"
+    ],
+    "fixture": "Synthetic micropile model with nested pile/soil data, boundary conditions, actions, metadata, Unicode, default bags, null bags and invalid identifiers/options.",
+    "tolerances": {
+      "serializedParity": "exact public model field JSON",
+      "numericParity": "exact input numeric values",
+      "publicStrings": "exact Unicode identifiers and property values",
+      "errors": "exact missing-id, falsy-id and missing-options errors"
+    }
+  },
+  "parityDifferences": [],
+  "engineeringFunctionality": "Source-compatible legacy Micropile Broms model data container and validation."
+}
