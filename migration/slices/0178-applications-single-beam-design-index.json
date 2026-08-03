@@ -1,0 +1,79 @@
+{
+  "schemaVersion": 1,
+  "sliceId": "0178-applications-single-beam-design-index",
+  "title": "Single-beam design public index",
+  "migrationType": "mechanical-parity",
+  "implementationStatus": "implemented",
+  "dependencies": ["0177-applications-single-beam-design-application"],
+  "source": {
+    "repository": "https://github.com/claudiopagani/strutture-js",
+    "revision": "6f33baead8b88166c4b2cf94af41763412e3c751"
+  },
+  "normativeCorpusRevision": "41da3faa489600173106935bbcf726119300e48d",
+  "sourceFiles": [
+    {
+      "path": "src/applications/single-beam-design/index.js",
+      "gitBlobSha1": "ccbf9e38bbd7042b92e86ed607a77ee8d95da2a1",
+      "targetPath": "src/applications/single-beam-design/index.ts"
+    }
+  ],
+  "supportingSourceFiles": [
+    {
+      "path": "src/index.js",
+      "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7",
+      "targetPath": "src/index.ts",
+      "coverage": "Pinned root aliases for the single-beam design public barrel exports."
+    }
+  ],
+  "sourceOracles": [
+    {
+      "path": "tests/singleBeamDesignApplication.test.js",
+      "gitBlobSha1": "5e423cda0e4f6ad910fbd7cc7abd02969976f24d",
+      "coverage": "Pinned single-beam report and application behavior behind the public barrel."
+    },
+    {
+      "path": "tests/packageExports.test.js",
+      "gitBlobSha1": "8dde24b4c97dd3dae7100207d07d9d96c52b9c74",
+      "coverage": "Pinned root public-export aliases."
+    }
+  ],
+  "sourcePublicExport": {
+    "path": "src/applications/single-beam-design/index.js",
+    "gitBlobSha1": "ccbf9e38bbd7042b92e86ed607a77ee8d95da2a1"
+  },
+  "targetTests": [
+    "tests/single-beam-design-index-compile-time.test.ts",
+    "tests/single-beam-design-index-live-parity.test.ts"
+  ],
+  "publicExports": [
+    "SingleBeamDesignApplication",
+    "SingleBeamDesignModel",
+    "BEAM_REPORT_SCHEMA_VERSION",
+    "validateBeamReportDto",
+    "BeamReportBuilder",
+    "BeamReportMarkdownRenderer",
+    "createBeamReportArtifacts"
+  ],
+  "normativeReferences": {
+    "resolved": [],
+    "outsideCorpus": [],
+    "normativeConformityClaimed": false,
+    "status": "classified-for-declared-scope"
+  },
+  "independentValidation": {
+    "method": "Strict typed consumer declarations and independently executed pinned JavaScript versus built TypeScript comparison of exact barrel export names, root aliases, export kinds, constants, validation JSON, artifact JSON, Unicode and missing-input errors.",
+    "targetTests": [
+      "tests/single-beam-design-index-compile-time.test.ts",
+      "tests/single-beam-design-index-live-parity.test.ts"
+    ],
+    "fixture": "Single-beam public barrel exports with a Unicode validation input and report artifact input.",
+    "tolerances": {
+      "serializedParity": "exact export-name sequence, validation JSON and artifact JSON",
+      "numericParity": "not applicable to this public index slice",
+      "publicStrings": "exact export names, schema version, Unicode identifiers and error messages",
+      "errors": "exact missing-report artifact error"
+    }
+  },
+  "parityDifferences": [],
+  "engineeringFunctionality": "Source-compatible strict TypeScript public barrel for the complete single-beam design surface."
+}

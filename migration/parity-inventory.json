@@ -3927,16 +3927,24 @@
       "sourcePath": "src/applications/single-beam-design/dto/BeamReportDto.js",
       "sourceBlobSha1": "cf3b6cd69b855060a755e090cd9b914f72646a1b",
       "targetPath": "src/applications/single-beam-design/dto/BeamReportDto.ts",
-      "migrationSlices": ["0172-applications-single-beam-report-dto"],
+      "migrationSlices": [
+        "0172-applications-single-beam-report-dto",
+        "0178-applications-single-beam-design-index"
+      ],
       "sourceOracles": [
         "tests/packageExports.test.js",
         "tests/singleBeamDesignApplication.test.js"
       ],
       "targetTests": [
         "tests/beam-report-dto-compile-time.test.ts",
-        "tests/beam-report-dto-live-parity.test.ts"
+        "tests/beam-report-dto-live-parity.test.ts",
+        "tests/single-beam-design-index-compile-time.test.ts",
+        "tests/single-beam-design-index-live-parity.test.ts"
       ],
-      "validationEvidence": ["0172-applications-single-beam-report-dto"],
+      "validationEvidence": [
+        "0172-applications-single-beam-report-dto",
+        "0178-applications-single-beam-design-index"
+      ],
       "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
@@ -3998,16 +4006,24 @@
       "sourcePath": "src/applications/single-beam-design/reports/BeamReportBuilder.js",
       "sourceBlobSha1": "b4fe4929cb13b2f8e63b7d77e0598f07534923e0",
       "targetPath": "src/applications/single-beam-design/reports/BeamReportBuilder.ts",
-      "migrationSlices": ["0176-applications-beam-report-builder"],
+      "migrationSlices": [
+        "0176-applications-beam-report-builder",
+        "0178-applications-single-beam-design-index"
+      ],
       "sourceOracles": [
         "tests/packageExports.test.js",
         "tests/singleBeamDesignApplication.test.js"
       ],
       "targetTests": [
         "tests/beam-report-builder-compile-time.test.ts",
-        "tests/beam-report-builder-live-parity.test.ts"
+        "tests/beam-report-builder-live-parity.test.ts",
+        "tests/single-beam-design-index-compile-time.test.ts",
+        "tests/single-beam-design-index-live-parity.test.ts"
       ],
-      "validationEvidence": ["0176-applications-beam-report-builder"],
+      "validationEvidence": [
+        "0176-applications-beam-report-builder",
+        "0178-applications-single-beam-design-index"
+      ],
       "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
@@ -4018,16 +4034,24 @@
       "sourcePath": "src/applications/single-beam-design/reports/BeamReportMarkdownRenderer.js",
       "sourceBlobSha1": "56d5284aa5d22168b72d9d13201617170bab4715",
       "targetPath": "src/applications/single-beam-design/reports/BeamReportMarkdownRenderer.ts",
-      "migrationSlices": ["0175-applications-beam-report-markdown-renderer"],
+      "migrationSlices": [
+        "0175-applications-beam-report-markdown-renderer",
+        "0178-applications-single-beam-design-index"
+      ],
       "sourceOracles": [
         "tests/packageExports.test.js",
         "tests/singleBeamDesignApplication.test.js"
       ],
       "targetTests": [
         "tests/beam-report-markdown-renderer-compile-time.test.ts",
-        "tests/beam-report-markdown-renderer-live-parity.test.ts"
+        "tests/beam-report-markdown-renderer-live-parity.test.ts",
+        "tests/single-beam-design-index-compile-time.test.ts",
+        "tests/single-beam-design-index-live-parity.test.ts"
       ],
-      "validationEvidence": ["0175-applications-beam-report-markdown-renderer"],
+      "validationEvidence": [
+        "0175-applications-beam-report-markdown-renderer",
+        "0178-applications-single-beam-design-index"
+      ],
       "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
@@ -6675,16 +6699,24 @@
       "sourcePath": "src/applications/single-beam-design/reports/BeamReportArtifacts.js",
       "sourceBlobSha1": "7f3a6b8f3413b1840aa9549f1a29964c976ebe45",
       "targetPath": "src/applications/single-beam-design/reports/BeamReportArtifacts.ts",
-      "migrationSlices": ["0174-applications-beam-report-artifacts"],
+      "migrationSlices": [
+        "0174-applications-beam-report-artifacts",
+        "0178-applications-single-beam-design-index"
+      ],
       "sourceOracles": [
         "tests/packageExports.test.js",
         "tests/singleBeamDesignApplication.test.js"
       ],
       "targetTests": [
         "tests/beam-report-artifacts-compile-time.test.ts",
-        "tests/beam-report-artifacts-live-parity.test.ts"
+        "tests/beam-report-artifacts-live-parity.test.ts",
+        "tests/single-beam-design-index-compile-time.test.ts",
+        "tests/single-beam-design-index-live-parity.test.ts"
       ],
-      "validationEvidence": ["0174-applications-beam-report-artifacts"],
+      "validationEvidence": [
+        "0174-applications-beam-report-artifacts",
+        "0178-applications-single-beam-design-index"
+      ],
       "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
@@ -18676,16 +18708,24 @@
       "sourcePath": "src/applications/single-beam-design/SingleBeamDesignApplication.js",
       "sourceBlobSha1": "ed6ecb8a3ec8219a6957681049d4653c7ff54e21",
       "targetPath": "src/applications/single-beam-design/SingleBeamDesignApplication.ts",
-      "migrationSlices": ["0177-applications-single-beam-design-application"],
+      "migrationSlices": [
+        "0177-applications-single-beam-design-application",
+        "0178-applications-single-beam-design-index"
+      ],
       "sourceOracles": [
         "tests/packageExports.test.js",
         "tests/singleBeamDesignApplication.test.js"
       ],
       "targetTests": [
         "tests/single-beam-design-application-compile-time.test.ts",
-        "tests/single-beam-design-application-live-parity.test.ts"
+        "tests/single-beam-design-application-live-parity.test.ts",
+        "tests/single-beam-design-index-compile-time.test.ts",
+        "tests/single-beam-design-index-live-parity.test.ts"
       ],
-      "validationEvidence": ["0177-applications-single-beam-design-application"],
+      "validationEvidence": [
+        "0177-applications-single-beam-design-application",
+        "0178-applications-single-beam-design-index"
+      ],
       "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
@@ -18696,16 +18736,24 @@
       "sourcePath": "src/applications/single-beam-design/models/SingleBeamDesignModel.js",
       "sourceBlobSha1": "bd52a0c5f1f04dc809e0cd831659d0579a9f7199",
       "targetPath": "src/applications/single-beam-design/models/SingleBeamDesignModel.ts",
-      "migrationSlices": ["0173-applications-single-beam-design-model"],
+      "migrationSlices": [
+        "0173-applications-single-beam-design-model",
+        "0178-applications-single-beam-design-index"
+      ],
       "sourceOracles": [
         "tests/packageExports.test.js",
         "tests/singleBeamDesignApplication.test.js"
       ],
       "targetTests": [
+        "tests/single-beam-design-index-compile-time.test.ts",
+        "tests/single-beam-design-index-live-parity.test.ts",
         "tests/single-beam-design-model-compile-time.test.ts",
         "tests/single-beam-design-model-live-parity.test.ts"
       ],
-      "validationEvidence": ["0173-applications-single-beam-design-model"],
+      "validationEvidence": [
+        "0173-applications-single-beam-design-model",
+        "0178-applications-single-beam-design-index"
+      ],
       "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
@@ -20315,16 +20363,24 @@
       "sourcePath": "src/applications/single-beam-design/dto/BeamReportDto.js",
       "sourceBlobSha1": "cf3b6cd69b855060a755e090cd9b914f72646a1b",
       "targetPath": "src/applications/single-beam-design/dto/BeamReportDto.ts",
-      "migrationSlices": ["0172-applications-single-beam-report-dto"],
+      "migrationSlices": [
+        "0172-applications-single-beam-report-dto",
+        "0178-applications-single-beam-design-index"
+      ],
       "sourceOracles": [
         "tests/packageExports.test.js",
         "tests/singleBeamDesignApplication.test.js"
       ],
       "targetTests": [
         "tests/beam-report-dto-compile-time.test.ts",
-        "tests/beam-report-dto-live-parity.test.ts"
+        "tests/beam-report-dto-live-parity.test.ts",
+        "tests/single-beam-design-index-compile-time.test.ts",
+        "tests/single-beam-design-index-live-parity.test.ts"
       ],
-      "validationEvidence": ["0172-applications-single-beam-report-dto"],
+      "validationEvidence": [
+        "0172-applications-single-beam-report-dto",
+        "0178-applications-single-beam-design-index"
+      ],
       "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
@@ -21828,16 +21884,24 @@
       "sourcePath": "src/applications/single-beam-design/dto/BeamReportDto.js",
       "sourceBlobSha1": "cf3b6cd69b855060a755e090cd9b914f72646a1b",
       "targetPath": "src/applications/single-beam-design/dto/BeamReportDto.ts",
-      "migrationSlices": ["0172-applications-single-beam-report-dto"],
+      "migrationSlices": [
+        "0172-applications-single-beam-report-dto",
+        "0178-applications-single-beam-design-index"
+      ],
       "sourceOracles": [
         "tests/packageExports.test.js",
         "tests/singleBeamDesignApplication.test.js"
       ],
       "targetTests": [
         "tests/beam-report-dto-compile-time.test.ts",
-        "tests/beam-report-dto-live-parity.test.ts"
+        "tests/beam-report-dto-live-parity.test.ts",
+        "tests/single-beam-design-index-compile-time.test.ts",
+        "tests/single-beam-design-index-live-parity.test.ts"
       ],
-      "validationEvidence": ["0172-applications-single-beam-report-dto"],
+      "validationEvidence": [
+        "0172-applications-single-beam-report-dto",
+        "0178-applications-single-beam-design-index"
+      ],
       "status": "exact-parity",
       "publicEntryPath": "src/applications/index.js",
       "publicEntryBlobSha1": "b70179c7cdd2a819f2151dc092c0f59cbce30ba6"
@@ -21848,16 +21912,24 @@
       "sourcePath": "src/applications/single-beam-design/reports/BeamReportBuilder.js",
       "sourceBlobSha1": "b4fe4929cb13b2f8e63b7d77e0598f07534923e0",
       "targetPath": "src/applications/single-beam-design/reports/BeamReportBuilder.ts",
-      "migrationSlices": ["0176-applications-beam-report-builder"],
+      "migrationSlices": [
+        "0176-applications-beam-report-builder",
+        "0178-applications-single-beam-design-index"
+      ],
       "sourceOracles": [
         "tests/packageExports.test.js",
         "tests/singleBeamDesignApplication.test.js"
       ],
       "targetTests": [
         "tests/beam-report-builder-compile-time.test.ts",
-        "tests/beam-report-builder-live-parity.test.ts"
+        "tests/beam-report-builder-live-parity.test.ts",
+        "tests/single-beam-design-index-compile-time.test.ts",
+        "tests/single-beam-design-index-live-parity.test.ts"
       ],
-      "validationEvidence": ["0176-applications-beam-report-builder"],
+      "validationEvidence": [
+        "0176-applications-beam-report-builder",
+        "0178-applications-single-beam-design-index"
+      ],
       "status": "exact-parity",
       "publicEntryPath": "src/applications/index.js",
       "publicEntryBlobSha1": "b70179c7cdd2a819f2151dc092c0f59cbce30ba6"
@@ -21868,16 +21940,24 @@
       "sourcePath": "src/applications/single-beam-design/reports/BeamReportMarkdownRenderer.js",
       "sourceBlobSha1": "56d5284aa5d22168b72d9d13201617170bab4715",
       "targetPath": "src/applications/single-beam-design/reports/BeamReportMarkdownRenderer.ts",
-      "migrationSlices": ["0175-applications-beam-report-markdown-renderer"],
+      "migrationSlices": [
+        "0175-applications-beam-report-markdown-renderer",
+        "0178-applications-single-beam-design-index"
+      ],
       "sourceOracles": [
         "tests/packageExports.test.js",
         "tests/singleBeamDesignApplication.test.js"
       ],
       "targetTests": [
         "tests/beam-report-markdown-renderer-compile-time.test.ts",
-        "tests/beam-report-markdown-renderer-live-parity.test.ts"
+        "tests/beam-report-markdown-renderer-live-parity.test.ts",
+        "tests/single-beam-design-index-compile-time.test.ts",
+        "tests/single-beam-design-index-live-parity.test.ts"
       ],
-      "validationEvidence": ["0175-applications-beam-report-markdown-renderer"],
+      "validationEvidence": [
+        "0175-applications-beam-report-markdown-renderer",
+        "0178-applications-single-beam-design-index"
+      ],
       "status": "exact-parity",
       "publicEntryPath": "src/applications/index.js",
       "publicEntryBlobSha1": "b70179c7cdd2a819f2151dc092c0f59cbce30ba6"
@@ -22261,16 +22341,24 @@
       "sourcePath": "src/applications/single-beam-design/reports/BeamReportArtifacts.js",
       "sourceBlobSha1": "7f3a6b8f3413b1840aa9549f1a29964c976ebe45",
       "targetPath": "src/applications/single-beam-design/reports/BeamReportArtifacts.ts",
-      "migrationSlices": ["0174-applications-beam-report-artifacts"],
+      "migrationSlices": [
+        "0174-applications-beam-report-artifacts",
+        "0178-applications-single-beam-design-index"
+      ],
       "sourceOracles": [
         "tests/packageExports.test.js",
         "tests/singleBeamDesignApplication.test.js"
       ],
       "targetTests": [
         "tests/beam-report-artifacts-compile-time.test.ts",
-        "tests/beam-report-artifacts-live-parity.test.ts"
+        "tests/beam-report-artifacts-live-parity.test.ts",
+        "tests/single-beam-design-index-compile-time.test.ts",
+        "tests/single-beam-design-index-live-parity.test.ts"
       ],
-      "validationEvidence": ["0174-applications-beam-report-artifacts"],
+      "validationEvidence": [
+        "0174-applications-beam-report-artifacts",
+        "0178-applications-single-beam-design-index"
+      ],
       "status": "exact-parity",
       "publicEntryPath": "src/applications/index.js",
       "publicEntryBlobSha1": "b70179c7cdd2a819f2151dc092c0f59cbce30ba6"
@@ -26757,16 +26845,24 @@
       "sourcePath": "src/applications/single-beam-design/SingleBeamDesignApplication.js",
       "sourceBlobSha1": "ed6ecb8a3ec8219a6957681049d4653c7ff54e21",
       "targetPath": "src/applications/single-beam-design/SingleBeamDesignApplication.ts",
-      "migrationSlices": ["0177-applications-single-beam-design-application"],
+      "migrationSlices": [
+        "0177-applications-single-beam-design-application",
+        "0178-applications-single-beam-design-index"
+      ],
       "sourceOracles": [
         "tests/packageExports.test.js",
         "tests/singleBeamDesignApplication.test.js"
       ],
       "targetTests": [
         "tests/single-beam-design-application-compile-time.test.ts",
-        "tests/single-beam-design-application-live-parity.test.ts"
+        "tests/single-beam-design-application-live-parity.test.ts",
+        "tests/single-beam-design-index-compile-time.test.ts",
+        "tests/single-beam-design-index-live-parity.test.ts"
       ],
-      "validationEvidence": ["0177-applications-single-beam-design-application"],
+      "validationEvidence": [
+        "0177-applications-single-beam-design-application",
+        "0178-applications-single-beam-design-index"
+      ],
       "status": "exact-parity",
       "publicEntryPath": "src/applications/index.js",
       "publicEntryBlobSha1": "b70179c7cdd2a819f2151dc092c0f59cbce30ba6"
@@ -26777,16 +26873,24 @@
       "sourcePath": "src/applications/single-beam-design/models/SingleBeamDesignModel.js",
       "sourceBlobSha1": "bd52a0c5f1f04dc809e0cd831659d0579a9f7199",
       "targetPath": "src/applications/single-beam-design/models/SingleBeamDesignModel.ts",
-      "migrationSlices": ["0173-applications-single-beam-design-model"],
+      "migrationSlices": [
+        "0173-applications-single-beam-design-model",
+        "0178-applications-single-beam-design-index"
+      ],
       "sourceOracles": [
         "tests/packageExports.test.js",
         "tests/singleBeamDesignApplication.test.js"
       ],
       "targetTests": [
+        "tests/single-beam-design-index-compile-time.test.ts",
+        "tests/single-beam-design-index-live-parity.test.ts",
         "tests/single-beam-design-model-compile-time.test.ts",
         "tests/single-beam-design-model-live-parity.test.ts"
       ],
-      "validationEvidence": ["0173-applications-single-beam-design-model"],
+      "validationEvidence": [
+        "0173-applications-single-beam-design-model",
+        "0178-applications-single-beam-design-index"
+      ],
       "status": "exact-parity",
       "publicEntryPath": "src/applications/index.js",
       "publicEntryBlobSha1": "b70179c7cdd2a819f2151dc092c0f59cbce30ba6"
@@ -27153,16 +27257,24 @@
       "sourcePath": "src/applications/single-beam-design/dto/BeamReportDto.js",
       "sourceBlobSha1": "cf3b6cd69b855060a755e090cd9b914f72646a1b",
       "targetPath": "src/applications/single-beam-design/dto/BeamReportDto.ts",
-      "migrationSlices": ["0172-applications-single-beam-report-dto"],
+      "migrationSlices": [
+        "0172-applications-single-beam-report-dto",
+        "0178-applications-single-beam-design-index"
+      ],
       "sourceOracles": [
         "tests/packageExports.test.js",
         "tests/singleBeamDesignApplication.test.js"
       ],
       "targetTests": [
         "tests/beam-report-dto-compile-time.test.ts",
-        "tests/beam-report-dto-live-parity.test.ts"
+        "tests/beam-report-dto-live-parity.test.ts",
+        "tests/single-beam-design-index-compile-time.test.ts",
+        "tests/single-beam-design-index-live-parity.test.ts"
       ],
-      "validationEvidence": ["0172-applications-single-beam-report-dto"],
+      "validationEvidence": [
+        "0172-applications-single-beam-report-dto",
+        "0178-applications-single-beam-design-index"
+      ],
       "status": "exact-parity",
       "publicEntryPath": "src/applications/index.js",
       "publicEntryBlobSha1": "b70179c7cdd2a819f2151dc092c0f59cbce30ba6"
@@ -27587,7 +27699,8 @@
       "targetTests": [
         "tests/baseline-parity.test.ts",
         "tests/single-beam-design-application-compile-time.test.ts",
-        "tests/single-beam-design-application-live-parity.test.ts"
+        "tests/single-beam-design-application-live-parity.test.ts",
+        "tests/single-beam-design-index-compile-time.test.ts"
       ],
       "validationEvidence": [
         "0024-reinforced-concrete-foundation-beams",
@@ -29303,16 +29416,24 @@
       "sourcePath": "src/applications/single-beam-design/dto/BeamReportDto.js",
       "sourceBlobSha1": "cf3b6cd69b855060a755e090cd9b914f72646a1b",
       "targetPath": "src/applications/single-beam-design/dto/BeamReportDto.ts",
-      "migrationSlices": ["0172-applications-single-beam-report-dto"],
+      "migrationSlices": [
+        "0172-applications-single-beam-report-dto",
+        "0178-applications-single-beam-design-index"
+      ],
       "sourceOracles": [
         "tests/packageExports.test.js",
         "tests/singleBeamDesignApplication.test.js"
       ],
       "targetTests": [
         "tests/beam-report-dto-compile-time.test.ts",
-        "tests/beam-report-dto-live-parity.test.ts"
+        "tests/beam-report-dto-live-parity.test.ts",
+        "tests/single-beam-design-index-compile-time.test.ts",
+        "tests/single-beam-design-index-live-parity.test.ts"
       ],
-      "validationEvidence": ["0172-applications-single-beam-report-dto"],
+      "validationEvidence": [
+        "0172-applications-single-beam-report-dto",
+        "0178-applications-single-beam-design-index"
+      ],
       "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7",
@@ -33270,11 +33391,17 @@
       "sourcePath": "src/applications/single-beam-design/index.js",
       "sourceBlobSha1": "ccbf9e38bbd7042b92e86ed607a77ee8d95da2a1",
       "targetPath": "src/applications/single-beam-design/index.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing"
+      "migrationSlices": ["0178-applications-single-beam-design-index"],
+      "sourceOracles": [
+        "tests/packageExports.test.js",
+        "tests/singleBeamDesignApplication.test.js"
+      ],
+      "targetTests": [
+        "tests/single-beam-design-index-compile-time.test.ts",
+        "tests/single-beam-design-index-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0178-applications-single-beam-design-index"],
+      "status": "exact-parity"
     },
     {
       "id": "src/applications/single-beam-design/models/SingleBeamDesignModel.js",
@@ -40532,7 +40659,8 @@
         "0174-applications-beam-report-artifacts",
         "0175-applications-beam-report-markdown-renderer",
         "0176-applications-beam-report-builder",
-        "0177-applications-single-beam-design-application"
+        "0177-applications-single-beam-design-application",
+        "0178-applications-single-beam-design-index"
       ],
       "sourceOracles": ["tests/packageExports.test.js"],
       "targetTests": [
@@ -40710,6 +40838,8 @@
         "tests/shallow-foundation-uls-live-parity.test.ts",
         "tests/single-beam-design-application-compile-time.test.ts",
         "tests/single-beam-design-application-live-parity.test.ts",
+        "tests/single-beam-design-index-compile-time.test.ts",
+        "tests/single-beam-design-index-live-parity.test.ts",
         "tests/single-beam-design-model-compile-time.test.ts",
         "tests/single-beam-design-model-live-parity.test.ts",
         "tests/slab-loads-compile-time.test.ts",
@@ -40837,7 +40967,8 @@
         "0174-applications-beam-report-artifacts",
         "0175-applications-beam-report-markdown-renderer",
         "0176-applications-beam-report-builder",
-        "0177-applications-single-beam-design-application"
+        "0177-applications-single-beam-design-application",
+        "0178-applications-single-beam-design-index"
       ],
       "status": "exact-parity",
       "testKind": "test"
@@ -41480,7 +41611,8 @@
         "0174-applications-beam-report-artifacts",
         "0175-applications-beam-report-markdown-renderer",
         "0176-applications-beam-report-builder",
-        "0177-applications-single-beam-design-application"
+        "0177-applications-single-beam-design-application",
+        "0178-applications-single-beam-design-index"
       ],
       "sourceOracles": ["tests/singleBeamDesignApplication.test.js"],
       "targetTests": [
@@ -41496,6 +41628,8 @@
         "tests/single-beam-analysis.test.ts",
         "tests/single-beam-design-application-compile-time.test.ts",
         "tests/single-beam-design-application-live-parity.test.ts",
+        "tests/single-beam-design-index-compile-time.test.ts",
+        "tests/single-beam-design-index-live-parity.test.ts",
         "tests/single-beam-design-model-compile-time.test.ts",
         "tests/single-beam-design-model-live-parity.test.ts"
       ],
@@ -41506,7 +41640,8 @@
         "0174-applications-beam-report-artifacts",
         "0175-applications-beam-report-markdown-renderer",
         "0176-applications-beam-report-builder",
-        "0177-applications-single-beam-design-application"
+        "0177-applications-single-beam-design-application",
+        "0178-applications-single-beam-design-index"
       ],
       "status": "exact-parity",
       "testKind": "test"
@@ -45357,6 +45492,22 @@
         "publicStrings": "exact application identifiers, status, summary, metadata, Unicode and error messages",
         "errors": "exact missing input, missing model identifier and missing beam input errors"
       }
+    },
+    {
+      "sliceId": "0178-applications-single-beam-design-index",
+      "sourceRevision": "6f33baead8b88166c4b2cf94af41763412e3c751",
+      "method": "Strict typed consumer declarations and independently executed pinned JavaScript versus built TypeScript comparison of exact barrel export names, root aliases, export kinds, constants, validation JSON, artifact JSON, Unicode and missing-input errors.",
+      "targetTests": [
+        "tests/single-beam-design-index-compile-time.test.ts",
+        "tests/single-beam-design-index-live-parity.test.ts"
+      ],
+      "fixture": "Single-beam public barrel exports with a Unicode validation input and report artifact input.",
+      "tolerances": {
+        "serializedParity": "exact export-name sequence, validation JSON and artifact JSON",
+        "numericParity": "not applicable to this public index slice",
+        "publicStrings": "exact export names, schema version, Unicode identifiers and error messages",
+        "errors": "exact missing-report artifact error"
+      }
     }
   ],
   "counts": {
@@ -45386,11 +45537,11 @@
     },
     "sourceFiles": {
       "javascript": 480,
-      "typescript": 439
+      "typescript": 440
     },
     "tests": {
       "javascript": 131,
-      "typescript": 340
+      "typescript": 342
     },
     "validationCampaigns": {
       "javascript": 17,
@@ -45442,7 +45593,7 @@
       "statusCounts": {
         "exact-parity": 0,
         "partial": 25,
-        "missing": 179,
+        "missing": 178,
         "intentionally-excluded": 0,
         "decision-required": 0
       },
@@ -45609,7 +45760,6 @@
         "source:src/applications/micropiles-broms/analysis/MicropileBromsAnalysis.js",
         "source:src/applications/micropiles-broms/index.js",
         "source:src/applications/reinforced-concrete-plates/README.md",
-        "source:src/applications/single-beam-design/index.js",
         "source:src/applications/steel-frames/SteelFrameApplication.js",
         "source:src/applications/steel-frames/analysis/SteelDisplacementControlPushoverSolver2D.js",
         "source:src/applications/steel-frames/analysis/SteelPlasticHingeFrameElement2D.js",
