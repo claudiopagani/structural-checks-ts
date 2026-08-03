@@ -878,6 +878,7 @@
         "AXIAL_PILE_SHAFT_RESISTANCE_METHODS",
         "AccidentalAction",
         "Action",
+        "AlignmentSeismicAggregatedAnalysis",
         "AlignmentStateComparisonMarkdownRenderer",
         "AlignmentStateComparisonReportBuilder",
         "AlignmentStaticAnalysis",
@@ -3299,11 +3300,15 @@
       "sourcePath": "src/applications/masonry-wall-openings/analysis/AlignmentSeismicAggregatedAnalysis.js",
       "sourceBlobSha1": "f3083b46e85c9680dec3a2db588d2f52143eed7c",
       "targetPath": "src/applications/masonry-wall-openings/analysis/AlignmentSeismicAggregatedAnalysis.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0202-applications-masonry-wall-opening-seismic-aggregated-analysis"],
+      "sourceOracles": ["tests/masonryWallOpeningsSeismicAnalysis.test.js"],
+      "targetTests": [
+        "tests/alignment-seismic-aggregated-analysis-compile-time.test.ts",
+        "tests/alignment-seismic-aggregated-analysis-live-parity.test.ts",
+        "tests/baseline-parity.test.ts"
+      ],
+      "validationEvidence": ["0202-applications-masonry-wall-opening-seismic-aggregated-analysis"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -21738,11 +21743,15 @@
       "sourcePath": "src/applications/masonry-wall-openings/analysis/AlignmentSeismicAggregatedAnalysis.js",
       "sourceBlobSha1": "f3083b46e85c9680dec3a2db588d2f52143eed7c",
       "targetPath": "src/applications/masonry-wall-openings/analysis/AlignmentSeismicAggregatedAnalysis.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0202-applications-masonry-wall-opening-seismic-aggregated-analysis"],
+      "sourceOracles": ["tests/masonryWallOpeningsSeismicAnalysis.test.js"],
+      "targetTests": [
+        "tests/alignment-seismic-aggregated-analysis-compile-time.test.ts",
+        "tests/alignment-seismic-aggregated-analysis-live-parity.test.ts",
+        "tests/baseline-parity.test.ts"
+      ],
+      "validationEvidence": ["0202-applications-masonry-wall-opening-seismic-aggregated-analysis"],
+      "status": "exact-parity",
       "publicEntryPath": "src/applications/index.js",
       "publicEntryBlobSha1": "b70179c7cdd2a819f2151dc092c0f59cbce30ba6"
     },
@@ -31521,11 +31530,15 @@
       "sourcePath": "src/applications/masonry-wall-openings/analysis/AlignmentSeismicAggregatedAnalysis.js",
       "sourceBlobSha1": "f3083b46e85c9680dec3a2db588d2f52143eed7c",
       "targetPath": "src/applications/masonry-wall-openings/analysis/AlignmentSeismicAggregatedAnalysis.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing"
+      "migrationSlices": ["0202-applications-masonry-wall-opening-seismic-aggregated-analysis"],
+      "sourceOracles": ["tests/masonryWallOpeningsSeismicAnalysis.test.js"],
+      "targetTests": [
+        "tests/alignment-seismic-aggregated-analysis-compile-time.test.ts",
+        "tests/alignment-seismic-aggregated-analysis-live-parity.test.ts",
+        "tests/baseline-parity.test.ts"
+      ],
+      "validationEvidence": ["0202-applications-masonry-wall-opening-seismic-aggregated-analysis"],
+      "status": "exact-parity"
     },
     {
       "id": "src/applications/masonry-wall-openings/analysis/AlignmentStateComparisonAnalysis.js",
@@ -38145,7 +38158,8 @@
         "0198-applications-masonry-equivalent-frame-builder",
         "0199-applications-steel-ring-frame-pushover-analysis",
         "0200-applications-steel-member-verification",
-        "0201-applications-masonry-wall-opening-static-analysis"
+        "0201-applications-masonry-wall-opening-static-analysis",
+        "0202-applications-masonry-wall-opening-seismic-aggregated-analysis"
       ],
       "sourceOracles": [
         "tests/architecture/applicationRegistry.test.js",
@@ -40608,14 +40622,22 @@
       "sourcePath": "tests/masonryWallOpeningsSeismicAnalysis.test.js",
       "sourceBlobSha1": "6931fde73f0bf52f80d657169b3546a7d038dbf5",
       "targetPath": "tests/masonryWallOpeningsSeismicAnalysis.test.ts",
-      "migrationSlices": ["0156-applications-masonry-wall-opening-capacity-bilinearization"],
+      "migrationSlices": [
+        "0156-applications-masonry-wall-opening-capacity-bilinearization",
+        "0202-applications-masonry-wall-opening-seismic-aggregated-analysis"
+      ],
       "sourceOracles": ["tests/masonryWallOpeningsSeismicAnalysis.test.js"],
       "targetTests": [
+        "tests/alignment-seismic-aggregated-analysis-compile-time.test.ts",
+        "tests/alignment-seismic-aggregated-analysis-live-parity.test.ts",
         "tests/baseline-parity.test.ts",
         "tests/masonry-wall-opening-capacity-bilinearization-compile-time.test.ts",
         "tests/masonry-wall-opening-capacity-bilinearization-live-parity.test.ts"
       ],
-      "validationEvidence": ["0156-applications-masonry-wall-opening-capacity-bilinearization"],
+      "validationEvidence": [
+        "0156-applications-masonry-wall-opening-capacity-bilinearization",
+        "0202-applications-masonry-wall-opening-seismic-aggregated-analysis"
+      ],
       "status": "exact-parity",
       "testKind": "test"
     },
@@ -46692,16 +46714,32 @@
         "publicStrings": "exact summaries, warnings, assumptions, metadata, identifiers and Unicode code-point comparison",
         "errors": "exact missing-input and unsupported-combination error name and message comparison"
       }
+    },
+    {
+      "sliceId": "0202-applications-masonry-wall-opening-seismic-aggregated-analysis",
+      "sourceRevision": "6f33baead8b88166c4b2cf94af41763412e3c751",
+      "method": "Strict typed consumer declarations and independently executed pinned JavaScript versus built TypeScript comparison of basic, fixed-top and steel-ring-frame aggregated seismic analyses with exact serialized JSON, numerical values, Unicode code points, public export identity and error behavior.",
+      "targetTests": [
+        "tests/alignment-seismic-aggregated-analysis-compile-time.test.ts",
+        "tests/alignment-seismic-aggregated-analysis-live-parity.test.ts"
+      ],
+      "fixture": "Independent masonry wall-opening alignment fixtures with Unicode identifiers, NTC masonry material properties, free and fixed pier top rotations, and a fully defined IPE200/UPN200 S275 ring frame.",
+      "tolerances": {
+        "serializedParity": "exact complete CalculationResult JSON including nested pier, ring-frame, capacity-curve and bilinearization outputs",
+        "numericParity": "exact capacities, stiffnesses, displacement points, base shears, bilinearization values and metadata counts",
+        "publicStrings": "exact statuses, summaries, warnings, assumptions, metadata, identifiers and Unicode code-point comparison",
+        "errors": "exact missing-input and unsupported-topRotation error name and message comparison"
+      }
     }
   ],
   "counts": {
     "rootExports": {
       "javascript": 841,
-      "typescript": 809
+      "typescript": 810
     },
     "applicationsExports": {
       "javascript": 309,
-      "typescript": 282
+      "typescript": 283
     },
     "packageEntryPoints": {
       "javascript": 14,
@@ -46721,11 +46759,11 @@
     },
     "sourceFiles": {
       "javascript": 480,
-      "typescript": 463
+      "typescript": 464
     },
     "tests": {
       "javascript": 131,
-      "typescript": 388
+      "typescript": 390
     },
     "validationCampaigns": {
       "javascript": 17,
@@ -46777,13 +46815,12 @@
       "statusCounts": {
         "exact-parity": 0,
         "partial": 26,
-        "missing": 88,
+        "missing": 85,
         "intentionally-excluded": 0,
         "decision-required": 0
       },
       "itemIds": [
         "application-export:AlignmentEquivalentFramePushoverAnalysis",
-        "application-export:AlignmentSeismicAggregatedAnalysis",
         "application-export:AlignmentStateComparisonAnalysis",
         "application-export:MasonryPierCapacityCurveComparisonAnalysis",
         "application-export:MasonryWallOpeningsApplication",
@@ -46840,7 +46877,6 @@
         "registry:timber-xlam-composite-beams",
         "registry:xlam-panels-out-of-plane",
         "root-export:AlignmentEquivalentFramePushoverAnalysis",
-        "root-export:AlignmentSeismicAggregatedAnalysis",
         "root-export:AlignmentStateComparisonAnalysis",
         "root-export:MasonryPierCapacityCurveComparisonAnalysis",
         "root-export:MasonryWallOpeningsApplication",
@@ -46868,7 +46904,6 @@
         "root-export:verifyTimberLateralTorsionalStability",
         "source:src/applications/masonry-wall-openings/MasonryWallOpeningsApplication.js",
         "source:src/applications/masonry-wall-openings/analysis/AlignmentEquivalentFramePushoverAnalysis.js",
-        "source:src/applications/masonry-wall-openings/analysis/AlignmentSeismicAggregatedAnalysis.js",
         "source:src/applications/masonry-wall-openings/analysis/AlignmentStateComparisonAnalysis.js",
         "source:src/applications/masonry-wall-openings/analysis/MasonryPierCapacityCurveComparisonAnalysis.js",
         "source:src/applications/masonry-wall-openings/index.js",

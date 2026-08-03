@@ -1,0 +1,81 @@
+{
+  "schemaVersion": 1,
+  "sliceId": "0202-applications-masonry-wall-opening-seismic-aggregated-analysis",
+  "title": "Masonry wall-opening aggregated seismic analysis",
+  "migrationType": "mechanical-parity",
+  "implementationStatus": "implemented",
+  "dependencies": [
+    "0201-applications-masonry-wall-opening-static-analysis",
+    "0199-applications-steel-ring-frame-pushover-analysis",
+    "0198-applications-masonry-equivalent-frame-builder"
+  ],
+  "source": {
+    "repository": "https://github.com/claudiopagani/strutture-js",
+    "revision": "6f33baead8b88166c4b2cf94af41763412e3c751"
+  },
+  "normativeCorpusRevision": "41da3faa489600173106935bbcf726119300e48d",
+  "sourceFiles": [
+    {
+      "path": "src/applications/masonry-wall-openings/analysis/AlignmentSeismicAggregatedAnalysis.js",
+      "gitBlobSha1": "f3083b46e85c9680dec3a2db588d2f52143eed7c",
+      "targetPath": "src/applications/masonry-wall-openings/analysis/AlignmentSeismicAggregatedAnalysis.ts"
+    }
+  ],
+  "supportingSourceFiles": [
+    {
+      "path": "src/applications/masonry-wall-openings/index.js",
+      "gitBlobSha1": "eff11642dcba529d9307f41cd5e19afc32cc99b1",
+      "coverage": "Pinned masonry wall-opening barrel context; the migrated analysis receives a supported root export in this slice."
+    },
+    {
+      "path": "src/index.js",
+      "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7",
+      "coverage": "Pinned root public export context for AlignmentSeismicAggregatedAnalysis."
+    }
+  ],
+  "sourceOracles": [
+    {
+      "path": "tests/masonryWallOpeningsSeismicAnalysis.test.js",
+      "gitBlobSha1": "6931fde73f0bf52f80d657169b3546a7d038dbf5",
+      "coverage": "Pinned aggregated masonry-pier and steel ring-frame capacity curves, topRotation behavior, numerical outputs, serialization, Unicode and error-path oracle; application integration remains outside this bounded slice."
+    }
+  ],
+  "sourcePublicExport": {
+    "path": "src/index.js",
+    "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
+  },
+  "targetTests": [
+    "tests/baseline-parity.test.ts",
+    "tests/alignment-seismic-aggregated-analysis-compile-time.test.ts",
+    "tests/alignment-seismic-aggregated-analysis-live-parity.test.ts"
+  ],
+  "publicExports": ["AlignmentSeismicAggregatedAnalysis"],
+  "publicTypeExports": [
+    "AlignmentSeismicAggregatedAnalysisInput",
+    "AlignmentSeismicAggregatedAnalysisResult"
+  ],
+  "normativeReferences": {
+    "resolved": [],
+    "outsideCorpus": [],
+    "normativeConformityClaimed": false,
+    "status": "classified-for-declared-scope"
+  },
+  "independentValidation": {
+    "method": "Strict typed consumer declarations and independently executed pinned JavaScript versus built TypeScript comparison of basic, fixed-top and steel-ring-frame aggregated seismic analyses with exact serialized JSON, numerical values, Unicode code points, public export identity and error behavior.",
+    "targetTests": [
+      "tests/alignment-seismic-aggregated-analysis-compile-time.test.ts",
+      "tests/alignment-seismic-aggregated-analysis-live-parity.test.ts"
+    ],
+    "fixture": "Independent masonry wall-opening alignment fixtures with Unicode identifiers, NTC masonry material properties, free and fixed pier top rotations, and a fully defined IPE200/UPN200 S275 ring frame.",
+    "tolerances": {
+      "serializedParity": "exact complete CalculationResult JSON including nested pier, ring-frame, capacity-curve and bilinearization outputs",
+      "numericParity": "exact capacities, stiffnesses, displacement points, base shears, bilinearization values and metadata counts",
+      "publicStrings": "exact statuses, summaries, warnings, assumptions, metadata, identifiers and Unicode code-point comparison",
+      "errors": "exact missing-input and unsupported-topRotation error name and message comparison"
+    }
+  },
+  "parityDifferences": [
+    "Strict TypeScript declarations are added for the migrated analysis and its public input/result types."
+  ],
+  "engineeringFunctionality": "Strict TypeScript parity for aggregated masonry wall-opening seismic capacity analysis, including NTC masonry pier contributions and available steel ring-frame pushover contributions; masonry wall-opening application orchestration, equivalent-frame seismic pushover analysis and registry composition remain outside this slice."
+}
