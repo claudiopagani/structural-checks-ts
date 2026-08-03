@@ -921,6 +921,13 @@ export type {
   SteelSectionClassificationSectionLike,
   SteelSectionClassificationSectionMetadataLike,
 } from "./applications/steel-frames/checks/SteelSectionClassification.js";
+export { SteelMemberVerification } from "./applications/steel-frames/checks/SteelMemberVerification.js";
+export type {
+  SteelMemberVerificationInput,
+  SteelMemberVerificationOptions,
+  SteelMemberVerificationOutputs,
+  SteelMemberVerificationServiceabilityOptions,
+} from "./applications/steel-frames/checks/SteelMemberVerification.js";
 export { getSteelVerificationCapabilities } from "./applications/steel-frames/checks/steelVerificationCapabilities.js";
 export type {
   GetSteelVerificationCapabilitiesOptions,

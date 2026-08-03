@@ -1319,6 +1319,7 @@
         "SteelElasticPlasticHardeningLaw",
         "SteelFrameModel",
         "SteelMaterial",
+        "SteelMemberVerification",
         "SteelPlasticHingeFrameElement2D",
         "SteelPlasticHingeState",
         "SteelProfileSection",
@@ -19745,11 +19746,18 @@
       "sourcePath": "src/applications/steel-frames/checks/SteelMemberVerification.js",
       "sourceBlobSha1": "d6a5f51b5a6c357df862f2223eef177e93797de3",
       "targetPath": "src/applications/steel-frames/checks/SteelMemberVerification.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0200-applications-steel-member-verification"],
+      "sourceOracles": [
+        "tests/packageExports.test.js",
+        "tests/steelFrameAdvancedVerification.test.js"
+      ],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/steel-member-verification-compile-time.test.ts",
+        "tests/steel-member-verification-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0200-applications-steel-member-verification"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -27337,11 +27345,18 @@
       "sourcePath": "src/applications/steel-frames/checks/SteelMemberVerification.js",
       "sourceBlobSha1": "d6a5f51b5a6c357df862f2223eef177e93797de3",
       "targetPath": "src/applications/steel-frames/checks/SteelMemberVerification.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0200-applications-steel-member-verification"],
+      "sourceOracles": [
+        "tests/packageExports.test.js",
+        "tests/steelFrameAdvancedVerification.test.js"
+      ],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/steel-member-verification-compile-time.test.ts",
+        "tests/steel-member-verification-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0200-applications-steel-member-verification"],
+      "status": "exact-parity",
       "publicEntryPath": "src/applications/index.js",
       "publicEntryBlobSha1": "b70179c7cdd2a819f2151dc092c0f59cbce30ba6"
     },
@@ -34144,11 +34159,18 @@
       "sourcePath": "src/applications/steel-frames/checks/SteelMemberVerification.js",
       "sourceBlobSha1": "d6a5f51b5a6c357df862f2223eef177e93797de3",
       "targetPath": "src/applications/steel-frames/checks/SteelMemberVerification.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing"
+      "migrationSlices": ["0200-applications-steel-member-verification"],
+      "sourceOracles": [
+        "tests/packageExports.test.js",
+        "tests/steelFrameAdvancedVerification.test.js"
+      ],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/steel-member-verification-compile-time.test.ts",
+        "tests/steel-member-verification-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0200-applications-steel-member-verification"],
+      "status": "exact-parity"
     },
     {
       "id": "src/applications/steel-frames/checks/SteelMemberVerificationPolicies.js",
@@ -38105,7 +38127,8 @@
         "0196-applications-steel-ring-frame-pushover-model",
         "0197-applications-steel-ring-frame-2d-builder",
         "0198-applications-masonry-equivalent-frame-builder",
-        "0199-applications-steel-ring-frame-pushover-analysis"
+        "0199-applications-steel-ring-frame-pushover-analysis",
+        "0200-applications-steel-member-verification"
       ],
       "sourceOracles": [
         "tests/architecture/applicationRegistry.test.js",
@@ -41282,7 +41305,8 @@
         "0196-applications-steel-ring-frame-pushover-model",
         "0197-applications-steel-ring-frame-2d-builder",
         "0198-applications-masonry-equivalent-frame-builder",
-        "0199-applications-steel-ring-frame-pushover-analysis"
+        "0199-applications-steel-ring-frame-pushover-analysis",
+        "0200-applications-steel-member-verification"
       ],
       "sourceOracles": ["tests/packageExports.test.js"],
       "targetTests": [
@@ -41500,6 +41524,8 @@
         "tests/steel-lateral-torsional-buckling-live-parity.test.ts",
         "tests/steel-member-fem-3d-contract-compile-time.test.ts",
         "tests/steel-member-fem-3d-contract-live-parity.test.ts",
+        "tests/steel-member-verification-compile-time.test.ts",
+        "tests/steel-member-verification-live-parity.test.ts",
         "tests/steel-member-verification-policies-compile-time.test.ts",
         "tests/steel-member-verification-policies-live-parity.test.ts",
         "tests/steel-plastic-hinge-frame-element-compile-time.test.ts",
@@ -41647,7 +41673,8 @@
         "0196-applications-steel-ring-frame-pushover-model",
         "0197-applications-steel-ring-frame-2d-builder",
         "0198-applications-masonry-equivalent-frame-builder",
-        "0199-applications-steel-ring-frame-pushover-analysis"
+        "0199-applications-steel-ring-frame-pushover-analysis",
+        "0200-applications-steel-member-verification"
       ],
       "status": "exact-parity",
       "testKind": "test"
@@ -42397,7 +42424,8 @@
         "0190-applications-steel-fem-3d-verification",
         "0191-applications-steel-lateral-torsional-buckling",
         "0194-applications-steel-member-fem-3d-contract",
-        "0195-applications-steel-member-verification-policies"
+        "0195-applications-steel-member-verification-policies",
+        "0200-applications-steel-member-verification"
       ],
       "sourceOracles": ["tests/steelFrameAdvancedVerification.test.js"],
       "targetTests": [
@@ -42414,6 +42442,8 @@
         "tests/steel-lateral-torsional-buckling-live-parity.test.ts",
         "tests/steel-member-fem-3d-contract-compile-time.test.ts",
         "tests/steel-member-fem-3d-contract-live-parity.test.ts",
+        "tests/steel-member-verification-compile-time.test.ts",
+        "tests/steel-member-verification-live-parity.test.ts",
         "tests/steel-member-verification-policies-compile-time.test.ts",
         "tests/steel-member-verification-policies-live-parity.test.ts"
       ],
@@ -42424,7 +42454,8 @@
         "0190-applications-steel-fem-3d-verification",
         "0191-applications-steel-lateral-torsional-buckling",
         "0194-applications-steel-member-fem-3d-contract",
-        "0195-applications-steel-member-verification-policies"
+        "0195-applications-steel-member-verification-policies",
+        "0200-applications-steel-member-verification"
       ],
       "status": "exact-parity",
       "testKind": "test"
@@ -46607,16 +46638,32 @@
         "publicStrings": "exact status, summary, assumptions, warnings, identifiers and Unicode code-point comparison",
         "errors": "exact missing-model and null-model error name and message comparisons"
       }
+    },
+    {
+      "sliceId": "0200-applications-steel-member-verification",
+      "sourceRevision": "6f33baead8b88166c4b2cf94af41763412e3c751",
+      "method": "Strict typed consumer declarations and independently executed pinned JavaScript versus built TypeScript comparison of missing-input scaffold, FEM 3D contract validation, exact steel member verification result JSON, numerical checks, stability and serviceability outputs, Unicode metadata, public export identity, unsupported warping behavior and null-input errors.",
+      "targetTests": [
+        "tests/steel-member-verification-compile-time.test.ts",
+        "tests/steel-member-verification-live-parity.test.ts"
+      ],
+      "fixture": "Independent IPE200/S275 N/mm FEM 3D fixture with ULS and SLE combinations, restraint segments, web panels, concentrated load, Unicode identifiers, incomplete contract and bimoment unsupported paths.",
+      "tolerances": {
+        "serializedParity": "exact complete VerificationResult JSON and nested FEM contract JSON",
+        "numericParity": "exact rounded section, shear, buckling, interaction, deflection and advanced-check values",
+        "publicStrings": "exact status, summary, warnings, assumptions, metadata, references and Unicode code-point comparison",
+        "errors": "exact null-input error name and message comparison"
+      }
     }
   ],
   "counts": {
     "rootExports": {
       "javascript": 841,
-      "typescript": 807
+      "typescript": 808
     },
     "applicationsExports": {
       "javascript": 309,
-      "typescript": 280
+      "typescript": 281
     },
     "packageEntryPoints": {
       "javascript": 14,
@@ -46636,11 +46683,11 @@
     },
     "sourceFiles": {
       "javascript": 480,
-      "typescript": 461
+      "typescript": 462
     },
     "tests": {
       "javascript": 131,
-      "typescript": 384
+      "typescript": 386
     },
     "validationCampaigns": {
       "javascript": 17,
@@ -46692,7 +46739,7 @@
       "statusCounts": {
         "exact-parity": 0,
         "partial": 26,
-        "missing": 94,
+        "missing": 91,
         "intentionally-excluded": 0,
         "decision-required": 0
       },
@@ -46704,7 +46751,6 @@
         "application-export:MasonryPierCapacityCurveComparisonAnalysis",
         "application-export:MasonryWallOpeningsApplication",
         "application-export:SteelFrameApplication",
-        "application-export:SteelMemberVerification",
         "application-export:TimberBeamApplication",
         "application-export:TimberBeamModel",
         "application-export:TimberBeamVerification",
@@ -46763,7 +46809,6 @@
         "root-export:MasonryPierCapacityCurveComparisonAnalysis",
         "root-export:MasonryWallOpeningsApplication",
         "root-export:SteelFrameApplication",
-        "root-export:SteelMemberVerification",
         "root-export:TimberBeamApplication",
         "root-export:TimberBeamModel",
         "root-export:TimberBeamVerification",
@@ -46794,7 +46839,6 @@
         "source:src/applications/masonry-wall-openings/index.js",
         "source:src/applications/reinforced-concrete-plates/README.md",
         "source:src/applications/steel-frames/SteelFrameApplication.js",
-        "source:src/applications/steel-frames/checks/SteelMemberVerification.js",
         "source:src/applications/steel-frames/index.js",
         "source:src/applications/timber-beams/TimberBeamApplication.js",
         "source:src/applications/timber-beams/checks/TimberBeamVerification.js",
