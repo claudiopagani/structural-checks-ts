@@ -1087,6 +1087,9 @@
         "NTC2018_IMPOSED_LOAD_REFERENCES",
         "NTC2018_LINEAR_DYNAMIC_REFERENCES",
         "NTC2018_LOAD_DURATION_CLASSES",
+        "NTC2018_MASONRY_PIER_CAPACITY_REFERENCES",
+        "NTC2018_MASONRY_PIER_DEFORMATION_REFERENCES",
+        "NTC2018_MASONRY_PIER_STIFFNESS_REFERENCE",
         "NTC2018_NORMATIVE_CORPUS",
         "NTC2018_OVERSTRENGTH_FACTORS",
         "NTC2018_PDELTA_THRESHOLDS",
@@ -1335,6 +1338,12 @@
         "calculateNTC2018JointShearDemand",
         "calculateNTC2018JointTensionReinforcement",
         "calculateNTC2018LineSelfWeight",
+        "calculateNTC2018MasonryPierElasticStiffness",
+        "calculateNTC2018MasonryPierFlexuralCapacity",
+        "calculateNTC2018MasonryPierIrregularDiagonalCapacity",
+        "calculateNTC2018MasonryPierRegularDiagonalCapacity",
+        "calculateNTC2018MasonryPierSlidingCapacity",
+        "calculateNTC2018MasonryPierUltimateDisplacement",
         "calculateNTC2018MeanElementTemperature",
         "calculateNTC2018PermanentAreaLoads",
         "calculateNTC2018PitchedRoofShapeCoefficient",
@@ -1439,6 +1448,7 @@
         "describeDM522023Amendment",
         "evaluateGlobalFemVerificationReadiness",
         "evaluateNTC2018ElevationRegularity",
+        "evaluateNTC2018MasonryPier",
         "evaluateNTC2018PlanRegularity",
         "evaluateNTC2018RcBuildingCompleteness",
         "extractGlobalFemDemands",
@@ -1529,6 +1539,7 @@
         "runWallSystemVerifications",
         "selectNTC2018AllowedAnalysisMethods",
         "selectNTC2018BaseQFactor",
+        "selectNTC2018MasonryPierGoverningCapacity",
         "selectNTC2018OverstrengthFactors",
         "simplifiedBishop",
         "spencerMethod",
@@ -4044,11 +4055,15 @@
       "sourcePath": "src/norms/ntc2018/masonry/ntc2018MasonryPierStiffness.js",
       "sourceBlobSha1": "cda99e863f6e60fa518da8908d611b21595d1192",
       "targetPath": "src/norms/ntc2018/masonry/ntc2018MasonryPierStiffness.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0130-norms-ntc2018-masonry-pier-kernels"],
+      "sourceOracles": ["tests/ntc2018MasonryPierModel.test.js", "tests/packageExports.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/ntc2018-masonry-pier-compile-time.test.ts",
+        "tests/ntc2018-masonry-pier-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0130-norms-ntc2018-masonry-pier-kernels"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -4058,11 +4073,15 @@
       "sourcePath": "src/norms/ntc2018/masonry/ntc2018MasonryPierCapacity.js",
       "sourceBlobSha1": "ef546b06e8acf9047e9268d74f55c2ac62e0510a",
       "targetPath": "src/norms/ntc2018/masonry/ntc2018MasonryPierCapacity.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0130-norms-ntc2018-masonry-pier-kernels"],
+      "sourceOracles": ["tests/ntc2018MasonryPierModel.test.js", "tests/packageExports.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/ntc2018-masonry-pier-compile-time.test.ts",
+        "tests/ntc2018-masonry-pier-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0130-norms-ntc2018-masonry-pier-kernels"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -4072,11 +4091,15 @@
       "sourcePath": "src/norms/ntc2018/masonry/ntc2018MasonryPierCapacity.js",
       "sourceBlobSha1": "ef546b06e8acf9047e9268d74f55c2ac62e0510a",
       "targetPath": "src/norms/ntc2018/masonry/ntc2018MasonryPierCapacity.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0130-norms-ntc2018-masonry-pier-kernels"],
+      "sourceOracles": ["tests/ntc2018MasonryPierModel.test.js", "tests/packageExports.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/ntc2018-masonry-pier-compile-time.test.ts",
+        "tests/ntc2018-masonry-pier-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0130-norms-ntc2018-masonry-pier-kernels"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -4086,11 +4109,15 @@
       "sourcePath": "src/norms/ntc2018/masonry/ntc2018MasonryPierCapacity.js",
       "sourceBlobSha1": "ef546b06e8acf9047e9268d74f55c2ac62e0510a",
       "targetPath": "src/norms/ntc2018/masonry/ntc2018MasonryPierCapacity.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0130-norms-ntc2018-masonry-pier-kernels"],
+      "sourceOracles": ["tests/ntc2018MasonryPierModel.test.js", "tests/packageExports.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/ntc2018-masonry-pier-compile-time.test.ts",
+        "tests/ntc2018-masonry-pier-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0130-norms-ntc2018-masonry-pier-kernels"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -4100,11 +4127,15 @@
       "sourcePath": "src/norms/ntc2018/masonry/ntc2018MasonryPierCapacity.js",
       "sourceBlobSha1": "ef546b06e8acf9047e9268d74f55c2ac62e0510a",
       "targetPath": "src/norms/ntc2018/masonry/ntc2018MasonryPierCapacity.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0130-norms-ntc2018-masonry-pier-kernels"],
+      "sourceOracles": ["tests/ntc2018MasonryPierModel.test.js", "tests/packageExports.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/ntc2018-masonry-pier-compile-time.test.ts",
+        "tests/ntc2018-masonry-pier-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0130-norms-ntc2018-masonry-pier-kernels"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -4114,11 +4145,15 @@
       "sourcePath": "src/norms/ntc2018/masonry/ntc2018MasonryPierDeformation.js",
       "sourceBlobSha1": "c680a4394ca41baba6397de66ca8dce4638bfe11",
       "targetPath": "src/norms/ntc2018/masonry/ntc2018MasonryPierDeformation.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0130-norms-ntc2018-masonry-pier-kernels"],
+      "sourceOracles": ["tests/ntc2018MasonryPierModel.test.js", "tests/packageExports.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/ntc2018-masonry-pier-compile-time.test.ts",
+        "tests/ntc2018-masonry-pier-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0130-norms-ntc2018-masonry-pier-kernels"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -7633,11 +7668,15 @@
       "sourcePath": "src/norms/ntc2018/masonry/evaluateNTC2018MasonryPier.js",
       "sourceBlobSha1": "bfb835c629678e3e84fddda837d7c8dfca5e5f40",
       "targetPath": "src/norms/ntc2018/masonry/evaluateNTC2018MasonryPier.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0130-norms-ntc2018-masonry-pier-kernels"],
+      "sourceOracles": ["tests/ntc2018MasonryPierModel.test.js", "tests/packageExports.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/ntc2018-masonry-pier-compile-time.test.ts",
+        "tests/ntc2018-masonry-pier-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0130-norms-ntc2018-masonry-pier-kernels"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -11933,11 +11972,15 @@
       "sourcePath": "src/norms/ntc2018/masonry/ntc2018MasonryPierCapacity.js",
       "sourceBlobSha1": "ef546b06e8acf9047e9268d74f55c2ac62e0510a",
       "targetPath": "src/norms/ntc2018/masonry/ntc2018MasonryPierCapacity.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0130-norms-ntc2018-masonry-pier-kernels"],
+      "sourceOracles": ["tests/ntc2018MasonryPierModel.test.js", "tests/packageExports.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/ntc2018-masonry-pier-compile-time.test.ts",
+        "tests/ntc2018-masonry-pier-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0130-norms-ntc2018-masonry-pier-kernels"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -11947,11 +11990,15 @@
       "sourcePath": "src/norms/ntc2018/masonry/ntc2018MasonryPierDeformation.js",
       "sourceBlobSha1": "c680a4394ca41baba6397de66ca8dce4638bfe11",
       "targetPath": "src/norms/ntc2018/masonry/ntc2018MasonryPierDeformation.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0130-norms-ntc2018-masonry-pier-kernels"],
+      "sourceOracles": ["tests/ntc2018MasonryPierModel.test.js", "tests/packageExports.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/ntc2018-masonry-pier-compile-time.test.ts",
+        "tests/ntc2018-masonry-pier-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0130-norms-ntc2018-masonry-pier-kernels"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -11961,11 +12008,15 @@
       "sourcePath": "src/norms/ntc2018/masonry/ntc2018MasonryPierStiffness.js",
       "sourceBlobSha1": "cda99e863f6e60fa518da8908d611b21595d1192",
       "targetPath": "src/norms/ntc2018/masonry/ntc2018MasonryPierStiffness.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0130-norms-ntc2018-masonry-pier-kernels"],
+      "sourceOracles": ["tests/ntc2018MasonryPierModel.test.js", "tests/packageExports.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/ntc2018-masonry-pier-compile-time.test.ts",
+        "tests/ntc2018-masonry-pier-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0130-norms-ntc2018-masonry-pier-kernels"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -15611,11 +15662,15 @@
       "sourcePath": "src/norms/ntc2018/masonry/ntc2018MasonryPierCapacity.js",
       "sourceBlobSha1": "ef546b06e8acf9047e9268d74f55c2ac62e0510a",
       "targetPath": "src/norms/ntc2018/masonry/ntc2018MasonryPierCapacity.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0130-norms-ntc2018-masonry-pier-kernels"],
+      "sourceOracles": ["tests/ntc2018MasonryPierModel.test.js", "tests/packageExports.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/ntc2018-masonry-pier-compile-time.test.ts",
+        "tests/ntc2018-masonry-pier-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0130-norms-ntc2018-masonry-pier-kernels"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -33139,7 +33194,8 @@
         "0126-norms-ntc2018-slab-load-analysis-export",
         "0127-norms-ntc2018-load-combination-factories",
         "0128-norms-ntc2018-imposed-loads",
-        "0129-norms-ntc2018-permanent-loads"
+        "0129-norms-ntc2018-permanent-loads",
+        "0130-norms-ntc2018-masonry-pier-kernels"
       ],
       "sourceOracles": [
         "tests/architecture/applicationRegistry.test.js",
@@ -33732,11 +33788,15 @@
       "sourcePath": "src/norms/ntc2018/masonry/evaluateNTC2018MasonryPier.js",
       "sourceBlobSha1": "bfb835c629678e3e84fddda837d7c8dfca5e5f40",
       "targetPath": "src/norms/ntc2018/masonry/evaluateNTC2018MasonryPier.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing"
+      "migrationSlices": ["0130-norms-ntc2018-masonry-pier-kernels"],
+      "sourceOracles": ["tests/ntc2018MasonryPierModel.test.js", "tests/packageExports.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/ntc2018-masonry-pier-compile-time.test.ts",
+        "tests/ntc2018-masonry-pier-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0130-norms-ntc2018-masonry-pier-kernels"],
+      "status": "exact-parity"
     },
     {
       "id": "src/norms/ntc2018/masonry/index.js",
@@ -33747,40 +33807,52 @@
       "sourceOracles": [],
       "targetTests": [],
       "validationEvidence": [],
-      "status": "missing"
+      "status": "partial"
     },
     {
       "id": "src/norms/ntc2018/masonry/ntc2018MasonryPierCapacity.js",
       "sourcePath": "src/norms/ntc2018/masonry/ntc2018MasonryPierCapacity.js",
       "sourceBlobSha1": "ef546b06e8acf9047e9268d74f55c2ac62e0510a",
       "targetPath": "src/norms/ntc2018/masonry/ntc2018MasonryPierCapacity.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing"
+      "migrationSlices": ["0130-norms-ntc2018-masonry-pier-kernels"],
+      "sourceOracles": ["tests/ntc2018MasonryPierModel.test.js", "tests/packageExports.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/ntc2018-masonry-pier-compile-time.test.ts",
+        "tests/ntc2018-masonry-pier-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0130-norms-ntc2018-masonry-pier-kernels"],
+      "status": "exact-parity"
     },
     {
       "id": "src/norms/ntc2018/masonry/ntc2018MasonryPierDeformation.js",
       "sourcePath": "src/norms/ntc2018/masonry/ntc2018MasonryPierDeformation.js",
       "sourceBlobSha1": "c680a4394ca41baba6397de66ca8dce4638bfe11",
       "targetPath": "src/norms/ntc2018/masonry/ntc2018MasonryPierDeformation.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing"
+      "migrationSlices": ["0130-norms-ntc2018-masonry-pier-kernels"],
+      "sourceOracles": ["tests/ntc2018MasonryPierModel.test.js", "tests/packageExports.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/ntc2018-masonry-pier-compile-time.test.ts",
+        "tests/ntc2018-masonry-pier-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0130-norms-ntc2018-masonry-pier-kernels"],
+      "status": "exact-parity"
     },
     {
       "id": "src/norms/ntc2018/masonry/ntc2018MasonryPierStiffness.js",
       "sourcePath": "src/norms/ntc2018/masonry/ntc2018MasonryPierStiffness.js",
       "sourceBlobSha1": "cda99e863f6e60fa518da8908d611b21595d1192",
       "targetPath": "src/norms/ntc2018/masonry/ntc2018MasonryPierStiffness.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing"
+      "migrationSlices": ["0130-norms-ntc2018-masonry-pier-kernels"],
+      "sourceOracles": ["tests/ntc2018MasonryPierModel.test.js", "tests/packageExports.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/ntc2018-masonry-pier-compile-time.test.ts",
+        "tests/ntc2018-masonry-pier-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0130-norms-ntc2018-masonry-pier-kernels"],
+      "status": "exact-parity"
     },
     {
       "id": "src/norms/ntc2018/materials/NTC2018ExistingMasonryMaterial.js",
@@ -35639,11 +35711,15 @@
       "sourcePath": "tests/ntc2018MasonryPierModel.test.js",
       "sourceBlobSha1": "f2784e760517469f1f51ae57daac81f96b0e7abf",
       "targetPath": "tests/ntc2018MasonryPierModel.test.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0130-norms-ntc2018-masonry-pier-kernels"],
+      "sourceOracles": ["tests/ntc2018MasonryPierModel.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/ntc2018-masonry-pier-compile-time.test.ts",
+        "tests/ntc2018-masonry-pier-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0130-norms-ntc2018-masonry-pier-kernels"],
+      "status": "exact-parity",
       "testKind": "test"
     },
     {
@@ -36016,7 +36092,8 @@
         "0126-norms-ntc2018-slab-load-analysis-export",
         "0127-norms-ntc2018-load-combination-factories",
         "0128-norms-ntc2018-imposed-loads",
-        "0129-norms-ntc2018-permanent-loads"
+        "0129-norms-ntc2018-permanent-loads",
+        "0130-norms-ntc2018-masonry-pier-kernels"
       ],
       "sourceOracles": ["tests/packageExports.test.js"],
       "targetTests": [
@@ -36087,6 +36164,8 @@
         "tests/ntc2018-load-combinations-live-parity.test.ts",
         "tests/ntc2018-load-parameters-compile-time.test.ts",
         "tests/ntc2018-load-parameters-live-parity.test.ts",
+        "tests/ntc2018-masonry-pier-compile-time.test.ts",
+        "tests/ntc2018-masonry-pier-live-parity.test.ts",
         "tests/ntc2018-material-catalogs-compile-time.test.ts",
         "tests/ntc2018-material-catalogs-live-parity.test.ts",
         "tests/ntc2018-normative-references-compile-time.test.ts",
@@ -36206,7 +36285,8 @@
         "0126-norms-ntc2018-slab-load-analysis-export",
         "0127-norms-ntc2018-load-combination-factories",
         "0128-norms-ntc2018-imposed-loads",
-        "0129-norms-ntc2018-permanent-loads"
+        "0129-norms-ntc2018-permanent-loads",
+        "0130-norms-ntc2018-masonry-pier-kernels"
       ],
       "status": "exact-parity",
       "testKind": "test"
@@ -39874,12 +39954,28 @@
         "publicStrings": "exact equality plus Unicode preservation for Italian descriptions, references, formulas, summaries, assumptions, and errors",
         "errors": "exact error name and message equality for unsupported materials, fixed/ranged values, missing units, invalid loads, duplicate ids, missing classes, and invalid spacing"
       }
+    },
+    {
+      "sliceId": "0130-norms-ntc2018-masonry-pier-kernels",
+      "sourceRevision": "6f33baead8b88166c4b2cf94af41763412e3c751",
+      "method": "Strict declaration consumer coverage and independently executed pinned JavaScript versus built TypeScript comparisons of all capacity mechanisms, exact minimum including zero resistance, deformation branches, stiffness boundary conditions, complete and incomplete evaluator outputs, exact JSON and Unicode strings, and error paths.",
+      "targetTests": [
+        "tests/ntc2018-masonry-pier-compile-time.test.ts",
+        "tests/ntc2018-masonry-pier-live-parity.test.ts"
+      ],
+      "fixture": null,
+      "tolerances": {
+        "serializedParity": "exact reference, capacity, deformation, stiffness, evaluator, and normalized JSON",
+        "numericParity": "exact equality for source calculations and all returned numerical fields",
+        "publicStrings": "exact equality plus Unicode preservation for Italian normative references and errors",
+        "errors": "exact error name and message equality for invalid geometry, unsupported mechanisms/scopes/boundary conditions/textures, and cracked-stiffness limits"
+      }
     }
   ],
   "counts": {
     "rootExports": {
       "javascript": 841,
-      "typescript": 695
+      "typescript": 706
     },
     "applicationsExports": {
       "javascript": 309,
@@ -39903,11 +39999,11 @@
     },
     "sourceFiles": {
       "javascript": 480,
-      "typescript": 375
+      "typescript": 380
     },
     "tests": {
       "javascript": 131,
-      "typescript": 246
+      "typescript": 248
     },
     "validationCampaigns": {
       "javascript": 17,
@@ -39965,27 +40061,18 @@
     "norms": {
       "statusCounts": {
         "exact-parity": 0,
-        "partial": 3,
-        "missing": 42,
+        "partial": 4,
+        "missing": 26,
         "intentionally-excluded": 0,
         "decision-required": 0
       },
       "itemIds": [
-        "root-export:NTC2018_MASONRY_PIER_CAPACITY_REFERENCES",
-        "root-export:NTC2018_MASONRY_PIER_DEFORMATION_REFERENCES",
-        "root-export:NTC2018_MASONRY_PIER_STIFFNESS_REFERENCE",
         "root-export:NTC2018_SLAB_MATERIAL_WEIGHT_DATABASE",
         "root-export:NTC2018_SLAB_VARIABLE_ACTIONS_DATABASE",
         "root-export:SLAB_MATERIAL_WEIGHT_PRESET_DATABASE",
         "root-export:SLAB_MATERIAL_WEIGHT_PRESET_METADATA",
         "root-export:applyNTC2018ExistingMasonryMaltaBuonaUpdate",
         "root-export:applyNTC2018ExistingMasonryModifierToggle",
-        "root-export:calculateNTC2018MasonryPierElasticStiffness",
-        "root-export:calculateNTC2018MasonryPierFlexuralCapacity",
-        "root-export:calculateNTC2018MasonryPierIrregularDiagonalCapacity",
-        "root-export:calculateNTC2018MasonryPierRegularDiagonalCapacity",
-        "root-export:calculateNTC2018MasonryPierSlidingCapacity",
-        "root-export:calculateNTC2018MasonryPierUltimateDisplacement",
         "root-export:createNTC2018ExistingMasonryMaterial",
         "root-export:createNTC2018ExistingMasonryModifierState",
         "root-export:createNTC2018ExistingMasonryWorkflowState",
@@ -39993,7 +40080,6 @@
         "root-export:createNTC2018StructuralSteelMaterial",
         "root-export:createNTC2018TimberMaterial",
         "root-export:evaluateNTC2018ExistingMasonryWorkflow",
-        "root-export:evaluateNTC2018MasonryPier",
         "root-export:getNTC2018ExistingMasonryModifierDefinition",
         "root-export:getNTC2018SlabVariableAction",
         "root-export:getNTC2018SlabWeightValue",
@@ -40005,16 +40091,11 @@
         "root-export:modifierSelectionsFromState",
         "root-export:selectNTC2018ExistingMasonryParameterLevel",
         "root-export:selectNTC2018ExistingMasonryTypology",
-        "root-export:selectNTC2018MasonryPierGoverningCapacity",
         "root-export:toggleNTC2018ExistingMasonryModifier",
         "root-export:updateNTC2018ExistingMasonryMaltaBuona",
         "source:src/norms/ntc2018/index.js",
         "source:src/norms/ntc2018/loads/ntc2018SlabLoadCatalogs.js",
-        "source:src/norms/ntc2018/masonry/evaluateNTC2018MasonryPier.js",
         "source:src/norms/ntc2018/masonry/index.js",
-        "source:src/norms/ntc2018/masonry/ntc2018MasonryPierCapacity.js",
-        "source:src/norms/ntc2018/masonry/ntc2018MasonryPierDeformation.js",
-        "source:src/norms/ntc2018/masonry/ntc2018MasonryPierStiffness.js",
         "source:src/norms/ntc2018/materials/ntc2018ExistingMasonryWorkflow.js"
       ]
     },
@@ -40383,7 +40464,7 @@
       "statusCounts": {
         "exact-parity": 0,
         "partial": 4,
-        "missing": 120,
+        "missing": 119,
         "intentionally-excluded": 0,
         "decision-required": 0
       },
@@ -40506,7 +40587,6 @@
         "test:tests/masonryWallOpeningsStateComparison.test.js",
         "test:tests/masonryWallOpeningsStateComparisonReport.test.js",
         "test:tests/masonryWallOpeningsStaticAnalysis.test.js",
-        "test:tests/ntc2018MasonryPierModel.test.js",
         "test:tests/rcFiberAnalysis.test.js",
         "test:tests/run-tests.js",
         "test:tests/steelFrameAdvancedVerification.test.js",

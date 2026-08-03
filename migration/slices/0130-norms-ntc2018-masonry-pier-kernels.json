@@ -1,0 +1,149 @@
+{
+  "schemaVersion": 1,
+  "sliceId": "0130-norms-ntc2018-masonry-pier-kernels",
+  "title": "NTC 2018 masonry-pier capacity, deformation, stiffness, and evaluator kernels",
+  "migrationType": "mechanical-parity",
+  "implementationStatus": "implemented",
+  "dependencies": ["0129-norms-ntc2018-permanent-loads"],
+  "source": {
+    "repository": "https://github.com/claudiopagani/strutture-js",
+    "revision": "6f33baead8b88166c4b2cf94af41763412e3c751"
+  },
+  "normativeCorpusRevision": "41da3faa489600173106935bbcf726119300e48d",
+  "sourceFiles": [
+    {
+      "path": "src/norms/ntc2018/masonry/ntc2018MasonryPierCapacity.js",
+      "gitBlobSha1": "ef546b06e8acf9047e9268d74f55c2ac62e0510a",
+      "targetPath": "src/norms/ntc2018/masonry/ntc2018MasonryPierCapacity.ts"
+    },
+    {
+      "path": "src/norms/ntc2018/masonry/ntc2018MasonryPierDeformation.js",
+      "gitBlobSha1": "c680a4394ca41baba6397de66ca8dce4638bfe11",
+      "targetPath": "src/norms/ntc2018/masonry/ntc2018MasonryPierDeformation.ts"
+    },
+    {
+      "path": "src/norms/ntc2018/masonry/ntc2018MasonryPierStiffness.js",
+      "gitBlobSha1": "cda99e863f6e60fa518da8908d611b21595d1192",
+      "targetPath": "src/norms/ntc2018/masonry/ntc2018MasonryPierStiffness.ts"
+    },
+    {
+      "path": "src/norms/ntc2018/masonry/evaluateNTC2018MasonryPier.js",
+      "gitBlobSha1": "bfb835c629678e3e84fddda837d7c8dfca5e5f40",
+      "targetPath": "src/norms/ntc2018/masonry/evaluateNTC2018MasonryPier.ts"
+    }
+  ],
+  "supportingSourceFiles": [
+    {
+      "path": "src/norms/ntc2018/masonry/index.js",
+      "gitBlobSha1": "805719851f63e24630056d539b22a87871bcdfa1",
+      "targetPath": "src/norms/ntc2018/masonry/index.ts",
+      "coverage": "Already-migrated masonry-pier kernel public index support."
+    },
+    {
+      "path": "src/norms/ntc2018/index.js",
+      "gitBlobSha1": "0ac4cf551c455ec2a57d9bf8849db46fb14e0dcc",
+      "targetPath": "src/index.ts",
+      "coverage": "Pinned NTC 2018 norm-index export context."
+    },
+    {
+      "path": "src/index.js",
+      "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7",
+      "targetPath": "src/index.ts",
+      "coverage": "Root public exports for the masonry-pier kernels."
+    }
+  ],
+  "sourceOracles": [
+    {
+      "path": "tests/ntc2018MasonryPierModel.test.js",
+      "gitBlobSha1": "f2784e760517469f1f51ae57daac81f96b0e7abf",
+      "coverage": "Independent capacity, deformation, stiffness, governing, serialization, and missing-data oracle."
+    },
+    {
+      "path": "tests/packageExports.test.js",
+      "gitBlobSha1": "8dde24b4c97dd3dae7100207d07d9d96c52b9c74",
+      "coverage": "Root public export behavior."
+    }
+  ],
+  "sourcePublicExport": {
+    "path": "src/index.js",
+    "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
+  },
+  "targetTests": [
+    "tests/baseline-parity.test.ts",
+    "tests/ntc2018-masonry-pier-compile-time.test.ts",
+    "tests/ntc2018-masonry-pier-live-parity.test.ts"
+  ],
+  "publicExports": [
+    "NTC2018_MASONRY_PIER_CAPACITY_REFERENCES",
+    "NTC2018_MASONRY_PIER_DEFORMATION_REFERENCES",
+    "NTC2018_MASONRY_PIER_STIFFNESS_REFERENCE",
+    "calculateNTC2018MasonryPierElasticStiffness",
+    "calculateNTC2018MasonryPierFlexuralCapacity",
+    "calculateNTC2018MasonryPierIrregularDiagonalCapacity",
+    "calculateNTC2018MasonryPierRegularDiagonalCapacity",
+    "calculateNTC2018MasonryPierSlidingCapacity",
+    "calculateNTC2018MasonryPierUltimateDisplacement",
+    "evaluateNTC2018MasonryPier",
+    "selectNTC2018MasonryPierGoverningCapacity"
+  ],
+  "publicTypeExports": [
+    "CalculateNTC2018MasonryPierElasticStiffnessOptions",
+    "CalculateNTC2018MasonryPierUltimateDisplacementOptions",
+    "EvaluateNTC2018MasonryPierOptions",
+    "MasonryPierCapacityMechanism",
+    "NTC2018MasonryPierActions",
+    "NTC2018MasonryPierAvailableCapacity",
+    "NTC2018MasonryPierBoundaryCondition",
+    "NTC2018MasonryPierCapacity",
+    "NTC2018MasonryPierCompleteEvaluation",
+    "NTC2018MasonryPierCurvePoint",
+    "NTC2018MasonryPierElasticStiffness",
+    "NTC2018MasonryPierEvaluation",
+    "NTC2018MasonryPierEvaluationOptions",
+    "NTC2018MasonryPierFlexuralCapacity",
+    "NTC2018MasonryPierFlexuralCapacityOptions",
+    "NTC2018MasonryPierGeometry",
+    "NTC2018MasonryPierIncompleteEvaluation",
+    "NTC2018MasonryPierIrregularDiagonalCapacity",
+    "NTC2018MasonryPierIrregularDiagonalCapacityOptions",
+    "NTC2018MasonryPierMaterial",
+    "NTC2018MasonryPierMissingInput",
+    "NTC2018MasonryPierNormativeScope",
+    "NTC2018MasonryPierRegularDiagonalCapacity",
+    "NTC2018MasonryPierRegularDiagonalCapacityOptions",
+    "NTC2018MasonryPierResponse",
+    "NTC2018MasonryPierSlidingCapacity",
+    "NTC2018MasonryPierSlidingCapacityOptions",
+    "NTC2018MasonryPierUltimateDisplacement",
+    "NTC2018MasonryPierUnavailableCapacity"
+  ],
+  "normativeReferences": {
+    "resolved": [],
+    "outsideCorpus": [
+      "NTC 2018 section 7.8.2.2.1 flexural masonry-pier capacity",
+      "NTC 2018 section 7.8.2.2.2 sliding and diagonal masonry-pier capacity",
+      "NTC 2018 section 7.8.1.5.2 masonry-pier stiffness",
+      "Circolare 2019 section C8.7.1.3.1.1 existing-masonry pier capacity and deformation"
+    ],
+    "normativeConformityClaimed": false,
+    "status": "classified-for-declared-scope"
+  },
+  "independentValidation": {
+    "method": "Strict declaration consumer coverage and independently executed pinned JavaScript versus built TypeScript comparisons of all capacity mechanisms, exact minimum including zero resistance, deformation branches, stiffness boundary conditions, complete and incomplete evaluator outputs, exact JSON and Unicode strings, and error paths.",
+    "targetTests": [
+      "tests/ntc2018-masonry-pier-compile-time.test.ts",
+      "tests/ntc2018-masonry-pier-live-parity.test.ts"
+    ],
+    "fixture": null,
+    "tolerances": {
+      "serializedParity": "exact reference, capacity, deformation, stiffness, evaluator, and normalized JSON",
+      "numericParity": "exact equality for source calculations and all returned numerical fields",
+      "publicStrings": "exact equality plus Unicode preservation for Italian normative references and errors",
+      "errors": "exact error name and message equality for invalid geometry, unsupported mechanisms/scopes/boundary conditions/textures, and cracked-stiffness limits"
+    }
+  },
+  "parityDifferences": [
+    "The TypeScript module adds strict option, result, and evaluator DTO declarations and root type exports; runtime values, calculations, serialized fields, public strings, and errors match the pinned source."
+  ],
+  "engineeringFunctionality": "Source-compatible NTC 2018 / Circolare 2019 masonry-pier capacity, deformation, elastic stiffness, governing-mechanism selection, and bilinear evaluation kernels."
+}
