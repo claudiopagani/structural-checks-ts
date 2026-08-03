@@ -1,0 +1,91 @@
+{
+  "schemaVersion": 1,
+  "sliceId": "0125-norms-ntc2018-retaining-wall-seismic",
+  "title": "NTC 2018 retaining-wall seismic adapters",
+  "migrationType": "mechanical-parity",
+  "implementationStatus": "implemented",
+  "dependencies": ["0001-foundation"],
+  "source": {
+    "repository": "https://github.com/claudiopagani/strutture-js",
+    "revision": "6f33baead8b88166c4b2cf94af41763412e3c751"
+  },
+  "normativeCorpusRevision": "41da3faa489600173106935bbcf726119300e48d",
+  "sourceFiles": [
+    {
+      "path": "src/norms/ntc2018/geotechnics/ntc2018RetainingWallSeismic.js",
+      "gitBlobSha1": "4426d35f4b16d9a84dd96a11bfdefda528b35b9a",
+      "targetPath": "src/norms/ntc2018/geotechnics/ntc2018RetainingWallSeismic.ts"
+    }
+  ],
+  "supportingSourceFiles": [
+    {
+      "path": "src/norms/ntc2018/index.js",
+      "gitBlobSha1": "0ac4cf551c455ec2a57d9bf8849db46fb14e0dcc",
+      "targetPath": "src/index.ts",
+      "coverage": "Pinned NTC 2018 norm-index export context for the retaining-wall seismic adapters."
+    },
+    {
+      "path": "src/index.js",
+      "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7",
+      "targetPath": "src/index.ts",
+      "coverage": "Root public exports for the migrated retaining-wall seismic adapters."
+    }
+  ],
+  "sourceOracles": [
+    {
+      "path": "tests/geotechnicalEarthPressure.test.js",
+      "gitBlobSha1": "b93b597c670a102925008ba004bf237927113003",
+      "coverage": "Explicit betaM coefficient calculation, both vertical cases, input coercion, and Mononobe-Okabe adapter behavior."
+    },
+    {
+      "path": "tests/packageExports.test.js",
+      "gitBlobSha1": "8dde24b4c97dd3dae7100207d07d9d96c52b9c74",
+      "coverage": "Root public export behavior."
+    }
+  ],
+  "sourcePublicExport": {
+    "path": "src/index.js",
+    "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
+  },
+  "targetTests": [
+    "tests/baseline-parity.test.ts",
+    "tests/ntc2018-retaining-wall-seismic-compile-time.test.ts",
+    "tests/ntc2018-retaining-wall-seismic-live-parity.test.ts"
+  ],
+  "publicExports": [
+    "NTC2018_RETAINING_WALL_SEISMIC_REFERENCE",
+    "calculateNTC2018RetainingWallSeismicCoefficients",
+    "createNTC2018MononobeOkabeSeismicInput"
+  ],
+  "publicTypeExports": [
+    "CalculateNTC2018RetainingWallSeismicCoefficientsOptions",
+    "CreateNTC2018MononobeOkabeSeismicInputOptions",
+    "NTC2018MononobeOkabeSeismicInput",
+    "NTC2018RetainingWallSeismicCoefficients",
+    "NTC2018RetainingWallSeismicMetadata",
+    "NTC2018RetainingWallSeismicVerticalCase"
+  ],
+  "normativeReferences": {
+    "resolved": [],
+    "outsideCorpus": ["NTC 2018 Section 7.11.6.2.1 retaining-wall seismic action"],
+    "normativeConformityClaimed": false,
+    "status": "classified-for-declared-scope"
+  },
+  "independentValidation": {
+    "method": "Strict declaration consumer coverage and independently executed pinned JavaScript versus built TypeScript comparison of explicit coefficient calculations, Number coercion, vertical-case selection, distribution-model preservation, exact JSON, Unicode, root exports, and native error paths.",
+    "targetTests": [
+      "tests/ntc2018-retaining-wall-seismic-compile-time.test.ts",
+      "tests/ntc2018-retaining-wall-seismic-live-parity.test.ts"
+    ],
+    "tolerances": {
+      "serializedParity": "exact coefficient, vertical-case, metadata, and root-reference JSON",
+      "numericParity": "exact equality for kh, verticalMagnitude, and both kv cases",
+      "publicStrings": "exact equality plus Unicode preservation for distribution models, references, conventions, and errors",
+      "errors": "exact error name and message equality for missing input, negative acceleration, betaM overflow, unsupported vertical cases, and null options"
+    }
+  },
+  "parityDifferences": [
+    "The TypeScript module adds strict declarations and root export support; runtime coercion, coefficients, vertical cases, metadata, serialization, and errors match the pinned source for the covered public inputs."
+  ],
+  "engineeringFunctionality": "Source-compatible NTC 2018 retaining-wall pseudostatic seismic coefficient calculation and Mononobe-Okabe input preparation with explicit betaM and both vertical conventions."
+}

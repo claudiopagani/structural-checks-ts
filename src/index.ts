@@ -583,6 +583,11 @@ export {
 } from "./norms/ntc2018/loads/ntc2018LoadParameters.js";
 export { createNTC2018BeamCombinations } from "./norms/ntc2018/beams/createNTC2018BeamCombinations.js";
 export {
+  NTC2018_RETAINING_WALL_SEISMIC_REFERENCE,
+  calculateNTC2018RetainingWallSeismicCoefficients,
+  createNTC2018MononobeOkabeSeismicInput,
+} from "./norms/ntc2018/geotechnics/ntc2018RetainingWallSeismic.js";
+export {
   CIRC2019_RC_REFERENCES,
   NORMATIVE_REFERENCE_RELATIONS,
   NORMATIVE_REFERENCE_RESOLUTION_STATUS,
@@ -1950,6 +1955,14 @@ export type {
   NTC2018BeamCombinationInput,
   NTC2018BeamCombinationMetadata,
 } from "./norms/ntc2018/beams/createNTC2018BeamCombinations.js";
+export type {
+  CalculateNTC2018RetainingWallSeismicCoefficientsOptions,
+  CreateNTC2018MononobeOkabeSeismicInputOptions,
+  NTC2018MononobeOkabeSeismicInput,
+  NTC2018RetainingWallSeismicCoefficients,
+  NTC2018RetainingWallSeismicMetadata,
+  NTC2018RetainingWallSeismicVerticalCase,
+} from "./norms/ntc2018/geotechnics/ntc2018RetainingWallSeismic.js";
 export type {
   Ntc2018ExistingMasonryMechanicalProperties,
   Ntc2018ExistingMasonryModifierDefinition,

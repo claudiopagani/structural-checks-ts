@@ -1098,6 +1098,7 @@
         "NTC2018_REGULARITY_REDUCTION",
         "NTC2018_REGULARITY_REFERENCES",
         "NTC2018_REINFORCEMENT_STEEL_GRADES",
+        "NTC2018_RETAINING_WALL_SEISMIC_REFERENCE",
         "NTC2018_SEISMIC_LIMIT_STATES",
         "NTC2018_SEISMIC_REFERENCES",
         "NTC2018_SHEAR_WALL_REFERENCES",
@@ -1329,6 +1330,7 @@
         "calculateNTC2018PitchedRoofShapeCoefficient",
         "calculateNTC2018ReferenceWindPressure",
         "calculateNTC2018ReferenceWindSpeed",
+        "calculateNTC2018RetainingWallSeismicCoefficients",
         "calculateNTC2018RoofSnowLoad",
         "calculateNTC2018SnowAreaLoad",
         "calculateNTC2018StratigraphicSpectrumCoefficients",
@@ -1396,6 +1398,7 @@
         "createNTC2018BeamCombinations",
         "createNTC2018ConcreteMaterial",
         "createNTC2018LinearDynamicAssessment",
+        "createNTC2018MononobeOkabeSeismicInput",
         "createNTC2018PermanentAction",
         "createNTC2018RegularityAssessment",
         "createNTC2018ReinforcementSteelMaterial",
@@ -4172,11 +4175,15 @@
       "sourcePath": "src/norms/ntc2018/geotechnics/ntc2018RetainingWallSeismic.js",
       "sourceBlobSha1": "4426d35f4b16d9a84dd96a11bfdefda528b35b9a",
       "targetPath": "src/norms/ntc2018/geotechnics/ntc2018RetainingWallSeismic.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0125-norms-ntc2018-retaining-wall-seismic"],
+      "sourceOracles": ["tests/geotechnicalEarthPressure.test.js", "tests/packageExports.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/ntc2018-retaining-wall-seismic-compile-time.test.ts",
+        "tests/ntc2018-retaining-wall-seismic-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0125-norms-ntc2018-retaining-wall-seismic"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -6146,11 +6153,15 @@
       "sourcePath": "src/norms/ntc2018/geotechnics/ntc2018RetainingWallSeismic.js",
       "sourceBlobSha1": "4426d35f4b16d9a84dd96a11bfdefda528b35b9a",
       "targetPath": "src/norms/ntc2018/geotechnics/ntc2018RetainingWallSeismic.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0125-norms-ntc2018-retaining-wall-seismic"],
+      "sourceOracles": ["tests/geotechnicalEarthPressure.test.js", "tests/packageExports.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/ntc2018-retaining-wall-seismic-compile-time.test.ts",
+        "tests/ntc2018-retaining-wall-seismic-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0125-norms-ntc2018-retaining-wall-seismic"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -12186,11 +12197,15 @@
       "sourcePath": "src/norms/ntc2018/geotechnics/ntc2018RetainingWallSeismic.js",
       "sourceBlobSha1": "4426d35f4b16d9a84dd96a11bfdefda528b35b9a",
       "targetPath": "src/norms/ntc2018/geotechnics/ntc2018RetainingWallSeismic.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0125-norms-ntc2018-retaining-wall-seismic"],
+      "sourceOracles": ["tests/geotechnicalEarthPressure.test.js", "tests/packageExports.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/ntc2018-retaining-wall-seismic-compile-time.test.ts",
+        "tests/ntc2018-retaining-wall-seismic-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0125-norms-ntc2018-retaining-wall-seismic"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -33015,7 +33030,8 @@
         "0121-norms-ntc2018-existing-masonry-material",
         "0122-norms-ntc2018-material-catalogs",
         "0123-norms-ntc2018-load-parameters",
-        "0124-norms-ntc2018-beam-combinations"
+        "0124-norms-ntc2018-beam-combinations",
+        "0125-norms-ntc2018-retaining-wall-seismic"
       ],
       "sourceOracles": [
         "tests/architecture/applicationRegistry.test.js",
@@ -33490,11 +33506,15 @@
       "sourcePath": "src/norms/ntc2018/geotechnics/ntc2018RetainingWallSeismic.js",
       "sourceBlobSha1": "4426d35f4b16d9a84dd96a11bfdefda528b35b9a",
       "targetPath": "src/norms/ntc2018/geotechnics/ntc2018RetainingWallSeismic.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing"
+      "migrationSlices": ["0125-norms-ntc2018-retaining-wall-seismic"],
+      "sourceOracles": ["tests/geotechnicalEarthPressure.test.js", "tests/packageExports.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/ntc2018-retaining-wall-seismic-compile-time.test.ts",
+        "tests/ntc2018-retaining-wall-seismic-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0125-norms-ntc2018-retaining-wall-seismic"],
+      "status": "exact-parity"
     },
     {
       "id": "src/norms/ntc2018/index.js",
@@ -34594,7 +34614,8 @@
         "0071-domain-soil-structure-interface",
         "0078-domain-earth-pressure-coefficients",
         "0095-domain-layered-pseudostatic-trial-wedge",
-        "0096-domain-lateral-earth-pressure-analysis"
+        "0096-domain-lateral-earth-pressure-analysis",
+        "0125-norms-ntc2018-retaining-wall-seismic"
       ],
       "sourceOracles": ["tests/geotechnicalEarthPressure.test.js"],
       "targetTests": [
@@ -34605,6 +34626,8 @@
         "tests/lateral-earth-pressure-analysis-live-parity.test.ts",
         "tests/layered-pseudostatic-trial-wedge-compile-time.test.ts",
         "tests/layered-pseudostatic-trial-wedge-live-parity.test.ts",
+        "tests/ntc2018-retaining-wall-seismic-compile-time.test.ts",
+        "tests/ntc2018-retaining-wall-seismic-live-parity.test.ts",
         "tests/pressure-diagram-2d-compile-time.test.ts",
         "tests/pressure-diagram-2d-live-parity.test.ts",
         "tests/soil-structure-interface-compile-time.test.ts",
@@ -34615,7 +34638,8 @@
         "0071-domain-soil-structure-interface",
         "0078-domain-earth-pressure-coefficients",
         "0095-domain-layered-pseudostatic-trial-wedge",
-        "0096-domain-lateral-earth-pressure-analysis"
+        "0096-domain-lateral-earth-pressure-analysis",
+        "0125-norms-ntc2018-retaining-wall-seismic"
       ],
       "status": "exact-parity",
       "testKind": "test"
@@ -35829,7 +35853,8 @@
         "0121-norms-ntc2018-existing-masonry-material",
         "0122-norms-ntc2018-material-catalogs",
         "0123-norms-ntc2018-load-parameters",
-        "0124-norms-ntc2018-beam-combinations"
+        "0124-norms-ntc2018-beam-combinations",
+        "0125-norms-ntc2018-retaining-wall-seismic"
       ],
       "sourceOracles": ["tests/packageExports.test.js"],
       "targetTests": [
@@ -35900,6 +35925,8 @@
         "tests/ntc2018-material-catalogs-live-parity.test.ts",
         "tests/ntc2018-normative-references-compile-time.test.ts",
         "tests/ntc2018-normative-references-live-parity.test.ts",
+        "tests/ntc2018-retaining-wall-seismic-compile-time.test.ts",
+        "tests/ntc2018-retaining-wall-seismic-live-parity.test.ts",
         "tests/ntc2018-seismic-action-compile-time.test.ts",
         "tests/ntc2018-seismic-action-live-parity.test.ts",
         "tests/ntc2018-snow-load-compile-time.test.ts",
@@ -36004,7 +36031,8 @@
         "0121-norms-ntc2018-existing-masonry-material",
         "0122-norms-ntc2018-material-catalogs",
         "0123-norms-ntc2018-load-parameters",
-        "0124-norms-ntc2018-beam-combinations"
+        "0124-norms-ntc2018-beam-combinations",
+        "0125-norms-ntc2018-retaining-wall-seismic"
       ],
       "status": "exact-parity",
       "testKind": "test"
@@ -39592,12 +39620,28 @@
         "publicStrings": "exact equality plus Unicode preservation for identifiers, metadata, and errors",
         "errors": "exact error name and message equality for missing permanent ids, missing variable categories, unsupported combination types, and null options"
       }
+    },
+    {
+      "sliceId": "0125-norms-ntc2018-retaining-wall-seismic",
+      "sourceRevision": "6f33baead8b88166c4b2cf94af41763412e3c751",
+      "method": "Strict declaration consumer coverage and independently executed pinned JavaScript versus built TypeScript comparison of explicit coefficient calculations, Number coercion, vertical-case selection, distribution-model preservation, exact JSON, Unicode, root exports, and native error paths.",
+      "targetTests": [
+        "tests/ntc2018-retaining-wall-seismic-compile-time.test.ts",
+        "tests/ntc2018-retaining-wall-seismic-live-parity.test.ts"
+      ],
+      "fixture": null,
+      "tolerances": {
+        "serializedParity": "exact coefficient, vertical-case, metadata, and root-reference JSON",
+        "numericParity": "exact equality for kh, verticalMagnitude, and both kv cases",
+        "publicStrings": "exact equality plus Unicode preservation for distribution models, references, conventions, and errors",
+        "errors": "exact error name and message equality for missing input, negative acceleration, betaM overflow, unsupported vertical cases, and null options"
+      }
     }
   ],
   "counts": {
     "rootExports": {
       "javascript": 841,
-      "typescript": 673
+      "typescript": 676
     },
     "applicationsExports": {
       "javascript": 309,
@@ -39621,11 +39665,11 @@
     },
     "sourceFiles": {
       "javascript": 480,
-      "typescript": 370
+      "typescript": 371
     },
     "tests": {
       "javascript": 131,
-      "typescript": 236
+      "typescript": 238
     },
     "validationCampaigns": {
       "javascript": 17,
@@ -39684,7 +39728,7 @@
       "statusCounts": {
         "exact-parity": 0,
         "partial": 3,
-        "missing": 69,
+        "missing": 65,
         "intentionally-excluded": 0,
         "decision-required": 0
       },
@@ -39695,7 +39739,6 @@
         "root-export:NTC2018_MASONRY_PIER_DEFORMATION_REFERENCES",
         "root-export:NTC2018_MASONRY_PIER_STIFFNESS_REFERENCE",
         "root-export:NTC2018_PERMANENT_LOAD_REFERENCES",
-        "root-export:NTC2018_RETAINING_WALL_SEISMIC_REFERENCE",
         "root-export:NTC2018_SLAB_MATERIAL_WEIGHT_DATABASE",
         "root-export:NTC2018_SLAB_VARIABLE_ACTIONS_DATABASE",
         "root-export:NTC2018_UNIT_WEIGHT_CATALOG",
@@ -39715,12 +39758,10 @@
         "root-export:calculateNTC2018MasonryPierSlidingCapacity",
         "root-export:calculateNTC2018MasonryPierUltimateDisplacement",
         "root-export:calculateNTC2018PermanentAreaLoads",
-        "root-export:calculateNTC2018RetainingWallSeismicCoefficients",
         "root-export:calculateNTC2018SelfWeight",
         "root-export:createNTC2018ExistingMasonryMaterial",
         "root-export:createNTC2018ExistingMasonryModifierState",
         "root-export:createNTC2018ExistingMasonryWorkflowState",
-        "root-export:createNTC2018MononobeOkabeSeismicInput",
         "root-export:createNTC2018SLECombination",
         "root-export:createNTC2018SlabVariableLoad",
         "root-export:createNTC2018StructuralSteelMaterial",
@@ -39748,7 +39789,6 @@
         "root-export:selectNTC2018MasonryPierGoverningCapacity",
         "root-export:toggleNTC2018ExistingMasonryModifier",
         "root-export:updateNTC2018ExistingMasonryMaltaBuona",
-        "source:src/norms/ntc2018/geotechnics/ntc2018RetainingWallSeismic.js",
         "source:src/norms/ntc2018/index.js",
         "source:src/norms/ntc2018/loads/NTC2018SlabLoadAnalysis.js",
         "source:src/norms/ntc2018/loads/createNTC2018LoadCombination.js",
