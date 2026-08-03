@@ -87,6 +87,7 @@ const expectedExports = [
   "CYCLIC_MASONRY_INTERNAL_UNITS",
   "DeepFoundationModel",
   "GeotechnicalDeepFoundationApplication",
+  "GeotechnicalEarthPressureApplication",
   "GeotechnicalDesignSituation",
   "GroundModel",
   "GroundProfile",

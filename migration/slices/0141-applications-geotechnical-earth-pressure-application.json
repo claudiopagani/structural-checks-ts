@@ -1,0 +1,96 @@
+{
+  "schemaVersion": 1,
+  "sliceId": "0141-applications-geotechnical-earth-pressure-application",
+  "title": "Geotechnical earth-pressure application",
+  "migrationType": "mechanical-parity-with-minimal-dependency-support",
+  "implementationStatus": "implemented",
+  "dependencies": [
+    "0078-domain-earth-pressure-coefficients",
+    "0096-domain-lateral-earth-pressure-analysis"
+  ],
+  "source": {
+    "repository": "https://github.com/claudiopagani/strutture-js",
+    "revision": "6f33baead8b88166c4b2cf94af41763412e3c751"
+  },
+  "normativeCorpusRevision": "41da3faa489600173106935bbcf726119300e48d",
+  "sourceFiles": [
+    {
+      "path": "src/applications/geotechnical-earth-pressures/GeotechnicalEarthPressureApplication.js",
+      "gitBlobSha1": "e77d8ac46fe139956fdba1e17586427bdc0e9f25",
+      "targetPath": "src/applications/geotechnical-earth-pressures/GeotechnicalEarthPressureApplication.ts"
+    },
+    {
+      "path": "src/applications/geotechnical-earth-pressures/index.js",
+      "gitBlobSha1": "5be4db7ab964f4387053d1b326abe66a57623f31",
+      "targetPath": "src/applications/geotechnical-earth-pressures/index.ts"
+    }
+  ],
+  "supportingSourceFiles": [
+    {
+      "path": "src/index.js",
+      "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7",
+      "targetPath": "src/index.ts",
+      "coverage": "Pinned root public-export context for the geotechnical earth-pressure application."
+    },
+    {
+      "path": "src/domain/geotechnics/LateralEarthPressureAnalysis.js",
+      "gitBlobSha1": "c4f214528ba67400a79c661fe5095ef13c7df1fe",
+      "targetPath": "src/domain/geotechnics/LateralEarthPressureAnalysis.ts",
+      "coverage": "Migrated analysis dependency consumed by the application wrapper."
+    },
+    {
+      "path": "src/domain/geotechnics/earthPressureCoefficients.js",
+      "gitBlobSha1": "547ce3b54af72f361cb32dfeb8b5ebea795b3d04",
+      "targetPath": "src/domain/geotechnics/earthPressureCoefficients.ts",
+      "coverage": "Migrated coefficient dependency re-exported by the application barrel."
+    }
+  ],
+  "sourceOracles": [
+    {
+      "path": "tests/geotechnicalEarthPressure.test.js",
+      "gitBlobSha1": "b93b597c670a102925008ba004bf237927113003",
+      "coverage": "Application wrapper serialization, status, application identifier and earth-pressure behavior."
+    },
+    {
+      "path": "tests/packageExports.test.js",
+      "gitBlobSha1": "8dde24b4c97dd3dae7100207d07d9d96c52b9c74",
+      "coverage": "Pinned root and application public exports."
+    }
+  ],
+  "sourcePublicExport": {
+    "path": "src/index.js",
+    "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
+  },
+  "targetTests": [
+    "tests/baseline-parity.test.ts",
+    "tests/lateral-earth-pressure-analysis-live-parity.test.ts",
+    "tests/geotechnical-earth-pressure-application-compile-time.test.ts",
+    "tests/geotechnical-earth-pressure-application-live-parity.test.ts"
+  ],
+  "publicExports": ["GeotechnicalEarthPressureApplication"],
+  "publicTypeExports": [],
+  "normativeReferences": {
+    "resolved": [],
+    "outsideCorpus": [],
+    "normativeConformityClaimed": false,
+    "status": "classified-for-declared-scope"
+  },
+  "independentValidation": {
+    "method": "Strict declaration consumer coverage and independently executed pinned JavaScript versus built TypeScript comparison of the application barrel, root aliases, application manifest, complete serialized results, Unicode identifiers, unsupported state and missing input behavior.",
+    "targetTests": [
+      "tests/geotechnical-earth-pressure-application-compile-time.test.ts",
+      "tests/geotechnical-earth-pressure-application-live-parity.test.ts"
+    ],
+    "fixture": "homogeneous drained Rankine profile with Unicode identifiers",
+    "tolerances": {
+      "serializedParity": "exact complete CalculationResult JSON",
+      "numericParity": "exact pressure-diagram values for the wrapper fixture",
+      "publicStrings": "exact manifest, summaries, metadata and Unicode strings",
+      "errors": "exact unsupported and missing-input result behavior"
+    }
+  },
+  "parityDifferences": [
+    "The TypeScript application uses the migrated strict LateralEarthPressureAnalysisInput declaration while preserving the JavaScript wrapper delegation and serialized CalculationResult shape."
+  ],
+  "engineeringFunctionality": "Public geotechnical earth-pressure application wrapper for static and pseudostatic lateral earth-pressure actions over serializable ground profiles."
+}

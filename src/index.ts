@@ -382,6 +382,7 @@ export {
   ReinforcedConcreteIsolatedFootingVerification,
 } from "./applications/reinforced-concrete-isolated-footings/index.js";
 export { GeotechnicalDeepFoundationApplication } from "./applications/geotechnical-deep-foundations/GeotechnicalDeepFoundationApplication.js";
+export { GeotechnicalEarthPressureApplication } from "./applications/geotechnical-earth-pressures/index.js";
 export {
   AXIAL_PILE_CAPACITY_REFERENCE,
   AXIAL_PILE_CAPACITY_RESULT_SCHEMA_VERSION,

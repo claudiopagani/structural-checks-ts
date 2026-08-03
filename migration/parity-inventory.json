@@ -1007,6 +1007,7 @@
         "GROUND_SECTION_2D_SCHEMA_VERSION",
         "GeotechnicalDeepFoundationApplication",
         "GeotechnicalDesignSituation",
+        "GeotechnicalEarthPressureApplication",
         "GlobalFemPostProcessingApplication",
         "GlulamTimberMaterial",
         "GroundAnchorAnalysis",
@@ -9456,11 +9457,16 @@
       "sourcePath": "src/applications/geotechnical-earth-pressures/GeotechnicalEarthPressureApplication.js",
       "sourceBlobSha1": "e77d8ac46fe139956fdba1e17586427bdc0e9f25",
       "targetPath": "src/applications/geotechnical-earth-pressures/GeotechnicalEarthPressureApplication.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0141-applications-geotechnical-earth-pressure-application"],
+      "sourceOracles": ["tests/geotechnicalEarthPressure.test.js", "tests/packageExports.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/geotechnical-earth-pressure-application-compile-time.test.ts",
+        "tests/geotechnical-earth-pressure-application-live-parity.test.ts",
+        "tests/lateral-earth-pressure-analysis-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0141-applications-geotechnical-earth-pressure-application"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -22359,11 +22365,16 @@
       "sourcePath": "src/applications/geotechnical-earth-pressures/GeotechnicalEarthPressureApplication.js",
       "sourceBlobSha1": "e77d8ac46fe139956fdba1e17586427bdc0e9f25",
       "targetPath": "src/applications/geotechnical-earth-pressures/GeotechnicalEarthPressureApplication.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0141-applications-geotechnical-earth-pressure-application"],
+      "sourceOracles": ["tests/geotechnicalEarthPressure.test.js", "tests/packageExports.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/geotechnical-earth-pressure-application-compile-time.test.ts",
+        "tests/geotechnical-earth-pressure-application-live-parity.test.ts",
+        "tests/lateral-earth-pressure-analysis-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0141-applications-geotechnical-earth-pressure-application"],
+      "status": "exact-parity",
       "publicEntryPath": "src/applications/index.js",
       "publicEntryBlobSha1": "b70179c7cdd2a819f2151dc092c0f59cbce30ba6"
     },
@@ -27433,13 +27444,17 @@
         "tests/reinforcedConcreteFoundationBeamApplication.test.js",
         "tests/reinforcedConcreteStrutAndTieApplication.test.js"
       ],
-      "targetTests": [],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/geotechnical-earth-pressure-application-compile-time.test.ts",
+        "tests/geotechnical-earth-pressure-application-live-parity.test.ts"
+      ],
       "validationEvidence": [
         "0024-reinforced-concrete-foundation-beams",
         "0026-reinforced-concrete-beam-column-joints",
         "0027-reinforced-concrete-strut-and-tie"
       ],
-      "status": "missing",
+      "status": "partial",
       "notes": ["Default registry construction is not present in the current TypeScript target."],
       "applicationId": "geotechnical-earth-pressures",
       "applicationClass": "GeotechnicalEarthPressureApplication",
@@ -29106,22 +29121,32 @@
       "sourcePath": "src/applications/geotechnical-earth-pressures/GeotechnicalEarthPressureApplication.js",
       "sourceBlobSha1": "e77d8ac46fe139956fdba1e17586427bdc0e9f25",
       "targetPath": "src/applications/geotechnical-earth-pressures/GeotechnicalEarthPressureApplication.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing"
+      "migrationSlices": ["0141-applications-geotechnical-earth-pressure-application"],
+      "sourceOracles": ["tests/geotechnicalEarthPressure.test.js", "tests/packageExports.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/geotechnical-earth-pressure-application-compile-time.test.ts",
+        "tests/geotechnical-earth-pressure-application-live-parity.test.ts",
+        "tests/lateral-earth-pressure-analysis-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0141-applications-geotechnical-earth-pressure-application"],
+      "status": "exact-parity"
     },
     {
       "id": "src/applications/geotechnical-earth-pressures/index.js",
       "sourcePath": "src/applications/geotechnical-earth-pressures/index.js",
       "sourceBlobSha1": "5be4db7ab964f4387053d1b326abe66a57623f31",
       "targetPath": "src/applications/geotechnical-earth-pressures/index.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing"
+      "migrationSlices": ["0141-applications-geotechnical-earth-pressure-application"],
+      "sourceOracles": ["tests/geotechnicalEarthPressure.test.js", "tests/packageExports.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/geotechnical-earth-pressure-application-compile-time.test.ts",
+        "tests/geotechnical-earth-pressure-application-live-parity.test.ts",
+        "tests/lateral-earth-pressure-analysis-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0141-applications-geotechnical-earth-pressure-application"],
+      "status": "exact-parity"
     },
     {
       "id": "src/applications/geotechnical-embedded-retaining-walls/GeotechnicalEmbeddedRetainingWallApplication.js",
@@ -35905,7 +35930,8 @@
         "0137-applications-geotechnical-deep-foundations-public-index",
         "0138-domain-geotechnical-public-constants",
         "0139-applications-rc-section-state-integrator-public-export",
-        "0140-applications-rc-isolated-footings-public-index"
+        "0140-applications-rc-isolated-footings-public-index",
+        "0141-applications-geotechnical-earth-pressure-application"
       ],
       "sourceOracles": [
         "tests/architecture/applicationRegistry.test.js",
@@ -37578,13 +37604,16 @@
         "0078-domain-earth-pressure-coefficients",
         "0095-domain-layered-pseudostatic-trial-wedge",
         "0096-domain-lateral-earth-pressure-analysis",
-        "0125-norms-ntc2018-retaining-wall-seismic"
+        "0125-norms-ntc2018-retaining-wall-seismic",
+        "0141-applications-geotechnical-earth-pressure-application"
       ],
       "sourceOracles": ["tests/geotechnicalEarthPressure.test.js"],
       "targetTests": [
         "tests/baseline-parity.test.ts",
         "tests/earth-pressure-coefficients-compile-time.test.ts",
         "tests/earth-pressure-coefficients-live-parity.test.ts",
+        "tests/geotechnical-earth-pressure-application-compile-time.test.ts",
+        "tests/geotechnical-earth-pressure-application-live-parity.test.ts",
         "tests/lateral-earth-pressure-analysis-compile-time.test.ts",
         "tests/lateral-earth-pressure-analysis-live-parity.test.ts",
         "tests/layered-pseudostatic-trial-wedge-compile-time.test.ts",
@@ -37602,7 +37631,8 @@
         "0078-domain-earth-pressure-coefficients",
         "0095-domain-layered-pseudostatic-trial-wedge",
         "0096-domain-lateral-earth-pressure-analysis",
-        "0125-norms-ntc2018-retaining-wall-seismic"
+        "0125-norms-ntc2018-retaining-wall-seismic",
+        "0141-applications-geotechnical-earth-pressure-application"
       ],
       "status": "exact-parity",
       "testKind": "test"
@@ -38888,7 +38918,8 @@
         "0137-applications-geotechnical-deep-foundations-public-index",
         "0138-domain-geotechnical-public-constants",
         "0139-applications-rc-section-state-integrator-public-export",
-        "0140-applications-rc-isolated-footings-public-index"
+        "0140-applications-rc-isolated-footings-public-index",
+        "0141-applications-geotechnical-earth-pressure-application"
       ],
       "sourceOracles": ["tests/packageExports.test.js"],
       "targetTests": [
@@ -38932,6 +38963,8 @@
         "tests/geotechnical-deep-foundations-index-live-parity.test.ts",
         "tests/geotechnical-domain-constants-compile-time.test.ts",
         "tests/geotechnical-domain-constants-live-parity.test.ts",
+        "tests/geotechnical-earth-pressure-application-compile-time.test.ts",
+        "tests/geotechnical-earth-pressure-application-live-parity.test.ts",
         "tests/ground-anchor-analysis-compile-time.test.ts",
         "tests/ground-anchor-analysis-live-parity.test.ts",
         "tests/ground-anchor-bond-catalog-compile-time.test.ts",
@@ -39112,7 +39145,8 @@
         "0137-applications-geotechnical-deep-foundations-public-index",
         "0138-domain-geotechnical-public-constants",
         "0139-applications-rc-section-state-integrator-public-export",
-        "0140-applications-rc-isolated-footings-public-index"
+        "0140-applications-rc-isolated-footings-public-index",
+        "0141-applications-geotechnical-earth-pressure-application"
       ],
       "status": "exact-parity",
       "testKind": "test"
@@ -43012,16 +43046,32 @@
         "publicStrings": "exact manifest strings and missing-model error message",
         "errors": "exact error name and message equality for missing model input"
       }
+    },
+    {
+      "sliceId": "0141-applications-geotechnical-earth-pressure-application",
+      "sourceRevision": "6f33baead8b88166c4b2cf94af41763412e3c751",
+      "method": "Strict declaration consumer coverage and independently executed pinned JavaScript versus built TypeScript comparison of the application barrel, root aliases, application manifest, complete serialized results, Unicode identifiers, unsupported state and missing input behavior.",
+      "targetTests": [
+        "tests/geotechnical-earth-pressure-application-compile-time.test.ts",
+        "tests/geotechnical-earth-pressure-application-live-parity.test.ts"
+      ],
+      "fixture": "homogeneous drained Rankine profile with Unicode identifiers",
+      "tolerances": {
+        "serializedParity": "exact complete CalculationResult JSON",
+        "numericParity": "exact pressure-diagram values for the wrapper fixture",
+        "publicStrings": "exact manifest, summaries, metadata and Unicode strings",
+        "errors": "exact unsupported and missing-input result behavior"
+      }
     }
   ],
   "counts": {
     "rootExports": {
       "javascript": 841,
-      "typescript": 733
+      "typescript": 734
     },
     "applicationsExports": {
       "javascript": 309,
-      "typescript": 206
+      "typescript": 207
     },
     "packageEntryPoints": {
       "javascript": 14,
@@ -43041,11 +43091,11 @@
     },
     "sourceFiles": {
       "javascript": 480,
-      "typescript": 383
+      "typescript": 385
     },
     "tests": {
       "javascript": 131,
-      "typescript": 268
+      "typescript": 270
     },
     "validationCampaigns": {
       "javascript": 17,
@@ -43096,8 +43146,8 @@
     "applications": {
       "statusCounts": {
         "exact-parity": 0,
-        "partial": 12,
-        "missing": 334,
+        "partial": 13,
+        "missing": 329,
         "intentionally-excluded": 0,
         "decision-required": 0
       },
@@ -43112,7 +43162,6 @@
         "application-export:BEAM_REPORT_SCHEMA_VERSION",
         "application-export:BeamReportBuilder",
         "application-export:BeamReportMarkdownRenderer",
-        "application-export:GeotechnicalEarthPressureApplication",
         "application-export:GeotechnicalEmbeddedRetainingWallApplication",
         "application-export:GeotechnicalGroundAnchorApplication",
         "application-export:GeotechnicalLateralPileApplication",
@@ -43245,7 +43294,6 @@
         "root-export:BEAM_REPORT_SCHEMA_VERSION",
         "root-export:BeamReportBuilder",
         "root-export:BeamReportMarkdownRenderer",
-        "root-export:GeotechnicalEarthPressureApplication",
         "root-export:GeotechnicalEmbeddedRetainingWallApplication",
         "root-export:GeotechnicalGroundAnchorApplication",
         "root-export:GeotechnicalLateralPileApplication",
@@ -43338,8 +43386,6 @@
         "root-export:verifySteelShearTorsionInteraction",
         "root-export:verifySteelWebShearBuckling",
         "root-export:verifyTimberLateralTorsionalStability",
-        "source:src/applications/geotechnical-earth-pressures/GeotechnicalEarthPressureApplication.js",
-        "source:src/applications/geotechnical-earth-pressures/index.js",
         "source:src/applications/geotechnical-embedded-retaining-walls/GeotechnicalEmbeddedRetainingWallApplication.js",
         "source:src/applications/geotechnical-embedded-retaining-walls/index.js",
         "source:src/applications/geotechnical-ground-anchors/GeotechnicalGroundAnchorApplication.js",
