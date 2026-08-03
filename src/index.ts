@@ -563,6 +563,7 @@ export { RCMomentCurvatureAnalyzer } from "./applications/reinforced-concrete-se
 export { RCServiceStressSolver } from "./applications/reinforced-concrete-sections/analysis/RCServiceStressSolver.js";
 export { RCUniaxialDomainBuilder } from "./applications/reinforced-concrete-sections/analysis/RCUniaxialDomainBuilder.js";
 export { RCUltimateSectionSolver } from "./applications/reinforced-concrete-sections/analysis/RCUltimateSectionSolver.js";
+export { RCSectionStateIntegrator } from "./applications/reinforced-concrete-sections/analysis/RCSectionStateIntegrator.js";
 export { SectionFiberDiscretizer } from "./applications/reinforced-concrete-sections/analysis/SectionFiberDiscretizer.js";
 export { StrainField } from "./applications/reinforced-concrete-sections/analysis/StrainField.js";
 export {

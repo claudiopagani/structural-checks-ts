@@ -356,6 +356,7 @@ const expectedExports = [
   "PunchingVerificationRequest",
   "RCBiaxialDomainBuilder",
   "RCMomentCurvatureAnalyzer",
+  "RCSectionStateIntegrator",
   "RC_PLATE_ANALYSIS_TYPES",
   "RC_PUNCHING_DESIGN_CODE_IDS",
   "RC_PUNCHING_DESIGN_CODE_ID_VALUES",

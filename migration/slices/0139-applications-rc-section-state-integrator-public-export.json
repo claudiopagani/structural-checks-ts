@@ -1,0 +1,103 @@
+{
+  "schemaVersion": 1,
+  "sliceId": "0139-applications-rc-section-state-integrator-public-export",
+  "title": "RC section state integrator public export",
+  "migrationType": "mechanical-parity-with-minimal-dependency-support",
+  "implementationStatus": "implemented",
+  "dependencies": ["0004-ntc2018-uls-uniaxial-concrete-resistance"],
+  "source": {
+    "repository": "https://github.com/claudiopagani/strutture-js",
+    "revision": "6f33baead8b88166c4b2cf94af41763412e3c751"
+  },
+  "normativeCorpusRevision": "41da3faa489600173106935bbcf726119300e48d",
+  "sourceFiles": [
+    {
+      "path": "src/applications/reinforced-concrete-sections/analysis/RCSectionStateIntegrator.js",
+      "gitBlobSha1": "1d097ae6ede1919dc1464d9f77fa3b23dcc1ffa3",
+      "targetPath": "src/applications/reinforced-concrete-sections/analysis/RCSectionStateIntegrator.ts"
+    }
+  ],
+  "supportingSourceFiles": [
+    {
+      "path": "src/applications/reinforced-concrete-sections/analysis/index.js",
+      "gitBlobSha1": "19bd7b79855f3826b835568bbed5992b8ff65105",
+      "targetPath": "src/applications/reinforced-concrete-sections/analysis/index.ts",
+      "coverage": "Pinned analysis barrel context for the RCSectionStateIntegrator public class."
+    },
+    {
+      "path": "src/applications/reinforced-concrete-sections/index.js",
+      "gitBlobSha1": "ab1faced34c1970449fb9ffe3be080d286739313",
+      "targetPath": "src/applications/reinforced-concrete-sections/index.ts",
+      "coverage": "Pinned reinforced-concrete-sections barrel context for the public class."
+    },
+    {
+      "path": "src/applications/index.js",
+      "gitBlobSha1": "b70179c7cdd2a819f2151dc092c0f59cbce30ba6",
+      "targetPath": "src/applications/index.ts",
+      "coverage": "Pinned applications public-export context. The target root directly re-exports the migrated class because no applications barrel target is present."
+    },
+    {
+      "path": "src/index.js",
+      "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7",
+      "targetPath": "src/index.ts",
+      "coverage": "Root public export support for RCSectionStateIntegrator."
+    }
+  ],
+  "sourceOracles": [
+    {
+      "path": "tests/rcFiberAnalysis.test.js",
+      "gitBlobSha1": "95419c44f3223e68e2226742511187c3097115db",
+      "coverage": "RCSectionStateIntegrator result, affine-field, fast-evaluator, fracture-energy and error behavior."
+    },
+    {
+      "path": "tests/rcConstitutiveLawsAndSolvers.test.js",
+      "gitBlobSha1": "1824f854238feaa90f1d035f376f145b12cb6464",
+      "coverage": "Constitutive-law and section-solver integration behavior."
+    },
+    {
+      "path": "tests/reinforcedConcreteSectionApplication.test.js",
+      "gitBlobSha1": "7fd90534d22039aff783adfb33f008673cfaba14",
+      "coverage": "Reinforced-concrete section application integration behavior."
+    },
+    {
+      "path": "tests/packageExports.test.js",
+      "gitBlobSha1": "8dde24b4c97dd3dae7100207d07d9d96c52b9c74",
+      "coverage": "Public root export behavior."
+    }
+  ],
+  "sourcePublicExport": {
+    "path": "src/index.js",
+    "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
+  },
+  "targetTests": [
+    "tests/baseline-parity.test.ts",
+    "tests/rc-section-state-integrator-compile-time.test.ts",
+    "tests/rc-section-state-integrator-live-parity.test.ts"
+  ],
+  "publicExports": ["RCSectionStateIntegrator"],
+  "publicTypeExports": [],
+  "normativeReferences": {
+    "resolved": [],
+    "outsideCorpus": [],
+    "normativeConformityClaimed": false,
+    "status": "classified-for-declared-scope"
+  },
+  "independentValidation": {
+    "method": "Strict declaration consumer coverage and independently executed pinned JavaScript versus built TypeScript comparison of the root export, direct class identity independence, complete serializable evaluation, axial and resultant fast evaluators, numeric values, and exact validation errors.",
+    "targetTests": [
+      "tests/rc-section-state-integrator-compile-time.test.ts",
+      "tests/rc-section-state-integrator-live-parity.test.ts"
+    ],
+    "fixture": null,
+    "tolerances": {
+      "serializedParity": "exact complete result JSON and error records",
+      "numericParity": "exact N, Mx, My, fiber and bar response values for the bounded fixture",
+      "publicStrings": "exact error messages and serialized strings",
+      "errors": "exact error name and message equality for missing inputs, unsupported response and missing softening energy"
+    }
+  },
+  "parityDifferences": [
+    "The TypeScript implementation was already migrated under the dependency slice; this slice adds the missing strict root public export and direct independent parity evidence without changing the integrator algorithm."
+  ],
+  "engineeringFunctionality": "Public solver-neutral integration of concrete fibers and reinforcement-bar responses into axial force and biaxial section resultants, including post-ultimate response policies already present in the pinned implementation."
+}

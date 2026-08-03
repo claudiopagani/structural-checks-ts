@@ -1162,6 +1162,7 @@
         "PunchingVerificationRequest",
         "RCBiaxialDomainBuilder",
         "RCMomentCurvatureAnalyzer",
+        "RCSectionStateIntegrator",
         "RCServiceStressSolver",
         "RCUltimateSectionSolver",
         "RCUniaxialDomainBuilder",
@@ -15846,11 +15847,20 @@
       "sourcePath": "src/applications/reinforced-concrete-sections/analysis/RCSectionStateIntegrator.js",
       "sourceBlobSha1": "1d097ae6ede1919dc1464d9f77fa3b23dcc1ffa3",
       "targetPath": "src/applications/reinforced-concrete-sections/analysis/RCSectionStateIntegrator.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "partial",
+      "migrationSlices": ["0139-applications-rc-section-state-integrator-public-export"],
+      "sourceOracles": [
+        "tests/packageExports.test.js",
+        "tests/rcConstitutiveLawsAndSolvers.test.js",
+        "tests/rcFiberAnalysis.test.js",
+        "tests/reinforcedConcreteSectionApplication.test.js"
+      ],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/rc-section-state-integrator-compile-time.test.ts",
+        "tests/rc-section-state-integrator-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0139-applications-rc-section-state-integrator-public-export"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -24292,11 +24302,20 @@
       "sourcePath": "src/applications/reinforced-concrete-sections/analysis/RCSectionStateIntegrator.js",
       "sourceBlobSha1": "1d097ae6ede1919dc1464d9f77fa3b23dcc1ffa3",
       "targetPath": "src/applications/reinforced-concrete-sections/analysis/RCSectionStateIntegrator.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "partial",
+      "migrationSlices": ["0139-applications-rc-section-state-integrator-public-export"],
+      "sourceOracles": [
+        "tests/packageExports.test.js",
+        "tests/rcConstitutiveLawsAndSolvers.test.js",
+        "tests/rcFiberAnalysis.test.js",
+        "tests/reinforcedConcreteSectionApplication.test.js"
+      ],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/rc-section-state-integrator-compile-time.test.ts",
+        "tests/rc-section-state-integrator-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0139-applications-rc-section-state-integrator-public-export"],
+      "status": "exact-parity",
       "publicEntryPath": "src/applications/index.js",
       "publicEntryBlobSha1": "b70179c7cdd2a819f2151dc092c0f59cbce30ba6"
     },
@@ -30902,17 +30921,27 @@
       "sourcePath": "src/applications/reinforced-concrete-sections/analysis/RCSectionStateIntegrator.js",
       "sourceBlobSha1": "1d097ae6ede1919dc1464d9f77fa3b23dcc1ffa3",
       "targetPath": "src/applications/reinforced-concrete-sections/analysis/RCSectionStateIntegrator.ts",
-      "migrationSlices": ["0004-ntc2018-uls-uniaxial-concrete-resistance"],
+      "migrationSlices": [
+        "0004-ntc2018-uls-uniaxial-concrete-resistance",
+        "0139-applications-rc-section-state-integrator-public-export"
+      ],
       "sourceOracles": [
+        "tests/packageExports.test.js",
         "tests/rcConstitutiveLawsAndSolvers.test.js",
+        "tests/rcFiberAnalysis.test.js",
         "tests/reinforcedConcreteSectionApplication.test.js"
       ],
       "targetTests": [
         "tests/baseline-parity.test.ts",
         "tests/concrete-resistance-baseline-parity.test.ts",
-        "tests/concrete-section-resistance.test.ts"
+        "tests/concrete-section-resistance.test.ts",
+        "tests/rc-section-state-integrator-compile-time.test.ts",
+        "tests/rc-section-state-integrator-live-parity.test.ts"
       ],
-      "validationEvidence": ["0004-ntc2018-uls-uniaxial-concrete-resistance"],
+      "validationEvidence": [
+        "0004-ntc2018-uls-uniaxial-concrete-resistance",
+        "0139-applications-rc-section-state-integrator-public-export"
+      ],
       "status": "exact-parity"
     },
     {
@@ -35795,7 +35824,8 @@
         "0135-norms-ntc2018-public-index",
         "0136-norms-ntc2018-masonry-public-index",
         "0137-applications-geotechnical-deep-foundations-public-index",
-        "0138-domain-geotechnical-public-constants"
+        "0138-domain-geotechnical-public-constants",
+        "0139-applications-rc-section-state-integrator-public-export"
       ],
       "sourceOracles": [
         "tests/architecture/applicationRegistry.test.js",
@@ -38776,7 +38806,8 @@
         "0135-norms-ntc2018-public-index",
         "0136-norms-ntc2018-masonry-public-index",
         "0137-applications-geotechnical-deep-foundations-public-index",
-        "0138-domain-geotechnical-public-constants"
+        "0138-domain-geotechnical-public-constants",
+        "0139-applications-rc-section-state-integrator-public-export"
       ],
       "sourceOracles": ["tests/packageExports.test.js"],
       "targetTests": [
@@ -38886,6 +38917,8 @@
         "tests/ntc2018-wind-load-compile-time.test.ts",
         "tests/ntc2018-wind-load-live-parity.test.ts",
         "tests/rc-cracked-deflection.test.ts",
+        "tests/rc-section-state-integrator-compile-time.test.ts",
+        "tests/rc-section-state-integrator-live-parity.test.ts",
         "tests/reinforced-concrete-beam-column-joint.test.ts",
         "tests/reinforced-concrete-foundation-beam.test.ts",
         "tests/reinforced-concrete-strut-and-tie.test.ts",
@@ -38993,7 +39026,8 @@
         "0135-norms-ntc2018-public-index",
         "0136-norms-ntc2018-masonry-public-index",
         "0137-applications-geotechnical-deep-foundations-public-index",
-        "0138-domain-geotechnical-public-constants"
+        "0138-domain-geotechnical-public-constants",
+        "0139-applications-rc-section-state-integrator-public-export"
       ],
       "status": "exact-parity",
       "testKind": "test"
@@ -39118,7 +39152,8 @@
       "migrationSlices": [
         "0004-ntc2018-uls-uniaxial-concrete-resistance",
         "0048-domain-constitutive-laws-index",
-        "0109-domain-solvers-public-index"
+        "0109-domain-solvers-public-index",
+        "0139-applications-rc-section-state-integrator-public-export"
       ],
       "sourceOracles": ["tests/rcConstitutiveLawsAndSolvers.test.js"],
       "targetTests": [
@@ -39127,13 +39162,16 @@
         "tests/concrete-section-resistance.test.ts",
         "tests/constitutive-laws-index-compile-time.test.ts",
         "tests/constitutive-laws-index-live-parity.test.ts",
+        "tests/rc-section-state-integrator-compile-time.test.ts",
+        "tests/rc-section-state-integrator-live-parity.test.ts",
         "tests/solver-public-index-compile-time.test.ts",
         "tests/solver-public-index-live-parity.test.ts"
       ],
       "validationEvidence": [
         "0004-ntc2018-uls-uniaxial-concrete-resistance",
         "0048-domain-constitutive-laws-index",
-        "0109-domain-solvers-public-index"
+        "0109-domain-solvers-public-index",
+        "0139-applications-rc-section-state-integrator-public-export"
       ],
       "status": "exact-parity",
       "testKind": "test"
@@ -39165,11 +39203,15 @@
       "sourcePath": "tests/rcFiberAnalysis.test.js",
       "sourceBlobSha1": "95419c44f3223e68e2226742511187c3097115db",
       "targetPath": "tests/rcFiberAnalysis.test.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0139-applications-rc-section-state-integrator-public-export"],
+      "sourceOracles": ["tests/rcFiberAnalysis.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/rc-section-state-integrator-compile-time.test.ts",
+        "tests/rc-section-state-integrator-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0139-applications-rc-section-state-integrator-public-export"],
+      "status": "exact-parity",
       "testKind": "test"
     },
     {
@@ -39373,14 +39415,22 @@
       "sourcePath": "tests/reinforcedConcreteSectionApplication.test.js",
       "sourceBlobSha1": "7fd90534d22039aff783adfb33f008673cfaba14",
       "targetPath": "tests/reinforcedConcreteSectionApplication.test.ts",
-      "migrationSlices": ["0004-ntc2018-uls-uniaxial-concrete-resistance"],
+      "migrationSlices": [
+        "0004-ntc2018-uls-uniaxial-concrete-resistance",
+        "0139-applications-rc-section-state-integrator-public-export"
+      ],
       "sourceOracles": ["tests/reinforcedConcreteSectionApplication.test.js"],
       "targetTests": [
         "tests/baseline-parity.test.ts",
         "tests/concrete-resistance-baseline-parity.test.ts",
-        "tests/concrete-section-resistance.test.ts"
+        "tests/concrete-section-resistance.test.ts",
+        "tests/rc-section-state-integrator-compile-time.test.ts",
+        "tests/rc-section-state-integrator-live-parity.test.ts"
       ],
-      "validationEvidence": ["0004-ntc2018-uls-uniaxial-concrete-resistance"],
+      "validationEvidence": [
+        "0004-ntc2018-uls-uniaxial-concrete-resistance",
+        "0139-applications-rc-section-state-integrator-public-export"
+      ],
       "status": "exact-parity",
       "testKind": "test"
     },
@@ -42825,16 +42875,32 @@
         "publicStrings": "exact equality plus Unicode code-point preservation",
         "errors": "no new error branch; constructor and validation errors remain covered by dependency slices"
       }
+    },
+    {
+      "sliceId": "0139-applications-rc-section-state-integrator-public-export",
+      "sourceRevision": "6f33baead8b88166c4b2cf94af41763412e3c751",
+      "method": "Strict declaration consumer coverage and independently executed pinned JavaScript versus built TypeScript comparison of the root export, direct class identity independence, complete serializable evaluation, axial and resultant fast evaluators, numeric values, and exact validation errors.",
+      "targetTests": [
+        "tests/rc-section-state-integrator-compile-time.test.ts",
+        "tests/rc-section-state-integrator-live-parity.test.ts"
+      ],
+      "fixture": null,
+      "tolerances": {
+        "serializedParity": "exact complete result JSON and error records",
+        "numericParity": "exact N, Mx, My, fiber and bar response values for the bounded fixture",
+        "publicStrings": "exact error messages and serialized strings",
+        "errors": "exact error name and message equality for missing inputs, unsupported response and missing softening energy"
+      }
     }
   ],
   "counts": {
     "rootExports": {
       "javascript": 841,
-      "typescript": 732
+      "typescript": 733
     },
     "applicationsExports": {
       "javascript": 309,
-      "typescript": 205
+      "typescript": 206
     },
     "packageEntryPoints": {
       "javascript": 14,
@@ -42858,7 +42924,7 @@
     },
     "tests": {
       "javascript": 131,
-      "typescript": 264
+      "typescript": 266
     },
     "validationCampaigns": {
       "javascript": 17,
@@ -42909,7 +42975,7 @@
     "applications": {
       "statusCounts": {
         "exact-parity": 0,
-        "partial": 15,
+        "partial": 13,
         "missing": 334,
         "intentionally-excluded": 0,
         "decision-required": 0
@@ -42956,7 +43022,6 @@
         "application-export:MicropileBromsModel",
         "application-export:NTC2018MasonryPierAnalysis",
         "application-export:NTC2018MasonryPierModel",
-        "application-export:RCSectionStateIntegrator",
         "application-export:SingleBeamDesignApplication",
         "application-export:SingleBeamDesignModel",
         "application-export:SteelDisplacementControlPushoverSolver2D",
@@ -43090,7 +43155,6 @@
         "root-export:MicropileBromsModel",
         "root-export:NTC2018MasonryPierAnalysis",
         "root-export:NTC2018MasonryPierModel",
-        "root-export:RCSectionStateIntegrator",
         "root-export:SingleBeamDesignApplication",
         "root-export:SingleBeamDesignModel",
         "root-export:SteelDisplacementControlPushoverSolver2D",
@@ -43270,7 +43334,7 @@
       "statusCounts": {
         "exact-parity": 0,
         "partial": 4,
-        "missing": 118,
+        "missing": 117,
         "intentionally-excluded": 0,
         "decision-required": 0
       },
@@ -43392,7 +43456,6 @@
         "test:tests/masonryWallOpeningsStateComparison.test.js",
         "test:tests/masonryWallOpeningsStateComparisonReport.test.js",
         "test:tests/masonryWallOpeningsStaticAnalysis.test.js",
-        "test:tests/rcFiberAnalysis.test.js",
         "test:tests/run-tests.js",
         "test:tests/steelFrameAdvancedVerification.test.js",
         "test:tests/steelRingFramePushover.test.js",
