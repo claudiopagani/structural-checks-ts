@@ -817,6 +817,27 @@ export type {
   VerifySteelShearTorsionInteractionOptions,
   VerifySteelWebShearBucklingOptions,
 } from "./applications/steel-frames/checks/SteelAdvancedMemberChecks.js";
+export {
+  calculateSteelMethodBInteractionCoefficients,
+  calculateSteelMethodBInteractionCoefficientsMyMz,
+  verifySteelBeamColumnInteractionMy,
+  verifySteelBeamColumnInteractionMyMz,
+} from "./applications/steel-frames/checks/SteelBeamColumnInteraction.js";
+export type {
+  CalculateSteelMethodBInteractionCoefficientsMyMzOptions,
+  CalculateSteelMethodBInteractionCoefficientsOptions,
+  SteelBeamColumnCatalogPropertiesLike,
+  SteelBeamColumnInteractionCheck,
+  SteelBeamColumnInteractionResult,
+  SteelBeamColumnMaterialLike,
+  SteelBeamColumnSectionLike,
+  SteelCompressionBucklingAxisResultLike,
+  SteelCompressionBucklingResultLike,
+  SteelMethodBBiaxialInteractionCoefficients,
+  SteelMethodBInteractionCoefficients,
+  VerifySteelBeamColumnInteractionMyMzOptions,
+  VerifySteelBeamColumnInteractionMyOptions,
+} from "./applications/steel-frames/checks/SteelBeamColumnInteraction.js";
 export { SteelPlasticHingeFrameElement2D } from "./applications/steel-frames/analysis/SteelPlasticHingeFrameElement2D.js";
 export type {
   SteelPlasticHingeCondensationOperators,

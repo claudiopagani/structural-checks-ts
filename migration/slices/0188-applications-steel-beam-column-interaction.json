@@ -1,0 +1,106 @@
+{
+  "schemaVersion": 1,
+  "sliceId": "0188-applications-steel-beam-column-interaction",
+  "title": "Steel beam-column Method B interaction checks",
+  "migrationType": "mechanical-parity",
+  "implementationStatus": "implemented",
+  "dependencies": [],
+  "source": {
+    "repository": "https://github.com/claudiopagani/strutture-js",
+    "revision": "6f33baead8b88166c4b2cf94af41763412e3c751"
+  },
+  "normativeCorpusRevision": "41da3faa489600173106935bbcf726119300e48d",
+  "sourceFiles": [
+    {
+      "path": "src/applications/steel-frames/checks/SteelBeamColumnInteraction.js",
+      "gitBlobSha1": "a4bb0d71b3d3a9c44a421695b840b264163e3b9f",
+      "targetPath": "src/applications/steel-frames/checks/SteelBeamColumnInteraction.ts"
+    }
+  ],
+  "supportingSourceFiles": [
+    {
+      "path": "src/applications/steel-frames/index.js",
+      "gitBlobSha1": "00b0b647649aff91fa05b523a18df186f588223f",
+      "coverage": "Pinned steel-frames barrel exports for Method B interaction coefficients and N+My/N+My+Mz checks."
+    },
+    {
+      "path": "src/applications/index.js",
+      "gitBlobSha1": "b70179c7cdd2a819f2151dc092c0f59cbce30ba6",
+      "coverage": "Pinned applications barrel reexports for the migrated Method B interaction functions."
+    },
+    {
+      "path": "src/index.js",
+      "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7",
+      "coverage": "Pinned root public exports for the four Method B interaction functions."
+    }
+  ],
+  "sourceOracles": [
+    {
+      "path": "tests/steelFrameAdvancedVerification.test.js",
+      "gitBlobSha1": "a3feaae57dc36a9f749a98cc43e9382ec4e12174",
+      "coverage": "Pinned numerical Method B biaxial interaction scenario and exact public metadata."
+    },
+    {
+      "path": "tests/steelBeamSectionProvider.test.js",
+      "gitBlobSha1": "0c0b3548262ac408961ea9a48c5649b228c0bebd",
+      "coverage": "Pinned standalone N+My and N+My+Mz interaction scenarios, coefficient branches and unsupported inputs."
+    },
+    {
+      "path": "tests/packageExports.test.js",
+      "gitBlobSha1": "8dde24b4c97dd3dae7100207d07d9d96c52b9c74",
+      "coverage": "Pinned public package export and root-alias oracle."
+    }
+  ],
+  "sourcePublicExport": {
+    "path": "src/index.js",
+    "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
+  },
+  "targetTests": [
+    "tests/baseline-parity.test.ts",
+    "tests/steel-beam-column-interaction-compile-time.test.ts",
+    "tests/steel-beam-column-interaction-live-parity.test.ts"
+  ],
+  "publicExports": [
+    "calculateSteelMethodBInteractionCoefficients",
+    "calculateSteelMethodBInteractionCoefficientsMyMz",
+    "verifySteelBeamColumnInteractionMy",
+    "verifySteelBeamColumnInteractionMyMz"
+  ],
+  "publicTypeExports": [
+    "CalculateSteelMethodBInteractionCoefficientsMyMzOptions",
+    "CalculateSteelMethodBInteractionCoefficientsOptions",
+    "SteelBeamColumnCatalogPropertiesLike",
+    "SteelBeamColumnInteractionCheck",
+    "SteelBeamColumnInteractionResult",
+    "SteelBeamColumnMaterialLike",
+    "SteelBeamColumnSectionLike",
+    "SteelCompressionBucklingAxisResultLike",
+    "SteelCompressionBucklingResultLike",
+    "SteelMethodBBiaxialInteractionCoefficients",
+    "SteelMethodBInteractionCoefficients",
+    "VerifySteelBeamColumnInteractionMyMzOptions",
+    "VerifySteelBeamColumnInteractionMyOptions"
+  ],
+  "normativeReferences": {
+    "resolved": [],
+    "outsideCorpus": [],
+    "normativeConformityClaimed": false,
+    "status": "classified-for-declared-scope"
+  },
+  "independentValidation": {
+    "method": "Strict typed consumer declarations and independently executed pinned JavaScript versus built TypeScript comparison of exact coefficient and interaction JSON, numerical metadata, public aliases, Unicode warnings, unsupported behavior and null-input errors.",
+    "targetTests": [
+      "tests/steel-beam-column-interaction-compile-time.test.ts",
+      "tests/steel-beam-column-interaction-live-parity.test.ts"
+    ],
+    "fixture": "Independent IPE section, material and compression-axis reduction fixture covering uniaxial and biaxial Method B coefficients, N+My and N+My+Mz checks, compression-sign conventions, unsupported family/class/missing-input branches, Unicode warnings and null-input errors.",
+    "tolerances": {
+      "serializedParity": "exact JSON and enumerable result key order",
+      "numericParity": "exact coefficients, utilization ratios, resistances and metadata values",
+      "publicStrings": "exact Method B identifiers, warnings, descriptions and Unicode code-point comparison",
+      "errors": "exact TypeError name and message for null options"
+    }
+  },
+  "parityDifferences": [],
+  "engineeringFunctionality": "Strict TypeScript parity for steel beam-column Method B interaction coefficients and N+My/N+My+Mz checks; compression buckling, lateral-torsional buckling, member orchestration and steel application composition remain outside this slice."
+}
