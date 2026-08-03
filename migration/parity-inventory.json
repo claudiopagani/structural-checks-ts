@@ -1349,6 +1349,7 @@
         "ThermalAction",
         "TimberBeamModel",
         "TimberBeamSectionProvider",
+        "TimberBeamVerification",
         "TimberDowelConnector",
         "TimberMaterial",
         "TrafficAction",
@@ -20291,11 +20292,19 @@
       "sourcePath": "src/applications/timber-beams/checks/TimberBeamVerification.js",
       "sourceBlobSha1": "f6e3caf2023a120402054851b98e5a1312b4771d",
       "targetPath": "src/applications/timber-beams/checks/TimberBeamVerification.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0209-applications-timber-beam-verification"],
+      "sourceOracles": [
+        "tests/packageExports.test.js",
+        "tests/singleBeamAnalysis.test.js",
+        "tests/timberBeamSectionProvider.test.js"
+      ],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/timber-beam-verification-compile-time.test.ts",
+        "tests/timber-beam-verification-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0209-applications-timber-beam-verification"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -27670,11 +27679,19 @@
       "sourcePath": "src/applications/timber-beams/checks/TimberBeamVerification.js",
       "sourceBlobSha1": "f6e3caf2023a120402054851b98e5a1312b4771d",
       "targetPath": "src/applications/timber-beams/checks/TimberBeamVerification.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0209-applications-timber-beam-verification"],
+      "sourceOracles": [
+        "tests/packageExports.test.js",
+        "tests/singleBeamAnalysis.test.js",
+        "tests/timberBeamSectionProvider.test.js"
+      ],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/timber-beam-verification-compile-time.test.ts",
+        "tests/timber-beam-verification-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0209-applications-timber-beam-verification"],
+      "status": "exact-parity",
       "publicEntryPath": "src/applications/index.js",
       "publicEntryBlobSha1": "b70179c7cdd2a819f2151dc092c0f59cbce30ba6"
     },
@@ -34488,11 +34505,19 @@
       "sourcePath": "src/applications/timber-beams/checks/TimberBeamVerification.js",
       "sourceBlobSha1": "f6e3caf2023a120402054851b98e5a1312b4771d",
       "targetPath": "src/applications/timber-beams/checks/TimberBeamVerification.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing"
+      "migrationSlices": ["0209-applications-timber-beam-verification"],
+      "sourceOracles": [
+        "tests/packageExports.test.js",
+        "tests/singleBeamAnalysis.test.js",
+        "tests/timberBeamSectionProvider.test.js"
+      ],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/timber-beam-verification-compile-time.test.ts",
+        "tests/timber-beam-verification-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0209-applications-timber-beam-verification"],
+      "status": "exact-parity"
     },
     {
       "id": "src/applications/timber-beams/checks/TimberLateralTorsionalStability.js",
@@ -38333,7 +38358,8 @@
         "0205-applications-masonry-wall-openings-application",
         "0206-applications-steel-frame-application",
         "0207-applications-timber-lateral-torsional-stability",
-        "0208-applications-timber-beam-model"
+        "0208-applications-timber-beam-model",
+        "0209-applications-timber-beam-verification"
       ],
       "sourceOracles": [
         "tests/architecture/applicationRegistry.test.js",
@@ -41568,7 +41594,8 @@
         "0200-applications-steel-member-verification",
         "0205-applications-masonry-wall-openings-application",
         "0206-applications-steel-frame-application",
-        "0208-applications-timber-beam-model"
+        "0208-applications-timber-beam-model",
+        "0209-applications-timber-beam-verification"
       ],
       "sourceOracles": ["tests/packageExports.test.js"],
       "targetTests": [
@@ -41816,6 +41843,8 @@
         "tests/terrain-public-index-live-parity.test.ts",
         "tests/timber-beam-model-compile-time.test.ts",
         "tests/timber-beam-model-live-parity.test.ts",
+        "tests/timber-beam-verification-compile-time.test.ts",
+        "tests/timber-beam-verification-live-parity.test.ts",
         "tests/wall-soil-reaction-law-compile-time.test.ts",
         "tests/wall-soil-reaction-law-live-parity.test.ts"
       ],
@@ -41945,7 +41974,8 @@
         "0200-applications-steel-member-verification",
         "0205-applications-masonry-wall-openings-application",
         "0206-applications-steel-frame-application",
-        "0208-applications-timber-beam-model"
+        "0208-applications-timber-beam-model",
+        "0209-applications-timber-beam-verification"
       ],
       "status": "exact-parity",
       "testKind": "test"
@@ -42565,14 +42595,24 @@
       "sourcePath": "tests/singleBeamAnalysis.test.js",
       "sourceBlobSha1": "51953d4223895ce3268eaf2a6089729546752fdc",
       "targetPath": "tests/singleBeamAnalysis.test.ts",
-      "migrationSlices": ["0014-reinforced-concrete-beam-member", "0022-single-beam-analysis"],
+      "migrationSlices": [
+        "0014-reinforced-concrete-beam-member",
+        "0022-single-beam-analysis",
+        "0209-applications-timber-beam-verification"
+      ],
       "sourceOracles": ["tests/singleBeamAnalysis.test.js"],
       "targetTests": [
         "tests/baseline-parity.test.ts",
         "tests/concrete-beam-member.test.ts",
-        "tests/single-beam-analysis.test.ts"
+        "tests/single-beam-analysis.test.ts",
+        "tests/timber-beam-verification-compile-time.test.ts",
+        "tests/timber-beam-verification-live-parity.test.ts"
       ],
-      "validationEvidence": ["0014-reinforced-concrete-beam-member", "0022-single-beam-analysis"],
+      "validationEvidence": [
+        "0014-reinforced-concrete-beam-member",
+        "0022-single-beam-analysis",
+        "0209-applications-timber-beam-verification"
+      ],
       "status": "exact-parity",
       "testKind": "test"
     },
@@ -42813,7 +42853,8 @@
         "0041-domain-beam-section-providers",
         "0134-norms-ntc2018-timber-factory",
         "0207-applications-timber-lateral-torsional-stability",
-        "0208-applications-timber-beam-model"
+        "0208-applications-timber-beam-model",
+        "0209-applications-timber-beam-verification"
       ],
       "sourceOracles": ["tests/timberBeamSectionProvider.test.js"],
       "targetTests": [
@@ -42824,6 +42865,8 @@
         "tests/ntc2018-timber-factory-live-parity.test.ts",
         "tests/timber-beam-model-compile-time.test.ts",
         "tests/timber-beam-model-live-parity.test.ts",
+        "tests/timber-beam-verification-compile-time.test.ts",
+        "tests/timber-beam-verification-live-parity.test.ts",
         "tests/timber-lateral-torsional-stability-compile-time.test.ts",
         "tests/timber-lateral-torsional-stability-live-parity.test.ts"
       ],
@@ -42831,7 +42874,8 @@
         "0041-domain-beam-section-providers",
         "0134-norms-ntc2018-timber-factory",
         "0207-applications-timber-lateral-torsional-stability",
-        "0208-applications-timber-beam-model"
+        "0208-applications-timber-beam-model",
+        "0209-applications-timber-beam-verification"
       ],
       "status": "exact-parity",
       "testKind": "test"
@@ -47069,16 +47113,32 @@
         "publicStrings": "exact identifiers, metadata and Unicode code points",
         "errors": "exact missing model id error name and message comparison"
       }
+    },
+    {
+      "sliceId": "0209-applications-timber-beam-verification",
+      "sourceRevision": "6f33baead8b88166c4b2cf94af41763412e3c751",
+      "method": "Strict typed consumer declarations and independently executed pinned JavaScript versus built TypeScript differential comparison for default construction, missing-input results, complete FEM timber verification JSON, Unicode values and unsupported-unit errors.",
+      "targetTests": [
+        "tests/timber-beam-verification-compile-time.test.ts",
+        "tests/timber-beam-verification-live-parity.test.ts"
+      ],
+      "fixture": "Independent timber beam section, timber material, ULS FEM principal-axis samples, SLE rare/final deflections and Unicode metadata.",
+      "tolerances": {
+        "serializedParity": "exact verifier fields, checks, outputs, warnings, assumptions and metadata JSON",
+        "numericParity": "exact utilization, demand, capacity, deflection, stability and unit-converted values",
+        "publicStrings": "exact summaries, warnings, assumptions, identifiers and Unicode code points",
+        "errors": "exact unsupported-unit error name and message comparison"
+      }
     }
   ],
   "counts": {
     "rootExports": {
       "javascript": 841,
-      "typescript": 819
+      "typescript": 820
     },
     "applicationsExports": {
       "javascript": 309,
-      "typescript": 292
+      "typescript": 293
     },
     "packageEntryPoints": {
       "javascript": 14,
@@ -47098,11 +47158,11 @@
     },
     "sourceFiles": {
       "javascript": 480,
-      "typescript": 471
+      "typescript": 472
     },
     "tests": {
       "javascript": 131,
-      "typescript": 402
+      "typescript": 404
     },
     "validationCampaigns": {
       "javascript": 17,
@@ -47154,13 +47214,12 @@
       "statusCounts": {
         "exact-parity": 0,
         "partial": 27,
-        "missing": 59,
+        "missing": 56,
         "intentionally-excluded": 0,
         "decision-required": 0
       },
       "itemIds": [
         "application-export:TimberBeamApplication",
-        "application-export:TimberBeamVerification",
         "application-export:TimberConcreteCompositeBeamApplication",
         "application-export:TimberConcreteCompositeBeamModel",
         "application-export:TimberConcreteCompositeBeamSectionProvider",
@@ -47207,7 +47266,6 @@
         "registry:timber-xlam-composite-beams",
         "registry:xlam-panels-out-of-plane",
         "root-export:TimberBeamApplication",
-        "root-export:TimberBeamVerification",
         "root-export:TimberConcreteCompositeBeamApplication",
         "root-export:TimberConcreteCompositeBeamModel",
         "root-export:TimberConcreteCompositeBeamSectionProvider",
@@ -47227,7 +47285,6 @@
         "source:src/applications/reinforced-concrete-plates/README.md",
         "source:src/applications/steel-frames/index.js",
         "source:src/applications/timber-beams/TimberBeamApplication.js",
-        "source:src/applications/timber-beams/checks/TimberBeamVerification.js",
         "source:src/applications/timber-beams/index.js",
         "source:src/applications/timber-concrete-composite-beams/TimberConcreteCompositeBeamApplication.js",
         "source:src/applications/timber-concrete-composite-beams/analysis/TimberConcreteCompositeBeamSectionProvider.js",

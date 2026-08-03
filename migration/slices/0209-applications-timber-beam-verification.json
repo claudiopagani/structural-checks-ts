@@ -1,0 +1,89 @@
+{
+  "schemaVersion": 1,
+  "sliceId": "0209-applications-timber-beam-verification",
+  "title": "Timber beam verification",
+  "migrationType": "mechanical-parity",
+  "implementationStatus": "implemented",
+  "dependencies": [
+    "0001-foundation",
+    "0014-reinforced-concrete-beam-member",
+    "0207-applications-timber-lateral-torsional-stability",
+    "0208-applications-timber-beam-model"
+  ],
+  "source": {
+    "repository": "https://github.com/claudiopagani/strutture-js",
+    "revision": "6f33baead8b88166c4b2cf94af41763412e3c751"
+  },
+  "normativeCorpusRevision": "41da3faa489600173106935bbcf726119300e48d",
+  "sourceFiles": [
+    {
+      "path": "src/applications/timber-beams/checks/TimberBeamVerification.js",
+      "gitBlobSha1": "f6e3caf2023a120402054851b98e5a1312b4771d",
+      "targetPath": "src/applications/timber-beams/checks/TimberBeamVerification.ts"
+    }
+  ],
+  "supportingSourceFiles": [
+    {
+      "path": "src/applications/timber-beams/index.js",
+      "gitBlobSha1": "b1a6dbf458601210a81815d0ce722831b347465c",
+      "coverage": "Pinned timber-beams barrel context; only TimberBeamVerification is supported in this slice."
+    },
+    {
+      "path": "src/index.js",
+      "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7",
+      "coverage": "Pinned root public export context for TimberBeamVerification."
+    }
+  ],
+  "sourceOracles": [
+    {
+      "path": "tests/singleBeamAnalysis.test.js",
+      "gitBlobSha1": "51953d4223895ce3268eaf2a6089729546752fdc",
+      "coverage": "Pinned FEM beam action samples, limit states, verification stations and result contracts."
+    },
+    {
+      "path": "tests/timberBeamSectionProvider.test.js",
+      "gitBlobSha1": "e5303c179d99849a13ad94f5b1be88acfa23bdef",
+      "coverage": "Pinned timber section/material properties and units used by the verifier."
+    },
+    {
+      "path": "tests/packageExports.test.js",
+      "gitBlobSha1": "8dde24b4c97dd3dae7100207d07d9d96c52b9c74",
+      "coverage": "Pinned public TimberBeamVerification export behavior."
+    }
+  ],
+  "sourcePublicExport": {
+    "path": "src/index.js",
+    "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
+  },
+  "targetTests": [
+    "tests/baseline-parity.test.ts",
+    "tests/timber-beam-verification-compile-time.test.ts",
+    "tests/timber-beam-verification-live-parity.test.ts"
+  ],
+  "publicExports": ["TimberBeamVerification"],
+  "publicTypeExports": ["TimberBeamVerificationInput", "TimberBeamVerificationOptions"],
+  "normativeReferences": {
+    "resolved": [],
+    "outsideCorpus": [],
+    "normativeConformityClaimed": false,
+    "status": "classified-for-declared-scope"
+  },
+  "independentValidation": {
+    "method": "Strict typed consumer declarations and independently executed pinned JavaScript versus built TypeScript differential comparison for default construction, missing-input results, complete FEM timber verification JSON, Unicode values and unsupported-unit errors.",
+    "targetTests": [
+      "tests/timber-beam-verification-compile-time.test.ts",
+      "tests/timber-beam-verification-live-parity.test.ts"
+    ],
+    "fixture": "Independent timber beam section, timber material, ULS FEM principal-axis samples, SLE rare/final deflections and Unicode metadata.",
+    "tolerances": {
+      "serializedParity": "exact verifier fields, checks, outputs, warnings, assumptions and metadata JSON",
+      "numericParity": "exact utilization, demand, capacity, deflection, stability and unit-converted values",
+      "publicStrings": "exact summaries, warnings, assumptions, identifiers and Unicode code points",
+      "errors": "exact unsupported-unit error name and message comparison"
+    }
+  },
+  "parityDifferences": [
+    "Strict TypeScript declarations are added for TimberBeamVerification and its consumer input/options."
+  ],
+  "engineeringFunctionality": "Strict TypeScript parity for the timber beam verification workflow, including ULS bending/shear, lateral-torsional stability, SLE deflection, result grouping, defaults and unsupported-input behavior; TimberBeamApplication and registry composition remain outside this slice."
+}
