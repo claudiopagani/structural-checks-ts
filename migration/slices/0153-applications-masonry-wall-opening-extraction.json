@@ -1,0 +1,102 @@
+{
+  "schemaVersion": 1,
+  "sliceId": "0153-applications-masonry-wall-opening-extraction",
+  "title": "Masonry wall opening equivalent-frame extraction",
+  "migrationType": "mechanical-parity-with-minimal-dependency-support",
+  "implementationStatus": "implemented",
+  "dependencies": [
+    "0151-applications-masonry-wall-opening-models",
+    "0152-applications-masonry-wall-opening-sanitization"
+  ],
+  "source": {
+    "repository": "https://github.com/claudiopagani/strutture-js",
+    "revision": "6f33baead8b88166c4b2cf94af41763412e3c751"
+  },
+  "normativeCorpusRevision": "41da3faa489600173106935bbcf726119300e48d",
+  "sourceFiles": [
+    {
+      "path": "src/applications/masonry-wall-openings/geometry/extractEquivalentFrameMembers.js",
+      "gitBlobSha1": "f53206c21a3bbaf0e80c4423dc11434ba369a0e1",
+      "targetPath": "src/applications/masonry-wall-openings/geometry/extractEquivalentFrameMembers.ts"
+    }
+  ],
+  "supportingSourceFiles": [
+    {
+      "path": "src/applications/masonry-wall-openings/models/MasonryWallPierModel.js",
+      "gitBlobSha1": "f833e2e20d5d217de04cd826e60dc774bfcee287",
+      "targetPath": "src/applications/masonry-wall-openings/models/MasonryWallPierModel.ts",
+      "coverage": "Already-migrated pier DTO instantiated by extraction."
+    },
+    {
+      "path": "src/applications/masonry-wall-openings/models/MasonryWallSpandrelModel.js",
+      "gitBlobSha1": "ef126c841a375d0b63315b764ca56cc9a63bcc26",
+      "targetPath": "src/applications/masonry-wall-openings/models/MasonryWallSpandrelModel.ts",
+      "coverage": "Already-migrated spandrel DTO instantiated by extraction."
+    },
+    {
+      "path": "src/applications/masonry-wall-openings/geometry/sanitizeAlignmentOpenings.js",
+      "gitBlobSha1": "a964ff7e3b9d871aadaec919706c384233ccb298",
+      "targetPath": "src/applications/masonry-wall-openings/geometry/sanitizeAlignmentOpenings.ts",
+      "coverage": "Already-migrated sanitizer used when sanitized openings are not supplied."
+    },
+    {
+      "path": "src/core/results/checkUtils.js",
+      "gitBlobSha1": "d51d6a797dde97218422e79dca30727eacb26cad",
+      "targetPath": "src/core/results/checkUtils.ts",
+      "coverage": "Already-migrated unique-string warning helper."
+    },
+    {
+      "path": "src/index.js",
+      "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7",
+      "targetPath": "src/index.ts",
+      "coverage": "Pinned root public-export context for extractEquivalentFrameMembers."
+    }
+  ],
+  "sourceOracles": [
+    {
+      "path": "tests/masonryWallOpeningsExtraction.test.js",
+      "gitBlobSha1": "6020893737c30515eaf9c5e2496ff8fca6566a21",
+      "coverage": "Equivalent-frame pier and spandrel extraction, Dolce deformable zones, ring-frame reductions, wall-joint handling and stacked-opening limits."
+    },
+    {
+      "path": "tests/packageExports.test.js",
+      "gitBlobSha1": "8dde24b4c97dd3dae7100207d07d9d96c52b9c74",
+      "coverage": "Pinned root public export behavior."
+    }
+  ],
+  "sourcePublicExport": {
+    "path": "src/index.js",
+    "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
+  },
+  "targetTests": [
+    "tests/baseline-parity.test.ts",
+    "tests/masonry-wall-opening-extraction-compile-time.test.ts",
+    "tests/masonry-wall-opening-extraction-live-parity.test.ts"
+  ],
+  "publicExports": ["extractEquivalentFrameMembers"],
+  "publicTypeExports": ["EquivalentFrameMembersResult", "ExtractEquivalentFrameMembersInput"],
+  "normativeReferences": {
+    "resolved": [],
+    "outsideCorpus": [],
+    "normativeConformityClaimed": false,
+    "status": "classified-for-declared-scope"
+  },
+  "independentValidation": {
+    "method": "Strict declaration consumer coverage and independently executed pinned JavaScript versus built TypeScript comparison of exact pier/spandrel JSON, wall-joint partitioning, Dolce 30-degree geometry, ring-frame reductions, stacked-opening caps, warnings, assumptions, Unicode identifiers, independent function identity and matching invalid-input errors.",
+    "targetTests": [
+      "tests/masonry-wall-opening-extraction-compile-time.test.ts",
+      "tests/masonry-wall-opening-extraction-live-parity.test.ts"
+    ],
+    "fixture": "Single-window, separate-wall-joint, cross-joint, ring-frame and stacked-opening alignments with exact source-compatible model normalization.",
+    "tolerances": {
+      "serializedParity": "exact extracted model JSON and result metadata",
+      "numericParity": "exact pier/spandrel geometry, reductions and Dolce deformable heights",
+      "publicStrings": "exact assumptions, warnings, errors and Unicode identifiers",
+      "errors": "exact incompatible-alignment error behavior"
+    }
+  },
+  "parityDifferences": [
+    "The extractor is exported from the root directly; the broader masonry-wall-openings application barrel remains deferred until its remaining analysis and report dependencies are migrated."
+  ],
+  "engineeringFunctionality": "Source-compatible equivalent-frame pier and spandrel extraction from sanitized masonry wall openings."
+}

@@ -460,6 +460,11 @@ export type {
   SanitizeAlignmentOpeningsResult,
   SanitizedAlignmentOpening,
 } from "./applications/masonry-wall-openings/geometry/sanitizeAlignmentOpenings.js";
+export { extractEquivalentFrameMembers } from "./applications/masonry-wall-openings/geometry/extractEquivalentFrameMembers.js";
+export type {
+  EquivalentFrameMembersResult,
+  ExtractEquivalentFrameMembersInput,
+} from "./applications/masonry-wall-openings/geometry/extractEquivalentFrameMembers.js";
 export {
   AXIAL_PILE_CAPACITY_REFERENCE,
   AXIAL_PILE_CAPACITY_RESULT_SCHEMA_VERSION,
