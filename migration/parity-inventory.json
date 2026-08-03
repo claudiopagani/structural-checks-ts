@@ -1321,6 +1321,7 @@
         "SteelPlasticHingeFrameElement2D",
         "SteelPlasticHingeState",
         "SteelProfileSection",
+        "SteelRingFramePushoverModel",
         "StrainField",
         "StructuralApplication",
         "StructuralElement",
@@ -19851,11 +19852,15 @@
       "sourcePath": "src/applications/steel-frames/models/SteelRingFramePushoverModel.js",
       "sourceBlobSha1": "99aca63f392165465e36f61569d74d89e5e406ca",
       "targetPath": "src/applications/steel-frames/models/SteelRingFramePushoverModel.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0196-applications-steel-ring-frame-pushover-model"],
+      "sourceOracles": ["tests/packageExports.test.js", "tests/steelRingFramePushover.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/steel-ring-frame-pushover-model-compile-time.test.ts",
+        "tests/steel-ring-frame-pushover-model-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0196-applications-steel-ring-frame-pushover-model"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -27406,11 +27411,15 @@
       "sourcePath": "src/applications/steel-frames/models/SteelRingFramePushoverModel.js",
       "sourceBlobSha1": "99aca63f392165465e36f61569d74d89e5e406ca",
       "targetPath": "src/applications/steel-frames/models/SteelRingFramePushoverModel.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0196-applications-steel-ring-frame-pushover-model"],
+      "sourceOracles": ["tests/packageExports.test.js", "tests/steelRingFramePushover.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/steel-ring-frame-pushover-model-compile-time.test.ts",
+        "tests/steel-ring-frame-pushover-model-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0196-applications-steel-ring-frame-pushover-model"],
+      "status": "exact-parity",
       "publicEntryPath": "src/applications/index.js",
       "publicEntryBlobSha1": "b70179c7cdd2a819f2151dc092c0f59cbce30ba6"
     },
@@ -34194,11 +34203,15 @@
       "sourcePath": "src/applications/steel-frames/models/SteelRingFramePushoverModel.js",
       "sourceBlobSha1": "99aca63f392165465e36f61569d74d89e5e406ca",
       "targetPath": "src/applications/steel-frames/models/SteelRingFramePushoverModel.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing"
+      "migrationSlices": ["0196-applications-steel-ring-frame-pushover-model"],
+      "sourceOracles": ["tests/packageExports.test.js", "tests/steelRingFramePushover.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/steel-ring-frame-pushover-model-compile-time.test.ts",
+        "tests/steel-ring-frame-pushover-model-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0196-applications-steel-ring-frame-pushover-model"],
+      "status": "exact-parity"
     },
     {
       "id": "src/applications/timber-beams/TimberBeamApplication.js",
@@ -38040,7 +38053,8 @@
         "0191-applications-steel-lateral-torsional-buckling",
         "0192-applications-steel-section-classification",
         "0193-applications-steel-verification-capabilities",
-        "0194-applications-steel-member-fem-3d-contract"
+        "0194-applications-steel-member-fem-3d-contract",
+        "0196-applications-steel-ring-frame-pushover-model"
       ],
       "sourceOracles": [
         "tests/architecture/applicationRegistry.test.js",
@@ -41209,7 +41223,8 @@
         "0192-applications-steel-section-classification",
         "0193-applications-steel-verification-capabilities",
         "0194-applications-steel-member-fem-3d-contract",
-        "0195-applications-steel-member-verification-policies"
+        "0195-applications-steel-member-verification-policies",
+        "0196-applications-steel-ring-frame-pushover-model"
       ],
       "sourceOracles": ["tests/packageExports.test.js"],
       "targetTests": [
@@ -41431,6 +41446,8 @@
         "tests/steel-plastic-hinge-frame-element-live-parity.test.ts",
         "tests/steel-plastic-hinge-state-compile-time.test.ts",
         "tests/steel-plastic-hinge-state-live-parity.test.ts",
+        "tests/steel-ring-frame-pushover-model-compile-time.test.ts",
+        "tests/steel-ring-frame-pushover-model-live-parity.test.ts",
         "tests/steel-section-classification-compile-time.test.ts",
         "tests/steel-section-classification-live-parity.test.ts",
         "tests/steel-verification-capabilities-compile-time.test.ts",
@@ -41562,7 +41579,8 @@
         "0192-applications-steel-section-classification",
         "0193-applications-steel-verification-capabilities",
         "0194-applications-steel-member-fem-3d-contract",
-        "0195-applications-steel-member-verification-policies"
+        "0195-applications-steel-member-verification-policies",
+        "0196-applications-steel-ring-frame-pushover-model"
       ],
       "status": "exact-parity",
       "testKind": "test"
@@ -42374,7 +42392,8 @@
         "0182-applications-steel-plastic-hinge-state",
         "0184-applications-steel-plastic-hinge-frame-element",
         "0185-applications-steel-ring-frame-internal-forces",
-        "0186-applications-steel-displacement-control-pushover-solver"
+        "0186-applications-steel-displacement-control-pushover-solver",
+        "0196-applications-steel-ring-frame-pushover-model"
       ],
       "sourceOracles": ["tests/steelRingFramePushover.test.js"],
       "targetTests": [
@@ -42386,13 +42405,16 @@
         "tests/steel-plastic-hinge-state-compile-time.test.ts",
         "tests/steel-plastic-hinge-state-live-parity.test.ts",
         "tests/steel-ring-frame-internal-forces-compile-time.test.ts",
-        "tests/steel-ring-frame-internal-forces-live-parity.test.ts"
+        "tests/steel-ring-frame-internal-forces-live-parity.test.ts",
+        "tests/steel-ring-frame-pushover-model-compile-time.test.ts",
+        "tests/steel-ring-frame-pushover-model-live-parity.test.ts"
       ],
       "validationEvidence": [
         "0182-applications-steel-plastic-hinge-state",
         "0184-applications-steel-plastic-hinge-frame-element",
         "0185-applications-steel-ring-frame-internal-forces",
-        "0186-applications-steel-displacement-control-pushover-solver"
+        "0186-applications-steel-displacement-control-pushover-solver",
+        "0196-applications-steel-ring-frame-pushover-model"
       ],
       "status": "exact-parity",
       "testKind": "test"
@@ -46446,16 +46468,32 @@
         "publicStrings": "exact statuses, warnings, method identifiers and Unicode code-point comparison",
         "errors": "exact null policy-options error name and message comparison"
       }
+    },
+    {
+      "sliceId": "0196-applications-steel-ring-frame-pushover-model",
+      "sourceRevision": "6f33baead8b88166c4b2cf94af41763412e3c751",
+      "method": "Strict typed consumer declarations and independently executed pinned JavaScript versus built TypeScript comparison of model defaults, unit normalization, aliases, member orientations, exact JSON, Unicode metadata, public export identity and constructor error paths.",
+      "targetTests": [
+        "tests/steel-ring-frame-pushover-model-compile-time.test.ts",
+        "tests/steel-ring-frame-pushover-model-live-parity.test.ts"
+      ],
+      "fixture": "Independent fixed and pinned ring-frame model fixtures with kN/m conversion, UPN default orientation, explicit weak-axis orientation, Italian aliases, Unicode metadata and unsupported-input cases.",
+      "tolerances": {
+        "serializedParity": "exact JSON and enumerable model key order",
+        "numericParity": "exact unit-normalized geometry, loading and solver values",
+        "publicStrings": "exact aliases, metadata, node identifiers, errors and Unicode code-point comparison",
+        "errors": "exact constructor error name and message comparisons"
+      }
     }
   ],
   "counts": {
     "rootExports": {
       "javascript": 841,
-      "typescript": 803
+      "typescript": 804
     },
     "applicationsExports": {
       "javascript": 309,
-      "typescript": 276
+      "typescript": 277
     },
     "packageEntryPoints": {
       "javascript": 14,
@@ -46475,11 +46513,11 @@
     },
     "sourceFiles": {
       "javascript": 480,
-      "typescript": 457
+      "typescript": 458
     },
     "tests": {
       "javascript": 131,
-      "typescript": 376
+      "typescript": 378
     },
     "validationCampaigns": {
       "javascript": 17,
@@ -46531,7 +46569,7 @@
       "statusCounts": {
         "exact-parity": 0,
         "partial": 26,
-        "missing": 106,
+        "missing": 103,
         "intentionally-excluded": 0,
         "decision-required": 0
       },
@@ -46547,7 +46585,6 @@
         "application-export:SteelMemberVerification",
         "application-export:SteelRingFrame2DBuilder",
         "application-export:SteelRingFramePushoverAnalysis",
-        "application-export:SteelRingFramePushoverModel",
         "application-export:TimberBeamApplication",
         "application-export:TimberBeamModel",
         "application-export:TimberBeamVerification",
@@ -46610,7 +46647,6 @@
         "root-export:SteelMemberVerification",
         "root-export:SteelRingFrame2DBuilder",
         "root-export:SteelRingFramePushoverAnalysis",
-        "root-export:SteelRingFramePushoverModel",
         "root-export:TimberBeamApplication",
         "root-export:TimberBeamModel",
         "root-export:TimberBeamVerification",
@@ -46646,7 +46682,6 @@
         "source:src/applications/steel-frames/analysis/SteelRingFramePushoverAnalysis.js",
         "source:src/applications/steel-frames/checks/SteelMemberVerification.js",
         "source:src/applications/steel-frames/index.js",
-        "source:src/applications/steel-frames/models/SteelRingFramePushoverModel.js",
         "source:src/applications/timber-beams/TimberBeamApplication.js",
         "source:src/applications/timber-beams/checks/TimberBeamVerification.js",
         "source:src/applications/timber-beams/checks/TimberLateralTorsionalStability.js",
