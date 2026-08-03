@@ -1,0 +1,87 @@
+{
+  "schemaVersion": 1,
+  "sliceId": "0210-applications-timber-beam-application",
+  "title": "Timber beam application",
+  "migrationType": "mechanical-parity",
+  "implementationStatus": "implemented",
+  "dependencies": [
+    "0004-ntc2018-uls-uniaxial-concrete-resistance",
+    "0209-applications-timber-beam-verification"
+  ],
+  "source": {
+    "repository": "https://github.com/claudiopagani/strutture-js",
+    "revision": "6f33baead8b88166c4b2cf94af41763412e3c751"
+  },
+  "normativeCorpusRevision": "41da3faa489600173106935bbcf726119300e48d",
+  "sourceFiles": [
+    {
+      "path": "src/applications/timber-beams/TimberBeamApplication.js",
+      "gitBlobSha1": "f33da835a59b366d2235b4125cd2c4ea0a3fcfc0",
+      "targetPath": "src/applications/timber-beams/TimberBeamApplication.ts"
+    }
+  ],
+  "supportingSourceFiles": [
+    {
+      "path": "src/core/applications/StructuralApplication.js",
+      "gitBlobSha1": "673e1f25c22eadc27e111853cc3a8c012f5fcad3",
+      "coverage": "Already-migrated structural application base and placeholder-result contract."
+    },
+    {
+      "path": "src/applications/timber-beams/index.js",
+      "gitBlobSha1": "b1a6dbf458601210a81815d0ce722831b347465c",
+      "coverage": "Pinned timber-beams barrel context; only TimberBeamApplication is supported in this slice."
+    },
+    {
+      "path": "src/index.js",
+      "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7",
+      "coverage": "Pinned root public export context for TimberBeamApplication."
+    }
+  ],
+  "sourceOracles": [
+    {
+      "path": "tests/architecture/applicationRegistry.test.js",
+      "gitBlobSha1": "f7c4ab649b9f19600ab5894ea112bf7613466cd4",
+      "coverage": "Pinned application identity, manifest and registry-facing metadata contract."
+    },
+    {
+      "path": "tests/packageExports.test.js",
+      "gitBlobSha1": "8dde24b4c97dd3dae7100207d07d9d96c52b9c74",
+      "coverage": "Pinned public TimberBeamApplication export behavior."
+    }
+  ],
+  "sourcePublicExport": {
+    "path": "src/index.js",
+    "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
+  },
+  "targetTests": [
+    "tests/baseline-parity.test.ts",
+    "tests/timber-beam-application-compile-time.test.ts",
+    "tests/timber-beam-application-live-parity.test.ts"
+  ],
+  "publicExports": ["TimberBeamApplication"],
+  "publicTypeExports": ["TimberBeamApplicationInput", "TimberBeamApplicationModel"],
+  "normativeReferences": {
+    "resolved": [],
+    "outsideCorpus": [],
+    "normativeConformityClaimed": false,
+    "status": "classified-for-declared-scope"
+  },
+  "independentValidation": {
+    "method": "Strict typed consumer declarations and independently executed pinned JavaScript versus built TypeScript differential comparison for application instance serialization, manifest metadata, missing-input placeholder delegation, default run behavior, public Unicode values and independent class identities.",
+    "targetTests": [
+      "tests/timber-beam-application-compile-time.test.ts",
+      "tests/timber-beam-application-live-parity.test.ts"
+    ],
+    "fixture": "Independent timber beam application instance with Unicode model id and missing section/material/analysis inputs.",
+    "tolerances": {
+      "serializedParity": "exact application, manifest and placeholder result JSON",
+      "numericParity": "exact inherited metadata and result fields",
+      "publicStrings": "exact application labels, summaries, assumptions, warnings and Unicode code points",
+      "errors": "unsupported and missing-input behavior remains the source placeholder contract"
+    }
+  },
+  "parityDifferences": [
+    "Strict TypeScript declarations are added for TimberBeamApplication and its input/model contracts."
+  ],
+  "engineeringFunctionality": "Strict TypeScript parity for the timber-beam StructuralApplication wrapper and its placeholder/delegation behavior; timber application indexes and default registry composition remain outside this slice."
+}

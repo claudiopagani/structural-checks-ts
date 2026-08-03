@@ -859,6 +859,11 @@ export type {
   TimberBeamVerificationInput,
   TimberBeamVerificationOptions,
 } from "./applications/timber-beams/checks/TimberBeamVerification.js";
+export { TimberBeamApplication } from "./applications/timber-beams/TimberBeamApplication.js";
+export type {
+  TimberBeamApplicationInput,
+  TimberBeamApplicationModel,
+} from "./applications/timber-beams/TimberBeamApplication.js";
 export { TimberBeamModel } from "./applications/timber-beams/models/TimberBeamModel.js";
 export type { TimberBeamModelOptions } from "./applications/timber-beams/models/TimberBeamModel.js";
 export { SteelRingFrame2DBuilder } from "./applications/steel-frames/analysis/SteelRingFrame2DBuilder.js";
