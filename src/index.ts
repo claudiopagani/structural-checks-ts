@@ -490,6 +490,8 @@ export type {
   CapacityCurveInput,
   CapacityCurvePointInput,
 } from "./applications/masonry-wall-openings/analysis/AlignmentCapacityBilinearization.js";
+export { MasonryRingBeamModel } from "./applications/masonry-ring-beams/models/MasonryRingBeamModel.js";
+export type { MasonryRingBeamModelInput } from "./applications/masonry-ring-beams/models/MasonryRingBeamModel.js";
 export {
   AXIAL_PILE_CAPACITY_REFERENCE,
   AXIAL_PILE_CAPACITY_RESULT_SCHEMA_VERSION,
