@@ -1,0 +1,79 @@
+{
+  "schemaVersion": 1,
+  "sliceId": "0161-applications-masonry-equivalent-frame-pushover-internal-forces",
+  "title": "Masonry equivalent-frame pushover internal forces",
+  "migrationType": "mechanical-parity-with-minimal-dependency-support",
+  "implementationStatus": "implemented",
+  "dependencies": ["0160-applications-masonry-ring-beam-index"],
+  "source": {
+    "repository": "https://github.com/claudiopagani/strutture-js",
+    "revision": "6f33baead8b88166c4b2cf94af41763412e3c751"
+  },
+  "normativeCorpusRevision": "41da3faa489600173106935bbcf726119300e48d",
+  "sourceFiles": [
+    {
+      "path": "src/applications/masonry-wall-openings/analysis/MasonryEquivalentFramePushoverInternalForces.js",
+      "gitBlobSha1": "9049e63e341ff21756662064421e20ec7a89876f",
+      "targetPath": "src/applications/masonry-wall-openings/analysis/MasonryEquivalentFramePushoverInternalForces.ts"
+    }
+  ],
+  "supportingSourceFiles": [
+    {
+      "path": "src/domain/math/DenseLinearSolver.js",
+      "gitBlobSha1": "46b6461d6a63255abbfcf7a92b22309ad0a47cac",
+      "targetPath": "src/domain/math/DenseLinearSolver.ts",
+      "coverage": "Already-migrated dense solver used for plastic generalized stiffness inversion."
+    },
+    {
+      "path": "src/domain/math/arrayLinearAlgebra.js",
+      "gitBlobSha1": "8c120997103dfa4e84fc0ca220208c4e52b58580",
+      "targetPath": "src/domain/math/arrayLinearAlgebra.ts",
+      "coverage": "Already-migrated zero matrix/vector primitives used for assembly."
+    },
+    {
+      "path": "src/domain/units/UnitSystem.js",
+      "gitBlobSha1": "b8f2f4926aff645efbf7b9f458b69eba264ed59a",
+      "targetPath": "src/domain/units/UnitSystem.ts",
+      "coverage": "Already-migrated FEM unit resolver used by contributor capacity definition."
+    }
+  ],
+  "sourceOracles": [
+    {
+      "path": "tests/masonryWallOpeningsEquivalentFramePushover.test.js",
+      "gitBlobSha1": "e3c4f8a2cbbfeff3a0976ad28684a352fd185a6a",
+      "coverage": "Pinned equivalent-frame pushover behavior and internal-force response context."
+    }
+  ],
+  "sourcePublicExport": {
+    "path": "src/applications/masonry-wall-openings/analysis/MasonryEquivalentFramePushoverInternalForces.js",
+    "gitBlobSha1": "9049e63e341ff21756662064421e20ec7a89876f"
+  },
+  "targetTests": [
+    "tests/masonry-equivalent-frame-pushover-internal-forces-compile-time.test.ts",
+    "tests/masonry-equivalent-frame-pushover-internal-forces-live-parity.test.ts"
+  ],
+  "publicExports": [],
+  "publicTypeExports": [],
+  "normativeReferences": {
+    "resolved": [],
+    "outsideCorpus": [],
+    "normativeConformityClaimed": false,
+    "status": "classified-for-declared-scope"
+  },
+  "independentValidation": {
+    "method": "Strict internal declaration coverage and independently executed pinned JavaScript versus built TypeScript comparison of contributor unit conversion, elastic spandrel assembly, skipped unsupported elements, exact numerical arrays, Unicode identifiers and validation errors.",
+    "targetTests": [
+      "tests/masonry-equivalent-frame-pushover-internal-forces-compile-time.test.ts",
+      "tests/masonry-equivalent-frame-pushover-internal-forces-live-parity.test.ts"
+    ],
+    "fixture": "N/mm-to-kN/m contributor capacities, a two-DOF elastic spandrel, a skipped unsupported element and missing/incorrect displacement inputs.",
+    "tolerances": {
+      "serializedParity": "exact JSON for contributor and evaluation DTOs",
+      "numericParity": "exact floating-point arrays; no tolerance changes",
+      "publicStrings": "exact error messages and Unicode identifiers",
+      "errors": "exact validation error name and message"
+    }
+  },
+  "parityDifferences": [],
+  "engineeringFunctionality": "Source-compatible internal equivalent-frame pushover force/tangent assembly and hinge-state evaluation helper."
+}

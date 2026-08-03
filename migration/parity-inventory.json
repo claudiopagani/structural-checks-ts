@@ -30257,11 +30257,14 @@
       "sourcePath": "src/applications/masonry-wall-openings/analysis/MasonryEquivalentFramePushoverInternalForces.js",
       "sourceBlobSha1": "9049e63e341ff21756662064421e20ec7a89876f",
       "targetPath": "src/applications/masonry-wall-openings/analysis/MasonryEquivalentFramePushoverInternalForces.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing"
+      "migrationSlices": ["0161-applications-masonry-equivalent-frame-pushover-internal-forces"],
+      "sourceOracles": ["tests/masonryWallOpeningsEquivalentFramePushover.test.js"],
+      "targetTests": [
+        "tests/masonry-equivalent-frame-pushover-internal-forces-compile-time.test.ts",
+        "tests/masonry-equivalent-frame-pushover-internal-forces-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0161-applications-masonry-equivalent-frame-pushover-internal-forces"],
+      "status": "exact-parity"
     },
     {
       "id": "src/applications/masonry-wall-openings/analysis/MasonryEquivalentFramePushoverSolver2D.js",
@@ -38905,11 +38908,14 @@
       "sourcePath": "tests/masonryWallOpeningsEquivalentFramePushover.test.js",
       "sourceBlobSha1": "e3c4f8a2cbbfeff3a0976ad28684a352fd185a6a",
       "targetPath": "tests/masonryWallOpeningsEquivalentFramePushover.test.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0161-applications-masonry-equivalent-frame-pushover-internal-forces"],
+      "sourceOracles": ["tests/masonryWallOpeningsEquivalentFramePushover.test.js"],
+      "targetTests": [
+        "tests/masonry-equivalent-frame-pushover-internal-forces-compile-time.test.ts",
+        "tests/masonry-equivalent-frame-pushover-internal-forces-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0161-applications-masonry-equivalent-frame-pushover-internal-forces"],
+      "status": "exact-parity",
       "testKind": "test"
     },
     {
@@ -44160,6 +44166,22 @@
         "publicStrings": "exact manifest and Unicode identifiers",
         "errors": "source-compatible constructor and default behavior"
       }
+    },
+    {
+      "sliceId": "0161-applications-masonry-equivalent-frame-pushover-internal-forces",
+      "sourceRevision": "6f33baead8b88166c4b2cf94af41763412e3c751",
+      "method": "Strict internal declaration coverage and independently executed pinned JavaScript versus built TypeScript comparison of contributor unit conversion, elastic spandrel assembly, skipped unsupported elements, exact numerical arrays, Unicode identifiers and validation errors.",
+      "targetTests": [
+        "tests/masonry-equivalent-frame-pushover-internal-forces-compile-time.test.ts",
+        "tests/masonry-equivalent-frame-pushover-internal-forces-live-parity.test.ts"
+      ],
+      "fixture": "N/mm-to-kN/m contributor capacities, a two-DOF elastic spandrel, a skipped unsupported element and missing/incorrect displacement inputs.",
+      "tolerances": {
+        "serializedParity": "exact JSON for contributor and evaluation DTOs",
+        "numericParity": "exact floating-point arrays; no tolerance changes",
+        "publicStrings": "exact error messages and Unicode identifiers",
+        "errors": "exact validation error name and message"
+      }
     }
   ],
   "counts": {
@@ -44189,11 +44211,11 @@
     },
     "sourceFiles": {
       "javascript": 480,
-      "typescript": 421
+      "typescript": 422
     },
     "tests": {
       "javascript": 131,
-      "typescript": 306
+      "typescript": 308
     },
     "validationCampaigns": {
       "javascript": 17,
@@ -44245,7 +44267,7 @@
       "statusCounts": {
         "exact-parity": 0,
         "partial": 23,
-        "missing": 231,
+        "missing": 230,
         "intentionally-excluded": 0,
         "decision-required": 0
       },
@@ -44438,7 +44460,6 @@
         "source:src/applications/masonry-wall-openings/analysis/AlignmentStateComparisonAnalysis.js",
         "source:src/applications/masonry-wall-openings/analysis/AlignmentStaticAnalysis.js",
         "source:src/applications/masonry-wall-openings/analysis/MasonryEquivalentFrameBuilder.js",
-        "source:src/applications/masonry-wall-openings/analysis/MasonryEquivalentFramePushoverInternalForces.js",
         "source:src/applications/masonry-wall-openings/analysis/MasonryEquivalentFramePushoverSolver2D.js",
         "source:src/applications/masonry-wall-openings/analysis/MasonryPierCapacityCurveComparisonAnalysis.js",
         "source:src/applications/masonry-wall-openings/index.js",
@@ -44510,7 +44531,7 @@
       "statusCounts": {
         "exact-parity": 0,
         "partial": 4,
-        "missing": 113,
+        "missing": 112,
         "intentionally-excluded": 0,
         "decision-required": 0
       },
@@ -44623,7 +44644,6 @@
         "test:tests/geotechnicalSlopeStabilityValidationCampaign.test.js",
         "test:tests/geotechnicalValidationCampaign.test.js",
         "test:tests/masonryWallOpeningsEquivalentFrameBuilder.test.js",
-        "test:tests/masonryWallOpeningsEquivalentFramePushover.test.js",
         "test:tests/masonryWallOpeningsPierCapacityCurveComparisonReport.test.js",
         "test:tests/masonryWallOpeningsStateComparison.test.js",
         "test:tests/masonryWallOpeningsStateComparisonReport.test.js",
