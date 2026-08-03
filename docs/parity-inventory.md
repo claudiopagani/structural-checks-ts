@@ -14,14 +14,14 @@ establish behavioral parity.
 
 | Surface                           | Pinned JavaScript | Current TypeScript |
 | --------------------------------- | ----------------: | -----------------: |
-| Root exports                      |               841 |                760 |
-| Applications exports              |               309 |                233 |
+| Root exports                      |               841 |                762 |
+| Applications exports              |               309 |                235 |
 | Package entry points              |                14 |                  5 |
 | ApplicationRegistry entries       |                30 |                  0 |
 | Application catalog entries       |                30 |                 30 |
 | Serialized schema/version symbols |                49 |                 46 |
-| Source files                      |               480 |                423 |
-| Tests                             |               131 |                310 |
+| Source files                      |               480 |                425 |
+| Tests                             |               131 |                312 |
 | Validation campaigns              |                17 |                  0 |
 | Validation files                  |                27 |                  0 |
 | Examples                          |                32 |                  0 |
@@ -36,8 +36,8 @@ implementation order required by the repository architecture.
 
 - **domain** — partial: 1.
 - **norms** — no remaining items.
-- **applications** — partial: 23, missing: 229.
-- **packageValidation** — partial: 4, missing: 112.
+- **applications** — partial: 23, missing: 223.
+- **packageValidation** — partial: 4, missing: 111.
 
 ## Status semantics
 

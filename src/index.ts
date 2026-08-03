@@ -490,6 +490,27 @@ export type {
   CapacityCurveInput,
   CapacityCurvePointInput,
 } from "./applications/masonry-wall-openings/analysis/AlignmentCapacityBilinearization.js";
+export { AlignmentStateComparisonMarkdownRenderer } from "./applications/masonry-wall-openings/reports/AlignmentStateComparisonMarkdownRenderer.js";
+export type {
+  AlignmentStateComparisonReport,
+  AlignmentStateComparisonReportCheck,
+  AlignmentStateComparisonReportComparison,
+  AlignmentStateComparisonReportCriterion,
+  AlignmentStateComparisonReportCriteria,
+  AlignmentStateComparisonReportModel,
+  AlignmentStateComparisonReportReading,
+  AlignmentStateComparisonReportStageSummary,
+  AlignmentStateComparisonReportUnits,
+  AlignmentStateComparisonReportValue,
+} from "./applications/masonry-wall-openings/reports/AlignmentStateComparisonMarkdownRenderer.js";
+export { createAlignmentStateComparisonReportArtifacts } from "./applications/masonry-wall-openings/reports/AlignmentStateComparisonReportArtifacts.js";
+export type {
+  AlignmentStateComparisonReportArtifact,
+  AlignmentStateComparisonReportArtifactInput,
+  AlignmentStateComparisonReportArtifactMetadata,
+  AlignmentStateComparisonReportJson,
+  CreateAlignmentStateComparisonReportArtifactsOptions,
+} from "./applications/masonry-wall-openings/reports/AlignmentStateComparisonReportArtifacts.js";
 export { MasonryRingBeamModel } from "./applications/masonry-ring-beams/models/MasonryRingBeamModel.js";
 export type { MasonryRingBeamModelInput } from "./applications/masonry-ring-beams/models/MasonryRingBeamModel.js";
 export { MasonryRingBeamApplication } from "./applications/masonry-ring-beams/MasonryRingBeamApplication.js";
