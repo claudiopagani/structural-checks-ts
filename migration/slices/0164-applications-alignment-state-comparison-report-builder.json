@@ -1,0 +1,94 @@
+{
+  "schemaVersion": 1,
+  "sliceId": "0164-applications-alignment-state-comparison-report-builder",
+  "title": "Alignment state-comparison report builder",
+  "migrationType": "mechanical-parity-with-minimal-public-export-support",
+  "implementationStatus": "implemented",
+  "dependencies": ["0163-applications-alignment-state-comparison-report-utilities"],
+  "source": {
+    "repository": "https://github.com/claudiopagani/strutture-js",
+    "revision": "6f33baead8b88166c4b2cf94af41763412e3c751"
+  },
+  "normativeCorpusRevision": "41da3faa489600173106935bbcf726119300e48d",
+  "sourceFiles": [
+    {
+      "path": "src/applications/masonry-wall-openings/reports/AlignmentStateComparisonReportBuilder.js",
+      "gitBlobSha1": "931424d07364c5a2a9bc56290cdc94e78611dea6",
+      "targetPath": "src/applications/masonry-wall-openings/reports/AlignmentStateComparisonReportBuilder.ts"
+    }
+  ],
+  "supportingSourceFiles": [
+    {
+      "path": "src/applications/masonry-wall-openings/reports/AlignmentStateComparisonMarkdownRenderer.js",
+      "gitBlobSha1": "5d0ffd1ad5437f3ae14f0d737a5895bc1a4e39b4",
+      "targetPath": "src/applications/masonry-wall-openings/reports/AlignmentStateComparisonMarkdownRenderer.ts",
+      "coverage": "Already-migrated default Markdown renderer delegated by the builder."
+    },
+    {
+      "path": "src/applications/masonry-wall-openings/reports/AlignmentStateComparisonReportArtifacts.js",
+      "gitBlobSha1": "baf7fd0b37be817c6bec067757a7b181b3d5644f",
+      "targetPath": "src/applications/masonry-wall-openings/reports/AlignmentStateComparisonReportArtifacts.ts",
+      "coverage": "Already-migrated public artifact factory whose JSON metadata types accept the builder's source-compatible serialized values."
+    },
+    {
+      "path": "src/index.js",
+      "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7",
+      "targetPath": "src/index.ts",
+      "coverage": "Minimal root export support for the schema constant, builder and strict public types."
+    }
+  ],
+  "sourceOracles": [
+    {
+      "path": "tests/masonryWallOpeningsStateComparisonReport.test.js",
+      "gitBlobSha1": "21edf550f11331cd8810e9c7aa2514f5e399a18c",
+      "coverage": "Pinned report builder workflow, schema version, JSON fields, Markdown delegation and report metadata."
+    }
+  ],
+  "sourcePublicExport": {
+    "path": "src/index.js",
+    "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
+  },
+  "targetTests": [
+    "tests/baseline-parity.test.ts",
+    "tests/alignment-state-comparison-report-builder-compile-time.test.ts",
+    "tests/alignment-state-comparison-report-builder-live-parity.test.ts"
+  ],
+  "publicExports": [
+    "ALIGNMENT_STATE_COMPARISON_REPORT_SCHEMA_VERSION",
+    "AlignmentStateComparisonReportBuilder"
+  ],
+  "publicTypeExports": [
+    "AlignmentStateComparisonReportBuilderBuildInput",
+    "AlignmentStateComparisonReportBuilderComparisonResult",
+    "AlignmentStateComparisonReportBuilderJson",
+    "AlignmentStateComparisonReportBuilderMetadata",
+    "AlignmentStateComparisonReportBuilderModel",
+    "AlignmentStateComparisonReportBuilderOptions",
+    "AlignmentStateComparisonReportBuilderOutputs",
+    "AlignmentStateComparisonReportBuilderRenderer",
+    "AlignmentStateComparisonReportBuilderRendererObject",
+    "AlignmentStateComparisonReportBuilderReport"
+  ],
+  "normativeReferences": {
+    "resolved": [],
+    "outsideCorpus": [],
+    "normativeConformityClaimed": false,
+    "status": "classified-for-declared-scope"
+  },
+  "independentValidation": {
+    "method": "Strict public declaration coverage and independently executed pinned JavaScript versus built TypeScript comparison of source normalization, toJSON handling, circular/shared object serialization, metadata merging, renderer delegation, Unicode and validation errors.",
+    "targetTests": [
+      "tests/alignment-state-comparison-report-builder-compile-time.test.ts",
+      "tests/alignment-state-comparison-report-builder-live-parity.test.ts"
+    ],
+    "fixture": "Synthetic alignment model and comparison results covering plain objects, a toJSON result branch, class settings, circular/shared references, duplicate warnings, custom renderer delegation and Unicode metadata.",
+    "tolerances": {
+      "serializedParity": "exact report JSON and Markdown",
+      "numericParity": "exact report values and formatted output",
+      "publicStrings": "exact schema, Italian, Unicode and renderer strings",
+      "errors": "exact missing-input and invalid-renderer errors"
+    }
+  },
+  "parityDifferences": [],
+  "engineeringFunctionality": "Source-compatible alignment state-comparison report normalization, metadata composition and Markdown delegation."
+}

@@ -511,6 +511,22 @@ export type {
   AlignmentStateComparisonReportJson,
   CreateAlignmentStateComparisonReportArtifactsOptions,
 } from "./applications/masonry-wall-openings/reports/AlignmentStateComparisonReportArtifacts.js";
+export {
+  ALIGNMENT_STATE_COMPARISON_REPORT_SCHEMA_VERSION,
+  AlignmentStateComparisonReportBuilder,
+} from "./applications/masonry-wall-openings/reports/AlignmentStateComparisonReportBuilder.js";
+export type {
+  AlignmentStateComparisonReportBuilderBuildInput,
+  AlignmentStateComparisonReportBuilderComparisonResult,
+  AlignmentStateComparisonReportBuilderJson,
+  AlignmentStateComparisonReportBuilderMetadata,
+  AlignmentStateComparisonReportBuilderModel,
+  AlignmentStateComparisonReportBuilderOptions,
+  AlignmentStateComparisonReportBuilderOutputs,
+  AlignmentStateComparisonReportBuilderRenderer,
+  AlignmentStateComparisonReportBuilderRendererObject,
+  AlignmentStateComparisonReportBuilderReport,
+} from "./applications/masonry-wall-openings/reports/AlignmentStateComparisonReportBuilder.js";
 export { MasonryRingBeamModel } from "./applications/masonry-ring-beams/models/MasonryRingBeamModel.js";
 export type { MasonryRingBeamModelInput } from "./applications/masonry-ring-beams/models/MasonryRingBeamModel.js";
 export { MasonryRingBeamApplication } from "./applications/masonry-ring-beams/MasonryRingBeamApplication.js";

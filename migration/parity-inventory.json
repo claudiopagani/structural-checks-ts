@@ -866,6 +866,7 @@
       ],
       "targetPath": "src/index.ts",
       "targetExportNames": [
+        "ALIGNMENT_STATE_COMPARISON_REPORT_SCHEMA_VERSION",
         "APPLICATION_CATALOG",
         "AXIAL_PILE_BASE_RESISTANCE_METHODS",
         "AXIAL_PILE_CAPACITY_REFERENCE",
@@ -878,6 +879,7 @@
         "AccidentalAction",
         "Action",
         "AlignmentStateComparisonMarkdownRenderer",
+        "AlignmentStateComparisonReportBuilder",
         "ApplicationRegistry",
         "AreaLoad",
         "AxialMember2D",
@@ -3220,11 +3222,15 @@
       "sourcePath": "src/applications/masonry-wall-openings/reports/AlignmentStateComparisonReportBuilder.js",
       "sourceBlobSha1": "931424d07364c5a2a9bc56290cdc94e78611dea6",
       "targetPath": "src/applications/masonry-wall-openings/reports/AlignmentStateComparisonReportBuilder.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0164-applications-alignment-state-comparison-report-builder"],
+      "sourceOracles": ["tests/masonryWallOpeningsStateComparisonReport.test.js"],
+      "targetTests": [
+        "tests/alignment-state-comparison-report-builder-compile-time.test.ts",
+        "tests/alignment-state-comparison-report-builder-live-parity.test.ts",
+        "tests/baseline-parity.test.ts"
+      ],
+      "validationEvidence": ["0164-applications-alignment-state-comparison-report-builder"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -3294,11 +3300,15 @@
       "sourcePath": "src/applications/masonry-wall-openings/reports/AlignmentStateComparisonReportBuilder.js",
       "sourceBlobSha1": "931424d07364c5a2a9bc56290cdc94e78611dea6",
       "targetPath": "src/applications/masonry-wall-openings/reports/AlignmentStateComparisonReportBuilder.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0164-applications-alignment-state-comparison-report-builder"],
+      "sourceOracles": ["tests/masonryWallOpeningsStateComparisonReport.test.js"],
+      "targetTests": [
+        "tests/alignment-state-comparison-report-builder-compile-time.test.ts",
+        "tests/alignment-state-comparison-report-builder-live-parity.test.ts",
+        "tests/baseline-parity.test.ts"
+      ],
+      "validationEvidence": ["0164-applications-alignment-state-comparison-report-builder"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -21059,11 +21069,15 @@
       "sourcePath": "src/applications/masonry-wall-openings/reports/AlignmentStateComparisonReportBuilder.js",
       "sourceBlobSha1": "931424d07364c5a2a9bc56290cdc94e78611dea6",
       "targetPath": "src/applications/masonry-wall-openings/reports/AlignmentStateComparisonReportBuilder.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0164-applications-alignment-state-comparison-report-builder"],
+      "sourceOracles": ["tests/masonryWallOpeningsStateComparisonReport.test.js"],
+      "targetTests": [
+        "tests/alignment-state-comparison-report-builder-compile-time.test.ts",
+        "tests/alignment-state-comparison-report-builder-live-parity.test.ts",
+        "tests/baseline-parity.test.ts"
+      ],
+      "validationEvidence": ["0164-applications-alignment-state-comparison-report-builder"],
+      "status": "exact-parity",
       "publicEntryPath": "src/applications/index.js",
       "publicEntryBlobSha1": "b70179c7cdd2a819f2151dc092c0f59cbce30ba6"
     },
@@ -21133,11 +21147,15 @@
       "sourcePath": "src/applications/masonry-wall-openings/reports/AlignmentStateComparisonReportBuilder.js",
       "sourceBlobSha1": "931424d07364c5a2a9bc56290cdc94e78611dea6",
       "targetPath": "src/applications/masonry-wall-openings/reports/AlignmentStateComparisonReportBuilder.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0164-applications-alignment-state-comparison-report-builder"],
+      "sourceOracles": ["tests/masonryWallOpeningsStateComparisonReport.test.js"],
+      "targetTests": [
+        "tests/alignment-state-comparison-report-builder-compile-time.test.ts",
+        "tests/alignment-state-comparison-report-builder-live-parity.test.ts",
+        "tests/baseline-parity.test.ts"
+      ],
+      "validationEvidence": ["0164-applications-alignment-state-comparison-report-builder"],
+      "status": "exact-parity",
       "publicEntryPath": "src/applications/index.js",
       "publicEntryBlobSha1": "b70179c7cdd2a819f2151dc092c0f59cbce30ba6"
     },
@@ -28536,11 +28554,15 @@
       "sourcePath": "src/applications/masonry-wall-openings/reports/AlignmentStateComparisonReportBuilder.js",
       "sourceBlobSha1": "931424d07364c5a2a9bc56290cdc94e78611dea6",
       "targetPath": "src/applications/masonry-wall-openings/reports/AlignmentStateComparisonReportBuilder.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0164-applications-alignment-state-comparison-report-builder"],
+      "sourceOracles": ["tests/masonryWallOpeningsStateComparisonReport.test.js"],
+      "targetTests": [
+        "tests/alignment-state-comparison-report-builder-compile-time.test.ts",
+        "tests/alignment-state-comparison-report-builder-live-parity.test.ts",
+        "tests/baseline-parity.test.ts"
+      ],
+      "validationEvidence": ["0164-applications-alignment-state-comparison-report-builder"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7",
       "value": "masonry-wall-openings-state-comparison-report/v1"
@@ -30502,11 +30524,15 @@
       "sourcePath": "src/applications/masonry-wall-openings/reports/AlignmentStateComparisonReportBuilder.js",
       "sourceBlobSha1": "931424d07364c5a2a9bc56290cdc94e78611dea6",
       "targetPath": "src/applications/masonry-wall-openings/reports/AlignmentStateComparisonReportBuilder.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing"
+      "migrationSlices": ["0164-applications-alignment-state-comparison-report-builder"],
+      "sourceOracles": ["tests/masonryWallOpeningsStateComparisonReport.test.js"],
+      "targetTests": [
+        "tests/alignment-state-comparison-report-builder-compile-time.test.ts",
+        "tests/alignment-state-comparison-report-builder-live-parity.test.ts",
+        "tests/baseline-parity.test.ts"
+      ],
+      "validationEvidence": ["0164-applications-alignment-state-comparison-report-builder"],
+      "status": "exact-parity"
     },
     {
       "id": "src/applications/masonry-wall-openings/reports/MasonryPierCapacityCurveComparisonMarkdownRenderer.js",
@@ -36618,7 +36644,8 @@
         "0157-applications-masonry-ring-beam-model",
         "0158-applications-masonry-ring-beam-verification",
         "0159-applications-masonry-ring-beam-application",
-        "0163-applications-alignment-state-comparison-report-utilities"
+        "0163-applications-alignment-state-comparison-report-utilities",
+        "0164-applications-alignment-state-comparison-report-builder"
       ],
       "sourceOracles": [
         "tests/architecture/applicationRegistry.test.js",
@@ -39073,14 +39100,22 @@
       "sourcePath": "tests/masonryWallOpeningsStateComparisonReport.test.js",
       "sourceBlobSha1": "21edf550f11331cd8810e9c7aa2514f5e399a18c",
       "targetPath": "tests/masonryWallOpeningsStateComparisonReport.test.ts",
-      "migrationSlices": ["0163-applications-alignment-state-comparison-report-utilities"],
+      "migrationSlices": [
+        "0163-applications-alignment-state-comparison-report-utilities",
+        "0164-applications-alignment-state-comparison-report-builder"
+      ],
       "sourceOracles": ["tests/masonryWallOpeningsStateComparisonReport.test.js"],
       "targetTests": [
+        "tests/alignment-state-comparison-report-builder-compile-time.test.ts",
+        "tests/alignment-state-comparison-report-builder-live-parity.test.ts",
         "tests/alignment-state-comparison-report-compile-time.test.ts",
         "tests/alignment-state-comparison-report-live-parity.test.ts",
         "tests/baseline-parity.test.ts"
       ],
-      "validationEvidence": ["0163-applications-alignment-state-comparison-report-utilities"],
+      "validationEvidence": [
+        "0163-applications-alignment-state-comparison-report-utilities",
+        "0164-applications-alignment-state-comparison-report-builder"
+      ],
       "status": "exact-parity",
       "testKind": "test"
     },
@@ -44257,16 +44292,32 @@
         "publicStrings": "exact Italian, escaped pipe and Unicode strings",
         "errors": "exact report.json and report.markdown validation errors"
       }
+    },
+    {
+      "sliceId": "0164-applications-alignment-state-comparison-report-builder",
+      "sourceRevision": "6f33baead8b88166c4b2cf94af41763412e3c751",
+      "method": "Strict public declaration coverage and independently executed pinned JavaScript versus built TypeScript comparison of source normalization, toJSON handling, circular/shared object serialization, metadata merging, renderer delegation, Unicode and validation errors.",
+      "targetTests": [
+        "tests/alignment-state-comparison-report-builder-compile-time.test.ts",
+        "tests/alignment-state-comparison-report-builder-live-parity.test.ts"
+      ],
+      "fixture": "Synthetic alignment model and comparison results covering plain objects, a toJSON result branch, class settings, circular/shared references, duplicate warnings, custom renderer delegation and Unicode metadata.",
+      "tolerances": {
+        "serializedParity": "exact report JSON and Markdown",
+        "numericParity": "exact report values and formatted output",
+        "publicStrings": "exact schema, Italian, Unicode and renderer strings",
+        "errors": "exact missing-input and invalid-renderer errors"
+      }
     }
   ],
   "counts": {
     "rootExports": {
       "javascript": 841,
-      "typescript": 762
+      "typescript": 764
     },
     "applicationsExports": {
       "javascript": 309,
-      "typescript": 235
+      "typescript": 237
     },
     "packageEntryPoints": {
       "javascript": 14,
@@ -44282,15 +44333,15 @@
     },
     "serializedSchemas": {
       "javascript": 49,
-      "typescript": 46
+      "typescript": 47
     },
     "sourceFiles": {
       "javascript": 480,
-      "typescript": 425
+      "typescript": 426
     },
     "tests": {
       "javascript": 131,
-      "typescript": 312
+      "typescript": 314
     },
     "validationCampaigns": {
       "javascript": 17,
@@ -44342,16 +44393,14 @@
       "statusCounts": {
         "exact-parity": 0,
         "partial": 23,
-        "missing": 223,
+        "missing": 218,
         "intentionally-excluded": 0,
         "decision-required": 0
       },
       "itemIds": [
-        "application-export:ALIGNMENT_STATE_COMPARISON_REPORT_SCHEMA_VERSION",
         "application-export:AlignmentEquivalentFramePushoverAnalysis",
         "application-export:AlignmentSeismicAggregatedAnalysis",
         "application-export:AlignmentStateComparisonAnalysis",
-        "application-export:AlignmentStateComparisonReportBuilder",
         "application-export:AlignmentStaticAnalysis",
         "application-export:BEAM_REPORT_SCHEMA_VERSION",
         "application-export:BeamReportBuilder",
@@ -44451,11 +44500,9 @@
         "registry:timber-concrete-composite-beams",
         "registry:timber-xlam-composite-beams",
         "registry:xlam-panels-out-of-plane",
-        "root-export:ALIGNMENT_STATE_COMPARISON_REPORT_SCHEMA_VERSION",
         "root-export:AlignmentEquivalentFramePushoverAnalysis",
         "root-export:AlignmentSeismicAggregatedAnalysis",
         "root-export:AlignmentStateComparisonAnalysis",
-        "root-export:AlignmentStateComparisonReportBuilder",
         "root-export:AlignmentStaticAnalysis",
         "root-export:BEAM_REPORT_SCHEMA_VERSION",
         "root-export:BeamReportBuilder",
@@ -44533,7 +44580,6 @@
         "source:src/applications/masonry-wall-openings/analysis/MasonryEquivalentFrameBuilder.js",
         "source:src/applications/masonry-wall-openings/analysis/MasonryPierCapacityCurveComparisonAnalysis.js",
         "source:src/applications/masonry-wall-openings/index.js",
-        "source:src/applications/masonry-wall-openings/reports/AlignmentStateComparisonReportBuilder.js",
         "source:src/applications/masonry-wall-openings/reports/MasonryPierCapacityCurveComparisonMarkdownRenderer.js",
         "source:src/applications/masonry-wall-openings/reports/MasonryPierCapacityCurveComparisonReportArtifacts.js",
         "source:src/applications/masonry-wall-openings/reports/MasonryPierCapacityCurveComparisonReportBuilder.js",

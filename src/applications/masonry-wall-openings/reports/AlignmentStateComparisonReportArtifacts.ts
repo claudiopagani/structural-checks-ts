@@ -2,8 +2,8 @@ type ArtifactStringValue = string | number | boolean | bigint | symbol | null | 
 
 export interface AlignmentStateComparisonReportJson extends Record<string, unknown> {
   id?: ArtifactStringValue;
-  schemaVersion?: ArtifactStringValue;
-  title?: ArtifactStringValue;
+  schemaVersion?: unknown;
+  title?: unknown;
 }
 
 export interface AlignmentStateComparisonReportArtifactInput {

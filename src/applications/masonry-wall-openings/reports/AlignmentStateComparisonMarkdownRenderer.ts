@@ -1,27 +1,20 @@
-export type AlignmentStateComparisonReportValue =
-  | string
-  | number
-  | boolean
-  | bigint
-  | symbol
-  | null
-  | undefined;
+export type AlignmentStateComparisonReportValue = unknown;
 
-export interface AlignmentStateComparisonReportUnits {
+export interface AlignmentStateComparisonReportUnits extends Record<string, unknown> {
   force?: AlignmentStateComparisonReportValue;
   length?: AlignmentStateComparisonReportValue;
 }
 
-export interface AlignmentStateComparisonReportCriteria {
+export interface AlignmentStateComparisonReportCriteria extends Record<string, unknown> {
   stiffnessTolerancePercent?: AlignmentStateComparisonReportValue;
 }
 
-export interface AlignmentStateComparisonReportCriterion {
+export interface AlignmentStateComparisonReportCriterion extends Record<string, unknown> {
   type?: AlignmentStateComparisonReportValue;
-  toleranceRatio?: number | null;
+  toleranceRatio?: unknown;
 }
 
-export interface AlignmentStateComparisonReportCheck {
+export interface AlignmentStateComparisonReportCheck extends Record<string, unknown> {
   id?: AlignmentStateComparisonReportValue;
   description?: AlignmentStateComparisonReportValue;
   stateOfFactValue?: AlignmentStateComparisonReportValue;
@@ -32,7 +25,7 @@ export interface AlignmentStateComparisonReportCheck {
   ok?: AlignmentStateComparisonReportValue;
 }
 
-export interface AlignmentStateComparisonReportStageSummary {
+export interface AlignmentStateComparisonReportStageSummary extends Record<string, unknown> {
   status?: AlignmentStateComparisonReportValue;
   ks?: AlignmentStateComparisonReportValue;
   Vy?: AlignmentStateComparisonReportValue;
@@ -42,23 +35,24 @@ export interface AlignmentStateComparisonReportStageSummary {
   ringFrameCount?: AlignmentStateComparisonReportValue;
 }
 
-export interface AlignmentStateComparisonReportComparison {
+export interface AlignmentStateComparisonReportComparison extends Record<string, unknown> {
   criteria?: AlignmentStateComparisonReportCriteria | null;
   checks?: readonly AlignmentStateComparisonReportCheck[] | null;
   stageSummaries?: {
     stateOfFact?: AlignmentStateComparisonReportStageSummary | null;
     design?: AlignmentStateComparisonReportStageSummary | null;
   } | null;
+  overall?: unknown;
 }
 
-export interface AlignmentStateComparisonReportReading {
+export interface AlignmentStateComparisonReportReading extends Record<string, unknown> {
   headline?: AlignmentStateComparisonReportValue;
   outcome?: AlignmentStateComparisonReportValue;
   governingCheckId?: AlignmentStateComparisonReportValue;
   messages?: readonly AlignmentStateComparisonReportValue[] | null;
 }
 
-export interface AlignmentStateComparisonReportModel {
+export interface AlignmentStateComparisonReportModel extends Record<string, unknown> {
   id?: AlignmentStateComparisonReportValue;
   label?: AlignmentStateComparisonReportValue;
   wallCount?: AlignmentStateComparisonReportValue;
@@ -66,6 +60,7 @@ export interface AlignmentStateComparisonReportModel {
   totalLength?: AlignmentStateComparisonReportValue;
   maxHeight?: AlignmentStateComparisonReportValue;
   settings?: {
+    [key: string]: unknown;
     normativePreset?: AlignmentStateComparisonReportValue;
   } | null;
 }
@@ -81,11 +76,14 @@ export interface AlignmentStateComparisonReport {
   assumptions?: readonly AlignmentStateComparisonReportValue[] | null;
 }
 
-function sourceString(value: AlignmentStateComparisonReportValue): string {
-  return String(value);
+const sourceStringImplementation: (value: unknown) => string = String;
+const numberImplementation: (value: unknown) => number = Number;
+
+function sourceString(value: unknown): string {
+  return sourceStringImplementation(value);
 }
 
-function formatNumber(value: AlignmentStateComparisonReportValue, decimals = 4): string {
+function formatNumber(value: unknown, decimals = 4): string {
   if (typeof value !== "number" || !Number.isFinite(value)) {
     return value == null ? "-" : sourceString(value);
   }
@@ -93,7 +91,7 @@ function formatNumber(value: AlignmentStateComparisonReportValue, decimals = 4):
   return String(Number(value.toFixed(decimals)));
 }
 
-function formatPercent(value: AlignmentStateComparisonReportValue, decimals = 2): string {
+function formatPercent(value: unknown, decimals = 2): string {
   if (typeof value !== "number" || !Number.isFinite(value)) {
     return "-";
   }
@@ -103,7 +101,7 @@ function formatPercent(value: AlignmentStateComparisonReportValue, decimals = 2)
   return `${rounded >= 0 ? "+" : ""}${rounded}%`;
 }
 
-function formatText(value: AlignmentStateComparisonReportValue): string {
+function formatText(value: unknown): string {
   if (value == null || value === "") {
     return "-";
   }
@@ -119,10 +117,11 @@ function formatUnits(units: AlignmentStateComparisonReportUnits | null | undefin
   return `${sourceString(units.force ?? "-")}, ${sourceString(units.length ?? "-")}`;
 }
 
-function markdownTable(
-  headers: readonly string[],
-  rows: readonly (readonly AlignmentStateComparisonReportValue[])[],
-): string {
+function multiplyByHundred(value: unknown): number {
+  return numberImplementation(value) * 100;
+}
+
+function markdownTable(headers: readonly string[], rows: readonly (readonly unknown[])[]): string {
   if (!rows.length) {
     return "_Nessun dato disponibile._";
   }
@@ -202,7 +201,7 @@ function checkRows(
     formatNumber(check.delta),
     formatPercent(check.variationPercent),
     check.criterion?.type === "variation-band"
-      ? `+/-${formatNumber((check.criterion?.toleranceRatio ?? 0) * 100, 2)}%`
+      ? `+/-${formatNumber(multiplyByHundred(check.criterion?.toleranceRatio ?? 0), 2)}%`
       : ">= stato di fatto",
     check.ok ? "si" : "no",
   ]);
