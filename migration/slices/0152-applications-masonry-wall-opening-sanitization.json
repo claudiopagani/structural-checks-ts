@@ -1,0 +1,99 @@
+{
+  "schemaVersion": 1,
+  "sliceId": "0152-applications-masonry-wall-opening-sanitization",
+  "title": "Masonry wall opening sanitization",
+  "migrationType": "mechanical-parity-with-minimal-dependency-support",
+  "implementationStatus": "implemented",
+  "dependencies": ["0151-applications-masonry-wall-opening-models"],
+  "source": {
+    "repository": "https://github.com/claudiopagani/strutture-js",
+    "revision": "6f33baead8b88166c4b2cf94af41763412e3c751"
+  },
+  "normativeCorpusRevision": "41da3faa489600173106935bbcf726119300e48d",
+  "sourceFiles": [
+    {
+      "path": "src/applications/masonry-wall-openings/geometry/sanitizeAlignmentOpenings.js",
+      "gitBlobSha1": "a964ff7e3b9d871aadaec919706c384233ccb298",
+      "targetPath": "src/applications/masonry-wall-openings/geometry/sanitizeAlignmentOpenings.ts"
+    }
+  ],
+  "supportingSourceFiles": [
+    {
+      "path": "src/applications/masonry-wall-openings/models/MasonryWallOpeningsModel.js",
+      "gitBlobSha1": "ec1f0829ec9cfbd1861d8c29224cb6fc382bd12a",
+      "targetPath": "src/applications/masonry-wall-openings/models/MasonryWallOpeningsModel.ts",
+      "coverage": "Already-migrated alignment model consumed by the sanitizer."
+    },
+    {
+      "path": "src/core/results/checkUtils.js",
+      "gitBlobSha1": "d51d6a797dde97218422e79dca30727eacb26cad",
+      "targetPath": "src/core/results/checkUtils.ts",
+      "coverage": "Already-migrated unique-string warning helper."
+    },
+    {
+      "path": "src/applications/masonry-wall-openings/index.js",
+      "gitBlobSha1": "eff11642dcba529d9307f41cd5e19afc32cc99b1",
+      "targetPath": "src/index.ts",
+      "coverage": "Pinned application export context; only the migrated sanitizer is added to the root until the remaining application barrel dependencies are ported."
+    },
+    {
+      "path": "src/applications/index.js",
+      "gitBlobSha1": "b70179c7cdd2a819f2151dc092c0f59cbce30ba6",
+      "targetPath": "src/index.ts",
+      "coverage": "Pinned aggregate application export context."
+    },
+    {
+      "path": "src/index.js",
+      "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7",
+      "targetPath": "src/index.ts",
+      "coverage": "Pinned root public-export context for sanitizeAlignmentOpenings."
+    }
+  ],
+  "sourceOracles": [
+    {
+      "path": "tests/masonryWallOpeningsSanitization.test.js",
+      "gitBlobSha1": "36ba701f3edc0fd36273cc4b0bf027e42fb0efe8",
+      "coverage": "Clipping, discarding, clustering, wall-joint recombination and residual-pier warnings."
+    },
+    {
+      "path": "tests/packageExports.test.js",
+      "gitBlobSha1": "8dde24b4c97dd3dae7100207d07d9d96c52b9c74",
+      "coverage": "Pinned root public export behavior."
+    }
+  ],
+  "sourcePublicExport": {
+    "path": "src/index.js",
+    "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
+  },
+  "targetTests": [
+    "tests/baseline-parity.test.ts",
+    "tests/masonry-wall-opening-sanitization-compile-time.test.ts",
+    "tests/masonry-wall-opening-sanitization-live-parity.test.ts"
+  ],
+  "publicExports": ["sanitizeAlignmentOpenings"],
+  "publicTypeExports": ["SanitizedAlignmentOpening", "SanitizeAlignmentOpeningsResult"],
+  "normativeReferences": {
+    "resolved": [],
+    "outsideCorpus": [],
+    "normativeConformityClaimed": false,
+    "status": "classified-for-declared-scope"
+  },
+  "independentValidation": {
+    "method": "Strict declaration consumer coverage and independently executed pinned JavaScript versus built TypeScript comparison of clipping, discarding, overlap clustering, stacked-opening warnings, wall-joint recombination, residual-pier warnings, exact JSON, Unicode identifiers and matching invalid-input errors.",
+    "targetTests": [
+      "tests/masonry-wall-opening-sanitization-compile-time.test.ts",
+      "tests/masonry-wall-opening-sanitization-live-parity.test.ts"
+    ],
+    "fixture": "Border, merged/vertically stacked, wall-joint and residual-pier opening alignments with explicit units and Unicode identifiers.",
+    "tolerances": {
+      "serializedParity": "exact complete sanitization result JSON",
+      "numericParity": "exact clipped coordinates, widths, heights and metadata",
+      "publicStrings": "exact warning and error strings plus Unicode identifiers",
+      "errors": "exact incompatible-alignment error behavior"
+    }
+  },
+  "parityDifferences": [
+    "The sanitizer is exported from the root directly; the broader masonry-wall-openings application barrel remains deferred until its remaining analysis and report dependencies are migrated."
+  ],
+  "engineeringFunctionality": "Source-compatible masonry opening clipping, clustering, wall-joint recombination and residual-pier warning generation."
+}

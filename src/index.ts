@@ -455,6 +455,11 @@ export type {
   MasonryWallSpandrelModelInput,
   MasonryWallSpandrelModelJson,
 } from "./applications/masonry-wall-openings/models/MasonryWallSpandrelModel.js";
+export { sanitizeAlignmentOpenings } from "./applications/masonry-wall-openings/geometry/sanitizeAlignmentOpenings.js";
+export type {
+  SanitizeAlignmentOpeningsResult,
+  SanitizedAlignmentOpening,
+} from "./applications/masonry-wall-openings/geometry/sanitizeAlignmentOpenings.js";
 export {
   AXIAL_PILE_CAPACITY_REFERENCE,
   AXIAL_PILE_CAPACITY_RESULT_SCHEMA_VERSION,

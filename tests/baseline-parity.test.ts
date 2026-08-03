@@ -626,6 +626,7 @@ const expectedExports = [
   "resolveNTC2018InitialTemperature",
   "resolveNTC2018InternalAirTemperature",
   "resolveNTC2018ThermalExpansionCoefficient",
+  "sanitizeAlignmentOpenings",
   "registerXlamPanelProduct",
   "splitPrincipalActions",
   "round",

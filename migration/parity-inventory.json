@@ -1579,6 +1579,7 @@
         "runScaRcDeflectionAnalysis",
         "runSlabSystemVerifications",
         "runWallSystemVerifications",
+        "sanitizeAlignmentOpenings",
         "selectNTC2018AllowedAnalysisMethods",
         "selectNTC2018BaseQFactor",
         "selectNTC2018ExistingMasonryParameterLevel",
@@ -17709,11 +17710,18 @@
       "sourcePath": "src/applications/masonry-wall-openings/geometry/sanitizeAlignmentOpenings.js",
       "sourceBlobSha1": "a964ff7e3b9d871aadaec919706c384233ccb298",
       "targetPath": "src/applications/masonry-wall-openings/geometry/sanitizeAlignmentOpenings.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0152-applications-masonry-wall-opening-sanitization"],
+      "sourceOracles": [
+        "tests/masonryWallOpeningsSanitization.test.js",
+        "tests/packageExports.test.js"
+      ],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/masonry-wall-opening-sanitization-compile-time.test.ts",
+        "tests/masonry-wall-opening-sanitization-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0152-applications-masonry-wall-opening-sanitization"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -25659,11 +25667,18 @@
       "sourcePath": "src/applications/masonry-wall-openings/geometry/sanitizeAlignmentOpenings.js",
       "sourceBlobSha1": "a964ff7e3b9d871aadaec919706c384233ccb298",
       "targetPath": "src/applications/masonry-wall-openings/geometry/sanitizeAlignmentOpenings.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0152-applications-masonry-wall-opening-sanitization"],
+      "sourceOracles": [
+        "tests/masonryWallOpeningsSanitization.test.js",
+        "tests/packageExports.test.js"
+      ],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/masonry-wall-opening-sanitization-compile-time.test.ts",
+        "tests/masonry-wall-opening-sanitization-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0152-applications-masonry-wall-opening-sanitization"],
+      "status": "exact-parity",
       "publicEntryPath": "src/applications/index.js",
       "publicEntryBlobSha1": "b70179c7cdd2a819f2151dc092c0f59cbce30ba6"
     },
@@ -30141,11 +30156,18 @@
       "sourcePath": "src/applications/masonry-wall-openings/geometry/sanitizeAlignmentOpenings.js",
       "sourceBlobSha1": "a964ff7e3b9d871aadaec919706c384233ccb298",
       "targetPath": "src/applications/masonry-wall-openings/geometry/sanitizeAlignmentOpenings.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing"
+      "migrationSlices": ["0152-applications-masonry-wall-opening-sanitization"],
+      "sourceOracles": [
+        "tests/masonryWallOpeningsSanitization.test.js",
+        "tests/packageExports.test.js"
+      ],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/masonry-wall-opening-sanitization-compile-time.test.ts",
+        "tests/masonry-wall-opening-sanitization-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0152-applications-masonry-wall-opening-sanitization"],
+      "status": "exact-parity"
     },
     {
       "id": "src/applications/masonry-wall-openings/index.js",
@@ -36382,7 +36404,8 @@
         "0147-applications-geotechnical-slope-stability-application",
         "0148-applications-masonry-out-of-plane",
         "0149-applications-masonry-piers",
-        "0151-applications-masonry-wall-opening-models"
+        "0151-applications-masonry-wall-opening-models",
+        "0152-applications-masonry-wall-opening-sanitization"
       ],
       "sourceOracles": [
         "tests/architecture/applicationRegistry.test.js",
@@ -38746,14 +38769,22 @@
       "sourcePath": "tests/masonryWallOpeningsSanitization.test.js",
       "sourceBlobSha1": "36ba701f3edc0fd36273cc4b0bf027e42fb0efe8",
       "targetPath": "tests/masonryWallOpeningsSanitization.test.ts",
-      "migrationSlices": ["0151-applications-masonry-wall-opening-models"],
+      "migrationSlices": [
+        "0151-applications-masonry-wall-opening-models",
+        "0152-applications-masonry-wall-opening-sanitization"
+      ],
       "sourceOracles": ["tests/masonryWallOpeningsSanitization.test.js"],
       "targetTests": [
         "tests/baseline-parity.test.ts",
         "tests/masonry-wall-opening-models-compile-time.test.ts",
-        "tests/masonry-wall-opening-models-live-parity.test.ts"
+        "tests/masonry-wall-opening-models-live-parity.test.ts",
+        "tests/masonry-wall-opening-sanitization-compile-time.test.ts",
+        "tests/masonry-wall-opening-sanitization-live-parity.test.ts"
       ],
-      "validationEvidence": ["0151-applications-masonry-wall-opening-models"],
+      "validationEvidence": [
+        "0151-applications-masonry-wall-opening-models",
+        "0152-applications-masonry-wall-opening-sanitization"
+      ],
       "status": "exact-parity",
       "testKind": "test"
     },
@@ -39423,7 +39454,8 @@
         "0147-applications-geotechnical-slope-stability-application",
         "0148-applications-masonry-out-of-plane",
         "0149-applications-masonry-piers",
-        "0151-applications-masonry-wall-opening-models"
+        "0151-applications-masonry-wall-opening-models",
+        "0152-applications-masonry-wall-opening-sanitization"
       ],
       "sourceOracles": ["tests/packageExports.test.js"],
       "targetTests": [
@@ -39507,6 +39539,8 @@
         "tests/masonry-section-index-live-parity.test.ts",
         "tests/masonry-wall-opening-models-compile-time.test.ts",
         "tests/masonry-wall-opening-models-live-parity.test.ts",
+        "tests/masonry-wall-opening-sanitization-compile-time.test.ts",
+        "tests/masonry-wall-opening-sanitization-live-parity.test.ts",
         "tests/ntc2018-beam-combinations-compile-time.test.ts",
         "tests/ntc2018-beam-combinations-live-parity.test.ts",
         "tests/ntc2018-existing-masonry-catalogs-compile-time.test.ts",
@@ -39677,7 +39711,8 @@
         "0147-applications-geotechnical-slope-stability-application",
         "0148-applications-masonry-out-of-plane",
         "0149-applications-masonry-piers",
-        "0151-applications-masonry-wall-opening-models"
+        "0151-applications-masonry-wall-opening-models",
+        "0152-applications-masonry-wall-opening-sanitization"
       ],
       "status": "exact-parity",
       "testKind": "test"
@@ -43737,16 +43772,32 @@
         "publicStrings": "exact error messages and Unicode strings",
         "errors": "exact missing-units, missing-wall and invalid-geometry errors"
       }
+    },
+    {
+      "sliceId": "0152-applications-masonry-wall-opening-sanitization",
+      "sourceRevision": "6f33baead8b88166c4b2cf94af41763412e3c751",
+      "method": "Strict declaration consumer coverage and independently executed pinned JavaScript versus built TypeScript comparison of clipping, discarding, overlap clustering, stacked-opening warnings, wall-joint recombination, residual-pier warnings, exact JSON, Unicode identifiers and matching invalid-input errors.",
+      "targetTests": [
+        "tests/masonry-wall-opening-sanitization-compile-time.test.ts",
+        "tests/masonry-wall-opening-sanitization-live-parity.test.ts"
+      ],
+      "fixture": "Border, merged/vertically stacked, wall-joint and residual-pier opening alignments with explicit units and Unicode identifiers.",
+      "tolerances": {
+        "serializedParity": "exact complete sanitization result JSON",
+        "numericParity": "exact clipped coordinates, widths, heights and metadata",
+        "publicStrings": "exact warning and error strings plus Unicode identifiers",
+        "errors": "exact incompatible-alignment error behavior"
+      }
     }
   ],
   "counts": {
     "rootExports": {
       "javascript": 841,
-      "typescript": 752
+      "typescript": 753
     },
     "applicationsExports": {
       "javascript": 309,
-      "typescript": 225
+      "typescript": 226
     },
     "packageEntryPoints": {
       "javascript": 14,
@@ -43766,11 +43817,11 @@
     },
     "sourceFiles": {
       "javascript": 480,
-      "typescript": 411
+      "typescript": 412
     },
     "tests": {
       "javascript": 131,
-      "typescript": 288
+      "typescript": 290
     },
     "validationCampaigns": {
       "javascript": 17,
@@ -43822,7 +43873,7 @@
       "statusCounts": {
         "exact-parity": 0,
         "partial": 22,
-        "missing": 258,
+        "missing": 255,
         "intentionally-excluded": 0,
         "decision-required": 0
       },
@@ -43896,7 +43947,6 @@
         "application-export:inferSteelCompressionBucklingCurves",
         "application-export:resolveAlignmentMechanicalState",
         "application-export:resolveMasonryStageMaterial",
-        "application-export:sanitizeAlignmentOpenings",
         "application-export:steelBucklingCurveImperfectionFactor",
         "application-export:steelMemberFem3DToLegacyAnalysisResult",
         "application-export:steelNotSupportedCheck",
@@ -44010,7 +44060,6 @@
         "root-export:inferSteelCompressionBucklingCurves",
         "root-export:resolveAlignmentMechanicalState",
         "root-export:resolveMasonryStageMaterial",
-        "root-export:sanitizeAlignmentOpenings",
         "root-export:steelBucklingCurveImperfectionFactor",
         "root-export:steelMemberFem3DToLegacyAnalysisResult",
         "root-export:steelNotSupportedCheck",
@@ -44040,7 +44089,6 @@
         "source:src/applications/masonry-wall-openings/analysis/MasonryEquivalentFramePushoverSolver2D.js",
         "source:src/applications/masonry-wall-openings/analysis/MasonryPierCapacityCurveComparisonAnalysis.js",
         "source:src/applications/masonry-wall-openings/geometry/extractEquivalentFrameMembers.js",
-        "source:src/applications/masonry-wall-openings/geometry/sanitizeAlignmentOpenings.js",
         "source:src/applications/masonry-wall-openings/index.js",
         "source:src/applications/masonry-wall-openings/materials/resolveAlignmentMechanicalState.js",
         "source:src/applications/masonry-wall-openings/materials/resolveMasonryMaterialProperty.js",
