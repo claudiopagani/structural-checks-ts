@@ -1,0 +1,83 @@
+{
+  "schemaVersion": 1,
+  "sliceId": "0177-applications-single-beam-design-application",
+  "title": "Single-beam design application",
+  "migrationType": "mechanical-parity",
+  "implementationStatus": "implemented",
+  "dependencies": ["0176-applications-beam-report-builder"],
+  "source": {
+    "repository": "https://github.com/claudiopagani/strutture-js",
+    "revision": "6f33baead8b88166c4b2cf94af41763412e3c751"
+  },
+  "normativeCorpusRevision": "41da3faa489600173106935bbcf726119300e48d",
+  "sourceFiles": [
+    {
+      "path": "src/applications/single-beam-design/SingleBeamDesignApplication.js",
+      "gitBlobSha1": "ed6ecb8a3ec8219a6957681049d4653c7ff54e21",
+      "targetPath": "src/applications/single-beam-design/SingleBeamDesignApplication.ts"
+    }
+  ],
+  "supportingSourceFiles": [
+    {
+      "path": "src/applications/single-beam-design/index.js",
+      "gitBlobSha1": "ccbf9e38bbd7042b92e86ed607a77ee8d95da2a1",
+      "targetPath": "src/index.ts",
+      "coverage": "Pinned single-beam public barrel export for SingleBeamDesignApplication."
+    },
+    {
+      "path": "src/applications/index.js",
+      "gitBlobSha1": "b70179c7cdd2a819f2151dc092c0f59cbce30ba6",
+      "targetPath": "src/index.ts",
+      "coverage": "Pinned applications public barrel export for SingleBeamDesignApplication."
+    },
+    {
+      "path": "src/index.js",
+      "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7",
+      "targetPath": "src/index.ts",
+      "coverage": "Pinned root public export for SingleBeamDesignApplication."
+    }
+  ],
+  "sourceOracles": [
+    {
+      "path": "tests/singleBeamDesignApplication.test.js",
+      "gitBlobSha1": "5e423cda0e4f6ad910fbd7cc7abd02969976f24d",
+      "coverage": "Pinned end-to-end single-beam application orchestration, verification and report behavior."
+    },
+    {
+      "path": "tests/packageExports.test.js",
+      "gitBlobSha1": "8dde24b4c97dd3dae7100207d07d9d96c52b9c74",
+      "coverage": "Pinned root public-export behavior."
+    }
+  ],
+  "sourcePublicExport": {
+    "path": "src/index.js",
+    "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
+  },
+  "targetTests": [
+    "tests/single-beam-design-application-compile-time.test.ts",
+    "tests/single-beam-design-application-live-parity.test.ts"
+  ],
+  "publicExports": ["SingleBeamDesignApplication"],
+  "normativeReferences": {
+    "resolved": [],
+    "outsideCorpus": [],
+    "normativeConformityClaimed": false,
+    "status": "classified-for-declared-scope"
+  },
+  "independentValidation": {
+    "method": "Strict typed consumer declarations and independently executed pinned JavaScript versus built TypeScript comparison of exact calculation-result serialization, model normalization, injected analysis, function and object verification delegation, report delegation, warnings, assumptions, Unicode and errors.",
+    "targetTests": [
+      "tests/single-beam-design-application-compile-time.test.ts",
+      "tests/single-beam-design-application-live-parity.test.ts"
+    ],
+    "fixture": "Synthetic beam model with Unicode identifiers and metadata, injected analysis result, custom object verification adapter, custom analysis and report builder delegates, and missing-input error cases.",
+    "tolerances": {
+      "serializedParity": "exact CalculationResult JSON.stringify and toJSON output",
+      "numericParity": "exact injected analysis, verification utilization ratio and serialized output values",
+      "publicStrings": "exact application identifiers, status, summary, metadata, Unicode and error messages",
+      "errors": "exact missing input, missing model identifier and missing beam input errors"
+    }
+  },
+  "parityDifferences": [],
+  "engineeringFunctionality": "Source-compatible strict TypeScript orchestration of single-beam analysis, verification and report generation."
+}

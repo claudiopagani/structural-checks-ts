@@ -671,6 +671,7 @@ const expectedExports = [
   "createBeamReportArtifacts",
   "BeamReportMarkdownRenderer",
   "BeamReportBuilder",
+  "SingleBeamDesignApplication",
   "evaluateNTC2018MasonryPier",
   "evaluateNTC2018ElevationRegularity",
   "evaluateNTC2018ExistingMasonryWorkflow",
