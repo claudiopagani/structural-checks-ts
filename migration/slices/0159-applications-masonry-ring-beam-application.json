@@ -1,0 +1,109 @@
+{
+  "schemaVersion": 1,
+  "sliceId": "0159-applications-masonry-ring-beam-application",
+  "title": "Masonry ring beam application scaffold",
+  "migrationType": "mechanical-parity-with-minimal-dependency-support",
+  "implementationStatus": "implemented",
+  "dependencies": ["0158-applications-masonry-ring-beam-verification"],
+  "source": {
+    "repository": "https://github.com/claudiopagani/strutture-js",
+    "revision": "6f33baead8b88166c4b2cf94af41763412e3c751"
+  },
+  "normativeCorpusRevision": "41da3faa489600173106935bbcf726119300e48d",
+  "sourceFiles": [
+    {
+      "path": "src/applications/masonry-ring-beams/MasonryRingBeamApplication.js",
+      "gitBlobSha1": "7f95d45f138653a447756ca1aa4c71c8a8869357",
+      "targetPath": "src/applications/masonry-ring-beams/MasonryRingBeamApplication.ts"
+    }
+  ],
+  "supportingSourceFiles": [
+    {
+      "path": "src/core/applications/StructuralApplication.js",
+      "gitBlobSha1": "673e1f25c22eadc27e111853cc3a8c012f5fcad3",
+      "targetPath": "src/core/applications/StructuralApplication.ts",
+      "coverage": "Already-migrated structural application base class and placeholder result contract."
+    },
+    {
+      "path": "src/core/results/CalculationResult.js",
+      "gitBlobSha1": "de58f9d2a201435dd955cbfd4c4981d0b78610d4",
+      "targetPath": "src/core/results/CalculationResult.ts",
+      "coverage": "Already-migrated calculation result serialization used by the application scaffold."
+    },
+    {
+      "path": "src/core/results/resultStatus.js",
+      "gitBlobSha1": "5c3e5621c2cec6cffe803e95eea79fc69b27ba01",
+      "targetPath": "src/core/results/resultStatus.ts",
+      "coverage": "Already-migrated not-implemented result status constant."
+    },
+    {
+      "path": "src/applications/masonry-ring-beams/checks/MasonryRingBeamVerification.js",
+      "gitBlobSha1": "1f06c75faa087b3bb98051e81990d404d612939b",
+      "targetPath": "src/applications/masonry-ring-beams/checks/MasonryRingBeamVerification.ts",
+      "coverage": "Migrated in slice 0158 and delegated to by the application run workflow."
+    },
+    {
+      "path": "src/applications/masonry-ring-beams/index.js",
+      "gitBlobSha1": "2e0abaab2329b44c98f48a2e6aa73e707563b0b0",
+      "targetPath": "src/applications/masonry-ring-beams/index.ts",
+      "coverage": "Pinned source sub-index export context; target root exports the migrated class directly."
+    },
+    {
+      "path": "src/applications/index.js",
+      "gitBlobSha1": "b70179c7cdd2a819f2151dc092c0f59cbce30ba6",
+      "targetPath": "src/applications/index.ts",
+      "coverage": "Pinned source application export context."
+    },
+    {
+      "path": "src/index.js",
+      "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7",
+      "targetPath": "src/index.ts",
+      "coverage": "Pinned root public-export context for MasonryRingBeamApplication."
+    }
+  ],
+  "sourceOracles": [
+    {
+      "path": "tests/packageExports.test.js",
+      "gitBlobSha1": "8dde24b4c97dd3dae7100207d07d9d96c52b9c74",
+      "coverage": "Pinned root public export behavior."
+    },
+    {
+      "path": "tests/architecture/applicationRegistry.test.js",
+      "gitBlobSha1": "f7c4ab649b9f19600ab5894ea112bf7613466cd4",
+      "coverage": "Pinned application constructor and manifest catalog context."
+    }
+  ],
+  "sourcePublicExport": {
+    "path": "src/index.js",
+    "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
+  },
+  "targetTests": [
+    "tests/baseline-parity.test.ts",
+    "tests/masonry-ring-beam-application-compile-time.test.ts",
+    "tests/masonry-ring-beam-application-live-parity.test.ts"
+  ],
+  "publicExports": ["MasonryRingBeamApplication"],
+  "publicTypeExports": ["MasonryRingBeamApplicationInput", "MasonryRingBeamApplicationModel"],
+  "normativeReferences": {
+    "resolved": [],
+    "outsideCorpus": [],
+    "normativeConformityClaimed": false,
+    "status": "classified-for-declared-scope"
+  },
+  "independentValidation": {
+    "method": "Strict declaration consumer coverage and independently executed pinned JavaScript versus built TypeScript comparison of inheritance, manifest metadata, placeholder result JSON, Unicode identifiers and null-input error behavior.",
+    "targetTests": [
+      "tests/masonry-ring-beam-application-compile-time.test.ts",
+      "tests/masonry-ring-beam-application-live-parity.test.ts"
+    ],
+    "fixture": "Default, explicit code/model, explicit null values, missing model and null input.",
+    "tolerances": {
+      "serializedParity": "exact manifest and CalculationResult JSON",
+      "numericParity": "not applicable to the source scaffold",
+      "publicStrings": "exact application metadata, summaries, warnings, assumptions and Unicode identifiers",
+      "errors": "exact null-input error name and message"
+    }
+  },
+  "parityDifferences": [],
+  "engineeringFunctionality": "Source-compatible not-implemented masonry ring-beam application scaffold."
+}

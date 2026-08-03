@@ -632,6 +632,7 @@ const expectedExports = [
   "bilinearizeCapacityCurve",
   "MasonryRingBeamModel",
   "MasonryRingBeamVerification",
+  "MasonryRingBeamApplication",
   "sanitizeAlignmentOpenings",
   "registerXlamPanelProduct",
   "splitPrincipalActions",
