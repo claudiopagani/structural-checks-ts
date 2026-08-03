@@ -19,9 +19,9 @@ establish behavioral parity.
 | Package entry points              |                14 |                  5 |
 | ApplicationRegistry entries       |                30 |                  0 |
 | Application catalog entries       |                30 |                 30 |
-| Serialized schema/version symbols |                49 |                 43 |
+| Serialized schema/version symbols |                49 |                 46 |
 | Source files                      |               480 |                383 |
-| Tests                             |               131 |                262 |
+| Tests                             |               131 |                264 |
 | Validation campaigns              |                17 |                  0 |
 | Validation files                  |                27 |                  0 |
 | Examples                          |                32 |                  0 |
@@ -34,7 +34,7 @@ establish behavioral parity.
 The JSON inventory contains the exact item IDs for every non-exact item. The groups below are the
 implementation order required by the repository architecture.
 
-- **domain** — partial: 16.
+- **domain** — partial: 1.
 - **norms** — no remaining items.
 - **applications** — partial: 15, missing: 334.
 - **packageValidation** — partial: 4, missing: 118.

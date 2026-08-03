@@ -9287,14 +9287,15 @@
       "sourcePath": "src/domain/geotechnics/GeotechnicalDesignSituation.js",
       "sourceBlobSha1": "cdae4614bd40f318d57e6b0c3ebc7b1a96b15f00",
       "targetPath": "src/domain/geotechnics/GeotechnicalDesignSituation.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
+      "migrationSlices": ["0138-domain-geotechnical-public-constants"],
+      "sourceOracles": ["tests/geotechnicalGroundModel.test.js", "tests/packageExports.test.js"],
       "targetTests": [
         "tests/baseline-parity.test.ts",
-        "tests/lateral-pile-beam-on-springs-live-parity.test.ts"
+        "tests/geotechnical-domain-constants-compile-time.test.ts",
+        "tests/geotechnical-domain-constants-live-parity.test.ts"
       ],
-      "validationEvidence": [],
-      "status": "partial",
+      "validationEvidence": ["0138-domain-geotechnical-public-constants"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -9304,11 +9305,15 @@
       "sourcePath": "src/domain/geotechnics/GeotechnicalDesignSituation.js",
       "sourceBlobSha1": "cdae4614bd40f318d57e6b0c3ebc7b1a96b15f00",
       "targetPath": "src/domain/geotechnics/GeotechnicalDesignSituation.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": ["tests/baseline-parity.test.ts"],
-      "validationEvidence": [],
-      "status": "partial",
+      "migrationSlices": ["0138-domain-geotechnical-public-constants"],
+      "sourceOracles": ["tests/geotechnicalGroundModel.test.js", "tests/packageExports.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/geotechnical-domain-constants-compile-time.test.ts",
+        "tests/geotechnical-domain-constants-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0138-domain-geotechnical-public-constants"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -9318,11 +9323,15 @@
       "sourcePath": "src/domain/geotechnics/GeotechnicalDesignSituation.js",
       "sourceBlobSha1": "cdae4614bd40f318d57e6b0c3ebc7b1a96b15f00",
       "targetPath": "src/domain/geotechnics/GeotechnicalDesignSituation.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": ["tests/baseline-parity.test.ts"],
-      "validationEvidence": [],
-      "status": "partial",
+      "migrationSlices": ["0138-domain-geotechnical-public-constants"],
+      "sourceOracles": ["tests/geotechnicalGroundModel.test.js", "tests/packageExports.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/geotechnical-domain-constants-compile-time.test.ts",
+        "tests/geotechnical-domain-constants-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0138-domain-geotechnical-public-constants"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -9332,11 +9341,15 @@
       "sourcePath": "src/domain/geotechnics/SoilMaterial.js",
       "sourceBlobSha1": "5dfaafe73a7e65586de313e262cacf7e257535b9",
       "targetPath": "src/domain/geotechnics/SoilMaterial.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": ["tests/baseline-parity.test.ts"],
-      "validationEvidence": [],
-      "status": "partial",
+      "migrationSlices": ["0138-domain-geotechnical-public-constants"],
+      "sourceOracles": ["tests/geotechnicalGroundModel.test.js", "tests/packageExports.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/geotechnical-domain-constants-compile-time.test.ts",
+        "tests/geotechnical-domain-constants-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0138-domain-geotechnical-public-constants"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -9346,11 +9359,15 @@
       "sourcePath": "src/domain/geotechnics/GeotechnicalDesignSituation.js",
       "sourceBlobSha1": "cdae4614bd40f318d57e6b0c3ebc7b1a96b15f00",
       "targetPath": "src/domain/geotechnics/GeotechnicalDesignSituation.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": ["tests/baseline-parity.test.ts"],
-      "validationEvidence": [],
-      "status": "partial",
+      "migrationSlices": ["0138-domain-geotechnical-public-constants"],
+      "sourceOracles": ["tests/geotechnicalGroundModel.test.js", "tests/packageExports.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/geotechnical-domain-constants-compile-time.test.ts",
+        "tests/geotechnical-domain-constants-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0138-domain-geotechnical-public-constants"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -9360,11 +9377,15 @@
       "sourcePath": "src/domain/geotechnics/GeotechnicalDesignSituation.js",
       "sourceBlobSha1": "cdae4614bd40f318d57e6b0c3ebc7b1a96b15f00",
       "targetPath": "src/domain/geotechnics/GeotechnicalDesignSituation.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": ["tests/baseline-parity.test.ts"],
-      "validationEvidence": [],
-      "status": "partial",
+      "migrationSlices": ["0138-domain-geotechnical-public-constants"],
+      "sourceOracles": ["tests/geotechnicalGroundModel.test.js", "tests/packageExports.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/geotechnical-domain-constants-compile-time.test.ts",
+        "tests/geotechnical-domain-constants-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0138-domain-geotechnical-public-constants"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -9374,11 +9395,15 @@
       "sourcePath": "src/domain/geotechnics/GeotechnicalDesignSituation.js",
       "sourceBlobSha1": "cdae4614bd40f318d57e6b0c3ebc7b1a96b15f00",
       "targetPath": "src/domain/geotechnics/GeotechnicalDesignSituation.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": ["tests/baseline-parity.test.ts"],
-      "validationEvidence": [],
-      "status": "partial",
+      "migrationSlices": ["0138-domain-geotechnical-public-constants"],
+      "sourceOracles": ["tests/geotechnicalGroundModel.test.js", "tests/packageExports.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/geotechnical-domain-constants-compile-time.test.ts",
+        "tests/geotechnical-domain-constants-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0138-domain-geotechnical-public-constants"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -10925,14 +10950,15 @@
       "sourcePath": "src/domain/geotechnics/GroundModel.js",
       "sourceBlobSha1": "c8fd1bab76291e8a8509cb59c6bd079a54c4db4a",
       "targetPath": "src/domain/geotechnics/GroundModel.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
+      "migrationSlices": ["0138-domain-geotechnical-public-constants"],
+      "sourceOracles": ["tests/geotechnicalGroundModel.test.js", "tests/packageExports.test.js"],
       "targetTests": [
         "tests/baseline-parity.test.ts",
-        "tests/lateral-pile-beam-on-springs-live-parity.test.ts"
+        "tests/geotechnical-domain-constants-compile-time.test.ts",
+        "tests/geotechnical-domain-constants-live-parity.test.ts"
       ],
-      "validationEvidence": [],
-      "status": "partial",
+      "validationEvidence": ["0138-domain-geotechnical-public-constants"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -10942,11 +10968,15 @@
       "sourcePath": "src/domain/geotechnics/GroundProfile.js",
       "sourceBlobSha1": "6a4f206074bcbda08fefed813bf77e30bf095f41",
       "targetPath": "src/domain/geotechnics/GroundProfile.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": ["tests/baseline-parity.test.ts"],
-      "validationEvidence": [],
-      "status": "partial",
+      "migrationSlices": ["0138-domain-geotechnical-public-constants"],
+      "sourceOracles": ["tests/geotechnicalGroundModel.test.js", "tests/packageExports.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/geotechnical-domain-constants-compile-time.test.ts",
+        "tests/geotechnical-domain-constants-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0138-domain-geotechnical-public-constants"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -18386,11 +18416,15 @@
       "sourcePath": "src/domain/geotechnics/SoilMaterial.js",
       "sourceBlobSha1": "5dfaafe73a7e65586de313e262cacf7e257535b9",
       "targetPath": "src/domain/geotechnics/SoilMaterial.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": ["tests/baseline-parity.test.ts"],
-      "validationEvidence": [],
-      "status": "partial",
+      "migrationSlices": ["0138-domain-geotechnical-public-constants"],
+      "sourceOracles": ["tests/geotechnicalGroundModel.test.js", "tests/packageExports.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/geotechnical-domain-constants-compile-time.test.ts",
+        "tests/geotechnical-domain-constants-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0138-domain-geotechnical-public-constants"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -18400,11 +18434,15 @@
       "sourcePath": "src/domain/geotechnics/SoilMaterial.js",
       "sourceBlobSha1": "5dfaafe73a7e65586de313e262cacf7e257535b9",
       "targetPath": "src/domain/geotechnics/SoilMaterial.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": ["tests/baseline-parity.test.ts"],
-      "validationEvidence": [],
-      "status": "partial",
+      "migrationSlices": ["0138-domain-geotechnical-public-constants"],
+      "sourceOracles": ["tests/geotechnicalGroundModel.test.js", "tests/packageExports.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/geotechnical-domain-constants-compile-time.test.ts",
+        "tests/geotechnical-domain-constants-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0138-domain-geotechnical-public-constants"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -18414,11 +18452,15 @@
       "sourcePath": "src/domain/geotechnics/SoilMaterial.js",
       "sourceBlobSha1": "5dfaafe73a7e65586de313e262cacf7e257535b9",
       "targetPath": "src/domain/geotechnics/SoilMaterial.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": ["tests/baseline-parity.test.ts"],
-      "validationEvidence": [],
-      "status": "partial",
+      "migrationSlices": ["0138-domain-geotechnical-public-constants"],
+      "sourceOracles": ["tests/geotechnicalGroundModel.test.js", "tests/packageExports.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/geotechnical-domain-constants-compile-time.test.ts",
+        "tests/geotechnical-domain-constants-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0138-domain-geotechnical-public-constants"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -18428,11 +18470,15 @@
       "sourcePath": "src/domain/geotechnics/SoilMaterial.js",
       "sourceBlobSha1": "5dfaafe73a7e65586de313e262cacf7e257535b9",
       "targetPath": "src/domain/geotechnics/SoilMaterial.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": ["tests/baseline-parity.test.ts"],
-      "validationEvidence": [],
-      "status": "partial",
+      "migrationSlices": ["0138-domain-geotechnical-public-constants"],
+      "sourceOracles": ["tests/geotechnicalGroundModel.test.js", "tests/packageExports.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/geotechnical-domain-constants-compile-time.test.ts",
+        "tests/geotechnical-domain-constants-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0138-domain-geotechnical-public-constants"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -18442,11 +18488,15 @@
       "sourcePath": "src/domain/geotechnics/SoilMaterial.js",
       "sourceBlobSha1": "5dfaafe73a7e65586de313e262cacf7e257535b9",
       "targetPath": "src/domain/geotechnics/SoilMaterial.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": ["tests/baseline-parity.test.ts"],
-      "validationEvidence": [],
-      "status": "partial",
+      "migrationSlices": ["0138-domain-geotechnical-public-constants"],
+      "sourceOracles": ["tests/geotechnicalGroundModel.test.js", "tests/packageExports.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/geotechnical-domain-constants-compile-time.test.ts",
+        "tests/geotechnical-domain-constants-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0138-domain-geotechnical-public-constants"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -18456,11 +18506,15 @@
       "sourcePath": "src/domain/geotechnics/SoilMaterial.js",
       "sourceBlobSha1": "5dfaafe73a7e65586de313e262cacf7e257535b9",
       "targetPath": "src/domain/geotechnics/SoilMaterial.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": ["tests/baseline-parity.test.ts"],
-      "validationEvidence": [],
-      "status": "partial",
+      "migrationSlices": ["0138-domain-geotechnical-public-constants"],
+      "sourceOracles": ["tests/geotechnicalGroundModel.test.js", "tests/packageExports.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/geotechnical-domain-constants-compile-time.test.ts",
+        "tests/geotechnical-domain-constants-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0138-domain-geotechnical-public-constants"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -28213,14 +28267,15 @@
       "sourcePath": "src/domain/geotechnics/GeotechnicalDesignSituation.js",
       "sourceBlobSha1": "cdae4614bd40f318d57e6b0c3ebc7b1a96b15f00",
       "targetPath": "src/domain/geotechnics/GeotechnicalDesignSituation.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
+      "migrationSlices": ["0138-domain-geotechnical-public-constants"],
+      "sourceOracles": ["tests/geotechnicalGroundModel.test.js", "tests/packageExports.test.js"],
       "targetTests": [
         "tests/baseline-parity.test.ts",
-        "tests/lateral-pile-beam-on-springs-live-parity.test.ts"
+        "tests/geotechnical-domain-constants-compile-time.test.ts",
+        "tests/geotechnical-domain-constants-live-parity.test.ts"
       ],
-      "validationEvidence": [],
-      "status": "partial",
+      "validationEvidence": ["0138-domain-geotechnical-public-constants"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7",
       "value": "geotechnical-design-situation/v1"
@@ -28398,14 +28453,15 @@
       "sourcePath": "src/domain/geotechnics/GroundModel.js",
       "sourceBlobSha1": "c8fd1bab76291e8a8509cb59c6bd079a54c4db4a",
       "targetPath": "src/domain/geotechnics/GroundModel.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
+      "migrationSlices": ["0138-domain-geotechnical-public-constants"],
+      "sourceOracles": ["tests/geotechnicalGroundModel.test.js", "tests/packageExports.test.js"],
       "targetTests": [
         "tests/baseline-parity.test.ts",
-        "tests/lateral-pile-beam-on-springs-live-parity.test.ts"
+        "tests/geotechnical-domain-constants-compile-time.test.ts",
+        "tests/geotechnical-domain-constants-live-parity.test.ts"
       ],
-      "validationEvidence": [],
-      "status": "partial",
+      "validationEvidence": ["0138-domain-geotechnical-public-constants"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7",
       "value": "ground-model/v1"
@@ -28416,11 +28472,15 @@
       "sourcePath": "src/domain/geotechnics/GroundProfile.js",
       "sourceBlobSha1": "6a4f206074bcbda08fefed813bf77e30bf095f41",
       "targetPath": "src/domain/geotechnics/GroundProfile.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": ["tests/baseline-parity.test.ts"],
-      "validationEvidence": [],
-      "status": "partial",
+      "migrationSlices": ["0138-domain-geotechnical-public-constants"],
+      "sourceOracles": ["tests/geotechnicalGroundModel.test.js", "tests/packageExports.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/geotechnical-domain-constants-compile-time.test.ts",
+        "tests/geotechnical-domain-constants-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0138-domain-geotechnical-public-constants"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7",
       "value": "ground-profile/v1"
@@ -33975,22 +34035,27 @@
       "targetPath": "src/domain/geotechnics/GeotechnicalDesignSituation.ts",
       "migrationSlices": [
         "0019-axial-single-pile-capacity",
-        "0082-domain-embedded-retaining-wall-analysis"
+        "0082-domain-embedded-retaining-wall-analysis",
+        "0138-domain-geotechnical-public-constants"
       ],
       "sourceOracles": [
         "tests/geotechnicalDeepFoundations.test.js",
         "tests/geotechnicalEmbeddedRetainingWalls.test.js",
+        "tests/geotechnicalGroundModel.test.js",
         "tests/packageExports.test.js"
       ],
       "targetTests": [
         "tests/baseline-parity.test.ts",
         "tests/embedded-retaining-wall-analysis-compile-time.test.ts",
         "tests/embedded-retaining-wall-analysis-live-parity.test.ts",
-        "tests/geotechnical-axial-pile.test.ts"
+        "tests/geotechnical-axial-pile.test.ts",
+        "tests/geotechnical-domain-constants-compile-time.test.ts",
+        "tests/geotechnical-domain-constants-live-parity.test.ts"
       ],
       "validationEvidence": [
         "0019-axial-single-pile-capacity",
-        "0082-domain-embedded-retaining-wall-analysis"
+        "0082-domain-embedded-retaining-wall-analysis",
+        "0138-domain-geotechnical-public-constants"
       ],
       "status": "exact-parity"
     },
@@ -34065,22 +34130,27 @@
       "targetPath": "src/domain/geotechnics/GroundModel.ts",
       "migrationSlices": [
         "0019-axial-single-pile-capacity",
-        "0082-domain-embedded-retaining-wall-analysis"
+        "0082-domain-embedded-retaining-wall-analysis",
+        "0138-domain-geotechnical-public-constants"
       ],
       "sourceOracles": [
         "tests/geotechnicalDeepFoundations.test.js",
         "tests/geotechnicalEmbeddedRetainingWalls.test.js",
+        "tests/geotechnicalGroundModel.test.js",
         "tests/packageExports.test.js"
       ],
       "targetTests": [
         "tests/baseline-parity.test.ts",
         "tests/embedded-retaining-wall-analysis-compile-time.test.ts",
         "tests/embedded-retaining-wall-analysis-live-parity.test.ts",
-        "tests/geotechnical-axial-pile.test.ts"
+        "tests/geotechnical-axial-pile.test.ts",
+        "tests/geotechnical-domain-constants-compile-time.test.ts",
+        "tests/geotechnical-domain-constants-live-parity.test.ts"
       ],
       "validationEvidence": [
         "0019-axial-single-pile-capacity",
-        "0082-domain-embedded-retaining-wall-analysis"
+        "0082-domain-embedded-retaining-wall-analysis",
+        "0138-domain-geotechnical-public-constants"
       ],
       "status": "exact-parity"
     },
@@ -34089,10 +34159,25 @@
       "sourcePath": "src/domain/geotechnics/GroundProfile.js",
       "sourceBlobSha1": "6a4f206074bcbda08fefed813bf77e30bf095f41",
       "targetPath": "src/domain/geotechnics/GroundProfile.ts",
-      "migrationSlices": ["0019-axial-single-pile-capacity"],
-      "sourceOracles": ["tests/geotechnicalDeepFoundations.test.js"],
-      "targetTests": ["tests/geotechnical-axial-pile.test.ts"],
-      "validationEvidence": ["0019-axial-single-pile-capacity"],
+      "migrationSlices": [
+        "0019-axial-single-pile-capacity",
+        "0138-domain-geotechnical-public-constants"
+      ],
+      "sourceOracles": [
+        "tests/geotechnicalDeepFoundations.test.js",
+        "tests/geotechnicalGroundModel.test.js",
+        "tests/packageExports.test.js"
+      ],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/geotechnical-axial-pile.test.ts",
+        "tests/geotechnical-domain-constants-compile-time.test.ts",
+        "tests/geotechnical-domain-constants-live-parity.test.ts"
+      ],
+      "validationEvidence": [
+        "0019-axial-single-pile-capacity",
+        "0138-domain-geotechnical-public-constants"
+      ],
       "status": "exact-parity"
     },
     {
@@ -34378,10 +34463,25 @@
       "sourcePath": "src/domain/geotechnics/SoilMaterial.js",
       "sourceBlobSha1": "5dfaafe73a7e65586de313e262cacf7e257535b9",
       "targetPath": "src/domain/geotechnics/SoilMaterial.ts",
-      "migrationSlices": ["0019-axial-single-pile-capacity"],
-      "sourceOracles": ["tests/geotechnicalDeepFoundations.test.js"],
-      "targetTests": ["tests/geotechnical-axial-pile.test.ts"],
-      "validationEvidence": ["0019-axial-single-pile-capacity"],
+      "migrationSlices": [
+        "0019-axial-single-pile-capacity",
+        "0138-domain-geotechnical-public-constants"
+      ],
+      "sourceOracles": [
+        "tests/geotechnicalDeepFoundations.test.js",
+        "tests/geotechnicalGroundModel.test.js",
+        "tests/packageExports.test.js"
+      ],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/geotechnical-axial-pile.test.ts",
+        "tests/geotechnical-domain-constants-compile-time.test.ts",
+        "tests/geotechnical-domain-constants-live-parity.test.ts"
+      ],
+      "validationEvidence": [
+        "0019-axial-single-pile-capacity",
+        "0138-domain-geotechnical-public-constants"
+      ],
       "status": "exact-parity"
     },
     {
@@ -35694,7 +35794,8 @@
         "0134-norms-ntc2018-timber-factory",
         "0135-norms-ntc2018-public-index",
         "0136-norms-ntc2018-masonry-public-index",
-        "0137-applications-geotechnical-deep-foundations-public-index"
+        "0137-applications-geotechnical-deep-foundations-public-index",
+        "0138-domain-geotechnical-public-constants"
       ],
       "sourceOracles": [
         "tests/architecture/applicationRegistry.test.js",
@@ -37493,16 +37594,26 @@
       "sourcePath": "tests/geotechnicalGroundModel.test.js",
       "sourceBlobSha1": "430775c7d7077ac71dbc3f8b03e8cd2f4a6bb289",
       "targetPath": "tests/geotechnicalGroundModel.test.ts",
-      "migrationSlices": ["0069-domain-pore-pressure-field", "0070-domain-ground-section"],
+      "migrationSlices": [
+        "0069-domain-pore-pressure-field",
+        "0070-domain-ground-section",
+        "0138-domain-geotechnical-public-constants"
+      ],
       "sourceOracles": ["tests/geotechnicalGroundModel.test.js"],
       "targetTests": [
         "tests/baseline-parity.test.ts",
+        "tests/geotechnical-domain-constants-compile-time.test.ts",
+        "tests/geotechnical-domain-constants-live-parity.test.ts",
         "tests/ground-section-2d-compile-time.test.ts",
         "tests/ground-section-2d-live-parity.test.ts",
         "tests/pore-pressure-field-2d-compile-time.test.ts",
         "tests/pore-pressure-field-2d-live-parity.test.ts"
       ],
-      "validationEvidence": ["0069-domain-pore-pressure-field", "0070-domain-ground-section"],
+      "validationEvidence": [
+        "0069-domain-pore-pressure-field",
+        "0070-domain-ground-section",
+        "0138-domain-geotechnical-public-constants"
+      ],
       "status": "exact-parity",
       "testKind": "test"
     },
@@ -38664,7 +38775,8 @@
         "0134-norms-ntc2018-timber-factory",
         "0135-norms-ntc2018-public-index",
         "0136-norms-ntc2018-masonry-public-index",
-        "0137-applications-geotechnical-deep-foundations-public-index"
+        "0137-applications-geotechnical-deep-foundations-public-index",
+        "0138-domain-geotechnical-public-constants"
       ],
       "sourceOracles": ["tests/packageExports.test.js"],
       "targetTests": [
@@ -38705,6 +38817,8 @@
         "tests/foundation-beam-analysis.test.ts",
         "tests/geotechnical-deep-foundations-index-compile-time.test.ts",
         "tests/geotechnical-deep-foundations-index-live-parity.test.ts",
+        "tests/geotechnical-domain-constants-compile-time.test.ts",
+        "tests/geotechnical-domain-constants-live-parity.test.ts",
         "tests/ground-anchor-analysis-compile-time.test.ts",
         "tests/ground-anchor-analysis-live-parity.test.ts",
         "tests/ground-anchor-bond-catalog-compile-time.test.ts",
@@ -38878,7 +38992,8 @@
         "0134-norms-ntc2018-timber-factory",
         "0135-norms-ntc2018-public-index",
         "0136-norms-ntc2018-masonry-public-index",
-        "0137-applications-geotechnical-deep-foundations-public-index"
+        "0137-applications-geotechnical-deep-foundations-public-index",
+        "0138-domain-geotechnical-public-constants"
       ],
       "status": "exact-parity",
       "testKind": "test"
@@ -42694,6 +42809,22 @@
         "publicStrings": "exact equality plus Unicode code-point preservation",
         "errors": "exact delegated application and capacity error behavior remains covered by dependency slices"
       }
+    },
+    {
+      "sliceId": "0138-domain-geotechnical-public-constants",
+      "sourceRevision": "6f33baead8b88166c4b2cf94af41763412e3c751",
+      "method": "Strict declaration consumer coverage and independently executed pinned JavaScript versus built TypeScript comparison of all 15 geotechnical public constants through both root and domain barrels, exact JSON values and Unicode code points, with pinned repository cleanliness checks.",
+      "targetTests": [
+        "tests/geotechnical-domain-constants-compile-time.test.ts",
+        "tests/geotechnical-domain-constants-live-parity.test.ts"
+      ],
+      "fixture": null,
+      "tolerances": {
+        "serializedParity": "exact constant values and JSON serialization",
+        "numericParity": "exact unit catalog values; no numeric formula is introduced by this closure",
+        "publicStrings": "exact equality plus Unicode code-point preservation",
+        "errors": "no new error branch; constructor and validation errors remain covered by dependency slices"
+      }
     }
   ],
   "counts": {
@@ -42719,7 +42850,7 @@
     },
     "serializedSchemas": {
       "javascript": 49,
-      "typescript": 43
+      "typescript": 46
     },
     "sourceFiles": {
       "javascript": 480,
@@ -42727,7 +42858,7 @@
     },
     "tests": {
       "javascript": 131,
-      "typescript": 262
+      "typescript": 264
     },
     "validationCampaigns": {
       "javascript": 17,
@@ -42758,29 +42889,12 @@
     "domain": {
       "statusCounts": {
         "exact-parity": 0,
-        "partial": 16,
+        "partial": 1,
         "missing": 0,
         "intentionally-excluded": 0,
         "decision-required": 0
       },
-      "itemIds": [
-        "root-export:GEOTECHNICAL_DESIGN_SITUATION_SCHEMA_VERSION",
-        "root-export:GEOTECHNICAL_DESIGN_SITUATION_TYPES",
-        "root-export:GEOTECHNICAL_DRAINAGE_CONDITIONS",
-        "root-export:GEOTECHNICAL_INTERNAL_UNITS",
-        "root-export:GEOTECHNICAL_LIMIT_STATES",
-        "root-export:GEOTECHNICAL_SEISMIC_MODELS",
-        "root-export:GEOTECHNICAL_TIME_CONDITIONS",
-        "root-export:GROUND_MODEL_SCHEMA_VERSION",
-        "root-export:GROUND_PROFILE_SCHEMA_VERSION",
-        "root-export:SOIL_DEFORMATION_MODELS",
-        "root-export:SOIL_DRAINAGE_CONDITIONS",
-        "root-export:SOIL_MODULUS_DEFINITIONS",
-        "root-export:SOIL_PARAMETER_BASES",
-        "root-export:SOIL_SETTLEMENT_COMPONENTS",
-        "root-export:SOIL_STRENGTH_MODELS",
-        "source:src/domain/geotechnics/index.js"
-      ]
+      "itemIds": ["source:src/domain/geotechnics/index.js"]
     },
     "norms": {
       "statusCounts": {

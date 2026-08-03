@@ -1,0 +1,120 @@
+{
+  "schemaVersion": 1,
+  "sliceId": "0138-domain-geotechnical-public-constants",
+  "title": "Geotechnical domain public constants",
+  "migrationType": "mechanical-parity-with-minimal-dependency-support",
+  "implementationStatus": "implemented",
+  "dependencies": [
+    "0019-axial-single-pile-capacity",
+    "0137-applications-geotechnical-deep-foundations-public-index"
+  ],
+  "source": {
+    "repository": "https://github.com/claudiopagani/strutture-js",
+    "revision": "6f33baead8b88166c4b2cf94af41763412e3c751"
+  },
+  "normativeCorpusRevision": "41da3faa489600173106935bbcf726119300e48d",
+  "sourceFiles": [
+    {
+      "path": "src/domain/geotechnics/GeotechnicalDesignSituation.js",
+      "gitBlobSha1": "cdae4614bd40f318d57e6b0c3ebc7b1a96b15f00",
+      "targetPath": "src/domain/geotechnics/GeotechnicalDesignSituation.ts",
+      "coverage": "Public situation-type, time, drainage, limit-state and seismic-model catalogs; class behavior remains covered by earlier slices."
+    },
+    {
+      "path": "src/domain/geotechnics/SoilMaterial.js",
+      "gitBlobSha1": "5dfaafe73a7e65586de313e262cacf7e257535b9",
+      "targetPath": "src/domain/geotechnics/SoilMaterial.ts",
+      "coverage": "Public soil parameter, drainage, strength, deformation, modulus and settlement catalogs plus internal units."
+    },
+    {
+      "path": "src/domain/geotechnics/GroundModel.js",
+      "gitBlobSha1": "c8fd1bab76291e8a8509cb59c6bd079a54c4db4a",
+      "targetPath": "src/domain/geotechnics/GroundModel.ts",
+      "coverage": "Public GroundModel schema-version constant."
+    },
+    {
+      "path": "src/domain/geotechnics/GroundProfile.js",
+      "gitBlobSha1": "6a4f206074bcbda08fefed813bf77e30bf095f41",
+      "targetPath": "src/domain/geotechnics/GroundProfile.ts",
+      "coverage": "Public GroundProfile schema-version constant."
+    }
+  ],
+  "supportingSourceFiles": [
+    {
+      "path": "src/domain/geotechnics/index.js",
+      "gitBlobSha1": "41ed2053fc2e37dc90da412846609f4050af9668",
+      "targetPath": "src/domain/geotechnics/index.ts",
+      "coverage": "Public domain barrel context for the migrated constants; AxialPileCapacityAnalysis remains intentionally outside this closure because the target implementation is in the norms layer and domain-to-norms imports are forbidden."
+    },
+    {
+      "path": "src/index.js",
+      "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7",
+      "targetPath": "src/index.ts",
+      "coverage": "Root public aliases for the geotechnical constants."
+    }
+  ],
+  "sourceOracles": [
+    {
+      "path": "tests/geotechnicalGroundModel.test.js",
+      "gitBlobSha1": "430775c7d7077ac71dbc3f8b03e8cd2f4a6bb289",
+      "coverage": "Ground-model schemas, geotechnical catalogs and serialized behavior."
+    },
+    {
+      "path": "tests/packageExports.test.js",
+      "gitBlobSha1": "8dde24b4c97dd3dae7100207d07d9d96c52b9c74",
+      "coverage": "Public root and domain export behavior."
+    }
+  ],
+  "sourcePublicExport": {
+    "path": "src/index.js",
+    "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
+  },
+  "targetTests": [
+    "tests/baseline-parity.test.ts",
+    "tests/geotechnical-domain-constants-compile-time.test.ts",
+    "tests/geotechnical-domain-constants-live-parity.test.ts"
+  ],
+  "publicExports": [
+    "GEOTECHNICAL_DESIGN_SITUATION_SCHEMA_VERSION",
+    "GEOTECHNICAL_DESIGN_SITUATION_TYPES",
+    "GEOTECHNICAL_DRAINAGE_CONDITIONS",
+    "GEOTECHNICAL_INTERNAL_UNITS",
+    "GEOTECHNICAL_LIMIT_STATES",
+    "GEOTECHNICAL_SEISMIC_MODELS",
+    "GEOTECHNICAL_TIME_CONDITIONS",
+    "GROUND_MODEL_SCHEMA_VERSION",
+    "GROUND_PROFILE_SCHEMA_VERSION",
+    "SOIL_DEFORMATION_MODELS",
+    "SOIL_DRAINAGE_CONDITIONS",
+    "SOIL_MODULUS_DEFINITIONS",
+    "SOIL_PARAMETER_BASES",
+    "SOIL_SETTLEMENT_COMPONENTS",
+    "SOIL_STRENGTH_MODELS"
+  ],
+  "publicTypeExports": [],
+  "normativeReferences": {
+    "resolved": [],
+    "outsideCorpus": [],
+    "normativeConformityClaimed": false,
+    "status": "classified-for-declared-scope"
+  },
+  "independentValidation": {
+    "method": "Strict declaration consumer coverage and independently executed pinned JavaScript versus built TypeScript comparison of all 15 geotechnical public constants through both root and domain barrels, exact JSON values and Unicode code points, with pinned repository cleanliness checks.",
+    "targetTests": [
+      "tests/geotechnical-domain-constants-compile-time.test.ts",
+      "tests/geotechnical-domain-constants-live-parity.test.ts"
+    ],
+    "fixture": null,
+    "tolerances": {
+      "serializedParity": "exact constant values and JSON serialization",
+      "numericParity": "exact unit catalog values; no numeric formula is introduced by this closure",
+      "publicStrings": "exact equality plus Unicode code-point preservation",
+      "errors": "no new error branch; constructor and validation errors remain covered by dependency slices"
+    }
+  },
+  "parityDifferences": [
+    "The target already exposes these constants through strict TypeScript modules and public barrels; this bounded slice adds direct provenance and independent parity evidence without changing runtime values.",
+    "The domain geotechnics barrel remains partial for the three source axial-capacity exports whose accepted target implementation is in the norms layer; importing norms from domain would violate the architecture boundary."
+  ],
+  "engineeringFunctionality": "Source-compatible geotechnical domain catalog and schema-version constants for consumer routing and serialized model identification."
+}
