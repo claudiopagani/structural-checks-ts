@@ -883,6 +883,18 @@ export type {
   SteelSectionClassificationSectionLike,
   SteelSectionClassificationSectionMetadataLike,
 } from "./applications/steel-frames/checks/SteelSectionClassification.js";
+export { getSteelVerificationCapabilities } from "./applications/steel-frames/checks/steelVerificationCapabilities.js";
+export type {
+  GetSteelVerificationCapabilitiesOptions,
+  SteelVerificationCapabilitiesCatalogPropertiesLike,
+  SteelVerificationCapabilitiesResult,
+  SteelVerificationCapabilitiesSectionLike,
+  SteelVerificationCapabilitiesSectionMetadataLike,
+  SteelVerificationCapability,
+  SteelVerificationCapabilityAvailability,
+  SteelVerificationCapabilityStatus,
+  SteelVerificationCompoundCapability,
+} from "./applications/steel-frames/checks/steelVerificationCapabilities.js";
 export { SteelPlasticHingeFrameElement2D } from "./applications/steel-frames/analysis/SteelPlasticHingeFrameElement2D.js";
 export type {
   SteelPlasticHingeCondensationOperators,

@@ -476,6 +476,7 @@ const expectedExports = [
   "calculateSteelCompressionBucklingAxis",
   "calculateElasticCriticalMomentLT",
   "classifySteelSection",
+  "getSteelVerificationCapabilities",
   "inferSteelCompressionBucklingCurves",
   "steelBucklingCurveImperfectionFactor",
   "verifySteelCompressionBuckling",

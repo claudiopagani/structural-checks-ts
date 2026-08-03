@@ -1,0 +1,92 @@
+{
+  "schemaVersion": 1,
+  "sliceId": "0193-applications-steel-verification-capabilities",
+  "title": "Steel verification capability discovery",
+  "migrationType": "mechanical-parity",
+  "implementationStatus": "implemented",
+  "dependencies": ["0192-applications-steel-section-classification"],
+  "source": {
+    "repository": "https://github.com/claudiopagani/strutture-js",
+    "revision": "6f33baead8b88166c4b2cf94af41763412e3c751"
+  },
+  "normativeCorpusRevision": "41da3faa489600173106935bbcf726119300e48d",
+  "sourceFiles": [
+    {
+      "path": "src/applications/steel-frames/checks/steelVerificationCapabilities.js",
+      "gitBlobSha1": "104c3cc8cbe321cfe4490cb2141683060b07a470",
+      "targetPath": "src/applications/steel-frames/checks/steelVerificationCapabilities.ts"
+    }
+  ],
+  "supportingSourceFiles": [
+    {
+      "path": "src/applications/steel-frames/index.js",
+      "gitBlobSha1": "00b0b647649aff91fa05b523a18df186f588223f",
+      "coverage": "Pinned steel-frames barrel exports getSteelVerificationCapabilities."
+    },
+    {
+      "path": "src/applications/index.js",
+      "gitBlobSha1": "b70179c7cdd2a819f2151dc092c0f59cbce30ba6",
+      "coverage": "Pinned applications barrel reexports getSteelVerificationCapabilities."
+    },
+    {
+      "path": "src/index.js",
+      "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7",
+      "coverage": "Pinned root public export for steel verification capability discovery."
+    }
+  ],
+  "sourceOracles": [
+    {
+      "path": "tests/steelBeamSectionProvider.test.js",
+      "gitBlobSha1": "0c0b3548262ac408961ea9a48c5649b228c0bebd",
+      "coverage": "Pinned RHS, UPN, compound and unknown-profile capability outcomes."
+    },
+    {
+      "path": "tests/packageExports.test.js",
+      "gitBlobSha1": "8dde24b4c97dd3dae7100207d07d9d96c52b9c74",
+      "coverage": "Pinned public package export and root-alias oracle."
+    }
+  ],
+  "sourcePublicExport": {
+    "path": "src/index.js",
+    "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
+  },
+  "targetTests": [
+    "tests/baseline-parity.test.ts",
+    "tests/steel-verification-capabilities-compile-time.test.ts",
+    "tests/steel-verification-capabilities-live-parity.test.ts"
+  ],
+  "publicExports": ["getSteelVerificationCapabilities"],
+  "publicTypeExports": [
+    "GetSteelVerificationCapabilitiesOptions",
+    "SteelVerificationCapabilitiesCatalogPropertiesLike",
+    "SteelVerificationCapabilitiesResult",
+    "SteelVerificationCapabilitiesSectionLike",
+    "SteelVerificationCapabilitiesSectionMetadataLike",
+    "SteelVerificationCapability",
+    "SteelVerificationCapabilityAvailability",
+    "SteelVerificationCapabilityStatus",
+    "SteelVerificationCompoundCapability"
+  ],
+  "normativeReferences": {
+    "resolved": [],
+    "outsideCorpus": [],
+    "normativeConformityClaimed": false,
+    "status": "classified-for-declared-scope"
+  },
+  "independentValidation": {
+    "method": "Strict typed consumer declarations and independently executed pinned JavaScript versus built TypeScript comparison of profile-catalog resolution, exact capability JSON, availability/status metadata, Unicode profile identifiers, unsupported profile error mapping, missing-input behavior, public aliases and null-input errors.",
+    "targetTests": [
+      "tests/steel-verification-capabilities-compile-time.test.ts",
+      "tests/steel-verification-capabilities-live-parity.test.ts"
+    ],
+    "fixture": "Independent catalog-backed RHS and UPN profiles, direct compound metadata, unsupported XYZ999 profile, missing section and direct Unicode metadata profile covering automatic, guarded, not-required, not-supported and error branches.",
+    "tolerances": {
+      "serializedParity": "exact JSON and enumerable result key order",
+      "numericParity": "exact capability constants, no approximated engineering values and exact catalog resolution metadata",
+      "publicStrings": "exact capability messages, required inputs, standards identifiers and Unicode code-point comparison",
+      "errors": "exact TypeError name and message for null options; exact caught unsupported-profile error mapping"
+    }
+  },
+  "parityDifferences": [],
+  "engineeringFunctionality": "Strict TypeScript parity for steel profile capability discovery and guarded availability metadata; member verification orchestration and registry composition remain outside this slice."
+}
