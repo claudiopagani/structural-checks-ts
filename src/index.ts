@@ -492,6 +492,11 @@ export type {
 } from "./applications/masonry-wall-openings/analysis/AlignmentCapacityBilinearization.js";
 export { MasonryRingBeamModel } from "./applications/masonry-ring-beams/models/MasonryRingBeamModel.js";
 export type { MasonryRingBeamModelInput } from "./applications/masonry-ring-beams/models/MasonryRingBeamModel.js";
+export { MasonryRingBeamVerification } from "./applications/masonry-ring-beams/checks/MasonryRingBeamVerification.js";
+export type {
+  MasonryRingBeamVerificationOptions,
+  MasonryRingBeamVerifyInput,
+} from "./applications/masonry-ring-beams/checks/MasonryRingBeamVerification.js";
 export {
   AXIAL_PILE_CAPACITY_REFERENCE,
   AXIAL_PILE_CAPACITY_RESULT_SCHEMA_VERSION,

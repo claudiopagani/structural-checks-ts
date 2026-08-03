@@ -1070,6 +1070,7 @@
         "MasonryPierModel",
         "MasonryPierVerticalVerification",
         "MasonryRingBeamModel",
+        "MasonryRingBeamVerification",
         "MasonryWallOpeningsModel",
         "MasonryWallPierModel",
         "MasonryWallSpandrelModel",
@@ -12530,11 +12531,18 @@
       "sourcePath": "src/applications/masonry-ring-beams/checks/MasonryRingBeamVerification.js",
       "sourceBlobSha1": "1f06c75faa087b3bb98051e81990d404d612939b",
       "targetPath": "src/applications/masonry-ring-beams/checks/MasonryRingBeamVerification.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0158-applications-masonry-ring-beam-verification"],
+      "sourceOracles": [
+        "tests/architecture/applicationRegistry.test.js",
+        "tests/packageExports.test.js"
+      ],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/masonry-ring-beam-verification-compile-time.test.ts",
+        "tests/masonry-ring-beam-verification-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0158-applications-masonry-ring-beam-verification"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -24053,11 +24061,18 @@
       "sourcePath": "src/applications/masonry-ring-beams/checks/MasonryRingBeamVerification.js",
       "sourceBlobSha1": "1f06c75faa087b3bb98051e81990d404d612939b",
       "targetPath": "src/applications/masonry-ring-beams/checks/MasonryRingBeamVerification.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0158-applications-masonry-ring-beam-verification"],
+      "sourceOracles": [
+        "tests/architecture/applicationRegistry.test.js",
+        "tests/packageExports.test.js"
+      ],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/masonry-ring-beam-verification-compile-time.test.ts",
+        "tests/masonry-ring-beam-verification-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0158-applications-masonry-ring-beam-verification"],
+      "status": "exact-parity",
       "publicEntryPath": "src/applications/index.js",
       "publicEntryBlobSha1": "b70179c7cdd2a819f2151dc092c0f59cbce30ba6"
     },
@@ -30077,11 +30092,18 @@
       "sourcePath": "src/applications/masonry-ring-beams/checks/MasonryRingBeamVerification.js",
       "sourceBlobSha1": "1f06c75faa087b3bb98051e81990d404d612939b",
       "targetPath": "src/applications/masonry-ring-beams/checks/MasonryRingBeamVerification.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing"
+      "migrationSlices": ["0158-applications-masonry-ring-beam-verification"],
+      "sourceOracles": [
+        "tests/architecture/applicationRegistry.test.js",
+        "tests/packageExports.test.js"
+      ],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/masonry-ring-beam-verification-compile-time.test.ts",
+        "tests/masonry-ring-beam-verification-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0158-applications-masonry-ring-beam-verification"],
+      "status": "exact-parity"
     },
     {
       "id": "src/applications/masonry-ring-beams/index.js",
@@ -36527,7 +36549,8 @@
         "0154-applications-masonry-wall-opening-material-resolution",
         "0155-applications-masonry-wall-opening-mechanical-state",
         "0156-applications-masonry-wall-opening-capacity-bilinearization",
-        "0157-applications-masonry-ring-beam-model"
+        "0157-applications-masonry-ring-beam-model",
+        "0158-applications-masonry-ring-beam-verification"
       ],
       "sourceOracles": [
         "tests/architecture/applicationRegistry.test.js",
@@ -37776,7 +37799,8 @@
         "0024-reinforced-concrete-foundation-beams",
         "0037-application-registry-code-metadata",
         "0126-norms-ntc2018-slab-load-analysis-export",
-        "0157-applications-masonry-ring-beam-model"
+        "0157-applications-masonry-ring-beam-model",
+        "0158-applications-masonry-ring-beam-verification"
       ],
       "sourceOracles": ["tests/architecture/applicationRegistry.test.js"],
       "targetTests": [
@@ -37786,6 +37810,8 @@
         "tests/check-utils.test.ts",
         "tests/masonry-ring-beam-model-compile-time.test.ts",
         "tests/masonry-ring-beam-model-live-parity.test.ts",
+        "tests/masonry-ring-beam-verification-compile-time.test.ts",
+        "tests/masonry-ring-beam-verification-live-parity.test.ts",
         "tests/ntc2018-slab-load-analysis-compile-time.test.ts",
         "tests/ntc2018-slab-load-analysis-live-parity.test.ts",
         "tests/reinforced-concrete-foundation-beam.test.ts",
@@ -37798,7 +37824,8 @@
         "0024-reinforced-concrete-foundation-beams",
         "0037-application-registry-code-metadata",
         "0126-norms-ntc2018-slab-load-analysis-export",
-        "0157-applications-masonry-ring-beam-model"
+        "0157-applications-masonry-ring-beam-model",
+        "0158-applications-masonry-ring-beam-verification"
       ],
       "status": "exact-parity",
       "testKind": "test"
@@ -39602,7 +39629,8 @@
         "0154-applications-masonry-wall-opening-material-resolution",
         "0155-applications-masonry-wall-opening-mechanical-state",
         "0156-applications-masonry-wall-opening-capacity-bilinearization",
-        "0157-applications-masonry-ring-beam-model"
+        "0157-applications-masonry-ring-beam-model",
+        "0158-applications-masonry-ring-beam-verification"
       ],
       "sourceOracles": ["tests/packageExports.test.js"],
       "targetTests": [
@@ -39684,6 +39712,8 @@
         "tests/masonry-piers-live-parity.test.ts",
         "tests/masonry-ring-beam-model-compile-time.test.ts",
         "tests/masonry-ring-beam-model-live-parity.test.ts",
+        "tests/masonry-ring-beam-verification-compile-time.test.ts",
+        "tests/masonry-ring-beam-verification-live-parity.test.ts",
         "tests/masonry-section-index-compile-time.test.ts",
         "tests/masonry-section-index-live-parity.test.ts",
         "tests/masonry-wall-opening-capacity-bilinearization-compile-time.test.ts",
@@ -39874,7 +39904,8 @@
         "0154-applications-masonry-wall-opening-material-resolution",
         "0155-applications-masonry-wall-opening-mechanical-state",
         "0156-applications-masonry-wall-opening-capacity-bilinearization",
-        "0157-applications-masonry-ring-beam-model"
+        "0157-applications-masonry-ring-beam-model",
+        "0158-applications-masonry-ring-beam-verification"
       ],
       "status": "exact-parity",
       "testKind": "test"
@@ -44030,16 +44061,32 @@
         "publicStrings": "exact identifiers, metadata and error strings",
         "errors": "exact missing-id error behavior"
       }
+    },
+    {
+      "sliceId": "0158-applications-masonry-ring-beam-verification",
+      "sourceRevision": "6f33baead8b88166c4b2cf94af41763412e3c751",
+      "method": "Strict declaration consumer coverage and independently executed pinned JavaScript versus built TypeScript comparison of constructor defaults, metadata, not-implemented verification status, exact VerificationResult JSON, Unicode identifiers and source-compatible scaffold warnings.",
+      "targetTests": [
+        "tests/masonry-ring-beam-verification-compile-time.test.ts",
+        "tests/masonry-ring-beam-verification-live-parity.test.ts"
+      ],
+      "fixture": "Default, explicit-code/metadata and explicit-null opening verification requests.",
+      "tolerances": {
+        "serializedParity": "exact VerificationResult JSON",
+        "numericParity": "not applicable to the source scaffold",
+        "publicStrings": "exact summary, warnings, codes and Unicode metadata",
+        "errors": "source-compatible scaffold behavior"
+      }
     }
   ],
   "counts": {
     "rootExports": {
       "javascript": 841,
-      "typescript": 758
+      "typescript": 759
     },
     "applicationsExports": {
       "javascript": 309,
-      "typescript": 231
+      "typescript": 232
     },
     "packageEntryPoints": {
       "javascript": 14,
@@ -44059,11 +44106,11 @@
     },
     "sourceFiles": {
       "javascript": 480,
-      "typescript": 418
+      "typescript": 419
     },
     "tests": {
       "javascript": 131,
-      "typescript": 300
+      "typescript": 302
     },
     "validationCampaigns": {
       "javascript": 17,
@@ -44115,7 +44162,7 @@
       "statusCounts": {
         "exact-parity": 0,
         "partial": 23,
-        "missing": 238,
+        "missing": 235,
         "intentionally-excluded": 0,
         "decision-required": 0
       },
@@ -44136,7 +44183,6 @@
         "application-export:MasonryPierCapacityCurveComparisonMarkdownRenderer",
         "application-export:MasonryPierCapacityCurveComparisonReportBuilder",
         "application-export:MasonryRingBeamApplication",
-        "application-export:MasonryRingBeamVerification",
         "application-export:MasonryWallOpeningsApplication",
         "application-export:MicropileBromsAnalysis",
         "application-export:MicropileBromsApplication",
@@ -44244,7 +44290,6 @@
         "root-export:MasonryPierCapacityCurveComparisonMarkdownRenderer",
         "root-export:MasonryPierCapacityCurveComparisonReportBuilder",
         "root-export:MasonryRingBeamApplication",
-        "root-export:MasonryRingBeamVerification",
         "root-export:MasonryWallOpeningsApplication",
         "root-export:MicropileBromsAnalysis",
         "root-export:MicropileBromsApplication",
@@ -44307,7 +44352,6 @@
         "root-export:verifySteelWebShearBuckling",
         "root-export:verifyTimberLateralTorsionalStability",
         "source:src/applications/masonry-ring-beams/MasonryRingBeamApplication.js",
-        "source:src/applications/masonry-ring-beams/checks/MasonryRingBeamVerification.js",
         "source:src/applications/masonry-ring-beams/index.js",
         "source:src/applications/masonry-wall-openings/MasonryWallOpeningsApplication.js",
         "source:src/applications/masonry-wall-openings/analysis/AlignmentEquivalentFramePushoverAnalysis.js",

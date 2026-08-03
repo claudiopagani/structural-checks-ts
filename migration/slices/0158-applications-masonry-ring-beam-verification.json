@@ -1,0 +1,91 @@
+{
+  "schemaVersion": 1,
+  "sliceId": "0158-applications-masonry-ring-beam-verification",
+  "title": "Masonry ring beam verification scaffold",
+  "migrationType": "mechanical-parity-with-minimal-dependency-support",
+  "implementationStatus": "implemented",
+  "dependencies": ["0157-applications-masonry-ring-beam-model"],
+  "source": {
+    "repository": "https://github.com/claudiopagani/strutture-js",
+    "revision": "6f33baead8b88166c4b2cf94af41763412e3c751"
+  },
+  "normativeCorpusRevision": "41da3faa489600173106935bbcf726119300e48d",
+  "sourceFiles": [
+    {
+      "path": "src/applications/masonry-ring-beams/checks/MasonryRingBeamVerification.js",
+      "gitBlobSha1": "1f06c75faa087b3bb98051e81990d404d612939b",
+      "targetPath": "src/applications/masonry-ring-beams/checks/MasonryRingBeamVerification.ts"
+    }
+  ],
+  "supportingSourceFiles": [
+    {
+      "path": "src/core/results/VerificationResult.js",
+      "gitBlobSha1": "7583438c8fd57f6c6883caf2eb65298551725a64",
+      "targetPath": "src/core/results/VerificationResult.ts",
+      "coverage": "Already-migrated verification result DTO used for the source scaffold output."
+    },
+    {
+      "path": "src/core/results/resultStatus.js",
+      "gitBlobSha1": "5c3e5621c2cec6cffe803e95eea79fc69b27ba01",
+      "targetPath": "src/core/results/resultStatus.ts",
+      "coverage": "Already-migrated not-implemented status constant."
+    },
+    {
+      "path": "src/applications/index.js",
+      "gitBlobSha1": "b70179c7cdd2a819f2151dc092c0f59cbce30ba6",
+      "targetPath": "src/applications/index.ts",
+      "coverage": "Pinned application public-export context for MasonryRingBeamVerification."
+    },
+    {
+      "path": "src/index.js",
+      "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7",
+      "targetPath": "src/index.ts",
+      "coverage": "Pinned root public-export context for MasonryRingBeamVerification."
+    }
+  ],
+  "sourceOracles": [
+    {
+      "path": "tests/packageExports.test.js",
+      "gitBlobSha1": "8dde24b4c97dd3dae7100207d07d9d96c52b9c74",
+      "coverage": "Pinned root public export behavior."
+    },
+    {
+      "path": "tests/architecture/applicationRegistry.test.js",
+      "gitBlobSha1": "f7c4ab649b9f19600ab5894ea112bf7613466cd4",
+      "coverage": "Pinned application catalog and constructor identity context."
+    }
+  ],
+  "sourcePublicExport": {
+    "path": "src/index.js",
+    "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
+  },
+  "targetTests": [
+    "tests/baseline-parity.test.ts",
+    "tests/masonry-ring-beam-verification-compile-time.test.ts",
+    "tests/masonry-ring-beam-verification-live-parity.test.ts"
+  ],
+  "publicExports": ["MasonryRingBeamVerification"],
+  "publicTypeExports": ["MasonryRingBeamVerificationOptions", "MasonryRingBeamVerifyInput"],
+  "normativeReferences": {
+    "resolved": [],
+    "outsideCorpus": [],
+    "normativeConformityClaimed": false,
+    "status": "classified-for-declared-scope"
+  },
+  "independentValidation": {
+    "method": "Strict declaration consumer coverage and independently executed pinned JavaScript versus built TypeScript comparison of constructor defaults, metadata, not-implemented verification status, exact VerificationResult JSON, Unicode identifiers and source-compatible scaffold warnings.",
+    "targetTests": [
+      "tests/masonry-ring-beam-verification-compile-time.test.ts",
+      "tests/masonry-ring-beam-verification-live-parity.test.ts"
+    ],
+    "fixture": "Default, explicit-code/metadata and explicit-null opening verification requests.",
+    "tolerances": {
+      "serializedParity": "exact VerificationResult JSON",
+      "numericParity": "not applicable to the source scaffold",
+      "publicStrings": "exact summary, warnings, codes and Unicode metadata",
+      "errors": "source-compatible scaffold behavior"
+    }
+  },
+  "parityDifferences": [],
+  "engineeringFunctionality": "Source-compatible not-implemented masonry ring-beam verification scaffold."
+}

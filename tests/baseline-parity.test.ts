@@ -631,6 +631,7 @@ const expectedExports = [
   "resolveAlignmentMechanicalState",
   "bilinearizeCapacityCurve",
   "MasonryRingBeamModel",
+  "MasonryRingBeamVerification",
   "sanitizeAlignmentOpenings",
   "registerXlamPanelProduct",
   "splitPrincipalActions",
