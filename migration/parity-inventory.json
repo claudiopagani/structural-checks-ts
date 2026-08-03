@@ -1110,6 +1110,8 @@
         "NTC2018_SHEAR_WALL_REFERENCES",
         "NTC2018_SIMPLIFIED_BUILDING_TEMPERATURE_CHANGES",
         "NTC2018_SITE_HAZARD_SOURCE_KINDS",
+        "NTC2018_SLAB_MATERIAL_WEIGHT_DATABASE",
+        "NTC2018_SLAB_VARIABLE_ACTIONS_DATABASE",
         "NTC2018_SNOW_EXPOSURE_CLASSES",
         "NTC2018_SNOW_GROUND_ZONES",
         "NTC2018_SNOW_REFERENCES",
@@ -1232,6 +1234,8 @@
         "SHALLOW_FOUNDATION_SHAPES",
         "SHALLOW_FOUNDATION_SLS_RESULT_SCHEMA_VERSION",
         "SHALLOW_FOUNDATION_ULS_RESULT_SCHEMA_VERSION",
+        "SLAB_MATERIAL_WEIGHT_PRESET_DATABASE",
+        "SLAB_MATERIAL_WEIGHT_PRESET_METADATA",
         "SLOPE_MOVEMENT_DIRECTIONS",
         "SLOPE_SLICE_DISCRETIZATION_2D_SCHEMA_VERSION",
         "SLOPE_STABILITY_ANALYSIS_MODES",
@@ -1424,6 +1428,7 @@
         "createNTC2018ReinforcementSteelMaterial",
         "createNTC2018SLECombination",
         "createNTC2018SeismicAction",
+        "createNTC2018SlabVariableLoad",
         "createNTC2018SnowAction",
         "createNTC2018StructuralBehavior",
         "createNTC2018ThermalAction",
@@ -1464,6 +1469,8 @@
         "getNTC2018RcBuildingCoverage",
         "getNTC2018SeismicLimitStateDefinition",
         "getNTC2018SimplifiedBuildingTemperatureChange",
+        "getNTC2018SlabVariableAction",
+        "getNTC2018SlabWeightValue",
         "getNTC2018SnowExposureClassDefinition",
         "getNTC2018SnowGroundZoneDefinition",
         "getNTC2018SolarTemperatureIncrement",
@@ -1476,6 +1483,7 @@
         "getNTC2018WindExposureCategoryDefinition",
         "getNTC2018WindZoneDefinition",
         "getRcPunchingDesignCodeManifest",
+        "getSlabMaterialWeightPresetValue",
         "getSteelProfileSectionData",
         "getTecnariaConnectorData",
         "getXlamPanelProduct",
@@ -1489,7 +1497,11 @@
         "listGroundAnchorBondCatalogEntries",
         "listItalianHistoricalReinforcementSteelGrades",
         "listNTC2018ImposedLoadDefinitions",
+        "listNTC2018SlabWeightCategories",
+        "listNTC2018SlabWeightEntries",
         "listNTC2018UnitWeightDefinitions",
+        "listSlabMaterialWeightPresetCategories",
+        "listSlabMaterialWeightPresetEntries",
         "listSteelProfileSectionsByFamily",
         "listXlamPanelProducts",
         "mononobeOkabeActiveEarthPressureCoefficient",
@@ -6343,11 +6355,15 @@
       "sourcePath": "src/norms/ntc2018/loads/ntc2018SlabLoadCatalogs.js",
       "sourceBlobSha1": "49f0d2d3f556d5a209391c98d5f54ee2e817223c",
       "targetPath": "src/norms/ntc2018/loads/ntc2018SlabLoadCatalogs.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0131-norms-ntc2018-slab-load-catalogs"],
+      "sourceOracles": ["tests/ntc2018SlabLoadAnalysis.test.js", "tests/packageExports.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/ntc2018-slab-load-catalogs-compile-time.test.ts",
+        "tests/ntc2018-slab-load-catalogs-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0131-norms-ntc2018-slab-load-catalogs"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -8538,11 +8554,15 @@
       "sourcePath": "src/norms/ntc2018/loads/ntc2018SlabLoadCatalogs.js",
       "sourceBlobSha1": "49f0d2d3f556d5a209391c98d5f54ee2e817223c",
       "targetPath": "src/norms/ntc2018/loads/ntc2018SlabLoadCatalogs.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0131-norms-ntc2018-slab-load-catalogs"],
+      "sourceOracles": ["tests/ntc2018SlabLoadAnalysis.test.js", "tests/packageExports.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/ntc2018-slab-load-catalogs-compile-time.test.ts",
+        "tests/ntc2018-slab-load-catalogs-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0131-norms-ntc2018-slab-load-catalogs"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -8552,11 +8572,15 @@
       "sourcePath": "src/norms/ntc2018/loads/ntc2018SlabLoadCatalogs.js",
       "sourceBlobSha1": "49f0d2d3f556d5a209391c98d5f54ee2e817223c",
       "targetPath": "src/norms/ntc2018/loads/ntc2018SlabLoadCatalogs.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0131-norms-ntc2018-slab-load-catalogs"],
+      "sourceOracles": ["tests/ntc2018SlabLoadAnalysis.test.js", "tests/packageExports.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/ntc2018-slab-load-catalogs-compile-time.test.ts",
+        "tests/ntc2018-slab-load-catalogs-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0131-norms-ntc2018-slab-load-catalogs"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -8785,11 +8809,15 @@
       "sourcePath": "src/norms/ntc2018/loads/ntc2018SlabLoadCatalogs.js",
       "sourceBlobSha1": "49f0d2d3f556d5a209391c98d5f54ee2e817223c",
       "targetPath": "src/norms/ntc2018/loads/ntc2018SlabLoadCatalogs.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0131-norms-ntc2018-slab-load-catalogs"],
+      "sourceOracles": ["tests/ntc2018SlabLoadAnalysis.test.js", "tests/packageExports.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/ntc2018-slab-load-catalogs-compile-time.test.ts",
+        "tests/ntc2018-slab-load-catalogs-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0131-norms-ntc2018-slab-load-catalogs"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -10546,11 +10574,15 @@
       "sourcePath": "src/norms/ntc2018/loads/ntc2018SlabLoadCatalogs.js",
       "sourceBlobSha1": "49f0d2d3f556d5a209391c98d5f54ee2e817223c",
       "targetPath": "src/norms/ntc2018/loads/ntc2018SlabLoadCatalogs.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0131-norms-ntc2018-slab-load-catalogs"],
+      "sourceOracles": ["tests/ntc2018SlabLoadAnalysis.test.js", "tests/packageExports.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/ntc2018-slab-load-catalogs-compile-time.test.ts",
+        "tests/ntc2018-slab-load-catalogs-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0131-norms-ntc2018-slab-load-catalogs"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -10560,11 +10592,15 @@
       "sourcePath": "src/norms/ntc2018/loads/ntc2018SlabLoadCatalogs.js",
       "sourceBlobSha1": "49f0d2d3f556d5a209391c98d5f54ee2e817223c",
       "targetPath": "src/norms/ntc2018/loads/ntc2018SlabLoadCatalogs.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0131-norms-ntc2018-slab-load-catalogs"],
+      "sourceOracles": ["tests/ntc2018SlabLoadAnalysis.test.js", "tests/packageExports.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/ntc2018-slab-load-catalogs-compile-time.test.ts",
+        "tests/ntc2018-slab-load-catalogs-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0131-norms-ntc2018-slab-load-catalogs"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -10592,11 +10628,15 @@
       "sourcePath": "src/norms/ntc2018/loads/ntc2018SlabLoadCatalogs.js",
       "sourceBlobSha1": "49f0d2d3f556d5a209391c98d5f54ee2e817223c",
       "targetPath": "src/norms/ntc2018/loads/ntc2018SlabLoadCatalogs.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0131-norms-ntc2018-slab-load-catalogs"],
+      "sourceOracles": ["tests/ntc2018SlabLoadAnalysis.test.js", "tests/packageExports.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/ntc2018-slab-load-catalogs-compile-time.test.ts",
+        "tests/ntc2018-slab-load-catalogs-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0131-norms-ntc2018-slab-load-catalogs"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -10606,11 +10646,15 @@
       "sourcePath": "src/norms/ntc2018/loads/ntc2018SlabLoadCatalogs.js",
       "sourceBlobSha1": "49f0d2d3f556d5a209391c98d5f54ee2e817223c",
       "targetPath": "src/norms/ntc2018/loads/ntc2018SlabLoadCatalogs.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0131-norms-ntc2018-slab-load-catalogs"],
+      "sourceOracles": ["tests/ntc2018SlabLoadAnalysis.test.js", "tests/packageExports.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/ntc2018-slab-load-catalogs-compile-time.test.ts",
+        "tests/ntc2018-slab-load-catalogs-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0131-norms-ntc2018-slab-load-catalogs"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -12435,11 +12479,15 @@
       "sourcePath": "src/norms/ntc2018/loads/ntc2018SlabLoadCatalogs.js",
       "sourceBlobSha1": "49f0d2d3f556d5a209391c98d5f54ee2e817223c",
       "targetPath": "src/norms/ntc2018/loads/ntc2018SlabLoadCatalogs.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0131-norms-ntc2018-slab-load-catalogs"],
+      "sourceOracles": ["tests/ntc2018SlabLoadAnalysis.test.js", "tests/packageExports.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/ntc2018-slab-load-catalogs-compile-time.test.ts",
+        "tests/ntc2018-slab-load-catalogs-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0131-norms-ntc2018-slab-load-catalogs"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -12449,11 +12497,15 @@
       "sourcePath": "src/norms/ntc2018/loads/ntc2018SlabLoadCatalogs.js",
       "sourceBlobSha1": "49f0d2d3f556d5a209391c98d5f54ee2e817223c",
       "targetPath": "src/norms/ntc2018/loads/ntc2018SlabLoadCatalogs.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0131-norms-ntc2018-slab-load-catalogs"],
+      "sourceOracles": ["tests/ntc2018SlabLoadAnalysis.test.js", "tests/packageExports.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/ntc2018-slab-load-catalogs-compile-time.test.ts",
+        "tests/ntc2018-slab-load-catalogs-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0131-norms-ntc2018-slab-load-catalogs"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -16088,11 +16140,15 @@
       "sourcePath": "src/norms/ntc2018/loads/ntc2018SlabLoadCatalogs.js",
       "sourceBlobSha1": "49f0d2d3f556d5a209391c98d5f54ee2e817223c",
       "targetPath": "src/norms/ntc2018/loads/ntc2018SlabLoadCatalogs.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0131-norms-ntc2018-slab-load-catalogs"],
+      "sourceOracles": ["tests/ntc2018SlabLoadAnalysis.test.js", "tests/packageExports.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/ntc2018-slab-load-catalogs-compile-time.test.ts",
+        "tests/ntc2018-slab-load-catalogs-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0131-norms-ntc2018-slab-load-catalogs"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -16102,11 +16158,15 @@
       "sourcePath": "src/norms/ntc2018/loads/ntc2018SlabLoadCatalogs.js",
       "sourceBlobSha1": "49f0d2d3f556d5a209391c98d5f54ee2e817223c",
       "targetPath": "src/norms/ntc2018/loads/ntc2018SlabLoadCatalogs.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0131-norms-ntc2018-slab-load-catalogs"],
+      "sourceOracles": ["tests/ntc2018SlabLoadAnalysis.test.js", "tests/packageExports.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/ntc2018-slab-load-catalogs-compile-time.test.ts",
+        "tests/ntc2018-slab-load-catalogs-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0131-norms-ntc2018-slab-load-catalogs"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -33195,7 +33255,8 @@
         "0127-norms-ntc2018-load-combination-factories",
         "0128-norms-ntc2018-imposed-loads",
         "0129-norms-ntc2018-permanent-loads",
-        "0130-norms-ntc2018-masonry-pier-kernels"
+        "0130-norms-ntc2018-masonry-pier-kernels",
+        "0131-norms-ntc2018-slab-load-catalogs"
       ],
       "sourceOracles": [
         "tests/architecture/applicationRegistry.test.js",
@@ -33777,11 +33838,15 @@
       "sourcePath": "src/norms/ntc2018/loads/ntc2018SlabLoadCatalogs.js",
       "sourceBlobSha1": "49f0d2d3f556d5a209391c98d5f54ee2e817223c",
       "targetPath": "src/norms/ntc2018/loads/ntc2018SlabLoadCatalogs.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing"
+      "migrationSlices": ["0131-norms-ntc2018-slab-load-catalogs"],
+      "sourceOracles": ["tests/ntc2018SlabLoadAnalysis.test.js", "tests/packageExports.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/ntc2018-slab-load-catalogs-compile-time.test.ts",
+        "tests/ntc2018-slab-load-catalogs-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0131-norms-ntc2018-slab-load-catalogs"],
+      "status": "exact-parity"
     },
     {
       "id": "src/norms/ntc2018/masonry/evaluateNTC2018MasonryPier.js",
@@ -35877,13 +35942,16 @@
       "migrationSlices": [
         "0103-domain-slab-load-hierarchy",
         "0108-domain-slab-public-index",
-        "0126-norms-ntc2018-slab-load-analysis-export"
+        "0126-norms-ntc2018-slab-load-analysis-export",
+        "0131-norms-ntc2018-slab-load-catalogs"
       ],
       "sourceOracles": ["tests/ntc2018SlabLoadAnalysis.test.js"],
       "targetTests": [
         "tests/baseline-parity.test.ts",
         "tests/ntc2018-slab-load-analysis-compile-time.test.ts",
         "tests/ntc2018-slab-load-analysis-live-parity.test.ts",
+        "tests/ntc2018-slab-load-catalogs-compile-time.test.ts",
+        "tests/ntc2018-slab-load-catalogs-live-parity.test.ts",
         "tests/slab-loads-compile-time.test.ts",
         "tests/slab-loads-live-parity.test.ts",
         "tests/slab-public-index-compile-time.test.ts",
@@ -35892,7 +35960,8 @@
       "validationEvidence": [
         "0103-domain-slab-load-hierarchy",
         "0108-domain-slab-public-index",
-        "0126-norms-ntc2018-slab-load-analysis-export"
+        "0126-norms-ntc2018-slab-load-analysis-export",
+        "0131-norms-ntc2018-slab-load-catalogs"
       ],
       "status": "exact-parity",
       "testKind": "test"
@@ -36093,7 +36162,8 @@
         "0127-norms-ntc2018-load-combination-factories",
         "0128-norms-ntc2018-imposed-loads",
         "0129-norms-ntc2018-permanent-loads",
-        "0130-norms-ntc2018-masonry-pier-kernels"
+        "0130-norms-ntc2018-masonry-pier-kernels",
+        "0131-norms-ntc2018-slab-load-catalogs"
       ],
       "sourceOracles": ["tests/packageExports.test.js"],
       "targetTests": [
@@ -36178,6 +36248,8 @@
         "tests/ntc2018-seismic-action-live-parity.test.ts",
         "tests/ntc2018-slab-load-analysis-compile-time.test.ts",
         "tests/ntc2018-slab-load-analysis-live-parity.test.ts",
+        "tests/ntc2018-slab-load-catalogs-compile-time.test.ts",
+        "tests/ntc2018-slab-load-catalogs-live-parity.test.ts",
         "tests/ntc2018-snow-load-compile-time.test.ts",
         "tests/ntc2018-snow-load-live-parity.test.ts",
         "tests/ntc2018-thermal-action-compile-time.test.ts",
@@ -36286,7 +36358,8 @@
         "0127-norms-ntc2018-load-combination-factories",
         "0128-norms-ntc2018-imposed-loads",
         "0129-norms-ntc2018-permanent-loads",
-        "0130-norms-ntc2018-masonry-pier-kernels"
+        "0130-norms-ntc2018-masonry-pier-kernels",
+        "0131-norms-ntc2018-slab-load-catalogs"
       ],
       "status": "exact-parity",
       "testKind": "test"
@@ -39970,12 +40043,28 @@
         "publicStrings": "exact equality plus Unicode preservation for Italian normative references and errors",
         "errors": "exact error name and message equality for invalid geometry, unsupported mechanisms/scopes/boundary conditions/textures, and cracked-stiffness limits"
       }
+    },
+    {
+      "sliceId": "0131-norms-ntc2018-slab-load-catalogs",
+      "sourceRevision": "6f33baead8b88166c4b2cf94af41763412e3c751",
+      "method": "Strict declaration consumer coverage and independently executed pinned JavaScript versus built TypeScript comparisons of every catalog database, alias, category and entry lookup, cloned action record, variable-load factory default and explicit-unit branch, exact JSON and Unicode values, and error paths.",
+      "targetTests": [
+        "tests/ntc2018-slab-load-catalogs-compile-time.test.ts",
+        "tests/ntc2018-slab-load-catalogs-live-parity.test.ts"
+      ],
+      "fixture": null,
+      "tolerances": {
+        "serializedParity": "exact catalog, action, metadata, and normalized variable-load JSON",
+        "numericParity": "exact equality for every tabulated value, qk/Qk/Hk preset, factor, unit conversion, and minimum",
+        "publicStrings": "exact equality plus Unicode preservation for Italian catalog descriptions, warnings, metadata, and errors",
+        "errors": "exact error name and message equality for unsupported weight types/categories/entries/actions, missing units, and invalid qk values"
+      }
     }
   ],
   "counts": {
     "rootExports": {
       "javascript": 841,
-      "typescript": 706
+      "typescript": 718
     },
     "applicationsExports": {
       "javascript": 309,
@@ -39999,11 +40088,11 @@
     },
     "sourceFiles": {
       "javascript": 480,
-      "typescript": 380
+      "typescript": 381
     },
     "tests": {
       "javascript": 131,
-      "typescript": 248
+      "typescript": 250
     },
     "validationCampaigns": {
       "javascript": 17,
@@ -40062,39 +40151,26 @@
       "statusCounts": {
         "exact-parity": 0,
         "partial": 4,
-        "missing": 26,
+        "missing": 13,
         "intentionally-excluded": 0,
         "decision-required": 0
       },
       "itemIds": [
-        "root-export:NTC2018_SLAB_MATERIAL_WEIGHT_DATABASE",
-        "root-export:NTC2018_SLAB_VARIABLE_ACTIONS_DATABASE",
-        "root-export:SLAB_MATERIAL_WEIGHT_PRESET_DATABASE",
-        "root-export:SLAB_MATERIAL_WEIGHT_PRESET_METADATA",
         "root-export:applyNTC2018ExistingMasonryMaltaBuonaUpdate",
         "root-export:applyNTC2018ExistingMasonryModifierToggle",
         "root-export:createNTC2018ExistingMasonryMaterial",
         "root-export:createNTC2018ExistingMasonryModifierState",
         "root-export:createNTC2018ExistingMasonryWorkflowState",
-        "root-export:createNTC2018SlabVariableLoad",
         "root-export:createNTC2018StructuralSteelMaterial",
         "root-export:createNTC2018TimberMaterial",
         "root-export:evaluateNTC2018ExistingMasonryWorkflow",
         "root-export:getNTC2018ExistingMasonryModifierDefinition",
-        "root-export:getNTC2018SlabVariableAction",
-        "root-export:getNTC2018SlabWeightValue",
-        "root-export:getSlabMaterialWeightPresetValue",
-        "root-export:listNTC2018SlabWeightCategories",
-        "root-export:listNTC2018SlabWeightEntries",
-        "root-export:listSlabMaterialWeightPresetCategories",
-        "root-export:listSlabMaterialWeightPresetEntries",
         "root-export:modifierSelectionsFromState",
         "root-export:selectNTC2018ExistingMasonryParameterLevel",
         "root-export:selectNTC2018ExistingMasonryTypology",
         "root-export:toggleNTC2018ExistingMasonryModifier",
         "root-export:updateNTC2018ExistingMasonryMaltaBuona",
         "source:src/norms/ntc2018/index.js",
-        "source:src/norms/ntc2018/loads/ntc2018SlabLoadCatalogs.js",
         "source:src/norms/ntc2018/masonry/index.js",
         "source:src/norms/ntc2018/materials/ntc2018ExistingMasonryWorkflow.js"
       ]

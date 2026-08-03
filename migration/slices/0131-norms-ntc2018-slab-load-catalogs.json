@@ -1,0 +1,121 @@
+{
+  "schemaVersion": 1,
+  "sliceId": "0131-norms-ntc2018-slab-load-catalogs",
+  "title": "NTC 2018 slab material-weight and variable-action legacy catalogs",
+  "migrationType": "mechanical-parity",
+  "implementationStatus": "implemented",
+  "dependencies": ["0128-norms-ntc2018-imposed-loads", "0103-domain-slab-load-hierarchy"],
+  "source": {
+    "repository": "https://github.com/claudiopagani/strutture-js",
+    "revision": "6f33baead8b88166c4b2cf94af41763412e3c751"
+  },
+  "normativeCorpusRevision": "41da3faa489600173106935bbcf726119300e48d",
+  "sourceFiles": [
+    {
+      "path": "src/norms/ntc2018/loads/ntc2018SlabLoadCatalogs.js",
+      "gitBlobSha1": "49f0d2d3f556d5a209391c98d5f54ee2e817223c",
+      "targetPath": "src/norms/ntc2018/loads/ntc2018SlabLoadCatalogs.ts"
+    }
+  ],
+  "supportingSourceFiles": [
+    {
+      "path": "src/norms/ntc2018/loads/ntc2018LoadParameters.js",
+      "gitBlobSha1": "2ea2f9fec140904aa68bec5c092e691814a27178",
+      "targetPath": "src/norms/ntc2018/loads/ntc2018LoadParameters.ts",
+      "coverage": "Already-migrated variable-action combination-factor dependency."
+    },
+    {
+      "path": "src/norms/ntc2018/loads/ntc2018ImposedLoads.js",
+      "gitBlobSha1": "ae20e78518766f8af9d74c93800600fd7f5455f4",
+      "targetPath": "src/norms/ntc2018/loads/ntc2018ImposedLoads.ts",
+      "coverage": "Already-migrated generic imposed-load definition dependency."
+    },
+    {
+      "path": "src/domain/slabs/VariableLoad.js",
+      "gitBlobSha1": "09436927fe7313d811afe31841b5428478d5f1e7",
+      "targetPath": "src/domain/slabs/VariableLoad.ts",
+      "coverage": "Already-migrated variable slab-load construction and serialization dependency."
+    },
+    {
+      "path": "src/norms/ntc2018/index.js",
+      "gitBlobSha1": "0ac4cf551c455ec2a57d9bf8849db46fb14e0dcc",
+      "targetPath": "src/index.ts",
+      "coverage": "Pinned NTC 2018 norm-index export context."
+    },
+    {
+      "path": "src/index.js",
+      "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7",
+      "targetPath": "src/index.ts",
+      "coverage": "Root public exports for slab catalog constants and factories."
+    }
+  ],
+  "sourceOracles": [
+    {
+      "path": "tests/ntc2018SlabLoadAnalysis.test.js",
+      "gitBlobSha1": "c1e9fb9eada0babea7488194244b68c3107e8bd4",
+      "coverage": "Legacy slab catalog lookups, variable-action presets, factory defaults, and unsupported behavior."
+    },
+    {
+      "path": "tests/packageExports.test.js",
+      "gitBlobSha1": "8dde24b4c97dd3dae7100207d07d9d96c52b9c74",
+      "coverage": "Root public export behavior."
+    }
+  ],
+  "sourcePublicExport": {
+    "path": "src/index.js",
+    "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
+  },
+  "targetTests": [
+    "tests/baseline-parity.test.ts",
+    "tests/ntc2018-slab-load-catalogs-compile-time.test.ts",
+    "tests/ntc2018-slab-load-catalogs-live-parity.test.ts"
+  ],
+  "publicExports": [
+    "NTC2018_SLAB_MATERIAL_WEIGHT_DATABASE",
+    "NTC2018_SLAB_VARIABLE_ACTIONS_DATABASE",
+    "SLAB_MATERIAL_WEIGHT_PRESET_DATABASE",
+    "SLAB_MATERIAL_WEIGHT_PRESET_METADATA",
+    "createNTC2018SlabVariableLoad",
+    "getNTC2018SlabVariableAction",
+    "getNTC2018SlabWeightValue",
+    "getSlabMaterialWeightPresetValue",
+    "listNTC2018SlabWeightCategories",
+    "listNTC2018SlabWeightEntries",
+    "listSlabMaterialWeightPresetCategories",
+    "listSlabMaterialWeightPresetEntries"
+  ],
+  "publicTypeExports": [
+    "CreateNTC2018SlabVariableLoadOptions",
+    "GetSlabMaterialWeightPresetValueOptions",
+    "NTC2018SlabVariableAction",
+    "NTC2018SlabVariableLoadJson",
+    "SlabMaterialWeightPresetDatabase",
+    "SlabMaterialWeightPresetEntry",
+    "SlabMaterialWeightPresetGroup",
+    "VariableLoadDocumentation"
+  ],
+  "normativeReferences": {
+    "resolved": [],
+    "outsideCorpus": [],
+    "normativeConformityClaimed": false,
+    "status": "classified-for-declared-scope"
+  },
+  "independentValidation": {
+    "method": "Strict declaration consumer coverage and independently executed pinned JavaScript versus built TypeScript comparisons of every catalog database, alias, category and entry lookup, cloned action record, variable-load factory default and explicit-unit branch, exact JSON and Unicode values, and error paths.",
+    "targetTests": [
+      "tests/ntc2018-slab-load-catalogs-compile-time.test.ts",
+      "tests/ntc2018-slab-load-catalogs-live-parity.test.ts"
+    ],
+    "fixture": null,
+    "tolerances": {
+      "serializedParity": "exact catalog, action, metadata, and normalized variable-load JSON",
+      "numericParity": "exact equality for every tabulated value, qk/Qk/Hk preset, factor, unit conversion, and minimum",
+      "publicStrings": "exact equality plus Unicode preservation for Italian catalog descriptions, warnings, metadata, and errors",
+      "errors": "exact error name and message equality for unsupported weight types/categories/entries/actions, missing units, and invalid qk values"
+    }
+  },
+  "parityDifferences": [
+    "The TypeScript module adds strict catalog, factory-option, documentation, and serialized DTO declarations and root type exports; runtime values, aliases, load construction, metadata, serialization, public strings, and errors match the pinned source."
+  ],
+  "engineeringFunctionality": "Source-compatible legacy slab material-weight presets, NTC 2018 slab variable-action compatibility records, lookup helpers, and deprecated VariableLoad factory."
+}

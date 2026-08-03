@@ -591,6 +591,30 @@ export {
   resolveNTC2018ImposedLoadDefinition,
 } from "./norms/ntc2018/loads/ntc2018ImposedLoads.js";
 export {
+  NTC2018_SLAB_MATERIAL_WEIGHT_DATABASE,
+  NTC2018_SLAB_VARIABLE_ACTIONS_DATABASE,
+  SLAB_MATERIAL_WEIGHT_PRESET_DATABASE,
+  SLAB_MATERIAL_WEIGHT_PRESET_METADATA,
+  createNTC2018SlabVariableLoad,
+  getNTC2018SlabVariableAction,
+  getNTC2018SlabWeightValue,
+  getSlabMaterialWeightPresetValue,
+  listNTC2018SlabWeightCategories,
+  listNTC2018SlabWeightEntries,
+  listSlabMaterialWeightPresetCategories,
+  listSlabMaterialWeightPresetEntries,
+} from "./norms/ntc2018/loads/ntc2018SlabLoadCatalogs.js";
+export type {
+  CreateNTC2018SlabVariableLoadOptions,
+  GetSlabMaterialWeightPresetValueOptions,
+  NTC2018SlabVariableAction,
+  NTC2018SlabVariableLoadJson,
+  SlabMaterialWeightPresetDatabase,
+  SlabMaterialWeightPresetEntry,
+  SlabMaterialWeightPresetGroup,
+  VariableLoadDocumentation,
+} from "./norms/ntc2018/loads/ntc2018SlabLoadCatalogs.js";
+export {
   NTC2018_PERMANENT_LOAD_REFERENCES,
   NTC2018_UNIT_WEIGHT_CATALOG,
   calculateNTC2018AreaSelfWeight,
