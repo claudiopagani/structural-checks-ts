@@ -758,6 +758,13 @@ export type {
   BeamReportVerificationCheckDto,
   BeamReportVerificationDto,
 } from "./applications/single-beam-design/dto/BeamReportDto.js";
+export { SingleBeamDesignModel } from "./applications/single-beam-design/models/SingleBeamDesignModel.js";
+export type {
+  SingleBeamAnalysisInputDto,
+  SingleBeamDesignMetadata,
+  SingleBeamDesignModelInput,
+  SingleBeamDesignUnitSystem,
+} from "./applications/single-beam-design/models/SingleBeamDesignModel.js";
 export { RCBiaxialDomainBuilder } from "./applications/reinforced-concrete-sections/analysis/RCBiaxialDomainBuilder.js";
 export { RCMomentCurvatureAnalyzer } from "./applications/reinforced-concrete-sections/analysis/RCMomentCurvatureAnalyzer.js";
 export { RCServiceStressSolver } from "./applications/reinforced-concrete-sections/analysis/RCServiceStressSolver.js";

@@ -784,6 +784,7 @@ const expectedExports = [
   "normalizeTerrainElevationGrid",
   "VariableAction",
   "WindAction",
+  "SingleBeamDesignModel",
 ].sort();
 
 const { stdout: revisionOutput } = await execFileAsync("git", [

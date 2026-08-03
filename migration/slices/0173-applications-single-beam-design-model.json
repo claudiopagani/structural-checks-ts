@@ -1,0 +1,77 @@
+{
+  "schemaVersion": 1,
+  "sliceId": "0173-applications-single-beam-design-model",
+  "title": "Single-beam design model DTO",
+  "migrationType": "mechanical-parity",
+  "implementationStatus": "implemented",
+  "dependencies": [],
+  "source": {
+    "repository": "https://github.com/claudiopagani/strutture-js",
+    "revision": "6f33baead8b88166c4b2cf94af41763412e3c751"
+  },
+  "normativeCorpusRevision": "41da3faa489600173106935bbcf726119300e48d",
+  "sourceFiles": [
+    {
+      "path": "src/applications/single-beam-design/models/SingleBeamDesignModel.js",
+      "gitBlobSha1": "bd52a0c5f1f04dc809e0cd831659d0579a9f7199",
+      "targetPath": "src/applications/single-beam-design/models/SingleBeamDesignModel.ts"
+    }
+  ],
+  "supportingSourceFiles": [
+    {
+      "path": "src/index.js",
+      "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7",
+      "targetPath": "src/index.ts",
+      "coverage": "Pinned root public export for SingleBeamDesignModel."
+    }
+  ],
+  "sourceOracles": [
+    {
+      "path": "tests/singleBeamDesignApplication.test.js",
+      "gitBlobSha1": "5e423cda0e4f6ad910fbd7cc7abd02969976f24d",
+      "coverage": "Pinned single-beam design model construction and report workflow inputs."
+    },
+    {
+      "path": "tests/packageExports.test.js",
+      "gitBlobSha1": "8dde24b4c97dd3dae7100207d07d9d96c52b9c74",
+      "coverage": "Pinned root public-export behavior."
+    }
+  ],
+  "sourcePublicExport": {
+    "path": "src/index.js",
+    "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
+  },
+  "targetTests": [
+    "tests/single-beam-design-model-compile-time.test.ts",
+    "tests/single-beam-design-model-live-parity.test.ts"
+  ],
+  "publicExports": ["SingleBeamDesignModel"],
+  "publicTypeExports": [
+    "SingleBeamAnalysisInputDto",
+    "SingleBeamDesignMetadata",
+    "SingleBeamDesignModelInput",
+    "SingleBeamDesignUnitSystem"
+  ],
+  "normativeReferences": {
+    "resolved": [],
+    "outsideCorpus": [],
+    "normativeConformityClaimed": false,
+    "status": "classified-for-declared-scope"
+  },
+  "independentValidation": {
+    "method": "Strict typed consumer declarations and independently executed pinned JavaScript versus built TypeScript comparison of exact missing-input errors, defaulting, analysis-input normalization, circular-reference markers, provider/class/verifier serialization, Unicode strings and constructor identity.",
+    "targetTests": [
+      "tests/single-beam-design-model-compile-time.test.ts",
+      "tests/single-beam-design-model-live-parity.test.ts"
+    ],
+    "fixture": "Single-beam model with Unicode identifiers, custom provider/element/solver/verifier objects, shared references, a cycle and class toJSON behavior.",
+    "tolerances": {
+      "serializedParity": "exact toJSON and toAnalysisInput JSON",
+      "numericParity": "exact numeric values in serialized model payloads",
+      "publicStrings": "exact defaults, error messages, constructor names and Unicode code points",
+      "errors": "exact missing-input and empty-id constructor errors"
+    }
+  },
+  "parityDifferences": [],
+  "engineeringFunctionality": "Source-compatible strict TypeScript single-beam design model normalization and serialization."
+}
