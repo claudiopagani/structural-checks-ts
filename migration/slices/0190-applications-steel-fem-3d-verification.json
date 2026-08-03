@@ -1,0 +1,77 @@
+{
+  "schemaVersion": 1,
+  "sliceId": "0190-applications-steel-fem-3d-verification",
+  "title": "Steel FEM 3D advanced verification",
+  "migrationType": "mechanical-parity",
+  "implementationStatus": "implemented",
+  "dependencies": ["0187-applications-steel-advanced-member-checks"],
+  "source": {
+    "repository": "https://github.com/claudiopagani/strutture-js",
+    "revision": "6f33baead8b88166c4b2cf94af41763412e3c751"
+  },
+  "normativeCorpusRevision": "41da3faa489600173106935bbcf726119300e48d",
+  "sourceFiles": [
+    {
+      "path": "src/applications/steel-frames/checks/SteelFem3DVerification.js",
+      "gitBlobSha1": "521e43573adb659a3240752aab16c129c55a6a65",
+      "targetPath": "src/applications/steel-frames/checks/SteelFem3DVerification.ts"
+    }
+  ],
+  "sourceOracles": [
+    {
+      "path": "tests/steelFrameAdvancedVerification.test.js",
+      "gitBlobSha1": "a3feaae57dc36a9f749a98cc43e9382ec4e12174",
+      "coverage": "Pinned steel FEM 3D contract fixture and advanced member verification context; the direct orchestration function is exercised by the independent synthetic differential test."
+    }
+  ],
+  "sourcePublicExport": {
+    "path": "src/applications/steel-frames/index.js",
+    "gitBlobSha1": "00b0b647649aff91fa05b523a18df186f588223f",
+    "coverage": "Pinned steel-frames barrel confirms that this orchestration module is not yet a public export in the selected source revision."
+  },
+  "targetTests": [
+    "tests/steel-fem-3d-verification-compile-time.test.ts",
+    "tests/steel-fem-3d-verification-live-parity.test.ts"
+  ],
+  "publicExports": [],
+  "publicTypeExports": [
+    "SteelFem3DAdvancedResult",
+    "SteelFem3DCheckLike",
+    "SteelFem3DCombinationLike",
+    "SteelFem3DConcentratedLoadLike",
+    "SteelFem3DContractLike",
+    "SteelFem3DActionsLike",
+    "SteelFem3DMaterialLike",
+    "SteelFem3DMemberLike",
+    "SteelFem3DPointLike",
+    "SteelFem3DSectionLike",
+    "SteelFem3DServiceabilityOptions",
+    "SteelFem3DResistanceOptions",
+    "SteelFem3DStationLike",
+    "SteelFem3DUnitConversionLike",
+    "SteelFem3DWebPanelLike",
+    "VerifySteelFem3DAdvancedOptions"
+  ],
+  "normativeReferences": {
+    "resolved": [],
+    "outsideCorpus": [],
+    "normativeConformityClaimed": false,
+    "status": "classified-for-declared-scope"
+  },
+  "independentValidation": {
+    "method": "Strict typed consumer declarations and independently executed pinned JavaScript versus built TypeScript comparison of the unsupported-feature catalog, synthetic FEM contract orchestration, exact decorated check JSON, Unicode metadata, unsupported aggregation and null-input errors.",
+    "targetTests": [
+      "tests/steel-fem-3d-verification-compile-time.test.ts",
+      "tests/steel-fem-3d-verification-live-parity.test.ts"
+    ],
+    "fixture": "Independent serializable FEM contract with frame restraints, effective lengths, web panel, concentrated load, SLU stations, torsion/bimoment, open-family, missing-panel, cold-formed and fatigue branches using identity unit adapters.",
+    "tolerances": {
+      "serializedParity": "exact JSON and enumerable result key order",
+      "numericParity": "exact decorated demand, capacity, utilization and unit-adapter values",
+      "publicStrings": "exact unsupported feature descriptions, normative references, warnings and Unicode code-point comparison",
+      "errors": "exact TypeError name and message for null options"
+    }
+  },
+  "parityDifferences": [],
+  "engineeringFunctionality": "Strict TypeScript parity for the steel FEM 3D advanced-check orchestration and unsupported-feature catalog; the steel FEM 3D contract producer, member verification policy, public barrel composition and higher-level application remain outside this slice."
+}

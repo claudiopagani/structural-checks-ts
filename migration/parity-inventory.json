@@ -33962,11 +33962,14 @@
       "sourcePath": "src/applications/steel-frames/checks/SteelFem3DVerification.js",
       "sourceBlobSha1": "521e43573adb659a3240752aab16c129c55a6a65",
       "targetPath": "src/applications/steel-frames/checks/SteelFem3DVerification.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing"
+      "migrationSlices": ["0190-applications-steel-fem-3d-verification"],
+      "sourceOracles": ["tests/steelFrameAdvancedVerification.test.js"],
+      "targetTests": [
+        "tests/steel-fem-3d-verification-compile-time.test.ts",
+        "tests/steel-fem-3d-verification-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0190-applications-steel-fem-3d-verification"],
+      "status": "exact-parity"
     },
     {
       "id": "src/applications/steel-frames/checks/SteelLateralTorsionalBuckling.js",
@@ -34039,7 +34042,10 @@
       "sourcePath": "src/applications/steel-frames/index.js",
       "sourceBlobSha1": "00b0b647649aff91fa05b523a18df186f588223f",
       "targetPath": "src/applications/steel-frames/index.ts",
-      "migrationSlices": ["0182-applications-steel-plastic-hinge-state"],
+      "migrationSlices": [
+        "0182-applications-steel-plastic-hinge-state",
+        "0190-applications-steel-fem-3d-verification"
+      ],
       "sourceOracles": [],
       "targetTests": [],
       "validationEvidence": [],
@@ -42143,7 +42149,8 @@
       "migrationSlices": [
         "0187-applications-steel-advanced-member-checks",
         "0188-applications-steel-beam-column-interaction",
-        "0189-applications-steel-compression-buckling"
+        "0189-applications-steel-compression-buckling",
+        "0190-applications-steel-fem-3d-verification"
       ],
       "sourceOracles": ["tests/steelFrameAdvancedVerification.test.js"],
       "targetTests": [
@@ -42153,12 +42160,15 @@
         "tests/steel-beam-column-interaction-compile-time.test.ts",
         "tests/steel-beam-column-interaction-live-parity.test.ts",
         "tests/steel-compression-buckling-compile-time.test.ts",
-        "tests/steel-compression-buckling-live-parity.test.ts"
+        "tests/steel-compression-buckling-live-parity.test.ts",
+        "tests/steel-fem-3d-verification-compile-time.test.ts",
+        "tests/steel-fem-3d-verification-live-parity.test.ts"
       ],
       "validationEvidence": [
         "0187-applications-steel-advanced-member-checks",
         "0188-applications-steel-beam-column-interaction",
-        "0189-applications-steel-compression-buckling"
+        "0189-applications-steel-compression-buckling",
+        "0190-applications-steel-fem-3d-verification"
       ],
       "status": "exact-parity",
       "testKind": "test"
@@ -46169,6 +46179,22 @@
         "publicStrings": "exact curve-source identifiers, warnings, descriptions and Unicode code-point comparison",
         "errors": "exact TypeError name and message for null options"
       }
+    },
+    {
+      "sliceId": "0190-applications-steel-fem-3d-verification",
+      "sourceRevision": "6f33baead8b88166c4b2cf94af41763412e3c751",
+      "method": "Strict typed consumer declarations and independently executed pinned JavaScript versus built TypeScript comparison of the unsupported-feature catalog, synthetic FEM contract orchestration, exact decorated check JSON, Unicode metadata, unsupported aggregation and null-input errors.",
+      "targetTests": [
+        "tests/steel-fem-3d-verification-compile-time.test.ts",
+        "tests/steel-fem-3d-verification-live-parity.test.ts"
+      ],
+      "fixture": "Independent serializable FEM contract with frame restraints, effective lengths, web panel, concentrated load, SLU stations, torsion/bimoment, open-family, missing-panel, cold-formed and fatigue branches using identity unit adapters.",
+      "tolerances": {
+        "serializedParity": "exact JSON and enumerable result key order",
+        "numericParity": "exact decorated demand, capacity, utilization and unit-adapter values",
+        "publicStrings": "exact unsupported feature descriptions, normative references, warnings and Unicode code-point comparison",
+        "errors": "exact TypeError name and message for null options"
+      }
     }
   ],
   "counts": {
@@ -46198,11 +46224,11 @@
     },
     "sourceFiles": {
       "javascript": 480,
-      "typescript": 451
+      "typescript": 452
     },
     "tests": {
       "javascript": 131,
-      "typescript": 364
+      "typescript": 366
     },
     "validationCampaigns": {
       "javascript": 17,
@@ -46254,7 +46280,7 @@
       "statusCounts": {
         "exact-parity": 0,
         "partial": 26,
-        "missing": 126,
+        "missing": 125,
         "intentionally-excluded": 0,
         "decision-required": 0
       },
@@ -46381,7 +46407,6 @@
         "source:src/applications/steel-frames/SteelFrameApplication.js",
         "source:src/applications/steel-frames/analysis/SteelRingFrame2DBuilder.js",
         "source:src/applications/steel-frames/analysis/SteelRingFramePushoverAnalysis.js",
-        "source:src/applications/steel-frames/checks/SteelFem3DVerification.js",
         "source:src/applications/steel-frames/checks/SteelLateralTorsionalBuckling.js",
         "source:src/applications/steel-frames/checks/SteelMemberVerification.js",
         "source:src/applications/steel-frames/checks/SteelMemberVerificationPolicies.js",
