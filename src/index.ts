@@ -560,6 +560,7 @@ export type {
   MicropileBromsAnalysisInput,
   MicropileBromsAnalysisOptions,
 } from "./applications/micropiles-broms/analysis/MicropileBromsAnalysis.js";
+export { MicropileBromsApplication } from "./applications/micropiles-broms/MicropileBromsApplication.js";
 export { MasonryRingBeamModel } from "./applications/masonry-ring-beams/models/MasonryRingBeamModel.js";
 export type { MasonryRingBeamModelInput } from "./applications/masonry-ring-beams/models/MasonryRingBeamModel.js";
 export { MasonryRingBeamApplication } from "./applications/masonry-ring-beams/MasonryRingBeamApplication.js";
