@@ -31,6 +31,16 @@ presented as implemented or exact parity; they are eligible for later migration 
 revised A4 gate. Phase A5/A6 validation and package work must not infer implementation of these
 deferred capabilities.
 
+The revised Phase A4 completion gate is satisfied by commit `2ccd705`: the retained documentation
+matches the pinned source, the retained public index was already exact parity, the exclusions are
+machine-readable, and `npm run check` plus `npm run check:parity-inventory` passed with clean pinned
+source and normative worktrees.
+
+Phase A5/A6 entry begins with slice 0214, which records the exact reinforced-concrete plate
+validation-source documentation and its pinned-source parity test. This is validation evidence
+documentation only; it does not migrate a validation campaign, example, benchmark, registry entry,
+or deferred application implementation.
+
 ## Implemented slice 0001
 
 Implementation state: **implemented** for the declared foundation scope.

@@ -5,3 +5,4 @@ LICENSE
 package-lock.json
 tmp/
 src/applications/reinforced-concrete-plates/README.md
+validation/reinforced-concrete-plate-sources.md

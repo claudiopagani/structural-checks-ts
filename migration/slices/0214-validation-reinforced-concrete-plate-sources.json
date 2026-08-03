@@ -1,0 +1,47 @@
+{
+  "schemaVersion": 1,
+  "sliceId": "0214-validation-reinforced-concrete-plate-sources",
+  "title": "Reinforced-concrete plate validation source documentation",
+  "migrationType": "mechanical-parity",
+  "implementationStatus": "implemented",
+  "dependencies": ["0213-applications-reinforced-concrete-plates-documentation"],
+  "source": {
+    "repository": "https://github.com/claudiopagani/strutture-js",
+    "revision": "6f33baead8b88166c4b2cf94af41763412e3c751"
+  },
+  "normativeCorpusRevision": "41da3faa489600173106935bbcf726119300e48d",
+  "sourceFiles": [
+    {
+      "path": "validation/reinforced-concrete-plate-sources.md",
+      "gitBlobSha1": "7d2e690e64a14632a755379e66d933f0de07fb84",
+      "targetPath": "validation/reinforced-concrete-plate-sources.md"
+    }
+  ],
+  "sourcePublicExport": {
+    "path": "src/index.js",
+    "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
+  },
+  "sourceOracles": [],
+  "targetTests": ["tests/reinforced-concrete-plate-validation-sources-parity.test.ts"],
+  "publicExports": [],
+  "publicTypeExports": [],
+  "normativeReferences": {
+    "resolved": [],
+    "outsideCorpus": [],
+    "normativeConformityClaimed": false,
+    "status": "classified-for-declared-scope"
+  },
+  "independentValidation": {
+    "method": "Independent pinned-source Git-blob and target-file comparison with exact UTF-8 and Unicode code-point equality.",
+    "targetTests": ["tests/reinforced-concrete-plate-validation-sources-parity.test.ts"],
+    "fixture": "The complete reinforced-concrete plate validation-source documentation.",
+    "tolerances": {
+      "serializedParity": "exact documentation bytes decoded as UTF-8",
+      "numericParity": "not applicable",
+      "publicStrings": "exact documentation strings and Unicode code points",
+      "errors": "not applicable"
+    }
+  },
+  "parityDifferences": [],
+  "engineeringFunctionality": "Validation-source documentation only; no validation campaign, example, benchmark, or engineering implementation is added."
+}

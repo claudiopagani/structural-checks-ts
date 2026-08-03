@@ -2,6 +2,7 @@
   "schemaVersion": 1,
   "phase": "A4",
   "status": "revised",
+  "completionGate": "satisfied",
   "sourceRevision": "6f33baead8b88166c4b2cf94af41763412e3c751",
   "normativeRevision": "41da3faa489600173106935bbcf726119300e48d",
   "retainedSourcePaths": [

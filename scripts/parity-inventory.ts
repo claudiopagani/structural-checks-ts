@@ -102,6 +102,7 @@ export interface PhaseA4Scope {
   schemaVersion: 1;
   phase: "A4";
   status: "revised";
+  completionGate: "satisfied";
   sourceRevision: string;
   normativeRevision: string;
   retainedSourcePaths: string[];
@@ -295,7 +296,12 @@ function parsePhaseA4Scope(value: unknown): PhaseA4Scope {
     throw new Error("migration/phase-a4-scope.json is not an object.");
   }
 
-  if (value.schemaVersion !== 1 || value.phase !== "A4" || value.status !== "revised") {
+  if (
+    value.schemaVersion !== 1 ||
+    value.phase !== "A4" ||
+    value.status !== "revised" ||
+    value.completionGate !== "satisfied"
+  ) {
     throw new Error("migration/phase-a4-scope.json has unsupported scope metadata.");
   }
 
@@ -309,6 +315,7 @@ function parsePhaseA4Scope(value: unknown): PhaseA4Scope {
     schemaVersion: 1,
     phase: "A4",
     status: "revised",
+    completionGate: "satisfied",
     sourceRevision,
     normativeRevision,
     retainedSourcePaths: stringArray(value.retainedSourcePaths),

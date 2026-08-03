@@ -38459,7 +38459,8 @@
         "0210-applications-timber-beam-application",
         "0211-applications-timber-concrete-composite-beam-model",
         "0212-applications-timber-concrete-composite-beam-section-provider",
-        "0213-applications-reinforced-concrete-plates-documentation"
+        "0213-applications-reinforced-concrete-plates-documentation",
+        "0214-validation-reinforced-concrete-plate-sources"
       ],
       "sourceOracles": [
         "tests/architecture/applicationRegistry.test.js",
@@ -43384,11 +43385,11 @@
       "sourcePath": "validation/reinforced-concrete-plate-sources.md",
       "sourceBlobSha1": "7d2e690e64a14632a755379e66d933f0de07fb84",
       "targetPath": "validation/reinforced-concrete-plate-sources.md",
-      "migrationSlices": [],
+      "migrationSlices": ["0214-validation-reinforced-concrete-plate-sources"],
       "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing"
+      "targetTests": ["tests/reinforced-concrete-plate-validation-sources-parity.test.ts"],
+      "validationEvidence": ["0214-validation-reinforced-concrete-plate-sources"],
+      "status": "exact-parity"
     },
     {
       "id": "validation/reinforced-concrete-punching-sources.md",
@@ -47340,12 +47341,26 @@
         "publicStrings": "exact documentation strings and Unicode code points",
         "errors": "not applicable"
       }
+    },
+    {
+      "sliceId": "0214-validation-reinforced-concrete-plate-sources",
+      "sourceRevision": "6f33baead8b88166c4b2cf94af41763412e3c751",
+      "method": "Independent pinned-source Git-blob and target-file comparison with exact UTF-8 and Unicode code-point equality.",
+      "targetTests": ["tests/reinforced-concrete-plate-validation-sources-parity.test.ts"],
+      "fixture": "The complete reinforced-concrete plate validation-source documentation.",
+      "tolerances": {
+        "serializedParity": "exact documentation bytes decoded as UTF-8",
+        "numericParity": "not applicable",
+        "publicStrings": "exact documentation strings and Unicode code points",
+        "errors": "not applicable"
+      }
     }
   ],
   "phaseA4Scope": {
     "schemaVersion": 1,
     "phase": "A4",
     "status": "revised",
+    "completionGate": "satisfied",
     "sourceRevision": "6f33baead8b88166c4b2cf94af41763412e3c751",
     "normativeRevision": "41da3faa489600173106935bbcf726119300e48d",
     "retainedSourcePaths": [
@@ -47470,7 +47485,7 @@
     },
     "tests": {
       "javascript": 131,
-      "typescript": 411
+      "typescript": 412
     },
     "validationCampaigns": {
       "javascript": 17,
@@ -47478,7 +47493,7 @@
     },
     "validationFiles": {
       "javascript": 27,
-      "typescript": 0
+      "typescript": 1
     },
     "examples": {
       "javascript": 32,
@@ -47607,7 +47622,7 @@
       "statusCounts": {
         "exact-parity": 0,
         "partial": 4,
-        "missing": 104,
+        "missing": 103,
         "deferred": 0,
         "intentionally-excluded": 0,
         "decision-required": 0
@@ -47686,7 +47701,6 @@
         "artifact:validation/ntc2018TopographicClassificationValidationCampaign.js",
         "artifact:validation/punchingValidationCampaign.js",
         "artifact:validation/punchingValidationCampaign.js",
-        "artifact:validation/reinforced-concrete-plate-sources.md",
         "artifact:validation/reinforced-concrete-punching-sources.md",
         "artifact:validation/reinforced-concrete-sources.md",
         "artifact:validation/reinforcedConcreteGlobalValidationCases.js",
