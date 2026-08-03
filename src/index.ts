@@ -567,8 +567,31 @@ export { SectionFiberDiscretizer } from "./applications/reinforced-concrete-sect
 export { StrainField } from "./applications/reinforced-concrete-sections/analysis/StrainField.js";
 export {
   createNTC2018ConcreteMaterial,
+  createNTC2018ExistingMasonryMaterial,
   createNTC2018ReinforcementSteelMaterial,
 } from "./norms/ntc2018/materials/createNTC2018Material.js";
+export {
+  applyNTC2018ExistingMasonryMaltaBuonaUpdate,
+  applyNTC2018ExistingMasonryModifierToggle,
+  createNTC2018ExistingMasonryModifierState,
+  createNTC2018ExistingMasonryWorkflowState,
+  evaluateNTC2018ExistingMasonryWorkflow,
+  getNTC2018ExistingMasonryModifierDefinition,
+  modifierSelectionsFromState,
+  selectNTC2018ExistingMasonryParameterLevel,
+  selectNTC2018ExistingMasonryTypology,
+  toggleNTC2018ExistingMasonryModifier,
+  updateNTC2018ExistingMasonryMaltaBuona,
+} from "./norms/ntc2018/materials/ntc2018ExistingMasonryWorkflow.js";
+export type {
+  Ntc2018ExistingMasonryModifierSelection,
+  Ntc2018ExistingMasonryModifierSelections,
+  Ntc2018ExistingMasonryModifierState,
+  Ntc2018ExistingMasonryWorkflowData,
+  Ntc2018ExistingMasonryWorkflowRequest,
+  Ntc2018ExistingMasonryWorkflowResponse,
+  Ntc2018ExistingMasonryWorkflowState,
+} from "./norms/ntc2018/materials/ntc2018ExistingMasonryWorkflow.js";
 export {
   NTC2018_ACTION_COMBINATION_FACTORS,
   NTC2018_ACTION_PARTIAL_FACTORS,
@@ -1943,6 +1966,7 @@ export type {
 } from "./domain/reinforcement/createLongitudinalReinforcementLayout.js";
 export type {
   CreateNTC2018ConcreteMaterialOptions,
+  CreateNTC2018ExistingMasonryMaterialOptions,
   CreateNTC2018ReinforcementSteelMaterialOptions,
 } from "./norms/ntc2018/materials/createNTC2018Material.js";
 export type {

@@ -1,0 +1,130 @@
+{
+  "schemaVersion": 1,
+  "sliceId": "0132-norms-ntc2018-existing-masonry-workflow",
+  "title": "NTC 2018 existing-masonry workflow state and evaluation helpers",
+  "migrationType": "mechanical-parity",
+  "implementationStatus": "implemented",
+  "dependencies": [
+    "0120-norms-ntc2018-existing-masonry-catalogs",
+    "0121-norms-ntc2018-existing-masonry-material"
+  ],
+  "source": {
+    "repository": "https://github.com/claudiopagani/strutture-js",
+    "revision": "6f33baead8b88166c4b2cf94af41763412e3c751"
+  },
+  "normativeCorpusRevision": "41da3faa489600173106935bbcf726119300e48d",
+  "sourceFiles": [
+    {
+      "path": "src/norms/ntc2018/materials/ntc2018ExistingMasonryWorkflow.js",
+      "gitBlobSha1": "e57abf33a48e4964838021f13913a69b9ba53046",
+      "targetPath": "src/norms/ntc2018/materials/ntc2018ExistingMasonryWorkflow.ts"
+    }
+  ],
+  "supportingSourceFiles": [
+    {
+      "path": "src/norms/ntc2018/materials/createNTC2018Material.js",
+      "gitBlobSha1": "fc10a704f3abbdf4b6a7f2834200f4b566b53b04",
+      "targetPath": "src/norms/ntc2018/materials/createNTC2018Material.ts",
+      "coverage": "Added only the typology-backed existing-masonry factory path required by the migrated workflow; concrete, reinforcement, structural-steel, and timber factory paths remain covered by their existing slices."
+    },
+    {
+      "path": "src/norms/ntc2018/materials/ntc2018MaterialCatalogs.js",
+      "gitBlobSha1": "db88567dee5a0f1e95cfdf081960e5c1d6d7be1a",
+      "targetPath": "src/norms/ntc2018/materials/ntc2018MaterialCatalogs.ts",
+      "coverage": "Already-migrated NTC 2018 knowledge-level catalog dependency."
+    },
+    {
+      "path": "src/norms/ntc2018/materials/ntc2018ExistingMasonryCatalogs.js",
+      "gitBlobSha1": "1fa5560f0d9956099ff5b3e5da890579b89c59c8",
+      "targetPath": "src/norms/ntc2018/materials/ntc2018ExistingMasonryCatalogs.ts",
+      "coverage": "Already-migrated typology, modifier, and tabulated-property dependency."
+    },
+    {
+      "path": "src/norms/ntc2018/materials/NTC2018ExistingMasonryMaterial.js",
+      "gitBlobSha1": "48c1e3539531375d37b4a7443e2e3ade535b8049",
+      "targetPath": "src/norms/ntc2018/materials/NTC2018ExistingMasonryMaterial.ts",
+      "coverage": "Already-migrated material engine delegated to by workflow evaluation."
+    },
+    {
+      "path": "src/norms/ntc2018/index.js",
+      "gitBlobSha1": "0ac4cf551c455ec2a57d9bf8849db46fb14e0dcc",
+      "targetPath": "src/index.ts",
+      "coverage": "Pinned NTC 2018 norm-index export context."
+    },
+    {
+      "path": "src/index.js",
+      "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7",
+      "targetPath": "src/index.ts",
+      "coverage": "Root public exports for the existing-masonry workflow and factory."
+    }
+  ],
+  "sourceOracles": [
+    {
+      "path": "tests/ntc2018ExistingMasonryWorkflow.test.js",
+      "gitBlobSha1": "88fedc826667ba32bea9bd8e1da92df395586812",
+      "coverage": "Workflow defaults, modifier state transitions, Unicode labels, material delegation, and evaluation behavior."
+    },
+    {
+      "path": "tests/packageExports.test.js",
+      "gitBlobSha1": "8dde24b4c97dd3dae7100207d07d9d96c52b9c74",
+      "coverage": "Root public export behavior."
+    }
+  ],
+  "sourcePublicExport": {
+    "path": "src/index.js",
+    "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
+  },
+  "targetTests": [
+    "tests/baseline-parity.test.ts",
+    "tests/ntc2018-existing-masonry-workflow-compile-time.test.ts",
+    "tests/ntc2018-existing-masonry-workflow-live-parity.test.ts"
+  ],
+  "publicExports": [
+    "applyNTC2018ExistingMasonryMaltaBuonaUpdate",
+    "applyNTC2018ExistingMasonryModifierToggle",
+    "createNTC2018ExistingMasonryMaterial",
+    "createNTC2018ExistingMasonryModifierState",
+    "createNTC2018ExistingMasonryWorkflowState",
+    "evaluateNTC2018ExistingMasonryWorkflow",
+    "getNTC2018ExistingMasonryModifierDefinition",
+    "modifierSelectionsFromState",
+    "selectNTC2018ExistingMasonryParameterLevel",
+    "selectNTC2018ExistingMasonryTypology",
+    "toggleNTC2018ExistingMasonryModifier",
+    "updateNTC2018ExistingMasonryMaltaBuona"
+  ],
+  "publicTypeExports": [
+    "CreateNTC2018ExistingMasonryMaterialOptions",
+    "Ntc2018ExistingMasonryModifierSelection",
+    "Ntc2018ExistingMasonryModifierSelections",
+    "Ntc2018ExistingMasonryModifierState",
+    "Ntc2018ExistingMasonryWorkflowData",
+    "Ntc2018ExistingMasonryWorkflowRequest",
+    "Ntc2018ExistingMasonryWorkflowResponse",
+    "Ntc2018ExistingMasonryWorkflowState"
+  ],
+  "normativeReferences": {
+    "resolved": [],
+    "outsideCorpus": [],
+    "normativeConformityClaimed": false,
+    "status": "classified-for-declared-scope"
+  },
+  "independentValidation": {
+    "method": "Strict declaration consumer coverage and independently executed pinned JavaScript versus built TypeScript comparisons of every workflow export, modifier state, toggle, update, selection mapping, Unicode label, factory delegation, serialized evaluation result, and error path.",
+    "targetTests": [
+      "tests/ntc2018-existing-masonry-workflow-compile-time.test.ts",
+      "tests/ntc2018-existing-masonry-workflow-live-parity.test.ts"
+    ],
+    "fixture": null,
+    "tolerances": {
+      "serializedParity": "exact workflow state, material, and evaluation JSON",
+      "numericParity": "exact modifier, masonry-property, and factor equality",
+      "publicStrings": "exact equality plus Unicode code-point preservation for Italian workflow labels and errors",
+      "errors": "exact error name and message equality for unsupported typologies, knowledge levels, and missing units"
+    }
+  },
+  "parityDifferences": [
+    "The TypeScript module adds strict workflow request, state, response, modifier, and factory-option declarations; the migrated typology-backed workflow, factory delegation, values, metadata, serialization, public strings, and errors match the pinned source."
+  ],
+  "engineeringFunctionality": "Usable NTC 2018 existing-masonry UI/workflow state transitions and asynchronous evaluation delegation over the migrated material engine."
+}

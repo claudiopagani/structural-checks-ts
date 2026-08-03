@@ -1,4 +1,5 @@
 import { ConcreteMaterial } from "../../../domain/materials/ConcreteMaterial.js";
+import { ExistingMasonryMaterial } from "../../../domain/materials/ExistingMasonryMaterial.js";
 import { SteelMaterial } from "../../../domain/materials/SteelMaterial.js";
 import {
   characteristicValueFromExistingMean,
@@ -18,12 +19,15 @@ import {
 } from "../normativeReferences.js";
 import {
   NTC2018_CONCRETE_CLASSES,
+  NTC2018_EXISTING_MASONRY_KNOWLEDGE_LEVELS,
   NTC2018_REINFORCEMENT_STEEL_GRADES,
   type NTC2018ConcreteClassPreset,
   type NTC2018ConcreteStrengthClass,
   type NTC2018ReinforcementSteelGrade,
   type NTC2018ReinforcementSteelPreset,
 } from "./ntc2018MaterialCatalogs.js";
+import { NTC2018ExistingMasonryMaterial } from "./NTC2018ExistingMasonryMaterial.js";
+import type { ExistingMasonryProperties } from "../../../domain/materials/ExistingMasonryMaterial.js";
 
 const NTC2018_REFERENCE = "DM 17/01/2018 - NTC 2018";
 const INTERNAL_UNITS = Object.freeze({ force: "N", length: "mm" }) satisfies UnitSystem;
@@ -241,5 +245,104 @@ export function createNTC2018ReinforcementSteelMaterial({
         NTC2018_RC_OUTSIDE_CORPUS_REFERENCES.materialQualification,
       ],
     ),
+  });
+}
+
+export interface CreateNTC2018ExistingMasonryMaterialOptions extends Record<string, unknown> {
+  knowledgeLevel?: string;
+  baseProperties?: ExistingMasonryProperties;
+  surveyFactors?: Record<string, number>;
+  improvementFactors?: Record<string, number>;
+  masonryTypology?: unknown;
+  masonryTypologyId?: unknown;
+  parameterLevel?: number | string | null;
+  modifierSelections?: Record<string, unknown>;
+  units?: UnitSystemInput | null;
+  metadata?: Record<string, unknown>;
+  masonryType?: string;
+  name?: string;
+}
+
+export function createNTC2018ExistingMasonryMaterial(
+  options: CreateNTC2018ExistingMasonryMaterialOptions & { masonryTypologyId: number },
+): NTC2018ExistingMasonryMaterial;
+export function createNTC2018ExistingMasonryMaterial(
+  options: CreateNTC2018ExistingMasonryMaterialOptions,
+): NTC2018ExistingMasonryMaterial | ExistingMasonryMaterial;
+export function createNTC2018ExistingMasonryMaterial({
+  knowledgeLevel = "LC1",
+  baseProperties = {},
+  surveyFactors = {},
+  improvementFactors = {},
+  masonryTypology = null,
+  masonryTypologyId = null,
+  parameterLevel = null,
+  modifierSelections = {},
+  units = null,
+  metadata = {},
+  masonryType,
+  name,
+  ...rest
+}: CreateNTC2018ExistingMasonryMaterialOptions):
+  | NTC2018ExistingMasonryMaterial
+  | ExistingMasonryMaterial {
+  assertExplicitUnitSystem(units, "createNTC2018ExistingMasonryMaterial");
+  const preset = assertCatalogEntry(
+    NTC2018_EXISTING_MASONRY_KNOWLEDGE_LEVELS,
+    knowledgeLevel,
+    `Unsupported NTC 2018 knowledge level: ${knowledgeLevel}.`,
+  );
+
+  const sharedMetadata = {
+    ...metadata,
+    normativePreset: "NTC2018",
+    ntcReference: `${NTC2018_REFERENCE}; Circolare 21/01/2019 n. 7`,
+    knowledgeLevelDescription: preset.description,
+  };
+
+  if (masonryTypology != null || masonryTypologyId != null || masonryType != null) {
+    return new NTC2018ExistingMasonryMaterial({
+      knowledgeLevel,
+      confidenceFactor: preset.confidenceFactor,
+      masonryTypology,
+      masonryTypologyId,
+      parameterLevel,
+      modifierSelections,
+      surveyFactors,
+      improvementFactors,
+      units: INTERNAL_UNITS,
+      metadata: sharedMetadata,
+      masonryType,
+      ...rest,
+    });
+  }
+
+  if (masonryType === undefined) {
+    if (name === undefined) {
+      throw new Error("A material name is required.");
+    }
+
+    throw new Error("Existing masonry material requires masonryType.");
+  }
+
+  const resolvedMasonryType = masonryType;
+
+  if (name === undefined) {
+    throw new Error("A material name is required.");
+  }
+
+  const resolvedName = name;
+
+  return new ExistingMasonryMaterial({
+    masonryType: resolvedMasonryType,
+    name: resolvedName,
+    knowledgeLevel,
+    confidenceFactor: preset.confidenceFactor,
+    baseProperties,
+    surveyFactors,
+    improvementFactors,
+    units,
+    metadata: sharedMetadata,
+    ...rest,
   });
 }
