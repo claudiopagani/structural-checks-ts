@@ -1,0 +1,108 @@
+{
+  "schemaVersion": 1,
+  "sliceId": "0145-applications-geotechnical-retaining-wall-application",
+  "title": "Geotechnical retaining-wall application",
+  "migrationType": "mechanical-parity-with-minimal-dependency-support",
+  "implementationStatus": "implemented",
+  "dependencies": [
+    "0096-domain-lateral-earth-pressure-analysis",
+    "0098-domain-retaining-wall-model-scenario",
+    "0100-domain-retaining-wall-analysis"
+  ],
+  "source": {
+    "repository": "https://github.com/claudiopagani/strutture-js",
+    "revision": "6f33baead8b88166c4b2cf94af41763412e3c751"
+  },
+  "normativeCorpusRevision": "41da3faa489600173106935bbcf726119300e48d",
+  "sourceFiles": [
+    {
+      "path": "src/applications/geotechnical-retaining-walls/GeotechnicalRetainingWallApplication.js",
+      "gitBlobSha1": "d8f292d3894c46c0ed1252223ae90e9e8266cf8e",
+      "targetPath": "src/applications/geotechnical-retaining-walls/GeotechnicalRetainingWallApplication.ts"
+    },
+    {
+      "path": "src/applications/geotechnical-retaining-walls/index.js",
+      "gitBlobSha1": "bf090d06dffcf28d2e6438c23968788d8d0f14a3",
+      "targetPath": "src/applications/geotechnical-retaining-walls/index.ts"
+    }
+  ],
+  "supportingSourceFiles": [
+    {
+      "path": "src/index.js",
+      "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7",
+      "targetPath": "src/index.ts",
+      "coverage": "Pinned root public-export context for the geotechnical retaining-wall application."
+    },
+    {
+      "path": "src/domain/geotechnics/LateralEarthPressureAnalysis.js",
+      "gitBlobSha1": "c4f214528ba67400a79c661fe5095ef13c7df1fe",
+      "targetPath": "src/domain/geotechnics/LateralEarthPressureAnalysis.ts",
+      "coverage": "Migrated earth-pressure dependency used by the retaining-wall analysis."
+    },
+    {
+      "path": "src/domain/geotechnics/RetainingWallModel.js",
+      "gitBlobSha1": "adbfc7591c1700375ca1447cc852860189769414",
+      "targetPath": "src/domain/geotechnics/RetainingWallModel.ts",
+      "coverage": "Migrated retaining-wall model re-exported by the application barrel."
+    },
+    {
+      "path": "src/domain/geotechnics/RetainingWallLoadScenario.js",
+      "gitBlobSha1": "98f7133ec5b5a827283d4d75f22b279c5dda6fb8",
+      "targetPath": "src/domain/geotechnics/RetainingWallLoadScenario.ts",
+      "coverage": "Migrated retaining-wall load scenario re-exported by the application barrel."
+    },
+    {
+      "path": "src/domain/geotechnics/RetainingWallAnalysis.js",
+      "gitBlobSha1": "0c21f6664fb68b1150e89f8b8375acf27e768f35",
+      "targetPath": "src/domain/geotechnics/RetainingWallAnalysis.ts",
+      "coverage": "Migrated retaining-wall analysis delegated by the application wrapper."
+    }
+  ],
+  "sourceOracles": [
+    {
+      "path": "tests/geotechnicalRetainingWalls.test.js",
+      "gitBlobSha1": "53b83cf67c933e63475ff4b9e054d508a4429125",
+      "coverage": "Application wrapper result, rigid-wall coupling serialization and unsupported behavior."
+    },
+    {
+      "path": "tests/packageExports.test.js",
+      "gitBlobSha1": "8dde24b4c97dd3dae7100207d07d9d96c52b9c74",
+      "coverage": "Pinned root and application public exports."
+    }
+  ],
+  "sourcePublicExport": {
+    "path": "src/index.js",
+    "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
+  },
+  "targetTests": [
+    "tests/baseline-parity.test.ts",
+    "tests/geotechnical-retaining-wall-application-compile-time.test.ts",
+    "tests/geotechnical-retaining-wall-application-live-parity.test.ts"
+  ],
+  "publicExports": ["GeotechnicalRetainingWallApplication"],
+  "publicTypeExports": [],
+  "normativeReferences": {
+    "resolved": [],
+    "outsideCorpus": [],
+    "normativeConformityClaimed": false,
+    "status": "classified-for-declared-scope"
+  },
+  "independentValidation": {
+    "method": "Strict declaration consumer coverage and independently executed pinned JavaScript versus built TypeScript comparison of the application barrel, root aliases, application manifest, complete serialized results, Unicode identifiers, missing-input and unsupported scenario behavior, plus null-input error parity.",
+    "targetTests": [
+      "tests/geotechnical-retaining-wall-application-compile-time.test.ts",
+      "tests/geotechnical-retaining-wall-application-live-parity.test.ts"
+    ],
+    "fixture": "static Rankine retaining wall with assigned base interface, Unicode identifiers and unsupported scenario dispatch",
+    "tolerances": {
+      "serializedParity": "exact complete CalculationResult JSON",
+      "numericParity": "exact retaining-wall actions, equilibrium and structural-coupling values",
+      "publicStrings": "exact manifest, summaries, metadata and Unicode strings",
+      "errors": "exact null-input error, missing-input result and unsupported scenario result behavior"
+    }
+  },
+  "parityDifferences": [
+    "The TypeScript application uses the migrated strict RetainingWallAnalysisInput declaration while preserving the JavaScript wrapper delegation and serialized CalculationResult shape."
+  ],
+  "engineeringFunctionality": "Public geotechnical retaining-wall application wrapper for method-neutral rigid-body actions, base contact, stability and geotechnical module coupling."
+}

@@ -387,6 +387,7 @@ export { GeotechnicalEmbeddedRetainingWallApplication } from "./applications/geo
 export { GeotechnicalGroundAnchorApplication } from "./applications/geotechnical-ground-anchors/index.js";
 export { GeotechnicalLateralPileApplication } from "./applications/geotechnical-lateral-piles/index.js";
 export type { GeotechnicalLateralPileApplicationInput } from "./applications/geotechnical-lateral-piles/index.js";
+export { GeotechnicalRetainingWallApplication } from "./applications/geotechnical-retaining-walls/index.js";
 export {
   AXIAL_PILE_CAPACITY_REFERENCE,
   AXIAL_PILE_CAPACITY_RESULT_SCHEMA_VERSION,

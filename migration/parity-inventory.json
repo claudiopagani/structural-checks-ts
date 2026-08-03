@@ -1011,6 +1011,7 @@
         "GeotechnicalEmbeddedRetainingWallApplication",
         "GeotechnicalGroundAnchorApplication",
         "GeotechnicalLateralPileApplication",
+        "GeotechnicalRetainingWallApplication",
         "GlobalFemPostProcessingApplication",
         "GlulamTimberMaterial",
         "GroundAnchorAnalysis",
@@ -9538,11 +9539,15 @@
       "sourcePath": "src/applications/geotechnical-retaining-walls/GeotechnicalRetainingWallApplication.js",
       "sourceBlobSha1": "d8f292d3894c46c0ed1252223ae90e9e8266cf8e",
       "targetPath": "src/applications/geotechnical-retaining-walls/GeotechnicalRetainingWallApplication.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0145-applications-geotechnical-retaining-wall-application"],
+      "sourceOracles": ["tests/geotechnicalRetainingWalls.test.js", "tests/packageExports.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/geotechnical-retaining-wall-application-compile-time.test.ts",
+        "tests/geotechnical-retaining-wall-application-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0145-applications-geotechnical-retaining-wall-application"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -22463,11 +22468,15 @@
       "sourcePath": "src/applications/geotechnical-retaining-walls/GeotechnicalRetainingWallApplication.js",
       "sourceBlobSha1": "d8f292d3894c46c0ed1252223ae90e9e8266cf8e",
       "targetPath": "src/applications/geotechnical-retaining-walls/GeotechnicalRetainingWallApplication.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0145-applications-geotechnical-retaining-wall-application"],
+      "sourceOracles": ["tests/geotechnicalRetainingWalls.test.js", "tests/packageExports.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/geotechnical-retaining-wall-application-compile-time.test.ts",
+        "tests/geotechnical-retaining-wall-application-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0145-applications-geotechnical-retaining-wall-application"],
+      "status": "exact-parity",
       "publicEntryPath": "src/applications/index.js",
       "publicEntryBlobSha1": "b70179c7cdd2a819f2151dc092c0f59cbce30ba6"
     },
@@ -27563,13 +27572,17 @@
         "tests/reinforcedConcreteFoundationBeamApplication.test.js",
         "tests/reinforcedConcreteStrutAndTieApplication.test.js"
       ],
-      "targetTests": [],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/geotechnical-retaining-wall-application-compile-time.test.ts",
+        "tests/geotechnical-retaining-wall-application-live-parity.test.ts"
+      ],
       "validationEvidence": [
         "0024-reinforced-concrete-foundation-beams",
         "0026-reinforced-concrete-beam-column-joints",
         "0027-reinforced-concrete-strut-and-tie"
       ],
-      "status": "missing",
+      "status": "partial",
       "notes": ["Default registry construction is not present in the current TypeScript target."],
       "applicationId": "geotechnical-retaining-walls",
       "applicationClass": "GeotechnicalRetainingWallApplication",
@@ -29302,22 +29315,30 @@
       "sourcePath": "src/applications/geotechnical-retaining-walls/GeotechnicalRetainingWallApplication.js",
       "sourceBlobSha1": "d8f292d3894c46c0ed1252223ae90e9e8266cf8e",
       "targetPath": "src/applications/geotechnical-retaining-walls/GeotechnicalRetainingWallApplication.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing"
+      "migrationSlices": ["0145-applications-geotechnical-retaining-wall-application"],
+      "sourceOracles": ["tests/geotechnicalRetainingWalls.test.js", "tests/packageExports.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/geotechnical-retaining-wall-application-compile-time.test.ts",
+        "tests/geotechnical-retaining-wall-application-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0145-applications-geotechnical-retaining-wall-application"],
+      "status": "exact-parity"
     },
     {
       "id": "src/applications/geotechnical-retaining-walls/index.js",
       "sourcePath": "src/applications/geotechnical-retaining-walls/index.js",
       "sourceBlobSha1": "bf090d06dffcf28d2e6438c23968788d8d0f14a3",
       "targetPath": "src/applications/geotechnical-retaining-walls/index.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing"
+      "migrationSlices": ["0145-applications-geotechnical-retaining-wall-application"],
+      "sourceOracles": ["tests/geotechnicalRetainingWalls.test.js", "tests/packageExports.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/geotechnical-retaining-wall-application-compile-time.test.ts",
+        "tests/geotechnical-retaining-wall-application-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0145-applications-geotechnical-retaining-wall-application"],
+      "status": "exact-parity"
     },
     {
       "id": "src/applications/geotechnical-shallow-foundations/GeotechnicalShallowFoundationApplication.js",
@@ -36017,7 +36038,8 @@
         "0141-applications-geotechnical-earth-pressure-application",
         "0142-applications-geotechnical-embedded-retaining-wall-application",
         "0143-applications-geotechnical-ground-anchor-application",
-        "0144-applications-geotechnical-lateral-pile-application"
+        "0144-applications-geotechnical-lateral-pile-application",
+        "0145-applications-geotechnical-retaining-wall-application"
       ],
       "sourceOracles": [
         "tests/architecture/applicationRegistry.test.js",
@@ -37951,11 +37973,14 @@
       "migrationSlices": [
         "0095-domain-layered-pseudostatic-trial-wedge",
         "0098-domain-retaining-wall-model-scenario",
-        "0100-domain-retaining-wall-analysis"
+        "0100-domain-retaining-wall-analysis",
+        "0145-applications-geotechnical-retaining-wall-application"
       ],
       "sourceOracles": ["tests/geotechnicalRetainingWalls.test.js"],
       "targetTests": [
         "tests/baseline-parity.test.ts",
+        "tests/geotechnical-retaining-wall-application-compile-time.test.ts",
+        "tests/geotechnical-retaining-wall-application-live-parity.test.ts",
         "tests/layered-pseudostatic-trial-wedge-compile-time.test.ts",
         "tests/layered-pseudostatic-trial-wedge-live-parity.test.ts",
         "tests/retaining-wall-analysis-compile-time.test.ts",
@@ -37966,7 +37991,8 @@
       "validationEvidence": [
         "0095-domain-layered-pseudostatic-trial-wedge",
         "0098-domain-retaining-wall-model-scenario",
-        "0100-domain-retaining-wall-analysis"
+        "0100-domain-retaining-wall-analysis",
+        "0145-applications-geotechnical-retaining-wall-application"
       ],
       "status": "exact-parity",
       "testKind": "test"
@@ -39020,7 +39046,8 @@
         "0141-applications-geotechnical-earth-pressure-application",
         "0142-applications-geotechnical-embedded-retaining-wall-application",
         "0143-applications-geotechnical-ground-anchor-application",
-        "0144-applications-geotechnical-lateral-pile-application"
+        "0144-applications-geotechnical-lateral-pile-application",
+        "0145-applications-geotechnical-retaining-wall-application"
       ],
       "sourceOracles": ["tests/packageExports.test.js"],
       "targetTests": [
@@ -39072,6 +39099,8 @@
         "tests/geotechnical-ground-anchor-application-live-parity.test.ts",
         "tests/geotechnical-lateral-pile-application-compile-time.test.ts",
         "tests/geotechnical-lateral-pile-application-live-parity.test.ts",
+        "tests/geotechnical-retaining-wall-application-compile-time.test.ts",
+        "tests/geotechnical-retaining-wall-application-live-parity.test.ts",
         "tests/ground-anchor-analysis-compile-time.test.ts",
         "tests/ground-anchor-analysis-live-parity.test.ts",
         "tests/ground-anchor-bond-catalog-compile-time.test.ts",
@@ -39256,7 +39285,8 @@
         "0141-applications-geotechnical-earth-pressure-application",
         "0142-applications-geotechnical-embedded-retaining-wall-application",
         "0143-applications-geotechnical-ground-anchor-application",
-        "0144-applications-geotechnical-lateral-pile-application"
+        "0144-applications-geotechnical-lateral-pile-application",
+        "0145-applications-geotechnical-retaining-wall-application"
       ],
       "status": "exact-parity",
       "testKind": "test"
@@ -43220,16 +43250,32 @@
         "publicStrings": "exact manifest, summaries, metadata and Unicode strings",
         "errors": "exact null-input error, missing-input result and unsupported beam-on-p-y result behavior"
       }
+    },
+    {
+      "sliceId": "0145-applications-geotechnical-retaining-wall-application",
+      "sourceRevision": "6f33baead8b88166c4b2cf94af41763412e3c751",
+      "method": "Strict declaration consumer coverage and independently executed pinned JavaScript versus built TypeScript comparison of the application barrel, root aliases, application manifest, complete serialized results, Unicode identifiers, missing-input and unsupported scenario behavior, plus null-input error parity.",
+      "targetTests": [
+        "tests/geotechnical-retaining-wall-application-compile-time.test.ts",
+        "tests/geotechnical-retaining-wall-application-live-parity.test.ts"
+      ],
+      "fixture": "static Rankine retaining wall with assigned base interface, Unicode identifiers and unsupported scenario dispatch",
+      "tolerances": {
+        "serializedParity": "exact complete CalculationResult JSON",
+        "numericParity": "exact retaining-wall actions, equilibrium and structural-coupling values",
+        "publicStrings": "exact manifest, summaries, metadata and Unicode strings",
+        "errors": "exact null-input error, missing-input result and unsupported scenario result behavior"
+      }
     }
   ],
   "counts": {
     "rootExports": {
       "javascript": 841,
-      "typescript": 737
+      "typescript": 738
     },
     "applicationsExports": {
       "javascript": 309,
-      "typescript": 210
+      "typescript": 211
     },
     "packageEntryPoints": {
       "javascript": 14,
@@ -43249,11 +43295,11 @@
     },
     "sourceFiles": {
       "javascript": 480,
-      "typescript": 391
+      "typescript": 393
     },
     "tests": {
       "javascript": 131,
-      "typescript": 276
+      "typescript": 278
     },
     "validationCampaigns": {
       "javascript": 17,
@@ -43304,8 +43350,8 @@
     "applications": {
       "statusCounts": {
         "exact-parity": 0,
-        "partial": 16,
-        "missing": 314,
+        "partial": 17,
+        "missing": 309,
         "intentionally-excluded": 0,
         "decision-required": 0
       },
@@ -43320,7 +43366,6 @@
         "application-export:BEAM_REPORT_SCHEMA_VERSION",
         "application-export:BeamReportBuilder",
         "application-export:BeamReportMarkdownRenderer",
-        "application-export:GeotechnicalRetainingWallApplication",
         "application-export:GeotechnicalShallowFoundationApplication",
         "application-export:GeotechnicalSlopeStabilityApplication",
         "application-export:MASONRY_PIER_CAPACITY_CURVE_COMPARISON_REPORT_SCHEMA_VERSION",
@@ -43449,7 +43494,6 @@
         "root-export:BEAM_REPORT_SCHEMA_VERSION",
         "root-export:BeamReportBuilder",
         "root-export:BeamReportMarkdownRenderer",
-        "root-export:GeotechnicalRetainingWallApplication",
         "root-export:GeotechnicalShallowFoundationApplication",
         "root-export:GeotechnicalSlopeStabilityApplication",
         "root-export:MASONRY_PIER_CAPACITY_CURVE_COMPARISON_REPORT_SCHEMA_VERSION",
@@ -43538,8 +43582,6 @@
         "root-export:verifySteelShearTorsionInteraction",
         "root-export:verifySteelWebShearBuckling",
         "root-export:verifyTimberLateralTorsionalStability",
-        "source:src/applications/geotechnical-retaining-walls/GeotechnicalRetainingWallApplication.js",
-        "source:src/applications/geotechnical-retaining-walls/index.js",
         "source:src/applications/geotechnical-shallow-foundations/GeotechnicalShallowFoundationApplication.js",
         "source:src/applications/geotechnical-shallow-foundations/index.js",
         "source:src/applications/geotechnical-slope-stability/GeotechnicalSlopeStabilityApplication.js",
