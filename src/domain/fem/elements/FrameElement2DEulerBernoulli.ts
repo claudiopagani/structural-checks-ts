@@ -6,8 +6,8 @@ import type { DofRegistry } from "../DofRegistry.js";
 type FrameNode = Pick<Node, "id" | "x" | "y">;
 
 export interface ElasticFrameMaterial {
-  elasticModulus?: number;
-  shearModulus?: number;
+  elasticModulus?: number | null;
+  shearModulus?: number | null;
   toJSON?: () => unknown;
 }
 

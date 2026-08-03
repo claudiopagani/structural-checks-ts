@@ -1,0 +1,86 @@
+{
+  "schemaVersion": 1,
+  "sliceId": "0197-applications-steel-ring-frame-2d-builder",
+  "title": "Steel ring frame 2D builder",
+  "migrationType": "mechanical-parity",
+  "implementationStatus": "implemented",
+  "dependencies": ["0196-applications-steel-ring-frame-pushover-model"],
+  "source": {
+    "repository": "https://github.com/claudiopagani/strutture-js",
+    "revision": "6f33baead8b88166c4b2cf94af41763412e3c751"
+  },
+  "normativeCorpusRevision": "41da3faa489600173106935bbcf726119300e48d",
+  "sourceFiles": [
+    {
+      "path": "src/applications/steel-frames/analysis/SteelRingFrame2DBuilder.js",
+      "gitBlobSha1": "b6614852ad4fe1901ae4b30bbf7a16b0615c643e",
+      "targetPath": "src/applications/steel-frames/analysis/SteelRingFrame2DBuilder.ts"
+    }
+  ],
+  "supportingSourceFiles": [
+    {
+      "path": "src/applications/steel-frames/index.js",
+      "gitBlobSha1": "00b0b647649aff91fa05b523a18df186f588223f",
+      "coverage": "Pinned steel-frames barrel reexports SteelRingFrame2DBuilder."
+    },
+    {
+      "path": "src/applications/index.js",
+      "gitBlobSha1": "b70179c7cdd2a819f2151dc092c0f59cbce30ba6",
+      "coverage": "Pinned applications barrel context for the steel frame builder export."
+    },
+    {
+      "path": "src/index.js",
+      "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7",
+      "coverage": "Pinned root public export for SteelRingFrame2DBuilder."
+    }
+  ],
+  "sourceOracles": [
+    {
+      "path": "tests/steelRingFramePushover.test.js",
+      "gitBlobSha1": "ece91e91fba59579941f9c562ef0507fbf5ad028",
+      "coverage": "Pinned ring-frame builder geometry, supports, orientations, elements, loading and warning oracle."
+    },
+    {
+      "path": "tests/packageExports.test.js",
+      "gitBlobSha1": "8dde24b4c97dd3dae7100207d07d9d96c52b9c74",
+      "coverage": "Pinned public package export and root-alias oracle."
+    }
+  ],
+  "sourcePublicExport": {
+    "path": "src/index.js",
+    "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
+  },
+  "targetTests": [
+    "tests/baseline-parity.test.ts",
+    "tests/steel-ring-frame-2d-builder-compile-time.test.ts",
+    "tests/steel-ring-frame-2d-builder-live-parity.test.ts"
+  ],
+  "publicExports": ["SteelRingFrame2DBuilder"],
+  "publicTypeExports": [
+    "SteelRingFrame2DBuilderOptions",
+    "SteelRingFrame2DBuilderResult",
+    "SteelRingFrame2DSnapshot"
+  ],
+  "normativeReferences": {
+    "resolved": [],
+    "outsideCorpus": [],
+    "normativeConformityClaimed": false,
+    "status": "classified-for-declared-scope"
+  },
+  "independentValidation": {
+    "method": "Strict typed consumer declarations and independently executed pinned JavaScript versus built TypeScript comparison of builder result shape, FEM nodes, plastic-hinge elements, supports, DOF registry, load/control vectors, exact snapshots, Unicode identifiers and missing-model errors.",
+    "targetTests": [
+      "tests/steel-ring-frame-2d-builder-compile-time.test.ts",
+      "tests/steel-ring-frame-2d-builder-live-parity.test.ts"
+    ],
+    "fixture": "Independent fixed-base, pinned-base UPN-orientation and fixed-base bottom-beam warning fixtures with kN/m units, aliases, Unicode identifiers and null/missing model paths.",
+    "tolerances": {
+      "serializedParity": "exact snapshot, element, support and DOF JSON",
+      "numericParity": "exact node coordinates, reference/control vectors and FEM metadata",
+      "publicStrings": "exact assumptions, warnings, identifiers and Unicode code-point comparison",
+      "errors": "exact missing-model error name and message comparisons"
+    }
+  },
+  "parityDifferences": [],
+  "engineeringFunctionality": "Strict TypeScript parity for generic 2D ring-frame FEM assembly; nonlinear pushover analysis, application orchestration and registry composition remain outside this slice."
+}

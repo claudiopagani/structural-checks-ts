@@ -463,6 +463,7 @@ const expectedExports = [
   "SteelCompoundProfileSection",
   "SteelFrameModel",
   "SteelRingFramePushoverModel",
+  "SteelRingFrame2DBuilder",
   "SteelDisplacementControlPushoverSolver2D",
   "calculateSteelMomentDiagramFactor",
   "steelNotSupportedCheck",

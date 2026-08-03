@@ -803,6 +803,12 @@ export type {
   SteelRingFrameSolver,
   SteelRingFrameSolverInput,
 } from "./applications/steel-frames/models/SteelRingFramePushoverModel.js";
+export { SteelRingFrame2DBuilder } from "./applications/steel-frames/analysis/SteelRingFrame2DBuilder.js";
+export type {
+  SteelRingFrame2DBuilderOptions,
+  SteelRingFrame2DBuilderResult,
+  SteelRingFrame2DSnapshot,
+} from "./applications/steel-frames/analysis/SteelRingFrame2DBuilder.js";
 export { SteelDisplacementControlPushoverSolver2D } from "./applications/steel-frames/analysis/SteelDisplacementControlPushoverSolver2D.js";
 export type {
   SteelDisplacementControlPushoverSolveOptions,
