@@ -791,6 +791,32 @@ export type {
   SteelDisplacementControlPushoverSolveResult,
   SteelDisplacementControlPushoverSolver2DOptions,
 } from "./applications/steel-frames/analysis/SteelDisplacementControlPushoverSolver2D.js";
+export {
+  calculateSteelMomentDiagramFactor,
+  steelNotSupportedCheck,
+  verifySteelBendingShearInteraction,
+  verifySteelConcentratedWebLoad,
+  verifySteelShearTorsionInteraction,
+  verifySteelWebShearBuckling,
+} from "./applications/steel-frames/checks/SteelAdvancedMemberChecks.js";
+export type {
+  SteelAdvancedCatalogPropertiesLike,
+  SteelAdvancedCheckDetails,
+  SteelAdvancedCheckResult,
+  SteelAdvancedLoadLike,
+  SteelAdvancedMaterialLike,
+  SteelAdvancedMomentSampleLike,
+  SteelAdvancedPanelLike,
+  SteelAdvancedSectionLike,
+  SteelAdvancedSegmentLike,
+  SteelMomentDiagramFactor,
+  SteelNotSupportedCheckOptions,
+  SteelNotSupportedCheckResult,
+  VerifySteelBendingShearInteractionOptions,
+  VerifySteelConcentratedWebLoadOptions,
+  VerifySteelShearTorsionInteractionOptions,
+  VerifySteelWebShearBucklingOptions,
+} from "./applications/steel-frames/checks/SteelAdvancedMemberChecks.js";
 export { SteelPlasticHingeFrameElement2D } from "./applications/steel-frames/analysis/SteelPlasticHingeFrameElement2D.js";
 export type {
   SteelPlasticHingeCondensationOperators,

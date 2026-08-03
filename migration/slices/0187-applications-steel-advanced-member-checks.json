@@ -1,0 +1,101 @@
+{
+  "schemaVersion": 1,
+  "sliceId": "0187-applications-steel-advanced-member-checks",
+  "title": "Steel advanced member checks",
+  "migrationType": "mechanical-parity",
+  "implementationStatus": "implemented",
+  "dependencies": [],
+  "source": {
+    "repository": "https://github.com/claudiopagani/strutture-js",
+    "revision": "6f33baead8b88166c4b2cf94af41763412e3c751"
+  },
+  "normativeCorpusRevision": "41da3faa489600173106935bbcf726119300e48d",
+  "sourceFiles": [
+    {
+      "path": "src/applications/steel-frames/checks/SteelAdvancedMemberChecks.js",
+      "gitBlobSha1": "d7f3f42b65bed18dcc15a23c5e41467df7254d8f",
+      "targetPath": "src/applications/steel-frames/checks/SteelAdvancedMemberChecks.ts"
+    }
+  ],
+  "supportingSourceFiles": [
+    {
+      "path": "src/applications/steel-frames/index.js",
+      "gitBlobSha1": "00b0b647649aff91fa05b523a18df186f588223f",
+      "coverage": "Pinned steel-frames barrel public exports for the six advanced steel member checks."
+    },
+    {
+      "path": "src/index.js",
+      "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7",
+      "coverage": "Pinned root public exports for the six advanced steel member checks."
+    }
+  ],
+  "sourceOracles": [
+    {
+      "path": "tests/steelFrameAdvancedVerification.test.js",
+      "gitBlobSha1": "a3feaae57dc36a9f749a98cc43e9382ec4e12174",
+      "coverage": "Pinned advanced steel member verification scenarios and unsupported behavior."
+    },
+    {
+      "path": "tests/packageExports.test.js",
+      "gitBlobSha1": "8dde24b4c97dd3dae7100207d07d9d96c52b9c74",
+      "coverage": "Pinned public package export and root-alias oracle."
+    }
+  ],
+  "sourcePublicExport": {
+    "path": "src/index.js",
+    "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
+  },
+  "targetTests": [
+    "tests/baseline-parity.test.ts",
+    "tests/steel-advanced-member-checks-compile-time.test.ts",
+    "tests/steel-advanced-member-checks-live-parity.test.ts"
+  ],
+  "publicExports": [
+    "calculateSteelMomentDiagramFactor",
+    "steelNotSupportedCheck",
+    "verifySteelBendingShearInteraction",
+    "verifySteelConcentratedWebLoad",
+    "verifySteelShearTorsionInteraction",
+    "verifySteelWebShearBuckling"
+  ],
+  "publicTypeExports": [
+    "SteelAdvancedCatalogPropertiesLike",
+    "SteelAdvancedCheckDetails",
+    "SteelAdvancedCheckResult",
+    "SteelAdvancedLoadLike",
+    "SteelAdvancedMaterialLike",
+    "SteelAdvancedMomentSampleLike",
+    "SteelAdvancedPanelLike",
+    "SteelAdvancedSectionLike",
+    "SteelAdvancedSegmentLike",
+    "SteelMomentDiagramFactor",
+    "SteelNotSupportedCheckOptions",
+    "SteelNotSupportedCheckResult",
+    "VerifySteelBendingShearInteractionOptions",
+    "VerifySteelConcentratedWebLoadOptions",
+    "VerifySteelShearTorsionInteractionOptions",
+    "VerifySteelWebShearBucklingOptions"
+  ],
+  "normativeReferences": {
+    "resolved": [],
+    "outsideCorpus": [],
+    "normativeConformityClaimed": false,
+    "status": "classified-for-declared-scope"
+  },
+  "independentValidation": {
+    "method": "Strict typed consumer declarations and independently executed pinned JavaScript versus built TypeScript comparison of exact check JSON, numerical metadata, unsupported results, public exports, Unicode strings and error paths.",
+    "targetTests": [
+      "tests/steel-advanced-member-checks-compile-time.test.ts",
+      "tests/steel-advanced-member-checks-live-parity.test.ts"
+    ],
+    "fixture": "Independent IPE, CHS and unsupported-section fixtures covering moment-diagram factors, web shear buckling, concentrated web load, bending-shear interaction, Saint-Venant torsion interaction, Unicode metadata and invalid-input paths.",
+    "tolerances": {
+      "serializedParity": "exact JSON and enumerable result key order",
+      "numericParity": "exact factors, resistances, utilization ratios and metadata values",
+      "publicStrings": "exact normative strings, warnings, descriptions and Unicode code-point comparison",
+      "errors": "exact error name and message for invalid moment-sample and unsupported-check inputs"
+    }
+  },
+  "parityDifferences": [],
+  "engineeringFunctionality": "Strict TypeScript parity for the six advanced steel member checks; steel member models, catalogs, frame builders and higher-level analysis composition remain outside this slice."
+}

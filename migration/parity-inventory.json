@@ -1416,6 +1416,7 @@
         "calculateShallowFoundationEffectiveGeometry",
         "calculateShallowFoundationSlidingResistance",
         "calculateShallowFoundationVerticalStressInfluence",
+        "calculateSteelMomentDiagramFactor",
         "characteristicValueFromExistingMean",
         "checkNonDissipativeAdmissibility",
         "classifyGlobalFemStructuralEntities",
@@ -1617,6 +1618,7 @@
         "simplifiedBishop",
         "spencerMethod",
         "splitPrincipalActions",
+        "steelNotSupportedCheck",
         "toggleNTC2018ExistingMasonryModifier",
         "uniqueStrings",
         "updateNTC2018ExistingMasonryMaltaBuona",
@@ -1640,6 +1642,10 @@
         "verifyPlateShear",
         "verifyPlateSlenderness",
         "verifyPunching",
+        "verifySteelBendingShearInteraction",
+        "verifySteelConcentratedWebLoad",
+        "verifySteelShearTorsionInteraction",
+        "verifySteelWebShearBuckling",
         "verifyStoreyDisplacements",
         "verifyStoreyDrift",
         "verifyWallBiaxialBending",
@@ -5414,11 +5420,18 @@
       "sourcePath": "src/applications/steel-frames/checks/SteelAdvancedMemberChecks.js",
       "sourceBlobSha1": "d7f3f42b65bed18dcc15a23c5e41467df7254d8f",
       "targetPath": "src/applications/steel-frames/checks/SteelAdvancedMemberChecks.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0187-applications-steel-advanced-member-checks"],
+      "sourceOracles": [
+        "tests/packageExports.test.js",
+        "tests/steelFrameAdvancedVerification.test.js"
+      ],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/steel-advanced-member-checks-compile-time.test.ts",
+        "tests/steel-advanced-member-checks-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0187-applications-steel-advanced-member-checks"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -19651,11 +19664,18 @@
       "sourcePath": "src/applications/steel-frames/checks/SteelAdvancedMemberChecks.js",
       "sourceBlobSha1": "d7f3f42b65bed18dcc15a23c5e41467df7254d8f",
       "targetPath": "src/applications/steel-frames/checks/SteelAdvancedMemberChecks.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0187-applications-steel-advanced-member-checks"],
+      "sourceOracles": [
+        "tests/packageExports.test.js",
+        "tests/steelFrameAdvancedVerification.test.js"
+      ],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/steel-advanced-member-checks-compile-time.test.ts",
+        "tests/steel-advanced-member-checks-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0187-applications-steel-advanced-member-checks"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -20900,11 +20920,18 @@
       "sourcePath": "src/applications/steel-frames/checks/SteelAdvancedMemberChecks.js",
       "sourceBlobSha1": "d7f3f42b65bed18dcc15a23c5e41467df7254d8f",
       "targetPath": "src/applications/steel-frames/checks/SteelAdvancedMemberChecks.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0187-applications-steel-advanced-member-checks"],
+      "sourceOracles": [
+        "tests/packageExports.test.js",
+        "tests/steelFrameAdvancedVerification.test.js"
+      ],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/steel-advanced-member-checks-compile-time.test.ts",
+        "tests/steel-advanced-member-checks-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0187-applications-steel-advanced-member-checks"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -20928,11 +20955,18 @@
       "sourcePath": "src/applications/steel-frames/checks/SteelAdvancedMemberChecks.js",
       "sourceBlobSha1": "d7f3f42b65bed18dcc15a23c5e41467df7254d8f",
       "targetPath": "src/applications/steel-frames/checks/SteelAdvancedMemberChecks.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0187-applications-steel-advanced-member-checks"],
+      "sourceOracles": [
+        "tests/packageExports.test.js",
+        "tests/steelFrameAdvancedVerification.test.js"
+      ],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/steel-advanced-member-checks-compile-time.test.ts",
+        "tests/steel-advanced-member-checks-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0187-applications-steel-advanced-member-checks"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -20956,11 +20990,18 @@
       "sourcePath": "src/applications/steel-frames/checks/SteelAdvancedMemberChecks.js",
       "sourceBlobSha1": "d7f3f42b65bed18dcc15a23c5e41467df7254d8f",
       "targetPath": "src/applications/steel-frames/checks/SteelAdvancedMemberChecks.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0187-applications-steel-advanced-member-checks"],
+      "sourceOracles": [
+        "tests/packageExports.test.js",
+        "tests/steelFrameAdvancedVerification.test.js"
+      ],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/steel-advanced-member-checks-compile-time.test.ts",
+        "tests/steel-advanced-member-checks-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0187-applications-steel-advanced-member-checks"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -20970,11 +21011,18 @@
       "sourcePath": "src/applications/steel-frames/checks/SteelAdvancedMemberChecks.js",
       "sourceBlobSha1": "d7f3f42b65bed18dcc15a23c5e41467df7254d8f",
       "targetPath": "src/applications/steel-frames/checks/SteelAdvancedMemberChecks.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0187-applications-steel-advanced-member-checks"],
+      "sourceOracles": [
+        "tests/packageExports.test.js",
+        "tests/steelFrameAdvancedVerification.test.js"
+      ],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/steel-advanced-member-checks-compile-time.test.ts",
+        "tests/steel-advanced-member-checks-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0187-applications-steel-advanced-member-checks"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -22262,11 +22310,18 @@
       "sourcePath": "src/applications/steel-frames/checks/SteelAdvancedMemberChecks.js",
       "sourceBlobSha1": "d7f3f42b65bed18dcc15a23c5e41467df7254d8f",
       "targetPath": "src/applications/steel-frames/checks/SteelAdvancedMemberChecks.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0187-applications-steel-advanced-member-checks"],
+      "sourceOracles": [
+        "tests/packageExports.test.js",
+        "tests/steelFrameAdvancedVerification.test.js"
+      ],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/steel-advanced-member-checks-compile-time.test.ts",
+        "tests/steel-advanced-member-checks-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0187-applications-steel-advanced-member-checks"],
+      "status": "exact-parity",
       "publicEntryPath": "src/applications/index.js",
       "publicEntryBlobSha1": "b70179c7cdd2a819f2151dc092c0f59cbce30ba6"
     },
@@ -27075,11 +27130,18 @@
       "sourcePath": "src/applications/steel-frames/checks/SteelAdvancedMemberChecks.js",
       "sourceBlobSha1": "d7f3f42b65bed18dcc15a23c5e41467df7254d8f",
       "targetPath": "src/applications/steel-frames/checks/SteelAdvancedMemberChecks.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0187-applications-steel-advanced-member-checks"],
+      "sourceOracles": [
+        "tests/packageExports.test.js",
+        "tests/steelFrameAdvancedVerification.test.js"
+      ],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/steel-advanced-member-checks-compile-time.test.ts",
+        "tests/steel-advanced-member-checks-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0187-applications-steel-advanced-member-checks"],
+      "status": "exact-parity",
       "publicEntryPath": "src/applications/index.js",
       "publicEntryBlobSha1": "b70179c7cdd2a819f2151dc092c0f59cbce30ba6"
     },
@@ -27498,11 +27560,18 @@
       "sourcePath": "src/applications/steel-frames/checks/SteelAdvancedMemberChecks.js",
       "sourceBlobSha1": "d7f3f42b65bed18dcc15a23c5e41467df7254d8f",
       "targetPath": "src/applications/steel-frames/checks/SteelAdvancedMemberChecks.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0187-applications-steel-advanced-member-checks"],
+      "sourceOracles": [
+        "tests/packageExports.test.js",
+        "tests/steelFrameAdvancedVerification.test.js"
+      ],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/steel-advanced-member-checks-compile-time.test.ts",
+        "tests/steel-advanced-member-checks-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0187-applications-steel-advanced-member-checks"],
+      "status": "exact-parity",
       "publicEntryPath": "src/applications/index.js",
       "publicEntryBlobSha1": "b70179c7cdd2a819f2151dc092c0f59cbce30ba6"
     },
@@ -27526,11 +27595,18 @@
       "sourcePath": "src/applications/steel-frames/checks/SteelAdvancedMemberChecks.js",
       "sourceBlobSha1": "d7f3f42b65bed18dcc15a23c5e41467df7254d8f",
       "targetPath": "src/applications/steel-frames/checks/SteelAdvancedMemberChecks.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0187-applications-steel-advanced-member-checks"],
+      "sourceOracles": [
+        "tests/packageExports.test.js",
+        "tests/steelFrameAdvancedVerification.test.js"
+      ],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/steel-advanced-member-checks-compile-time.test.ts",
+        "tests/steel-advanced-member-checks-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0187-applications-steel-advanced-member-checks"],
+      "status": "exact-parity",
       "publicEntryPath": "src/applications/index.js",
       "publicEntryBlobSha1": "b70179c7cdd2a819f2151dc092c0f59cbce30ba6"
     },
@@ -27554,11 +27630,18 @@
       "sourcePath": "src/applications/steel-frames/checks/SteelAdvancedMemberChecks.js",
       "sourceBlobSha1": "d7f3f42b65bed18dcc15a23c5e41467df7254d8f",
       "targetPath": "src/applications/steel-frames/checks/SteelAdvancedMemberChecks.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0187-applications-steel-advanced-member-checks"],
+      "sourceOracles": [
+        "tests/packageExports.test.js",
+        "tests/steelFrameAdvancedVerification.test.js"
+      ],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/steel-advanced-member-checks-compile-time.test.ts",
+        "tests/steel-advanced-member-checks-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0187-applications-steel-advanced-member-checks"],
+      "status": "exact-parity",
       "publicEntryPath": "src/applications/index.js",
       "publicEntryBlobSha1": "b70179c7cdd2a819f2151dc092c0f59cbce30ba6"
     },
@@ -27568,11 +27651,18 @@
       "sourcePath": "src/applications/steel-frames/checks/SteelAdvancedMemberChecks.js",
       "sourceBlobSha1": "d7f3f42b65bed18dcc15a23c5e41467df7254d8f",
       "targetPath": "src/applications/steel-frames/checks/SteelAdvancedMemberChecks.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0187-applications-steel-advanced-member-checks"],
+      "sourceOracles": [
+        "tests/packageExports.test.js",
+        "tests/steelFrameAdvancedVerification.test.js"
+      ],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/steel-advanced-member-checks-compile-time.test.ts",
+        "tests/steel-advanced-member-checks-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0187-applications-steel-advanced-member-checks"],
+      "status": "exact-parity",
       "publicEntryPath": "src/applications/index.js",
       "publicEntryBlobSha1": "b70179c7cdd2a819f2151dc092c0f59cbce30ba6"
     },
@@ -33680,11 +33770,18 @@
       "sourcePath": "src/applications/steel-frames/checks/SteelAdvancedMemberChecks.js",
       "sourceBlobSha1": "d7f3f42b65bed18dcc15a23c5e41467df7254d8f",
       "targetPath": "src/applications/steel-frames/checks/SteelAdvancedMemberChecks.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing"
+      "migrationSlices": ["0187-applications-steel-advanced-member-checks"],
+      "sourceOracles": [
+        "tests/packageExports.test.js",
+        "tests/steelFrameAdvancedVerification.test.js"
+      ],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/steel-advanced-member-checks-compile-time.test.ts",
+        "tests/steel-advanced-member-checks-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0187-applications-steel-advanced-member-checks"],
+      "status": "exact-parity"
     },
     {
       "id": "src/applications/steel-frames/checks/SteelBeamColumnInteraction.js",
@@ -37655,7 +37752,8 @@
         "0183-applications-steel-frame-model",
         "0184-applications-steel-plastic-hinge-frame-element",
         "0185-applications-steel-ring-frame-internal-forces",
-        "0186-applications-steel-displacement-control-pushover-solver"
+        "0186-applications-steel-displacement-control-pushover-solver",
+        "0187-applications-steel-advanced-member-checks"
       ],
       "sourceOracles": [
         "tests/architecture/applicationRegistry.test.js",
@@ -40816,7 +40914,8 @@
         "0182-applications-steel-plastic-hinge-state",
         "0183-applications-steel-frame-model",
         "0184-applications-steel-plastic-hinge-frame-element",
-        "0186-applications-steel-displacement-control-pushover-solver"
+        "0186-applications-steel-displacement-control-pushover-solver",
+        "0187-applications-steel-advanced-member-checks"
       ],
       "sourceOracles": ["tests/packageExports.test.js"],
       "targetTests": [
@@ -41018,6 +41117,8 @@
         "tests/solver-public-index-live-parity.test.ts",
         "tests/spencer-method-compile-time.test.ts",
         "tests/spencer-method-live-parity.test.ts",
+        "tests/steel-advanced-member-checks-compile-time.test.ts",
+        "tests/steel-advanced-member-checks-live-parity.test.ts",
         "tests/steel-displacement-control-pushover-solver-compile-time.test.ts",
         "tests/steel-displacement-control-pushover-solver-live-parity.test.ts",
         "tests/steel-frame-model-compile-time.test.ts",
@@ -41145,7 +41246,8 @@
         "0182-applications-steel-plastic-hinge-state",
         "0183-applications-steel-frame-model",
         "0184-applications-steel-plastic-hinge-frame-element",
-        "0186-applications-steel-displacement-control-pushover-solver"
+        "0186-applications-steel-displacement-control-pushover-solver",
+        "0187-applications-steel-advanced-member-checks"
       ],
       "status": "exact-parity",
       "testKind": "test"
@@ -41868,11 +41970,15 @@
       "sourcePath": "tests/steelFrameAdvancedVerification.test.js",
       "sourceBlobSha1": "a3feaae57dc36a9f749a98cc43e9382ec4e12174",
       "targetPath": "tests/steelFrameAdvancedVerification.test.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0187-applications-steel-advanced-member-checks"],
+      "sourceOracles": ["tests/steelFrameAdvancedVerification.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/steel-advanced-member-checks-compile-time.test.ts",
+        "tests/steel-advanced-member-checks-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0187-applications-steel-advanced-member-checks"],
+      "status": "exact-parity",
       "testKind": "test"
     },
     {
@@ -45833,16 +45939,32 @@
         "publicStrings": "exact event/state metadata, termination and Unicode code-point comparison",
         "errors": "exact error name and message for missing model"
       }
+    },
+    {
+      "sliceId": "0187-applications-steel-advanced-member-checks",
+      "sourceRevision": "6f33baead8b88166c4b2cf94af41763412e3c751",
+      "method": "Strict typed consumer declarations and independently executed pinned JavaScript versus built TypeScript comparison of exact check JSON, numerical metadata, unsupported results, public exports, Unicode strings and error paths.",
+      "targetTests": [
+        "tests/steel-advanced-member-checks-compile-time.test.ts",
+        "tests/steel-advanced-member-checks-live-parity.test.ts"
+      ],
+      "fixture": "Independent IPE, CHS and unsupported-section fixtures covering moment-diagram factors, web shear buckling, concentrated web load, bending-shear interaction, Saint-Venant torsion interaction, Unicode metadata and invalid-input paths.",
+      "tolerances": {
+        "serializedParity": "exact JSON and enumerable result key order",
+        "numericParity": "exact factors, resistances, utilization ratios and metadata values",
+        "publicStrings": "exact normative strings, warnings, descriptions and Unicode code-point comparison",
+        "errors": "exact error name and message for invalid moment-sample and unsupported-check inputs"
+      }
     }
   ],
   "counts": {
     "rootExports": {
       "javascript": 841,
-      "typescript": 782
+      "typescript": 788
     },
     "applicationsExports": {
       "javascript": 309,
-      "typescript": 255
+      "typescript": 261
     },
     "packageEntryPoints": {
       "javascript": 14,
@@ -45862,11 +45984,11 @@
     },
     "sourceFiles": {
       "javascript": 480,
-      "typescript": 448
+      "typescript": 449
     },
     "tests": {
       "javascript": 131,
-      "typescript": 358
+      "typescript": 360
     },
     "validationCampaigns": {
       "javascript": 17,
@@ -45918,7 +46040,7 @@
       "statusCounts": {
         "exact-parity": 0,
         "partial": 26,
-        "missing": 157,
+        "missing": 144,
         "intentionally-excluded": 0,
         "decision-required": 0
       },
@@ -45954,7 +46076,6 @@
         "application-export:calculateSteelCompressionBucklingAxis",
         "application-export:calculateSteelMethodBInteractionCoefficients",
         "application-export:calculateSteelMethodBInteractionCoefficientsMyMz",
-        "application-export:calculateSteelMomentDiagramFactor",
         "application-export:calculateTimberLateralBucklingReduction",
         "application-export:calculateTimberRectangularCriticalBendingStress",
         "application-export:classifySteelSection",
@@ -45966,16 +46087,11 @@
         "application-export:inferSteelCompressionBucklingCurves",
         "application-export:steelBucklingCurveImperfectionFactor",
         "application-export:steelMemberFem3DToLegacyAnalysisResult",
-        "application-export:steelNotSupportedCheck",
         "application-export:validateSteelMemberFem3DResult",
         "application-export:verifySteelBeamColumnInteractionMy",
         "application-export:verifySteelBeamColumnInteractionMyMz",
-        "application-export:verifySteelBendingShearInteraction",
         "application-export:verifySteelCompressionBuckling",
-        "application-export:verifySteelConcentratedWebLoad",
         "application-export:verifySteelLateralTorsionalBuckling",
-        "application-export:verifySteelShearTorsionInteraction",
-        "application-export:verifySteelWebShearBuckling",
         "application-export:verifyTimberLateralTorsionalStability",
         "registry:geotechnical-deep-foundations",
         "registry:geotechnical-earth-pressures",
@@ -46038,7 +46154,6 @@
         "root-export:calculateSteelCompressionBucklingAxis",
         "root-export:calculateSteelMethodBInteractionCoefficients",
         "root-export:calculateSteelMethodBInteractionCoefficientsMyMz",
-        "root-export:calculateSteelMomentDiagramFactor",
         "root-export:calculateTimberLateralBucklingReduction",
         "root-export:calculateTimberRectangularCriticalBendingStress",
         "root-export:classifySteelSection",
@@ -46050,16 +46165,11 @@
         "root-export:inferSteelCompressionBucklingCurves",
         "root-export:steelBucklingCurveImperfectionFactor",
         "root-export:steelMemberFem3DToLegacyAnalysisResult",
-        "root-export:steelNotSupportedCheck",
         "root-export:validateSteelMemberFem3DResult",
         "root-export:verifySteelBeamColumnInteractionMy",
         "root-export:verifySteelBeamColumnInteractionMyMz",
-        "root-export:verifySteelBendingShearInteraction",
         "root-export:verifySteelCompressionBuckling",
-        "root-export:verifySteelConcentratedWebLoad",
         "root-export:verifySteelLateralTorsionalBuckling",
-        "root-export:verifySteelShearTorsionInteraction",
-        "root-export:verifySteelWebShearBuckling",
         "root-export:verifyTimberLateralTorsionalStability",
         "source:src/applications/masonry-wall-openings/MasonryWallOpeningsApplication.js",
         "source:src/applications/masonry-wall-openings/analysis/AlignmentEquivalentFramePushoverAnalysis.js",
@@ -46073,7 +46183,6 @@
         "source:src/applications/steel-frames/SteelFrameApplication.js",
         "source:src/applications/steel-frames/analysis/SteelRingFrame2DBuilder.js",
         "source:src/applications/steel-frames/analysis/SteelRingFramePushoverAnalysis.js",
-        "source:src/applications/steel-frames/checks/SteelAdvancedMemberChecks.js",
         "source:src/applications/steel-frames/checks/SteelBeamColumnInteraction.js",
         "source:src/applications/steel-frames/checks/SteelCompressionBuckling.js",
         "source:src/applications/steel-frames/checks/SteelFem3DVerification.js",
@@ -46112,7 +46221,7 @@
       "statusCounts": {
         "exact-parity": 0,
         "partial": 4,
-        "missing": 109,
+        "missing": 108,
         "intentionally-excluded": 0,
         "decision-required": 0
       },
@@ -46228,7 +46337,6 @@
         "test:tests/masonryWallOpeningsStateComparison.test.js",
         "test:tests/masonryWallOpeningsStaticAnalysis.test.js",
         "test:tests/run-tests.js",
-        "test:tests/steelFrameAdvancedVerification.test.js",
         "test:tests/timberConcreteCompositeBeam.test.js"
       ]
     }
