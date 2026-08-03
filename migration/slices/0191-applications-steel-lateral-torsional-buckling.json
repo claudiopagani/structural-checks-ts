@@ -1,0 +1,93 @@
+{
+  "schemaVersion": 1,
+  "sliceId": "0191-applications-steel-lateral-torsional-buckling",
+  "title": "Steel lateral-torsional buckling checks",
+  "migrationType": "mechanical-parity",
+  "implementationStatus": "implemented",
+  "dependencies": [],
+  "source": {
+    "repository": "https://github.com/claudiopagani/strutture-js",
+    "revision": "6f33baead8b88166c4b2cf94af41763412e3c751"
+  },
+  "normativeCorpusRevision": "41da3faa489600173106935bbcf726119300e48d",
+  "sourceFiles": [
+    {
+      "path": "src/applications/steel-frames/checks/SteelLateralTorsionalBuckling.js",
+      "gitBlobSha1": "55a01b53c8e693a94ffea5ac5942d97258876ec2",
+      "targetPath": "src/applications/steel-frames/checks/SteelLateralTorsionalBuckling.ts"
+    }
+  ],
+  "supportingSourceFiles": [
+    {
+      "path": "src/applications/steel-frames/index.js",
+      "gitBlobSha1": "00b0b647649aff91fa05b523a18df186f588223f",
+      "coverage": "Pinned steel-frames barrel exports the lateral-torsional buckling functions."
+    },
+    {
+      "path": "src/applications/index.js",
+      "gitBlobSha1": "b70179c7cdd2a819f2151dc092c0f59cbce30ba6",
+      "coverage": "Pinned applications barrel reexports the lateral-torsional buckling functions."
+    },
+    {
+      "path": "src/index.js",
+      "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7",
+      "coverage": "Pinned root public exports for automatic critical moment and lateral-torsional buckling verification."
+    }
+  ],
+  "sourceOracles": [
+    {
+      "path": "tests/steelFrameAdvancedVerification.test.js",
+      "gitBlobSha1": "a3feaae57dc36a9f749a98cc43e9382ec4e12174",
+      "coverage": "Pinned advanced steel-frame fixture invokes lateral-torsional buckling with an IPE section and automatic critical moment."
+    },
+    {
+      "path": "tests/packageExports.test.js",
+      "gitBlobSha1": "8dde24b4c97dd3dae7100207d07d9d96c52b9c74",
+      "coverage": "Pinned public package export and root-alias oracle."
+    }
+  ],
+  "sourcePublicExport": {
+    "path": "src/index.js",
+    "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
+  },
+  "targetTests": [
+    "tests/baseline-parity.test.ts",
+    "tests/steel-lateral-torsional-buckling-compile-time.test.ts",
+    "tests/steel-lateral-torsional-buckling-live-parity.test.ts"
+  ],
+  "publicExports": ["calculateElasticCriticalMomentLT", "verifySteelLateralTorsionalBuckling"],
+  "publicTypeExports": [
+    "CalculateElasticCriticalMomentLTOptions",
+    "SteelElasticCriticalMomentLTResult",
+    "SteelLateralTorsionalBucklingResult",
+    "SteelLateralTorsionalCatalogPropertiesLike",
+    "SteelLateralTorsionalCheck",
+    "SteelLateralTorsionalMaterialLike",
+    "SteelLateralTorsionalReduction",
+    "SteelLateralTorsionalSectionLike",
+    "SteelLateralTorsionalSectionMetadataLike",
+    "VerifySteelLateralTorsionalBucklingOptions"
+  ],
+  "normativeReferences": {
+    "resolved": [],
+    "outsideCorpus": [],
+    "normativeConformityClaimed": false,
+    "status": "classified-for-declared-scope"
+  },
+  "independentValidation": {
+    "method": "Strict typed consumer declarations and independently executed pinned JavaScript versus built TypeScript comparison of automatic critical moment, exact verification JSON, numerical reduction values, public aliases, Unicode warnings, unsupported behavior and null-input errors.",
+    "targetTests": [
+      "tests/steel-lateral-torsional-buckling-compile-time.test.ts",
+      "tests/steel-lateral-torsional-buckling-live-parity.test.ts"
+    ],
+    "fixture": "Independent IPE automatic Mcr, user-provided Mcr with Unicode provenance, unsupported family, missing inputs, axisymmetric-section exemption and class-4 fixtures covering exact unit, reduction and refusal branches.",
+    "tolerances": {
+      "serializedParity": "exact JSON and enumerable result key order",
+      "numericParity": "exact critical moment, Euler-derived terms, reduction factors, resistance and utilization values",
+      "publicStrings": "exact method identifiers, warnings, descriptions and Unicode code-point comparison",
+      "errors": "exact TypeError name and message for null options"
+    }
+  },
+  "parityDifferences": [],
+  "engineeringFunctionality": "Strict TypeScript parity for automatic elastic critical moment and lateral-torsional buckling verification; steel member orchestration, section classification and higher-level steel application composition remain outside this slice."
+}

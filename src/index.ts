@@ -856,6 +856,22 @@ export type {
   SteelCompressionBucklingSectionMetadataLike,
   VerifySteelCompressionBucklingOptions,
 } from "./applications/steel-frames/checks/SteelCompressionBuckling.js";
+export {
+  calculateElasticCriticalMomentLT,
+  verifySteelLateralTorsionalBuckling,
+} from "./applications/steel-frames/checks/SteelLateralTorsionalBuckling.js";
+export type {
+  CalculateElasticCriticalMomentLTOptions,
+  SteelElasticCriticalMomentLTResult,
+  SteelLateralTorsionalBucklingResult,
+  SteelLateralTorsionalCatalogPropertiesLike,
+  SteelLateralTorsionalCheck,
+  SteelLateralTorsionalMaterialLike,
+  SteelLateralTorsionalReduction,
+  SteelLateralTorsionalSectionLike,
+  SteelLateralTorsionalSectionMetadataLike,
+  VerifySteelLateralTorsionalBucklingOptions,
+} from "./applications/steel-frames/checks/SteelLateralTorsionalBuckling.js";
 export { SteelPlasticHingeFrameElement2D } from "./applications/steel-frames/analysis/SteelPlasticHingeFrameElement2D.js";
 export type {
   SteelPlasticHingeCondensationOperators,
