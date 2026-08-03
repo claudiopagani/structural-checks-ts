@@ -1,0 +1,90 @@
+{
+  "schemaVersion": 1,
+  "sliceId": "0195-applications-steel-member-verification-policies",
+  "title": "Steel member verification policies",
+  "migrationType": "mechanical-parity",
+  "implementationStatus": "implemented",
+  "dependencies": ["0194-applications-steel-member-fem-3d-contract"],
+  "source": {
+    "repository": "https://github.com/claudiopagani/strutture-js",
+    "revision": "6f33baead8b88166c4b2cf94af41763412e3c751"
+  },
+  "normativeCorpusRevision": "41da3faa489600173106935bbcf726119300e48d",
+  "sourceFiles": [
+    {
+      "path": "src/applications/steel-frames/checks/SteelMemberVerificationPolicies.js",
+      "gitBlobSha1": "63b748f411ba83aa2b8afbb069b62cc824bdd457",
+      "targetPath": "src/applications/steel-frames/checks/SteelMemberVerificationPolicies.ts"
+    }
+  ],
+  "supportingSourceFiles": [
+    {
+      "path": "src/applications/steel-frames/checks/SteelMemberVerification.js",
+      "gitBlobSha1": "d6a5f51b5a6c357df862f2223eef177e93797de3",
+      "coverage": "Pinned SteelMemberVerification consumer of the migrated policy helpers."
+    },
+    {
+      "path": "src/applications/steel-frames/index.js",
+      "gitBlobSha1": "00b0b647649aff91fa05b523a18df186f588223f",
+      "coverage": "Pinned steel-frames barrel context for the internal policy module."
+    },
+    {
+      "path": "src/index.js",
+      "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7",
+      "coverage": "Pinned root package context for the steel member verification behavior."
+    }
+  ],
+  "sourceOracles": [
+    {
+      "path": "tests/steelFrameAdvancedVerification.test.js",
+      "gitBlobSha1": "a3feaae57dc36a9f749a98cc43e9382ec4e12174",
+      "coverage": "Pinned steel FEM, LTB, compression, interaction and action-verifier behavior oracle."
+    },
+    {
+      "path": "tests/steelBeamSectionProvider.test.js",
+      "gitBlobSha1": "0c0b3548262ac408961ea9a48c5649b228c0bebd",
+      "coverage": "Pinned steel section provider integration oracle for policy-generated checks."
+    },
+    {
+      "path": "tests/packageExports.test.js",
+      "gitBlobSha1": "8dde24b4c97dd3dae7100207d07d9d96c52b9c74",
+      "coverage": "Pinned package context oracle for the consuming steel verification API."
+    }
+  ],
+  "sourcePublicExport": {
+    "path": "src/applications/steel-frames/index.js",
+    "gitBlobSha1": "00b0b647649aff91fa05b523a18df186f588223f"
+  },
+  "targetTests": [
+    "tests/steel-member-verification-policies-compile-time.test.ts",
+    "tests/steel-member-verification-policies-live-parity.test.ts"
+  ],
+  "publicExports": [],
+  "publicTypeExports": [
+    "SteelMemberVerificationPolicyMaterial",
+    "SteelMemberVerificationPolicySection",
+    "SteelActionVerificationResult"
+  ],
+  "normativeReferences": {
+    "resolved": [],
+    "outsideCorpus": [],
+    "normativeConformityClaimed": false,
+    "status": "classified-for-declared-scope"
+  },
+  "independentValidation": {
+    "method": "Strict typed consumer declarations and independently executed pinned JavaScript versus built TypeScript comparison of policy helpers, exact numeric normalization, LTB segments, compression-length inference, serviceability checks, section-action output, Unicode strings and null-input errors.",
+    "targetTests": [
+      "tests/steel-member-verification-policies-compile-time.test.ts",
+      "tests/steel-member-verification-policies-live-parity.test.ts"
+    ],
+    "fixture": "Independent IPE policy fixture with ULS/SLS result entries, support-based effective-length inference, LTB segmentation, deflection screening, steel action verification and Unicode combination metadata.",
+    "tolerances": {
+      "serializedParity": "exact JSON and enumerable result key order",
+      "numericParity": "exact unit-preserving policy values, member lengths, capacities, ratios and metadata",
+      "publicStrings": "exact statuses, warnings, method identifiers and Unicode code-point comparison",
+      "errors": "exact null policy-options error name and message comparison"
+    }
+  },
+  "parityDifferences": [],
+  "engineeringFunctionality": "Strict TypeScript parity for steel member verification policy helpers; the public SteelMemberVerification orchestration class remains outside this slice."
+}

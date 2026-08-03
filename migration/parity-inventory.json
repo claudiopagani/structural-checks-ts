@@ -34098,11 +34098,18 @@
       "sourcePath": "src/applications/steel-frames/checks/SteelMemberVerificationPolicies.js",
       "sourceBlobSha1": "63b748f411ba83aa2b8afbb069b62cc824bdd457",
       "targetPath": "src/applications/steel-frames/checks/SteelMemberVerificationPolicies.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing"
+      "migrationSlices": ["0195-applications-steel-member-verification-policies"],
+      "sourceOracles": [
+        "tests/packageExports.test.js",
+        "tests/steelBeamSectionProvider.test.js",
+        "tests/steelFrameAdvancedVerification.test.js"
+      ],
+      "targetTests": [
+        "tests/steel-member-verification-policies-compile-time.test.ts",
+        "tests/steel-member-verification-policies-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0195-applications-steel-member-verification-policies"],
+      "status": "exact-parity"
     },
     {
       "id": "src/applications/steel-frames/checks/SteelSectionClassification.js",
@@ -34159,7 +34166,8 @@
       "targetPath": "src/applications/steel-frames/index.ts",
       "migrationSlices": [
         "0182-applications-steel-plastic-hinge-state",
-        "0190-applications-steel-fem-3d-verification"
+        "0190-applications-steel-fem-3d-verification",
+        "0195-applications-steel-member-verification-policies"
       ],
       "sourceOracles": [],
       "targetTests": [],
@@ -41200,7 +41208,8 @@
         "0191-applications-steel-lateral-torsional-buckling",
         "0192-applications-steel-section-classification",
         "0193-applications-steel-verification-capabilities",
-        "0194-applications-steel-member-fem-3d-contract"
+        "0194-applications-steel-member-fem-3d-contract",
+        "0195-applications-steel-member-verification-policies"
       ],
       "sourceOracles": ["tests/packageExports.test.js"],
       "targetTests": [
@@ -41416,6 +41425,8 @@
         "tests/steel-lateral-torsional-buckling-live-parity.test.ts",
         "tests/steel-member-fem-3d-contract-compile-time.test.ts",
         "tests/steel-member-fem-3d-contract-live-parity.test.ts",
+        "tests/steel-member-verification-policies-compile-time.test.ts",
+        "tests/steel-member-verification-policies-live-parity.test.ts",
         "tests/steel-plastic-hinge-frame-element-compile-time.test.ts",
         "tests/steel-plastic-hinge-frame-element-live-parity.test.ts",
         "tests/steel-plastic-hinge-state-compile-time.test.ts",
@@ -41550,7 +41561,8 @@
         "0191-applications-steel-lateral-torsional-buckling",
         "0192-applications-steel-section-classification",
         "0193-applications-steel-verification-capabilities",
-        "0194-applications-steel-member-fem-3d-contract"
+        "0194-applications-steel-member-fem-3d-contract",
+        "0195-applications-steel-member-verification-policies"
       ],
       "status": "exact-parity",
       "testKind": "test"
@@ -42239,7 +42251,8 @@
         "0188-applications-steel-beam-column-interaction",
         "0189-applications-steel-compression-buckling",
         "0192-applications-steel-section-classification",
-        "0193-applications-steel-verification-capabilities"
+        "0193-applications-steel-verification-capabilities",
+        "0195-applications-steel-member-verification-policies"
       ],
       "sourceOracles": ["tests/steelBeamSectionProvider.test.js"],
       "targetTests": [
@@ -42252,6 +42265,8 @@
         "tests/steel-beam-column-interaction-live-parity.test.ts",
         "tests/steel-compression-buckling-compile-time.test.ts",
         "tests/steel-compression-buckling-live-parity.test.ts",
+        "tests/steel-member-verification-policies-compile-time.test.ts",
+        "tests/steel-member-verification-policies-live-parity.test.ts",
         "tests/steel-section-classification-compile-time.test.ts",
         "tests/steel-section-classification-live-parity.test.ts",
         "tests/steel-verification-capabilities-compile-time.test.ts",
@@ -42263,7 +42278,8 @@
         "0188-applications-steel-beam-column-interaction",
         "0189-applications-steel-compression-buckling",
         "0192-applications-steel-section-classification",
-        "0193-applications-steel-verification-capabilities"
+        "0193-applications-steel-verification-capabilities",
+        "0195-applications-steel-member-verification-policies"
       ],
       "status": "exact-parity",
       "testKind": "test"
@@ -42295,7 +42311,8 @@
         "0189-applications-steel-compression-buckling",
         "0190-applications-steel-fem-3d-verification",
         "0191-applications-steel-lateral-torsional-buckling",
-        "0194-applications-steel-member-fem-3d-contract"
+        "0194-applications-steel-member-fem-3d-contract",
+        "0195-applications-steel-member-verification-policies"
       ],
       "sourceOracles": ["tests/steelFrameAdvancedVerification.test.js"],
       "targetTests": [
@@ -42311,7 +42328,9 @@
         "tests/steel-lateral-torsional-buckling-compile-time.test.ts",
         "tests/steel-lateral-torsional-buckling-live-parity.test.ts",
         "tests/steel-member-fem-3d-contract-compile-time.test.ts",
-        "tests/steel-member-fem-3d-contract-live-parity.test.ts"
+        "tests/steel-member-fem-3d-contract-live-parity.test.ts",
+        "tests/steel-member-verification-policies-compile-time.test.ts",
+        "tests/steel-member-verification-policies-live-parity.test.ts"
       ],
       "validationEvidence": [
         "0187-applications-steel-advanced-member-checks",
@@ -42319,7 +42338,8 @@
         "0189-applications-steel-compression-buckling",
         "0190-applications-steel-fem-3d-verification",
         "0191-applications-steel-lateral-torsional-buckling",
-        "0194-applications-steel-member-fem-3d-contract"
+        "0194-applications-steel-member-fem-3d-contract",
+        "0195-applications-steel-member-verification-policies"
       ],
       "status": "exact-parity",
       "testKind": "test"
@@ -46410,6 +46430,22 @@
         "publicStrings": "exact schema, limit-state identifiers, validation messages and Unicode code-point comparison",
         "errors": "exact strict creation and null-options error name/message comparisons"
       }
+    },
+    {
+      "sliceId": "0195-applications-steel-member-verification-policies",
+      "sourceRevision": "6f33baead8b88166c4b2cf94af41763412e3c751",
+      "method": "Strict typed consumer declarations and independently executed pinned JavaScript versus built TypeScript comparison of policy helpers, exact numeric normalization, LTB segments, compression-length inference, serviceability checks, section-action output, Unicode strings and null-input errors.",
+      "targetTests": [
+        "tests/steel-member-verification-policies-compile-time.test.ts",
+        "tests/steel-member-verification-policies-live-parity.test.ts"
+      ],
+      "fixture": "Independent IPE policy fixture with ULS/SLS result entries, support-based effective-length inference, LTB segmentation, deflection screening, steel action verification and Unicode combination metadata.",
+      "tolerances": {
+        "serializedParity": "exact JSON and enumerable result key order",
+        "numericParity": "exact unit-preserving policy values, member lengths, capacities, ratios and metadata",
+        "publicStrings": "exact statuses, warnings, method identifiers and Unicode code-point comparison",
+        "errors": "exact null policy-options error name and message comparison"
+      }
     }
   ],
   "counts": {
@@ -46439,11 +46475,11 @@
     },
     "sourceFiles": {
       "javascript": 480,
-      "typescript": 456
+      "typescript": 457
     },
     "tests": {
       "javascript": 131,
-      "typescript": 374
+      "typescript": 376
     },
     "validationCampaigns": {
       "javascript": 17,
@@ -46495,7 +46531,7 @@
       "statusCounts": {
         "exact-parity": 0,
         "partial": 26,
-        "missing": 107,
+        "missing": 106,
         "intentionally-excluded": 0,
         "decision-required": 0
       },
@@ -46609,7 +46645,6 @@
         "source:src/applications/steel-frames/analysis/SteelRingFrame2DBuilder.js",
         "source:src/applications/steel-frames/analysis/SteelRingFramePushoverAnalysis.js",
         "source:src/applications/steel-frames/checks/SteelMemberVerification.js",
-        "source:src/applications/steel-frames/checks/SteelMemberVerificationPolicies.js",
         "source:src/applications/steel-frames/index.js",
         "source:src/applications/steel-frames/models/SteelRingFramePushoverModel.js",
         "source:src/applications/timber-beams/TimberBeamApplication.js",
