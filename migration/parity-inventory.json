@@ -15985,9 +15985,14 @@
       "sourcePath": "src/applications/reinforced-concrete-sections/analysis/RCBiaxialDomainBuilder.js",
       "sourceBlobSha1": "9c6da88638caf432fe825e20bf501bc44b51c3dc",
       "targetPath": "src/applications/reinforced-concrete-sections/analysis/RCBiaxialDomainBuilder.ts",
-      "migrationSlices": ["0006-ntc2018-uls-biaxial-domain"],
+      "migrationSlices": [
+        "0006-ntc2018-uls-biaxial-domain",
+        "0170-applications-reinforced-concrete-sections-analysis-index"
+      ],
       "sourceOracles": [
+        "tests/packageExports.test.js",
         "tests/rcBiaxialDomainBuilder.test.js",
+        "tests/reinforcedConcreteSectionApplication.test.js",
         "tests/reinforcedConcreteSectionBiaxialApplication.test.js"
       ],
       "targetTests": [
@@ -15995,9 +16000,14 @@
         "tests/concrete-biaxial-domain.test.ts",
         "tests/concrete-resistance-baseline-parity.test.ts",
         "tests/concrete-section-resistance.test.ts",
-        "tests/concrete-uniaxial-domain.test.ts"
+        "tests/concrete-uniaxial-domain.test.ts",
+        "tests/reinforced-concrete-sections-analysis-index-compile-time.test.ts",
+        "tests/reinforced-concrete-sections-analysis-index-live-parity.test.ts"
       ],
-      "validationEvidence": ["0006-ntc2018-uls-biaxial-domain"],
+      "validationEvidence": [
+        "0006-ntc2018-uls-biaxial-domain",
+        "0170-applications-reinforced-concrete-sections-analysis-index"
+      ],
       "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
@@ -16055,15 +16065,27 @@
       "sourcePath": "src/applications/reinforced-concrete-sections/analysis/RCMomentCurvatureAnalyzer.js",
       "sourceBlobSha1": "228461e3417e6176ef71d269caa0465e1ea601b4",
       "targetPath": "src/applications/reinforced-concrete-sections/analysis/RCMomentCurvatureAnalyzer.ts",
-      "migrationSlices": ["0009-reinforced-concrete-moment-curvature"],
+      "migrationSlices": [
+        "0009-reinforced-concrete-moment-curvature",
+        "0170-applications-reinforced-concrete-sections-analysis-index"
+      ],
       "sourceOracles": [
         "tests/packageExports.test.js",
         "tests/rcMomentCurvatureSampling.test.js",
         "tests/rcUltimateSectionSolver.test.js",
-        "tests/reinforcedConcreteMomentCurvature.test.js"
+        "tests/reinforcedConcreteMomentCurvature.test.js",
+        "tests/reinforcedConcreteSectionApplication.test.js"
       ],
-      "targetTests": ["tests/baseline-parity.test.ts", "tests/concrete-moment-curvature.test.ts"],
-      "validationEvidence": ["0009-reinforced-concrete-moment-curvature"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/concrete-moment-curvature.test.ts",
+        "tests/reinforced-concrete-sections-analysis-index-compile-time.test.ts",
+        "tests/reinforced-concrete-sections-analysis-index-live-parity.test.ts"
+      ],
+      "validationEvidence": [
+        "0009-reinforced-concrete-moment-curvature",
+        "0170-applications-reinforced-concrete-sections-analysis-index"
+      ],
       "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
@@ -16091,7 +16113,10 @@
       "sourcePath": "src/applications/reinforced-concrete-sections/analysis/RCSectionStateIntegrator.js",
       "sourceBlobSha1": "1d097ae6ede1919dc1464d9f77fa3b23dcc1ffa3",
       "targetPath": "src/applications/reinforced-concrete-sections/analysis/RCSectionStateIntegrator.ts",
-      "migrationSlices": ["0139-applications-rc-section-state-integrator-public-export"],
+      "migrationSlices": [
+        "0139-applications-rc-section-state-integrator-public-export",
+        "0170-applications-reinforced-concrete-sections-analysis-index"
+      ],
       "sourceOracles": [
         "tests/packageExports.test.js",
         "tests/rcConstitutiveLawsAndSolvers.test.js",
@@ -16101,9 +16126,14 @@
       "targetTests": [
         "tests/baseline-parity.test.ts",
         "tests/rc-section-state-integrator-compile-time.test.ts",
-        "tests/rc-section-state-integrator-live-parity.test.ts"
+        "tests/rc-section-state-integrator-live-parity.test.ts",
+        "tests/reinforced-concrete-sections-analysis-index-compile-time.test.ts",
+        "tests/reinforced-concrete-sections-analysis-index-live-parity.test.ts"
       ],
-      "validationEvidence": ["0139-applications-rc-section-state-integrator-public-export"],
+      "validationEvidence": [
+        "0139-applications-rc-section-state-integrator-public-export",
+        "0170-applications-reinforced-concrete-sections-analysis-index"
+      ],
       "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
@@ -16114,19 +16144,28 @@
       "sourcePath": "src/applications/reinforced-concrete-sections/analysis/RCServiceStressSolver.js",
       "sourceBlobSha1": "eecc24bef7e750d9f002a67e4818535d08b54f53",
       "targetPath": "src/applications/reinforced-concrete-sections/analysis/RCServiceStressSolver.ts",
-      "migrationSlices": ["0008-reinforced-concrete-service-stress"],
+      "migrationSlices": [
+        "0008-reinforced-concrete-service-stress",
+        "0170-applications-reinforced-concrete-sections-analysis-index"
+      ],
       "sourceOracles": [
         "tests/packageExports.test.js",
         "tests/rcServiceStressSolver.test.js",
+        "tests/reinforcedConcreteSectionApplication.test.js",
         "tests/reinforcedConcreteSectionServiceApplication.test.js"
       ],
       "targetTests": [
         "tests/baseline-parity.test.ts",
         "tests/concrete-section-resistance.test.ts",
         "tests/concrete-service-stress.test.ts",
-        "tests/concrete-uniaxial-domain.test.ts"
+        "tests/concrete-uniaxial-domain.test.ts",
+        "tests/reinforced-concrete-sections-analysis-index-compile-time.test.ts",
+        "tests/reinforced-concrete-sections-analysis-index-live-parity.test.ts"
       ],
-      "validationEvidence": ["0008-reinforced-concrete-service-stress"],
+      "validationEvidence": [
+        "0008-reinforced-concrete-service-stress",
+        "0170-applications-reinforced-concrete-sections-analysis-index"
+      ],
       "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
@@ -16137,17 +16176,26 @@
       "sourcePath": "src/applications/reinforced-concrete-sections/analysis/RCUltimateSectionSolver.js",
       "sourceBlobSha1": "bfc4064d9f6821c5e7fd3550d0fc530f499fb281",
       "targetPath": "src/applications/reinforced-concrete-sections/analysis/RCUltimateSectionSolver.ts",
-      "migrationSlices": ["0004-ntc2018-uls-uniaxial-concrete-resistance"],
+      "migrationSlices": [
+        "0004-ntc2018-uls-uniaxial-concrete-resistance",
+        "0170-applications-reinforced-concrete-sections-analysis-index"
+      ],
       "sourceOracles": [
+        "tests/packageExports.test.js",
         "tests/rcConstitutiveLawsAndSolvers.test.js",
         "tests/reinforcedConcreteSectionApplication.test.js"
       ],
       "targetTests": [
         "tests/baseline-parity.test.ts",
         "tests/concrete-resistance-baseline-parity.test.ts",
-        "tests/concrete-section-resistance.test.ts"
+        "tests/concrete-section-resistance.test.ts",
+        "tests/reinforced-concrete-sections-analysis-index-compile-time.test.ts",
+        "tests/reinforced-concrete-sections-analysis-index-live-parity.test.ts"
       ],
-      "validationEvidence": ["0004-ntc2018-uls-uniaxial-concrete-resistance"],
+      "validationEvidence": [
+        "0004-ntc2018-uls-uniaxial-concrete-resistance",
+        "0170-applications-reinforced-concrete-sections-analysis-index"
+      ],
       "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
@@ -16158,17 +16206,27 @@
       "sourcePath": "src/applications/reinforced-concrete-sections/analysis/RCUniaxialDomainBuilder.js",
       "sourceBlobSha1": "db462e079b7ab133391d10fd41fea2621214da45",
       "targetPath": "src/applications/reinforced-concrete-sections/analysis/RCUniaxialDomainBuilder.ts",
-      "migrationSlices": ["0005-ntc2018-uls-uniaxial-domain"],
+      "migrationSlices": [
+        "0005-ntc2018-uls-uniaxial-domain",
+        "0170-applications-reinforced-concrete-sections-analysis-index"
+      ],
       "sourceOracles": [
+        "tests/packageExports.test.js",
         "tests/rcUniaxialDomainBuilder.test.js",
+        "tests/reinforcedConcreteSectionApplication.test.js",
         "tests/reinforcedConcreteSectionUniaxialDomainApplication.test.js"
       ],
       "targetTests": [
         "tests/baseline-parity.test.ts",
         "tests/concrete-resistance-baseline-parity.test.ts",
-        "tests/concrete-uniaxial-domain.test.ts"
+        "tests/concrete-uniaxial-domain.test.ts",
+        "tests/reinforced-concrete-sections-analysis-index-compile-time.test.ts",
+        "tests/reinforced-concrete-sections-analysis-index-live-parity.test.ts"
       ],
-      "validationEvidence": ["0005-ntc2018-uls-uniaxial-domain"],
+      "validationEvidence": [
+        "0005-ntc2018-uls-uniaxial-domain",
+        "0170-applications-reinforced-concrete-sections-analysis-index"
+      ],
       "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
@@ -17886,17 +17944,26 @@
       "sourcePath": "src/applications/reinforced-concrete-sections/analysis/SectionFiberDiscretizer.js",
       "sourceBlobSha1": "be0b6bda40f442b9833f500c3f3e16fc3b4deded",
       "targetPath": "src/applications/reinforced-concrete-sections/analysis/SectionFiberDiscretizer.ts",
-      "migrationSlices": ["0004-ntc2018-uls-uniaxial-concrete-resistance"],
+      "migrationSlices": [
+        "0004-ntc2018-uls-uniaxial-concrete-resistance",
+        "0170-applications-reinforced-concrete-sections-analysis-index"
+      ],
       "sourceOracles": [
+        "tests/packageExports.test.js",
         "tests/rcConstitutiveLawsAndSolvers.test.js",
         "tests/reinforcedConcreteSectionApplication.test.js"
       ],
       "targetTests": [
         "tests/baseline-parity.test.ts",
         "tests/concrete-resistance-baseline-parity.test.ts",
-        "tests/concrete-section-resistance.test.ts"
+        "tests/concrete-section-resistance.test.ts",
+        "tests/reinforced-concrete-sections-analysis-index-compile-time.test.ts",
+        "tests/reinforced-concrete-sections-analysis-index-live-parity.test.ts"
       ],
-      "validationEvidence": ["0004-ntc2018-uls-uniaxial-concrete-resistance"],
+      "validationEvidence": [
+        "0004-ntc2018-uls-uniaxial-concrete-resistance",
+        "0170-applications-reinforced-concrete-sections-analysis-index"
+      ],
       "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
@@ -19437,17 +19504,26 @@
       "sourcePath": "src/applications/reinforced-concrete-sections/analysis/StrainField.js",
       "sourceBlobSha1": "5d88dc10953c68aaf4280e63e271abfd3804be5d",
       "targetPath": "src/applications/reinforced-concrete-sections/analysis/StrainField.ts",
-      "migrationSlices": ["0004-ntc2018-uls-uniaxial-concrete-resistance"],
+      "migrationSlices": [
+        "0004-ntc2018-uls-uniaxial-concrete-resistance",
+        "0170-applications-reinforced-concrete-sections-analysis-index"
+      ],
       "sourceOracles": [
+        "tests/packageExports.test.js",
         "tests/rcConstitutiveLawsAndSolvers.test.js",
         "tests/reinforcedConcreteSectionApplication.test.js"
       ],
       "targetTests": [
         "tests/baseline-parity.test.ts",
         "tests/concrete-resistance-baseline-parity.test.ts",
-        "tests/concrete-section-resistance.test.ts"
+        "tests/concrete-section-resistance.test.ts",
+        "tests/reinforced-concrete-sections-analysis-index-compile-time.test.ts",
+        "tests/reinforced-concrete-sections-analysis-index-live-parity.test.ts"
       ],
-      "validationEvidence": ["0004-ntc2018-uls-uniaxial-concrete-resistance"],
+      "validationEvidence": [
+        "0004-ntc2018-uls-uniaxial-concrete-resistance",
+        "0170-applications-reinforced-concrete-sections-analysis-index"
+      ],
       "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
@@ -24740,9 +24816,14 @@
       "sourcePath": "src/applications/reinforced-concrete-sections/analysis/RCBiaxialDomainBuilder.js",
       "sourceBlobSha1": "9c6da88638caf432fe825e20bf501bc44b51c3dc",
       "targetPath": "src/applications/reinforced-concrete-sections/analysis/RCBiaxialDomainBuilder.ts",
-      "migrationSlices": ["0006-ntc2018-uls-biaxial-domain"],
+      "migrationSlices": [
+        "0006-ntc2018-uls-biaxial-domain",
+        "0170-applications-reinforced-concrete-sections-analysis-index"
+      ],
       "sourceOracles": [
+        "tests/packageExports.test.js",
         "tests/rcBiaxialDomainBuilder.test.js",
+        "tests/reinforcedConcreteSectionApplication.test.js",
         "tests/reinforcedConcreteSectionBiaxialApplication.test.js"
       ],
       "targetTests": [
@@ -24750,9 +24831,14 @@
         "tests/concrete-biaxial-domain.test.ts",
         "tests/concrete-resistance-baseline-parity.test.ts",
         "tests/concrete-section-resistance.test.ts",
-        "tests/concrete-uniaxial-domain.test.ts"
+        "tests/concrete-uniaxial-domain.test.ts",
+        "tests/reinforced-concrete-sections-analysis-index-compile-time.test.ts",
+        "tests/reinforced-concrete-sections-analysis-index-live-parity.test.ts"
       ],
-      "validationEvidence": ["0006-ntc2018-uls-biaxial-domain"],
+      "validationEvidence": [
+        "0006-ntc2018-uls-biaxial-domain",
+        "0170-applications-reinforced-concrete-sections-analysis-index"
+      ],
       "status": "exact-parity",
       "publicEntryPath": "src/applications/index.js",
       "publicEntryBlobSha1": "b70179c7cdd2a819f2151dc092c0f59cbce30ba6"
@@ -24810,15 +24896,27 @@
       "sourcePath": "src/applications/reinforced-concrete-sections/analysis/RCMomentCurvatureAnalyzer.js",
       "sourceBlobSha1": "228461e3417e6176ef71d269caa0465e1ea601b4",
       "targetPath": "src/applications/reinforced-concrete-sections/analysis/RCMomentCurvatureAnalyzer.ts",
-      "migrationSlices": ["0009-reinforced-concrete-moment-curvature"],
+      "migrationSlices": [
+        "0009-reinforced-concrete-moment-curvature",
+        "0170-applications-reinforced-concrete-sections-analysis-index"
+      ],
       "sourceOracles": [
         "tests/packageExports.test.js",
         "tests/rcMomentCurvatureSampling.test.js",
         "tests/rcUltimateSectionSolver.test.js",
-        "tests/reinforcedConcreteMomentCurvature.test.js"
+        "tests/reinforcedConcreteMomentCurvature.test.js",
+        "tests/reinforcedConcreteSectionApplication.test.js"
       ],
-      "targetTests": ["tests/baseline-parity.test.ts", "tests/concrete-moment-curvature.test.ts"],
-      "validationEvidence": ["0009-reinforced-concrete-moment-curvature"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/concrete-moment-curvature.test.ts",
+        "tests/reinforced-concrete-sections-analysis-index-compile-time.test.ts",
+        "tests/reinforced-concrete-sections-analysis-index-live-parity.test.ts"
+      ],
+      "validationEvidence": [
+        "0009-reinforced-concrete-moment-curvature",
+        "0170-applications-reinforced-concrete-sections-analysis-index"
+      ],
       "status": "exact-parity",
       "publicEntryPath": "src/applications/index.js",
       "publicEntryBlobSha1": "b70179c7cdd2a819f2151dc092c0f59cbce30ba6"
@@ -24846,7 +24944,10 @@
       "sourcePath": "src/applications/reinforced-concrete-sections/analysis/RCSectionStateIntegrator.js",
       "sourceBlobSha1": "1d097ae6ede1919dc1464d9f77fa3b23dcc1ffa3",
       "targetPath": "src/applications/reinforced-concrete-sections/analysis/RCSectionStateIntegrator.ts",
-      "migrationSlices": ["0139-applications-rc-section-state-integrator-public-export"],
+      "migrationSlices": [
+        "0139-applications-rc-section-state-integrator-public-export",
+        "0170-applications-reinforced-concrete-sections-analysis-index"
+      ],
       "sourceOracles": [
         "tests/packageExports.test.js",
         "tests/rcConstitutiveLawsAndSolvers.test.js",
@@ -24856,9 +24957,14 @@
       "targetTests": [
         "tests/baseline-parity.test.ts",
         "tests/rc-section-state-integrator-compile-time.test.ts",
-        "tests/rc-section-state-integrator-live-parity.test.ts"
+        "tests/rc-section-state-integrator-live-parity.test.ts",
+        "tests/reinforced-concrete-sections-analysis-index-compile-time.test.ts",
+        "tests/reinforced-concrete-sections-analysis-index-live-parity.test.ts"
       ],
-      "validationEvidence": ["0139-applications-rc-section-state-integrator-public-export"],
+      "validationEvidence": [
+        "0139-applications-rc-section-state-integrator-public-export",
+        "0170-applications-reinforced-concrete-sections-analysis-index"
+      ],
       "status": "exact-parity",
       "publicEntryPath": "src/applications/index.js",
       "publicEntryBlobSha1": "b70179c7cdd2a819f2151dc092c0f59cbce30ba6"
@@ -24869,19 +24975,28 @@
       "sourcePath": "src/applications/reinforced-concrete-sections/analysis/RCServiceStressSolver.js",
       "sourceBlobSha1": "eecc24bef7e750d9f002a67e4818535d08b54f53",
       "targetPath": "src/applications/reinforced-concrete-sections/analysis/RCServiceStressSolver.ts",
-      "migrationSlices": ["0008-reinforced-concrete-service-stress"],
+      "migrationSlices": [
+        "0008-reinforced-concrete-service-stress",
+        "0170-applications-reinforced-concrete-sections-analysis-index"
+      ],
       "sourceOracles": [
         "tests/packageExports.test.js",
         "tests/rcServiceStressSolver.test.js",
+        "tests/reinforcedConcreteSectionApplication.test.js",
         "tests/reinforcedConcreteSectionServiceApplication.test.js"
       ],
       "targetTests": [
         "tests/baseline-parity.test.ts",
         "tests/concrete-section-resistance.test.ts",
         "tests/concrete-service-stress.test.ts",
-        "tests/concrete-uniaxial-domain.test.ts"
+        "tests/concrete-uniaxial-domain.test.ts",
+        "tests/reinforced-concrete-sections-analysis-index-compile-time.test.ts",
+        "tests/reinforced-concrete-sections-analysis-index-live-parity.test.ts"
       ],
-      "validationEvidence": ["0008-reinforced-concrete-service-stress"],
+      "validationEvidence": [
+        "0008-reinforced-concrete-service-stress",
+        "0170-applications-reinforced-concrete-sections-analysis-index"
+      ],
       "status": "exact-parity",
       "publicEntryPath": "src/applications/index.js",
       "publicEntryBlobSha1": "b70179c7cdd2a819f2151dc092c0f59cbce30ba6"
@@ -24892,17 +25007,26 @@
       "sourcePath": "src/applications/reinforced-concrete-sections/analysis/RCUltimateSectionSolver.js",
       "sourceBlobSha1": "bfc4064d9f6821c5e7fd3550d0fc530f499fb281",
       "targetPath": "src/applications/reinforced-concrete-sections/analysis/RCUltimateSectionSolver.ts",
-      "migrationSlices": ["0004-ntc2018-uls-uniaxial-concrete-resistance"],
+      "migrationSlices": [
+        "0004-ntc2018-uls-uniaxial-concrete-resistance",
+        "0170-applications-reinforced-concrete-sections-analysis-index"
+      ],
       "sourceOracles": [
+        "tests/packageExports.test.js",
         "tests/rcConstitutiveLawsAndSolvers.test.js",
         "tests/reinforcedConcreteSectionApplication.test.js"
       ],
       "targetTests": [
         "tests/baseline-parity.test.ts",
         "tests/concrete-resistance-baseline-parity.test.ts",
-        "tests/concrete-section-resistance.test.ts"
+        "tests/concrete-section-resistance.test.ts",
+        "tests/reinforced-concrete-sections-analysis-index-compile-time.test.ts",
+        "tests/reinforced-concrete-sections-analysis-index-live-parity.test.ts"
       ],
-      "validationEvidence": ["0004-ntc2018-uls-uniaxial-concrete-resistance"],
+      "validationEvidence": [
+        "0004-ntc2018-uls-uniaxial-concrete-resistance",
+        "0170-applications-reinforced-concrete-sections-analysis-index"
+      ],
       "status": "exact-parity",
       "publicEntryPath": "src/applications/index.js",
       "publicEntryBlobSha1": "b70179c7cdd2a819f2151dc092c0f59cbce30ba6"
@@ -24913,17 +25037,27 @@
       "sourcePath": "src/applications/reinforced-concrete-sections/analysis/RCUniaxialDomainBuilder.js",
       "sourceBlobSha1": "db462e079b7ab133391d10fd41fea2621214da45",
       "targetPath": "src/applications/reinforced-concrete-sections/analysis/RCUniaxialDomainBuilder.ts",
-      "migrationSlices": ["0005-ntc2018-uls-uniaxial-domain"],
+      "migrationSlices": [
+        "0005-ntc2018-uls-uniaxial-domain",
+        "0170-applications-reinforced-concrete-sections-analysis-index"
+      ],
       "sourceOracles": [
+        "tests/packageExports.test.js",
         "tests/rcUniaxialDomainBuilder.test.js",
+        "tests/reinforcedConcreteSectionApplication.test.js",
         "tests/reinforcedConcreteSectionUniaxialDomainApplication.test.js"
       ],
       "targetTests": [
         "tests/baseline-parity.test.ts",
         "tests/concrete-resistance-baseline-parity.test.ts",
-        "tests/concrete-uniaxial-domain.test.ts"
+        "tests/concrete-uniaxial-domain.test.ts",
+        "tests/reinforced-concrete-sections-analysis-index-compile-time.test.ts",
+        "tests/reinforced-concrete-sections-analysis-index-live-parity.test.ts"
       ],
-      "validationEvidence": ["0005-ntc2018-uls-uniaxial-domain"],
+      "validationEvidence": [
+        "0005-ntc2018-uls-uniaxial-domain",
+        "0170-applications-reinforced-concrete-sections-analysis-index"
+      ],
       "status": "exact-parity",
       "publicEntryPath": "src/applications/index.js",
       "publicEntryBlobSha1": "b70179c7cdd2a819f2151dc092c0f59cbce30ba6"
@@ -25982,17 +26116,26 @@
       "sourcePath": "src/applications/reinforced-concrete-sections/analysis/SectionFiberDiscretizer.js",
       "sourceBlobSha1": "be0b6bda40f442b9833f500c3f3e16fc3b4deded",
       "targetPath": "src/applications/reinforced-concrete-sections/analysis/SectionFiberDiscretizer.ts",
-      "migrationSlices": ["0004-ntc2018-uls-uniaxial-concrete-resistance"],
+      "migrationSlices": [
+        "0004-ntc2018-uls-uniaxial-concrete-resistance",
+        "0170-applications-reinforced-concrete-sections-analysis-index"
+      ],
       "sourceOracles": [
+        "tests/packageExports.test.js",
         "tests/rcConstitutiveLawsAndSolvers.test.js",
         "tests/reinforcedConcreteSectionApplication.test.js"
       ],
       "targetTests": [
         "tests/baseline-parity.test.ts",
         "tests/concrete-resistance-baseline-parity.test.ts",
-        "tests/concrete-section-resistance.test.ts"
+        "tests/concrete-section-resistance.test.ts",
+        "tests/reinforced-concrete-sections-analysis-index-compile-time.test.ts",
+        "tests/reinforced-concrete-sections-analysis-index-live-parity.test.ts"
       ],
-      "validationEvidence": ["0004-ntc2018-uls-uniaxial-concrete-resistance"],
+      "validationEvidence": [
+        "0004-ntc2018-uls-uniaxial-concrete-resistance",
+        "0170-applications-reinforced-concrete-sections-analysis-index"
+      ],
       "status": "exact-parity",
       "publicEntryPath": "src/applications/index.js",
       "publicEntryBlobSha1": "b70179c7cdd2a819f2151dc092c0f59cbce30ba6"
@@ -26505,17 +26648,26 @@
       "sourcePath": "src/applications/reinforced-concrete-sections/analysis/StrainField.js",
       "sourceBlobSha1": "5d88dc10953c68aaf4280e63e271abfd3804be5d",
       "targetPath": "src/applications/reinforced-concrete-sections/analysis/StrainField.ts",
-      "migrationSlices": ["0004-ntc2018-uls-uniaxial-concrete-resistance"],
+      "migrationSlices": [
+        "0004-ntc2018-uls-uniaxial-concrete-resistance",
+        "0170-applications-reinforced-concrete-sections-analysis-index"
+      ],
       "sourceOracles": [
+        "tests/packageExports.test.js",
         "tests/rcConstitutiveLawsAndSolvers.test.js",
         "tests/reinforcedConcreteSectionApplication.test.js"
       ],
       "targetTests": [
         "tests/baseline-parity.test.ts",
         "tests/concrete-resistance-baseline-parity.test.ts",
-        "tests/concrete-section-resistance.test.ts"
+        "tests/concrete-section-resistance.test.ts",
+        "tests/reinforced-concrete-sections-analysis-index-compile-time.test.ts",
+        "tests/reinforced-concrete-sections-analysis-index-live-parity.test.ts"
       ],
-      "validationEvidence": ["0004-ntc2018-uls-uniaxial-concrete-resistance"],
+      "validationEvidence": [
+        "0004-ntc2018-uls-uniaxial-concrete-resistance",
+        "0170-applications-reinforced-concrete-sections-analysis-index"
+      ],
       "status": "exact-parity",
       "publicEntryPath": "src/applications/index.js",
       "publicEntryBlobSha1": "b70179c7cdd2a819f2151dc092c0f59cbce30ba6"
@@ -32055,11 +32207,17 @@
       "sourcePath": "src/applications/reinforced-concrete-sections/analysis/index.js",
       "sourceBlobSha1": "19bd7b79855f3826b835568bbed5992b8ff65105",
       "targetPath": "src/applications/reinforced-concrete-sections/analysis/index.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing"
+      "migrationSlices": ["0170-applications-reinforced-concrete-sections-analysis-index"],
+      "sourceOracles": [
+        "tests/packageExports.test.js",
+        "tests/reinforcedConcreteSectionApplication.test.js"
+      ],
+      "targetTests": [
+        "tests/reinforced-concrete-sections-analysis-index-compile-time.test.ts",
+        "tests/reinforced-concrete-sections-analysis-index-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0170-applications-reinforced-concrete-sections-analysis-index"],
+      "status": "exact-parity"
     },
     {
       "id": "src/applications/reinforced-concrete-sections/analysis/moment-curvature/MomentCurvaturePostUltimateOptions.js",
@@ -39979,7 +40137,8 @@
         "0157-applications-masonry-ring-beam-model",
         "0158-applications-masonry-ring-beam-verification",
         "0159-applications-masonry-ring-beam-application",
-        "0160-applications-masonry-ring-beam-index"
+        "0160-applications-masonry-ring-beam-index",
+        "0170-applications-reinforced-concrete-sections-analysis-index"
       ],
       "sourceOracles": ["tests/packageExports.test.js"],
       "targetTests": [
@@ -40134,6 +40293,8 @@
         "tests/rc-section-state-integrator-live-parity.test.ts",
         "tests/reinforced-concrete-beam-column-joint.test.ts",
         "tests/reinforced-concrete-foundation-beam.test.ts",
+        "tests/reinforced-concrete-sections-analysis-index-compile-time.test.ts",
+        "tests/reinforced-concrete-sections-analysis-index-live-parity.test.ts",
         "tests/reinforced-concrete-strut-and-tie.test.ts",
         "tests/retaining-wall-analysis-compile-time.test.ts",
         "tests/retaining-wall-analysis-live-parity.test.ts",
@@ -40260,7 +40421,8 @@
         "0157-applications-masonry-ring-beam-model",
         "0158-applications-masonry-ring-beam-verification",
         "0159-applications-masonry-ring-beam-application",
-        "0160-applications-masonry-ring-beam-index"
+        "0160-applications-masonry-ring-beam-index",
+        "0170-applications-reinforced-concrete-sections-analysis-index"
       ],
       "status": "exact-parity",
       "testKind": "test"
@@ -40674,7 +40836,8 @@
       "targetPath": "tests/reinforcedConcreteSectionApplication.test.ts",
       "migrationSlices": [
         "0004-ntc2018-uls-uniaxial-concrete-resistance",
-        "0139-applications-rc-section-state-integrator-public-export"
+        "0139-applications-rc-section-state-integrator-public-export",
+        "0170-applications-reinforced-concrete-sections-analysis-index"
       ],
       "sourceOracles": ["tests/reinforcedConcreteSectionApplication.test.js"],
       "targetTests": [
@@ -40682,11 +40845,14 @@
         "tests/concrete-resistance-baseline-parity.test.ts",
         "tests/concrete-section-resistance.test.ts",
         "tests/rc-section-state-integrator-compile-time.test.ts",
-        "tests/rc-section-state-integrator-live-parity.test.ts"
+        "tests/rc-section-state-integrator-live-parity.test.ts",
+        "tests/reinforced-concrete-sections-analysis-index-compile-time.test.ts",
+        "tests/reinforced-concrete-sections-analysis-index-live-parity.test.ts"
       ],
       "validationEvidence": [
         "0004-ntc2018-uls-uniaxial-concrete-resistance",
-        "0139-applications-rc-section-state-integrator-public-export"
+        "0139-applications-rc-section-state-integrator-public-export",
+        "0170-applications-reinforced-concrete-sections-analysis-index"
       ],
       "status": "exact-parity",
       "testKind": "test"
@@ -44613,6 +44779,22 @@
         "publicStrings": "exact export names",
         "errors": "not applicable to this public-index slice"
       }
+    },
+    {
+      "sliceId": "0170-applications-reinforced-concrete-sections-analysis-index",
+      "sourceRevision": "6f33baead8b88166c4b2cf94af41763412e3c751",
+      "method": "Strict root consumer declarations and independently executed pinned JavaScript versus built TypeScript comparison of exact public index export names, function kinds, root aliases and independent constructor identities.",
+      "targetTests": [
+        "tests/reinforced-concrete-sections-analysis-index-compile-time.test.ts",
+        "tests/reinforced-concrete-sections-analysis-index-live-parity.test.ts"
+      ],
+      "fixture": "Reinforced-concrete section analysis public index with eight already-migrated runtime dependencies.",
+      "tolerances": {
+        "serializedParity": "exact sorted export-name JSON",
+        "numericParity": "not applicable to this public-index slice",
+        "publicStrings": "exact export names",
+        "errors": "not applicable to this public-index slice"
+      }
     }
   ],
   "counts": {
@@ -44642,11 +44824,11 @@
     },
     "sourceFiles": {
       "javascript": 480,
-      "typescript": 431
+      "typescript": 432
     },
     "tests": {
       "javascript": 131,
-      "typescript": 324
+      "typescript": 326
     },
     "validationCampaigns": {
       "javascript": 17,
@@ -44698,7 +44880,7 @@
       "statusCounts": {
         "exact-parity": 0,
         "partial": 24,
-        "missing": 202,
+        "missing": 201,
         "intentionally-excluded": 0,
         "decision-required": 0
       },
@@ -44879,7 +45061,6 @@
         "source:src/applications/micropiles-broms/analysis/MicropileBromsAnalysis.js",
         "source:src/applications/micropiles-broms/index.js",
         "source:src/applications/reinforced-concrete-plates/README.md",
-        "source:src/applications/reinforced-concrete-sections/analysis/index.js",
         "source:src/applications/reinforced-concrete-sections/index.js",
         "source:src/applications/single-beam-design/SingleBeamDesignApplication.js",
         "source:src/applications/single-beam-design/dto/BeamReportDto.js",

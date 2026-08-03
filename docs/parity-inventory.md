@@ -20,8 +20,8 @@ establish behavioral parity.
 | ApplicationRegistry entries       |                30 |                  0 |
 | Application catalog entries       |                30 |                 30 |
 | Serialized schema/version symbols |                49 |                 48 |
-| Source files                      |               480 |                431 |
-| Tests                             |               131 |                324 |
+| Source files                      |               480 |                432 |
+| Tests                             |               131 |                326 |
 | Validation campaigns              |                17 |                  0 |
 | Validation files                  |                27 |                  0 |
 | Examples                          |                32 |                  0 |
@@ -36,7 +36,7 @@ implementation order required by the repository architecture.
 
 - **domain** — partial: 1.
 - **norms** — no remaining items.
-- **applications** — partial: 24, missing: 202.
+- **applications** — partial: 24, missing: 201.
 - **packageValidation** — partial: 4, missing: 110.
 
 ## Status semantics

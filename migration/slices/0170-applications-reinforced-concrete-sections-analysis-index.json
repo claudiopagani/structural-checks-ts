@@ -1,0 +1,130 @@
+{
+  "schemaVersion": 1,
+  "sliceId": "0170-applications-reinforced-concrete-sections-analysis-index",
+  "title": "Reinforced concrete section analysis public index",
+  "migrationType": "mechanical-parity-public-index",
+  "implementationStatus": "implemented",
+  "dependencies": [
+    "0004-ntc2018-uls-uniaxial-concrete-resistance",
+    "0005-ntc2018-uls-uniaxial-domain",
+    "0006-ntc2018-uls-biaxial-domain",
+    "0008-reinforced-concrete-service-stress",
+    "0009-reinforced-concrete-moment-curvature",
+    "0139-applications-rc-section-state-integrator-public-export"
+  ],
+  "source": {
+    "repository": "https://github.com/claudiopagani/strutture-js",
+    "revision": "6f33baead8b88166c4b2cf94af41763412e3c751"
+  },
+  "normativeCorpusRevision": "41da3faa489600173106935bbcf726119300e48d",
+  "sourceFiles": [
+    {
+      "path": "src/applications/reinforced-concrete-sections/analysis/index.js",
+      "gitBlobSha1": "19bd7b79855f3826b835568bbed5992b8ff65105",
+      "targetPath": "src/applications/reinforced-concrete-sections/analysis/index.ts"
+    }
+  ],
+  "supportingSourceFiles": [
+    {
+      "path": "src/applications/reinforced-concrete-sections/analysis/SectionFiberDiscretizer.js",
+      "gitBlobSha1": "be0b6bda40f442b9833f500c3f3e16fc3b4deded",
+      "targetPath": "src/applications/reinforced-concrete-sections/analysis/SectionFiberDiscretizer.ts",
+      "coverage": "Already-migrated runtime dependency re-exported by the index."
+    },
+    {
+      "path": "src/applications/reinforced-concrete-sections/analysis/StrainField.js",
+      "gitBlobSha1": "5d88dc10953c68aaf4280e63e271abfd3804be5d",
+      "targetPath": "src/applications/reinforced-concrete-sections/analysis/StrainField.ts",
+      "coverage": "Already-migrated runtime dependency re-exported by the index."
+    },
+    {
+      "path": "src/applications/reinforced-concrete-sections/analysis/RCServiceStressSolver.js",
+      "gitBlobSha1": "eecc24bef7e750d9f002a67e4818535d08b54f53",
+      "targetPath": "src/applications/reinforced-concrete-sections/analysis/RCServiceStressSolver.ts",
+      "coverage": "Already-migrated runtime dependency re-exported by the index."
+    },
+    {
+      "path": "src/applications/reinforced-concrete-sections/analysis/RCSectionStateIntegrator.js",
+      "gitBlobSha1": "1d097ae6ede1919dc1464d9f77fa3b23dcc1ffa3",
+      "targetPath": "src/applications/reinforced-concrete-sections/analysis/RCSectionStateIntegrator.ts",
+      "coverage": "Already-migrated runtime dependency re-exported by the index."
+    },
+    {
+      "path": "src/applications/reinforced-concrete-sections/analysis/RCBiaxialDomainBuilder.js",
+      "gitBlobSha1": "9c6da88638caf432fe825e20bf501bc44b51c3dc",
+      "targetPath": "src/applications/reinforced-concrete-sections/analysis/RCBiaxialDomainBuilder.ts",
+      "coverage": "Already-migrated runtime dependency re-exported by the index."
+    },
+    {
+      "path": "src/applications/reinforced-concrete-sections/analysis/RCMomentCurvatureAnalyzer.js",
+      "gitBlobSha1": "228461e3417e6176ef71d269caa0465e1ea601b4",
+      "targetPath": "src/applications/reinforced-concrete-sections/analysis/RCMomentCurvatureAnalyzer.ts",
+      "coverage": "Already-migrated runtime dependency re-exported by the index."
+    },
+    {
+      "path": "src/applications/reinforced-concrete-sections/analysis/RCUniaxialDomainBuilder.js",
+      "gitBlobSha1": "db462e079b7ab133391d10fd41fea2621214da45",
+      "targetPath": "src/applications/reinforced-concrete-sections/analysis/RCUniaxialDomainBuilder.ts",
+      "coverage": "Already-migrated runtime dependency re-exported by the index."
+    },
+    {
+      "path": "src/applications/reinforced-concrete-sections/analysis/RCUltimateSectionSolver.js",
+      "gitBlobSha1": "bfc4064d9f6821c5e7fd3550d0fc530f499fb281",
+      "targetPath": "src/applications/reinforced-concrete-sections/analysis/RCUltimateSectionSolver.ts",
+      "coverage": "Already-migrated runtime dependency re-exported by the index."
+    }
+  ],
+  "sourceOracles": [
+    {
+      "path": "tests/packageExports.test.js",
+      "gitBlobSha1": "8dde24b4c97dd3dae7100207d07d9d96c52b9c74",
+      "coverage": "Pinned package public export behavior."
+    },
+    {
+      "path": "tests/reinforcedConcreteSectionApplication.test.js",
+      "gitBlobSha1": "7fd90534d22039aff783adfb33f008673cfaba14",
+      "coverage": "Pinned reinforced-concrete section application and analysis public behavior."
+    }
+  ],
+  "sourcePublicExport": {
+    "path": "src/applications/reinforced-concrete-sections/analysis/index.js",
+    "gitBlobSha1": "19bd7b79855f3826b835568bbed5992b8ff65105"
+  },
+  "targetTests": [
+    "tests/reinforced-concrete-sections-analysis-index-compile-time.test.ts",
+    "tests/reinforced-concrete-sections-analysis-index-live-parity.test.ts"
+  ],
+  "publicExports": [
+    "SectionFiberDiscretizer",
+    "StrainField",
+    "RCServiceStressSolver",
+    "RCSectionStateIntegrator",
+    "RCBiaxialDomainBuilder",
+    "RCMomentCurvatureAnalyzer",
+    "RCUniaxialDomainBuilder",
+    "RCUltimateSectionSolver"
+  ],
+  "publicTypeExports": [],
+  "normativeReferences": {
+    "resolved": [],
+    "outsideCorpus": [],
+    "normativeConformityClaimed": false,
+    "status": "classified-for-declared-scope"
+  },
+  "independentValidation": {
+    "method": "Strict root consumer declarations and independently executed pinned JavaScript versus built TypeScript comparison of exact public index export names, function kinds, root aliases and independent constructor identities.",
+    "targetTests": [
+      "tests/reinforced-concrete-sections-analysis-index-compile-time.test.ts",
+      "tests/reinforced-concrete-sections-analysis-index-live-parity.test.ts"
+    ],
+    "fixture": "Reinforced-concrete section analysis public index with eight already-migrated runtime dependencies.",
+    "tolerances": {
+      "serializedParity": "exact sorted export-name JSON",
+      "numericParity": "not applicable to this public-index slice",
+      "publicStrings": "exact export names",
+      "errors": "not applicable to this public-index slice"
+    }
+  },
+  "parityDifferences": [],
+  "engineeringFunctionality": "Source-compatible reinforced-concrete section analysis public index composition."
+}
