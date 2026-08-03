@@ -1352,6 +1352,7 @@
         "TimberBeamSectionProvider",
         "TimberBeamVerification",
         "TimberConcreteCompositeBeamModel",
+        "TimberConcreteCompositeBeamSectionProvider",
         "TimberDowelConnector",
         "TimberMaterial",
         "TrafficAction",
@@ -1521,6 +1522,7 @@
         "createSteelProfileSection",
         "createTecnariaConnector",
         "createTimberBeamSectionProvider",
+        "createTimberConcreteCompositeBeamSectionProvider",
         "createUnitResolver",
         "createWallHeightSystemAssessment",
         "createWallSectionAssessment",
@@ -8036,11 +8038,19 @@
       "sourcePath": "src/applications/timber-concrete-composite-beams/analysis/TimberConcreteCompositeBeamSectionProvider.js",
       "sourceBlobSha1": "239e434291d243f37a5c6dc86ee990f7e73224e5",
       "targetPath": "src/applications/timber-concrete-composite-beams/analysis/TimberConcreteCompositeBeamSectionProvider.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0212-applications-timber-concrete-composite-beam-section-provider"],
+      "sourceOracles": [
+        "tests/packageExports.test.js",
+        "tests/singleBeamAnalysis.test.js",
+        "tests/timberConcreteCompositeBeam.test.js"
+      ],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/timber-concrete-composite-beam-section-provider-compile-time.test.ts",
+        "tests/timber-concrete-composite-beam-section-provider-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0212-applications-timber-concrete-composite-beam-section-provider"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -20359,11 +20369,19 @@
       "sourcePath": "src/applications/timber-concrete-composite-beams/analysis/TimberConcreteCompositeBeamSectionProvider.js",
       "sourceBlobSha1": "239e434291d243f37a5c6dc86ee990f7e73224e5",
       "targetPath": "src/applications/timber-concrete-composite-beams/analysis/TimberConcreteCompositeBeamSectionProvider.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0212-applications-timber-concrete-composite-beam-section-provider"],
+      "sourceOracles": [
+        "tests/packageExports.test.js",
+        "tests/singleBeamAnalysis.test.js",
+        "tests/timberConcreteCompositeBeam.test.js"
+      ],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/timber-concrete-composite-beam-section-provider-compile-time.test.ts",
+        "tests/timber-concrete-composite-beam-section-provider-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0212-applications-timber-concrete-composite-beam-section-provider"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -22896,11 +22914,19 @@
       "sourcePath": "src/applications/timber-concrete-composite-beams/analysis/TimberConcreteCompositeBeamSectionProvider.js",
       "sourceBlobSha1": "239e434291d243f37a5c6dc86ee990f7e73224e5",
       "targetPath": "src/applications/timber-concrete-composite-beams/analysis/TimberConcreteCompositeBeamSectionProvider.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0212-applications-timber-concrete-composite-beam-section-provider"],
+      "sourceOracles": [
+        "tests/packageExports.test.js",
+        "tests/singleBeamAnalysis.test.js",
+        "tests/timberConcreteCompositeBeam.test.js"
+      ],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/timber-concrete-composite-beam-section-provider-compile-time.test.ts",
+        "tests/timber-concrete-composite-beam-section-provider-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0212-applications-timber-concrete-composite-beam-section-provider"],
+      "status": "exact-parity",
       "publicEntryPath": "src/applications/index.js",
       "publicEntryBlobSha1": "b70179c7cdd2a819f2151dc092c0f59cbce30ba6"
     },
@@ -27761,11 +27787,19 @@
       "sourcePath": "src/applications/timber-concrete-composite-beams/analysis/TimberConcreteCompositeBeamSectionProvider.js",
       "sourceBlobSha1": "239e434291d243f37a5c6dc86ee990f7e73224e5",
       "targetPath": "src/applications/timber-concrete-composite-beams/analysis/TimberConcreteCompositeBeamSectionProvider.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0212-applications-timber-concrete-composite-beam-section-provider"],
+      "sourceOracles": [
+        "tests/packageExports.test.js",
+        "tests/singleBeamAnalysis.test.js",
+        "tests/timberConcreteCompositeBeam.test.js"
+      ],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/timber-concrete-composite-beam-section-provider-compile-time.test.ts",
+        "tests/timber-concrete-composite-beam-section-provider-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0212-applications-timber-concrete-composite-beam-section-provider"],
+      "status": "exact-parity",
       "publicEntryPath": "src/applications/index.js",
       "publicEntryBlobSha1": "b70179c7cdd2a819f2151dc092c0f59cbce30ba6"
     },
@@ -34619,11 +34653,19 @@
       "sourcePath": "src/applications/timber-concrete-composite-beams/analysis/TimberConcreteCompositeBeamSectionProvider.js",
       "sourceBlobSha1": "239e434291d243f37a5c6dc86ee990f7e73224e5",
       "targetPath": "src/applications/timber-concrete-composite-beams/analysis/TimberConcreteCompositeBeamSectionProvider.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing"
+      "migrationSlices": ["0212-applications-timber-concrete-composite-beam-section-provider"],
+      "sourceOracles": [
+        "tests/packageExports.test.js",
+        "tests/singleBeamAnalysis.test.js",
+        "tests/timberConcreteCompositeBeam.test.js"
+      ],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/timber-concrete-composite-beam-section-provider-compile-time.test.ts",
+        "tests/timber-concrete-composite-beam-section-provider-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0212-applications-timber-concrete-composite-beam-section-provider"],
+      "status": "exact-parity"
     },
     {
       "id": "src/applications/timber-concrete-composite-beams/checks/TimberConcreteCompositeBeamVerification.js",
@@ -38412,7 +38454,8 @@
         "0208-applications-timber-beam-model",
         "0209-applications-timber-beam-verification",
         "0210-applications-timber-beam-application",
-        "0211-applications-timber-concrete-composite-beam-model"
+        "0211-applications-timber-concrete-composite-beam-model",
+        "0212-applications-timber-concrete-composite-beam-section-provider"
       ],
       "sourceOracles": [
         "tests/architecture/applicationRegistry.test.js",
@@ -41654,7 +41697,8 @@
         "0208-applications-timber-beam-model",
         "0209-applications-timber-beam-verification",
         "0210-applications-timber-beam-application",
-        "0211-applications-timber-concrete-composite-beam-model"
+        "0211-applications-timber-concrete-composite-beam-model",
+        "0212-applications-timber-concrete-composite-beam-section-provider"
       ],
       "sourceOracles": ["tests/packageExports.test.js"],
       "targetTests": [
@@ -41908,6 +41952,8 @@
         "tests/timber-beam-verification-live-parity.test.ts",
         "tests/timber-concrete-composite-beam-model-compile-time.test.ts",
         "tests/timber-concrete-composite-beam-model-live-parity.test.ts",
+        "tests/timber-concrete-composite-beam-section-provider-compile-time.test.ts",
+        "tests/timber-concrete-composite-beam-section-provider-live-parity.test.ts",
         "tests/wall-soil-reaction-law-compile-time.test.ts",
         "tests/wall-soil-reaction-law-live-parity.test.ts"
       ],
@@ -42040,7 +42086,8 @@
         "0208-applications-timber-beam-model",
         "0209-applications-timber-beam-verification",
         "0210-applications-timber-beam-application",
-        "0211-applications-timber-concrete-composite-beam-model"
+        "0211-applications-timber-concrete-composite-beam-model",
+        "0212-applications-timber-concrete-composite-beam-section-provider"
       ],
       "status": "exact-parity",
       "testKind": "test"
@@ -42663,7 +42710,8 @@
       "migrationSlices": [
         "0014-reinforced-concrete-beam-member",
         "0022-single-beam-analysis",
-        "0209-applications-timber-beam-verification"
+        "0209-applications-timber-beam-verification",
+        "0212-applications-timber-concrete-composite-beam-section-provider"
       ],
       "sourceOracles": ["tests/singleBeamAnalysis.test.js"],
       "targetTests": [
@@ -42671,12 +42719,15 @@
         "tests/concrete-beam-member.test.ts",
         "tests/single-beam-analysis.test.ts",
         "tests/timber-beam-verification-compile-time.test.ts",
-        "tests/timber-beam-verification-live-parity.test.ts"
+        "tests/timber-beam-verification-live-parity.test.ts",
+        "tests/timber-concrete-composite-beam-section-provider-compile-time.test.ts",
+        "tests/timber-concrete-composite-beam-section-provider-live-parity.test.ts"
       ],
       "validationEvidence": [
         "0014-reinforced-concrete-beam-member",
         "0022-single-beam-analysis",
-        "0209-applications-timber-beam-verification"
+        "0209-applications-timber-beam-verification",
+        "0212-applications-timber-concrete-composite-beam-section-provider"
       ],
       "status": "exact-parity",
       "testKind": "test"
@@ -42950,14 +43001,22 @@
       "sourcePath": "tests/timberConcreteCompositeBeam.test.js",
       "sourceBlobSha1": "c24e21a2b79d5a14bb9b8e45b80a318675cd8f5c",
       "targetPath": "tests/timberConcreteCompositeBeam.test.ts",
-      "migrationSlices": ["0211-applications-timber-concrete-composite-beam-model"],
+      "migrationSlices": [
+        "0211-applications-timber-concrete-composite-beam-model",
+        "0212-applications-timber-concrete-composite-beam-section-provider"
+      ],
       "sourceOracles": ["tests/timberConcreteCompositeBeam.test.js"],
       "targetTests": [
         "tests/baseline-parity.test.ts",
         "tests/timber-concrete-composite-beam-model-compile-time.test.ts",
-        "tests/timber-concrete-composite-beam-model-live-parity.test.ts"
+        "tests/timber-concrete-composite-beam-model-live-parity.test.ts",
+        "tests/timber-concrete-composite-beam-section-provider-compile-time.test.ts",
+        "tests/timber-concrete-composite-beam-section-provider-live-parity.test.ts"
       ],
-      "validationEvidence": ["0211-applications-timber-concrete-composite-beam-model"],
+      "validationEvidence": [
+        "0211-applications-timber-concrete-composite-beam-model",
+        "0212-applications-timber-concrete-composite-beam-section-provider"
+      ],
       "status": "exact-parity",
       "testKind": "test"
     },
@@ -47236,16 +47295,32 @@
         "publicStrings": "exact generated composite names, roles, metadata and Unicode code points",
         "errors": "exact missing-id and missing-explicit-unit error name and message comparisons"
       }
+    },
+    {
+      "sliceId": "0212-applications-timber-concrete-composite-beam-section-provider",
+      "sourceRevision": "6f33baead8b88166c4b2cf94af41763412e3c751",
+      "method": "Strict typed consumer declarations and independently executed pinned JavaScript versus built TypeScript differential comparison for complete gamma properties, service and ultimate stiffness metadata, section rotation, exact numeric/serialized/Unicode behavior and validation errors.",
+      "targetTests": [
+        "tests/timber-concrete-composite-beam-section-provider-compile-time.test.ts",
+        "tests/timber-concrete-composite-beam-section-provider-live-parity.test.ts"
+      ],
+      "fixture": "Independent timber-concrete model with transformed slab/timber sections, connector stiffnesses, shear data, Unicode metadata, ULS/SLE/final/instant contexts and rotated section properties.",
+      "tolerances": {
+        "serializedParity": "exact gamma and beam-property JSON",
+        "numericParity": "exact stiffness, gamma, inertia, shear and rotation values",
+        "publicStrings": "exact provider metadata, limit-state strings and Unicode code points",
+        "errors": "exact missing-model and invalid-span error name and message comparisons"
+      }
     }
   ],
   "counts": {
     "rootExports": {
       "javascript": 841,
-      "typescript": 822
+      "typescript": 824
     },
     "applicationsExports": {
       "javascript": 309,
-      "typescript": 295
+      "typescript": 297
     },
     "packageEntryPoints": {
       "javascript": 14,
@@ -47265,11 +47340,11 @@
     },
     "sourceFiles": {
       "javascript": 480,
-      "typescript": 474
+      "typescript": 475
     },
     "tests": {
       "javascript": 131,
-      "typescript": 408
+      "typescript": 410
     },
     "validationCampaigns": {
       "javascript": 17,
@@ -47321,13 +47396,12 @@
       "statusCounts": {
         "exact-parity": 0,
         "partial": 28,
-        "missing": 49,
+        "missing": 44,
         "intentionally-excluded": 0,
         "decision-required": 0
       },
       "itemIds": [
         "application-export:TimberConcreteCompositeBeamApplication",
-        "application-export:TimberConcreteCompositeBeamSectionProvider",
         "application-export:TimberConcreteCompositeBeamVerification",
         "application-export:TimberXlamCompositeBeamApplication",
         "application-export:TimberXlamCompositeBeamModel",
@@ -47338,7 +47412,6 @@
         "application-export:XlamOutOfPlanePanelModel",
         "application-export:XlamOutOfPlanePanelVerification",
         "application-export:createDefaultApplicationRegistry",
-        "application-export:createTimberConcreteCompositeBeamSectionProvider",
         "application-export:createTimberXlamCompositeBeamSectionProvider",
         "registry:geotechnical-deep-foundations",
         "registry:geotechnical-earth-pressures",
@@ -47371,7 +47444,6 @@
         "registry:timber-xlam-composite-beams",
         "registry:xlam-panels-out-of-plane",
         "root-export:TimberConcreteCompositeBeamApplication",
-        "root-export:TimberConcreteCompositeBeamSectionProvider",
         "root-export:TimberConcreteCompositeBeamVerification",
         "root-export:TimberXlamCompositeBeamApplication",
         "root-export:TimberXlamCompositeBeamModel",
@@ -47382,14 +47454,12 @@
         "root-export:XlamOutOfPlanePanelModel",
         "root-export:XlamOutOfPlanePanelVerification",
         "root-export:createDefaultApplicationRegistry",
-        "root-export:createTimberConcreteCompositeBeamSectionProvider",
         "root-export:createTimberXlamCompositeBeamSectionProvider",
         "source:src/applications/masonry-wall-openings/index.js",
         "source:src/applications/reinforced-concrete-plates/README.md",
         "source:src/applications/steel-frames/index.js",
         "source:src/applications/timber-beams/index.js",
         "source:src/applications/timber-concrete-composite-beams/TimberConcreteCompositeBeamApplication.js",
-        "source:src/applications/timber-concrete-composite-beams/analysis/TimberConcreteCompositeBeamSectionProvider.js",
         "source:src/applications/timber-concrete-composite-beams/checks/TimberConcreteCompositeBeamVerification.js",
         "source:src/applications/timber-concrete-composite-beams/index.js",
         "source:src/applications/timber-xlam-composite-beams/TimberXlamCompositeBeamApplication.js",

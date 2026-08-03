@@ -1,0 +1,105 @@
+{
+  "schemaVersion": 1,
+  "sliceId": "0212-applications-timber-concrete-composite-beam-section-provider",
+  "title": "Timber-concrete composite beam section provider",
+  "migrationType": "mechanical-parity",
+  "implementationStatus": "implemented",
+  "dependencies": ["0211-applications-timber-concrete-composite-beam-model"],
+  "source": {
+    "repository": "https://github.com/claudiopagani/strutture-js",
+    "revision": "6f33baead8b88166c4b2cf94af41763412e3c751"
+  },
+  "normativeCorpusRevision": "41da3faa489600173106935bbcf726119300e48d",
+  "sourceFiles": [
+    {
+      "path": "src/applications/timber-concrete-composite-beams/analysis/TimberConcreteCompositeBeamSectionProvider.js",
+      "gitBlobSha1": "239e434291d243f37a5c6dc86ee990f7e73224e5",
+      "targetPath": "src/applications/timber-concrete-composite-beams/analysis/TimberConcreteCompositeBeamSectionProvider.ts"
+    }
+  ],
+  "supportingSourceFiles": [
+    {
+      "path": "src/applications/timber-concrete-composite-beams/models/TimberConcreteCompositeBeamModel.js",
+      "gitBlobSha1": "e38c5ff73045fc70ce45a2712537b6365179d111",
+      "coverage": "Migrated 0211 model dependency used for gamma properties and ideal transformed section construction."
+    },
+    {
+      "path": "src/domain/beams/SectionRotation.js",
+      "gitBlobSha1": "5aac1045cc8faad6b82678b50c1f64223dc04408",
+      "coverage": "Migrated section rotation dependency used for principal-axis beam properties."
+    },
+    {
+      "path": "src/applications/timber-concrete-composite-beams/index.js",
+      "gitBlobSha1": "90395b35711d81ec6cf57d882ae4da202a6531de",
+      "coverage": "Pinned timber-concrete composite barrel context for provider and factory exports."
+    },
+    {
+      "path": "src/index.js",
+      "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7",
+      "coverage": "Pinned root public export context for the provider and factory."
+    }
+  ],
+  "sourceOracles": [
+    {
+      "path": "tests/timberConcreteCompositeBeam.test.js",
+      "gitBlobSha1": "c24e21a2b79d5a14bb9b8e45b80a318675cd8f5c",
+      "coverage": "Pinned gamma-method section properties, service/ultimate stiffness and provider errors."
+    },
+    {
+      "path": "tests/singleBeamAnalysis.test.js",
+      "gitBlobSha1": "51953d4223895ce3268eaf2a6089729546752fdc",
+      "coverage": "Pinned section-provider integration contexts and section rotation behavior."
+    },
+    {
+      "path": "tests/packageExports.test.js",
+      "gitBlobSha1": "8dde24b4c97dd3dae7100207d07d9d96c52b9c74",
+      "coverage": "Pinned public provider and factory export behavior."
+    }
+  ],
+  "sourcePublicExport": {
+    "path": "src/index.js",
+    "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
+  },
+  "targetTests": [
+    "tests/baseline-parity.test.ts",
+    "tests/timber-concrete-composite-beam-section-provider-compile-time.test.ts",
+    "tests/timber-concrete-composite-beam-section-provider-live-parity.test.ts"
+  ],
+  "publicExports": [
+    "TimberConcreteCompositeBeamSectionProvider",
+    "createTimberConcreteCompositeBeamSectionProvider"
+  ],
+  "publicTypeExports": [
+    "TimberConcreteCompositeBeamIdealSectionLike",
+    "TimberConcreteCompositeBeamGammaProperties",
+    "TimberConcreteCompositeBeamMaterialLike",
+    "TimberConcreteCompositeBeamModelLike",
+    "TimberConcreteCompositeBeamSectionLike",
+    "TimberConcreteCompositeBeamSectionProviderContext",
+    "TimberConcreteCompositeBeamSectionProviderOptions"
+  ],
+  "normativeReferences": {
+    "resolved": [],
+    "outsideCorpus": [],
+    "normativeConformityClaimed": false,
+    "status": "classified-for-declared-scope"
+  },
+  "independentValidation": {
+    "method": "Strict typed consumer declarations and independently executed pinned JavaScript versus built TypeScript differential comparison for complete gamma properties, service and ultimate stiffness metadata, section rotation, exact numeric/serialized/Unicode behavior and validation errors.",
+    "targetTests": [
+      "tests/timber-concrete-composite-beam-section-provider-compile-time.test.ts",
+      "tests/timber-concrete-composite-beam-section-provider-live-parity.test.ts"
+    ],
+    "fixture": "Independent timber-concrete model with transformed slab/timber sections, connector stiffnesses, shear data, Unicode metadata, ULS/SLE/final/instant contexts and rotated section properties.",
+    "tolerances": {
+      "serializedParity": "exact gamma and beam-property JSON",
+      "numericParity": "exact stiffness, gamma, inertia, shear and rotation values",
+      "publicStrings": "exact provider metadata, limit-state strings and Unicode code points",
+      "errors": "exact missing-model and invalid-span error name and message comparisons"
+    }
+  },
+  "parityDifferences": [
+    "Strict TypeScript declarations are added for the provider, factory, context, model-like input and gamma-property result."
+  ],
+  "engineeringFunctionality": "Strict TypeScript parity for the timber-concrete gamma-method section provider, effective stiffness properties, shear rigidity, service/ultimate context selection and section rotation; verification and application wrappers remain outside this slice."
+}
