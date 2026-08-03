@@ -1090,6 +1090,7 @@
         "NTC2018_NORMATIVE_CORPUS",
         "NTC2018_OVERSTRENGTH_FACTORS",
         "NTC2018_PDELTA_THRESHOLDS",
+        "NTC2018_PERMANENT_LOAD_REFERENCES",
         "NTC2018_PLAN_REGULARITY",
         "NTC2018_RC_BUILDING_CAPABILITIES",
         "NTC2018_RC_CHAPTER_4_REFERENCES",
@@ -1124,6 +1125,7 @@
         "NTC2018_TOPOGRAPHIC_CLASSIFICATION_METHOD",
         "NTC2018_TOPOGRAPHIC_CLASSIFICATION_REFERENCES",
         "NTC2018_ULS_PARTIAL_FACTORS",
+        "NTC2018_UNIT_WEIGHT_CATALOG",
         "NTC2018_VARIABLE_ACTION_CATEGORIES",
         "NTC2018_WALL_SYSTEM_REFERENCES",
         "NTC2018_WIND_EXPOSURE_CATEGORIES",
@@ -1317,9 +1319,11 @@
         "calculateEn1992StrutAndTieNuPrime",
         "calculateEn1992StrutDesignStrength",
         "calculateEn1992TieResistance",
+        "calculateNTC2018AreaSelfWeight",
         "calculateNTC2018BaseWindSpeed",
         "calculateNTC2018BuildingThermalActions",
         "calculateNTC2018EffectiveJointWidth",
+        "calculateNTC2018EquivalentPartitionAreaLoad",
         "calculateNTC2018ExternalAirTemperatures",
         "calculateNTC2018FreeThermalStrain",
         "calculateNTC2018GroundSnowLoad",
@@ -1330,12 +1334,15 @@
         "calculateNTC2018JointCompressionCapacity",
         "calculateNTC2018JointShearDemand",
         "calculateNTC2018JointTensionReinforcement",
+        "calculateNTC2018LineSelfWeight",
         "calculateNTC2018MeanElementTemperature",
+        "calculateNTC2018PermanentAreaLoads",
         "calculateNTC2018PitchedRoofShapeCoefficient",
         "calculateNTC2018ReferenceWindPressure",
         "calculateNTC2018ReferenceWindSpeed",
         "calculateNTC2018RetainingWallSeismicCoefficients",
         "calculateNTC2018RoofSnowLoad",
+        "calculateNTC2018SelfWeight",
         "calculateNTC2018SnowAreaLoad",
         "calculateNTC2018StratigraphicSpectrumCoefficients",
         "calculateNTC2018UniformTemperatureChange",
@@ -1455,6 +1462,7 @@
         "getNTC2018ThermalExpansionCoefficientDefinition",
         "getNTC2018TimberKmod",
         "getNTC2018TopographicAmplificationDefinition",
+        "getNTC2018UnitWeightDefinition",
         "getNTC2018WindExposureCategoryDefinition",
         "getNTC2018WindZoneDefinition",
         "getRcPunchingDesignCodeManifest",
@@ -1471,6 +1479,7 @@
         "listGroundAnchorBondCatalogEntries",
         "listItalianHistoricalReinforcementSteelGrades",
         "listNTC2018ImposedLoadDefinitions",
+        "listNTC2018UnitWeightDefinitions",
         "listSteelProfileSectionsByFamily",
         "listXlamPanelProducts",
         "mononobeOkabeActiveEarthPressureCoefficient",
@@ -1506,6 +1515,7 @@
         "resolveNTC2018MasonryTypology",
         "resolveNTC2018ThermalExpansionCoefficient",
         "resolveNTC2018TopographicAmplification",
+        "resolveNTC2018UnitWeight",
         "resolvePrincipalSectionFrame",
         "resolvePunchingTransferFromJointActions",
         "rotatePlateMoments",
@@ -3738,11 +3748,15 @@
       "sourcePath": "src/norms/ntc2018/loads/ntc2018PermanentLoads.js",
       "sourceBlobSha1": "42fad68f45f0363dabd6877d329a7a00aaeb2fd2",
       "targetPath": "src/norms/ntc2018/loads/ntc2018PermanentLoads.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0129-norms-ntc2018-permanent-loads"],
+      "sourceOracles": ["tests/ntc2018PermanentLoads.test.js", "tests/packageExports.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/ntc2018-permanent-loads-compile-time.test.ts",
+        "tests/ntc2018-permanent-loads-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0129-norms-ntc2018-permanent-loads"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -3808,11 +3822,15 @@
       "sourcePath": "src/norms/ntc2018/loads/ntc2018PermanentLoads.js",
       "sourceBlobSha1": "42fad68f45f0363dabd6877d329a7a00aaeb2fd2",
       "targetPath": "src/norms/ntc2018/loads/ntc2018PermanentLoads.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0129-norms-ntc2018-permanent-loads"],
+      "sourceOracles": ["tests/ntc2018PermanentLoads.test.js", "tests/packageExports.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/ntc2018-permanent-loads-compile-time.test.ts",
+        "tests/ntc2018-permanent-loads-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0129-norms-ntc2018-permanent-loads"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -4008,11 +4026,15 @@
       "sourcePath": "src/norms/ntc2018/loads/ntc2018PermanentLoads.js",
       "sourceBlobSha1": "42fad68f45f0363dabd6877d329a7a00aaeb2fd2",
       "targetPath": "src/norms/ntc2018/loads/ntc2018PermanentLoads.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0129-norms-ntc2018-permanent-loads"],
+      "sourceOracles": ["tests/ntc2018PermanentLoads.test.js", "tests/packageExports.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/ntc2018-permanent-loads-compile-time.test.ts",
+        "tests/ntc2018-permanent-loads-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0129-norms-ntc2018-permanent-loads"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -4124,11 +4146,15 @@
       "sourcePath": "src/norms/ntc2018/loads/ntc2018PermanentLoads.js",
       "sourceBlobSha1": "42fad68f45f0363dabd6877d329a7a00aaeb2fd2",
       "targetPath": "src/norms/ntc2018/loads/ntc2018PermanentLoads.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0129-norms-ntc2018-permanent-loads"],
+      "sourceOracles": ["tests/ntc2018PermanentLoads.test.js", "tests/packageExports.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/ntc2018-permanent-loads-compile-time.test.ts",
+        "tests/ntc2018-permanent-loads-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0129-norms-ntc2018-permanent-loads"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -4228,11 +4254,15 @@
       "sourcePath": "src/norms/ntc2018/loads/ntc2018PermanentLoads.js",
       "sourceBlobSha1": "42fad68f45f0363dabd6877d329a7a00aaeb2fd2",
       "targetPath": "src/norms/ntc2018/loads/ntc2018PermanentLoads.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0129-norms-ntc2018-permanent-loads"],
+      "sourceOracles": ["tests/ntc2018PermanentLoads.test.js", "tests/packageExports.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/ntc2018-permanent-loads-compile-time.test.ts",
+        "tests/ntc2018-permanent-loads-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0129-norms-ntc2018-permanent-loads"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -8645,11 +8675,15 @@
       "sourcePath": "src/norms/ntc2018/loads/ntc2018PermanentLoads.js",
       "sourceBlobSha1": "42fad68f45f0363dabd6877d329a7a00aaeb2fd2",
       "targetPath": "src/norms/ntc2018/loads/ntc2018PermanentLoads.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0129-norms-ntc2018-permanent-loads"],
+      "sourceOracles": ["tests/ntc2018PermanentLoads.test.js", "tests/packageExports.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/ntc2018-permanent-loads-compile-time.test.ts",
+        "tests/ntc2018-permanent-loads-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0129-norms-ntc2018-permanent-loads"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -10501,11 +10535,15 @@
       "sourcePath": "src/norms/ntc2018/loads/ntc2018PermanentLoads.js",
       "sourceBlobSha1": "42fad68f45f0363dabd6877d329a7a00aaeb2fd2",
       "targetPath": "src/norms/ntc2018/loads/ntc2018PermanentLoads.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0129-norms-ntc2018-permanent-loads"],
+      "sourceOracles": ["tests/ntc2018PermanentLoads.test.js", "tests/packageExports.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/ntc2018-permanent-loads-compile-time.test.ts",
+        "tests/ntc2018-permanent-loads-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0129-norms-ntc2018-permanent-loads"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -12000,11 +12038,15 @@
       "sourcePath": "src/norms/ntc2018/loads/ntc2018PermanentLoads.js",
       "sourceBlobSha1": "42fad68f45f0363dabd6877d329a7a00aaeb2fd2",
       "targetPath": "src/norms/ntc2018/loads/ntc2018PermanentLoads.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0129-norms-ntc2018-permanent-loads"],
+      "sourceOracles": ["tests/ntc2018PermanentLoads.test.js", "tests/packageExports.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/ntc2018-permanent-loads-compile-time.test.ts",
+        "tests/ntc2018-permanent-loads-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0129-norms-ntc2018-permanent-loads"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -12719,11 +12761,15 @@
       "sourcePath": "src/norms/ntc2018/loads/ntc2018PermanentLoads.js",
       "sourceBlobSha1": "42fad68f45f0363dabd6877d329a7a00aaeb2fd2",
       "targetPath": "src/norms/ntc2018/loads/ntc2018PermanentLoads.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0129-norms-ntc2018-permanent-loads"],
+      "sourceOracles": ["tests/ntc2018PermanentLoads.test.js", "tests/packageExports.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/ntc2018-permanent-loads-compile-time.test.ts",
+        "tests/ntc2018-permanent-loads-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0129-norms-ntc2018-permanent-loads"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -14752,11 +14798,15 @@
       "sourcePath": "src/norms/ntc2018/loads/ntc2018PermanentLoads.js",
       "sourceBlobSha1": "42fad68f45f0363dabd6877d329a7a00aaeb2fd2",
       "targetPath": "src/norms/ntc2018/loads/ntc2018PermanentLoads.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0129-norms-ntc2018-permanent-loads"],
+      "sourceOracles": ["tests/ntc2018PermanentLoads.test.js", "tests/packageExports.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/ntc2018-permanent-loads-compile-time.test.ts",
+        "tests/ntc2018-permanent-loads-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0129-norms-ntc2018-permanent-loads"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -33088,7 +33138,8 @@
         "0125-norms-ntc2018-retaining-wall-seismic",
         "0126-norms-ntc2018-slab-load-analysis-export",
         "0127-norms-ntc2018-load-combination-factories",
-        "0128-norms-ntc2018-imposed-loads"
+        "0128-norms-ntc2018-imposed-loads",
+        "0129-norms-ntc2018-permanent-loads"
       ],
       "sourceOracles": [
         "tests/architecture/applicationRegistry.test.js",
@@ -33655,11 +33706,15 @@
       "sourcePath": "src/norms/ntc2018/loads/ntc2018PermanentLoads.js",
       "sourceBlobSha1": "42fad68f45f0363dabd6877d329a7a00aaeb2fd2",
       "targetPath": "src/norms/ntc2018/loads/ntc2018PermanentLoads.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing"
+      "migrationSlices": ["0129-norms-ntc2018-permanent-loads"],
+      "sourceOracles": ["tests/ntc2018PermanentLoads.test.js", "tests/packageExports.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/ntc2018-permanent-loads-compile-time.test.ts",
+        "tests/ntc2018-permanent-loads-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0129-norms-ntc2018-permanent-loads"],
+      "status": "exact-parity"
     },
     {
       "id": "src/norms/ntc2018/loads/ntc2018SlabLoadCatalogs.js",
@@ -35612,11 +35667,15 @@
       "sourcePath": "tests/ntc2018PermanentLoads.test.js",
       "sourceBlobSha1": "66cbd80dc66b2f2a9a561927abe4f88124042734",
       "targetPath": "tests/ntc2018PermanentLoads.test.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0129-norms-ntc2018-permanent-loads"],
+      "sourceOracles": ["tests/ntc2018PermanentLoads.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/ntc2018-permanent-loads-compile-time.test.ts",
+        "tests/ntc2018-permanent-loads-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0129-norms-ntc2018-permanent-loads"],
+      "status": "exact-parity",
       "testKind": "test"
     },
     {
@@ -35956,7 +36015,8 @@
         "0125-norms-ntc2018-retaining-wall-seismic",
         "0126-norms-ntc2018-slab-load-analysis-export",
         "0127-norms-ntc2018-load-combination-factories",
-        "0128-norms-ntc2018-imposed-loads"
+        "0128-norms-ntc2018-imposed-loads",
+        "0129-norms-ntc2018-permanent-loads"
       ],
       "sourceOracles": ["tests/packageExports.test.js"],
       "targetTests": [
@@ -36031,6 +36091,8 @@
         "tests/ntc2018-material-catalogs-live-parity.test.ts",
         "tests/ntc2018-normative-references-compile-time.test.ts",
         "tests/ntc2018-normative-references-live-parity.test.ts",
+        "tests/ntc2018-permanent-loads-compile-time.test.ts",
+        "tests/ntc2018-permanent-loads-live-parity.test.ts",
         "tests/ntc2018-retaining-wall-seismic-compile-time.test.ts",
         "tests/ntc2018-retaining-wall-seismic-live-parity.test.ts",
         "tests/ntc2018-seismic-action-compile-time.test.ts",
@@ -36143,7 +36205,8 @@
         "0125-norms-ntc2018-retaining-wall-seismic",
         "0126-norms-ntc2018-slab-load-analysis-export",
         "0127-norms-ntc2018-load-combination-factories",
-        "0128-norms-ntc2018-imposed-loads"
+        "0128-norms-ntc2018-imposed-loads",
+        "0129-norms-ntc2018-permanent-loads"
       ],
       "status": "exact-parity",
       "testKind": "test"
@@ -39795,12 +39858,28 @@
         "publicStrings": "exact equality plus Unicode preservation for Italian catalog descriptions, references, documentation, formulas, and errors",
         "errors": "exact error name and message equality for unsupported definitions, missing documentation, invalid reductions, missing served categories, and null options"
       }
+    },
+    {
+      "sliceId": "0129-norms-ntc2018-permanent-loads",
+      "sourceRevision": "6f33baead8b88166c4b2cf94af41763412e3c751",
+      "method": "Strict declaration consumer coverage and independently executed pinned JavaScript versus built TypeScript comparison of all catalog records, lookup clones, exact unit conversions, partition thresholds, every permanent-load model, CalculationResult serialization, Unicode strings, and error paths.",
+      "targetTests": [
+        "tests/ntc2018-permanent-loads-compile-time.test.ts",
+        "tests/ntc2018-permanent-loads-live-parity.test.ts"
+      ],
+      "fixture": null,
+      "tolerances": {
+        "serializedParity": "exact catalog, calculation-result, load, action, and metadata JSON",
+        "numericParity": "exact equality for tabulated values, unit conversions, thresholds, model operands, totals, and calculated values",
+        "publicStrings": "exact equality plus Unicode preservation for Italian descriptions, references, formulas, summaries, assumptions, and errors",
+        "errors": "exact error name and message equality for unsupported materials, fixed/ranged values, missing units, invalid loads, duplicate ids, missing classes, and invalid spacing"
+      }
     }
   ],
   "counts": {
     "rootExports": {
       "javascript": 841,
-      "typescript": 685
+      "typescript": 695
     },
     "applicationsExports": {
       "javascript": 309,
@@ -39824,11 +39903,11 @@
     },
     "sourceFiles": {
       "javascript": 480,
-      "typescript": 374
+      "typescript": 375
     },
     "tests": {
       "javascript": 131,
-      "typescript": 244
+      "typescript": 246
     },
     "validationCampaigns": {
       "javascript": 17,
@@ -39887,7 +39966,7 @@
       "statusCounts": {
         "exact-parity": 0,
         "partial": 3,
-        "missing": 53,
+        "missing": 42,
         "intentionally-excluded": 0,
         "decision-required": 0
       },
@@ -39895,25 +39974,18 @@
         "root-export:NTC2018_MASONRY_PIER_CAPACITY_REFERENCES",
         "root-export:NTC2018_MASONRY_PIER_DEFORMATION_REFERENCES",
         "root-export:NTC2018_MASONRY_PIER_STIFFNESS_REFERENCE",
-        "root-export:NTC2018_PERMANENT_LOAD_REFERENCES",
         "root-export:NTC2018_SLAB_MATERIAL_WEIGHT_DATABASE",
         "root-export:NTC2018_SLAB_VARIABLE_ACTIONS_DATABASE",
-        "root-export:NTC2018_UNIT_WEIGHT_CATALOG",
         "root-export:SLAB_MATERIAL_WEIGHT_PRESET_DATABASE",
         "root-export:SLAB_MATERIAL_WEIGHT_PRESET_METADATA",
         "root-export:applyNTC2018ExistingMasonryMaltaBuonaUpdate",
         "root-export:applyNTC2018ExistingMasonryModifierToggle",
-        "root-export:calculateNTC2018AreaSelfWeight",
-        "root-export:calculateNTC2018EquivalentPartitionAreaLoad",
-        "root-export:calculateNTC2018LineSelfWeight",
         "root-export:calculateNTC2018MasonryPierElasticStiffness",
         "root-export:calculateNTC2018MasonryPierFlexuralCapacity",
         "root-export:calculateNTC2018MasonryPierIrregularDiagonalCapacity",
         "root-export:calculateNTC2018MasonryPierRegularDiagonalCapacity",
         "root-export:calculateNTC2018MasonryPierSlidingCapacity",
         "root-export:calculateNTC2018MasonryPierUltimateDisplacement",
-        "root-export:calculateNTC2018PermanentAreaLoads",
-        "root-export:calculateNTC2018SelfWeight",
         "root-export:createNTC2018ExistingMasonryMaterial",
         "root-export:createNTC2018ExistingMasonryModifierState",
         "root-export:createNTC2018ExistingMasonryWorkflowState",
@@ -39925,22 +39997,18 @@
         "root-export:getNTC2018ExistingMasonryModifierDefinition",
         "root-export:getNTC2018SlabVariableAction",
         "root-export:getNTC2018SlabWeightValue",
-        "root-export:getNTC2018UnitWeightDefinition",
         "root-export:getSlabMaterialWeightPresetValue",
         "root-export:listNTC2018SlabWeightCategories",
         "root-export:listNTC2018SlabWeightEntries",
-        "root-export:listNTC2018UnitWeightDefinitions",
         "root-export:listSlabMaterialWeightPresetCategories",
         "root-export:listSlabMaterialWeightPresetEntries",
         "root-export:modifierSelectionsFromState",
-        "root-export:resolveNTC2018UnitWeight",
         "root-export:selectNTC2018ExistingMasonryParameterLevel",
         "root-export:selectNTC2018ExistingMasonryTypology",
         "root-export:selectNTC2018MasonryPierGoverningCapacity",
         "root-export:toggleNTC2018ExistingMasonryModifier",
         "root-export:updateNTC2018ExistingMasonryMaltaBuona",
         "source:src/norms/ntc2018/index.js",
-        "source:src/norms/ntc2018/loads/ntc2018PermanentLoads.js",
         "source:src/norms/ntc2018/loads/ntc2018SlabLoadCatalogs.js",
         "source:src/norms/ntc2018/masonry/evaluateNTC2018MasonryPier.js",
         "source:src/norms/ntc2018/masonry/index.js",
@@ -40315,7 +40383,7 @@
       "statusCounts": {
         "exact-parity": 0,
         "partial": 4,
-        "missing": 121,
+        "missing": 120,
         "intentionally-excluded": 0,
         "decision-required": 0
       },
@@ -40439,7 +40507,6 @@
         "test:tests/masonryWallOpeningsStateComparisonReport.test.js",
         "test:tests/masonryWallOpeningsStaticAnalysis.test.js",
         "test:tests/ntc2018MasonryPierModel.test.js",
-        "test:tests/ntc2018PermanentLoads.test.js",
         "test:tests/rcFiberAnalysis.test.js",
         "test:tests/run-tests.js",
         "test:tests/steelFrameAdvancedVerification.test.js",

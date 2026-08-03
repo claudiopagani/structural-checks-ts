@@ -590,6 +590,18 @@ export {
   listNTC2018ImposedLoadDefinitions,
   resolveNTC2018ImposedLoadDefinition,
 } from "./norms/ntc2018/loads/ntc2018ImposedLoads.js";
+export {
+  NTC2018_PERMANENT_LOAD_REFERENCES,
+  NTC2018_UNIT_WEIGHT_CATALOG,
+  calculateNTC2018AreaSelfWeight,
+  calculateNTC2018EquivalentPartitionAreaLoad,
+  calculateNTC2018LineSelfWeight,
+  calculateNTC2018PermanentAreaLoads,
+  calculateNTC2018SelfWeight,
+  getNTC2018UnitWeightDefinition,
+  listNTC2018UnitWeightDefinitions,
+  resolveNTC2018UnitWeight,
+} from "./norms/ntc2018/loads/ntc2018PermanentLoads.js";
 export { createNTC2018BeamCombinations } from "./norms/ntc2018/beams/createNTC2018BeamCombinations.js";
 export {
   createNTC2018SLECombination,
@@ -1972,6 +1984,26 @@ export type {
   ResolveNTC2018ImposedLoadDefinitionOptions,
   ResolvedNTC2018ImposedLoadDefinition,
 } from "./norms/ntc2018/loads/ntc2018ImposedLoads.js";
+export type {
+  CalculateNTC2018AreaSelfWeightOptions,
+  CalculateNTC2018EquivalentPartitionAreaLoadOptions,
+  CalculateNTC2018LineSelfWeightOptions,
+  CalculateNTC2018PermanentAreaLoadsOptions,
+  CalculateNTC2018SelfWeightOptions,
+  NTC2018EquivalentPartitionAreaLoadResult,
+  NTC2018LineSelfWeightResult,
+  NTC2018NormalizedPermanentAreaLoadItem,
+  NTC2018PermanentAreaLoadItemInput,
+  NTC2018PermanentAreaLoadModel,
+  NTC2018PermanentAreaLoadOutputs,
+  NTC2018PermanentAreaLoadResult,
+  NTC2018PermanentAreaLoadTotals,
+  NTC2018SelfWeightCalculation,
+  NTC2018UnitWeightDefinition,
+  ListNTC2018UnitWeightDefinitionsOptions,
+  ResolveNTC2018UnitWeightOptions,
+  ResolvedNTC2018UnitWeight,
+} from "./norms/ntc2018/loads/ntc2018PermanentLoads.js";
 export type {
   CreateNTC2018BeamCombinationsOptions,
   NTC2018BeamCombination,

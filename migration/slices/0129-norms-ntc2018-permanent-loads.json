@@ -1,0 +1,139 @@
+{
+  "schemaVersion": 1,
+  "sliceId": "0129-norms-ntc2018-permanent-loads",
+  "title": "NTC 2018 permanent-load catalog and self-weight calculations",
+  "migrationType": "mechanical-parity",
+  "implementationStatus": "implemented",
+  "dependencies": ["0001-foundation", "0039-ntc2018-action-parameters-and-factories"],
+  "source": {
+    "repository": "https://github.com/claudiopagani/strutture-js",
+    "revision": "6f33baead8b88166c4b2cf94af41763412e3c751"
+  },
+  "normativeCorpusRevision": "41da3faa489600173106935bbcf726119300e48d",
+  "sourceFiles": [
+    {
+      "path": "src/norms/ntc2018/loads/ntc2018PermanentLoads.js",
+      "gitBlobSha1": "42fad68f45f0363dabd6877d329a7a00aaeb2fd2",
+      "targetPath": "src/norms/ntc2018/loads/ntc2018PermanentLoads.ts"
+    }
+  ],
+  "supportingSourceFiles": [
+    {
+      "path": "src/core/results/CalculationResult.js",
+      "gitBlobSha1": "de58f9d2a201435dd955cbfd4c4981d0b78610d4",
+      "targetPath": "src/core/results/CalculationResult.ts",
+      "coverage": "Already-migrated calculation-result serialization dependency."
+    },
+    {
+      "path": "src/domain/loads/AreaLoad.js",
+      "gitBlobSha1": "591691e6d11c49a34b6a645b579a4e590d958ca8",
+      "targetPath": "src/domain/loads/AreaLoad.ts",
+      "coverage": "Already-migrated permanent area-load DTO dependency."
+    },
+    {
+      "path": "src/domain/units/UnitSystem.js",
+      "gitBlobSha1": "b8f2f4926aff645efbf7b9f458b69eba264ed59a",
+      "targetPath": "src/domain/units/UnitSystem.ts",
+      "coverage": "Already-migrated explicit unit validation and conversion dependency."
+    },
+    {
+      "path": "src/norms/ntc2018/actions/createNTC2018Action.js",
+      "gitBlobSha1": "06c4c6a75e2482bdf3e6d3288c7153aa72738c8a",
+      "targetPath": "src/norms/ntc2018/actions/createNTC2018Action.ts",
+      "coverage": "Already-migrated NTC 2018 permanent-action factory dependency."
+    },
+    {
+      "path": "src/norms/ntc2018/index.js",
+      "gitBlobSha1": "0ac4cf551c455ec2a57d9bf8849db46fb14e0dcc",
+      "targetPath": "src/index.ts",
+      "coverage": "Pinned NTC 2018 norm-index export context."
+    },
+    {
+      "path": "src/index.js",
+      "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7",
+      "targetPath": "src/index.ts",
+      "coverage": "Root public exports for permanent-load catalogs and calculations."
+    }
+  ],
+  "sourceOracles": [
+    {
+      "path": "tests/ntc2018PermanentLoads.test.js",
+      "gitBlobSha1": "66cbd80dc66b2f2a9a561927abe4f88124042734",
+      "coverage": "Catalog lookup, unit normalization, partition thresholds, permanent-load models, totals, serialization, and source errors."
+    },
+    {
+      "path": "tests/packageExports.test.js",
+      "gitBlobSha1": "8dde24b4c97dd3dae7100207d07d9d96c52b9c74",
+      "coverage": "Root public export behavior."
+    }
+  ],
+  "sourcePublicExport": {
+    "path": "src/index.js",
+    "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
+  },
+  "targetTests": [
+    "tests/baseline-parity.test.ts",
+    "tests/ntc2018-permanent-loads-compile-time.test.ts",
+    "tests/ntc2018-permanent-loads-live-parity.test.ts"
+  ],
+  "publicExports": [
+    "NTC2018_PERMANENT_LOAD_REFERENCES",
+    "NTC2018_UNIT_WEIGHT_CATALOG",
+    "calculateNTC2018AreaSelfWeight",
+    "calculateNTC2018EquivalentPartitionAreaLoad",
+    "calculateNTC2018LineSelfWeight",
+    "calculateNTC2018PermanentAreaLoads",
+    "calculateNTC2018SelfWeight",
+    "getNTC2018UnitWeightDefinition",
+    "listNTC2018UnitWeightDefinitions",
+    "resolveNTC2018UnitWeight"
+  ],
+  "publicTypeExports": [
+    "CalculateNTC2018AreaSelfWeightOptions",
+    "CalculateNTC2018EquivalentPartitionAreaLoadOptions",
+    "CalculateNTC2018LineSelfWeightOptions",
+    "CalculateNTC2018PermanentAreaLoadsOptions",
+    "CalculateNTC2018SelfWeightOptions",
+    "ListNTC2018UnitWeightDefinitionsOptions",
+    "NTC2018EquivalentPartitionAreaLoadResult",
+    "NTC2018LineSelfWeightResult",
+    "NTC2018NormalizedPermanentAreaLoadItem",
+    "NTC2018PermanentAreaLoadItemInput",
+    "NTC2018PermanentAreaLoadModel",
+    "NTC2018PermanentAreaLoadOutputs",
+    "NTC2018PermanentAreaLoadResult",
+    "NTC2018PermanentAreaLoadTotals",
+    "NTC2018SelfWeightCalculation",
+    "NTC2018UnitWeightDefinition",
+    "ResolveNTC2018UnitWeightOptions",
+    "ResolvedNTC2018UnitWeight"
+  ],
+  "normativeReferences": {
+    "resolved": [],
+    "outsideCorpus": [
+      "NTC 2018 section 3.1.2 Table 3.1.I unit weights",
+      "NTC 2018 section 3.1.3 equivalent partition loads",
+      "NTC 2018 section 2.6.1 Table 2.6.I permanent-action partial factors"
+    ],
+    "normativeConformityClaimed": false,
+    "status": "classified-for-declared-scope"
+  },
+  "independentValidation": {
+    "method": "Strict declaration consumer coverage and independently executed pinned JavaScript versus built TypeScript comparison of all catalog records, lookup clones, exact unit conversions, partition thresholds, every permanent-load model, CalculationResult serialization, Unicode strings, and error paths.",
+    "targetTests": [
+      "tests/ntc2018-permanent-loads-compile-time.test.ts",
+      "tests/ntc2018-permanent-loads-live-parity.test.ts"
+    ],
+    "fixture": null,
+    "tolerances": {
+      "serializedParity": "exact catalog, calculation-result, load, action, and metadata JSON",
+      "numericParity": "exact equality for tabulated values, unit conversions, thresholds, model operands, totals, and calculated values",
+      "publicStrings": "exact equality plus Unicode preservation for Italian descriptions, references, formulas, summaries, assumptions, and errors",
+      "errors": "exact error name and message equality for unsupported materials, fixed/ranged values, missing units, invalid loads, duplicate ids, missing classes, and invalid spacing"
+    }
+  },
+  "parityDifferences": [
+    "The TypeScript module adds strict catalog, option, result, and serialized DTO declarations and root type exports; runtime values, calculations, actions, loads, serialization, public strings, and errors match the pinned source."
+  ],
+  "engineeringFunctionality": "Source-compatible NTC 2018 unit-weight catalog lookup, self-weight primitives, equivalent partition load thresholds, and permanent area-load workflow."
+}
