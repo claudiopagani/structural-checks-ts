@@ -885,6 +885,7 @@
         "AxialMember2D",
         "AxialPileCapacityAnalysis",
         "AxialPileLoadScenario",
+        "BEAM_REPORT_SCHEMA_VERSION",
         "BEAM_SUPPORT_PRESETS",
         "BandedLinearSolver",
         "BaseMaterial",
@@ -1609,6 +1610,7 @@
         "uniqueStrings",
         "updateNTC2018ExistingMasonryMaltaBuona",
         "utilizationCheck",
+        "validateBeamReportDto",
         "validateFemCapabilitiesContract",
         "validateFemEntityMappingContract",
         "validateGlobalFemAnalysisContract",
@@ -3920,11 +3922,17 @@
       "sourcePath": "src/applications/single-beam-design/dto/BeamReportDto.js",
       "sourceBlobSha1": "cf3b6cd69b855060a755e090cd9b914f72646a1b",
       "targetPath": "src/applications/single-beam-design/dto/BeamReportDto.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0172-applications-single-beam-report-dto"],
+      "sourceOracles": [
+        "tests/packageExports.test.js",
+        "tests/singleBeamDesignApplication.test.js"
+      ],
+      "targetTests": [
+        "tests/beam-report-dto-compile-time.test.ts",
+        "tests/beam-report-dto-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0172-applications-single-beam-report-dto"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -20272,11 +20280,17 @@
       "sourcePath": "src/applications/single-beam-design/dto/BeamReportDto.js",
       "sourceBlobSha1": "cf3b6cd69b855060a755e090cd9b914f72646a1b",
       "targetPath": "src/applications/single-beam-design/dto/BeamReportDto.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0172-applications-single-beam-report-dto"],
+      "sourceOracles": [
+        "tests/packageExports.test.js",
+        "tests/singleBeamDesignApplication.test.js"
+      ],
+      "targetTests": [
+        "tests/beam-report-dto-compile-time.test.ts",
+        "tests/beam-report-dto-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0172-applications-single-beam-report-dto"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -21779,11 +21793,17 @@
       "sourcePath": "src/applications/single-beam-design/dto/BeamReportDto.js",
       "sourceBlobSha1": "cf3b6cd69b855060a755e090cd9b914f72646a1b",
       "targetPath": "src/applications/single-beam-design/dto/BeamReportDto.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0172-applications-single-beam-report-dto"],
+      "sourceOracles": [
+        "tests/packageExports.test.js",
+        "tests/singleBeamDesignApplication.test.js"
+      ],
+      "targetTests": [
+        "tests/beam-report-dto-compile-time.test.ts",
+        "tests/beam-report-dto-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0172-applications-single-beam-report-dto"],
+      "status": "exact-parity",
       "publicEntryPath": "src/applications/index.js",
       "publicEntryBlobSha1": "b70179c7cdd2a819f2151dc092c0f59cbce30ba6"
     },
@@ -27068,11 +27088,17 @@
       "sourcePath": "src/applications/single-beam-design/dto/BeamReportDto.js",
       "sourceBlobSha1": "cf3b6cd69b855060a755e090cd9b914f72646a1b",
       "targetPath": "src/applications/single-beam-design/dto/BeamReportDto.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0172-applications-single-beam-report-dto"],
+      "sourceOracles": [
+        "tests/packageExports.test.js",
+        "tests/singleBeamDesignApplication.test.js"
+      ],
+      "targetTests": [
+        "tests/beam-report-dto-compile-time.test.ts",
+        "tests/beam-report-dto-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0172-applications-single-beam-report-dto"],
+      "status": "exact-parity",
       "publicEntryPath": "src/applications/index.js",
       "publicEntryBlobSha1": "b70179c7cdd2a819f2151dc092c0f59cbce30ba6"
     },
@@ -27499,7 +27525,7 @@
         "0026-reinforced-concrete-beam-column-joints",
         "0027-reinforced-concrete-strut-and-tie"
       ],
-      "status": "missing",
+      "status": "partial",
       "notes": ["Default registry construction is not present in the current TypeScript target."],
       "applicationId": "single-beam-design",
       "applicationClass": "SingleBeamDesignApplication",
@@ -29208,11 +29234,17 @@
       "sourcePath": "src/applications/single-beam-design/dto/BeamReportDto.js",
       "sourceBlobSha1": "cf3b6cd69b855060a755e090cd9b914f72646a1b",
       "targetPath": "src/applications/single-beam-design/dto/BeamReportDto.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0172-applications-single-beam-report-dto"],
+      "sourceOracles": [
+        "tests/packageExports.test.js",
+        "tests/singleBeamDesignApplication.test.js"
+      ],
+      "targetTests": [
+        "tests/beam-report-dto-compile-time.test.ts",
+        "tests/beam-report-dto-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0172-applications-single-beam-report-dto"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7",
       "value": "beam-report/v1"
@@ -33146,11 +33178,17 @@
       "sourcePath": "src/applications/single-beam-design/dto/BeamReportDto.js",
       "sourceBlobSha1": "cf3b6cd69b855060a755e090cd9b914f72646a1b",
       "targetPath": "src/applications/single-beam-design/dto/BeamReportDto.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing"
+      "migrationSlices": ["0172-applications-single-beam-report-dto"],
+      "sourceOracles": [
+        "tests/packageExports.test.js",
+        "tests/singleBeamDesignApplication.test.js"
+      ],
+      "targetTests": [
+        "tests/beam-report-dto-compile-time.test.ts",
+        "tests/beam-report-dto-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0172-applications-single-beam-report-dto"],
+      "status": "exact-parity"
     },
     {
       "id": "src/applications/single-beam-design/index.js",
@@ -37248,7 +37286,8 @@
         "0165-applications-masonry-pier-capacity-curve-comparison-markdown-renderer",
         "0166-applications-masonry-pier-capacity-curve-comparison-report-artifacts",
         "0167-applications-masonry-pier-capacity-curve-comparison-report-builder",
-        "0168-applications-micropile-broms-model"
+        "0168-applications-micropile-broms-model",
+        "0172-applications-single-beam-report-dto"
       ],
       "sourceOracles": [
         "tests/architecture/applicationRegistry.test.js",
@@ -40383,11 +40422,14 @@
         "0159-applications-masonry-ring-beam-application",
         "0160-applications-masonry-ring-beam-index",
         "0170-applications-reinforced-concrete-sections-analysis-index",
-        "0171-applications-reinforced-concrete-sections-index"
+        "0171-applications-reinforced-concrete-sections-index",
+        "0172-applications-single-beam-report-dto"
       ],
       "sourceOracles": ["tests/packageExports.test.js"],
       "targetTests": [
         "tests/baseline-parity.test.ts",
+        "tests/beam-report-dto-compile-time.test.ts",
+        "tests/beam-report-dto-live-parity.test.ts",
         "tests/circular-slope-stability-analysis-compile-time.test.ts",
         "tests/circular-slope-stability-analysis-live-parity.test.ts",
         "tests/concrete-beam-detailing.test.ts",
@@ -40670,7 +40712,8 @@
         "0159-applications-masonry-ring-beam-application",
         "0160-applications-masonry-ring-beam-index",
         "0170-applications-reinforced-concrete-sections-analysis-index",
-        "0171-applications-reinforced-concrete-sections-index"
+        "0171-applications-reinforced-concrete-sections-index",
+        "0172-applications-single-beam-report-dto"
       ],
       "status": "exact-parity",
       "testKind": "test"
@@ -41306,10 +41349,18 @@
       "sourcePath": "tests/singleBeamDesignApplication.test.js",
       "sourceBlobSha1": "5e423cda0e4f6ad910fbd7cc7abd02969976f24d",
       "targetPath": "tests/singleBeamDesignApplication.test.ts",
-      "migrationSlices": ["0022-single-beam-analysis"],
+      "migrationSlices": ["0022-single-beam-analysis", "0172-applications-single-beam-report-dto"],
       "sourceOracles": ["tests/singleBeamDesignApplication.test.js"],
-      "targetTests": ["tests/baseline-parity.test.ts", "tests/single-beam-analysis.test.ts"],
-      "validationEvidence": ["0022-single-beam-analysis"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/beam-report-dto-compile-time.test.ts",
+        "tests/beam-report-dto-live-parity.test.ts",
+        "tests/single-beam-analysis.test.ts"
+      ],
+      "validationEvidence": [
+        "0022-single-beam-analysis",
+        "0172-applications-single-beam-report-dto"
+      ],
       "status": "exact-parity",
       "testKind": "test"
     },
@@ -45063,16 +45114,32 @@
         "publicStrings": "exact export names",
         "errors": "not applicable to this public-index slice"
       }
+    },
+    {
+      "sliceId": "0172-applications-single-beam-report-dto",
+      "sourceRevision": "6f33baead8b88166c4b2cf94af41763412e3c751",
+      "method": "Strict typed consumer declarations and independently executed pinned JavaScript versus built TypeScript validation comparison across missing-input, primitive, malformed, valid Unicode, unsupported-value and exact root-alias cases.",
+      "targetTests": [
+        "tests/beam-report-dto-compile-time.test.ts",
+        "tests/beam-report-dto-live-parity.test.ts"
+      ],
+      "fixture": "Minimal beam-report/v1 DTOs with Unicode identifiers and malformed nested analysis and verification blocks.",
+      "tolerances": {
+        "serializedParity": "exact validation result JSON",
+        "numericParity": "not applicable to validation-only behavior",
+        "publicStrings": "exact schema identifier and ordered error strings, including Unicode input coverage",
+        "errors": "exact missing-input, malformed, unsupported-value and nested-field behavior"
+      }
     }
   ],
   "counts": {
     "rootExports": {
       "javascript": 841,
-      "typescript": 769
+      "typescript": 771
     },
     "applicationsExports": {
       "javascript": 309,
-      "typescript": 242
+      "typescript": 244
     },
     "packageEntryPoints": {
       "javascript": 14,
@@ -45088,15 +45155,15 @@
     },
     "serializedSchemas": {
       "javascript": 49,
-      "typescript": 48
+      "typescript": 49
     },
     "sourceFiles": {
       "javascript": 480,
-      "typescript": 433
+      "typescript": 434
     },
     "tests": {
       "javascript": 131,
-      "typescript": 328
+      "typescript": 330
     },
     "validationCampaigns": {
       "javascript": 17,
@@ -45147,8 +45214,8 @@
     "applications": {
       "statusCounts": {
         "exact-parity": 0,
-        "partial": 24,
-        "missing": 200,
+        "partial": 25,
+        "missing": 194,
         "intentionally-excluded": 0,
         "decision-required": 0
       },
@@ -45157,7 +45224,6 @@
         "application-export:AlignmentSeismicAggregatedAnalysis",
         "application-export:AlignmentStateComparisonAnalysis",
         "application-export:AlignmentStaticAnalysis",
-        "application-export:BEAM_REPORT_SCHEMA_VERSION",
         "application-export:BeamReportBuilder",
         "application-export:BeamReportMarkdownRenderer",
         "application-export:MasonryEquivalentFrameBuilder",
@@ -45209,7 +45275,6 @@
         "application-export:steelBucklingCurveImperfectionFactor",
         "application-export:steelMemberFem3DToLegacyAnalysisResult",
         "application-export:steelNotSupportedCheck",
-        "application-export:validateBeamReportDto",
         "application-export:validateSteelMemberFem3DResult",
         "application-export:verifySteelBeamColumnInteractionMy",
         "application-export:verifySteelBeamColumnInteractionMyMz",
@@ -45254,7 +45319,6 @@
         "root-export:AlignmentSeismicAggregatedAnalysis",
         "root-export:AlignmentStateComparisonAnalysis",
         "root-export:AlignmentStaticAnalysis",
-        "root-export:BEAM_REPORT_SCHEMA_VERSION",
         "root-export:BeamReportBuilder",
         "root-export:BeamReportMarkdownRenderer",
         "root-export:MasonryEquivalentFrameBuilder",
@@ -45306,7 +45370,6 @@
         "root-export:steelBucklingCurveImperfectionFactor",
         "root-export:steelMemberFem3DToLegacyAnalysisResult",
         "root-export:steelNotSupportedCheck",
-        "root-export:validateBeamReportDto",
         "root-export:validateSteelMemberFem3DResult",
         "root-export:verifySteelBeamColumnInteractionMy",
         "root-export:verifySteelBeamColumnInteractionMyMz",
@@ -45330,7 +45393,6 @@
         "source:src/applications/micropiles-broms/index.js",
         "source:src/applications/reinforced-concrete-plates/README.md",
         "source:src/applications/single-beam-design/SingleBeamDesignApplication.js",
-        "source:src/applications/single-beam-design/dto/BeamReportDto.js",
         "source:src/applications/single-beam-design/index.js",
         "source:src/applications/single-beam-design/models/SingleBeamDesignModel.js",
         "source:src/applications/single-beam-design/reports/BeamReportArtifacts.js",

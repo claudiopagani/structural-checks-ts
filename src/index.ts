@@ -743,6 +743,21 @@ export { ReinforcedConcreteBeamVerification } from "./applications/reinforced-co
 export { ReinforcedConcreteShearVerification } from "./applications/reinforced-concrete-sections/checks/ReinforcedConcreteShearVerification.js";
 export { ReinforcedConcreteTorsionVerification } from "./applications/reinforced-concrete-sections/checks/ReinforcedConcreteTorsionVerification.js";
 export { ReinforcedConcreteSectionModel } from "./applications/reinforced-concrete-sections/models/ReinforcedConcreteSectionModel.js";
+export {
+  BEAM_REPORT_SCHEMA_VERSION,
+  validateBeamReportDto,
+} from "./applications/single-beam-design/dto/BeamReportDto.js";
+export type {
+  BeamReportAnalysisDto,
+  BeamReportDto,
+  BeamReportGoverningDto,
+  BeamReportResultSummary,
+  BeamReportScalarSummary,
+  BeamReportUnitSystem,
+  BeamReportValidationResult,
+  BeamReportVerificationCheckDto,
+  BeamReportVerificationDto,
+} from "./applications/single-beam-design/dto/BeamReportDto.js";
 export { RCBiaxialDomainBuilder } from "./applications/reinforced-concrete-sections/analysis/RCBiaxialDomainBuilder.js";
 export { RCMomentCurvatureAnalyzer } from "./applications/reinforced-concrete-sections/analysis/RCMomentCurvatureAnalyzer.js";
 export { RCServiceStressSolver } from "./applications/reinforced-concrete-sections/analysis/RCServiceStressSolver.js";

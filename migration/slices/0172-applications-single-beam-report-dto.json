@@ -1,0 +1,82 @@
+{
+  "schemaVersion": 1,
+  "sliceId": "0172-applications-single-beam-report-dto",
+  "title": "Single-beam report DTO validation",
+  "migrationType": "mechanical-parity",
+  "implementationStatus": "implemented",
+  "dependencies": [],
+  "source": {
+    "repository": "https://github.com/claudiopagani/strutture-js",
+    "revision": "6f33baead8b88166c4b2cf94af41763412e3c751"
+  },
+  "normativeCorpusRevision": "41da3faa489600173106935bbcf726119300e48d",
+  "sourceFiles": [
+    {
+      "path": "src/applications/single-beam-design/dto/BeamReportDto.js",
+      "gitBlobSha1": "cf3b6cd69b855060a755e090cd9b914f72646a1b",
+      "targetPath": "src/applications/single-beam-design/dto/BeamReportDto.ts"
+    }
+  ],
+  "supportingSourceFiles": [
+    {
+      "path": "src/index.js",
+      "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7",
+      "targetPath": "src/index.ts",
+      "coverage": "Pinned root public exports for the report schema constant and DTO validator."
+    }
+  ],
+  "sourceOracles": [
+    {
+      "path": "tests/singleBeamDesignApplication.test.js",
+      "gitBlobSha1": "5e423cda0e4f6ad910fbd7cc7abd02969976f24d",
+      "coverage": "Pinned beam-report schema constant, validator success result, serialization and report metadata behavior."
+    },
+    {
+      "path": "tests/packageExports.test.js",
+      "gitBlobSha1": "8dde24b4c97dd3dae7100207d07d9d96c52b9c74",
+      "coverage": "Pinned root public-export behavior."
+    }
+  ],
+  "sourcePublicExport": {
+    "path": "src/index.js",
+    "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
+  },
+  "targetTests": [
+    "tests/beam-report-dto-compile-time.test.ts",
+    "tests/beam-report-dto-live-parity.test.ts"
+  ],
+  "publicExports": ["BEAM_REPORT_SCHEMA_VERSION", "validateBeamReportDto"],
+  "publicTypeExports": [
+    "BeamReportAnalysisDto",
+    "BeamReportDto",
+    "BeamReportGoverningDto",
+    "BeamReportResultSummary",
+    "BeamReportScalarSummary",
+    "BeamReportUnitSystem",
+    "BeamReportValidationResult",
+    "BeamReportVerificationCheckDto",
+    "BeamReportVerificationDto"
+  ],
+  "normativeReferences": {
+    "resolved": [],
+    "outsideCorpus": [],
+    "normativeConformityClaimed": false,
+    "status": "classified-for-declared-scope"
+  },
+  "independentValidation": {
+    "method": "Strict typed consumer declarations and independently executed pinned JavaScript versus built TypeScript validation comparison across missing-input, primitive, malformed, valid Unicode, unsupported-value and exact root-alias cases.",
+    "targetTests": [
+      "tests/beam-report-dto-compile-time.test.ts",
+      "tests/beam-report-dto-live-parity.test.ts"
+    ],
+    "fixture": "Minimal beam-report/v1 DTOs with Unicode identifiers and malformed nested analysis and verification blocks.",
+    "tolerances": {
+      "serializedParity": "exact validation result JSON",
+      "numericParity": "not applicable to validation-only behavior",
+      "publicStrings": "exact schema identifier and ordered error strings, including Unicode input coverage",
+      "errors": "exact missing-input, malformed, unsupported-value and nested-field behavior"
+    }
+  },
+  "parityDifferences": [],
+  "engineeringFunctionality": "Source-compatible strict TypeScript beam-report DTO declarations and runtime validation."
+}
