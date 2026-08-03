@@ -583,6 +583,10 @@ export {
 } from "./norms/ntc2018/loads/ntc2018LoadParameters.js";
 export { createNTC2018BeamCombinations } from "./norms/ntc2018/beams/createNTC2018BeamCombinations.js";
 export {
+  createNTC2018SLECombination,
+  createNTC2018ULSFundamentalCombination,
+} from "./norms/ntc2018/loads/createNTC2018LoadCombination.js";
+export {
   NTC2018_RETAINING_WALL_SEISMIC_REFERENCE,
   calculateNTC2018RetainingWallSeismicCoefficients,
   createNTC2018MononobeOkabeSeismicInput,
@@ -1955,6 +1959,13 @@ export type {
   NTC2018BeamCombinationInput,
   NTC2018BeamCombinationMetadata,
 } from "./norms/ntc2018/beams/createNTC2018BeamCombinations.js";
+export type {
+  CreateNTC2018SLECombinationOptions,
+  CreateNTC2018ULSFundamentalCombinationOptions,
+  NTC2018CombinationAction,
+  NTC2018CombinationActionMethods,
+  NTC2018CombinationLoadCase,
+} from "./norms/ntc2018/loads/createNTC2018LoadCombination.js";
 export type {
   CalculateNTC2018RetainingWallSeismicCoefficientsOptions,
   CreateNTC2018MononobeOkabeSeismicInputOptions,

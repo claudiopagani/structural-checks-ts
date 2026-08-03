@@ -1,0 +1,112 @@
+{
+  "schemaVersion": 1,
+  "sliceId": "0127-norms-ntc2018-load-combination-factories",
+  "title": "NTC 2018 generic load-combination factories",
+  "migrationType": "mechanical-parity",
+  "implementationStatus": "implemented",
+  "dependencies": [
+    "0001-foundation",
+    "0039-ntc2018-action-parameters-and-factories",
+    "0040-domain-analysis-load-cases-and-combinations",
+    "0123-norms-ntc2018-load-parameters"
+  ],
+  "source": {
+    "repository": "https://github.com/claudiopagani/strutture-js",
+    "revision": "6f33baead8b88166c4b2cf94af41763412e3c751"
+  },
+  "normativeCorpusRevision": "41da3faa489600173106935bbcf726119300e48d",
+  "sourceFiles": [
+    {
+      "path": "src/norms/ntc2018/loads/createNTC2018LoadCombination.js",
+      "gitBlobSha1": "079678f66b9940223908a8c0408afb1eedf08b8d",
+      "targetPath": "src/norms/ntc2018/loads/createNTC2018LoadCombination.ts"
+    }
+  ],
+  "supportingSourceFiles": [
+    {
+      "path": "src/domain/analysis/LoadCombination.js",
+      "gitBlobSha1": "978d9e26fcca75f4c74178b623e469d43f353266",
+      "targetPath": "src/domain/analysis/LoadCombination.ts",
+      "coverage": "Already-migrated serializable combination model used by both NTC 2018 factories."
+    },
+    {
+      "path": "src/norms/ntc2018/actions/createNTC2018Action.js",
+      "gitBlobSha1": "06c4c6a75e2482bdf3e6d3288c7153aa72738c8a",
+      "targetPath": "src/norms/ntc2018/actions/createNTC2018Action.ts",
+      "coverage": "Already-migrated action method and combination-factor dependency."
+    },
+    {
+      "path": "src/norms/ntc2018/loads/ntc2018LoadParameters.js",
+      "gitBlobSha1": "2ea2f9fec140904aa68bec5c092e691814a27178",
+      "targetPath": "src/norms/ntc2018/loads/ntc2018LoadParameters.ts",
+      "coverage": "Already-migrated NTC 2018 ULS fallback partial-factor dependency."
+    },
+    {
+      "path": "src/norms/ntc2018/index.js",
+      "gitBlobSha1": "0ac4cf551c455ec2a57d9bf8849db46fb14e0dcc",
+      "targetPath": "src/index.ts",
+      "coverage": "Pinned NTC 2018 norm-index export context."
+    },
+    {
+      "path": "src/index.js",
+      "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7",
+      "targetPath": "src/index.ts",
+      "coverage": "Root public exports for the two migrated generic load-combination factories."
+    }
+  ],
+  "sourceOracles": [
+    {
+      "path": "tests/ntc2018Actions.test.js",
+      "gitBlobSha1": "b421aa2af994a2ddce7865ae513c5ff67de43d2e",
+      "coverage": "Direct action-object ULS and SLE factor generation and evaluation."
+    },
+    {
+      "path": "tests/packageExports.test.js",
+      "gitBlobSha1": "8dde24b4c97dd3dae7100207d07d9d96c52b9c74",
+      "coverage": "Root public export behavior."
+    }
+  ],
+  "sourcePublicExport": {
+    "path": "src/index.js",
+    "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
+  },
+  "targetTests": [
+    "tests/baseline-parity.test.ts",
+    "tests/ntc2018-load-combinations-compile-time.test.ts",
+    "tests/ntc2018-load-combinations-live-parity.test.ts"
+  ],
+  "publicExports": ["createNTC2018SLECombination", "createNTC2018ULSFundamentalCombination"],
+  "publicTypeExports": [
+    "CreateNTC2018SLECombinationOptions",
+    "CreateNTC2018ULSFundamentalCombinationOptions",
+    "NTC2018CombinationAction",
+    "NTC2018CombinationActionMethods",
+    "NTC2018CombinationLoadCase"
+  ],
+  "normativeReferences": {
+    "resolved": [],
+    "outsideCorpus": [
+      "NTC 2018 Table 2.5.I ULS partial factors",
+      "NTC 2018 Table 2.5.II SLE combination coefficients"
+    ],
+    "normativeConformityClaimed": false,
+    "status": "classified-for-declared-scope"
+  },
+  "independentValidation": {
+    "method": "Strict declaration consumer coverage and independently executed pinned JavaScript versus built TypeScript comparison of ULS and SLE factory outputs, exact factors and metadata JSON, numerical evaluation, Unicode identifiers, public exports, and missing/unsupported-input errors.",
+    "targetTests": [
+      "tests/ntc2018-load-combinations-compile-time.test.ts",
+      "tests/ntc2018-load-combinations-live-parity.test.ts"
+    ],
+    "tolerances": {
+      "serializedParity": "exact LoadCombination JSON, factor order, metadata, and public export behavior",
+      "numericParity": "exact equality for every ULS/SLE factor and evaluated combination result",
+      "publicStrings": "exact equality plus Unicode preservation for ids, names, metadata, and errors",
+      "errors": "exact error name and message equality for missing ULS leading action, unsupported SLE type, missing SLE leading action, and null options"
+    }
+  },
+  "parityDifferences": [
+    "The TypeScript module adds strict declarations and root exports; runtime factor selection, metadata, serialization, evaluation, and errors match the pinned source for the covered action-object inputs."
+  ],
+  "engineeringFunctionality": "Source-compatible NTC 2018 ULS fundamental and SLE generic load-combination factories backed by the migrated LoadCombination model."
+}

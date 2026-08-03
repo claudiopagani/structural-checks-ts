@@ -1402,10 +1402,12 @@
         "createNTC2018PermanentAction",
         "createNTC2018RegularityAssessment",
         "createNTC2018ReinforcementSteelMaterial",
+        "createNTC2018SLECombination",
         "createNTC2018SeismicAction",
         "createNTC2018SnowAction",
         "createNTC2018StructuralBehavior",
         "createNTC2018ThermalAction",
+        "createNTC2018ULSFundamentalCombination",
         "createNTC2018VariableAction",
         "createNTC2018WindAction",
         "createPlateStripSection",
@@ -6275,11 +6277,15 @@
       "sourcePath": "src/norms/ntc2018/loads/createNTC2018LoadCombination.js",
       "sourceBlobSha1": "079678f66b9940223908a8c0408afb1eedf08b8d",
       "targetPath": "src/norms/ntc2018/loads/createNTC2018LoadCombination.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0127-norms-ntc2018-load-combination-factories"],
+      "sourceOracles": ["tests/ntc2018Actions.test.js", "tests/packageExports.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/ntc2018-load-combinations-compile-time.test.ts",
+        "tests/ntc2018-load-combinations-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0127-norms-ntc2018-load-combination-factories"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -6384,11 +6390,15 @@
       "sourcePath": "src/norms/ntc2018/loads/createNTC2018LoadCombination.js",
       "sourceBlobSha1": "079678f66b9940223908a8c0408afb1eedf08b8d",
       "targetPath": "src/norms/ntc2018/loads/createNTC2018LoadCombination.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0127-norms-ntc2018-load-combination-factories"],
+      "sourceOracles": ["tests/ntc2018Actions.test.js", "tests/packageExports.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/ntc2018-load-combinations-compile-time.test.ts",
+        "tests/ntc2018-load-combinations-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0127-norms-ntc2018-load-combination-factories"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -33041,7 +33051,8 @@
         "0123-norms-ntc2018-load-parameters",
         "0124-norms-ntc2018-beam-combinations",
         "0125-norms-ntc2018-retaining-wall-seismic",
-        "0126-norms-ntc2018-slab-load-analysis-export"
+        "0126-norms-ntc2018-slab-load-analysis-export",
+        "0127-norms-ntc2018-load-combination-factories"
       ],
       "sourceOracles": [
         "tests/architecture/applicationRegistry.test.js",
@@ -33563,11 +33574,15 @@
       "sourcePath": "src/norms/ntc2018/loads/createNTC2018LoadCombination.js",
       "sourceBlobSha1": "079678f66b9940223908a8c0408afb1eedf08b8d",
       "targetPath": "src/norms/ntc2018/loads/createNTC2018LoadCombination.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing"
+      "migrationSlices": ["0127-norms-ntc2018-load-combination-factories"],
+      "sourceOracles": ["tests/ntc2018Actions.test.js", "tests/packageExports.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/ntc2018-load-combinations-compile-time.test.ts",
+        "tests/ntc2018-load-combinations-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0127-norms-ntc2018-load-combination-factories"],
+      "status": "exact-parity"
     },
     {
       "id": "src/norms/ntc2018/loads/ntc2018ImposedLoads.js",
@@ -35344,7 +35359,8 @@
       "targetPath": "tests/ntc2018Actions.test.ts",
       "migrationSlices": [
         "0038-domain-actions-hierarchy",
-        "0039-ntc2018-action-parameters-and-factories"
+        "0039-ntc2018-action-parameters-and-factories",
+        "0127-norms-ntc2018-load-combination-factories"
       ],
       "sourceOracles": ["tests/ntc2018Actions.test.js"],
       "targetTests": [
@@ -35352,11 +35368,14 @@
         "tests/domain-actions-compile-time.test.ts",
         "tests/domain-actions-live-parity.test.ts",
         "tests/ntc2018-action-compile-time.test.ts",
-        "tests/ntc2018-action-live-parity.test.ts"
+        "tests/ntc2018-action-live-parity.test.ts",
+        "tests/ntc2018-load-combinations-compile-time.test.ts",
+        "tests/ntc2018-load-combinations-live-parity.test.ts"
       ],
       "validationEvidence": [
         "0038-domain-actions-hierarchy",
-        "0039-ntc2018-action-parameters-and-factories"
+        "0039-ntc2018-action-parameters-and-factories",
+        "0127-norms-ntc2018-load-combination-factories"
       ],
       "status": "exact-parity",
       "testKind": "test"
@@ -35891,7 +35910,8 @@
         "0123-norms-ntc2018-load-parameters",
         "0124-norms-ntc2018-beam-combinations",
         "0125-norms-ntc2018-retaining-wall-seismic",
-        "0126-norms-ntc2018-slab-load-analysis-export"
+        "0126-norms-ntc2018-slab-load-analysis-export",
+        "0127-norms-ntc2018-load-combination-factories"
       ],
       "sourceOracles": ["tests/packageExports.test.js"],
       "targetTests": [
@@ -35956,6 +35976,8 @@
         "tests/ntc2018-existing-masonry-catalogs-live-parity.test.ts",
         "tests/ntc2018-existing-masonry-material-compile-time.test.ts",
         "tests/ntc2018-existing-masonry-material-live-parity.test.ts",
+        "tests/ntc2018-load-combinations-compile-time.test.ts",
+        "tests/ntc2018-load-combinations-live-parity.test.ts",
         "tests/ntc2018-load-parameters-compile-time.test.ts",
         "tests/ntc2018-load-parameters-live-parity.test.ts",
         "tests/ntc2018-material-catalogs-compile-time.test.ts",
@@ -36072,7 +36094,8 @@
         "0123-norms-ntc2018-load-parameters",
         "0124-norms-ntc2018-beam-combinations",
         "0125-norms-ntc2018-retaining-wall-seismic",
-        "0126-norms-ntc2018-slab-load-analysis-export"
+        "0126-norms-ntc2018-slab-load-analysis-export",
+        "0127-norms-ntc2018-load-combination-factories"
       ],
       "status": "exact-parity",
       "testKind": "test"
@@ -39692,12 +39715,28 @@
         "publicStrings": "exact equality plus Unicode preservation for slab descriptions and result notes",
         "errors": "exact error name and message equality for invalid null slab construction usage"
       }
+    },
+    {
+      "sliceId": "0127-norms-ntc2018-load-combination-factories",
+      "sourceRevision": "6f33baead8b88166c4b2cf94af41763412e3c751",
+      "method": "Strict declaration consumer coverage and independently executed pinned JavaScript versus built TypeScript comparison of ULS and SLE factory outputs, exact factors and metadata JSON, numerical evaluation, Unicode identifiers, public exports, and missing/unsupported-input errors.",
+      "targetTests": [
+        "tests/ntc2018-load-combinations-compile-time.test.ts",
+        "tests/ntc2018-load-combinations-live-parity.test.ts"
+      ],
+      "fixture": null,
+      "tolerances": {
+        "serializedParity": "exact LoadCombination JSON, factor order, metadata, and public export behavior",
+        "numericParity": "exact equality for every ULS/SLE factor and evaluated combination result",
+        "publicStrings": "exact equality plus Unicode preservation for ids, names, metadata, and errors",
+        "errors": "exact error name and message equality for missing ULS leading action, unsupported SLE type, missing SLE leading action, and null options"
+      }
     }
   ],
   "counts": {
     "rootExports": {
       "javascript": 841,
-      "typescript": 676
+      "typescript": 678
     },
     "applicationsExports": {
       "javascript": 309,
@@ -39721,11 +39760,11 @@
     },
     "sourceFiles": {
       "javascript": 480,
-      "typescript": 372
+      "typescript": 373
     },
     "tests": {
       "javascript": 131,
-      "typescript": 240
+      "typescript": 242
     },
     "validationCampaigns": {
       "javascript": 17,
@@ -39784,7 +39823,7 @@
       "statusCounts": {
         "exact-parity": 0,
         "partial": 3,
-        "missing": 64,
+        "missing": 61,
         "intentionally-excluded": 0,
         "decision-required": 0
       },
@@ -39818,11 +39857,9 @@
         "root-export:createNTC2018ExistingMasonryMaterial",
         "root-export:createNTC2018ExistingMasonryModifierState",
         "root-export:createNTC2018ExistingMasonryWorkflowState",
-        "root-export:createNTC2018SLECombination",
         "root-export:createNTC2018SlabVariableLoad",
         "root-export:createNTC2018StructuralSteelMaterial",
         "root-export:createNTC2018TimberMaterial",
-        "root-export:createNTC2018ULSFundamentalCombination",
         "root-export:evaluateNTC2018ExistingMasonryWorkflow",
         "root-export:evaluateNTC2018MasonryPier",
         "root-export:getNTC2018ExistingMasonryModifierDefinition",
@@ -39846,7 +39883,6 @@
         "root-export:toggleNTC2018ExistingMasonryModifier",
         "root-export:updateNTC2018ExistingMasonryMaltaBuona",
         "source:src/norms/ntc2018/index.js",
-        "source:src/norms/ntc2018/loads/createNTC2018LoadCombination.js",
         "source:src/norms/ntc2018/loads/ntc2018ImposedLoads.js",
         "source:src/norms/ntc2018/loads/ntc2018PermanentLoads.js",
         "source:src/norms/ntc2018/loads/ntc2018SlabLoadCatalogs.js",
