@@ -1,0 +1,68 @@
+{
+  "schemaVersion": 1,
+  "sliceId": "0185-applications-steel-ring-frame-internal-forces",
+  "title": "Steel ring-frame internal forces",
+  "migrationType": "mechanical-parity",
+  "implementationStatus": "implemented",
+  "dependencies": ["0184-applications-steel-plastic-hinge-frame-element"],
+  "source": {
+    "repository": "https://github.com/claudiopagani/strutture-js",
+    "revision": "6f33baead8b88166c4b2cf94af41763412e3c751"
+  },
+  "normativeCorpusRevision": "41da3faa489600173106935bbcf726119300e48d",
+  "sourceFiles": [
+    {
+      "path": "src/applications/steel-frames/analysis/SteelRingFrameInternalForces.js",
+      "gitBlobSha1": "4af390b2850527f63415f91992786daa6a33eb93",
+      "targetPath": "src/applications/steel-frames/analysis/SteelRingFrameInternalForces.ts"
+    }
+  ],
+  "sourceOracles": [
+    {
+      "path": "tests/steelRingFramePushover.test.js",
+      "gitBlobSha1": "ece91e91fba59579941f9c562ef0507fbf5ad028",
+      "coverage": "Pinned steel ring-frame fixture and dependent plastic-hinge response context; the internal-force aggregator is exercised directly by the independent differential test because the source suite has no direct aggregator case."
+    }
+  ],
+  "sourcePublicExport": {
+    "path": "src/index.js",
+    "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
+  },
+  "targetTests": [
+    "tests/steel-ring-frame-internal-forces-compile-time.test.ts",
+    "tests/steel-ring-frame-internal-forces-live-parity.test.ts"
+  ],
+  "publicExports": [],
+  "publicTypeExports": [
+    "SteelRingFrameInternalForcesDofRegistryLike",
+    "SteelRingFrameInternalForcesElementResponse",
+    "SteelRingFrameInternalForcesElementLike",
+    "SteelRingFrameInternalForcesFrameLike",
+    "SteelRingFrameInternalForcesOptions",
+    "SteelRingFrameInternalForcesHingeEvent",
+    "SteelRingFrameInternalForcesElementResult",
+    "SteelRingFrameInternalForcesResult"
+  ],
+  "normativeReferences": {
+    "resolved": [],
+    "outsideCorpus": [],
+    "normativeConformityClaimed": false,
+    "status": "classified-for-declared-scope"
+  },
+  "independentValidation": {
+    "method": "Strict typed consumer declarations and independently executed pinned JavaScript versus built TypeScript comparison of assembled internal-force vectors, tangent stiffness matrices, state maps, hinge events, element response serialization, alias identity, Unicode, model/state selection and error paths.",
+    "targetTests": [
+      "tests/steel-ring-frame-internal-forces-compile-time.test.ts",
+      "tests/steel-ring-frame-internal-forces-live-parity.test.ts"
+    ],
+    "fixture": "Two independently constructed synthetic steel ring-frame elements sharing six global DOFs, with accumulated forces, stiffness contributions, hinge activation metadata, Unicode roles and state overrides.",
+    "tolerances": {
+      "serializedParity": "exact JSON and enumerable result key order",
+      "numericParity": "exact assembled vectors and matrices",
+      "publicStrings": "exact error, event metadata and Unicode code-point comparison",
+      "errors": "exact error name and message for missing frame, empty DOF registry and displacement-length mismatch"
+    }
+  },
+  "parityDifferences": [],
+  "engineeringFunctionality": "Strict TypeScript parity for the steel ring-frame internal-force and tangent-stiffness assembler; ring-frame builders, pushover models, solvers, analyses and public steel-frame barrel composition remain outside this slice."
+}

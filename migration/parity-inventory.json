@@ -33642,11 +33642,14 @@
       "sourcePath": "src/applications/steel-frames/analysis/SteelRingFrameInternalForces.js",
       "sourceBlobSha1": "4af390b2850527f63415f91992786daa6a33eb93",
       "targetPath": "src/applications/steel-frames/analysis/SteelRingFrameInternalForces.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing"
+      "migrationSlices": ["0185-applications-steel-ring-frame-internal-forces"],
+      "sourceOracles": ["tests/steelRingFramePushover.test.js"],
+      "targetTests": [
+        "tests/steel-ring-frame-internal-forces-compile-time.test.ts",
+        "tests/steel-ring-frame-internal-forces-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0185-applications-steel-ring-frame-internal-forces"],
+      "status": "exact-parity"
     },
     {
       "id": "src/applications/steel-frames/analysis/SteelRingFramePushoverAnalysis.js",
@@ -37637,7 +37640,8 @@
         "0179-applications-micropile-broms-analysis",
         "0180-applications-micropile-broms-application",
         "0183-applications-steel-frame-model",
-        "0184-applications-steel-plastic-hinge-frame-element"
+        "0184-applications-steel-plastic-hinge-frame-element",
+        "0185-applications-steel-ring-frame-internal-forces"
       ],
       "sourceOracles": [
         "tests/architecture/applicationRegistry.test.js",
@@ -41881,7 +41885,8 @@
       "targetPath": "tests/steelRingFramePushover.test.ts",
       "migrationSlices": [
         "0182-applications-steel-plastic-hinge-state",
-        "0184-applications-steel-plastic-hinge-frame-element"
+        "0184-applications-steel-plastic-hinge-frame-element",
+        "0185-applications-steel-ring-frame-internal-forces"
       ],
       "sourceOracles": ["tests/steelRingFramePushover.test.js"],
       "targetTests": [
@@ -41889,11 +41894,14 @@
         "tests/steel-plastic-hinge-frame-element-compile-time.test.ts",
         "tests/steel-plastic-hinge-frame-element-live-parity.test.ts",
         "tests/steel-plastic-hinge-state-compile-time.test.ts",
-        "tests/steel-plastic-hinge-state-live-parity.test.ts"
+        "tests/steel-plastic-hinge-state-live-parity.test.ts",
+        "tests/steel-ring-frame-internal-forces-compile-time.test.ts",
+        "tests/steel-ring-frame-internal-forces-live-parity.test.ts"
       ],
       "validationEvidence": [
         "0182-applications-steel-plastic-hinge-state",
-        "0184-applications-steel-plastic-hinge-frame-element"
+        "0184-applications-steel-plastic-hinge-frame-element",
+        "0185-applications-steel-ring-frame-internal-forces"
       ],
       "status": "exact-parity",
       "testKind": "test"
@@ -45771,6 +45779,22 @@
         "publicStrings": "exact error, metadata and orientation strings plus Unicode code-point comparison",
         "errors": "exact error name and message for missing options, invalid id, invalid moment and missing DOF registry"
       }
+    },
+    {
+      "sliceId": "0185-applications-steel-ring-frame-internal-forces",
+      "sourceRevision": "6f33baead8b88166c4b2cf94af41763412e3c751",
+      "method": "Strict typed consumer declarations and independently executed pinned JavaScript versus built TypeScript comparison of assembled internal-force vectors, tangent stiffness matrices, state maps, hinge events, element response serialization, alias identity, Unicode, model/state selection and error paths.",
+      "targetTests": [
+        "tests/steel-ring-frame-internal-forces-compile-time.test.ts",
+        "tests/steel-ring-frame-internal-forces-live-parity.test.ts"
+      ],
+      "fixture": "Two independently constructed synthetic steel ring-frame elements sharing six global DOFs, with accumulated forces, stiffness contributions, hinge activation metadata, Unicode roles and state overrides.",
+      "tolerances": {
+        "serializedParity": "exact JSON and enumerable result key order",
+        "numericParity": "exact assembled vectors and matrices",
+        "publicStrings": "exact error, event metadata and Unicode code-point comparison",
+        "errors": "exact error name and message for missing frame, empty DOF registry and displacement-length mismatch"
+      }
     }
   ],
   "counts": {
@@ -45800,11 +45824,11 @@
     },
     "sourceFiles": {
       "javascript": 480,
-      "typescript": 446
+      "typescript": 447
     },
     "tests": {
       "javascript": 131,
-      "typescript": 354
+      "typescript": 356
     },
     "validationCampaigns": {
       "javascript": 17,
@@ -45856,7 +45880,7 @@
       "statusCounts": {
         "exact-parity": 0,
         "partial": 26,
-        "missing": 161,
+        "missing": 160,
         "intentionally-excluded": 0,
         "decision-required": 0
       },
@@ -46013,7 +46037,6 @@
         "source:src/applications/steel-frames/SteelFrameApplication.js",
         "source:src/applications/steel-frames/analysis/SteelDisplacementControlPushoverSolver2D.js",
         "source:src/applications/steel-frames/analysis/SteelRingFrame2DBuilder.js",
-        "source:src/applications/steel-frames/analysis/SteelRingFrameInternalForces.js",
         "source:src/applications/steel-frames/analysis/SteelRingFramePushoverAnalysis.js",
         "source:src/applications/steel-frames/checks/SteelAdvancedMemberChecks.js",
         "source:src/applications/steel-frames/checks/SteelBeamColumnInteraction.js",
