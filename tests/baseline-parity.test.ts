@@ -629,6 +629,7 @@ const expectedExports = [
   "extractEquivalentFrameMembers",
   "resolveMasonryStageMaterial",
   "resolveAlignmentMechanicalState",
+  "bilinearizeCapacityCurve",
   "sanitizeAlignmentOpenings",
   "registerXlamPanelProduct",
   "splitPrincipalActions",

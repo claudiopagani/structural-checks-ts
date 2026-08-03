@@ -1,0 +1,95 @@
+{
+  "schemaVersion": 1,
+  "sliceId": "0156-applications-masonry-wall-opening-capacity-bilinearization",
+  "title": "Masonry wall opening capacity-curve bilinearization",
+  "migrationType": "mechanical-parity-with-minimal-dependency-support",
+  "implementationStatus": "implemented",
+  "dependencies": ["0155-applications-masonry-wall-opening-mechanical-state"],
+  "source": {
+    "repository": "https://github.com/claudiopagani/strutture-js",
+    "revision": "6f33baead8b88166c4b2cf94af41763412e3c751"
+  },
+  "normativeCorpusRevision": "41da3faa489600173106935bbcf726119300e48d",
+  "sourceFiles": [
+    {
+      "path": "src/applications/masonry-wall-openings/analysis/AlignmentCapacityBilinearization.js",
+      "gitBlobSha1": "812957961ac3d476a370ac08835e56a664c8ea8d",
+      "targetPath": "src/applications/masonry-wall-openings/analysis/AlignmentCapacityBilinearization.ts"
+    }
+  ],
+  "supportingSourceFiles": [
+    {
+      "path": "src/core/results/resultStatus.js",
+      "gitBlobSha1": "5c3e5621c2cec6cffe803e95eea79fc69b27ba01",
+      "targetPath": "src/core/results/resultStatus.ts",
+      "coverage": "Already-migrated result status constants used for not-verified and ok outcomes."
+    },
+    {
+      "path": "src/applications/index.js",
+      "gitBlobSha1": "b70179c7cdd2a819f2151dc092c0f59cbce30ba6",
+      "targetPath": "src/applications/index.ts",
+      "coverage": "Pinned application public-export context for bilinearizeCapacityCurve."
+    },
+    {
+      "path": "src/index.js",
+      "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7",
+      "targetPath": "src/index.ts",
+      "coverage": "Pinned root public-export context for bilinearizeCapacityCurve."
+    }
+  ],
+  "sourceOracles": [
+    {
+      "path": "tests/masonryWallOpeningsSeismicAnalysis.test.js",
+      "gitBlobSha1": "6931fde73f0bf52f80d657169b3546a7d038dbf5",
+      "coverage": "Capacity-curve bilinearization integration, secant stiffness, ultimate displacement and equivalent-energy output."
+    },
+    {
+      "path": "tests/packageExports.test.js",
+      "gitBlobSha1": "8dde24b4c97dd3dae7100207d07d9d96c52b9c74",
+      "coverage": "Pinned root public export behavior."
+    }
+  ],
+  "sourcePublicExport": {
+    "path": "src/index.js",
+    "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
+  },
+  "targetTests": [
+    "tests/baseline-parity.test.ts",
+    "tests/masonry-wall-opening-capacity-bilinearization-compile-time.test.ts",
+    "tests/masonry-wall-opening-capacity-bilinearization-live-parity.test.ts"
+  ],
+  "publicExports": ["bilinearizeCapacityCurve"],
+  "publicTypeExports": [
+    "BilinearizationOptions",
+    "BilinearizationPoint",
+    "BilinearizationSecantPoint",
+    "BilinearizationSourceSegment",
+    "BilinearizationUltimatePoint",
+    "BilinearizedCapacityCurve",
+    "BilinearizeCapacityCurveInput",
+    "CapacityCurveInput",
+    "CapacityCurvePointInput"
+  ],
+  "normativeReferences": {
+    "resolved": [],
+    "outsideCorpus": [],
+    "normativeConformityClaimed": false,
+    "status": "classified-for-declared-scope"
+  },
+  "independentValidation": {
+    "method": "Strict declaration consumer coverage and independently executed pinned JavaScript versus built TypeScript comparison of normalized point aliases, exact secant/ultimate crossing, inserted integration points, energy-equivalent bilinearization, warning paths, Unicode identifiers and matching invalid-input errors.",
+    "targetTests": [
+      "tests/masonry-wall-opening-capacity-bilinearization-compile-time.test.ts",
+      "tests/masonry-wall-opening-capacity-bilinearization-live-parity.test.ts"
+    ],
+    "fixture": "Unsorted Unicode curves, control-displacement/force aliases, custom drop ratio, curve-default points, insufficient points and no-twenty-percent-drop fallback.",
+    "tolerances": {
+      "serializedParity": "exact bilinearized result JSON",
+      "numericParity": "exact secant stiffness, yield/ultimate displacements, energies and forces",
+      "publicStrings": "exact warnings, errors and Unicode identifiers",
+      "errors": "exact explicit-null-points error behavior"
+    }
+  },
+  "parityDifferences": [],
+  "engineeringFunctionality": "Source-compatible equivalent-energy bilinearization of masonry wall-opening capacity curves."
+}

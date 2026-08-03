@@ -478,6 +478,18 @@ export type {
   AlignmentMechanicalStateWall,
   ResolveAlignmentMechanicalStateInput,
 } from "./applications/masonry-wall-openings/materials/resolveAlignmentMechanicalState.js";
+export { bilinearizeCapacityCurve } from "./applications/masonry-wall-openings/analysis/AlignmentCapacityBilinearization.js";
+export type {
+  BilinearizationOptions,
+  BilinearizationPoint,
+  BilinearizationSecantPoint,
+  BilinearizationSourceSegment,
+  BilinearizationUltimatePoint,
+  BilinearizedCapacityCurve,
+  BilinearizeCapacityCurveInput,
+  CapacityCurveInput,
+  CapacityCurvePointInput,
+} from "./applications/masonry-wall-openings/analysis/AlignmentCapacityBilinearization.js";
 export {
   AXIAL_PILE_CAPACITY_REFERENCE,
   AXIAL_PILE_CAPACITY_RESULT_SCHEMA_VERSION,
