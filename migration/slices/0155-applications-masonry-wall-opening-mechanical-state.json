@@ -1,0 +1,107 @@
+{
+  "schemaVersion": 1,
+  "sliceId": "0155-applications-masonry-wall-opening-mechanical-state",
+  "title": "Masonry wall opening alignment mechanical state",
+  "migrationType": "mechanical-parity-with-minimal-dependency-support",
+  "implementationStatus": "implemented",
+  "dependencies": [
+    "0151-applications-masonry-wall-opening-models",
+    "0154-applications-masonry-wall-opening-material-resolution"
+  ],
+  "source": {
+    "repository": "https://github.com/claudiopagani/strutture-js",
+    "revision": "6f33baead8b88166c4b2cf94af41763412e3c751"
+  },
+  "normativeCorpusRevision": "41da3faa489600173106935bbcf726119300e48d",
+  "sourceFiles": [
+    {
+      "path": "src/applications/masonry-wall-openings/materials/resolveAlignmentMechanicalState.js",
+      "gitBlobSha1": "11e3fa4ddb3bc17024f9a7acb8d1b78dd913b8cf",
+      "targetPath": "src/applications/masonry-wall-openings/materials/resolveAlignmentMechanicalState.ts"
+    }
+  ],
+  "supportingSourceFiles": [
+    {
+      "path": "src/applications/masonry-wall-openings/models/MasonryWallOpeningsModel.js",
+      "gitBlobSha1": "ec1f0829ec9cfbd1861d8c29224cb6fc382bd12a",
+      "targetPath": "src/applications/masonry-wall-openings/models/MasonryWallOpeningsModel.ts",
+      "coverage": "Already-migrated alignment model reconstructed with resolved wall materials."
+    },
+    {
+      "path": "src/applications/masonry-wall-openings/materials/resolveMasonryStageMaterial.js",
+      "gitBlobSha1": "abf7d6bbeb792e6ff46d914056a511ccd69ab72c",
+      "targetPath": "src/applications/masonry-wall-openings/materials/resolveMasonryStageMaterial.ts",
+      "coverage": "Already-migrated stage resolver applied to every wall material."
+    },
+    {
+      "path": "src/core/results/checkUtils.js",
+      "gitBlobSha1": "d51d6a797dde97218422e79dca30727eacb26cad",
+      "targetPath": "src/core/results/checkUtils.ts",
+      "coverage": "Already-migrated warning and assumption de-duplication helper."
+    },
+    {
+      "path": "src/applications/index.js",
+      "gitBlobSha1": "b70179c7cdd2a819f2151dc092c0f59cbce30ba6",
+      "targetPath": "src/applications/index.ts",
+      "coverage": "Pinned application public-export context for the mechanical-state resolver."
+    },
+    {
+      "path": "src/index.js",
+      "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7",
+      "targetPath": "src/index.ts",
+      "coverage": "Pinned root public-export context for resolveAlignmentMechanicalState."
+    }
+  ],
+  "sourceOracles": [
+    {
+      "path": "tests/masonryWallOpeningsMaterialResolution.test.js",
+      "gitBlobSha1": "a72fc9a4a35ca1dca3bbef650d42ab48192a71f8",
+      "coverage": "State-of-fact/design alignment resolution, material overrides, confidence-factor behavior and mechanical-state metadata."
+    },
+    {
+      "path": "tests/packageExports.test.js",
+      "gitBlobSha1": "8dde24b4c97dd3dae7100207d07d9d96c52b9c74",
+      "coverage": "Pinned root public export behavior."
+    }
+  ],
+  "sourcePublicExport": {
+    "path": "src/index.js",
+    "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
+  },
+  "targetTests": [
+    "tests/baseline-parity.test.ts",
+    "tests/masonry-wall-opening-mechanical-state-compile-time.test.ts",
+    "tests/masonry-wall-opening-mechanical-state-live-parity.test.ts"
+  ],
+  "publicExports": ["resolveAlignmentMechanicalState"],
+  "publicTypeExports": [
+    "AlignmentMechanicalStateOptions",
+    "AlignmentMechanicalStateResolution",
+    "AlignmentMechanicalStateWall",
+    "ResolveAlignmentMechanicalStateInput"
+  ],
+  "normativeReferences": {
+    "resolved": [],
+    "outsideCorpus": [],
+    "normativeConformityClaimed": false,
+    "status": "classified-for-declared-scope"
+  },
+  "independentValidation": {
+    "method": "Strict declaration consumer coverage and independently executed pinned JavaScript versus built TypeScript comparison of state-of-fact/design stage selection, wall overrides, fallback warnings, reconstructed alignment serialization, exact metadata, Unicode identifiers and matching missing-alignment errors.",
+    "targetTests": [
+      "tests/masonry-wall-opening-mechanical-state-compile-time.test.ts",
+      "tests/masonry-wall-opening-mechanical-state-live-parity.test.ts"
+    ],
+    "fixture": "Unicode alignment and wall identifiers with state-of-fact properties, design properties, explicit wall overrides, confidence-factor options, direct properties and missing material.",
+    "tolerances": {
+      "serializedParity": "exact resolved wall and reconstructed alignment JSON",
+      "numericParity": "exact adopted mechanical properties",
+      "publicStrings": "exact warnings, assumptions, errors and Unicode identifiers",
+      "errors": "exact missing-alignment error behavior"
+    }
+  },
+  "parityDifferences": [
+    "The alignment resolver is exported from the root directly; the broader masonry-wall-openings application barrel remains deferred until its remaining analysis and report dependencies are migrated."
+  ],
+  "engineeringFunctionality": "Source-compatible state-of-fact/design mechanical material resolution across a masonry wall-opening alignment."
+}

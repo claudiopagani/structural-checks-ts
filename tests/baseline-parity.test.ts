@@ -628,6 +628,7 @@ const expectedExports = [
   "resolveNTC2018ThermalExpansionCoefficient",
   "extractEquivalentFrameMembers",
   "resolveMasonryStageMaterial",
+  "resolveAlignmentMechanicalState",
   "sanitizeAlignmentOpenings",
   "registerXlamPanelProduct",
   "splitPrincipalActions",

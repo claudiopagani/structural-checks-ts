@@ -471,6 +471,13 @@ export type {
   MasonryStageMaterialSettings,
   ResolveMasonryStageMaterialInput,
 } from "./applications/masonry-wall-openings/materials/resolveMasonryStageMaterial.js";
+export { resolveAlignmentMechanicalState } from "./applications/masonry-wall-openings/materials/resolveAlignmentMechanicalState.js";
+export type {
+  AlignmentMechanicalStateOptions,
+  AlignmentMechanicalStateResolution,
+  AlignmentMechanicalStateWall,
+  ResolveAlignmentMechanicalStateInput,
+} from "./applications/masonry-wall-openings/materials/resolveAlignmentMechanicalState.js";
 export {
   AXIAL_PILE_CAPACITY_REFERENCE,
   AXIAL_PILE_CAPACITY_RESULT_SCHEMA_VERSION,
