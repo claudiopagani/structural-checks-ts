@@ -1438,6 +1438,7 @@
         "coulombActiveEarthPressureCoefficient",
         "coulombPassiveEarthPressureCoefficient",
         "createAlignmentStateComparisonReportArtifacts",
+        "createBeamReportArtifacts",
         "createCapacityDesignAssessment",
         "createCouplingBeamAssessment",
         "createDiaphragmAssessment",
@@ -6659,11 +6660,17 @@
       "sourcePath": "src/applications/single-beam-design/reports/BeamReportArtifacts.js",
       "sourceBlobSha1": "7f3a6b8f3413b1840aa9549f1a29964c976ebe45",
       "targetPath": "src/applications/single-beam-design/reports/BeamReportArtifacts.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0174-applications-beam-report-artifacts"],
+      "sourceOracles": [
+        "tests/packageExports.test.js",
+        "tests/singleBeamDesignApplication.test.js"
+      ],
+      "targetTests": [
+        "tests/beam-report-artifacts-compile-time.test.ts",
+        "tests/beam-report-artifacts-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0174-applications-beam-report-artifacts"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -22221,11 +22228,17 @@
       "sourcePath": "src/applications/single-beam-design/reports/BeamReportArtifacts.js",
       "sourceBlobSha1": "7f3a6b8f3413b1840aa9549f1a29964c976ebe45",
       "targetPath": "src/applications/single-beam-design/reports/BeamReportArtifacts.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0174-applications-beam-report-artifacts"],
+      "sourceOracles": [
+        "tests/packageExports.test.js",
+        "tests/singleBeamDesignApplication.test.js"
+      ],
+      "targetTests": [
+        "tests/beam-report-artifacts-compile-time.test.ts",
+        "tests/beam-report-artifacts-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0174-applications-beam-report-artifacts"],
+      "status": "exact-parity",
       "publicEntryPath": "src/applications/index.js",
       "publicEntryBlobSha1": "b70179c7cdd2a819f2151dc092c0f59cbce30ba6"
     },
@@ -33236,11 +33249,17 @@
       "sourcePath": "src/applications/single-beam-design/reports/BeamReportArtifacts.js",
       "sourceBlobSha1": "7f3a6b8f3413b1840aa9549f1a29964c976ebe45",
       "targetPath": "src/applications/single-beam-design/reports/BeamReportArtifacts.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing"
+      "migrationSlices": ["0174-applications-beam-report-artifacts"],
+      "sourceOracles": [
+        "tests/packageExports.test.js",
+        "tests/singleBeamDesignApplication.test.js"
+      ],
+      "targetTests": [
+        "tests/beam-report-artifacts-compile-time.test.ts",
+        "tests/beam-report-artifacts-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0174-applications-beam-report-artifacts"],
+      "status": "exact-parity"
     },
     {
       "id": "src/applications/single-beam-design/reports/BeamReportBuilder.js",
@@ -37307,7 +37326,8 @@
         "0167-applications-masonry-pier-capacity-curve-comparison-report-builder",
         "0168-applications-micropile-broms-model",
         "0172-applications-single-beam-report-dto",
-        "0173-applications-single-beam-design-model"
+        "0173-applications-single-beam-design-model",
+        "0174-applications-beam-report-artifacts"
       ],
       "sourceOracles": [
         "tests/architecture/applicationRegistry.test.js",
@@ -40444,11 +40464,14 @@
         "0170-applications-reinforced-concrete-sections-analysis-index",
         "0171-applications-reinforced-concrete-sections-index",
         "0172-applications-single-beam-report-dto",
-        "0173-applications-single-beam-design-model"
+        "0173-applications-single-beam-design-model",
+        "0174-applications-beam-report-artifacts"
       ],
       "sourceOracles": ["tests/packageExports.test.js"],
       "targetTests": [
         "tests/baseline-parity.test.ts",
+        "tests/beam-report-artifacts-compile-time.test.ts",
+        "tests/beam-report-artifacts-live-parity.test.ts",
         "tests/beam-report-dto-compile-time.test.ts",
         "tests/beam-report-dto-live-parity.test.ts",
         "tests/circular-slope-stability-analysis-compile-time.test.ts",
@@ -40737,7 +40760,8 @@
         "0170-applications-reinforced-concrete-sections-analysis-index",
         "0171-applications-reinforced-concrete-sections-index",
         "0172-applications-single-beam-report-dto",
-        "0173-applications-single-beam-design-model"
+        "0173-applications-single-beam-design-model",
+        "0174-applications-beam-report-artifacts"
       ],
       "status": "exact-parity",
       "testKind": "test"
@@ -41376,11 +41400,14 @@
       "migrationSlices": [
         "0022-single-beam-analysis",
         "0172-applications-single-beam-report-dto",
-        "0173-applications-single-beam-design-model"
+        "0173-applications-single-beam-design-model",
+        "0174-applications-beam-report-artifacts"
       ],
       "sourceOracles": ["tests/singleBeamDesignApplication.test.js"],
       "targetTests": [
         "tests/baseline-parity.test.ts",
+        "tests/beam-report-artifacts-compile-time.test.ts",
+        "tests/beam-report-artifacts-live-parity.test.ts",
         "tests/beam-report-dto-compile-time.test.ts",
         "tests/beam-report-dto-live-parity.test.ts",
         "tests/single-beam-analysis.test.ts",
@@ -41390,7 +41417,8 @@
       "validationEvidence": [
         "0022-single-beam-analysis",
         "0172-applications-single-beam-report-dto",
-        "0173-applications-single-beam-design-model"
+        "0173-applications-single-beam-design-model",
+        "0174-applications-beam-report-artifacts"
       ],
       "status": "exact-parity",
       "testKind": "test"
@@ -45177,16 +45205,32 @@
         "publicStrings": "exact defaults, error messages, constructor names and Unicode code points",
         "errors": "exact missing-input and empty-id constructor errors"
       }
+    },
+    {
+      "sliceId": "0174-applications-beam-report-artifacts",
+      "sourceRevision": "6f33baead8b88166c4b2cf94af41763412e3c751",
+      "method": "Strict typed consumer declarations and independently executed pinned JavaScript versus built TypeScript comparison of exact artifact arrays, filename sanitization, defaults, JSON spacing, metadata, Unicode, format filtering and errors.",
+      "targetTests": [
+        "tests/beam-report-artifacts-compile-time.test.ts",
+        "tests/beam-report-artifacts-live-parity.test.ts"
+      ],
+      "fixture": "Beam report with Unicode identifiers and titles, exact numeric analysis values, JSON and Markdown content, custom basename, format filters and circular JSON error input.",
+      "tolerances": {
+        "serializedParity": "exact artifact objects and JSON.stringify output",
+        "numericParity": "exact numeric values and JSON spacing",
+        "publicStrings": "exact filenames, media types, metadata, Unicode content and error messages",
+        "errors": "exact missing report, missing markdown, null-options and circular-JSON errors"
+      }
     }
   ],
   "counts": {
     "rootExports": {
       "javascript": 841,
-      "typescript": 772
+      "typescript": 773
     },
     "applicationsExports": {
       "javascript": 309,
-      "typescript": 245
+      "typescript": 246
     },
     "packageEntryPoints": {
       "javascript": 14,
@@ -45206,11 +45250,11 @@
     },
     "sourceFiles": {
       "javascript": 480,
-      "typescript": 435
+      "typescript": 436
     },
     "tests": {
       "javascript": 131,
-      "typescript": 332
+      "typescript": 334
     },
     "validationCampaigns": {
       "javascript": 17,
@@ -45262,7 +45306,7 @@
       "statusCounts": {
         "exact-parity": 0,
         "partial": 25,
-        "missing": 191,
+        "missing": 188,
         "intentionally-excluded": 0,
         "decision-required": 0
       },
@@ -45311,7 +45355,6 @@
         "application-export:calculateTimberLateralBucklingReduction",
         "application-export:calculateTimberRectangularCriticalBendingStress",
         "application-export:classifySteelSection",
-        "application-export:createBeamReportArtifacts",
         "application-export:createDefaultApplicationRegistry",
         "application-export:createSteelMemberFem3DResult",
         "application-export:createTimberConcreteCompositeBeamSectionProvider",
@@ -45405,7 +45448,6 @@
         "root-export:calculateTimberLateralBucklingReduction",
         "root-export:calculateTimberRectangularCriticalBendingStress",
         "root-export:classifySteelSection",
-        "root-export:createBeamReportArtifacts",
         "root-export:createDefaultApplicationRegistry",
         "root-export:createSteelMemberFem3DResult",
         "root-export:createTimberConcreteCompositeBeamSectionProvider",
@@ -45439,7 +45481,6 @@
         "source:src/applications/reinforced-concrete-plates/README.md",
         "source:src/applications/single-beam-design/SingleBeamDesignApplication.js",
         "source:src/applications/single-beam-design/index.js",
-        "source:src/applications/single-beam-design/reports/BeamReportArtifacts.js",
         "source:src/applications/single-beam-design/reports/BeamReportBuilder.js",
         "source:src/applications/single-beam-design/reports/BeamReportMarkdownRenderer.js",
         "source:src/applications/steel-frames/SteelFrameApplication.js",

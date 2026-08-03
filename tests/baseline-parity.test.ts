@@ -668,6 +668,7 @@ const expectedExports = [
   "computePDeltaCoefficient",
   "computeSeismicJointWidth",
   "computeStoreyDrift",
+  "createBeamReportArtifacts",
   "evaluateNTC2018MasonryPier",
   "evaluateNTC2018ElevationRegularity",
   "evaluateNTC2018ExistingMasonryWorkflow",

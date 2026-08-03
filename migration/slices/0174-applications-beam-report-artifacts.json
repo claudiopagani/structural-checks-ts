@@ -1,0 +1,83 @@
+{
+  "schemaVersion": 1,
+  "sliceId": "0174-applications-beam-report-artifacts",
+  "title": "Beam report artifact factory",
+  "migrationType": "mechanical-parity",
+  "implementationStatus": "implemented",
+  "dependencies": ["0173-applications-single-beam-design-model"],
+  "source": {
+    "repository": "https://github.com/claudiopagani/strutture-js",
+    "revision": "6f33baead8b88166c4b2cf94af41763412e3c751"
+  },
+  "normativeCorpusRevision": "41da3faa489600173106935bbcf726119300e48d",
+  "sourceFiles": [
+    {
+      "path": "src/applications/single-beam-design/reports/BeamReportArtifacts.js",
+      "gitBlobSha1": "7f3a6b8f3413b1840aa9549f1a29964c976ebe45",
+      "targetPath": "src/applications/single-beam-design/reports/BeamReportArtifacts.ts"
+    }
+  ],
+  "supportingSourceFiles": [
+    {
+      "path": "src/applications/single-beam-design/index.js",
+      "gitBlobSha1": "ccbf9e38bbd7042b92e86ed607a77ee8d95da2a1",
+      "targetPath": "src/index.ts",
+      "coverage": "Pinned single-beam public barrel export for createBeamReportArtifacts."
+    },
+    {
+      "path": "src/applications/index.js",
+      "gitBlobSha1": "b70179c7cdd2a819f2151dc092c0f59cbce30ba6",
+      "targetPath": "src/index.ts",
+      "coverage": "Pinned applications public barrel export for createBeamReportArtifacts."
+    },
+    {
+      "path": "src/index.js",
+      "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7",
+      "targetPath": "src/index.ts",
+      "coverage": "Pinned root public export for createBeamReportArtifacts."
+    }
+  ],
+  "sourceOracles": [
+    {
+      "path": "tests/singleBeamDesignApplication.test.js",
+      "gitBlobSha1": "5e423cda0e4f6ad910fbd7cc7abd02969976f24d",
+      "coverage": "Pinned frontend-ready JSON and Markdown artifact behavior."
+    },
+    {
+      "path": "tests/packageExports.test.js",
+      "gitBlobSha1": "8dde24b4c97dd3dae7100207d07d9d96c52b9c74",
+      "coverage": "Pinned root public-export behavior."
+    }
+  ],
+  "sourcePublicExport": {
+    "path": "src/index.js",
+    "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
+  },
+  "targetTests": [
+    "tests/beam-report-artifacts-compile-time.test.ts",
+    "tests/beam-report-artifacts-live-parity.test.ts"
+  ],
+  "publicExports": ["createBeamReportArtifacts"],
+  "normativeReferences": {
+    "resolved": [],
+    "outsideCorpus": [],
+    "normativeConformityClaimed": false,
+    "status": "classified-for-declared-scope"
+  },
+  "independentValidation": {
+    "method": "Strict typed consumer declarations and independently executed pinned JavaScript versus built TypeScript comparison of exact artifact arrays, filename sanitization, defaults, JSON spacing, metadata, Unicode, format filtering and errors.",
+    "targetTests": [
+      "tests/beam-report-artifacts-compile-time.test.ts",
+      "tests/beam-report-artifacts-live-parity.test.ts"
+    ],
+    "fixture": "Beam report with Unicode identifiers and titles, exact numeric analysis values, JSON and Markdown content, custom basename, format filters and circular JSON error input.",
+    "tolerances": {
+      "serializedParity": "exact artifact objects and JSON.stringify output",
+      "numericParity": "exact numeric values and JSON spacing",
+      "publicStrings": "exact filenames, media types, metadata, Unicode content and error messages",
+      "errors": "exact missing report, missing markdown, null-options and circular-JSON errors"
+    }
+  },
+  "parityDifferences": [],
+  "engineeringFunctionality": "Source-compatible strict TypeScript beam report JSON and Markdown artifact generation."
+}
