@@ -82,6 +82,8 @@ const expectedExports = [
   "Action",
   "AlignmentStateComparisonMarkdownRenderer",
   "AlignmentStateComparisonReportBuilder",
+  "MASONRY_PIER_CAPACITY_CURVE_COMPARISON_REPORT_SCHEMA_VERSION",
+  "MasonryPierCapacityCurveComparisonReportBuilder",
   "MasonryPierCapacityCurveComparisonMarkdownRenderer",
   "createMasonryPierCapacityCurveComparisonReportArtifacts",
   "AreaLoad",

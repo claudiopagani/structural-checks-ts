@@ -527,6 +527,22 @@ export type {
   AlignmentStateComparisonReportBuilderRendererObject,
   AlignmentStateComparisonReportBuilderReport,
 } from "./applications/masonry-wall-openings/reports/AlignmentStateComparisonReportBuilder.js";
+export {
+  MASONRY_PIER_CAPACITY_CURVE_COMPARISON_REPORT_SCHEMA_VERSION,
+  MasonryPierCapacityCurveComparisonReportBuilder,
+} from "./applications/masonry-wall-openings/reports/MasonryPierCapacityCurveComparisonReportBuilder.js";
+export type {
+  MasonryPierCapacityCurveComparisonReportBuilderAnalysisResult,
+  MasonryPierCapacityCurveComparisonReportBuilderBuildInput,
+  MasonryPierCapacityCurveComparisonReportBuilderJson,
+  MasonryPierCapacityCurveComparisonReportBuilderMetadata,
+  MasonryPierCapacityCurveComparisonReportBuilderModel,
+  MasonryPierCapacityCurveComparisonReportBuilderOptions,
+  MasonryPierCapacityCurveComparisonReportBuilderOutputs,
+  MasonryPierCapacityCurveComparisonReportBuilderRenderer,
+  MasonryPierCapacityCurveComparisonReportBuilderRendererObject,
+  MasonryPierCapacityCurveComparisonReportBuilderReport,
+} from "./applications/masonry-wall-openings/reports/MasonryPierCapacityCurveComparisonReportBuilder.js";
 export { MasonryPierCapacityCurveComparisonMarkdownRenderer } from "./applications/masonry-wall-openings/reports/MasonryPierCapacityCurveComparisonMarkdownRenderer.js";
 export type { MasonryPierCapacityCurveComparisonReport } from "./applications/masonry-wall-openings/reports/MasonryPierCapacityCurveComparisonMarkdownRenderer.js";
 export { createMasonryPierCapacityCurveComparisonReportArtifacts } from "./applications/masonry-wall-openings/reports/MasonryPierCapacityCurveComparisonReportArtifacts.js";

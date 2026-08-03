@@ -1,0 +1,88 @@
+{
+  "schemaVersion": 1,
+  "sliceId": "0167-applications-masonry-pier-capacity-curve-comparison-report-builder",
+  "title": "Masonry pier capacity-curve comparison report builder",
+  "migrationType": "mechanical-parity-with-minimal-public-export-support",
+  "implementationStatus": "implemented",
+  "dependencies": ["0165-applications-masonry-pier-capacity-curve-comparison-markdown-renderer"],
+  "source": {
+    "repository": "https://github.com/claudiopagani/strutture-js",
+    "revision": "6f33baead8b88166c4b2cf94af41763412e3c751"
+  },
+  "normativeCorpusRevision": "41da3faa489600173106935bbcf726119300e48d",
+  "sourceFiles": [
+    {
+      "path": "src/applications/masonry-wall-openings/reports/MasonryPierCapacityCurveComparisonReportBuilder.js",
+      "gitBlobSha1": "4e01806a69dd983bbe1ac29b6a1b63359a4fe264",
+      "targetPath": "src/applications/masonry-wall-openings/reports/MasonryPierCapacityCurveComparisonReportBuilder.ts"
+    }
+  ],
+  "supportingSourceFiles": [
+    {
+      "path": "src/applications/masonry-wall-openings/reports/MasonryPierCapacityCurveComparisonMarkdownRenderer.js",
+      "gitBlobSha1": "8ccb4051614a38439afe2ce6ab9e330b4d5d5ca0",
+      "targetPath": "src/applications/masonry-wall-openings/reports/MasonryPierCapacityCurveComparisonMarkdownRenderer.ts",
+      "coverage": "Already-migrated default Markdown renderer delegated by the builder."
+    },
+    {
+      "path": "src/index.js",
+      "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7",
+      "targetPath": "src/index.ts",
+      "coverage": "Minimal root export support for the schema constant, builder and strict public types."
+    }
+  ],
+  "sourceOracles": [
+    {
+      "path": "tests/masonryWallOpeningsPierCapacityCurveComparisonReport.test.js",
+      "gitBlobSha1": "218b108cfe215595042aa31e7a4eae3e077aaa2c",
+      "coverage": "Pinned pier comparison report schema, JSON fields, metadata, Markdown delegation and report errors."
+    }
+  ],
+  "sourcePublicExport": {
+    "path": "src/index.js",
+    "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
+  },
+  "targetTests": [
+    "tests/baseline-parity.test.ts",
+    "tests/masonry-pier-capacity-curve-comparison-report-builder-compile-time.test.ts",
+    "tests/masonry-pier-capacity-curve-comparison-report-builder-live-parity.test.ts"
+  ],
+  "publicExports": [
+    "MASONRY_PIER_CAPACITY_CURVE_COMPARISON_REPORT_SCHEMA_VERSION",
+    "MasonryPierCapacityCurveComparisonReportBuilder"
+  ],
+  "publicTypeExports": [
+    "MasonryPierCapacityCurveComparisonReportBuilderAnalysisResult",
+    "MasonryPierCapacityCurveComparisonReportBuilderBuildInput",
+    "MasonryPierCapacityCurveComparisonReportBuilderJson",
+    "MasonryPierCapacityCurveComparisonReportBuilderMetadata",
+    "MasonryPierCapacityCurveComparisonReportBuilderModel",
+    "MasonryPierCapacityCurveComparisonReportBuilderOptions",
+    "MasonryPierCapacityCurveComparisonReportBuilderOutputs",
+    "MasonryPierCapacityCurveComparisonReportBuilderRenderer",
+    "MasonryPierCapacityCurveComparisonReportBuilderRendererObject",
+    "MasonryPierCapacityCurveComparisonReportBuilderReport"
+  ],
+  "normativeReferences": {
+    "resolved": [],
+    "outsideCorpus": [],
+    "normativeConformityClaimed": false,
+    "status": "classified-for-declared-scope"
+  },
+  "independentValidation": {
+    "method": "Strict public declaration coverage and independently executed pinned JavaScript versus built TypeScript comparison of exact report JSON and Markdown, source normalization, toJSON precedence, circular/shared values, warning and assumption deduplication, metadata composition, renderer delegation, Unicode and validation errors.",
+    "targetTests": [
+      "tests/masonry-pier-capacity-curve-comparison-report-builder-compile-time.test.ts",
+      "tests/masonry-pier-capacity-curve-comparison-report-builder-live-parity.test.ts"
+    ],
+    "fixture": "Synthetic masonry model and analysis results covering pier, aggregated and FEM performance/capacity data, hinge events, comparison metrics, reading, circular/shared values, duplicate warnings, a serializable toJSON result, custom Markdown delegation and Unicode metadata.",
+    "tolerances": {
+      "serializedParity": "exact report JSON and Markdown",
+      "numericParity": "exact report numeric values and Markdown formatting",
+      "publicStrings": "exact schema, report IDs, Italian descriptions, Unicode and renderer strings",
+      "errors": "exact missing-model, missing-analysisResult and invalid-renderer errors"
+    }
+  },
+  "parityDifferences": [],
+  "engineeringFunctionality": "Source-compatible masonry pier capacity-curve comparison report composition and Markdown delegation."
+}
