@@ -1,0 +1,81 @@
+{
+  "schemaVersion": 1,
+  "sliceId": "0186-applications-steel-displacement-control-pushover-solver",
+  "title": "Steel displacement-control pushover solver",
+  "migrationType": "mechanical-parity",
+  "implementationStatus": "implemented",
+  "dependencies": ["0185-applications-steel-ring-frame-internal-forces"],
+  "source": {
+    "repository": "https://github.com/claudiopagani/strutture-js",
+    "revision": "6f33baead8b88166c4b2cf94af41763412e3c751"
+  },
+  "normativeCorpusRevision": "41da3faa489600173106935bbcf726119300e48d",
+  "sourceFiles": [
+    {
+      "path": "src/applications/steel-frames/analysis/SteelDisplacementControlPushoverSolver2D.js",
+      "gitBlobSha1": "0c2384064ca7a23b77cd0911156586a3a9e93b04",
+      "targetPath": "src/applications/steel-frames/analysis/SteelDisplacementControlPushoverSolver2D.ts"
+    }
+  ],
+  "supportingSourceFiles": [
+    {
+      "path": "src/applications/steel-frames/index.js",
+      "gitBlobSha1": "00b0b647649aff91fa05b523a18df186f588223f",
+      "coverage": "Pinned steel-frames barrel public export for SteelDisplacementControlPushoverSolver2D."
+    },
+    {
+      "path": "src/index.js",
+      "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7",
+      "coverage": "Pinned root public export for SteelDisplacementControlPushoverSolver2D."
+    }
+  ],
+  "sourceOracles": [
+    {
+      "path": "tests/steelRingFramePushover.test.js",
+      "gitBlobSha1": "ece91e91fba59579941f9c562ef0507fbf5ad028",
+      "coverage": "Pinned steel ring-frame displacement-control workflow, hinge events, capacity points and termination behavior."
+    },
+    {
+      "path": "tests/packageExports.test.js",
+      "gitBlobSha1": "8dde24b4c97dd3dae7100207d07d9d96c52b9c74",
+      "coverage": "Pinned public package export and root-alias oracle."
+    }
+  ],
+  "sourcePublicExport": {
+    "path": "src/index.js",
+    "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
+  },
+  "targetTests": [
+    "tests/baseline-parity.test.ts",
+    "tests/steel-displacement-control-pushover-solver-compile-time.test.ts",
+    "tests/steel-displacement-control-pushover-solver-live-parity.test.ts"
+  ],
+  "publicExports": ["SteelDisplacementControlPushoverSolver2D"],
+  "publicTypeExports": [
+    "SteelDisplacementControlPushoverSolver2DOptions",
+    "SteelDisplacementControlPushoverSolveOptions",
+    "SteelDisplacementControlPushoverSolveResult"
+  ],
+  "normativeReferences": {
+    "resolved": [],
+    "outsideCorpus": [],
+    "normativeConformityClaimed": false,
+    "status": "classified-for-declared-scope"
+  },
+  "independentValidation": {
+    "method": "Strict typed consumer declarations and independently executed pinned JavaScript versus built TypeScript comparison of injected displacement-control delegation, exact point metadata, base-shear and hinge-count summaries, state cloning, Unicode, result aliases, root export aliases and missing-input errors.",
+    "targetTests": [
+      "tests/steel-displacement-control-pushover-solver-compile-time.test.ts",
+      "tests/steel-displacement-control-pushover-solver-live-parity.test.ts"
+    ],
+    "fixture": "Synthetic two-support displacement-control workflow with injected internal-force evaluator and nonlinear solver, hinge-state cloning, Unicode event/state metadata and exact result aliases.",
+    "tolerances": {
+      "serializedParity": "exact JSON and enumerable result key order",
+      "numericParity": "exact base-shear, displacement, load-factor and point values",
+      "publicStrings": "exact event/state metadata, termination and Unicode code-point comparison",
+      "errors": "exact error name and message for missing model"
+    }
+  },
+  "parityDifferences": [],
+  "engineeringFunctionality": "Strict TypeScript parity for the steel displacement-control pushover solver wrapper; ring-frame model construction, pushover analysis composition and steel member checks remain outside this slice."
+}

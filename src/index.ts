@@ -785,6 +785,12 @@ export type {
 } from "./applications/steel-frames/analysis/SteelPlasticHingeState.js";
 export { SteelFrameModel } from "./applications/steel-frames/models/SteelFrameModel.js";
 export type { SteelFrameModelOptions } from "./applications/steel-frames/models/SteelFrameModel.js";
+export { SteelDisplacementControlPushoverSolver2D } from "./applications/steel-frames/analysis/SteelDisplacementControlPushoverSolver2D.js";
+export type {
+  SteelDisplacementControlPushoverSolveOptions,
+  SteelDisplacementControlPushoverSolveResult,
+  SteelDisplacementControlPushoverSolver2DOptions,
+} from "./applications/steel-frames/analysis/SteelDisplacementControlPushoverSolver2D.js";
 export { SteelPlasticHingeFrameElement2D } from "./applications/steel-frames/analysis/SteelPlasticHingeFrameElement2D.js";
 export type {
   SteelPlasticHingeCondensationOperators,

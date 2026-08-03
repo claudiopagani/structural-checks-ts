@@ -1312,6 +1312,7 @@
         "SolidTimberMaterial",
         "SteelBeamSectionProvider",
         "SteelCompoundProfileSection",
+        "SteelDisplacementControlPushoverSolver2D",
         "SteelElasticLaw",
         "SteelElasticPerfectlyPlasticLaw",
         "SteelElasticPlasticHardeningLaw",
@@ -19456,11 +19457,15 @@
       "sourcePath": "src/applications/steel-frames/analysis/SteelDisplacementControlPushoverSolver2D.js",
       "sourceBlobSha1": "0c2384064ca7a23b77cd0911156586a3a9e93b04",
       "targetPath": "src/applications/steel-frames/analysis/SteelDisplacementControlPushoverSolver2D.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0186-applications-steel-displacement-control-pushover-solver"],
+      "sourceOracles": ["tests/packageExports.test.js", "tests/steelRingFramePushover.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/steel-displacement-control-pushover-solver-compile-time.test.ts",
+        "tests/steel-displacement-control-pushover-solver-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0186-applications-steel-displacement-control-pushover-solver"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -26992,11 +26997,15 @@
       "sourcePath": "src/applications/steel-frames/analysis/SteelDisplacementControlPushoverSolver2D.js",
       "sourceBlobSha1": "0c2384064ca7a23b77cd0911156586a3a9e93b04",
       "targetPath": "src/applications/steel-frames/analysis/SteelDisplacementControlPushoverSolver2D.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0186-applications-steel-displacement-control-pushover-solver"],
+      "sourceOracles": ["tests/packageExports.test.js", "tests/steelRingFramePushover.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/steel-displacement-control-pushover-solver-compile-time.test.ts",
+        "tests/steel-displacement-control-pushover-solver-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0186-applications-steel-displacement-control-pushover-solver"],
+      "status": "exact-parity",
       "publicEntryPath": "src/applications/index.js",
       "publicEntryBlobSha1": "b70179c7cdd2a819f2151dc092c0f59cbce30ba6"
     },
@@ -33590,11 +33599,15 @@
       "sourcePath": "src/applications/steel-frames/analysis/SteelDisplacementControlPushoverSolver2D.js",
       "sourceBlobSha1": "0c2384064ca7a23b77cd0911156586a3a9e93b04",
       "targetPath": "src/applications/steel-frames/analysis/SteelDisplacementControlPushoverSolver2D.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing"
+      "migrationSlices": ["0186-applications-steel-displacement-control-pushover-solver"],
+      "sourceOracles": ["tests/packageExports.test.js", "tests/steelRingFramePushover.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/steel-displacement-control-pushover-solver-compile-time.test.ts",
+        "tests/steel-displacement-control-pushover-solver-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0186-applications-steel-displacement-control-pushover-solver"],
+      "status": "exact-parity"
     },
     {
       "id": "src/applications/steel-frames/analysis/SteelPlasticHingeFrameElement2D.js",
@@ -37641,7 +37654,8 @@
         "0180-applications-micropile-broms-application",
         "0183-applications-steel-frame-model",
         "0184-applications-steel-plastic-hinge-frame-element",
-        "0185-applications-steel-ring-frame-internal-forces"
+        "0185-applications-steel-ring-frame-internal-forces",
+        "0186-applications-steel-displacement-control-pushover-solver"
       ],
       "sourceOracles": [
         "tests/architecture/applicationRegistry.test.js",
@@ -40801,7 +40815,8 @@
         "0181-applications-micropile-broms-index",
         "0182-applications-steel-plastic-hinge-state",
         "0183-applications-steel-frame-model",
-        "0184-applications-steel-plastic-hinge-frame-element"
+        "0184-applications-steel-plastic-hinge-frame-element",
+        "0186-applications-steel-displacement-control-pushover-solver"
       ],
       "sourceOracles": ["tests/packageExports.test.js"],
       "targetTests": [
@@ -41003,6 +41018,8 @@
         "tests/solver-public-index-live-parity.test.ts",
         "tests/spencer-method-compile-time.test.ts",
         "tests/spencer-method-live-parity.test.ts",
+        "tests/steel-displacement-control-pushover-solver-compile-time.test.ts",
+        "tests/steel-displacement-control-pushover-solver-live-parity.test.ts",
         "tests/steel-frame-model-compile-time.test.ts",
         "tests/steel-frame-model-live-parity.test.ts",
         "tests/steel-plastic-hinge-frame-element-compile-time.test.ts",
@@ -41127,7 +41144,8 @@
         "0181-applications-micropile-broms-index",
         "0182-applications-steel-plastic-hinge-state",
         "0183-applications-steel-frame-model",
-        "0184-applications-steel-plastic-hinge-frame-element"
+        "0184-applications-steel-plastic-hinge-frame-element",
+        "0186-applications-steel-displacement-control-pushover-solver"
       ],
       "status": "exact-parity",
       "testKind": "test"
@@ -41886,11 +41904,14 @@
       "migrationSlices": [
         "0182-applications-steel-plastic-hinge-state",
         "0184-applications-steel-plastic-hinge-frame-element",
-        "0185-applications-steel-ring-frame-internal-forces"
+        "0185-applications-steel-ring-frame-internal-forces",
+        "0186-applications-steel-displacement-control-pushover-solver"
       ],
       "sourceOracles": ["tests/steelRingFramePushover.test.js"],
       "targetTests": [
         "tests/baseline-parity.test.ts",
+        "tests/steel-displacement-control-pushover-solver-compile-time.test.ts",
+        "tests/steel-displacement-control-pushover-solver-live-parity.test.ts",
         "tests/steel-plastic-hinge-frame-element-compile-time.test.ts",
         "tests/steel-plastic-hinge-frame-element-live-parity.test.ts",
         "tests/steel-plastic-hinge-state-compile-time.test.ts",
@@ -41901,7 +41922,8 @@
       "validationEvidence": [
         "0182-applications-steel-plastic-hinge-state",
         "0184-applications-steel-plastic-hinge-frame-element",
-        "0185-applications-steel-ring-frame-internal-forces"
+        "0185-applications-steel-ring-frame-internal-forces",
+        "0186-applications-steel-displacement-control-pushover-solver"
       ],
       "status": "exact-parity",
       "testKind": "test"
@@ -45795,16 +45817,32 @@
         "publicStrings": "exact error, event metadata and Unicode code-point comparison",
         "errors": "exact error name and message for missing frame, empty DOF registry and displacement-length mismatch"
       }
+    },
+    {
+      "sliceId": "0186-applications-steel-displacement-control-pushover-solver",
+      "sourceRevision": "6f33baead8b88166c4b2cf94af41763412e3c751",
+      "method": "Strict typed consumer declarations and independently executed pinned JavaScript versus built TypeScript comparison of injected displacement-control delegation, exact point metadata, base-shear and hinge-count summaries, state cloning, Unicode, result aliases, root export aliases and missing-input errors.",
+      "targetTests": [
+        "tests/steel-displacement-control-pushover-solver-compile-time.test.ts",
+        "tests/steel-displacement-control-pushover-solver-live-parity.test.ts"
+      ],
+      "fixture": "Synthetic two-support displacement-control workflow with injected internal-force evaluator and nonlinear solver, hinge-state cloning, Unicode event/state metadata and exact result aliases.",
+      "tolerances": {
+        "serializedParity": "exact JSON and enumerable result key order",
+        "numericParity": "exact base-shear, displacement, load-factor and point values",
+        "publicStrings": "exact event/state metadata, termination and Unicode code-point comparison",
+        "errors": "exact error name and message for missing model"
+      }
     }
   ],
   "counts": {
     "rootExports": {
       "javascript": 841,
-      "typescript": 781
+      "typescript": 782
     },
     "applicationsExports": {
       "javascript": 309,
-      "typescript": 254
+      "typescript": 255
     },
     "packageEntryPoints": {
       "javascript": 14,
@@ -45824,11 +45862,11 @@
     },
     "sourceFiles": {
       "javascript": 480,
-      "typescript": 447
+      "typescript": 448
     },
     "tests": {
       "javascript": 131,
-      "typescript": 356
+      "typescript": 358
     },
     "validationCampaigns": {
       "javascript": 17,
@@ -45880,7 +45918,7 @@
       "statusCounts": {
         "exact-parity": 0,
         "partial": 26,
-        "missing": 160,
+        "missing": 157,
         "intentionally-excluded": 0,
         "decision-required": 0
       },
@@ -45892,7 +45930,6 @@
         "application-export:MasonryEquivalentFrameBuilder",
         "application-export:MasonryPierCapacityCurveComparisonAnalysis",
         "application-export:MasonryWallOpeningsApplication",
-        "application-export:SteelDisplacementControlPushoverSolver2D",
         "application-export:SteelFrameApplication",
         "application-export:SteelMemberVerification",
         "application-export:SteelRingFrame2DBuilder",
@@ -45977,7 +46014,6 @@
         "root-export:MasonryEquivalentFrameBuilder",
         "root-export:MasonryPierCapacityCurveComparisonAnalysis",
         "root-export:MasonryWallOpeningsApplication",
-        "root-export:SteelDisplacementControlPushoverSolver2D",
         "root-export:SteelFrameApplication",
         "root-export:SteelMemberVerification",
         "root-export:SteelRingFrame2DBuilder",
@@ -46035,7 +46071,6 @@
         "source:src/applications/masonry-wall-openings/index.js",
         "source:src/applications/reinforced-concrete-plates/README.md",
         "source:src/applications/steel-frames/SteelFrameApplication.js",
-        "source:src/applications/steel-frames/analysis/SteelDisplacementControlPushoverSolver2D.js",
         "source:src/applications/steel-frames/analysis/SteelRingFrame2DBuilder.js",
         "source:src/applications/steel-frames/analysis/SteelRingFramePushoverAnalysis.js",
         "source:src/applications/steel-frames/checks/SteelAdvancedMemberChecks.js",
