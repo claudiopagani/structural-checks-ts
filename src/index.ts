@@ -466,6 +466,11 @@ export type {
   AlignmentSeismicAggregatedAnalysisInput,
   AlignmentSeismicAggregatedAnalysisResult,
 } from "./applications/masonry-wall-openings/analysis/AlignmentSeismicAggregatedAnalysis.js";
+export { AlignmentStateComparisonAnalysis } from "./applications/masonry-wall-openings/analysis/AlignmentStateComparisonAnalysis.js";
+export type {
+  AlignmentStateComparisonAnalysisInput,
+  AlignmentStateComparisonAnalysisResult,
+} from "./applications/masonry-wall-openings/analysis/AlignmentStateComparisonAnalysis.js";
 export { sanitizeAlignmentOpenings } from "./applications/masonry-wall-openings/geometry/sanitizeAlignmentOpenings.js";
 export type {
   SanitizeAlignmentOpeningsResult,

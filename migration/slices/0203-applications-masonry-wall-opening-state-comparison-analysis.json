@@ -1,0 +1,81 @@
+{
+  "schemaVersion": 1,
+  "sliceId": "0203-applications-masonry-wall-opening-state-comparison-analysis",
+  "title": "Masonry wall-opening state comparison analysis",
+  "migrationType": "mechanical-parity",
+  "implementationStatus": "implemented",
+  "dependencies": [
+    "0202-applications-masonry-wall-opening-seismic-aggregated-analysis",
+    "0152-applications-masonry-wall-opening-sanitization"
+  ],
+  "source": {
+    "repository": "https://github.com/claudiopagani/strutture-js",
+    "revision": "6f33baead8b88166c4b2cf94af41763412e3c751"
+  },
+  "normativeCorpusRevision": "41da3faa489600173106935bbcf726119300e48d",
+  "sourceFiles": [
+    {
+      "path": "src/applications/masonry-wall-openings/analysis/AlignmentStateComparisonAnalysis.js",
+      "gitBlobSha1": "3a204f9040ef70e0cbf7735eb00eb1e4bf072848",
+      "targetPath": "src/applications/masonry-wall-openings/analysis/AlignmentStateComparisonAnalysis.ts"
+    }
+  ],
+  "supportingSourceFiles": [
+    {
+      "path": "src/applications/masonry-wall-openings/index.js",
+      "gitBlobSha1": "eff11642dcba529d9307f41cd5e19afc32cc99b1",
+      "coverage": "Pinned masonry wall-opening barrel context; only the migrated state comparison analysis receives a supported root export in this slice."
+    },
+    {
+      "path": "src/index.js",
+      "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7",
+      "coverage": "Pinned root public export context for AlignmentStateComparisonAnalysis."
+    }
+  ],
+  "sourceOracles": [
+    {
+      "path": "tests/masonryWallOpeningsStateComparison.test.js",
+      "gitBlobSha1": "3bf80d9c5cad2881c25508b67fc81559ef73eaec",
+      "coverage": "Pinned state-of-fact versus design comparison criteria, stiffness/strength/deformability checks, exact messages, serialization, Unicode and missing-input error oracle; application workflow integration remains outside this slice."
+    }
+  ],
+  "sourcePublicExport": {
+    "path": "src/index.js",
+    "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
+  },
+  "targetTests": [
+    "tests/baseline-parity.test.ts",
+    "tests/alignment-state-comparison-analysis-compile-time.test.ts",
+    "tests/alignment-state-comparison-analysis-live-parity.test.ts"
+  ],
+  "publicExports": ["AlignmentStateComparisonAnalysis"],
+  "publicTypeExports": [
+    "AlignmentStateComparisonAnalysisInput",
+    "AlignmentStateComparisonAnalysisOutputs",
+    "AlignmentStateComparisonAnalysisResult"
+  ],
+  "normativeReferences": {
+    "resolved": [],
+    "outsideCorpus": [],
+    "normativeConformityClaimed": false,
+    "status": "classified-for-declared-scope"
+  },
+  "independentValidation": {
+    "method": "Strict typed consumer declarations and independently executed pinned JavaScript versus built TypeScript comparison of aligned, stiffened and strength-reducing state-of-fact versus design masonry alignments with exact serialized JSON, numerical criteria, Unicode code points, public export identity and missing-input error behavior.",
+    "targetTests": [
+      "tests/alignment-state-comparison-analysis-compile-time.test.ts",
+      "tests/alignment-state-comparison-analysis-live-parity.test.ts"
+    ],
+    "fixture": "Independent staged masonry material fixtures with Unicode alignment identifiers, aligned stiffness, increased design stiffness, and reduced design shear strength/deformability.",
+    "tolerances": {
+      "serializedParity": "exact complete CalculationResult JSON including both seismic stage summaries and all comparison checks",
+      "numericParity": "exact stiffness, equivalent strength, ultimate displacement, ratios, deltas, tolerances and statuses",
+      "publicStrings": "exact Italian readings, English warnings/assumptions, metadata, identifiers and Unicode code-point comparison",
+      "errors": "exact missing-alignment error name and message comparison"
+    }
+  },
+  "parityDifferences": [
+    "Strict TypeScript declarations are added for the migrated analysis and its public input/output/result types."
+  ],
+  "engineeringFunctionality": "Strict TypeScript parity for state-of-fact versus design aggregated seismic comparison of masonry wall-opening alignments; masonry wall-opening application orchestration and equivalent-frame pushover analyses remain outside this slice."
+}
