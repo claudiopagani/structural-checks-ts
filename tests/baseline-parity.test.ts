@@ -83,6 +83,7 @@ const expectedExports = [
   "AlignmentStateComparisonMarkdownRenderer",
   "AlignmentStateComparisonReportBuilder",
   "MasonryPierCapacityCurveComparisonMarkdownRenderer",
+  "createMasonryPierCapacityCurveComparisonReportArtifacts",
   "AreaLoad",
   "ApplicationRegistry",
   "ClimaticAction",

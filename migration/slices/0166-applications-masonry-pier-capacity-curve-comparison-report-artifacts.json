@@ -1,0 +1,74 @@
+{
+  "schemaVersion": 1,
+  "sliceId": "0166-applications-masonry-pier-capacity-curve-comparison-report-artifacts",
+  "title": "Masonry pier capacity-curve comparison report artifacts",
+  "migrationType": "mechanical-parity-with-minimal-public-export-support",
+  "implementationStatus": "implemented",
+  "dependencies": [],
+  "source": {
+    "repository": "https://github.com/claudiopagani/strutture-js",
+    "revision": "6f33baead8b88166c4b2cf94af41763412e3c751"
+  },
+  "normativeCorpusRevision": "41da3faa489600173106935bbcf726119300e48d",
+  "sourceFiles": [
+    {
+      "path": "src/applications/masonry-wall-openings/reports/MasonryPierCapacityCurveComparisonReportArtifacts.js",
+      "gitBlobSha1": "3164aa1fb74b1d04dfe438586ea4c1a1b798f123",
+      "targetPath": "src/applications/masonry-wall-openings/reports/MasonryPierCapacityCurveComparisonReportArtifacts.ts"
+    }
+  ],
+  "supportingSourceFiles": [
+    {
+      "path": "src/index.js",
+      "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7",
+      "targetPath": "src/index.ts",
+      "coverage": "Minimal root export support for the artifact factory and strict public artifact types."
+    }
+  ],
+  "sourceOracles": [
+    {
+      "path": "tests/masonryWallOpeningsPierCapacityCurveComparisonReport.test.js",
+      "gitBlobSha1": "218b108cfe215595042aa31e7a4eae3e077aaa2c",
+      "coverage": "Pinned artifact filenames, formats, metadata, JSON serialization and factory error behavior."
+    }
+  ],
+  "sourcePublicExport": {
+    "path": "src/index.js",
+    "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
+  },
+  "targetTests": [
+    "tests/baseline-parity.test.ts",
+    "tests/masonry-pier-capacity-curve-comparison-report-artifacts-compile-time.test.ts",
+    "tests/masonry-pier-capacity-curve-comparison-report-artifacts-live-parity.test.ts"
+  ],
+  "publicExports": ["createMasonryPierCapacityCurveComparisonReportArtifacts"],
+  "publicTypeExports": [
+    "CreateMasonryPierCapacityCurveComparisonReportArtifactsOptions",
+    "MasonryPierCapacityCurveComparisonReportArtifact",
+    "MasonryPierCapacityCurveComparisonReportArtifactInput",
+    "MasonryPierCapacityCurveComparisonReportArtifactMetadata",
+    "MasonryPierCapacityCurveComparisonReportJson"
+  ],
+  "normativeReferences": {
+    "resolved": [],
+    "outsideCorpus": [],
+    "normativeConformityClaimed": false,
+    "status": "classified-for-declared-scope"
+  },
+  "independentValidation": {
+    "method": "Strict public declaration coverage and independently executed pinned JavaScript versus built TypeScript comparison of exact artifact arrays, filenames, media types, metadata, JSON spacing, include flags, Unicode, sanitization and validation errors.",
+    "targetTests": [
+      "tests/masonry-pier-capacity-curve-comparison-report-artifacts-compile-time.test.ts",
+      "tests/masonry-pier-capacity-curve-comparison-report-artifacts-live-parity.test.ts"
+    ],
+    "fixture": "Synthetic JSON and Markdown report with Unicode identifiers, nested JSON values, sanitized base names, JSON-only and Markdown-only options, numeric and string spacing and missing-input errors.",
+    "tolerances": {
+      "serializedParity": "exact artifact JSON content and Markdown content",
+      "numericParity": "exact JSON spacing and metadata values",
+      "publicStrings": "exact filenames, media types, error messages and Unicode code points",
+      "errors": "exact missing report, missing JSON and missing Markdown errors"
+    }
+  },
+  "parityDifferences": [],
+  "engineeringFunctionality": "Source-compatible JSON and Markdown artifact generation for masonry pier capacity-curve comparison reports."
+}

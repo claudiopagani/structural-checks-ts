@@ -1448,6 +1448,7 @@
         "createGlobalFemResultContract",
         "createItalianHistoricalReinforcementSteelMaterial",
         "createLongitudinalReinforcementLayout",
+        "createMasonryPierCapacityCurveComparisonReportArtifacts",
         "createMasonryShearStrengthModel",
         "createNTC2018AccidentalAction",
         "createNTC2018BeamCombinations",
@@ -6992,11 +6993,19 @@
       "sourcePath": "src/applications/masonry-wall-openings/reports/MasonryPierCapacityCurveComparisonReportArtifacts.js",
       "sourceBlobSha1": "3164aa1fb74b1d04dfe438586ea4c1a1b798f123",
       "targetPath": "src/applications/masonry-wall-openings/reports/MasonryPierCapacityCurveComparisonReportArtifacts.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": [
+        "0166-applications-masonry-pier-capacity-curve-comparison-report-artifacts"
+      ],
+      "sourceOracles": ["tests/masonryWallOpeningsPierCapacityCurveComparisonReport.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/masonry-pier-capacity-curve-comparison-report-artifacts-compile-time.test.ts",
+        "tests/masonry-pier-capacity-curve-comparison-report-artifacts-live-parity.test.ts"
+      ],
+      "validationEvidence": [
+        "0166-applications-masonry-pier-capacity-curve-comparison-report-artifacts"
+      ],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -21958,11 +21967,19 @@
       "sourcePath": "src/applications/masonry-wall-openings/reports/MasonryPierCapacityCurveComparisonReportArtifacts.js",
       "sourceBlobSha1": "3164aa1fb74b1d04dfe438586ea4c1a1b798f123",
       "targetPath": "src/applications/masonry-wall-openings/reports/MasonryPierCapacityCurveComparisonReportArtifacts.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": [
+        "0166-applications-masonry-pier-capacity-curve-comparison-report-artifacts"
+      ],
+      "sourceOracles": ["tests/masonryWallOpeningsPierCapacityCurveComparisonReport.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/masonry-pier-capacity-curve-comparison-report-artifacts-compile-time.test.ts",
+        "tests/masonry-pier-capacity-curve-comparison-report-artifacts-live-parity.test.ts"
+      ],
+      "validationEvidence": [
+        "0166-applications-masonry-pier-capacity-curve-comparison-report-artifacts"
+      ],
+      "status": "exact-parity",
       "publicEntryPath": "src/applications/index.js",
       "publicEntryBlobSha1": "b70179c7cdd2a819f2151dc092c0f59cbce30ba6"
     },
@@ -30575,11 +30592,19 @@
       "sourcePath": "src/applications/masonry-wall-openings/reports/MasonryPierCapacityCurveComparisonReportArtifacts.js",
       "sourceBlobSha1": "3164aa1fb74b1d04dfe438586ea4c1a1b798f123",
       "targetPath": "src/applications/masonry-wall-openings/reports/MasonryPierCapacityCurveComparisonReportArtifacts.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing"
+      "migrationSlices": [
+        "0166-applications-masonry-pier-capacity-curve-comparison-report-artifacts"
+      ],
+      "sourceOracles": ["tests/masonryWallOpeningsPierCapacityCurveComparisonReport.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/masonry-pier-capacity-curve-comparison-report-artifacts-compile-time.test.ts",
+        "tests/masonry-pier-capacity-curve-comparison-report-artifacts-live-parity.test.ts"
+      ],
+      "validationEvidence": [
+        "0166-applications-masonry-pier-capacity-curve-comparison-report-artifacts"
+      ],
+      "status": "exact-parity"
     },
     {
       "id": "src/applications/masonry-wall-openings/reports/MasonryPierCapacityCurveComparisonReportBuilder.js",
@@ -36671,7 +36696,8 @@
         "0159-applications-masonry-ring-beam-application",
         "0163-applications-alignment-state-comparison-report-utilities",
         "0164-applications-alignment-state-comparison-report-builder",
-        "0165-applications-masonry-pier-capacity-curve-comparison-markdown-renderer"
+        "0165-applications-masonry-pier-capacity-curve-comparison-markdown-renderer",
+        "0166-applications-masonry-pier-capacity-curve-comparison-report-artifacts"
       ],
       "sourceOracles": [
         "tests/architecture/applicationRegistry.test.js",
@@ -39063,16 +39089,20 @@
       "sourceBlobSha1": "218b108cfe215595042aa31e7a4eae3e077aaa2c",
       "targetPath": "tests/masonryWallOpeningsPierCapacityCurveComparisonReport.test.ts",
       "migrationSlices": [
-        "0165-applications-masonry-pier-capacity-curve-comparison-markdown-renderer"
+        "0165-applications-masonry-pier-capacity-curve-comparison-markdown-renderer",
+        "0166-applications-masonry-pier-capacity-curve-comparison-report-artifacts"
       ],
       "sourceOracles": ["tests/masonryWallOpeningsPierCapacityCurveComparisonReport.test.js"],
       "targetTests": [
         "tests/baseline-parity.test.ts",
         "tests/masonry-pier-capacity-curve-comparison-markdown-renderer-compile-time.test.ts",
-        "tests/masonry-pier-capacity-curve-comparison-markdown-renderer-live-parity.test.ts"
+        "tests/masonry-pier-capacity-curve-comparison-markdown-renderer-live-parity.test.ts",
+        "tests/masonry-pier-capacity-curve-comparison-report-artifacts-compile-time.test.ts",
+        "tests/masonry-pier-capacity-curve-comparison-report-artifacts-live-parity.test.ts"
       ],
       "validationEvidence": [
-        "0165-applications-masonry-pier-capacity-curve-comparison-markdown-renderer"
+        "0165-applications-masonry-pier-capacity-curve-comparison-markdown-renderer",
+        "0166-applications-masonry-pier-capacity-curve-comparison-report-artifacts"
       ],
       "status": "exact-parity",
       "testKind": "test"
@@ -44358,16 +44388,32 @@
         "publicStrings": "exact Italian headings, defaults, Unicode and escaped pipes",
         "errors": "exact null and undefined report errors"
       }
+    },
+    {
+      "sliceId": "0166-applications-masonry-pier-capacity-curve-comparison-report-artifacts",
+      "sourceRevision": "6f33baead8b88166c4b2cf94af41763412e3c751",
+      "method": "Strict public declaration coverage and independently executed pinned JavaScript versus built TypeScript comparison of exact artifact arrays, filenames, media types, metadata, JSON spacing, include flags, Unicode, sanitization and validation errors.",
+      "targetTests": [
+        "tests/masonry-pier-capacity-curve-comparison-report-artifacts-compile-time.test.ts",
+        "tests/masonry-pier-capacity-curve-comparison-report-artifacts-live-parity.test.ts"
+      ],
+      "fixture": "Synthetic JSON and Markdown report with Unicode identifiers, nested JSON values, sanitized base names, JSON-only and Markdown-only options, numeric and string spacing and missing-input errors.",
+      "tolerances": {
+        "serializedParity": "exact artifact JSON content and Markdown content",
+        "numericParity": "exact JSON spacing and metadata values",
+        "publicStrings": "exact filenames, media types, error messages and Unicode code points",
+        "errors": "exact missing report, missing JSON and missing Markdown errors"
+      }
     }
   ],
   "counts": {
     "rootExports": {
       "javascript": 841,
-      "typescript": 765
+      "typescript": 766
     },
     "applicationsExports": {
       "javascript": 309,
-      "typescript": 238
+      "typescript": 239
     },
     "packageEntryPoints": {
       "javascript": 14,
@@ -44387,11 +44433,11 @@
     },
     "sourceFiles": {
       "javascript": 480,
-      "typescript": 427
+      "typescript": 428
     },
     "tests": {
       "javascript": 131,
-      "typescript": 316
+      "typescript": 318
     },
     "validationCampaigns": {
       "javascript": 17,
@@ -44443,7 +44489,7 @@
       "statusCounts": {
         "exact-parity": 0,
         "partial": 23,
-        "missing": 215,
+        "missing": 212,
         "intentionally-excluded": 0,
         "decision-required": 0
       },
@@ -44499,7 +44545,6 @@
         "application-export:classifySteelSection",
         "application-export:createBeamReportArtifacts",
         "application-export:createDefaultApplicationRegistry",
-        "application-export:createMasonryPierCapacityCurveComparisonReportArtifacts",
         "application-export:createSteelMemberFem3DResult",
         "application-export:createTimberConcreteCompositeBeamSectionProvider",
         "application-export:createTimberXlamCompositeBeamSectionProvider",
@@ -44600,7 +44645,6 @@
         "root-export:classifySteelSection",
         "root-export:createBeamReportArtifacts",
         "root-export:createDefaultApplicationRegistry",
-        "root-export:createMasonryPierCapacityCurveComparisonReportArtifacts",
         "root-export:createSteelMemberFem3DResult",
         "root-export:createTimberConcreteCompositeBeamSectionProvider",
         "root-export:createTimberXlamCompositeBeamSectionProvider",
@@ -44628,7 +44672,6 @@
         "source:src/applications/masonry-wall-openings/analysis/MasonryEquivalentFrameBuilder.js",
         "source:src/applications/masonry-wall-openings/analysis/MasonryPierCapacityCurveComparisonAnalysis.js",
         "source:src/applications/masonry-wall-openings/index.js",
-        "source:src/applications/masonry-wall-openings/reports/MasonryPierCapacityCurveComparisonReportArtifacts.js",
         "source:src/applications/masonry-wall-openings/reports/MasonryPierCapacityCurveComparisonReportBuilder.js",
         "source:src/applications/micropiles-broms/MicropileBromsApplication.js",
         "source:src/applications/micropiles-broms/analysis/MicropileBromsAnalysis.js",
