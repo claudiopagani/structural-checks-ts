@@ -120,6 +120,7 @@ const expectedExports = [
   "MasonryPierCapacityCurveComparisonAnalysis",
   "MasonryWallOpeningsApplication",
   "MasonryWallOpeningsModel",
+  "SteelFrameApplication",
   "MasonryWallPierModel",
   "MasonryWallSpandrelModel",
   "NTC2018MasonryPierAnalysis",

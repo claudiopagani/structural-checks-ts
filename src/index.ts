@@ -824,6 +824,8 @@ export type {
 } from "./applications/steel-frames/analysis/SteelPlasticHingeState.js";
 export { SteelFrameModel } from "./applications/steel-frames/models/SteelFrameModel.js";
 export type { SteelFrameModelOptions } from "./applications/steel-frames/models/SteelFrameModel.js";
+export { SteelFrameApplication } from "./applications/steel-frames/SteelFrameApplication.js";
+export type { SteelFrameApplicationInput } from "./applications/steel-frames/SteelFrameApplication.js";
 export { SteelRingFramePushoverModel } from "./applications/steel-frames/models/SteelRingFramePushoverModel.js";
 export type {
   SteelRingFrameGeometry,

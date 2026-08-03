@@ -1,0 +1,88 @@
+{
+  "schemaVersion": 1,
+  "sliceId": "0206-applications-steel-frame-application",
+  "title": "Steel frame application dispatcher",
+  "migrationType": "mechanical-parity",
+  "implementationStatus": "implemented",
+  "dependencies": [
+    "0205-applications-masonry-wall-openings-application",
+    "0199-applications-steel-ring-frame-pushover-analysis",
+    "0200-applications-steel-member-verification"
+  ],
+  "source": {
+    "repository": "https://github.com/claudiopagani/strutture-js",
+    "revision": "6f33baead8b88166c4b2cf94af41763412e3c751"
+  },
+  "normativeCorpusRevision": "41da3faa489600173106935bbcf726119300e48d",
+  "sourceFiles": [
+    {
+      "path": "src/applications/steel-frames/SteelFrameApplication.js",
+      "gitBlobSha1": "c2104ed9256dc7df19693bc2d2162c0a00a1da3c",
+      "targetPath": "src/applications/steel-frames/SteelFrameApplication.ts"
+    }
+  ],
+  "supportingSourceFiles": [
+    {
+      "path": "src/applications/steel-frames/index.js",
+      "gitBlobSha1": "00b0b647649aff91fa05b523a18df186f588223f",
+      "coverage": "Pinned steel-frames barrel context; only the migrated application root export is supported in this slice."
+    },
+    {
+      "path": "src/index.js",
+      "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7",
+      "coverage": "Pinned root public export context for SteelFrameApplication."
+    }
+  ],
+  "sourceOracles": [
+    {
+      "path": "tests/steelRingFramePushover.test.js",
+      "gitBlobSha1": "ece91e91fba59579941f9c562ef0507fbf5ad028",
+      "coverage": "Pinned standalone steel ring-frame application delegation, numerical response and serialized result behavior."
+    },
+    {
+      "path": "tests/steelFrameAdvancedVerification.test.js",
+      "gitBlobSha1": "a3feaae57dc36a9f749a98cc43e9382ec4e12174",
+      "coverage": "Pinned steel-member verification behavior used by the application fallback path."
+    },
+    {
+      "path": "tests/packageExports.test.js",
+      "gitBlobSha1": "8dde24b4c97dd3dae7100207d07d9d96c52b9c74",
+      "coverage": "Pinned public SteelFrameApplication export behavior."
+    }
+  ],
+  "sourcePublicExport": {
+    "path": "src/index.js",
+    "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
+  },
+  "targetTests": [
+    "tests/baseline-parity.test.ts",
+    "tests/steel-frame-application-compile-time.test.ts",
+    "tests/steel-frame-application-live-parity.test.ts"
+  ],
+  "publicExports": ["SteelFrameApplication"],
+  "publicTypeExports": ["SteelFrameApplicationInput"],
+  "normativeReferences": {
+    "resolved": [],
+    "outsideCorpus": [],
+    "normativeConformityClaimed": false,
+    "status": "classified-for-declared-scope"
+  },
+  "independentValidation": {
+    "method": "Strict typed consumer declarations and independently executed pinned JavaScript versus built TypeScript differential comparison for application manifest, member-verification fallback, standalone ring-frame pushover delegation, unsupported analysis type and missing-model errors, complete JSON, numerical outputs, public strings and Unicode code points.",
+    "targetTests": [
+      "tests/steel-frame-application-compile-time.test.ts",
+      "tests/steel-frame-application-live-parity.test.ts"
+    ],
+    "fixture": "Independent steel ring-frame model with explicit kN-m units, IPE200 members, S275 steel and bounded pushover solver controls.",
+    "tolerances": {
+      "serializedParity": "exact complete CalculationResult JSON and application manifest JSON",
+      "numericParity": "exact pushover curve, hinge events, final state and metadata values",
+      "publicStrings": "exact summaries, assumptions, warnings, identifiers and Unicode code points",
+      "errors": "exact missing ring-frame model error name and message comparison"
+    }
+  },
+  "parityDifferences": [
+    "Strict TypeScript declarations are added for the migrated application input."
+  ],
+  "engineeringFunctionality": "Strict TypeScript parity for SteelFrameApplication constructor metadata, member-verification fallback, standalone ring-frame pushover routing, unsupported analysis placeholder behavior and public export; steel-frame application index and default registry composition remain outside this slice."
+}
