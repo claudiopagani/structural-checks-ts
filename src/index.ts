@@ -455,6 +455,12 @@ export type {
   MasonryWallSpandrelModelInput,
   MasonryWallSpandrelModelJson,
 } from "./applications/masonry-wall-openings/models/MasonryWallSpandrelModel.js";
+export { AlignmentStaticAnalysis } from "./applications/masonry-wall-openings/analysis/AlignmentStaticAnalysis.js";
+export type {
+  AlignmentStaticAnalysisInput,
+  AlignmentStaticAnalysisOptions,
+  AlignmentStaticAnalysisResult,
+} from "./applications/masonry-wall-openings/analysis/AlignmentStaticAnalysis.js";
 export { sanitizeAlignmentOpenings } from "./applications/masonry-wall-openings/geometry/sanitizeAlignmentOpenings.js";
 export type {
   SanitizeAlignmentOpeningsResult,

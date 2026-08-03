@@ -8,6 +8,8 @@ import { governingCheck, uniqueStrings } from "../../../core/results/checkUtils.
 import {
   BeamSectionActionVerifier,
   type BeamAnalysisResult,
+  type BeamInternalForceSample,
+  type BeamResultEntry,
   type BeamVerificationStations,
 } from "../../../domain/beams/BeamSectionActionVerifier.js";
 import { createUnitResolver, type UnitSystemInput } from "../../../domain/units/UnitSystem.js";
@@ -125,86 +127,29 @@ function asPolicyAnalysisResult(value: JsonRecord): PolicyAnalysisResult {
   return isPolicyAnalysisResult(value) ? value : { ...value, combinations: {} };
 }
 
-function numberOrUndefined(value: number | null | undefined): number | undefined {
-  return typeof value === "number" ? value : undefined;
-}
-
-function asBeamPrincipalActions(value: unknown): Record<string, number> | null {
-  if (!isRecord(value)) return null;
-  const result: Record<string, number> = {};
-  for (const key of ["vY", "vZ", "mY", "mZ"] as const) {
-    if (typeof value[key] === "number") result[key] = value[key];
-  }
-  return result;
-}
-
 function asBeamAnalysisResult(value: PolicyAnalysisResult): BeamAnalysisResult {
   const combinations = Object.fromEntries(
     Object.entries(value.combinations ?? {}).map(([id, entry]) => {
-      const geometry = entry.geometry;
+      const beamEntry: BeamResultEntry = { id: entry.id };
+      for (const [key, rawValue] of Object.entries(entry)) {
+        beamEntry[key] = rawValue;
+      }
       const internalForces = entry.internalForces;
-      const beamEntry = {
-        id: entry.id,
-        ...(entry.resultType === undefined ? {} : { resultType: entry.resultType }),
-        ...(geometry && typeof geometry.length === "number"
-          ? { geometry: { length: geometry.length } }
-          : geometry && typeof geometry.horizontalSpan === "number"
-            ? { geometry: { horizontalSpan: geometry.horizontalSpan } }
-            : {}),
-        ...(entry.supports
-          ? {
-              supports: entry.supports.map((support) => ({
-                ...(typeof support.station === "number" ? { station: support.station } : {}),
-                ...(support.restraints === null || support.restraints === undefined
-                  ? {}
-                  : { restraints: support.restraints }),
-              })),
-            }
-          : {}),
-        ...(internalForces
-          ? {
-              internalForces: {
-                ...(internalForces.samples
-                  ? {
-                      samples: internalForces.samples.map((sample) => {
-                        const n = numberOrUndefined(sample.n);
-                        const v = numberOrUndefined(sample.v);
-                        const m = numberOrUndefined(sample.m);
-                        const t = numberOrUndefined(sample.t);
-                        const principalActions = asBeamPrincipalActions(sample.principalActions);
-                        return {
-                          station: sample.station,
-                          ...(n === undefined ? {} : { n }),
-                          ...(v === undefined ? {} : { v }),
-                          ...(m === undefined ? {} : { m }),
-                          ...(t === undefined ? {} : { t }),
-                          ...(principalActions === null ? {} : { principalActions }),
-                        };
-                      }),
-                    }
-                  : {}),
-              },
-            }
-          : {}),
-        ...(entry.context
-          ? {
-              context: {
-                ...(typeof entry.context.limitState === "string" ||
-                entry.context.limitState === null
-                  ? { limitState: entry.context.limitState }
-                  : {}),
-                ...(typeof entry.context.combinationType === "string" ||
-                entry.context.combinationType === null
-                  ? { combinationType: entry.context.combinationType }
-                  : {}),
-              },
-            }
-          : {}),
-        ...(entry.sectionProperties === undefined
-          ? {}
-          : { sectionProperties: entry.sectionProperties }),
-        ...(entry.units === undefined ? {} : { units: entry.units }),
-      };
+      if (internalForces && Array.isArray(internalForces.samples)) {
+        const samples: BeamInternalForceSample[] = internalForces.samples.map((sample) => {
+          const beamSample: BeamInternalForceSample = { station: sample.station };
+          for (const [key, rawValue] of Object.entries(sample)) {
+            beamSample[key] = rawValue;
+          }
+          return beamSample;
+        });
+        const beamInternalForces: NonNullable<BeamResultEntry["internalForces"]> = {};
+        for (const [key, rawValue] of Object.entries(internalForces)) {
+          beamInternalForces[key] = rawValue;
+        }
+        beamInternalForces.samples = samples;
+        beamEntry.internalForces = beamInternalForces;
+      }
       return [id, beamEntry];
     }),
   );
@@ -215,8 +160,18 @@ function asAdvancedContract(contract: SteelMemberFem3DResult): SteelFem3DContrac
   return {
     member: {
       frameClassification: {
-        sway: contract.member.frameClassification.sway === true,
-        nonSway: contract.member.frameClassification.nonSway === true,
+        sway:
+          contract.member.frameClassification.sway === true
+            ? true
+            : contract.member.frameClassification.sway === false
+              ? false
+              : null,
+        nonSway:
+          contract.member.frameClassification.nonSway === true
+            ? true
+            : contract.member.frameClassification.nonSway === false
+              ? false
+              : null,
       },
       effectiveLengths: { ...contract.member.effectiveLengths },
       effectiveLengthFactors: { ...contract.member.effectiveLengthFactors },
@@ -274,11 +229,13 @@ function asPolicyPrincipalActions(value: unknown): Record<string, number | null>
   const vZ = optionalNumber(value.vZ);
   const mY = optionalNumber(value.mY);
   const mZ = optionalNumber(value.mZ);
+  const n = optionalNumber(value.n);
   return {
     ...(vY === undefined ? {} : { vY }),
     ...(vZ === undefined ? {} : { vZ }),
     ...(mY === undefined ? {} : { mY }),
     ...(mZ === undefined ? {} : { mZ }),
+    ...(n === undefined ? {} : { n }),
   };
 }
 

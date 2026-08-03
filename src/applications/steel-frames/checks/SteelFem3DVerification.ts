@@ -65,8 +65,8 @@ export interface SteelFem3DConcentratedLoadLike extends SteelAdvancedLoadLike {
 
 export interface SteelFem3DMemberLike {
   frameClassification: {
-    sway: boolean;
-    nonSway: boolean;
+    sway: boolean | null;
+    nonSway: boolean | null;
   };
   effectiveLengths: Record<string, unknown>;
   effectiveLengthFactors: Record<string, unknown>;

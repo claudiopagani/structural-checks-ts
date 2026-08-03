@@ -1,0 +1,108 @@
+{
+  "schemaVersion": 1,
+  "sliceId": "0201-applications-masonry-wall-opening-static-analysis",
+  "title": "Masonry wall-opening alignment static analysis",
+  "migrationType": "mechanical-parity-with-minimal-dependency-support",
+  "implementationStatus": "implemented",
+  "dependencies": [
+    "0151-applications-masonry-wall-opening-models",
+    "0152-applications-masonry-wall-opening-sanitization",
+    "0153-applications-masonry-wall-opening-extraction",
+    "0154-applications-masonry-wall-opening-material-resolution",
+    "0155-applications-masonry-wall-opening-mechanical-state",
+    "0149-applications-masonry-piers",
+    "0022-single-beam-analysis",
+    "0039-ntc2018-action-parameters-and-factories",
+    "0041-domain-beam-section-providers",
+    "0200-applications-steel-member-verification"
+  ],
+  "source": {
+    "repository": "https://github.com/claudiopagani/strutture-js",
+    "revision": "6f33baead8b88166c4b2cf94af41763412e3c751"
+  },
+  "normativeCorpusRevision": "41da3faa489600173106935bbcf726119300e48d",
+  "sourceFiles": [
+    {
+      "path": "src/applications/masonry-wall-openings/analysis/AlignmentStaticAnalysis.js",
+      "gitBlobSha1": "c9850311a233b25bf85e8565328eb1f1e1096d6c",
+      "targetPath": "src/applications/masonry-wall-openings/analysis/AlignmentStaticAnalysis.ts"
+    }
+  ],
+  "supportingSourceFiles": [
+    {
+      "path": "src/applications/masonry-wall-openings/index.js",
+      "gitBlobSha1": "eff11642dcba529d9307f41cd5e19afc32cc99b1",
+      "coverage": "Pinned masonry wall-opening barrel context; only the migrated alignment analysis receives a supported root export in this slice."
+    },
+    {
+      "path": "src/applications/index.js",
+      "gitBlobSha1": "b70179c7cdd2a819f2151dc092c0f59cbce30ba6",
+      "coverage": "Pinned applications barrel context for the alignment analysis export."
+    },
+    {
+      "path": "src/index.js",
+      "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7",
+      "coverage": "Pinned root public export context for AlignmentStaticAnalysis."
+    },
+    {
+      "path": "src/applications/steel-frames/checks/SteelMemberVerification.js",
+      "gitBlobSha1": "d6a5f51b5a6c357df862f2223eef177e93797de3",
+      "targetPath": "src/applications/steel-frames/checks/SteelMemberVerification.ts",
+      "coverage": "Minimal dependency parity support preserves complete delegated beam sample metadata, principalActions fields and null frame-classification values used by explicit steel lintel verification."
+    },
+    {
+      "path": "src/applications/steel-frames/checks/SteelFem3DVerification.js",
+      "gitBlobSha1": "521e43573adb659a3240752aab16c129c55a6a65",
+      "targetPath": "src/applications/steel-frames/checks/SteelFem3DVerification.ts",
+      "coverage": "Minimal dependency type support preserves nullable frame-classification values passed through the delegated steel verification path."
+    }
+  ],
+  "sourceOracles": [
+    {
+      "path": "tests/masonryWallOpeningsStaticAnalysis.test.js",
+      "gitBlobSha1": "c0675bc034e527c0af73280f8a9b019cd43a706d",
+      "coverage": "Pinned basic tributary-load, ring-frame transfer, explicit steel lintel delegation, application integration, numerical, serialization, Unicode and error-path oracle."
+    }
+  ],
+  "sourcePublicExport": {
+    "path": "src/index.js",
+    "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
+  },
+  "targetTests": [
+    "tests/baseline-parity.test.ts",
+    "tests/alignment-static-analysis-compile-time.test.ts",
+    "tests/alignment-static-analysis-live-parity.test.ts",
+    "tests/steel-member-verification-live-parity.test.ts"
+  ],
+  "publicExports": ["AlignmentStaticAnalysis"],
+  "publicTypeExports": [
+    "AlignmentStaticAnalysisInput",
+    "AlignmentStaticAnalysisOptions",
+    "AlignmentStaticAnalysisResult"
+  ],
+  "normativeReferences": {
+    "resolved": [],
+    "outsideCorpus": [],
+    "normativeConformityClaimed": false,
+    "status": "classified-for-declared-scope"
+  },
+  "independentValidation": {
+    "method": "Strict typed consumer declarations and independently executed pinned JavaScript versus built TypeScript comparison of basic, ring-frame and explicit steel-lintel alignment analyses with exact serialized JSON, numerical values, Unicode code points, public export identity and error behavior.",
+    "targetTests": [
+      "tests/alignment-static-analysis-compile-time.test.ts",
+      "tests/alignment-static-analysis-live-parity.test.ts"
+    ],
+    "fixture": "Independent masonry alignment fixture with Unicode identifiers, permanent and variable wall line loads, ring-frame transfer, and IPE200/S275 steel lintel delegation.",
+    "tolerances": {
+      "serializedParity": "exact complete CalculationResult JSON including nested pier and lintel verification results",
+      "numericParity": "exact load factors, tributary reactions, beam extrema, verification demands, capacities and utilization values",
+      "publicStrings": "exact summaries, warnings, assumptions, metadata, identifiers and Unicode code-point comparison",
+      "errors": "exact missing-input and unsupported-combination error name and message comparison"
+    }
+  },
+  "parityDifferences": [
+    "Strict TypeScript declarations are added for the migrated analysis and its public input/result types.",
+    "Minimal dependency support in the existing steel verification adapter preserves source fields required by delegated lintel parity."
+  ],
+  "engineeringFunctionality": "Strict TypeScript parity for the masonry wall-opening alignment static vertical analysis; remaining masonry wall-opening application orchestration, seismic alignment analysis, state comparison and registry composition remain outside this slice."
+}
