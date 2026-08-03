@@ -1438,6 +1438,7 @@
         "createNTC2018StructuralBehavior",
         "createNTC2018StructuralSteelMaterial",
         "createNTC2018ThermalAction",
+        "createNTC2018TimberMaterial",
         "createNTC2018ULSFundamentalCombination",
         "createNTC2018VariableAction",
         "createNTC2018WindAction",
@@ -6524,11 +6525,19 @@
       "sourcePath": "src/norms/ntc2018/materials/createNTC2018Material.js",
       "sourceBlobSha1": "fc10a704f3abbdf4b6a7f2834200f4b566b53b04",
       "targetPath": "src/norms/ntc2018/materials/createNTC2018Material.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "partial",
+      "migrationSlices": ["0134-norms-ntc2018-timber-factory"],
+      "sourceOracles": [
+        "tests/packageExports.test.js",
+        "tests/timberBeamSectionProvider.test.js",
+        "tests/timberMaterialHierarchy.test.js"
+      ],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/ntc2018-timber-factory-compile-time.test.ts",
+        "tests/ntc2018-timber-factory-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0134-norms-ntc2018-timber-factory"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -33359,7 +33368,8 @@
         "0130-norms-ntc2018-masonry-pier-kernels",
         "0131-norms-ntc2018-slab-load-catalogs",
         "0132-norms-ntc2018-existing-masonry-workflow",
-        "0133-norms-ntc2018-structural-steel-factory"
+        "0133-norms-ntc2018-structural-steel-factory",
+        "0134-norms-ntc2018-timber-factory"
       ],
       "sourceOracles": [
         "tests/architecture/applicationRegistry.test.js",
@@ -34045,7 +34055,11 @@
       "sourcePath": "src/norms/ntc2018/materials/createNTC2018Material.js",
       "sourceBlobSha1": "fc10a704f3abbdf4b6a7f2834200f4b566b53b04",
       "targetPath": "src/norms/ntc2018/materials/createNTC2018Material.ts",
-      "migrationSlices": ["0003-concrete-materials", "0133-norms-ntc2018-structural-steel-factory"],
+      "migrationSlices": [
+        "0003-concrete-materials",
+        "0133-norms-ntc2018-structural-steel-factory",
+        "0134-norms-ntc2018-timber-factory"
+      ],
       "sourceOracles": [
         "tests/compositeSections.test.js",
         "tests/italianHistoricalReinforcementSteel.test.js",
@@ -34053,6 +34067,8 @@
         "tests/packageExports.test.js",
         "tests/reinforcementAndConnector.test.js",
         "tests/steelBeamSectionProvider.test.js",
+        "tests/timberBeamSectionProvider.test.js",
+        "tests/timberMaterialHierarchy.test.js",
         "tests/unitConversionLayer.test.js"
       ],
       "targetTests": [
@@ -34062,9 +34078,14 @@
         "tests/material-baseline-parity.test.ts",
         "tests/ntc2018-structural-steel-factory-compile-time.test.ts",
         "tests/ntc2018-structural-steel-factory-live-parity.test.ts",
+        "tests/ntc2018-timber-factory-compile-time.test.ts",
+        "tests/ntc2018-timber-factory-live-parity.test.ts",
         "tests/reinforcement-layout.test.ts"
       ],
-      "validationEvidence": ["0133-norms-ntc2018-structural-steel-factory"],
+      "validationEvidence": [
+        "0133-norms-ntc2018-structural-steel-factory",
+        "0134-norms-ntc2018-timber-factory"
+      ],
       "status": "exact-parity"
     },
     {
@@ -36287,7 +36308,8 @@
         "0130-norms-ntc2018-masonry-pier-kernels",
         "0131-norms-ntc2018-slab-load-catalogs",
         "0132-norms-ntc2018-existing-masonry-workflow",
-        "0133-norms-ntc2018-structural-steel-factory"
+        "0133-norms-ntc2018-structural-steel-factory",
+        "0134-norms-ntc2018-timber-factory"
       ],
       "sourceOracles": ["tests/packageExports.test.js"],
       "targetTests": [
@@ -36382,6 +36404,8 @@
         "tests/ntc2018-structural-steel-factory-live-parity.test.ts",
         "tests/ntc2018-thermal-action-compile-time.test.ts",
         "tests/ntc2018-thermal-action-live-parity.test.ts",
+        "tests/ntc2018-timber-factory-compile-time.test.ts",
+        "tests/ntc2018-timber-factory-live-parity.test.ts",
         "tests/ntc2018-topographic-classification-compile-time.test.ts",
         "tests/ntc2018-topographic-classification-live-parity.test.ts",
         "tests/ntc2018-wind-load-compile-time.test.ts",
@@ -36489,7 +36513,8 @@
         "0130-norms-ntc2018-masonry-pier-kernels",
         "0131-norms-ntc2018-slab-load-catalogs",
         "0132-norms-ntc2018-existing-masonry-workflow",
-        "0133-norms-ntc2018-structural-steel-factory"
+        "0133-norms-ntc2018-structural-steel-factory",
+        "0134-norms-ntc2018-timber-factory"
       ],
       "status": "exact-parity",
       "testKind": "test"
@@ -37174,14 +37199,22 @@
       "sourcePath": "tests/timberBeamSectionProvider.test.js",
       "sourceBlobSha1": "e5303c179d99849a13ad94f5b1be88acfa23bdef",
       "targetPath": "tests/timberBeamSectionProvider.test.ts",
-      "migrationSlices": ["0041-domain-beam-section-providers"],
+      "migrationSlices": [
+        "0041-domain-beam-section-providers",
+        "0134-norms-ntc2018-timber-factory"
+      ],
       "sourceOracles": ["tests/timberBeamSectionProvider.test.js"],
       "targetTests": [
         "tests/baseline-parity.test.ts",
         "tests/beam-section-providers-compile-time.test.ts",
-        "tests/beam-section-providers-live-parity.test.ts"
+        "tests/beam-section-providers-live-parity.test.ts",
+        "tests/ntc2018-timber-factory-compile-time.test.ts",
+        "tests/ntc2018-timber-factory-live-parity.test.ts"
       ],
-      "validationEvidence": ["0041-domain-beam-section-providers"],
+      "validationEvidence": [
+        "0041-domain-beam-section-providers",
+        "0134-norms-ntc2018-timber-factory"
+      ],
       "status": "exact-parity",
       "testKind": "test"
     },
@@ -37204,19 +37237,23 @@
       "targetPath": "tests/timberMaterialHierarchy.test.ts",
       "migrationSlices": [
         "0064-domain-timber-material-hierarchy",
-        "0122-norms-ntc2018-material-catalogs"
+        "0122-norms-ntc2018-material-catalogs",
+        "0134-norms-ntc2018-timber-factory"
       ],
       "sourceOracles": ["tests/timberMaterialHierarchy.test.js"],
       "targetTests": [
         "tests/baseline-parity.test.ts",
         "tests/ntc2018-material-catalogs-compile-time.test.ts",
         "tests/ntc2018-material-catalogs-live-parity.test.ts",
+        "tests/ntc2018-timber-factory-compile-time.test.ts",
+        "tests/ntc2018-timber-factory-live-parity.test.ts",
         "tests/timber-material-hierarchy-compile-time.test.ts",
         "tests/timber-material-hierarchy-live-parity.test.ts"
       ],
       "validationEvidence": [
         "0064-domain-timber-material-hierarchy",
-        "0122-norms-ntc2018-material-catalogs"
+        "0122-norms-ntc2018-material-catalogs",
+        "0134-norms-ntc2018-timber-factory"
       ],
       "status": "exact-parity",
       "testKind": "test"
@@ -40229,12 +40266,28 @@
         "publicStrings": "exact equality plus Unicode preservation for names, metadata, and assumptions",
         "errors": "exact error name and message equality for missing units, unsupported grades, and unsupported units"
       }
+    },
+    {
+      "sliceId": "0134-norms-ntc2018-timber-factory",
+      "sourceRevision": "6f33baead8b88166c4b2cf94af41763412e3c751",
+      "method": "Strict declaration consumer coverage and independently executed pinned JavaScript versus built TypeScript comparisons of solid-timber and glulam strength classes, defaults, explicit unit conversion, design-strength metadata, Unicode values, inheritance, serialization, root delegation, and exact factory error paths.",
+      "targetTests": [
+        "tests/ntc2018-timber-factory-compile-time.test.ts",
+        "tests/ntc2018-timber-factory-live-parity.test.ts"
+      ],
+      "fixture": null,
+      "tolerances": {
+        "serializedParity": "exact TimberMaterial, SolidTimberMaterial and GlulamTimberMaterial JSON and metadata",
+        "numericParity": "exact density, elastic-modulus, strength, design-strength and unit-conversion equality",
+        "publicStrings": "exact equality plus Unicode code-point preservation for names, metadata, and factory strings",
+        "errors": "exact error name and message equality for missing units, unsupported strength classes, and unsupported units"
+      }
     }
   ],
   "counts": {
     "rootExports": {
       "javascript": 841,
-      "typescript": 731
+      "typescript": 732
     },
     "applicationsExports": {
       "javascript": 309,
@@ -40262,7 +40315,7 @@
     },
     "tests": {
       "javascript": 131,
-      "typescript": 254
+      "typescript": 256
     },
     "validationCampaigns": {
       "javascript": 17,
@@ -40320,16 +40373,12 @@
     "norms": {
       "statusCounts": {
         "exact-parity": 0,
-        "partial": 2,
+        "partial": 1,
         "missing": 1,
         "intentionally-excluded": 0,
         "decision-required": 0
       },
-      "itemIds": [
-        "root-export:createNTC2018TimberMaterial",
-        "source:src/norms/ntc2018/index.js",
-        "source:src/norms/ntc2018/masonry/index.js"
-      ]
+      "itemIds": ["source:src/norms/ntc2018/index.js", "source:src/norms/ntc2018/masonry/index.js"]
     },
     "applications": {
       "statusCounts": {

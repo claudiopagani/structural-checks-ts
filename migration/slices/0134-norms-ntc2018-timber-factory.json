@@ -1,0 +1,110 @@
+{
+  "schemaVersion": 1,
+  "sliceId": "0134-norms-ntc2018-timber-factory",
+  "title": "NTC 2018 timber material factory",
+  "migrationType": "mechanical-parity",
+  "implementationStatus": "implemented",
+  "dependencies": ["0064-domain-timber-material-hierarchy", "0122-norms-ntc2018-material-catalogs"],
+  "source": {
+    "repository": "https://github.com/claudiopagani/strutture-js",
+    "revision": "6f33baead8b88166c4b2cf94af41763412e3c751"
+  },
+  "normativeCorpusRevision": "41da3faa489600173106935bbcf726119300e48d",
+  "sourceFiles": [
+    {
+      "path": "src/norms/ntc2018/materials/createNTC2018Material.js",
+      "gitBlobSha1": "fc10a704f3abbdf4b6a7f2834200f4b566b53b04",
+      "targetPath": "src/norms/ntc2018/materials/createNTC2018Material.ts"
+    }
+  ],
+  "supportingSourceFiles": [
+    {
+      "path": "src/norms/ntc2018/materials/ntc2018MaterialCatalogs.js",
+      "gitBlobSha1": "db88567dee5a0f1e95cfdf081960e5c1d6d7be1a",
+      "targetPath": "src/norms/ntc2018/materials/ntc2018MaterialCatalogs.ts",
+      "coverage": "Already-migrated NTC 2018 timber strength-class catalog dependency."
+    },
+    {
+      "path": "src/domain/materials/TimberMaterial.js",
+      "gitBlobSha1": "cdc52ff3ae8dfae91b3678b60bd7aa5788cd8ead",
+      "targetPath": "src/domain/materials/TimberMaterial.ts",
+      "coverage": "Already-migrated generic timber material construction and serialization dependency."
+    },
+    {
+      "path": "src/domain/materials/SolidTimberMaterial.js",
+      "gitBlobSha1": "3f2e3d7a45cdbe079e19fca36bfa872d3e66435d",
+      "targetPath": "src/domain/materials/SolidTimberMaterial.ts",
+      "coverage": "Already-migrated solid-timber inheritance dependency."
+    },
+    {
+      "path": "src/domain/materials/GlulamTimberMaterial.js",
+      "gitBlobSha1": "669829f3aa3c61ef3922eb26719ca2bb170942f9",
+      "targetPath": "src/domain/materials/GlulamTimberMaterial.ts",
+      "coverage": "Already-migrated glulam inheritance dependency."
+    },
+    {
+      "path": "src/norms/ntc2018/index.js",
+      "gitBlobSha1": "0ac4cf551c455ec2a57d9bf8849db46fb14e0dcc",
+      "targetPath": "src/index.ts",
+      "coverage": "Pinned NTC 2018 norm-index export context."
+    },
+    {
+      "path": "src/index.js",
+      "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7",
+      "targetPath": "src/index.ts",
+      "coverage": "Root public export for the timber factory."
+    }
+  ],
+  "sourceOracles": [
+    {
+      "path": "tests/timberMaterialHierarchy.test.js",
+      "gitBlobSha1": "4ac2410a6d9201e28ffc4f413250cdfc1c454936",
+      "coverage": "Timber, solid-timber and glulam inheritance and serialized material contracts used by the factory."
+    },
+    {
+      "path": "tests/timberBeamSectionProvider.test.js",
+      "gitBlobSha1": "e5303c179d99849a13ad94f5b1be88acfa23bdef",
+      "coverage": "NTC timber strength-class and explicit-unit usage in the beam-provider workflow."
+    },
+    {
+      "path": "tests/packageExports.test.js",
+      "gitBlobSha1": "8dde24b4c97dd3dae7100207d07d9d96c52b9c74",
+      "coverage": "Root public export behavior."
+    }
+  ],
+  "sourcePublicExport": {
+    "path": "src/index.js",
+    "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
+  },
+  "targetTests": [
+    "tests/baseline-parity.test.ts",
+    "tests/ntc2018-timber-factory-compile-time.test.ts",
+    "tests/ntc2018-timber-factory-live-parity.test.ts"
+  ],
+  "publicExports": ["createNTC2018TimberMaterial"],
+  "publicTypeExports": ["CreateNTC2018TimberMaterialOptions"],
+  "normativeReferences": {
+    "resolved": [],
+    "outsideCorpus": [],
+    "normativeConformityClaimed": false,
+    "status": "classified-for-declared-scope"
+  },
+  "independentValidation": {
+    "method": "Strict declaration consumer coverage and independently executed pinned JavaScript versus built TypeScript comparisons of solid-timber and glulam strength classes, defaults, explicit unit conversion, design-strength metadata, Unicode values, inheritance, serialization, root delegation, and exact factory error paths.",
+    "targetTests": [
+      "tests/ntc2018-timber-factory-compile-time.test.ts",
+      "tests/ntc2018-timber-factory-live-parity.test.ts"
+    ],
+    "fixture": null,
+    "tolerances": {
+      "serializedParity": "exact TimberMaterial, SolidTimberMaterial and GlulamTimberMaterial JSON and metadata",
+      "numericParity": "exact density, elastic-modulus, strength, design-strength and unit-conversion equality",
+      "publicStrings": "exact equality plus Unicode code-point preservation for names, metadata, and factory strings",
+      "errors": "exact error name and message equality for missing units, unsupported strength classes, and unsupported units"
+    }
+  },
+  "parityDifferences": [
+    "The TypeScript module adds strict factory-option declarations and a root type export; factory defaults, catalog values, unit conversion, material inheritance, metadata, serialization, strings, and errors match the pinned source."
+  ],
+  "engineeringFunctionality": "Usable NTC 2018 solid-timber and glulam material construction with catalog strengths, explicit units, and traceable factory metadata."
+}

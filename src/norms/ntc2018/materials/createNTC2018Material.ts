@@ -1,6 +1,9 @@
 import { ConcreteMaterial } from "../../../domain/materials/ConcreteMaterial.js";
 import { ExistingMasonryMaterial } from "../../../domain/materials/ExistingMasonryMaterial.js";
+import { GlulamTimberMaterial } from "../../../domain/materials/GlulamTimberMaterial.js";
+import { SolidTimberMaterial } from "../../../domain/materials/SolidTimberMaterial.js";
 import { SteelMaterial } from "../../../domain/materials/SteelMaterial.js";
+import { TimberMaterial } from "../../../domain/materials/TimberMaterial.js";
 import {
   characteristicValueFromExistingMean,
   resolveExistingMaterialState,
@@ -28,6 +31,9 @@ import {
   type NTC2018ReinforcementSteelPreset,
   type NTC2018StructuralSteelGrade,
   type NTC2018StructuralSteelGradePreset,
+  NTC2018_TIMBER_STRENGTH_CLASSES,
+  type NTC2018TimberStrengthClass,
+  type NTC2018TimberStrengthClassPreset,
 } from "./ntc2018MaterialCatalogs.js";
 import { NTC2018ExistingMasonryMaterial } from "./NTC2018ExistingMasonryMaterial.js";
 import type { ExistingMasonryProperties } from "../../../domain/materials/ExistingMasonryMaterial.js";
@@ -299,6 +305,92 @@ export function createNTC2018StructuralSteelMaterial({
       thicknessAssumption: "valori caratteristici assunti per spessori ordinari",
     },
   });
+}
+
+export interface CreateNTC2018TimberMaterialOptions {
+  strengthClass: NTC2018TimberStrengthClass;
+  id?: string;
+  name?: string;
+  gammaM?: number;
+  serviceClass?: number;
+  kmod?: number;
+  units?: UnitSystemInput | null;
+  metadata?: Record<string, unknown>;
+}
+
+export function createNTC2018TimberMaterial({
+  strengthClass,
+  id = strengthClass,
+  name = `Legno ${strengthClass}`,
+  gammaM = 1.5,
+  serviceClass = 1,
+  kmod = 0.8,
+  units = null,
+  metadata = {},
+}: CreateNTC2018TimberMaterialOptions):
+  | SolidTimberMaterial
+  | GlulamTimberMaterial
+  | TimberMaterial {
+  assertExplicitUnitSystem(units, "createNTC2018TimberMaterial");
+  const unitResolver = createUnitResolver(units, INTERNAL_UNITS);
+  const preset = assertCatalogEntry<NTC2018TimberStrengthClassPreset>(
+    NTC2018_TIMBER_STRENGTH_CLASSES,
+    strengthClass,
+    `Unsupported NTC 2018 timber strength class: ${strengthClass}.`,
+  );
+
+  const e0_05 = preset.meanElasticModulus * (2 / 3);
+  const timberPayload = {
+    id,
+    name,
+    strengthClass,
+    density: unitResolver.volumeLoad(preset.density),
+    elasticModulus: preset.meanElasticModulus,
+    e0_05,
+    timberType: preset.timberType,
+    productStandard: preset.productStandard,
+    strengthStandard: preset.strengthStandard,
+    serviceClass,
+    kmod,
+    units: INTERNAL_UNITS,
+    fmK: preset.fmK,
+    fc0K: preset.fc0K,
+    ft0K: preset.ft0K,
+    fvK: preset.fvK ?? null,
+    metadata: {
+      ...metadata,
+      normativePreset: "NTC2018",
+      ntcReference: NTC2018_REFERENCE,
+      family: preset.timberType,
+      timberType: preset.timberType,
+      glulamType: preset.glulamType,
+      productStandard: preset.productStandard,
+      strengthStandard: preset.strengthStandard,
+      e0_05: round(e0_05, 2),
+      e0_05Source: "mean-elastic-modulus-ratio-2/3",
+      gammaM,
+      fmD: round((kmod * preset.fmK) / gammaM, 2),
+      fc0D: round((kmod * preset.fc0K) / gammaM, 2),
+      ft0D: round((kmod * preset.ft0K) / gammaM, 2),
+      fvD: preset.fvK != null ? round((kmod * preset.fvK) / gammaM, 2) : null,
+    },
+  };
+
+  if (preset.timberType === "solid-timber") {
+    return new SolidTimberMaterial({
+      ...timberPayload,
+      gradingMethod: preset.gradingMethod ?? null,
+    });
+  }
+
+  if (preset.timberType === "glulam") {
+    return new GlulamTimberMaterial({
+      ...timberPayload,
+      glulamType: preset.glulamType ?? null,
+    });
+  }
+
+  return new TimberMaterial(timberPayload);
 }
 
 export interface CreateNTC2018ExistingMasonryMaterialOptions extends Record<string, unknown> {

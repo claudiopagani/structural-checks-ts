@@ -570,6 +570,7 @@ export {
   createNTC2018ExistingMasonryMaterial,
   createNTC2018ReinforcementSteelMaterial,
   createNTC2018StructuralSteelMaterial,
+  createNTC2018TimberMaterial,
 } from "./norms/ntc2018/materials/createNTC2018Material.js";
 export {
   applyNTC2018ExistingMasonryMaltaBuonaUpdate,
@@ -1970,6 +1971,7 @@ export type {
   CreateNTC2018ExistingMasonryMaterialOptions,
   CreateNTC2018ReinforcementSteelMaterialOptions,
   CreateNTC2018StructuralSteelMaterialOptions,
+  CreateNTC2018TimberMaterialOptions,
 } from "./norms/ntc2018/materials/createNTC2018Material.js";
 export type {
   NTC2018ActionCombinationFactorCatalog,
