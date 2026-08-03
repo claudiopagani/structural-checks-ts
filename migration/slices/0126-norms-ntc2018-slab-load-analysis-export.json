@@ -1,0 +1,97 @@
+{
+  "schemaVersion": 1,
+  "sliceId": "0126-norms-ntc2018-slab-load-analysis-export",
+  "title": "NTC 2018 slab-load analysis norm export",
+  "migrationType": "mechanical-parity",
+  "implementationStatus": "implemented",
+  "dependencies": [
+    "0001-foundation",
+    "0103-domain-slab-load-hierarchy",
+    "0108-domain-slab-public-index"
+  ],
+  "source": {
+    "repository": "https://github.com/claudiopagani/strutture-js",
+    "revision": "6f33baead8b88166c4b2cf94af41763412e3c751"
+  },
+  "normativeCorpusRevision": "41da3faa489600173106935bbcf726119300e48d",
+  "sourceFiles": [
+    {
+      "path": "src/norms/ntc2018/loads/NTC2018SlabLoadAnalysis.js",
+      "gitBlobSha1": "3fbc1dabcdccabdd66e97a20671bcfb08880e3a4",
+      "targetPath": "src/norms/ntc2018/loads/NTC2018SlabLoadAnalysis.ts"
+    }
+  ],
+  "supportingSourceFiles": [
+    {
+      "path": "src/domain/slabs/NTC2018SlabLoadAnalysis.js",
+      "gitBlobSha1": "a124b77ad3e56cb2fb7351e4f4323d723ee536f3",
+      "targetPath": "src/domain/slabs/NTC2018SlabLoadAnalysis.ts",
+      "coverage": "Already-migrated domain implementation re-exported by the NTC 2018 norm module."
+    },
+    {
+      "path": "src/norms/ntc2018/index.js",
+      "gitBlobSha1": "0ac4cf551c455ec2a57d9bf8849db46fb14e0dcc",
+      "targetPath": "src/index.ts",
+      "coverage": "Pinned NTC 2018 norm-index export context."
+    },
+    {
+      "path": "src/index.js",
+      "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7",
+      "targetPath": "src/index.ts",
+      "coverage": "Root class export already supplied by the migrated domain slab index."
+    }
+  ],
+  "sourceOracles": [
+    {
+      "path": "tests/ntc2018SlabLoadAnalysis.test.js",
+      "gitBlobSha1": "c1e9fb9eada0babea7488194244b68c3107e8bd4",
+      "coverage": "NTC 2018 slab ULS/SLE analysis, exact serialized outputs, and source validation behavior."
+    },
+    {
+      "path": "tests/architecture/applicationRegistry.test.js",
+      "gitBlobSha1": "f7c4ab649b9f19600ab5894ea112bf7613466cd4",
+      "coverage": "Public NTC2018SlabLoadAnalysis constructor availability."
+    },
+    {
+      "path": "tests/packageExports.test.js",
+      "gitBlobSha1": "8dde24b4c97dd3dae7100207d07d9d96c52b9c74",
+      "coverage": "Root public export behavior."
+    }
+  ],
+  "sourcePublicExport": {
+    "path": "src/index.js",
+    "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
+  },
+  "targetTests": [
+    "tests/baseline-parity.test.ts",
+    "tests/slab-loads-compile-time.test.ts",
+    "tests/slab-loads-live-parity.test.ts",
+    "tests/ntc2018-slab-load-analysis-compile-time.test.ts",
+    "tests/ntc2018-slab-load-analysis-live-parity.test.ts"
+  ],
+  "publicExports": ["NTC2018SlabLoadAnalysis"],
+  "publicTypeExports": ["NTC2018SlabLoadAnalysisOptions", "NTC2018SlabLoadCoefficients"],
+  "normativeReferences": {
+    "resolved": [],
+    "outsideCorpus": ["NTC 2018 slab load-combination analysis adapter"],
+    "normativeConformityClaimed": false,
+    "status": "classified-for-declared-scope"
+  },
+  "independentValidation": {
+    "method": "Strict declaration consumer coverage and independently executed pinned JavaScript versus built TypeScript comparison of the norm-module re-export identity, exact empty-slab ULS/SLE JSON with Unicode description, and forwarded error behavior.",
+    "targetTests": [
+      "tests/ntc2018-slab-load-analysis-compile-time.test.ts",
+      "tests/ntc2018-slab-load-analysis-live-parity.test.ts"
+    ],
+    "tolerances": {
+      "serializedParity": "exact ULS/SLE result JSON and module export keys",
+      "numericParity": "exact equality for all empty-slab totals and factors",
+      "publicStrings": "exact equality plus Unicode preservation for slab descriptions and result notes",
+      "errors": "exact error name and message equality for invalid null slab construction usage"
+    }
+  },
+  "parityDifferences": [
+    "The TypeScript module adds declarations while preserving the pinned norm-module re-export and the already-migrated domain class runtime."
+  ],
+  "engineeringFunctionality": "Source-compatible NTC 2018 norm-path access to the migrated slab load analysis class."
+}

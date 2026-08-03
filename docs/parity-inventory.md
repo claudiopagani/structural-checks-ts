@@ -20,8 +20,8 @@ establish behavioral parity.
 | ApplicationRegistry entries       |                30 |                  0 |
 | Application catalog entries       |                30 |                 30 |
 | Serialized schema/version symbols |                49 |                 43 |
-| Source files                      |               480 |                371 |
-| Tests                             |               131 |                238 |
+| Source files                      |               480 |                372 |
+| Tests                             |               131 |                240 |
 | Validation campaigns              |                17 |                  0 |
 | Validation files                  |                27 |                  0 |
 | Examples                          |                32 |                  0 |
@@ -35,7 +35,7 @@ The JSON inventory contains the exact item IDs for every non-exact item. The gro
 implementation order required by the repository architecture.
 
 - **domain** — partial: 16.
-- **norms** — partial: 3, missing: 65.
+- **norms** — partial: 3, missing: 64.
 - **applications** — partial: 16, missing: 334.
 - **packageValidation** — partial: 4, missing: 122.
 
