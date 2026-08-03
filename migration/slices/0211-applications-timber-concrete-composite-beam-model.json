@@ -1,0 +1,84 @@
+{
+  "schemaVersion": 1,
+  "sliceId": "0211-applications-timber-concrete-composite-beam-model",
+  "title": "Timber-concrete composite beam model",
+  "migrationType": "mechanical-parity",
+  "implementationStatus": "implemented",
+  "dependencies": ["0001-foundation", "0002-reinforced-concrete-sections"],
+  "source": {
+    "repository": "https://github.com/claudiopagani/strutture-js",
+    "revision": "6f33baead8b88166c4b2cf94af41763412e3c751"
+  },
+  "normativeCorpusRevision": "41da3faa489600173106935bbcf726119300e48d",
+  "sourceFiles": [
+    {
+      "path": "src/applications/timber-concrete-composite-beams/models/TimberConcreteCompositeBeamModel.js",
+      "gitBlobSha1": "e38c5ff73045fc70ce45a2712537b6365179d111",
+      "targetPath": "src/applications/timber-concrete-composite-beams/models/TimberConcreteCompositeBeamModel.ts"
+    }
+  ],
+  "supportingSourceFiles": [
+    {
+      "path": "src/applications/timber-concrete-composite-beams/index.js",
+      "gitBlobSha1": "90395b35711d81ec6cf57d882ae4da202a6531de",
+      "coverage": "Pinned timber-concrete composite barrel context; only the model is supported in this slice."
+    },
+    {
+      "path": "src/index.js",
+      "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7",
+      "coverage": "Pinned root public export context for TimberConcreteCompositeBeamModel."
+    }
+  ],
+  "sourceOracles": [
+    {
+      "path": "tests/timberConcreteCompositeBeam.test.js",
+      "gitBlobSha1": "c24e21a2b79d5a14bb9b8e45b80a318675cd8f5c",
+      "coverage": "Pinned timber-concrete composite model defaults, centroid behavior and ideal-section composition."
+    },
+    {
+      "path": "tests/unitConversionLayer.test.js",
+      "gitBlobSha1": "a74facdc503cf31160e81f5b73f5915129db71b1",
+      "coverage": "Pinned model unit normalization and converted line-load metadata."
+    },
+    {
+      "path": "tests/packageExports.test.js",
+      "gitBlobSha1": "8dde24b4c97dd3dae7100207d07d9d96c52b9c74",
+      "coverage": "Pinned public TimberConcreteCompositeBeamModel export behavior."
+    }
+  ],
+  "sourcePublicExport": {
+    "path": "src/index.js",
+    "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
+  },
+  "targetTests": [
+    "tests/baseline-parity.test.ts",
+    "tests/timber-concrete-composite-beam-model-compile-time.test.ts",
+    "tests/timber-concrete-composite-beam-model-live-parity.test.ts"
+  ],
+  "publicExports": ["TimberConcreteCompositeBeamModel"],
+  "publicTypeExports": ["TimberConcreteCompositeBeamModelOptions"],
+  "normativeReferences": {
+    "resolved": [],
+    "outsideCorpus": [],
+    "normativeConformityClaimed": false,
+    "status": "classified-for-declared-scope"
+  },
+  "independentValidation": {
+    "method": "Strict typed consumer declarations and independently executed pinned JavaScript versus built TypeScript differential comparison for complete model serialization, unit-normalized loads, centroid calculations, ideal composite-section JSON, Unicode metadata and exact validation errors.",
+    "targetTests": [
+      "tests/timber-concrete-composite-beam-model-compile-time.test.ts",
+      "tests/timber-concrete-composite-beam-model-live-parity.test.ts"
+    ],
+    "fixture": "Independent timber section, concrete slab, timber/concrete materials, connector metadata, converted loads and Unicode model metadata.",
+    "tolerances": {
+      "serializedParity": "exact model and ideal composite-section JSON",
+      "numericParity": "exact normalized dimensions, loads, centroids and modular ratio",
+      "publicStrings": "exact generated composite names, roles, metadata and Unicode code points",
+      "errors": "exact missing-id and missing-explicit-unit error name and message comparisons"
+    }
+  },
+  "parityDifferences": [
+    "Strict TypeScript declarations are added for TimberConcreteCompositeBeamModel and its options."
+  ],
+  "engineeringFunctionality": "Strict TypeScript parity for the timber-concrete composite beam model, unit normalization, centroid helpers and ideal transformed composite-section construction; composite section providers, verification and application wrappers remain outside this slice."
+}

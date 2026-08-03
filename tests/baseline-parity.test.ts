@@ -127,6 +127,7 @@ const expectedExports = [
   "TimberBeamApplication",
   "TimberBeamVerification",
   "TimberBeamModel",
+  "TimberConcreteCompositeBeamModel",
   "MasonryWallPierModel",
   "MasonryWallSpandrelModel",
   "NTC2018MasonryPierAnalysis",

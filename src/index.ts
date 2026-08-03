@@ -864,6 +864,8 @@ export type {
   TimberBeamApplicationInput,
   TimberBeamApplicationModel,
 } from "./applications/timber-beams/TimberBeamApplication.js";
+export { TimberConcreteCompositeBeamModel } from "./applications/timber-concrete-composite-beams/models/TimberConcreteCompositeBeamModel.js";
+export type { TimberConcreteCompositeBeamModelOptions } from "./applications/timber-concrete-composite-beams/models/TimberConcreteCompositeBeamModel.js";
 export { TimberBeamModel } from "./applications/timber-beams/models/TimberBeamModel.js";
 export type { TimberBeamModelOptions } from "./applications/timber-beams/models/TimberBeamModel.js";
 export { SteelRingFrame2DBuilder } from "./applications/steel-frames/analysis/SteelRingFrame2DBuilder.js";
