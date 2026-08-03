@@ -86,6 +86,7 @@ const expectedExports = [
   "MasonryPierCapacityCurveComparisonReportBuilder",
   "MasonryPierCapacityCurveComparisonMarkdownRenderer",
   "createMasonryPierCapacityCurveComparisonReportArtifacts",
+  "MicropileBromsAnalysis",
   "MicropileBromsModel",
   "AreaLoad",
   "ApplicationRegistry",

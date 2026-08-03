@@ -1084,6 +1084,7 @@
         "MasonryWallOpeningsModel",
         "MasonryWallPierModel",
         "MasonryWallSpandrelModel",
+        "MicropileBromsAnalysis",
         "MicropileBromsModel",
         "MohrCoulombModel",
         "NORMATIVE_REFERENCE_RELATIONS",
@@ -12760,11 +12761,14 @@
       "sourcePath": "src/applications/micropiles-broms/analysis/MicropileBromsAnalysis.js",
       "sourceBlobSha1": "f646716d6d443502b01d8000385c3e7d35001b82",
       "targetPath": "src/applications/micropiles-broms/analysis/MicropileBromsAnalysis.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0179-applications-micropile-broms-analysis"],
+      "sourceOracles": ["tests/geotechnicalLateralPiles.test.js", "tests/packageExports.test.js"],
+      "targetTests": [
+        "tests/micropile-broms-analysis-compile-time.test.ts",
+        "tests/micropile-broms-analysis-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0179-applications-micropile-broms-analysis"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -24679,11 +24683,14 @@
       "sourcePath": "src/applications/micropiles-broms/analysis/MicropileBromsAnalysis.js",
       "sourceBlobSha1": "f646716d6d443502b01d8000385c3e7d35001b82",
       "targetPath": "src/applications/micropiles-broms/analysis/MicropileBromsAnalysis.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0179-applications-micropile-broms-analysis"],
+      "sourceOracles": ["tests/geotechnicalLateralPiles.test.js", "tests/packageExports.test.js"],
+      "targetTests": [
+        "tests/micropile-broms-analysis-compile-time.test.ts",
+        "tests/micropile-broms-analysis-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0179-applications-micropile-broms-analysis"],
+      "status": "exact-parity",
       "publicEntryPath": "src/applications/index.js",
       "publicEntryBlobSha1": "b70179c7cdd2a819f2151dc092c0f59cbce30ba6"
     },
@@ -31385,11 +31392,14 @@
       "sourcePath": "src/applications/micropiles-broms/analysis/MicropileBromsAnalysis.js",
       "sourceBlobSha1": "f646716d6d443502b01d8000385c3e7d35001b82",
       "targetPath": "src/applications/micropiles-broms/analysis/MicropileBromsAnalysis.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing"
+      "migrationSlices": ["0179-applications-micropile-broms-analysis"],
+      "sourceOracles": ["tests/geotechnicalLateralPiles.test.js", "tests/packageExports.test.js"],
+      "targetTests": [
+        "tests/micropile-broms-analysis-compile-time.test.ts",
+        "tests/micropile-broms-analysis-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0179-applications-micropile-broms-analysis"],
+      "status": "exact-parity"
     },
     {
       "id": "src/applications/micropiles-broms/index.js",
@@ -37518,7 +37528,8 @@
         "0174-applications-beam-report-artifacts",
         "0175-applications-beam-report-markdown-renderer",
         "0176-applications-beam-report-builder",
-        "0177-applications-single-beam-design-application"
+        "0177-applications-single-beam-design-application",
+        "0179-applications-micropile-broms-analysis"
       ],
       "sourceOracles": [
         "tests/architecture/applicationRegistry.test.js",
@@ -39429,7 +39440,8 @@
         "0073-domain-lateral-pile-load-scenario",
         "0097-domain-lateral-pile-capacity-analysis",
         "0144-applications-geotechnical-lateral-pile-application",
-        "0168-applications-micropile-broms-model"
+        "0168-applications-micropile-broms-model",
+        "0179-applications-micropile-broms-analysis"
       ],
       "sourceOracles": ["tests/geotechnicalLateralPiles.test.js"],
       "targetTests": [
@@ -39440,6 +39452,8 @@
         "tests/lateral-pile-capacity-live-parity.test.ts",
         "tests/lateral-pile-load-scenario-compile-time.test.ts",
         "tests/lateral-pile-load-scenario-live-parity.test.ts",
+        "tests/micropile-broms-analysis-compile-time.test.ts",
+        "tests/micropile-broms-analysis-live-parity.test.ts",
         "tests/micropile-broms-model-compile-time.test.ts",
         "tests/micropile-broms-model-live-parity.test.ts"
       ],
@@ -39447,7 +39461,8 @@
         "0073-domain-lateral-pile-load-scenario",
         "0097-domain-lateral-pile-capacity-analysis",
         "0144-applications-geotechnical-lateral-pile-application",
-        "0168-applications-micropile-broms-model"
+        "0168-applications-micropile-broms-model",
+        "0179-applications-micropile-broms-analysis"
       ],
       "status": "exact-parity",
       "testKind": "test"
@@ -40660,7 +40675,8 @@
         "0175-applications-beam-report-markdown-renderer",
         "0176-applications-beam-report-builder",
         "0177-applications-single-beam-design-application",
-        "0178-applications-single-beam-design-index"
+        "0178-applications-single-beam-design-index",
+        "0179-applications-micropile-broms-analysis"
       ],
       "sourceOracles": ["tests/packageExports.test.js"],
       "targetTests": [
@@ -40770,6 +40786,8 @@
         "tests/masonry-wall-opening-models-live-parity.test.ts",
         "tests/masonry-wall-opening-sanitization-compile-time.test.ts",
         "tests/masonry-wall-opening-sanitization-live-parity.test.ts",
+        "tests/micropile-broms-analysis-compile-time.test.ts",
+        "tests/micropile-broms-analysis-live-parity.test.ts",
         "tests/ntc2018-beam-combinations-compile-time.test.ts",
         "tests/ntc2018-beam-combinations-live-parity.test.ts",
         "tests/ntc2018-existing-masonry-catalogs-compile-time.test.ts",
@@ -40968,7 +40986,8 @@
         "0175-applications-beam-report-markdown-renderer",
         "0176-applications-beam-report-builder",
         "0177-applications-single-beam-design-application",
-        "0178-applications-single-beam-design-index"
+        "0178-applications-single-beam-design-index",
+        "0179-applications-micropile-broms-analysis"
       ],
       "status": "exact-parity",
       "testKind": "test"
@@ -45508,16 +45527,32 @@
         "publicStrings": "exact export names, schema version, Unicode identifiers and error messages",
         "errors": "exact missing-report artifact error"
       }
+    },
+    {
+      "sliceId": "0179-applications-micropile-broms-analysis",
+      "sourceRevision": "6f33baead8b88166c4b2cf94af41763412e3c751",
+      "method": "Strict typed consumer declarations and independently executed pinned JavaScript versus built TypeScript comparison of legacy compatibility JSON, delegated general Broms analysis JSON, default behavior, metadata, Unicode and null-input errors.",
+      "targetTests": [
+        "tests/micropile-broms-analysis-compile-time.test.ts",
+        "tests/micropile-broms-analysis-live-parity.test.ts"
+      ],
+      "fixture": "Legacy MicropileBromsModel-shaped input and a complete plain-object general lateral-pile input using a Unicode soil identifier and metadata.",
+      "tolerances": {
+        "serializedParity": "exact CalculationResult toJSON output",
+        "numericParity": "exact delegated Broms capacities and result values",
+        "publicStrings": "exact deprecation warnings, summaries, replacement identifiers and Unicode",
+        "errors": "exact null-input error behavior"
+      }
     }
   ],
   "counts": {
     "rootExports": {
       "javascript": 841,
-      "typescript": 776
+      "typescript": 777
     },
     "applicationsExports": {
       "javascript": 309,
-      "typescript": 249
+      "typescript": 250
     },
     "packageEntryPoints": {
       "javascript": 14,
@@ -45537,11 +45572,11 @@
     },
     "sourceFiles": {
       "javascript": 480,
-      "typescript": 440
+      "typescript": 441
     },
     "tests": {
       "javascript": 131,
-      "typescript": 342
+      "typescript": 344
     },
     "validationCampaigns": {
       "javascript": 17,
@@ -45593,7 +45628,7 @@
       "statusCounts": {
         "exact-parity": 0,
         "partial": 25,
-        "missing": 178,
+        "missing": 175,
         "intentionally-excluded": 0,
         "decision-required": 0
       },
@@ -45605,7 +45640,6 @@
         "application-export:MasonryEquivalentFrameBuilder",
         "application-export:MasonryPierCapacityCurveComparisonAnalysis",
         "application-export:MasonryWallOpeningsApplication",
-        "application-export:MicropileBromsAnalysis",
         "application-export:MicropileBromsApplication",
         "application-export:SteelDisplacementControlPushoverSolver2D",
         "application-export:SteelFrameApplication",
@@ -45695,7 +45729,6 @@
         "root-export:MasonryEquivalentFrameBuilder",
         "root-export:MasonryPierCapacityCurveComparisonAnalysis",
         "root-export:MasonryWallOpeningsApplication",
-        "root-export:MicropileBromsAnalysis",
         "root-export:MicropileBromsApplication",
         "root-export:SteelDisplacementControlPushoverSolver2D",
         "root-export:SteelFrameApplication",
@@ -45757,7 +45790,6 @@
         "source:src/applications/masonry-wall-openings/analysis/MasonryPierCapacityCurveComparisonAnalysis.js",
         "source:src/applications/masonry-wall-openings/index.js",
         "source:src/applications/micropiles-broms/MicropileBromsApplication.js",
-        "source:src/applications/micropiles-broms/analysis/MicropileBromsAnalysis.js",
         "source:src/applications/micropiles-broms/index.js",
         "source:src/applications/reinforced-concrete-plates/README.md",
         "source:src/applications/steel-frames/SteelFrameApplication.js",
