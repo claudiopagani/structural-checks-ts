@@ -1426,6 +1426,7 @@
         "classifyGlobalFemStructuralEntities",
         "classifyNTC2018JointConfinement",
         "classifyNTC2018Topography",
+        "classifySteelSection",
         "collectConcurrentJointActionStates",
         "collectConcurrentLineElementActionStates",
         "collectConcurrentMemberActionStates",
@@ -5792,11 +5793,15 @@
       "sourcePath": "src/applications/steel-frames/checks/SteelSectionClassification.js",
       "sourceBlobSha1": "7cbf2797146e470c63fa844196b6cb131314a963",
       "targetPath": "src/applications/steel-frames/checks/SteelSectionClassification.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0192-applications-steel-section-classification"],
+      "sourceOracles": ["tests/packageExports.test.js", "tests/steelBeamSectionProvider.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/steel-section-classification-compile-time.test.ts",
+        "tests/steel-section-classification-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0192-applications-steel-section-classification"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -22501,11 +22506,15 @@
       "sourcePath": "src/applications/steel-frames/checks/SteelSectionClassification.js",
       "sourceBlobSha1": "7cbf2797146e470c63fa844196b6cb131314a963",
       "targetPath": "src/applications/steel-frames/checks/SteelSectionClassification.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0192-applications-steel-section-classification"],
+      "sourceOracles": ["tests/packageExports.test.js", "tests/steelBeamSectionProvider.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/steel-section-classification-compile-time.test.ts",
+        "tests/steel-section-classification-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0192-applications-steel-section-classification"],
+      "status": "exact-parity",
       "publicEntryPath": "src/applications/index.js",
       "publicEntryBlobSha1": "b70179c7cdd2a819f2151dc092c0f59cbce30ba6"
     },
@@ -34046,11 +34055,15 @@
       "sourcePath": "src/applications/steel-frames/checks/SteelSectionClassification.js",
       "sourceBlobSha1": "7cbf2797146e470c63fa844196b6cb131314a963",
       "targetPath": "src/applications/steel-frames/checks/SteelSectionClassification.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing"
+      "migrationSlices": ["0192-applications-steel-section-classification"],
+      "sourceOracles": ["tests/packageExports.test.js", "tests/steelBeamSectionProvider.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/steel-section-classification-compile-time.test.ts",
+        "tests/steel-section-classification-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0192-applications-steel-section-classification"],
+      "status": "exact-parity"
     },
     {
       "id": "src/applications/steel-frames/checks/steelVerificationCapabilities.js",
@@ -37951,7 +37964,8 @@
         "0187-applications-steel-advanced-member-checks",
         "0188-applications-steel-beam-column-interaction",
         "0189-applications-steel-compression-buckling",
-        "0191-applications-steel-lateral-torsional-buckling"
+        "0191-applications-steel-lateral-torsional-buckling",
+        "0192-applications-steel-section-classification"
       ],
       "sourceOracles": [
         "tests/architecture/applicationRegistry.test.js",
@@ -41116,7 +41130,8 @@
         "0187-applications-steel-advanced-member-checks",
         "0188-applications-steel-beam-column-interaction",
         "0189-applications-steel-compression-buckling",
-        "0191-applications-steel-lateral-torsional-buckling"
+        "0191-applications-steel-lateral-torsional-buckling",
+        "0192-applications-steel-section-classification"
       ],
       "sourceOracles": ["tests/packageExports.test.js"],
       "targetTests": [
@@ -41334,6 +41349,8 @@
         "tests/steel-plastic-hinge-frame-element-live-parity.test.ts",
         "tests/steel-plastic-hinge-state-compile-time.test.ts",
         "tests/steel-plastic-hinge-state-live-parity.test.ts",
+        "tests/steel-section-classification-compile-time.test.ts",
+        "tests/steel-section-classification-live-parity.test.ts",
         "tests/structural-model-compile-time.test.ts",
         "tests/structural-model-live-parity.test.ts",
         "tests/terrain-elevation-grid-compile-time.test.ts",
@@ -41457,7 +41474,8 @@
         "0187-applications-steel-advanced-member-checks",
         "0188-applications-steel-beam-column-interaction",
         "0189-applications-steel-compression-buckling",
-        "0191-applications-steel-lateral-torsional-buckling"
+        "0191-applications-steel-lateral-torsional-buckling",
+        "0192-applications-steel-section-classification"
       ],
       "status": "exact-parity",
       "testKind": "test"
@@ -42144,7 +42162,8 @@
         "0041-domain-beam-section-providers",
         "0133-norms-ntc2018-structural-steel-factory",
         "0188-applications-steel-beam-column-interaction",
-        "0189-applications-steel-compression-buckling"
+        "0189-applications-steel-compression-buckling",
+        "0192-applications-steel-section-classification"
       ],
       "sourceOracles": ["tests/steelBeamSectionProvider.test.js"],
       "targetTests": [
@@ -42156,13 +42175,16 @@
         "tests/steel-beam-column-interaction-compile-time.test.ts",
         "tests/steel-beam-column-interaction-live-parity.test.ts",
         "tests/steel-compression-buckling-compile-time.test.ts",
-        "tests/steel-compression-buckling-live-parity.test.ts"
+        "tests/steel-compression-buckling-live-parity.test.ts",
+        "tests/steel-section-classification-compile-time.test.ts",
+        "tests/steel-section-classification-live-parity.test.ts"
       ],
       "validationEvidence": [
         "0041-domain-beam-section-providers",
         "0133-norms-ntc2018-structural-steel-factory",
         "0188-applications-steel-beam-column-interaction",
-        "0189-applications-steel-compression-buckling"
+        "0189-applications-steel-compression-buckling",
+        "0192-applications-steel-section-classification"
       ],
       "status": "exact-parity",
       "testKind": "test"
@@ -46257,16 +46279,32 @@
         "publicStrings": "exact method identifiers, warnings, descriptions and Unicode code-point comparison",
         "errors": "exact TypeError name and message for null options"
       }
+    },
+    {
+      "sliceId": "0192-applications-steel-section-classification",
+      "sourceRevision": "6f33baead8b88166c4b2cf94af41763412e3c751",
+      "method": "Strict typed consumer declarations and independently executed pinned JavaScript versus built TypeScript comparison of exact section-part JSON, numerical class limits and stresses, action conventions, Unicode identifiers, unsupported and missing-input behavior, root aliases and null-input errors.",
+      "targetTests": [
+        "tests/steel-section-classification-compile-time.test.ts",
+        "tests/steel-section-classification-live-parity.test.ts"
+      ],
+      "fixture": "Independent IPE, UPN, SHS, CHS, ROUND, FLAT, L, LU, T and RHS profiles covering biaxial stress, missing Iz, compression-sign conventions, tiny-action normalization, unsupported Unicode family, missing yield strength, missing geometry and exact public strings.",
+      "tolerances": {
+        "serializedParity": "exact JSON and enumerable result key order",
+        "numericParity": "exact epsilon, plate ratios, class limits, stresses and action metadata",
+        "publicStrings": "exact classification identifiers, formulas, warnings and Unicode code-point comparison",
+        "errors": "exact TypeError name and message for null options"
+      }
     }
   ],
   "counts": {
     "rootExports": {
       "javascript": 841,
-      "typescript": 798
+      "typescript": 799
     },
     "applicationsExports": {
       "javascript": 309,
-      "typescript": 271
+      "typescript": 272
     },
     "packageEntryPoints": {
       "javascript": 14,
@@ -46286,11 +46324,11 @@
     },
     "sourceFiles": {
       "javascript": 480,
-      "typescript": 453
+      "typescript": 454
     },
     "tests": {
       "javascript": 131,
-      "typescript": 368
+      "typescript": 370
     },
     "validationCampaigns": {
       "javascript": 17,
@@ -46342,7 +46380,7 @@
       "statusCounts": {
         "exact-parity": 0,
         "partial": 26,
-        "missing": 120,
+        "missing": 117,
         "intentionally-excluded": 0,
         "decision-required": 0
       },
@@ -46376,7 +46414,6 @@
         "application-export:XlamOutOfPlanePanelVerification",
         "application-export:calculateTimberLateralBucklingReduction",
         "application-export:calculateTimberRectangularCriticalBendingStress",
-        "application-export:classifySteelSection",
         "application-export:createDefaultApplicationRegistry",
         "application-export:createSteelMemberFem3DResult",
         "application-export:createTimberConcreteCompositeBeamSectionProvider",
@@ -46444,7 +46481,6 @@
         "root-export:XlamOutOfPlanePanelVerification",
         "root-export:calculateTimberLateralBucklingReduction",
         "root-export:calculateTimberRectangularCriticalBendingStress",
-        "root-export:classifySteelSection",
         "root-export:createDefaultApplicationRegistry",
         "root-export:createSteelMemberFem3DResult",
         "root-export:createTimberConcreteCompositeBeamSectionProvider",
@@ -46467,7 +46503,6 @@
         "source:src/applications/steel-frames/analysis/SteelRingFramePushoverAnalysis.js",
         "source:src/applications/steel-frames/checks/SteelMemberVerification.js",
         "source:src/applications/steel-frames/checks/SteelMemberVerificationPolicies.js",
-        "source:src/applications/steel-frames/checks/SteelSectionClassification.js",
         "source:src/applications/steel-frames/checks/steelVerificationCapabilities.js",
         "source:src/applications/steel-frames/fem/SteelMemberFem3DContract.js",
         "source:src/applications/steel-frames/index.js",

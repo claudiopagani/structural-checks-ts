@@ -872,6 +872,17 @@ export type {
   SteelLateralTorsionalSectionMetadataLike,
   VerifySteelLateralTorsionalBucklingOptions,
 } from "./applications/steel-frames/checks/SteelLateralTorsionalBuckling.js";
+export { classifySteelSection } from "./applications/steel-frames/checks/SteelSectionClassification.js";
+export type {
+  ClassifySteelSectionOptions,
+  SteelSectionClassificationCatalogPropertiesLike,
+  SteelSectionClassificationLimits,
+  SteelSectionClassificationMaterialLike,
+  SteelSectionClassificationPart,
+  SteelSectionClassificationResult,
+  SteelSectionClassificationSectionLike,
+  SteelSectionClassificationSectionMetadataLike,
+} from "./applications/steel-frames/checks/SteelSectionClassification.js";
 export { SteelPlasticHingeFrameElement2D } from "./applications/steel-frames/analysis/SteelPlasticHingeFrameElement2D.js";
 export type {
   SteelPlasticHingeCondensationOperators,

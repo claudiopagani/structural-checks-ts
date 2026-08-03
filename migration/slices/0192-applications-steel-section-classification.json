@@ -1,0 +1,91 @@
+{
+  "schemaVersion": 1,
+  "sliceId": "0192-applications-steel-section-classification",
+  "title": "Steel section classification checks",
+  "migrationType": "mechanical-parity",
+  "implementationStatus": "implemented",
+  "dependencies": [],
+  "source": {
+    "repository": "https://github.com/claudiopagani/strutture-js",
+    "revision": "6f33baead8b88166c4b2cf94af41763412e3c751"
+  },
+  "normativeCorpusRevision": "41da3faa489600173106935bbcf726119300e48d",
+  "sourceFiles": [
+    {
+      "path": "src/applications/steel-frames/checks/SteelSectionClassification.js",
+      "gitBlobSha1": "7cbf2797146e470c63fa844196b6cb131314a963",
+      "targetPath": "src/applications/steel-frames/checks/SteelSectionClassification.ts"
+    }
+  ],
+  "supportingSourceFiles": [
+    {
+      "path": "src/applications/steel-frames/index.js",
+      "gitBlobSha1": "00b0b647649aff91fa05b523a18df186f588223f",
+      "coverage": "Pinned steel-frames barrel exports classifySteelSection."
+    },
+    {
+      "path": "src/applications/index.js",
+      "gitBlobSha1": "b70179c7cdd2a819f2151dc092c0f59cbce30ba6",
+      "coverage": "Pinned applications barrel reexports classifySteelSection."
+    },
+    {
+      "path": "src/index.js",
+      "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7",
+      "coverage": "Pinned root public export for steel section classification."
+    }
+  ],
+  "sourceOracles": [
+    {
+      "path": "tests/steelBeamSectionProvider.test.js",
+      "gitBlobSha1": "0c0b3548262ac408961ea9a48c5649b228c0bebd",
+      "coverage": "Pinned I/H, UPN, extended catalog-family, RHS biaxial, missing-Iz and tiny-action classification cases."
+    },
+    {
+      "path": "tests/packageExports.test.js",
+      "gitBlobSha1": "8dde24b4c97dd3dae7100207d07d9d96c52b9c74",
+      "coverage": "Pinned public package export and root-alias oracle."
+    }
+  ],
+  "sourcePublicExport": {
+    "path": "src/index.js",
+    "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
+  },
+  "targetTests": [
+    "tests/baseline-parity.test.ts",
+    "tests/steel-section-classification-compile-time.test.ts",
+    "tests/steel-section-classification-live-parity.test.ts"
+  ],
+  "publicExports": ["classifySteelSection"],
+  "publicTypeExports": [
+    "ClassifySteelSectionOptions",
+    "SteelSectionClassificationCatalogPropertiesLike",
+    "SteelSectionClassificationLimits",
+    "SteelSectionClassificationMaterialLike",
+    "SteelSectionClassificationPart",
+    "SteelSectionClassificationResult",
+    "SteelSectionClassificationSectionLike",
+    "SteelSectionClassificationSectionMetadataLike"
+  ],
+  "normativeReferences": {
+    "resolved": [],
+    "outsideCorpus": [],
+    "normativeConformityClaimed": false,
+    "status": "classified-for-declared-scope"
+  },
+  "independentValidation": {
+    "method": "Strict typed consumer declarations and independently executed pinned JavaScript versus built TypeScript comparison of exact section-part JSON, numerical class limits and stresses, action conventions, Unicode identifiers, unsupported and missing-input behavior, root aliases and null-input errors.",
+    "targetTests": [
+      "tests/steel-section-classification-compile-time.test.ts",
+      "tests/steel-section-classification-live-parity.test.ts"
+    ],
+    "fixture": "Independent IPE, UPN, SHS, CHS, ROUND, FLAT, L, LU, T and RHS profiles covering biaxial stress, missing Iz, compression-sign conventions, tiny-action normalization, unsupported Unicode family, missing yield strength, missing geometry and exact public strings.",
+    "tolerances": {
+      "serializedParity": "exact JSON and enumerable result key order",
+      "numericParity": "exact epsilon, plate ratios, class limits, stresses and action metadata",
+      "publicStrings": "exact classification identifiers, formulas, warnings and Unicode code-point comparison",
+      "errors": "exact TypeError name and message for null options"
+    }
+  },
+  "parityDifferences": [],
+  "engineeringFunctionality": "Strict TypeScript parity for NTC/EN 1993 steel section classification across supported profile families; member verification, effective class-4 properties and higher-level steel application composition remain outside this slice."
+}
