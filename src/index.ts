@@ -404,6 +404,38 @@ export type {
   MasonryOutOfPlaneModelOptions,
 } from "./applications/masonry-out-of-plane/index.js";
 export {
+  MasonryPierApplication,
+  MasonryPierEquivalentFrameBuilder,
+  MasonryPierModel,
+  MasonryPierVerticalVerification,
+  NTC2018MasonryPierAnalysis,
+  NTC2018MasonryPierModel,
+} from "./applications/masonry-piers/index.js";
+export type {
+  MasonryPierApplicationInput,
+  MasonryPierActions,
+  MasonryPierActionsInput,
+  MasonryPierDesign,
+  MasonryPierDesignInput,
+  MasonryPierEquivalentFrameBuildResult,
+  MasonryPierEquivalentFrameRigidities,
+  MasonryPierEquivalentFrameSnapshot,
+  MasonryPierGeometry,
+  MasonryPierGeometryInput,
+  MasonryPierIdealization,
+  MasonryPierIdealizationInput,
+  MasonryPierMaterialRecord,
+  MasonryPierMetadata,
+  MasonryPierModelJson,
+  MasonryPierModelOptions,
+  MasonryPierProperties,
+  NTC2018MasonryPierEvaluationInput,
+  NTC2018MasonryPierModelOptions,
+  NTC2018MasonryPierNormativeInput,
+  NTC2018MasonryPierResolvedMaterial,
+  NTC2018MasonryPierNormativeState,
+} from "./applications/masonry-piers/index.js";
+export {
   AXIAL_PILE_CAPACITY_REFERENCE,
   AXIAL_PILE_CAPACITY_RESULT_SCHEMA_VERSION,
   AxialPileCapacityAnalysis,

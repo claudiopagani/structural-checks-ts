@@ -52,7 +52,7 @@ export interface NTC2018MasonryPierActions {
 export interface NTC2018MasonryPierEvaluationOptions {
   masonryTexture?: string;
   boundaryCondition?: "cantilever" | "fixed-fixed";
-  shearSpan?: number;
+  shearSpan?: number | null;
   shearCorrectionFactor?: number;
   crackedStiffnessFactor?: number;
   scope?: NTC2018MasonryPierNormativeScope;

@@ -1065,10 +1065,16 @@
         "MasonryOutOfPlaneApplication",
         "MasonryOutOfPlaneKinematicAnalysis",
         "MasonryOutOfPlaneModel",
+        "MasonryPierApplication",
+        "MasonryPierEquivalentFrameBuilder",
+        "MasonryPierModel",
+        "MasonryPierVerticalVerification",
         "MohrCoulombModel",
         "NORMATIVE_REFERENCE_RELATIONS",
         "NORMATIVE_REFERENCE_RESOLUTION_STATUS",
         "NTC2018ExistingMasonryMaterial",
+        "NTC2018MasonryPierAnalysis",
+        "NTC2018MasonryPierModel",
         "NTC2018SlabLoadAnalysis",
         "NTC2018_ACTION_COMBINATION_FACTORS",
         "NTC2018_ACTION_PARTIAL_FACTORS",
@@ -12336,11 +12342,19 @@
       "sourcePath": "src/applications/masonry-piers/MasonryPierApplication.js",
       "sourceBlobSha1": "ae20ff44cadc2a8f21b65e93b3c081d86a7c7553",
       "targetPath": "src/applications/masonry-piers/MasonryPierApplication.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0149-applications-masonry-piers"],
+      "sourceOracles": [
+        "tests/masonryPierVerticalVerification.test.js",
+        "tests/ntc2018MasonryPierModel.test.js",
+        "tests/packageExports.test.js"
+      ],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/masonry-piers-compile-time.test.ts",
+        "tests/masonry-piers-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0149-applications-masonry-piers"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -12392,11 +12406,19 @@
       "sourcePath": "src/applications/masonry-piers/analysis/MasonryPierEquivalentFrameBuilder.js",
       "sourceBlobSha1": "3d1f3f6f65d2e3bba5276839d28917a337aaf627",
       "targetPath": "src/applications/masonry-piers/analysis/MasonryPierEquivalentFrameBuilder.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0149-applications-masonry-piers"],
+      "sourceOracles": [
+        "tests/masonryPierVerticalVerification.test.js",
+        "tests/ntc2018MasonryPierModel.test.js",
+        "tests/packageExports.test.js"
+      ],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/masonry-piers-compile-time.test.ts",
+        "tests/masonry-piers-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0149-applications-masonry-piers"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -12406,11 +12428,19 @@
       "sourcePath": "src/applications/masonry-piers/models/MasonryPierModel.js",
       "sourceBlobSha1": "69aaf6860edb41a1af47f5b32903432fd226778e",
       "targetPath": "src/applications/masonry-piers/models/MasonryPierModel.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0149-applications-masonry-piers"],
+      "sourceOracles": [
+        "tests/masonryPierVerticalVerification.test.js",
+        "tests/ntc2018MasonryPierModel.test.js",
+        "tests/packageExports.test.js"
+      ],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/masonry-piers-compile-time.test.ts",
+        "tests/masonry-piers-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0149-applications-masonry-piers"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -12420,11 +12450,19 @@
       "sourcePath": "src/applications/masonry-piers/checks/MasonryPierVerticalVerification.js",
       "sourceBlobSha1": "6b850179b7e516ae1ce96970358d74f108289e9d",
       "targetPath": "src/applications/masonry-piers/checks/MasonryPierVerticalVerification.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0149-applications-masonry-piers"],
+      "sourceOracles": [
+        "tests/masonryPierVerticalVerification.test.js",
+        "tests/ntc2018MasonryPierModel.test.js",
+        "tests/packageExports.test.js"
+      ],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/masonry-piers-compile-time.test.ts",
+        "tests/masonry-piers-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0149-applications-masonry-piers"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -14997,11 +15035,19 @@
       "sourcePath": "src/applications/masonry-piers/analysis/NTC2018MasonryPierAnalysis.js",
       "sourceBlobSha1": "1019cfd57701fde2334cdbca057ce1d201248b2b",
       "targetPath": "src/applications/masonry-piers/analysis/NTC2018MasonryPierAnalysis.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0149-applications-masonry-piers"],
+      "sourceOracles": [
+        "tests/masonryPierVerticalVerification.test.js",
+        "tests/ntc2018MasonryPierModel.test.js",
+        "tests/packageExports.test.js"
+      ],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/masonry-piers-compile-time.test.ts",
+        "tests/masonry-piers-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0149-applications-masonry-piers"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -15011,11 +15057,19 @@
       "sourcePath": "src/applications/masonry-piers/models/NTC2018MasonryPierModel.js",
       "sourceBlobSha1": "4117254b6bf7aa7dbe199f8b850099ba47a0eaac",
       "targetPath": "src/applications/masonry-piers/models/NTC2018MasonryPierModel.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0149-applications-masonry-piers"],
+      "sourceOracles": [
+        "tests/masonryPierVerticalVerification.test.js",
+        "tests/ntc2018MasonryPierModel.test.js",
+        "tests/packageExports.test.js"
+      ],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/masonry-piers-compile-time.test.ts",
+        "tests/masonry-piers-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0149-applications-masonry-piers"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -23745,11 +23799,19 @@
       "sourcePath": "src/applications/masonry-piers/MasonryPierApplication.js",
       "sourceBlobSha1": "ae20ff44cadc2a8f21b65e93b3c081d86a7c7553",
       "targetPath": "src/applications/masonry-piers/MasonryPierApplication.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0149-applications-masonry-piers"],
+      "sourceOracles": [
+        "tests/masonryPierVerticalVerification.test.js",
+        "tests/ntc2018MasonryPierModel.test.js",
+        "tests/packageExports.test.js"
+      ],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/masonry-piers-compile-time.test.ts",
+        "tests/masonry-piers-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0149-applications-masonry-piers"],
+      "status": "exact-parity",
       "publicEntryPath": "src/applications/index.js",
       "publicEntryBlobSha1": "b70179c7cdd2a819f2151dc092c0f59cbce30ba6"
     },
@@ -23801,11 +23863,19 @@
       "sourcePath": "src/applications/masonry-piers/analysis/MasonryPierEquivalentFrameBuilder.js",
       "sourceBlobSha1": "3d1f3f6f65d2e3bba5276839d28917a337aaf627",
       "targetPath": "src/applications/masonry-piers/analysis/MasonryPierEquivalentFrameBuilder.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0149-applications-masonry-piers"],
+      "sourceOracles": [
+        "tests/masonryPierVerticalVerification.test.js",
+        "tests/ntc2018MasonryPierModel.test.js",
+        "tests/packageExports.test.js"
+      ],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/masonry-piers-compile-time.test.ts",
+        "tests/masonry-piers-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0149-applications-masonry-piers"],
+      "status": "exact-parity",
       "publicEntryPath": "src/applications/index.js",
       "publicEntryBlobSha1": "b70179c7cdd2a819f2151dc092c0f59cbce30ba6"
     },
@@ -23815,11 +23885,19 @@
       "sourcePath": "src/applications/masonry-piers/models/MasonryPierModel.js",
       "sourceBlobSha1": "69aaf6860edb41a1af47f5b32903432fd226778e",
       "targetPath": "src/applications/masonry-piers/models/MasonryPierModel.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0149-applications-masonry-piers"],
+      "sourceOracles": [
+        "tests/masonryPierVerticalVerification.test.js",
+        "tests/ntc2018MasonryPierModel.test.js",
+        "tests/packageExports.test.js"
+      ],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/masonry-piers-compile-time.test.ts",
+        "tests/masonry-piers-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0149-applications-masonry-piers"],
+      "status": "exact-parity",
       "publicEntryPath": "src/applications/index.js",
       "publicEntryBlobSha1": "b70179c7cdd2a819f2151dc092c0f59cbce30ba6"
     },
@@ -23829,11 +23907,19 @@
       "sourcePath": "src/applications/masonry-piers/checks/MasonryPierVerticalVerification.js",
       "sourceBlobSha1": "6b850179b7e516ae1ce96970358d74f108289e9d",
       "targetPath": "src/applications/masonry-piers/checks/MasonryPierVerticalVerification.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0149-applications-masonry-piers"],
+      "sourceOracles": [
+        "tests/masonryPierVerticalVerification.test.js",
+        "tests/ntc2018MasonryPierModel.test.js",
+        "tests/packageExports.test.js"
+      ],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/masonry-piers-compile-time.test.ts",
+        "tests/masonry-piers-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0149-applications-masonry-piers"],
+      "status": "exact-parity",
       "publicEntryPath": "src/applications/index.js",
       "publicEntryBlobSha1": "b70179c7cdd2a819f2151dc092c0f59cbce30ba6"
     },
@@ -24066,11 +24152,19 @@
       "sourcePath": "src/applications/masonry-piers/analysis/NTC2018MasonryPierAnalysis.js",
       "sourceBlobSha1": "1019cfd57701fde2334cdbca057ce1d201248b2b",
       "targetPath": "src/applications/masonry-piers/analysis/NTC2018MasonryPierAnalysis.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0149-applications-masonry-piers"],
+      "sourceOracles": [
+        "tests/masonryPierVerticalVerification.test.js",
+        "tests/ntc2018MasonryPierModel.test.js",
+        "tests/packageExports.test.js"
+      ],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/masonry-piers-compile-time.test.ts",
+        "tests/masonry-piers-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0149-applications-masonry-piers"],
+      "status": "exact-parity",
       "publicEntryPath": "src/applications/index.js",
       "publicEntryBlobSha1": "b70179c7cdd2a819f2151dc092c0f59cbce30ba6"
     },
@@ -24080,11 +24174,19 @@
       "sourcePath": "src/applications/masonry-piers/models/NTC2018MasonryPierModel.js",
       "sourceBlobSha1": "4117254b6bf7aa7dbe199f8b850099ba47a0eaac",
       "targetPath": "src/applications/masonry-piers/models/NTC2018MasonryPierModel.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0149-applications-masonry-piers"],
+      "sourceOracles": [
+        "tests/masonryPierVerticalVerification.test.js",
+        "tests/ntc2018MasonryPierModel.test.js",
+        "tests/packageExports.test.js"
+      ],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/masonry-piers-compile-time.test.ts",
+        "tests/masonry-piers-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0149-applications-masonry-piers"],
+      "status": "exact-parity",
       "publicEntryPath": "src/applications/index.js",
       "publicEntryBlobSha1": "b70179c7cdd2a819f2151dc092c0f59cbce30ba6"
     },
@@ -26782,13 +26884,17 @@
         "tests/reinforcedConcreteFoundationBeamApplication.test.js",
         "tests/reinforcedConcreteStrutAndTieApplication.test.js"
       ],
-      "targetTests": [],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/masonry-piers-compile-time.test.ts",
+        "tests/masonry-piers-live-parity.test.ts"
+      ],
       "validationEvidence": [
         "0024-reinforced-concrete-foundation-beams",
         "0026-reinforced-concrete-beam-column-joints",
         "0027-reinforced-concrete-strut-and-tie"
       ],
-      "status": "missing",
+      "status": "partial",
       "notes": ["Default registry construction is not present in the current TypeScript target."],
       "applicationId": "masonry-piers",
       "applicationClass": "MasonryPierApplication",
@@ -29686,77 +29792,133 @@
       "sourcePath": "src/applications/masonry-piers/MasonryPierApplication.js",
       "sourceBlobSha1": "ae20ff44cadc2a8f21b65e93b3c081d86a7c7553",
       "targetPath": "src/applications/masonry-piers/MasonryPierApplication.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing"
+      "migrationSlices": ["0149-applications-masonry-piers"],
+      "sourceOracles": [
+        "tests/masonryPierVerticalVerification.test.js",
+        "tests/ntc2018MasonryPierModel.test.js",
+        "tests/packageExports.test.js"
+      ],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/masonry-piers-compile-time.test.ts",
+        "tests/masonry-piers-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0149-applications-masonry-piers"],
+      "status": "exact-parity"
     },
     {
       "id": "src/applications/masonry-piers/analysis/MasonryPierEquivalentFrameBuilder.js",
       "sourcePath": "src/applications/masonry-piers/analysis/MasonryPierEquivalentFrameBuilder.js",
       "sourceBlobSha1": "3d1f3f6f65d2e3bba5276839d28917a337aaf627",
       "targetPath": "src/applications/masonry-piers/analysis/MasonryPierEquivalentFrameBuilder.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing"
+      "migrationSlices": ["0149-applications-masonry-piers"],
+      "sourceOracles": [
+        "tests/masonryPierVerticalVerification.test.js",
+        "tests/ntc2018MasonryPierModel.test.js",
+        "tests/packageExports.test.js"
+      ],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/masonry-piers-compile-time.test.ts",
+        "tests/masonry-piers-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0149-applications-masonry-piers"],
+      "status": "exact-parity"
     },
     {
       "id": "src/applications/masonry-piers/analysis/NTC2018MasonryPierAnalysis.js",
       "sourcePath": "src/applications/masonry-piers/analysis/NTC2018MasonryPierAnalysis.js",
       "sourceBlobSha1": "1019cfd57701fde2334cdbca057ce1d201248b2b",
       "targetPath": "src/applications/masonry-piers/analysis/NTC2018MasonryPierAnalysis.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing"
+      "migrationSlices": ["0149-applications-masonry-piers"],
+      "sourceOracles": [
+        "tests/masonryPierVerticalVerification.test.js",
+        "tests/ntc2018MasonryPierModel.test.js",
+        "tests/packageExports.test.js"
+      ],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/masonry-piers-compile-time.test.ts",
+        "tests/masonry-piers-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0149-applications-masonry-piers"],
+      "status": "exact-parity"
     },
     {
       "id": "src/applications/masonry-piers/checks/MasonryPierVerticalVerification.js",
       "sourcePath": "src/applications/masonry-piers/checks/MasonryPierVerticalVerification.js",
       "sourceBlobSha1": "6b850179b7e516ae1ce96970358d74f108289e9d",
       "targetPath": "src/applications/masonry-piers/checks/MasonryPierVerticalVerification.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing"
+      "migrationSlices": ["0149-applications-masonry-piers"],
+      "sourceOracles": [
+        "tests/masonryPierVerticalVerification.test.js",
+        "tests/ntc2018MasonryPierModel.test.js",
+        "tests/packageExports.test.js"
+      ],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/masonry-piers-compile-time.test.ts",
+        "tests/masonry-piers-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0149-applications-masonry-piers"],
+      "status": "exact-parity"
     },
     {
       "id": "src/applications/masonry-piers/index.js",
       "sourcePath": "src/applications/masonry-piers/index.js",
       "sourceBlobSha1": "594dad2dec6ce265c7d56c0123b921679f3ed711",
       "targetPath": "src/applications/masonry-piers/index.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing"
+      "migrationSlices": ["0149-applications-masonry-piers"],
+      "sourceOracles": [
+        "tests/masonryPierVerticalVerification.test.js",
+        "tests/ntc2018MasonryPierModel.test.js",
+        "tests/packageExports.test.js"
+      ],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/masonry-piers-compile-time.test.ts",
+        "tests/masonry-piers-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0149-applications-masonry-piers"],
+      "status": "exact-parity"
     },
     {
       "id": "src/applications/masonry-piers/models/MasonryPierModel.js",
       "sourcePath": "src/applications/masonry-piers/models/MasonryPierModel.js",
       "sourceBlobSha1": "69aaf6860edb41a1af47f5b32903432fd226778e",
       "targetPath": "src/applications/masonry-piers/models/MasonryPierModel.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing"
+      "migrationSlices": ["0149-applications-masonry-piers"],
+      "sourceOracles": [
+        "tests/masonryPierVerticalVerification.test.js",
+        "tests/ntc2018MasonryPierModel.test.js",
+        "tests/packageExports.test.js"
+      ],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/masonry-piers-compile-time.test.ts",
+        "tests/masonry-piers-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0149-applications-masonry-piers"],
+      "status": "exact-parity"
     },
     {
       "id": "src/applications/masonry-piers/models/NTC2018MasonryPierModel.js",
       "sourcePath": "src/applications/masonry-piers/models/NTC2018MasonryPierModel.js",
       "sourceBlobSha1": "4117254b6bf7aa7dbe199f8b850099ba47a0eaac",
       "targetPath": "src/applications/masonry-piers/models/NTC2018MasonryPierModel.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing"
+      "migrationSlices": ["0149-applications-masonry-piers"],
+      "sourceOracles": [
+        "tests/masonryPierVerticalVerification.test.js",
+        "tests/ntc2018MasonryPierModel.test.js",
+        "tests/packageExports.test.js"
+      ],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/masonry-piers-compile-time.test.ts",
+        "tests/masonry-piers-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0149-applications-masonry-piers"],
+      "status": "exact-parity"
     },
     {
       "id": "src/applications/masonry-ring-beams/MasonryRingBeamApplication.js",
@@ -36143,7 +36305,8 @@
         "0145-applications-geotechnical-retaining-wall-application",
         "0146-applications-geotechnical-shallow-foundation-application",
         "0147-applications-geotechnical-slope-stability-application",
-        "0148-applications-masonry-out-of-plane"
+        "0148-applications-masonry-out-of-plane",
+        "0149-applications-masonry-piers"
       ],
       "sourceOracles": [
         "tests/architecture/applicationRegistry.test.js",
@@ -38419,11 +38582,15 @@
       "sourcePath": "tests/masonryPierVerticalVerification.test.js",
       "sourceBlobSha1": "61ba99d5e301eedb85242081ddfe23fa7e4d2c3a",
       "targetPath": "tests/masonryPierVerticalVerification.test.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0149-applications-masonry-piers"],
+      "sourceOracles": ["tests/masonryPierVerticalVerification.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/masonry-piers-compile-time.test.ts",
+        "tests/masonry-piers-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0149-applications-masonry-piers"],
+      "status": "exact-parity",
       "testKind": "test"
     },
     {
@@ -38752,11 +38919,14 @@
       "targetPath": "tests/ntc2018MasonryPierModel.test.ts",
       "migrationSlices": [
         "0130-norms-ntc2018-masonry-pier-kernels",
-        "0136-norms-ntc2018-masonry-public-index"
+        "0136-norms-ntc2018-masonry-public-index",
+        "0149-applications-masonry-piers"
       ],
       "sourceOracles": ["tests/ntc2018MasonryPierModel.test.js"],
       "targetTests": [
         "tests/baseline-parity.test.ts",
+        "tests/masonry-piers-compile-time.test.ts",
+        "tests/masonry-piers-live-parity.test.ts",
         "tests/ntc2018-masonry-pier-compile-time.test.ts",
         "tests/ntc2018-masonry-pier-live-parity.test.ts",
         "tests/ntc2018-masonry-public-index-compile-time.test.ts",
@@ -38764,7 +38934,8 @@
       ],
       "validationEvidence": [
         "0130-norms-ntc2018-masonry-pier-kernels",
-        "0136-norms-ntc2018-masonry-public-index"
+        "0136-norms-ntc2018-masonry-public-index",
+        "0149-applications-masonry-piers"
       ],
       "status": "exact-parity",
       "testKind": "test"
@@ -39162,7 +39333,8 @@
         "0145-applications-geotechnical-retaining-wall-application",
         "0146-applications-geotechnical-shallow-foundation-application",
         "0147-applications-geotechnical-slope-stability-application",
-        "0148-applications-masonry-out-of-plane"
+        "0148-applications-masonry-out-of-plane",
+        "0149-applications-masonry-piers"
       ],
       "sourceOracles": ["tests/packageExports.test.js"],
       "targetTests": [
@@ -39240,6 +39412,8 @@
         "tests/masonry-material-indexes-live-parity.test.ts",
         "tests/masonry-out-of-plane-application-compile-time.test.ts",
         "tests/masonry-out-of-plane-application-live-parity.test.ts",
+        "tests/masonry-piers-compile-time.test.ts",
+        "tests/masonry-piers-live-parity.test.ts",
         "tests/masonry-section-index-compile-time.test.ts",
         "tests/masonry-section-index-live-parity.test.ts",
         "tests/ntc2018-beam-combinations-compile-time.test.ts",
@@ -39410,7 +39584,8 @@
         "0145-applications-geotechnical-retaining-wall-application",
         "0146-applications-geotechnical-shallow-foundation-application",
         "0147-applications-geotechnical-slope-stability-application",
-        "0148-applications-masonry-out-of-plane"
+        "0148-applications-masonry-out-of-plane",
+        "0149-applications-masonry-piers"
       ],
       "status": "exact-parity",
       "testKind": "test"
@@ -43438,16 +43613,32 @@
         "publicStrings": "exact manifest, warnings, summaries, metadata and Unicode strings",
         "errors": "exact missing-input and invalid-model error behavior"
       }
+    },
+    {
+      "sliceId": "0149-applications-masonry-piers",
+      "sourceRevision": "6f33baead8b88166c4b2cf94af41763412e3c751",
+      "method": "Strict declaration consumer coverage and independently executed pinned JavaScript versus built TypeScript comparison of the complete masonry-pier application barrel, root aliases, normalized model JSON, resolved normative material, vertical verification, equivalent-frame snapshot, NTC bilinear analysis, Unicode strings and exact error behavior.",
+      "targetTests": [
+        "tests/masonry-piers-compile-time.test.ts",
+        "tests/masonry-piers-live-parity.test.ts"
+      ],
+      "fixture": "Masonry piers with explicit units, normalized material properties, Unicode identifiers and metadata, vertical actions, rigid end zones and NTC 2018 bilinear inputs.",
+      "tolerances": {
+        "serializedParity": "exact complete model, snapshot and CalculationResult JSON",
+        "numericParity": "exact geometry, rigidities, verification checks and NTC capacity outputs",
+        "publicStrings": "exact summaries, assumptions, metadata, errors and Unicode strings",
+        "errors": "exact missing-input, unsupported-convention, unsupported-scope and unsupported-element behavior"
+      }
     }
   ],
   "counts": {
     "rootExports": {
       "javascript": 841,
-      "typescript": 743
+      "typescript": 749
     },
     "applicationsExports": {
       "javascript": 309,
-      "typescript": 216
+      "typescript": 222
     },
     "packageEntryPoints": {
       "javascript": 14,
@@ -43467,11 +43658,11 @@
     },
     "sourceFiles": {
       "javascript": 480,
-      "typescript": 401
+      "typescript": 408
     },
     "tests": {
       "javascript": 131,
-      "typescript": 284
+      "typescript": 286
     },
     "validationCampaigns": {
       "javascript": 17,
@@ -43522,8 +43713,8 @@
     "applications": {
       "statusCounts": {
         "exact-parity": 0,
-        "partial": 20,
-        "missing": 288,
+        "partial": 21,
+        "missing": 268,
         "intentionally-excluded": 0,
         "decision-required": 0
       },
@@ -43540,13 +43731,9 @@
         "application-export:BeamReportMarkdownRenderer",
         "application-export:MASONRY_PIER_CAPACITY_CURVE_COMPARISON_REPORT_SCHEMA_VERSION",
         "application-export:MasonryEquivalentFrameBuilder",
-        "application-export:MasonryPierApplication",
         "application-export:MasonryPierCapacityCurveComparisonAnalysis",
         "application-export:MasonryPierCapacityCurveComparisonMarkdownRenderer",
         "application-export:MasonryPierCapacityCurveComparisonReportBuilder",
-        "application-export:MasonryPierEquivalentFrameBuilder",
-        "application-export:MasonryPierModel",
-        "application-export:MasonryPierVerticalVerification",
         "application-export:MasonryRingBeamApplication",
         "application-export:MasonryRingBeamModel",
         "application-export:MasonryRingBeamVerification",
@@ -43557,8 +43744,6 @@
         "application-export:MicropileBromsAnalysis",
         "application-export:MicropileBromsApplication",
         "application-export:MicropileBromsModel",
-        "application-export:NTC2018MasonryPierAnalysis",
-        "application-export:NTC2018MasonryPierModel",
         "application-export:SingleBeamDesignApplication",
         "application-export:SingleBeamDesignModel",
         "application-export:SteelDisplacementControlPushoverSolver2D",
@@ -43663,13 +43848,9 @@
         "root-export:BeamReportMarkdownRenderer",
         "root-export:MASONRY_PIER_CAPACITY_CURVE_COMPARISON_REPORT_SCHEMA_VERSION",
         "root-export:MasonryEquivalentFrameBuilder",
-        "root-export:MasonryPierApplication",
         "root-export:MasonryPierCapacityCurveComparisonAnalysis",
         "root-export:MasonryPierCapacityCurveComparisonMarkdownRenderer",
         "root-export:MasonryPierCapacityCurveComparisonReportBuilder",
-        "root-export:MasonryPierEquivalentFrameBuilder",
-        "root-export:MasonryPierModel",
-        "root-export:MasonryPierVerticalVerification",
         "root-export:MasonryRingBeamApplication",
         "root-export:MasonryRingBeamModel",
         "root-export:MasonryRingBeamVerification",
@@ -43680,8 +43861,6 @@
         "root-export:MicropileBromsAnalysis",
         "root-export:MicropileBromsApplication",
         "root-export:MicropileBromsModel",
-        "root-export:NTC2018MasonryPierAnalysis",
-        "root-export:NTC2018MasonryPierModel",
         "root-export:SingleBeamDesignApplication",
         "root-export:SingleBeamDesignModel",
         "root-export:SteelDisplacementControlPushoverSolver2D",
@@ -43744,13 +43923,6 @@
         "root-export:verifySteelShearTorsionInteraction",
         "root-export:verifySteelWebShearBuckling",
         "root-export:verifyTimberLateralTorsionalStability",
-        "source:src/applications/masonry-piers/MasonryPierApplication.js",
-        "source:src/applications/masonry-piers/analysis/MasonryPierEquivalentFrameBuilder.js",
-        "source:src/applications/masonry-piers/analysis/NTC2018MasonryPierAnalysis.js",
-        "source:src/applications/masonry-piers/checks/MasonryPierVerticalVerification.js",
-        "source:src/applications/masonry-piers/index.js",
-        "source:src/applications/masonry-piers/models/MasonryPierModel.js",
-        "source:src/applications/masonry-piers/models/NTC2018MasonryPierModel.js",
         "source:src/applications/masonry-ring-beams/MasonryRingBeamApplication.js",
         "source:src/applications/masonry-ring-beams/checks/MasonryRingBeamVerification.js",
         "source:src/applications/masonry-ring-beams/index.js",
@@ -43842,7 +44014,7 @@
       "statusCounts": {
         "exact-parity": 0,
         "partial": 4,
-        "missing": 117,
+        "missing": 116,
         "intentionally-excluded": 0,
         "decision-required": 0
       },
@@ -43954,7 +44126,6 @@
         "test:tests/geotechnicalShallowFoundationValidationCampaign.test.js",
         "test:tests/geotechnicalSlopeStabilityValidationCampaign.test.js",
         "test:tests/geotechnicalValidationCampaign.test.js",
-        "test:tests/masonryPierVerticalVerification.test.js",
         "test:tests/masonryWallOpeningsEquivalentFrameBuilder.test.js",
         "test:tests/masonryWallOpeningsEquivalentFramePushover.test.js",
         "test:tests/masonryWallOpeningsExtraction.test.js",

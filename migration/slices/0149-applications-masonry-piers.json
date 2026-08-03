@@ -1,0 +1,215 @@
+{
+  "schemaVersion": 1,
+  "sliceId": "0149-applications-masonry-piers",
+  "title": "Masonry pier application",
+  "migrationType": "mechanical-parity-with-minimal-dependency-support",
+  "implementationStatus": "implemented",
+  "dependencies": [
+    "0052-domain-fem-timoshenko-rigid-offsets",
+    "0130-norms-ntc2018-masonry-pier-kernels"
+  ],
+  "source": {
+    "repository": "https://github.com/claudiopagani/strutture-js",
+    "revision": "6f33baead8b88166c4b2cf94af41763412e3c751"
+  },
+  "normativeCorpusRevision": "41da3faa489600173106935bbcf726119300e48d",
+  "sourceFiles": [
+    {
+      "path": "src/applications/masonry-piers/MasonryPierApplication.js",
+      "gitBlobSha1": "ae20ff44cadc2a8f21b65e93b3c081d86a7c7553",
+      "targetPath": "src/applications/masonry-piers/MasonryPierApplication.ts"
+    },
+    {
+      "path": "src/applications/masonry-piers/analysis/MasonryPierEquivalentFrameBuilder.js",
+      "gitBlobSha1": "3d1f3f6f65d2e3bba5276839d28917a337aaf627",
+      "targetPath": "src/applications/masonry-piers/analysis/MasonryPierEquivalentFrameBuilder.ts"
+    },
+    {
+      "path": "src/applications/masonry-piers/analysis/NTC2018MasonryPierAnalysis.js",
+      "gitBlobSha1": "1019cfd57701fde2334cdbca057ce1d201248b2b",
+      "targetPath": "src/applications/masonry-piers/analysis/NTC2018MasonryPierAnalysis.ts"
+    },
+    {
+      "path": "src/applications/masonry-piers/checks/MasonryPierVerticalVerification.js",
+      "gitBlobSha1": "6b850179b7e516ae1ce96970358d74f108289e9d",
+      "targetPath": "src/applications/masonry-piers/checks/MasonryPierVerticalVerification.ts"
+    },
+    {
+      "path": "src/applications/masonry-piers/index.js",
+      "gitBlobSha1": "594dad2dec6ce265c7d56c0123b921679f3ed711",
+      "targetPath": "src/applications/masonry-piers/index.ts"
+    },
+    {
+      "path": "src/applications/masonry-piers/models/MasonryPierModel.js",
+      "gitBlobSha1": "69aaf6860edb41a1af47f5b32903432fd226778e",
+      "targetPath": "src/applications/masonry-piers/models/MasonryPierModel.ts"
+    },
+    {
+      "path": "src/applications/masonry-piers/models/NTC2018MasonryPierModel.js",
+      "gitBlobSha1": "4117254b6bf7aa7dbe199f8b850099ba47a0eaac",
+      "targetPath": "src/applications/masonry-piers/models/NTC2018MasonryPierModel.ts"
+    }
+  ],
+  "supportingSourceFiles": [
+    {
+      "path": "src/index.js",
+      "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7",
+      "targetPath": "src/index.ts",
+      "coverage": "Pinned root public-export context for the masonry-pier application."
+    },
+    {
+      "path": "src/applications/masonry-piers/index.js",
+      "gitBlobSha1": "594dad2dec6ce265c7d56c0123b921679f3ed711",
+      "targetPath": "src/applications/masonry-piers/index.ts",
+      "coverage": "Pinned application-barrel export context for the complete masonry-pier cluster."
+    },
+    {
+      "path": "src/core/applications/StructuralApplication.js",
+      "gitBlobSha1": "673e1f25c22eadc27e111853cc3a8c012f5fcad3",
+      "targetPath": "src/core/applications/StructuralApplication.ts",
+      "coverage": "Migrated structural application base class delegated by the application wrapper."
+    },
+    {
+      "path": "src/core/results/CalculationResult.js",
+      "gitBlobSha1": "de58f9d2a201435dd955cbfd4c4981d0b78610d4",
+      "targetPath": "src/core/results/CalculationResult.ts",
+      "coverage": "Migrated calculation-result serialization contract used by the NTC analysis."
+    },
+    {
+      "path": "src/core/results/VerificationResult.js",
+      "gitBlobSha1": "7583438c8fd57f6c6883caf2eb65298551725a64",
+      "targetPath": "src/core/results/VerificationResult.ts",
+      "coverage": "Migrated verification-result serialization contract used by vertical verification."
+    },
+    {
+      "path": "src/core/results/checkUtils.js",
+      "gitBlobSha1": "d51d6a797dde97218422e79dca30727eacb26cad",
+      "targetPath": "src/core/results/checkUtils.ts",
+      "coverage": "Migrated rounding, utilization and unique-string helpers delegated by the slice."
+    },
+    {
+      "path": "src/core/results/resultStatus.js",
+      "gitBlobSha1": "5c3e5621c2cec6cffe803e95eea79fc69b27ba01",
+      "targetPath": "src/core/results/resultStatus.ts",
+      "coverage": "Migrated result status constants delegated by the slice."
+    },
+    {
+      "path": "src/domain/fem/index.js",
+      "gitBlobSha1": "500ed76831bf15f757c0ed2c7eff05844c39511c",
+      "targetPath": "src/domain/fem/index.ts",
+      "coverage": "Migrated FEM public barrel used by equivalent-frame construction."
+    },
+    {
+      "path": "src/domain/fem/elements/FrameElement2DTimoshenkoRigidOffsets.js",
+      "gitBlobSha1": "1c041b844eec76ebcda7267809f61c6c417fc01a",
+      "targetPath": "src/domain/fem/elements/FrameElement2DTimoshenkoRigidOffsets.ts",
+      "coverage": "Migrated rigid-offset Timoshenko element instantiated by the builder."
+    },
+    {
+      "path": "src/domain/geometry/Node.js",
+      "gitBlobSha1": "244043208aa9040a394994ba621ac8892f9d31c1",
+      "targetPath": "src/domain/geometry/Node.ts",
+      "coverage": "Migrated node primitive instantiated by the builder."
+    },
+    {
+      "path": "src/domain/supports/Support.js",
+      "gitBlobSha1": "66bd8dea912cbf996cb803bb8d2cdd9df3f37df6",
+      "targetPath": "src/domain/supports/Support.ts",
+      "coverage": "Migrated support primitive instantiated by the builder."
+    },
+    {
+      "path": "src/domain/units/UnitSystem.js",
+      "gitBlobSha1": "b8f2f4926aff645efbf7b9f458b69eba264ed59a",
+      "targetPath": "src/domain/units/UnitSystem.ts",
+      "coverage": "Migrated unit conversion contract used by model and equivalent-frame normalization."
+    },
+    {
+      "path": "src/norms/ntc2018/masonry/evaluateNTC2018MasonryPier.js",
+      "gitBlobSha1": "bfb835c629678e3e84fddda837d7c8dfca5e5f40",
+      "targetPath": "src/norms/ntc2018/masonry/evaluateNTC2018MasonryPier.ts",
+      "coverage": "Existing migrated normative evaluator; its TypeScript input declaration accepts the source-compatible null shear-span sentinel without changing runtime behavior."
+    }
+  ],
+  "sourceOracles": [
+    {
+      "path": "tests/masonryPierVerticalVerification.test.js",
+      "gitBlobSha1": "61ba99d5e301eedb85242081ddfe23fa7e4d2c3a",
+      "coverage": "Vertical verification, application routing and equivalent-frame behavior."
+    },
+    {
+      "path": "tests/ntc2018MasonryPierModel.test.js",
+      "gitBlobSha1": "f2784e760517469f1f51ae57daac81f96b0e7abf",
+      "coverage": "NTC model normalization, exact normative evaluation and unsupported-input behavior."
+    },
+    {
+      "path": "tests/packageExports.test.js",
+      "gitBlobSha1": "8dde24b4c97dd3dae7100207d07d9d96c52b9c74",
+      "coverage": "Pinned root and application public exports."
+    }
+  ],
+  "sourcePublicExport": {
+    "path": "src/index.js",
+    "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
+  },
+  "targetTests": [
+    "tests/baseline-parity.test.ts",
+    "tests/masonry-piers-compile-time.test.ts",
+    "tests/masonry-piers-live-parity.test.ts"
+  ],
+  "publicExports": [
+    "MasonryPierApplication",
+    "MasonryPierEquivalentFrameBuilder",
+    "MasonryPierModel",
+    "MasonryPierVerticalVerification",
+    "NTC2018MasonryPierAnalysis",
+    "NTC2018MasonryPierModel"
+  ],
+  "publicTypeExports": [
+    "MasonryPierApplicationInput",
+    "MasonryPierActions",
+    "MasonryPierActionsInput",
+    "MasonryPierDesign",
+    "MasonryPierDesignInput",
+    "MasonryPierEquivalentFrameBuildResult",
+    "MasonryPierEquivalentFrameRigidities",
+    "MasonryPierEquivalentFrameSnapshot",
+    "MasonryPierGeometry",
+    "MasonryPierGeometryInput",
+    "MasonryPierIdealization",
+    "MasonryPierIdealizationInput",
+    "MasonryPierMaterialRecord",
+    "MasonryPierMetadata",
+    "MasonryPierModelJson",
+    "MasonryPierModelOptions",
+    "MasonryPierProperties",
+    "NTC2018MasonryPierEvaluationInput",
+    "NTC2018MasonryPierModelOptions",
+    "NTC2018MasonryPierNormativeInput",
+    "NTC2018MasonryPierNormativeState",
+    "NTC2018MasonryPierResolvedMaterial"
+  ],
+  "normativeReferences": {
+    "resolved": [],
+    "outsideCorpus": [],
+    "normativeConformityClaimed": false,
+    "status": "classified-for-declared-scope"
+  },
+  "independentValidation": {
+    "method": "Strict declaration consumer coverage and independently executed pinned JavaScript versus built TypeScript comparison of the complete masonry-pier application barrel, root aliases, normalized model JSON, resolved normative material, vertical verification, equivalent-frame snapshot, NTC bilinear analysis, Unicode strings and exact error behavior.",
+    "targetTests": [
+      "tests/masonry-piers-compile-time.test.ts",
+      "tests/masonry-piers-live-parity.test.ts"
+    ],
+    "fixture": "Masonry piers with explicit units, normalized material properties, Unicode identifiers and metadata, vertical actions, rigid end zones and NTC 2018 bilinear inputs.",
+    "tolerances": {
+      "serializedParity": "exact complete model, snapshot and CalculationResult JSON",
+      "numericParity": "exact geometry, rigidities, verification checks and NTC capacity outputs",
+      "publicStrings": "exact summaries, assumptions, metadata, errors and Unicode strings",
+      "errors": "exact missing-input, unsupported-convention, unsupported-scope and unsupported-element behavior"
+    }
+  },
+  "parityDifferences": [
+    "The TypeScript target adds strict consumer declarations and a type-only null shear-span compatibility declaration for an already migrated evaluator; runtime constructors, delegation, numerical outputs, serialized fields and errors remain source-parallel."
+  ],
+  "engineeringFunctionality": "Masonry-pier vertical verification, NTC 2018 bilinear in-plane capacity analysis and equivalent-frame idealization with rigid end zones."
+}
