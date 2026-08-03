@@ -1,0 +1,102 @@
+{
+  "schemaVersion": 1,
+  "sliceId": "0140-applications-rc-isolated-footings-public-index",
+  "title": "RC isolated-footing public index",
+  "migrationType": "mechanical-parity-with-minimal-dependency-support",
+  "implementationStatus": "implemented",
+  "dependencies": ["0018-reinforced-concrete-isolated-footings"],
+  "source": {
+    "repository": "https://github.com/claudiopagani/strutture-js",
+    "revision": "6f33baead8b88166c4b2cf94af41763412e3c751"
+  },
+  "normativeCorpusRevision": "41da3faa489600173106935bbcf726119300e48d",
+  "sourceFiles": [
+    {
+      "path": "src/applications/reinforced-concrete-isolated-footings/index.js",
+      "gitBlobSha1": "9de6ac976d213fd753d1eab889cf6b94dce62957",
+      "targetPath": "src/applications/reinforced-concrete-isolated-footings/index.ts"
+    }
+  ],
+  "supportingSourceFiles": [
+    {
+      "path": "src/applications/reinforced-concrete-isolated-footings/ReinforcedConcreteIsolatedFootingApplication.js",
+      "gitBlobSha1": "af888cbceb6e7309d2139a02bb3a5bac864f6553",
+      "targetPath": "src/applications/reinforced-concrete-isolated-footings/ReinforcedConcreteIsolatedFootingApplication.ts",
+      "coverage": "Pinned application implementation used by the public barrel."
+    },
+    {
+      "path": "src/applications/reinforced-concrete-isolated-footings/ReinforcedConcreteIsolatedFootingModel.js",
+      "gitBlobSha1": "a708fafb7d0d9106c81b41191d6a8d8a877fa365",
+      "targetPath": "src/applications/reinforced-concrete-isolated-footings/ReinforcedConcreteIsolatedFootingModel.ts",
+      "coverage": "Pinned model implementation and strict public model-input type used by the barrel."
+    },
+    {
+      "path": "src/applications/reinforced-concrete-isolated-footings/ReinforcedConcreteIsolatedFootingVerification.js",
+      "gitBlobSha1": "dddc4e0b0a1bcf73bdc33cac97a919ce90380932",
+      "targetPath": "src/applications/reinforced-concrete-isolated-footings/ReinforcedConcreteIsolatedFootingVerification.ts",
+      "coverage": "Pinned verification implementation used by the public barrel."
+    },
+    {
+      "path": "src/index.js",
+      "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7",
+      "targetPath": "src/index.ts",
+      "coverage": "Pinned root public-export context for the isolated-footing classes."
+    }
+  ],
+  "sourceOracles": [
+    {
+      "path": "tests/reinforcedConcreteIsolatedFootingApplication.test.js",
+      "gitBlobSha1": "60dddaa448361db0dde09bff92eeb04d8360b654",
+      "coverage": "Application manifest, model delegation, verification and error behavior."
+    },
+    {
+      "path": "tests/rectangularFootingContactAnalysis.test.js",
+      "gitBlobSha1": "a45339940ef83e01a95c46f7c480bb56389f9b1d",
+      "coverage": "Isolated-footing dependency behavior already covered by slice 0018."
+    },
+    {
+      "path": "tests/packageExports.test.js",
+      "gitBlobSha1": "8dde24b4c97dd3dae7100207d07d9d96c52b9c74",
+      "coverage": "Pinned public barrel and root export behavior."
+    }
+  ],
+  "sourcePublicExport": {
+    "path": "src/index.js",
+    "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
+  },
+  "targetTests": [
+    "tests/concrete-isolated-footing.test.ts",
+    "tests/rc-isolated-footings-index-compile-time.test.ts",
+    "tests/rc-isolated-footings-index-live-parity.test.ts"
+  ],
+  "publicExports": [
+    "ReinforcedConcreteIsolatedFootingApplication",
+    "ReinforcedConcreteIsolatedFootingModel",
+    "ReinforcedConcreteIsolatedFootingVerification"
+  ],
+  "publicTypeExports": ["ReinforcedConcreteIsolatedFootingModelInput"],
+  "normativeReferences": {
+    "resolved": [],
+    "outsideCorpus": [],
+    "normativeConformityClaimed": false,
+    "status": "classified-for-declared-scope"
+  },
+  "independentValidation": {
+    "method": "Strict declaration consumer coverage and independently executed pinned JavaScript versus built TypeScript comparison of the direct barrel, root aliases, application manifest and missing-model error.",
+    "targetTests": [
+      "tests/rc-isolated-footings-index-compile-time.test.ts",
+      "tests/rc-isolated-footings-index-live-parity.test.ts"
+    ],
+    "fixture": null,
+    "tolerances": {
+      "serializedParity": "exact complete application manifest JSON",
+      "numericParity": "covered by the dependency slice's exact isolated-footing live parity fixtures",
+      "publicStrings": "exact manifest strings and missing-model error message",
+      "errors": "exact error name and message equality for missing model input"
+    }
+  },
+  "parityDifferences": [
+    "The TypeScript barrel and root aliases were already present; this slice records the pinned barrel and adds independent direct-barrel parity evidence without changing the isolated-footing implementations."
+  ],
+  "engineeringFunctionality": "Public access to the migrated reinforced-concrete isolated-footing application, model, verification class and strict model-input type through the application barrel and package root."
+}

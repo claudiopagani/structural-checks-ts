@@ -16281,13 +16281,24 @@
       "sourcePath": "src/applications/reinforced-concrete-isolated-footings/ReinforcedConcreteIsolatedFootingApplication.js",
       "sourceBlobSha1": "af888cbceb6e7309d2139a02bb3a5bac864f6553",
       "targetPath": "src/applications/reinforced-concrete-isolated-footings/ReinforcedConcreteIsolatedFootingApplication.ts",
-      "migrationSlices": ["0018-reinforced-concrete-isolated-footings"],
+      "migrationSlices": [
+        "0018-reinforced-concrete-isolated-footings",
+        "0140-applications-rc-isolated-footings-public-index"
+      ],
       "sourceOracles": [
+        "tests/packageExports.test.js",
         "tests/rectangularFootingContactAnalysis.test.js",
         "tests/reinforcedConcreteIsolatedFootingApplication.test.js"
       ],
-      "targetTests": ["tests/concrete-isolated-footing.test.ts"],
-      "validationEvidence": ["0018-reinforced-concrete-isolated-footings"],
+      "targetTests": [
+        "tests/concrete-isolated-footing.test.ts",
+        "tests/rc-isolated-footings-index-compile-time.test.ts",
+        "tests/rc-isolated-footings-index-live-parity.test.ts"
+      ],
+      "validationEvidence": [
+        "0018-reinforced-concrete-isolated-footings",
+        "0140-applications-rc-isolated-footings-public-index"
+      ],
       "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
@@ -16298,13 +16309,24 @@
       "sourcePath": "src/applications/reinforced-concrete-isolated-footings/ReinforcedConcreteIsolatedFootingModel.js",
       "sourceBlobSha1": "a708fafb7d0d9106c81b41191d6a8d8a877fa365",
       "targetPath": "src/applications/reinforced-concrete-isolated-footings/ReinforcedConcreteIsolatedFootingModel.ts",
-      "migrationSlices": ["0018-reinforced-concrete-isolated-footings"],
+      "migrationSlices": [
+        "0018-reinforced-concrete-isolated-footings",
+        "0140-applications-rc-isolated-footings-public-index"
+      ],
       "sourceOracles": [
+        "tests/packageExports.test.js",
         "tests/rectangularFootingContactAnalysis.test.js",
         "tests/reinforcedConcreteIsolatedFootingApplication.test.js"
       ],
-      "targetTests": ["tests/concrete-isolated-footing.test.ts"],
-      "validationEvidence": ["0018-reinforced-concrete-isolated-footings"],
+      "targetTests": [
+        "tests/concrete-isolated-footing.test.ts",
+        "tests/rc-isolated-footings-index-compile-time.test.ts",
+        "tests/rc-isolated-footings-index-live-parity.test.ts"
+      ],
+      "validationEvidence": [
+        "0018-reinforced-concrete-isolated-footings",
+        "0140-applications-rc-isolated-footings-public-index"
+      ],
       "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
@@ -16315,13 +16337,24 @@
       "sourcePath": "src/applications/reinforced-concrete-isolated-footings/ReinforcedConcreteIsolatedFootingVerification.js",
       "sourceBlobSha1": "dddc4e0b0a1bcf73bdc33cac97a919ce90380932",
       "targetPath": "src/applications/reinforced-concrete-isolated-footings/ReinforcedConcreteIsolatedFootingVerification.ts",
-      "migrationSlices": ["0018-reinforced-concrete-isolated-footings"],
+      "migrationSlices": [
+        "0018-reinforced-concrete-isolated-footings",
+        "0140-applications-rc-isolated-footings-public-index"
+      ],
       "sourceOracles": [
+        "tests/packageExports.test.js",
         "tests/rectangularFootingContactAnalysis.test.js",
         "tests/reinforcedConcreteIsolatedFootingApplication.test.js"
       ],
-      "targetTests": ["tests/concrete-isolated-footing.test.ts"],
-      "validationEvidence": ["0018-reinforced-concrete-isolated-footings"],
+      "targetTests": [
+        "tests/concrete-isolated-footing.test.ts",
+        "tests/rc-isolated-footings-index-compile-time.test.ts",
+        "tests/rc-isolated-footings-index-live-parity.test.ts"
+      ],
+      "validationEvidence": [
+        "0018-reinforced-concrete-isolated-footings",
+        "0140-applications-rc-isolated-footings-public-index"
+      ],
       "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
@@ -24654,13 +24687,24 @@
       "sourcePath": "src/applications/reinforced-concrete-isolated-footings/ReinforcedConcreteIsolatedFootingApplication.js",
       "sourceBlobSha1": "af888cbceb6e7309d2139a02bb3a5bac864f6553",
       "targetPath": "src/applications/reinforced-concrete-isolated-footings/ReinforcedConcreteIsolatedFootingApplication.ts",
-      "migrationSlices": ["0018-reinforced-concrete-isolated-footings"],
+      "migrationSlices": [
+        "0018-reinforced-concrete-isolated-footings",
+        "0140-applications-rc-isolated-footings-public-index"
+      ],
       "sourceOracles": [
+        "tests/packageExports.test.js",
         "tests/rectangularFootingContactAnalysis.test.js",
         "tests/reinforcedConcreteIsolatedFootingApplication.test.js"
       ],
-      "targetTests": ["tests/concrete-isolated-footing.test.ts"],
-      "validationEvidence": ["0018-reinforced-concrete-isolated-footings"],
+      "targetTests": [
+        "tests/concrete-isolated-footing.test.ts",
+        "tests/rc-isolated-footings-index-compile-time.test.ts",
+        "tests/rc-isolated-footings-index-live-parity.test.ts"
+      ],
+      "validationEvidence": [
+        "0018-reinforced-concrete-isolated-footings",
+        "0140-applications-rc-isolated-footings-public-index"
+      ],
       "status": "exact-parity",
       "publicEntryPath": "src/applications/index.js",
       "publicEntryBlobSha1": "b70179c7cdd2a819f2151dc092c0f59cbce30ba6"
@@ -24671,13 +24715,24 @@
       "sourcePath": "src/applications/reinforced-concrete-isolated-footings/ReinforcedConcreteIsolatedFootingModel.js",
       "sourceBlobSha1": "a708fafb7d0d9106c81b41191d6a8d8a877fa365",
       "targetPath": "src/applications/reinforced-concrete-isolated-footings/ReinforcedConcreteIsolatedFootingModel.ts",
-      "migrationSlices": ["0018-reinforced-concrete-isolated-footings"],
+      "migrationSlices": [
+        "0018-reinforced-concrete-isolated-footings",
+        "0140-applications-rc-isolated-footings-public-index"
+      ],
       "sourceOracles": [
+        "tests/packageExports.test.js",
         "tests/rectangularFootingContactAnalysis.test.js",
         "tests/reinforcedConcreteIsolatedFootingApplication.test.js"
       ],
-      "targetTests": ["tests/concrete-isolated-footing.test.ts"],
-      "validationEvidence": ["0018-reinforced-concrete-isolated-footings"],
+      "targetTests": [
+        "tests/concrete-isolated-footing.test.ts",
+        "tests/rc-isolated-footings-index-compile-time.test.ts",
+        "tests/rc-isolated-footings-index-live-parity.test.ts"
+      ],
+      "validationEvidence": [
+        "0018-reinforced-concrete-isolated-footings",
+        "0140-applications-rc-isolated-footings-public-index"
+      ],
       "status": "exact-parity",
       "publicEntryPath": "src/applications/index.js",
       "publicEntryBlobSha1": "b70179c7cdd2a819f2151dc092c0f59cbce30ba6"
@@ -24688,13 +24743,24 @@
       "sourcePath": "src/applications/reinforced-concrete-isolated-footings/ReinforcedConcreteIsolatedFootingVerification.js",
       "sourceBlobSha1": "dddc4e0b0a1bcf73bdc33cac97a919ce90380932",
       "targetPath": "src/applications/reinforced-concrete-isolated-footings/ReinforcedConcreteIsolatedFootingVerification.ts",
-      "migrationSlices": ["0018-reinforced-concrete-isolated-footings"],
+      "migrationSlices": [
+        "0018-reinforced-concrete-isolated-footings",
+        "0140-applications-rc-isolated-footings-public-index"
+      ],
       "sourceOracles": [
+        "tests/packageExports.test.js",
         "tests/rectangularFootingContactAnalysis.test.js",
         "tests/reinforcedConcreteIsolatedFootingApplication.test.js"
       ],
-      "targetTests": ["tests/concrete-isolated-footing.test.ts"],
-      "validationEvidence": ["0018-reinforced-concrete-isolated-footings"],
+      "targetTests": [
+        "tests/concrete-isolated-footing.test.ts",
+        "tests/rc-isolated-footings-index-compile-time.test.ts",
+        "tests/rc-isolated-footings-index-live-parity.test.ts"
+      ],
+      "validationEvidence": [
+        "0018-reinforced-concrete-isolated-footings",
+        "0140-applications-rc-isolated-footings-public-index"
+      ],
       "status": "exact-parity",
       "publicEntryPath": "src/applications/index.js",
       "publicEntryBlobSha1": "b70179c7cdd2a819f2151dc092c0f59cbce30ba6"
@@ -26814,7 +26880,12 @@
         "tests/reinforcedConcreteFoundationBeamApplication.test.js",
         "tests/reinforcedConcreteStrutAndTieApplication.test.js"
       ],
-      "targetTests": ["tests/baseline-parity.test.ts", "tests/concrete-isolated-footing.test.ts"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/concrete-isolated-footing.test.ts",
+        "tests/rc-isolated-footings-index-compile-time.test.ts",
+        "tests/rc-isolated-footings-index-live-parity.test.ts"
+      ],
       "validationEvidence": [
         "0024-reinforced-concrete-foundation-beams",
         "0026-reinforced-concrete-beam-column-joints",
@@ -30606,11 +30677,19 @@
       "sourcePath": "src/applications/reinforced-concrete-isolated-footings/index.js",
       "sourceBlobSha1": "9de6ac976d213fd753d1eab889cf6b94dce62957",
       "targetPath": "src/applications/reinforced-concrete-isolated-footings/index.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "partial"
+      "migrationSlices": ["0140-applications-rc-isolated-footings-public-index"],
+      "sourceOracles": [
+        "tests/packageExports.test.js",
+        "tests/rectangularFootingContactAnalysis.test.js",
+        "tests/reinforcedConcreteIsolatedFootingApplication.test.js"
+      ],
+      "targetTests": [
+        "tests/concrete-isolated-footing.test.ts",
+        "tests/rc-isolated-footings-index-compile-time.test.ts",
+        "tests/rc-isolated-footings-index-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0140-applications-rc-isolated-footings-public-index"],
+      "status": "exact-parity"
     },
     {
       "id": "src/applications/reinforced-concrete-plates/README.md",
@@ -35825,7 +35904,8 @@
         "0136-norms-ntc2018-masonry-public-index",
         "0137-applications-geotechnical-deep-foundations-public-index",
         "0138-domain-geotechnical-public-constants",
-        "0139-applications-rc-section-state-integrator-public-export"
+        "0139-applications-rc-section-state-integrator-public-export",
+        "0140-applications-rc-isolated-footings-public-index"
       ],
       "sourceOracles": [
         "tests/architecture/applicationRegistry.test.js",
@@ -38807,7 +38887,8 @@
         "0136-norms-ntc2018-masonry-public-index",
         "0137-applications-geotechnical-deep-foundations-public-index",
         "0138-domain-geotechnical-public-constants",
-        "0139-applications-rc-section-state-integrator-public-export"
+        "0139-applications-rc-section-state-integrator-public-export",
+        "0140-applications-rc-isolated-footings-public-index"
       ],
       "sourceOracles": ["tests/packageExports.test.js"],
       "targetTests": [
@@ -38818,6 +38899,7 @@
         "tests/concrete-biaxial-domain.test.ts",
         "tests/concrete-column-detailing.test.ts",
         "tests/concrete-column-member.test.ts",
+        "tests/concrete-isolated-footing.test.ts",
         "tests/concrete-moment-curvature.test.ts",
         "tests/concrete-section-resistance.test.ts",
         "tests/concrete-service-stress.test.ts",
@@ -38917,6 +38999,8 @@
         "tests/ntc2018-wind-load-compile-time.test.ts",
         "tests/ntc2018-wind-load-live-parity.test.ts",
         "tests/rc-cracked-deflection.test.ts",
+        "tests/rc-isolated-footings-index-compile-time.test.ts",
+        "tests/rc-isolated-footings-index-live-parity.test.ts",
         "tests/rc-section-state-integrator-compile-time.test.ts",
         "tests/rc-section-state-integrator-live-parity.test.ts",
         "tests/reinforced-concrete-beam-column-joint.test.ts",
@@ -39027,7 +39111,8 @@
         "0136-norms-ntc2018-masonry-public-index",
         "0137-applications-geotechnical-deep-foundations-public-index",
         "0138-domain-geotechnical-public-constants",
-        "0139-applications-rc-section-state-integrator-public-export"
+        "0139-applications-rc-section-state-integrator-public-export",
+        "0140-applications-rc-isolated-footings-public-index"
       ],
       "status": "exact-parity",
       "testKind": "test"
@@ -39276,10 +39361,20 @@
       "sourcePath": "tests/rectangularFootingContactAnalysis.test.js",
       "sourceBlobSha1": "a45339940ef83e01a95c46f7c480bb56389f9b1d",
       "targetPath": "tests/rectangularFootingContactAnalysis.test.ts",
-      "migrationSlices": ["0018-reinforced-concrete-isolated-footings"],
+      "migrationSlices": [
+        "0018-reinforced-concrete-isolated-footings",
+        "0140-applications-rc-isolated-footings-public-index"
+      ],
       "sourceOracles": ["tests/rectangularFootingContactAnalysis.test.js"],
-      "targetTests": ["tests/concrete-isolated-footing.test.ts"],
-      "validationEvidence": ["0018-reinforced-concrete-isolated-footings"],
+      "targetTests": [
+        "tests/concrete-isolated-footing.test.ts",
+        "tests/rc-isolated-footings-index-compile-time.test.ts",
+        "tests/rc-isolated-footings-index-live-parity.test.ts"
+      ],
+      "validationEvidence": [
+        "0018-reinforced-concrete-isolated-footings",
+        "0140-applications-rc-isolated-footings-public-index"
+      ],
       "status": "exact-parity",
       "testKind": "test"
     },
@@ -39379,10 +39474,20 @@
       "sourcePath": "tests/reinforcedConcreteIsolatedFootingApplication.test.js",
       "sourceBlobSha1": "60dddaa448361db0dde09bff92eeb04d8360b654",
       "targetPath": "tests/reinforcedConcreteIsolatedFootingApplication.test.ts",
-      "migrationSlices": ["0018-reinforced-concrete-isolated-footings"],
+      "migrationSlices": [
+        "0018-reinforced-concrete-isolated-footings",
+        "0140-applications-rc-isolated-footings-public-index"
+      ],
       "sourceOracles": ["tests/reinforcedConcreteIsolatedFootingApplication.test.js"],
-      "targetTests": ["tests/concrete-isolated-footing.test.ts"],
-      "validationEvidence": ["0018-reinforced-concrete-isolated-footings"],
+      "targetTests": [
+        "tests/concrete-isolated-footing.test.ts",
+        "tests/rc-isolated-footings-index-compile-time.test.ts",
+        "tests/rc-isolated-footings-index-live-parity.test.ts"
+      ],
+      "validationEvidence": [
+        "0018-reinforced-concrete-isolated-footings",
+        "0140-applications-rc-isolated-footings-public-index"
+      ],
       "status": "exact-parity",
       "testKind": "test"
     },
@@ -42891,6 +42996,22 @@
         "publicStrings": "exact error messages and serialized strings",
         "errors": "exact error name and message equality for missing inputs, unsupported response and missing softening energy"
       }
+    },
+    {
+      "sliceId": "0140-applications-rc-isolated-footings-public-index",
+      "sourceRevision": "6f33baead8b88166c4b2cf94af41763412e3c751",
+      "method": "Strict declaration consumer coverage and independently executed pinned JavaScript versus built TypeScript comparison of the direct barrel, root aliases, application manifest and missing-model error.",
+      "targetTests": [
+        "tests/rc-isolated-footings-index-compile-time.test.ts",
+        "tests/rc-isolated-footings-index-live-parity.test.ts"
+      ],
+      "fixture": null,
+      "tolerances": {
+        "serializedParity": "exact complete application manifest JSON",
+        "numericParity": "covered by the dependency slice's exact isolated-footing live parity fixtures",
+        "publicStrings": "exact manifest strings and missing-model error message",
+        "errors": "exact error name and message equality for missing model input"
+      }
     }
   ],
   "counts": {
@@ -42924,7 +43045,7 @@
     },
     "tests": {
       "javascript": 131,
-      "typescript": 266
+      "typescript": 268
     },
     "validationCampaigns": {
       "javascript": 17,
@@ -42975,7 +43096,7 @@
     "applications": {
       "statusCounts": {
         "exact-parity": 0,
-        "partial": 13,
+        "partial": 12,
         "missing": 334,
         "intentionally-excluded": 0,
         "decision-required": 0
@@ -43276,7 +43397,6 @@
         "source:src/applications/micropiles-broms/index.js",
         "source:src/applications/micropiles-broms/models/MicropileBromsModel.js",
         "source:src/applications/reinforced-concrete-columns/index.js",
-        "source:src/applications/reinforced-concrete-isolated-footings/index.js",
         "source:src/applications/reinforced-concrete-plates/README.md",
         "source:src/applications/reinforced-concrete-sections/analysis/index.js",
         "source:src/applications/reinforced-concrete-sections/index.js",
