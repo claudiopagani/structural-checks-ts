@@ -785,6 +785,18 @@ export type {
 } from "./applications/steel-frames/analysis/SteelPlasticHingeState.js";
 export { SteelFrameModel } from "./applications/steel-frames/models/SteelFrameModel.js";
 export type { SteelFrameModelOptions } from "./applications/steel-frames/models/SteelFrameModel.js";
+export { SteelPlasticHingeFrameElement2D } from "./applications/steel-frames/analysis/SteelPlasticHingeFrameElement2D.js";
+export type {
+  SteelPlasticHingeCondensationOperators,
+  SteelPlasticHingeFrameElement2DEvaluateOptions,
+  SteelPlasticHingeFrameElement2DOptions,
+  SteelPlasticHingeFrameElement2DResponse,
+  SteelPlasticHingeMaterialLike,
+  SteelPlasticHingeSectionLike,
+  SteelPlasticHingeSectionOrientation,
+  SteelPlasticHingeSectionOrientationInput,
+  SteelPlasticHingeStateResponse,
+} from "./applications/steel-frames/analysis/SteelPlasticHingeFrameElement2D.js";
 export { RCBiaxialDomainBuilder } from "./applications/reinforced-concrete-sections/analysis/RCBiaxialDomainBuilder.js";
 export { RCMomentCurvatureAnalyzer } from "./applications/reinforced-concrete-sections/analysis/RCMomentCurvatureAnalyzer.js";
 export { RCServiceStressSolver } from "./applications/reinforced-concrete-sections/analysis/RCServiceStressSolver.js";

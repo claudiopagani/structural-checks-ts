@@ -1,0 +1,87 @@
+{
+  "schemaVersion": 1,
+  "sliceId": "0184-applications-steel-plastic-hinge-frame-element",
+  "title": "Steel plastic-hinge frame element",
+  "migrationType": "mechanical-parity",
+  "implementationStatus": "implemented",
+  "dependencies": ["0182-applications-steel-plastic-hinge-state"],
+  "source": {
+    "repository": "https://github.com/claudiopagani/strutture-js",
+    "revision": "6f33baead8b88166c4b2cf94af41763412e3c751"
+  },
+  "normativeCorpusRevision": "41da3faa489600173106935bbcf726119300e48d",
+  "sourceFiles": [
+    {
+      "path": "src/applications/steel-frames/analysis/SteelPlasticHingeFrameElement2D.js",
+      "gitBlobSha1": "1e7507f450728e35b8c390895096993e2b5de402",
+      "targetPath": "src/applications/steel-frames/analysis/SteelPlasticHingeFrameElement2D.ts"
+    }
+  ],
+  "supportingSourceFiles": [
+    {
+      "path": "src/applications/steel-frames/index.js",
+      "gitBlobSha1": "00b0b647649aff91fa05b523a18df186f588223f",
+      "coverage": "The pinned steel-frames barrel publicly reexports SteelPlasticHingeFrameElement2D; barrel migration remains deferred until the sibling steel-frame implementations exist."
+    },
+    {
+      "path": "src/index.js",
+      "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7",
+      "coverage": "Pinned root public export for SteelPlasticHingeFrameElement2D."
+    }
+  ],
+  "sourceOracles": [
+    {
+      "path": "tests/steelRingFramePushover.test.js",
+      "gitBlobSha1": "ece91e91fba59579941f9c562ef0507fbf5ad028",
+      "coverage": "Pinned plastic-hinge frame-element construction and yielded-end response oracle."
+    },
+    {
+      "path": "tests/packageExports.test.js",
+      "gitBlobSha1": "8dde24b4c97dd3dae7100207d07d9d96c52b9c74",
+      "coverage": "Pinned public package export and root-alias oracle."
+    }
+  ],
+  "sourcePublicExport": {
+    "path": "src/index.js",
+    "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
+  },
+  "targetTests": [
+    "tests/baseline-parity.test.ts",
+    "tests/steel-plastic-hinge-frame-element-compile-time.test.ts",
+    "tests/steel-plastic-hinge-frame-element-live-parity.test.ts"
+  ],
+  "publicExports": ["SteelPlasticHingeFrameElement2D"],
+  "publicTypeExports": [
+    "SteelPlasticHingeCondensationOperators",
+    "SteelPlasticHingeFrameElement2DEvaluateOptions",
+    "SteelPlasticHingeFrameElement2DOptions",
+    "SteelPlasticHingeFrameElement2DResponse",
+    "SteelPlasticHingeMaterialLike",
+    "SteelPlasticHingeSectionLike",
+    "SteelPlasticHingeSectionOrientation",
+    "SteelPlasticHingeSectionOrientationInput",
+    "SteelPlasticHingeStateResponse"
+  ],
+  "normativeReferences": {
+    "resolved": [],
+    "outsideCorpus": [],
+    "normativeConformityClaimed": false,
+    "status": "classified-for-declared-scope"
+  },
+  "independentValidation": {
+    "method": "Strict typed consumer declarations and independently executed pinned JavaScript versus built TypeScript comparison of exact serialized element metadata, matrix numerics, hinge condensation, yielded response, Unicode, prototype shape, root aliases and error paths.",
+    "targetTests": [
+      "tests/steel-plastic-hinge-frame-element-compile-time.test.ts",
+      "tests/steel-plastic-hinge-frame-element-live-parity.test.ts"
+    ],
+    "fixture": "IPE200/S275 element in N/mm units, default and explicit orientation, elastic/global stiffness, one-end condensation, yielded displacement response, Unicode metadata and invalid/missing inputs.",
+    "tolerances": {
+      "serializedParity": "exact JSON and enumerable key order",
+      "numericParity": "exact matrix and response JSON equality",
+      "publicStrings": "exact error, metadata and orientation strings plus Unicode code-point comparison",
+      "errors": "exact error name and message for missing options, invalid id, invalid moment and missing DOF registry"
+    }
+  },
+  "parityDifferences": [],
+  "engineeringFunctionality": "Strict TypeScript parity for a 2D steel plastic-hinge frame element with elastic stiffness delegation, hinge condensation, activation and response serialization; frame builders, pushover models and analyses remain outside this slice."
+}

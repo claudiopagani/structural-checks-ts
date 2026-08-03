@@ -1317,6 +1317,7 @@
         "SteelElasticPlasticHardeningLaw",
         "SteelFrameModel",
         "SteelMaterial",
+        "SteelPlasticHingeFrameElement2D",
         "SteelPlasticHingeState",
         "SteelProfileSection",
         "StrainField",
@@ -19659,11 +19660,15 @@
       "sourcePath": "src/applications/steel-frames/analysis/SteelPlasticHingeFrameElement2D.js",
       "sourceBlobSha1": "1e7507f450728e35b8c390895096993e2b5de402",
       "targetPath": "src/applications/steel-frames/analysis/SteelPlasticHingeFrameElement2D.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0184-applications-steel-plastic-hinge-frame-element"],
+      "sourceOracles": ["tests/packageExports.test.js", "tests/steelRingFramePushover.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/steel-plastic-hinge-frame-element-compile-time.test.ts",
+        "tests/steel-plastic-hinge-frame-element-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0184-applications-steel-plastic-hinge-frame-element"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -27075,11 +27080,15 @@
       "sourcePath": "src/applications/steel-frames/analysis/SteelPlasticHingeFrameElement2D.js",
       "sourceBlobSha1": "1e7507f450728e35b8c390895096993e2b5de402",
       "targetPath": "src/applications/steel-frames/analysis/SteelPlasticHingeFrameElement2D.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0184-applications-steel-plastic-hinge-frame-element"],
+      "sourceOracles": ["tests/packageExports.test.js", "tests/steelRingFramePushover.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/steel-plastic-hinge-frame-element-compile-time.test.ts",
+        "tests/steel-plastic-hinge-frame-element-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0184-applications-steel-plastic-hinge-frame-element"],
+      "status": "exact-parity",
       "publicEntryPath": "src/applications/index.js",
       "publicEntryBlobSha1": "b70179c7cdd2a819f2151dc092c0f59cbce30ba6"
     },
@@ -33592,11 +33601,15 @@
       "sourcePath": "src/applications/steel-frames/analysis/SteelPlasticHingeFrameElement2D.js",
       "sourceBlobSha1": "1e7507f450728e35b8c390895096993e2b5de402",
       "targetPath": "src/applications/steel-frames/analysis/SteelPlasticHingeFrameElement2D.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing"
+      "migrationSlices": ["0184-applications-steel-plastic-hinge-frame-element"],
+      "sourceOracles": ["tests/packageExports.test.js", "tests/steelRingFramePushover.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/steel-plastic-hinge-frame-element-compile-time.test.ts",
+        "tests/steel-plastic-hinge-frame-element-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0184-applications-steel-plastic-hinge-frame-element"],
+      "status": "exact-parity"
     },
     {
       "id": "src/applications/steel-frames/analysis/SteelPlasticHingeState.js",
@@ -37623,7 +37636,8 @@
         "0177-applications-single-beam-design-application",
         "0179-applications-micropile-broms-analysis",
         "0180-applications-micropile-broms-application",
-        "0183-applications-steel-frame-model"
+        "0183-applications-steel-frame-model",
+        "0184-applications-steel-plastic-hinge-frame-element"
       ],
       "sourceOracles": [
         "tests/architecture/applicationRegistry.test.js",
@@ -40782,7 +40796,8 @@
         "0180-applications-micropile-broms-application",
         "0181-applications-micropile-broms-index",
         "0182-applications-steel-plastic-hinge-state",
-        "0183-applications-steel-frame-model"
+        "0183-applications-steel-frame-model",
+        "0184-applications-steel-plastic-hinge-frame-element"
       ],
       "sourceOracles": ["tests/packageExports.test.js"],
       "targetTests": [
@@ -40986,6 +41001,8 @@
         "tests/spencer-method-live-parity.test.ts",
         "tests/steel-frame-model-compile-time.test.ts",
         "tests/steel-frame-model-live-parity.test.ts",
+        "tests/steel-plastic-hinge-frame-element-compile-time.test.ts",
+        "tests/steel-plastic-hinge-frame-element-live-parity.test.ts",
         "tests/steel-plastic-hinge-state-compile-time.test.ts",
         "tests/steel-plastic-hinge-state-live-parity.test.ts",
         "tests/structural-model-compile-time.test.ts",
@@ -41105,7 +41122,8 @@
         "0180-applications-micropile-broms-application",
         "0181-applications-micropile-broms-index",
         "0182-applications-steel-plastic-hinge-state",
-        "0183-applications-steel-frame-model"
+        "0183-applications-steel-frame-model",
+        "0184-applications-steel-plastic-hinge-frame-element"
       ],
       "status": "exact-parity",
       "testKind": "test"
@@ -41861,14 +41879,22 @@
       "sourcePath": "tests/steelRingFramePushover.test.js",
       "sourceBlobSha1": "ece91e91fba59579941f9c562ef0507fbf5ad028",
       "targetPath": "tests/steelRingFramePushover.test.ts",
-      "migrationSlices": ["0182-applications-steel-plastic-hinge-state"],
+      "migrationSlices": [
+        "0182-applications-steel-plastic-hinge-state",
+        "0184-applications-steel-plastic-hinge-frame-element"
+      ],
       "sourceOracles": ["tests/steelRingFramePushover.test.js"],
       "targetTests": [
         "tests/baseline-parity.test.ts",
+        "tests/steel-plastic-hinge-frame-element-compile-time.test.ts",
+        "tests/steel-plastic-hinge-frame-element-live-parity.test.ts",
         "tests/steel-plastic-hinge-state-compile-time.test.ts",
         "tests/steel-plastic-hinge-state-live-parity.test.ts"
       ],
-      "validationEvidence": ["0182-applications-steel-plastic-hinge-state"],
+      "validationEvidence": [
+        "0182-applications-steel-plastic-hinge-state",
+        "0184-applications-steel-plastic-hinge-frame-element"
+      ],
       "status": "exact-parity",
       "testKind": "test"
     },
@@ -45729,16 +45755,32 @@
         "publicStrings": "exact error messages and Unicode code-point comparison",
         "errors": "exact error name and message for missing and falsey ids"
       }
+    },
+    {
+      "sliceId": "0184-applications-steel-plastic-hinge-frame-element",
+      "sourceRevision": "6f33baead8b88166c4b2cf94af41763412e3c751",
+      "method": "Strict typed consumer declarations and independently executed pinned JavaScript versus built TypeScript comparison of exact serialized element metadata, matrix numerics, hinge condensation, yielded response, Unicode, prototype shape, root aliases and error paths.",
+      "targetTests": [
+        "tests/steel-plastic-hinge-frame-element-compile-time.test.ts",
+        "tests/steel-plastic-hinge-frame-element-live-parity.test.ts"
+      ],
+      "fixture": "IPE200/S275 element in N/mm units, default and explicit orientation, elastic/global stiffness, one-end condensation, yielded displacement response, Unicode metadata and invalid/missing inputs.",
+      "tolerances": {
+        "serializedParity": "exact JSON and enumerable key order",
+        "numericParity": "exact matrix and response JSON equality",
+        "publicStrings": "exact error, metadata and orientation strings plus Unicode code-point comparison",
+        "errors": "exact error name and message for missing options, invalid id, invalid moment and missing DOF registry"
+      }
     }
   ],
   "counts": {
     "rootExports": {
       "javascript": 841,
-      "typescript": 780
+      "typescript": 781
     },
     "applicationsExports": {
       "javascript": 309,
-      "typescript": 253
+      "typescript": 254
     },
     "packageEntryPoints": {
       "javascript": 14,
@@ -45758,11 +45800,11 @@
     },
     "sourceFiles": {
       "javascript": 480,
-      "typescript": 445
+      "typescript": 446
     },
     "tests": {
       "javascript": 131,
-      "typescript": 352
+      "typescript": 354
     },
     "validationCampaigns": {
       "javascript": 17,
@@ -45814,7 +45856,7 @@
       "statusCounts": {
         "exact-parity": 0,
         "partial": 26,
-        "missing": 164,
+        "missing": 161,
         "intentionally-excluded": 0,
         "decision-required": 0
       },
@@ -45829,7 +45871,6 @@
         "application-export:SteelDisplacementControlPushoverSolver2D",
         "application-export:SteelFrameApplication",
         "application-export:SteelMemberVerification",
-        "application-export:SteelPlasticHingeFrameElement2D",
         "application-export:SteelRingFrame2DBuilder",
         "application-export:SteelRingFramePushoverAnalysis",
         "application-export:SteelRingFramePushoverModel",
@@ -45915,7 +45956,6 @@
         "root-export:SteelDisplacementControlPushoverSolver2D",
         "root-export:SteelFrameApplication",
         "root-export:SteelMemberVerification",
-        "root-export:SteelPlasticHingeFrameElement2D",
         "root-export:SteelRingFrame2DBuilder",
         "root-export:SteelRingFramePushoverAnalysis",
         "root-export:SteelRingFramePushoverModel",
@@ -45972,7 +46012,6 @@
         "source:src/applications/reinforced-concrete-plates/README.md",
         "source:src/applications/steel-frames/SteelFrameApplication.js",
         "source:src/applications/steel-frames/analysis/SteelDisplacementControlPushoverSolver2D.js",
-        "source:src/applications/steel-frames/analysis/SteelPlasticHingeFrameElement2D.js",
         "source:src/applications/steel-frames/analysis/SteelRingFrame2DBuilder.js",
         "source:src/applications/steel-frames/analysis/SteelRingFrameInternalForces.js",
         "source:src/applications/steel-frames/analysis/SteelRingFramePushoverAnalysis.js",

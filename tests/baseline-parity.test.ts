@@ -462,6 +462,7 @@ const expectedExports = [
   "SteelMaterial",
   "SteelCompoundProfileSection",
   "SteelFrameModel",
+  "SteelPlasticHingeFrameElement2D",
   "SteelPlasticHingeState",
   "SteelProfileSection",
   "SingleBeamAnalysis",
