@@ -465,6 +465,11 @@ export type {
   EquivalentFrameMembersResult,
   ExtractEquivalentFrameMembersInput,
 } from "./applications/masonry-wall-openings/geometry/extractEquivalentFrameMembers.js";
+export { MasonryEquivalentFrameBuilder } from "./applications/masonry-wall-openings/analysis/MasonryEquivalentFrameBuilder.js";
+export type {
+  MasonryEquivalentFrameBuilderBuildInput,
+  MasonryEquivalentFrameBuilderResult,
+} from "./applications/masonry-wall-openings/analysis/MasonryEquivalentFrameBuilder.js";
 export { resolveMasonryStageMaterial } from "./applications/masonry-wall-openings/materials/resolveMasonryStageMaterial.js";
 export type {
   MasonryStageMaterialResolution,

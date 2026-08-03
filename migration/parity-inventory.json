@@ -1067,6 +1067,7 @@
         "LoadCase",
         "LoadCombination",
         "MASONRY_PIER_CAPACITY_CURVE_COMPARISON_REPORT_SCHEMA_VERSION",
+        "MasonryEquivalentFrameBuilder",
         "MasonryFiberInterface2D",
         "MasonryMaterial",
         "MasonryOutOfPlaneApplication",
@@ -12457,11 +12458,18 @@
       "sourcePath": "src/applications/masonry-wall-openings/analysis/MasonryEquivalentFrameBuilder.js",
       "sourceBlobSha1": "564c349fd34eede91298a2885ff88b3e5a5fdc41",
       "targetPath": "src/applications/masonry-wall-openings/analysis/MasonryEquivalentFrameBuilder.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0198-applications-masonry-equivalent-frame-builder"],
+      "sourceOracles": [
+        "tests/masonryWallOpeningsEquivalentFrameBuilder.test.js",
+        "tests/packageExports.test.js"
+      ],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/masonry-equivalent-frame-builder-compile-time.test.ts",
+        "tests/masonry-equivalent-frame-builder-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0198-applications-masonry-equivalent-frame-builder"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -24615,11 +24623,18 @@
       "sourcePath": "src/applications/masonry-wall-openings/analysis/MasonryEquivalentFrameBuilder.js",
       "sourceBlobSha1": "564c349fd34eede91298a2885ff88b3e5a5fdc41",
       "targetPath": "src/applications/masonry-wall-openings/analysis/MasonryEquivalentFrameBuilder.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0198-applications-masonry-equivalent-frame-builder"],
+      "sourceOracles": [
+        "tests/masonryWallOpeningsEquivalentFrameBuilder.test.js",
+        "tests/packageExports.test.js"
+      ],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/masonry-equivalent-frame-builder-compile-time.test.ts",
+        "tests/masonry-equivalent-frame-builder-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0198-applications-masonry-equivalent-frame-builder"],
+      "status": "exact-parity",
       "publicEntryPath": "src/applications/index.js",
       "publicEntryBlobSha1": "b70179c7cdd2a819f2151dc092c0f59cbce30ba6"
     },
@@ -31504,11 +31519,18 @@
       "sourcePath": "src/applications/masonry-wall-openings/analysis/MasonryEquivalentFrameBuilder.js",
       "sourceBlobSha1": "564c349fd34eede91298a2885ff88b3e5a5fdc41",
       "targetPath": "src/applications/masonry-wall-openings/analysis/MasonryEquivalentFrameBuilder.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing"
+      "migrationSlices": ["0198-applications-masonry-equivalent-frame-builder"],
+      "sourceOracles": [
+        "tests/masonryWallOpeningsEquivalentFrameBuilder.test.js",
+        "tests/packageExports.test.js"
+      ],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/masonry-equivalent-frame-builder-compile-time.test.ts",
+        "tests/masonry-equivalent-frame-builder-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0198-applications-masonry-equivalent-frame-builder"],
+      "status": "exact-parity"
     },
     {
       "id": "src/applications/masonry-wall-openings/analysis/MasonryEquivalentFramePushoverInternalForces.js",
@@ -38068,7 +38090,8 @@
         "0193-applications-steel-verification-capabilities",
         "0194-applications-steel-member-fem-3d-contract",
         "0196-applications-steel-ring-frame-pushover-model",
-        "0197-applications-steel-ring-frame-2d-builder"
+        "0197-applications-steel-ring-frame-2d-builder",
+        "0198-applications-masonry-equivalent-frame-builder"
       ],
       "sourceOracles": [
         "tests/architecture/applicationRegistry.test.js",
@@ -40392,11 +40415,15 @@
       "sourcePath": "tests/masonryWallOpeningsEquivalentFrameBuilder.test.js",
       "sourceBlobSha1": "5f9a0514d607e9e3f1578c4f5112f42f35e58688",
       "targetPath": "tests/masonryWallOpeningsEquivalentFrameBuilder.test.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0198-applications-masonry-equivalent-frame-builder"],
+      "sourceOracles": ["tests/masonryWallOpeningsEquivalentFrameBuilder.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/masonry-equivalent-frame-builder-compile-time.test.ts",
+        "tests/masonry-equivalent-frame-builder-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0198-applications-masonry-equivalent-frame-builder"],
+      "status": "exact-parity",
       "testKind": "test"
     },
     {
@@ -41239,7 +41266,8 @@
         "0194-applications-steel-member-fem-3d-contract",
         "0195-applications-steel-member-verification-policies",
         "0196-applications-steel-ring-frame-pushover-model",
-        "0197-applications-steel-ring-frame-2d-builder"
+        "0197-applications-steel-ring-frame-2d-builder",
+        "0198-applications-masonry-equivalent-frame-builder"
       ],
       "sourceOracles": ["tests/packageExports.test.js"],
       "targetTests": [
@@ -41319,6 +41347,8 @@
         "tests/lateral-earth-pressure-analysis-live-parity.test.ts",
         "tests/lateral-pile-capacity-compile-time.test.ts",
         "tests/lateral-pile-capacity-live-parity.test.ts",
+        "tests/masonry-equivalent-frame-builder-compile-time.test.ts",
+        "tests/masonry-equivalent-frame-builder-live-parity.test.ts",
         "tests/masonry-fiber-interface-compile-time.test.ts",
         "tests/masonry-fiber-interface-live-parity.test.ts",
         "tests/masonry-material-indexes-compile-time.test.ts",
@@ -41598,7 +41628,8 @@
         "0194-applications-steel-member-fem-3d-contract",
         "0195-applications-steel-member-verification-policies",
         "0196-applications-steel-ring-frame-pushover-model",
-        "0197-applications-steel-ring-frame-2d-builder"
+        "0197-applications-steel-ring-frame-2d-builder",
+        "0198-applications-masonry-equivalent-frame-builder"
       ],
       "status": "exact-parity",
       "testKind": "test"
@@ -46522,16 +46553,32 @@
         "publicStrings": "exact assumptions, warnings, identifiers and Unicode code-point comparison",
         "errors": "exact missing-model error name and message comparisons"
       }
+    },
+    {
+      "sliceId": "0198-applications-masonry-equivalent-frame-builder",
+      "sourceRevision": "6f33baead8b88166c4b2cf94af41763412e3c751",
+      "method": "Strict typed consumer declarations and independently executed pinned JavaScript versus built TypeScript comparison of equivalent-frame nodes, elements, supports, constraints, DOF registry, exact snapshots, numerical stiffness values, Unicode identifiers and constructor/build errors.",
+      "targetTests": [
+        "tests/masonry-equivalent-frame-builder-compile-time.test.ts",
+        "tests/masonry-equivalent-frame-builder-live-parity.test.ts"
+      ],
+      "fixture": "Independent pier-only, fixed-top, explicit spandrel, diaphragm and steel ring-frame fixtures with N/m units, exact stiffness values, parallel-frame metadata and Unicode identifiers.",
+      "tolerances": {
+        "serializedParity": "exact snapshot, element and DOF JSON",
+        "numericParity": "exact node coordinates, stiffness values, offsets, counts and metadata",
+        "publicStrings": "exact assumptions, warnings, identifiers and Unicode code-point comparison",
+        "errors": "exact missing-alignment and unsupported-top-rotation error name and message comparisons"
+      }
     }
   ],
   "counts": {
     "rootExports": {
       "javascript": 841,
-      "typescript": 805
+      "typescript": 806
     },
     "applicationsExports": {
       "javascript": 309,
-      "typescript": 278
+      "typescript": 279
     },
     "packageEntryPoints": {
       "javascript": 14,
@@ -46551,11 +46598,11 @@
     },
     "sourceFiles": {
       "javascript": 480,
-      "typescript": 459
+      "typescript": 460
     },
     "tests": {
       "javascript": 131,
-      "typescript": 380
+      "typescript": 382
     },
     "validationCampaigns": {
       "javascript": 17,
@@ -46607,7 +46654,7 @@
       "statusCounts": {
         "exact-parity": 0,
         "partial": 26,
-        "missing": 100,
+        "missing": 97,
         "intentionally-excluded": 0,
         "decision-required": 0
       },
@@ -46616,7 +46663,6 @@
         "application-export:AlignmentSeismicAggregatedAnalysis",
         "application-export:AlignmentStateComparisonAnalysis",
         "application-export:AlignmentStaticAnalysis",
-        "application-export:MasonryEquivalentFrameBuilder",
         "application-export:MasonryPierCapacityCurveComparisonAnalysis",
         "application-export:MasonryWallOpeningsApplication",
         "application-export:SteelFrameApplication",
@@ -46677,7 +46723,6 @@
         "root-export:AlignmentSeismicAggregatedAnalysis",
         "root-export:AlignmentStateComparisonAnalysis",
         "root-export:AlignmentStaticAnalysis",
-        "root-export:MasonryEquivalentFrameBuilder",
         "root-export:MasonryPierCapacityCurveComparisonAnalysis",
         "root-export:MasonryWallOpeningsApplication",
         "root-export:SteelFrameApplication",
@@ -46709,7 +46754,6 @@
         "source:src/applications/masonry-wall-openings/analysis/AlignmentSeismicAggregatedAnalysis.js",
         "source:src/applications/masonry-wall-openings/analysis/AlignmentStateComparisonAnalysis.js",
         "source:src/applications/masonry-wall-openings/analysis/AlignmentStaticAnalysis.js",
-        "source:src/applications/masonry-wall-openings/analysis/MasonryEquivalentFrameBuilder.js",
         "source:src/applications/masonry-wall-openings/analysis/MasonryPierCapacityCurveComparisonAnalysis.js",
         "source:src/applications/masonry-wall-openings/index.js",
         "source:src/applications/reinforced-concrete-plates/README.md",
@@ -46744,7 +46788,7 @@
       "statusCounts": {
         "exact-parity": 0,
         "partial": 4,
-        "missing": 108,
+        "missing": 107,
         "intentionally-excluded": 0,
         "decision-required": 0
       },
@@ -46856,7 +46900,6 @@
         "test:tests/geotechnicalShallowFoundationValidationCampaign.test.js",
         "test:tests/geotechnicalSlopeStabilityValidationCampaign.test.js",
         "test:tests/geotechnicalValidationCampaign.test.js",
-        "test:tests/masonryWallOpeningsEquivalentFrameBuilder.test.js",
         "test:tests/masonryWallOpeningsStateComparison.test.js",
         "test:tests/masonryWallOpeningsStaticAnalysis.test.js",
         "test:tests/run-tests.js",

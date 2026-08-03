@@ -1,0 +1,85 @@
+{
+  "schemaVersion": 1,
+  "sliceId": "0198-applications-masonry-equivalent-frame-builder",
+  "title": "Masonry equivalent-frame builder",
+  "migrationType": "mechanical-parity",
+  "implementationStatus": "implemented",
+  "dependencies": ["0197-applications-steel-ring-frame-2d-builder"],
+  "source": {
+    "repository": "https://github.com/claudiopagani/strutture-js",
+    "revision": "6f33baead8b88166c4b2cf94af41763412e3c751"
+  },
+  "normativeCorpusRevision": "41da3faa489600173106935bbcf726119300e48d",
+  "sourceFiles": [
+    {
+      "path": "src/applications/masonry-wall-openings/analysis/MasonryEquivalentFrameBuilder.js",
+      "gitBlobSha1": "564c349fd34eede91298a2885ff88b3e5a5fdc41",
+      "targetPath": "src/applications/masonry-wall-openings/analysis/MasonryEquivalentFrameBuilder.ts"
+    }
+  ],
+  "supportingSourceFiles": [
+    {
+      "path": "src/applications/masonry-wall-openings/index.js",
+      "gitBlobSha1": "eff11642dcba529d9307f41cd5e19afc32cc99b1",
+      "coverage": "Pinned masonry-wall-openings barrel reexports MasonryEquivalentFrameBuilder."
+    },
+    {
+      "path": "src/applications/index.js",
+      "gitBlobSha1": "b70179c7cdd2a819f2151dc092c0f59cbce30ba6",
+      "coverage": "Pinned applications barrel context for the equivalent-frame builder export."
+    },
+    {
+      "path": "src/index.js",
+      "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7",
+      "coverage": "Pinned root public export context for application exports."
+    }
+  ],
+  "sourceOracles": [
+    {
+      "path": "tests/masonryWallOpeningsEquivalentFrameBuilder.test.js",
+      "gitBlobSha1": "5f9a0514d607e9e3f1578c4f5112f42f35e58688",
+      "coverage": "Pinned equivalent-frame pier, spandrel, diaphragm, ring-frame, orientation, parallel-frame, numerical and error-path oracle."
+    },
+    {
+      "path": "tests/packageExports.test.js",
+      "gitBlobSha1": "8dde24b4c97dd3dae7100207d07d9d96c52b9c74",
+      "coverage": "Pinned public package export and root-alias oracle."
+    }
+  ],
+  "sourcePublicExport": {
+    "path": "src/index.js",
+    "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
+  },
+  "targetTests": [
+    "tests/baseline-parity.test.ts",
+    "tests/masonry-equivalent-frame-builder-compile-time.test.ts",
+    "tests/masonry-equivalent-frame-builder-live-parity.test.ts"
+  ],
+  "publicExports": ["MasonryEquivalentFrameBuilder"],
+  "publicTypeExports": [
+    "MasonryEquivalentFrameBuilderBuildInput",
+    "MasonryEquivalentFrameBuilderResult"
+  ],
+  "normativeReferences": {
+    "resolved": [],
+    "outsideCorpus": [],
+    "normativeConformityClaimed": false,
+    "status": "classified-for-declared-scope"
+  },
+  "independentValidation": {
+    "method": "Strict typed consumer declarations and independently executed pinned JavaScript versus built TypeScript comparison of equivalent-frame nodes, elements, supports, constraints, DOF registry, exact snapshots, numerical stiffness values, Unicode identifiers and constructor/build errors.",
+    "targetTests": [
+      "tests/masonry-equivalent-frame-builder-compile-time.test.ts",
+      "tests/masonry-equivalent-frame-builder-live-parity.test.ts"
+    ],
+    "fixture": "Independent pier-only, fixed-top, explicit spandrel, diaphragm and steel ring-frame fixtures with N/m units, exact stiffness values, parallel-frame metadata and Unicode identifiers.",
+    "tolerances": {
+      "serializedParity": "exact snapshot, element and DOF JSON",
+      "numericParity": "exact node coordinates, stiffness values, offsets, counts and metadata",
+      "publicStrings": "exact assumptions, warnings, identifiers and Unicode code-point comparison",
+      "errors": "exact missing-alignment and unsupported-top-rotation error name and message comparisons"
+    }
+  },
+  "parityDifferences": [],
+  "engineeringFunctionality": "Strict TypeScript parity for the generic masonry equivalent-frame FEM assembly; masonry nonlinear mechanisms, application orchestration, loads, load cases, combination formulas and registry composition remain outside this slice."
+}

@@ -110,6 +110,7 @@ const expectedExports = [
   "MasonryOutOfPlaneModel",
   "MasonryPierApplication",
   "MasonryPierEquivalentFrameBuilder",
+  "MasonryEquivalentFrameBuilder",
   "MasonryPierModel",
   "MasonryPierVerticalVerification",
   "MasonryWallOpeningsModel",
