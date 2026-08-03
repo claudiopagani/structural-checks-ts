@@ -1,0 +1,106 @@
+{
+  "schemaVersion": 1,
+  "sliceId": "0124-norms-ntc2018-beam-combinations",
+  "title": "NTC 2018 beam combination factory",
+  "migrationType": "mechanical-parity",
+  "implementationStatus": "implemented",
+  "dependencies": [
+    "0001-foundation",
+    "0038-domain-actions-hierarchy",
+    "0039-ntc2018-action-parameters-and-factories",
+    "0123-norms-ntc2018-load-parameters"
+  ],
+  "source": {
+    "repository": "https://github.com/claudiopagani/strutture-js",
+    "revision": "6f33baead8b88166c4b2cf94af41763412e3c751"
+  },
+  "normativeCorpusRevision": "41da3faa489600173106935bbcf726119300e48d",
+  "sourceFiles": [
+    {
+      "path": "src/norms/ntc2018/beams/createNTC2018BeamCombinations.js",
+      "gitBlobSha1": "e357bc969479ad976e49a3a9246dd8cec82cfa94",
+      "targetPath": "src/norms/ntc2018/beams/createNTC2018BeamCombinations.ts"
+    }
+  ],
+  "supportingSourceFiles": [
+    {
+      "path": "src/norms/ntc2018/actions/createNTC2018Action.js",
+      "gitBlobSha1": "06c4c6a75e2482bdf3e6d3288c7153aa72738c8a",
+      "targetPath": "src/norms/ntc2018/actions/createNTC2018Action.ts",
+      "coverage": "Already-migrated NTC 2018 action factory dependency used for action method factors."
+    },
+    {
+      "path": "src/norms/ntc2018/loads/ntc2018LoadParameters.js",
+      "gitBlobSha1": "2ea2f9fec140904aa68bec5c092e691814a27178",
+      "targetPath": "src/norms/ntc2018/loads/ntc2018LoadParameters.ts",
+      "coverage": "Already-migrated ULS partial-factor dependency used for plain-action fallback factors."
+    },
+    {
+      "path": "src/norms/ntc2018/index.js",
+      "gitBlobSha1": "0ac4cf551c455ec2a57d9bf8849db46fb14e0dcc",
+      "targetPath": "src/index.ts",
+      "coverage": "Pinned NTC 2018 norm-index export context for the beam-combination factory."
+    },
+    {
+      "path": "src/index.js",
+      "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7",
+      "targetPath": "src/index.ts",
+      "coverage": "Root public export for the migrated beam-combination factory."
+    }
+  ],
+  "sourceOracles": [
+    {
+      "path": "tests/ntc2018BeamCombinations.test.js",
+      "gitBlobSha1": "5a7a91ea603e78955281093a2b734d00bbe30e97",
+      "coverage": "Default NTC 2018 ULS/SLE generation, factors, metadata, action durations, aliases, and beam-analysis context."
+    },
+    {
+      "path": "tests/packageExports.test.js",
+      "gitBlobSha1": "8dde24b4c97dd3dae7100207d07d9d96c52b9c74",
+      "coverage": "Root public export behavior."
+    }
+  ],
+  "sourcePublicExport": {
+    "path": "src/index.js",
+    "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
+  },
+  "targetTests": [
+    "tests/baseline-parity.test.ts",
+    "tests/ntc2018-beam-combinations-compile-time.test.ts",
+    "tests/ntc2018-beam-combinations-live-parity.test.ts"
+  ],
+  "publicExports": ["createNTC2018BeamCombinations"],
+  "publicTypeExports": [
+    "CreateNTC2018BeamCombinationsOptions",
+    "NTC2018BeamCombination",
+    "NTC2018BeamCombinationInput",
+    "NTC2018BeamCombinationMetadata"
+  ],
+  "normativeReferences": {
+    "resolved": [],
+    "outsideCorpus": [
+      "NTC 2018 Section 2.5.3 load combinations",
+      "NTC 2018 Table 2.5.I load-combination partial factors",
+      "NTC 2018 Table 2.5.II combination coefficients"
+    ],
+    "normativeConformityClaimed": false,
+    "status": "classified-for-declared-scope"
+  },
+  "independentValidation": {
+    "method": "Strict declaration consumer coverage and independently executed pinned JavaScript versus built TypeScript comparison of default and explicit beam-combination generation, exact serialized JSON, Unicode identifiers and metadata, factor values, alias normalization, root export, and native error paths.",
+    "targetTests": [
+      "tests/ntc2018-beam-combinations-compile-time.test.ts",
+      "tests/ntc2018-beam-combinations-live-parity.test.ts"
+    ],
+    "tolerances": {
+      "serializedParity": "exact combination arrays, factors, metadata, action JSON, and root export behavior",
+      "numericParity": "exact equality for all ULS/SLE factors and rounded metadata factors",
+      "publicStrings": "exact equality plus Unicode preservation for identifiers, metadata, and errors",
+      "errors": "exact error name and message equality for missing permanent ids, missing variable categories, unsupported combination types, and null options"
+    }
+  },
+  "parityDifferences": [
+    "The TypeScript module adds strict declarations and root export support; runtime normalization, combination generation, factor selection, metadata, serialization, aliases, and errors match the pinned source for the covered public inputs."
+  ],
+  "engineeringFunctionality": "Source-compatible NTC 2018 ULS and SLE beam load-combination generation with leading-variable-action selection, partial factors, combination factors, duration metadata, and alias normalization."
+}

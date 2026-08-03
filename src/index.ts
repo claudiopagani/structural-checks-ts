@@ -581,6 +581,7 @@ export {
   NTC2018_ULS_PARTIAL_FACTORS,
   NTC2018_VARIABLE_ACTION_CATEGORIES,
 } from "./norms/ntc2018/loads/ntc2018LoadParameters.js";
+export { createNTC2018BeamCombinations } from "./norms/ntc2018/beams/createNTC2018BeamCombinations.js";
 export {
   CIRC2019_RC_REFERENCES,
   NORMATIVE_REFERENCE_RELATIONS,
@@ -1943,6 +1944,12 @@ export type {
   NTC2018UlsPartialFactors,
   NTC2018VariableActionCategory,
 } from "./norms/ntc2018/loads/ntc2018LoadParameters.js";
+export type {
+  CreateNTC2018BeamCombinationsOptions,
+  NTC2018BeamCombination,
+  NTC2018BeamCombinationInput,
+  NTC2018BeamCombinationMetadata,
+} from "./norms/ntc2018/beams/createNTC2018BeamCombinations.js";
 export type {
   Ntc2018ExistingMasonryMechanicalProperties,
   Ntc2018ExistingMasonryModifierDefinition,

@@ -1393,6 +1393,7 @@
         "createLongitudinalReinforcementLayout",
         "createMasonryShearStrengthModel",
         "createNTC2018AccidentalAction",
+        "createNTC2018BeamCombinations",
         "createNTC2018ConcreteMaterial",
         "createNTC2018LinearDynamicAssessment",
         "createNTC2018PermanentAction",
@@ -6031,11 +6032,15 @@
       "sourcePath": "src/norms/ntc2018/beams/createNTC2018BeamCombinations.js",
       "sourceBlobSha1": "e357bc969479ad976e49a3a9246dd8cec82cfa94",
       "targetPath": "src/norms/ntc2018/beams/createNTC2018BeamCombinations.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0124-norms-ntc2018-beam-combinations"],
+      "sourceOracles": ["tests/ntc2018BeamCombinations.test.js", "tests/packageExports.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/ntc2018-beam-combinations-compile-time.test.ts",
+        "tests/ntc2018-beam-combinations-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0124-norms-ntc2018-beam-combinations"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -33009,7 +33014,8 @@
         "0120-norms-ntc2018-existing-masonry-catalogs",
         "0121-norms-ntc2018-existing-masonry-material",
         "0122-norms-ntc2018-material-catalogs",
-        "0123-norms-ntc2018-load-parameters"
+        "0123-norms-ntc2018-load-parameters",
+        "0124-norms-ntc2018-beam-combinations"
       ],
       "sourceOracles": [
         "tests/architecture/applicationRegistry.test.js",
@@ -33469,11 +33475,15 @@
       "sourcePath": "src/norms/ntc2018/beams/createNTC2018BeamCombinations.js",
       "sourceBlobSha1": "e357bc969479ad976e49a3a9246dd8cec82cfa94",
       "targetPath": "src/norms/ntc2018/beams/createNTC2018BeamCombinations.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing"
+      "migrationSlices": ["0124-norms-ntc2018-beam-combinations"],
+      "sourceOracles": ["tests/ntc2018BeamCombinations.test.js", "tests/packageExports.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/ntc2018-beam-combinations-compile-time.test.ts",
+        "tests/ntc2018-beam-combinations-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0124-norms-ntc2018-beam-combinations"],
+      "status": "exact-parity"
     },
     {
       "id": "src/norms/ntc2018/geotechnics/ntc2018RetainingWallSeismic.js",
@@ -35306,14 +35316,22 @@
       "sourcePath": "tests/ntc2018BeamCombinations.test.js",
       "sourceBlobSha1": "5a7a91ea603e78955281093a2b734d00bbe30e97",
       "targetPath": "tests/ntc2018BeamCombinations.test.ts",
-      "migrationSlices": ["0123-norms-ntc2018-load-parameters"],
+      "migrationSlices": [
+        "0123-norms-ntc2018-load-parameters",
+        "0124-norms-ntc2018-beam-combinations"
+      ],
       "sourceOracles": ["tests/ntc2018BeamCombinations.test.js"],
       "targetTests": [
         "tests/baseline-parity.test.ts",
+        "tests/ntc2018-beam-combinations-compile-time.test.ts",
+        "tests/ntc2018-beam-combinations-live-parity.test.ts",
         "tests/ntc2018-load-parameters-compile-time.test.ts",
         "tests/ntc2018-load-parameters-live-parity.test.ts"
       ],
-      "validationEvidence": ["0123-norms-ntc2018-load-parameters"],
+      "validationEvidence": [
+        "0123-norms-ntc2018-load-parameters",
+        "0124-norms-ntc2018-beam-combinations"
+      ],
       "status": "exact-parity",
       "testKind": "test"
     },
@@ -35810,7 +35828,8 @@
         "0120-norms-ntc2018-existing-masonry-catalogs",
         "0121-norms-ntc2018-existing-masonry-material",
         "0122-norms-ntc2018-material-catalogs",
-        "0123-norms-ntc2018-load-parameters"
+        "0123-norms-ntc2018-load-parameters",
+        "0124-norms-ntc2018-beam-combinations"
       ],
       "sourceOracles": ["tests/packageExports.test.js"],
       "targetTests": [
@@ -35869,6 +35888,8 @@
         "tests/masonry-material-indexes-live-parity.test.ts",
         "tests/masonry-section-index-compile-time.test.ts",
         "tests/masonry-section-index-live-parity.test.ts",
+        "tests/ntc2018-beam-combinations-compile-time.test.ts",
+        "tests/ntc2018-beam-combinations-live-parity.test.ts",
         "tests/ntc2018-existing-masonry-catalogs-compile-time.test.ts",
         "tests/ntc2018-existing-masonry-catalogs-live-parity.test.ts",
         "tests/ntc2018-existing-masonry-material-compile-time.test.ts",
@@ -35982,7 +36003,8 @@
         "0120-norms-ntc2018-existing-masonry-catalogs",
         "0121-norms-ntc2018-existing-masonry-material",
         "0122-norms-ntc2018-material-catalogs",
-        "0123-norms-ntc2018-load-parameters"
+        "0123-norms-ntc2018-load-parameters",
+        "0124-norms-ntc2018-beam-combinations"
       ],
       "status": "exact-parity",
       "testKind": "test"
@@ -39554,12 +39576,28 @@
         "publicStrings": "exact equality for all catalog descriptions through the aliased category catalog",
         "errors": "not applicable: the migrated constants expose no callable error-producing behavior; unsupported property reads remain undefined"
       }
+    },
+    {
+      "sliceId": "0124-norms-ntc2018-beam-combinations",
+      "sourceRevision": "6f33baead8b88166c4b2cf94af41763412e3c751",
+      "method": "Strict declaration consumer coverage and independently executed pinned JavaScript versus built TypeScript comparison of default and explicit beam-combination generation, exact serialized JSON, Unicode identifiers and metadata, factor values, alias normalization, root export, and native error paths.",
+      "targetTests": [
+        "tests/ntc2018-beam-combinations-compile-time.test.ts",
+        "tests/ntc2018-beam-combinations-live-parity.test.ts"
+      ],
+      "fixture": null,
+      "tolerances": {
+        "serializedParity": "exact combination arrays, factors, metadata, action JSON, and root export behavior",
+        "numericParity": "exact equality for all ULS/SLE factors and rounded metadata factors",
+        "publicStrings": "exact equality plus Unicode preservation for identifiers, metadata, and errors",
+        "errors": "exact error name and message equality for missing permanent ids, missing variable categories, unsupported combination types, and null options"
+      }
     }
   ],
   "counts": {
     "rootExports": {
       "javascript": 841,
-      "typescript": 672
+      "typescript": 673
     },
     "applicationsExports": {
       "javascript": 309,
@@ -39583,11 +39621,11 @@
     },
     "sourceFiles": {
       "javascript": 480,
-      "typescript": 369
+      "typescript": 370
     },
     "tests": {
       "javascript": 131,
-      "typescript": 234
+      "typescript": 236
     },
     "validationCampaigns": {
       "javascript": 17,
@@ -39646,7 +39684,7 @@
       "statusCounts": {
         "exact-parity": 0,
         "partial": 3,
-        "missing": 71,
+        "missing": 69,
         "intentionally-excluded": 0,
         "decision-required": 0
       },
@@ -39679,7 +39717,6 @@
         "root-export:calculateNTC2018PermanentAreaLoads",
         "root-export:calculateNTC2018RetainingWallSeismicCoefficients",
         "root-export:calculateNTC2018SelfWeight",
-        "root-export:createNTC2018BeamCombinations",
         "root-export:createNTC2018ExistingMasonryMaterial",
         "root-export:createNTC2018ExistingMasonryModifierState",
         "root-export:createNTC2018ExistingMasonryWorkflowState",
@@ -39711,7 +39748,6 @@
         "root-export:selectNTC2018MasonryPierGoverningCapacity",
         "root-export:toggleNTC2018ExistingMasonryModifier",
         "root-export:updateNTC2018ExistingMasonryMaltaBuona",
-        "source:src/norms/ntc2018/beams/createNTC2018BeamCombinations.js",
         "source:src/norms/ntc2018/geotechnics/ntc2018RetainingWallSeismic.js",
         "source:src/norms/ntc2018/index.js",
         "source:src/norms/ntc2018/loads/NTC2018SlabLoadAnalysis.js",

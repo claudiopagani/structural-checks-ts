@@ -466,6 +466,7 @@ const expectedExports = [
   "createDisplacementAssessment",
   "createItalianHistoricalReinforcementSteelMaterial",
   "createNTC2018AccidentalAction",
+  "createNTC2018BeamCombinations",
   "createNTC2018ConcreteMaterial",
   "createNTC2018LinearDynamicAssessment",
   "createNTC2018PermanentAction",
