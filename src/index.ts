@@ -895,6 +895,20 @@ export type {
   SteelVerificationCapabilityStatus,
   SteelVerificationCompoundCapability,
 } from "./applications/steel-frames/checks/steelVerificationCapabilities.js";
+export {
+  createSteelMemberFem3DResult,
+  steelMemberFem3DToLegacyAnalysisResult,
+  validateSteelMemberFem3DResult,
+} from "./applications/steel-frames/fem/SteelMemberFem3DContract.js";
+export type {
+  SteelMemberFem3DCombination,
+  SteelMemberFem3DEnd,
+  SteelMemberFem3DMember,
+  SteelMemberFem3DResult,
+  SteelMemberFem3DStation,
+  SteelMemberFem3DValidationOptions,
+  SteelMemberFem3DValidationResult,
+} from "./applications/steel-frames/fem/SteelMemberFem3DContract.js";
 export { SteelPlasticHingeFrameElement2D } from "./applications/steel-frames/analysis/SteelPlasticHingeFrameElement2D.js";
 export type {
   SteelPlasticHingeCondensationOperators,

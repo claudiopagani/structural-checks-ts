@@ -1,0 +1,94 @@
+{
+  "schemaVersion": 1,
+  "sliceId": "0194-applications-steel-member-fem-3d-contract",
+  "title": "Steel member FEM 3D contract",
+  "migrationType": "mechanical-parity",
+  "implementationStatus": "implemented",
+  "dependencies": ["0193-applications-steel-verification-capabilities"],
+  "source": {
+    "repository": "https://github.com/claudiopagani/strutture-js",
+    "revision": "6f33baead8b88166c4b2cf94af41763412e3c751"
+  },
+  "normativeCorpusRevision": "41da3faa489600173106935bbcf726119300e48d",
+  "sourceFiles": [
+    {
+      "path": "src/applications/steel-frames/fem/SteelMemberFem3DContract.js",
+      "gitBlobSha1": "076618ccb1314707a9d30793ac98c61a9536e987",
+      "targetPath": "src/applications/steel-frames/fem/SteelMemberFem3DContract.ts"
+    }
+  ],
+  "supportingSourceFiles": [
+    {
+      "path": "src/applications/steel-frames/index.js",
+      "gitBlobSha1": "00b0b647649aff91fa05b523a18df186f588223f",
+      "coverage": "Pinned steel-frames barrel reexports the FEM 3D contract functions."
+    },
+    {
+      "path": "src/applications/index.js",
+      "gitBlobSha1": "b70179c7cdd2a819f2151dc092c0f59cbce30ba6",
+      "coverage": "Pinned applications barrel reexports the FEM 3D contract functions."
+    },
+    {
+      "path": "src/index.js",
+      "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7",
+      "coverage": "Pinned root public export for the FEM 3D contract functions."
+    }
+  ],
+  "sourceOracles": [
+    {
+      "path": "tests/steelFrameAdvancedVerification.test.js",
+      "gitBlobSha1": "a3feaae57dc36a9f749a98cc43e9382ec4e12174",
+      "coverage": "Pinned FEM 3D validation, normalization and serializability oracle."
+    },
+    {
+      "path": "tests/packageExports.test.js",
+      "gitBlobSha1": "8dde24b4c97dd3dae7100207d07d9d96c52b9c74",
+      "coverage": "Pinned public package export and root-alias oracle."
+    }
+  ],
+  "sourcePublicExport": {
+    "path": "src/index.js",
+    "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
+  },
+  "targetTests": [
+    "tests/baseline-parity.test.ts",
+    "tests/steel-member-fem-3d-contract-compile-time.test.ts",
+    "tests/steel-member-fem-3d-contract-live-parity.test.ts"
+  ],
+  "publicExports": [
+    "createSteelMemberFem3DResult",
+    "steelMemberFem3DToLegacyAnalysisResult",
+    "validateSteelMemberFem3DResult"
+  ],
+  "publicTypeExports": [
+    "SteelMemberFem3DCombination",
+    "SteelMemberFem3DEnd",
+    "SteelMemberFem3DMember",
+    "SteelMemberFem3DResult",
+    "SteelMemberFem3DStation",
+    "SteelMemberFem3DValidationOptions",
+    "SteelMemberFem3DValidationResult"
+  ],
+  "normativeReferences": {
+    "resolved": [],
+    "outsideCorpus": [],
+    "normativeConformityClaimed": false,
+    "status": "classified-for-declared-scope"
+  },
+  "independentValidation": {
+    "method": "Strict typed consumer declarations and independently executed pinned JavaScript versus built TypeScript comparison of FEM normalization, validation, strictness, aliases, legacy conversion, exact JSON, Unicode metadata and error paths.",
+    "targetTests": [
+      "tests/steel-member-fem-3d-contract-compile-time.test.ts",
+      "tests/steel-member-fem-3d-contract-live-parity.test.ts"
+    ],
+    "fixture": "Independent ULS/SLS FEM 3D member with actions, displacements, rotations, supports, stability, restraint segments, web panels, concentrated loads, Unicode metadata, alias normalization and invalid-input paths.",
+    "tolerances": {
+      "serializedParity": "exact JSON and enumerable result key order",
+      "numericParity": "exact normalized actions, coordinates, lengths, factors and legacy conversion values",
+      "publicStrings": "exact schema, limit-state identifiers, validation messages and Unicode code-point comparison",
+      "errors": "exact strict creation and null-options error name/message comparisons"
+    }
+  },
+  "parityDifferences": [],
+  "engineeringFunctionality": "Strict TypeScript parity for the generic steel member FEM 3D input contract and legacy result adapter; steel member capacity verification remains outside this slice."
+}

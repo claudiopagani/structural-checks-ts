@@ -1499,6 +1499,7 @@
         "createServiceDeflectionAnalysisResult",
         "createSteelBeamSectionProvider",
         "createSteelCompoundProfileSection",
+        "createSteelMemberFem3DResult",
         "createSteelProfileSection",
         "createTecnariaConnector",
         "createTimberBeamSectionProvider",
@@ -1626,6 +1627,7 @@
         "spencerMethod",
         "splitPrincipalActions",
         "steelBucklingCurveImperfectionFactor",
+        "steelMemberFem3DToLegacyAnalysisResult",
         "steelNotSupportedCheck",
         "toggleNTC2018ExistingMasonryModifier",
         "uniqueStrings",
@@ -1639,6 +1641,7 @@
         "validateGlobalFemModelContract",
         "validateGlobalFemResultContract",
         "validateResistanceAxisTransformation",
+        "validateSteelMemberFem3DResult",
         "validateSurfaceResistanceAxisTransformation",
         "verifyBeamColumnHierarchy",
         "verifyBeamSectionActions",
@@ -7907,11 +7910,18 @@
       "sourcePath": "src/applications/steel-frames/fem/SteelMemberFem3DContract.js",
       "sourceBlobSha1": "076618ccb1314707a9d30793ac98c61a9536e987",
       "targetPath": "src/applications/steel-frames/fem/SteelMemberFem3DContract.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0194-applications-steel-member-fem-3d-contract"],
+      "sourceOracles": [
+        "tests/packageExports.test.js",
+        "tests/steelFrameAdvancedVerification.test.js"
+      ],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/steel-member-fem-3d-contract-compile-time.test.ts",
+        "tests/steel-member-fem-3d-contract-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0194-applications-steel-member-fem-3d-contract"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -19703,11 +19713,18 @@
       "sourcePath": "src/applications/steel-frames/fem/SteelMemberFem3DContract.js",
       "sourceBlobSha1": "076618ccb1314707a9d30793ac98c61a9536e987",
       "targetPath": "src/applications/steel-frames/fem/SteelMemberFem3DContract.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0194-applications-steel-member-fem-3d-contract"],
+      "sourceOracles": [
+        "tests/packageExports.test.js",
+        "tests/steelFrameAdvancedVerification.test.js"
+      ],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/steel-member-fem-3d-contract-compile-time.test.ts",
+        "tests/steel-member-fem-3d-contract-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0194-applications-steel-member-fem-3d-contract"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -20644,11 +20661,18 @@
       "sourcePath": "src/applications/steel-frames/fem/SteelMemberFem3DContract.js",
       "sourceBlobSha1": "076618ccb1314707a9d30793ac98c61a9536e987",
       "targetPath": "src/applications/steel-frames/fem/SteelMemberFem3DContract.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0194-applications-steel-member-fem-3d-contract"],
+      "sourceOracles": [
+        "tests/packageExports.test.js",
+        "tests/steelFrameAdvancedVerification.test.js"
+      ],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/steel-member-fem-3d-contract-compile-time.test.ts",
+        "tests/steel-member-fem-3d-contract-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0194-applications-steel-member-fem-3d-contract"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -22693,11 +22717,18 @@
       "sourcePath": "src/applications/steel-frames/fem/SteelMemberFem3DContract.js",
       "sourceBlobSha1": "076618ccb1314707a9d30793ac98c61a9536e987",
       "targetPath": "src/applications/steel-frames/fem/SteelMemberFem3DContract.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0194-applications-steel-member-fem-3d-contract"],
+      "sourceOracles": [
+        "tests/packageExports.test.js",
+        "tests/steelFrameAdvancedVerification.test.js"
+      ],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/steel-member-fem-3d-contract-compile-time.test.ts",
+        "tests/steel-member-fem-3d-contract-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0194-applications-steel-member-fem-3d-contract"],
+      "status": "exact-parity",
       "publicEntryPath": "src/applications/index.js",
       "publicEntryBlobSha1": "b70179c7cdd2a819f2151dc092c0f59cbce30ba6"
     },
@@ -27255,11 +27286,18 @@
       "sourcePath": "src/applications/steel-frames/fem/SteelMemberFem3DContract.js",
       "sourceBlobSha1": "076618ccb1314707a9d30793ac98c61a9536e987",
       "targetPath": "src/applications/steel-frames/fem/SteelMemberFem3DContract.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0194-applications-steel-member-fem-3d-contract"],
+      "sourceOracles": [
+        "tests/packageExports.test.js",
+        "tests/steelFrameAdvancedVerification.test.js"
+      ],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/steel-member-fem-3d-contract-compile-time.test.ts",
+        "tests/steel-member-fem-3d-contract-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0194-applications-steel-member-fem-3d-contract"],
+      "status": "exact-parity",
       "publicEntryPath": "src/applications/index.js",
       "publicEntryBlobSha1": "b70179c7cdd2a819f2151dc092c0f59cbce30ba6"
     },
@@ -27598,11 +27636,18 @@
       "sourcePath": "src/applications/steel-frames/fem/SteelMemberFem3DContract.js",
       "sourceBlobSha1": "076618ccb1314707a9d30793ac98c61a9536e987",
       "targetPath": "src/applications/steel-frames/fem/SteelMemberFem3DContract.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0194-applications-steel-member-fem-3d-contract"],
+      "sourceOracles": [
+        "tests/packageExports.test.js",
+        "tests/steelFrameAdvancedVerification.test.js"
+      ],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/steel-member-fem-3d-contract-compile-time.test.ts",
+        "tests/steel-member-fem-3d-contract-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0194-applications-steel-member-fem-3d-contract"],
+      "status": "exact-parity",
       "publicEntryPath": "src/applications/index.js",
       "publicEntryBlobSha1": "b70179c7cdd2a819f2151dc092c0f59cbce30ba6"
     },
@@ -34094,11 +34139,18 @@
       "sourcePath": "src/applications/steel-frames/fem/SteelMemberFem3DContract.js",
       "sourceBlobSha1": "076618ccb1314707a9d30793ac98c61a9536e987",
       "targetPath": "src/applications/steel-frames/fem/SteelMemberFem3DContract.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing"
+      "migrationSlices": ["0194-applications-steel-member-fem-3d-contract"],
+      "sourceOracles": [
+        "tests/packageExports.test.js",
+        "tests/steelFrameAdvancedVerification.test.js"
+      ],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/steel-member-fem-3d-contract-compile-time.test.ts",
+        "tests/steel-member-fem-3d-contract-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0194-applications-steel-member-fem-3d-contract"],
+      "status": "exact-parity"
     },
     {
       "id": "src/applications/steel-frames/index.js",
@@ -37979,7 +38031,8 @@
         "0189-applications-steel-compression-buckling",
         "0191-applications-steel-lateral-torsional-buckling",
         "0192-applications-steel-section-classification",
-        "0193-applications-steel-verification-capabilities"
+        "0193-applications-steel-verification-capabilities",
+        "0194-applications-steel-member-fem-3d-contract"
       ],
       "sourceOracles": [
         "tests/architecture/applicationRegistry.test.js",
@@ -41146,7 +41199,8 @@
         "0189-applications-steel-compression-buckling",
         "0191-applications-steel-lateral-torsional-buckling",
         "0192-applications-steel-section-classification",
-        "0193-applications-steel-verification-capabilities"
+        "0193-applications-steel-verification-capabilities",
+        "0194-applications-steel-member-fem-3d-contract"
       ],
       "sourceOracles": ["tests/packageExports.test.js"],
       "targetTests": [
@@ -41360,6 +41414,8 @@
         "tests/steel-frame-model-live-parity.test.ts",
         "tests/steel-lateral-torsional-buckling-compile-time.test.ts",
         "tests/steel-lateral-torsional-buckling-live-parity.test.ts",
+        "tests/steel-member-fem-3d-contract-compile-time.test.ts",
+        "tests/steel-member-fem-3d-contract-live-parity.test.ts",
         "tests/steel-plastic-hinge-frame-element-compile-time.test.ts",
         "tests/steel-plastic-hinge-frame-element-live-parity.test.ts",
         "tests/steel-plastic-hinge-state-compile-time.test.ts",
@@ -41493,7 +41549,8 @@
         "0189-applications-steel-compression-buckling",
         "0191-applications-steel-lateral-torsional-buckling",
         "0192-applications-steel-section-classification",
-        "0193-applications-steel-verification-capabilities"
+        "0193-applications-steel-verification-capabilities",
+        "0194-applications-steel-member-fem-3d-contract"
       ],
       "status": "exact-parity",
       "testKind": "test"
@@ -42237,7 +42294,8 @@
         "0188-applications-steel-beam-column-interaction",
         "0189-applications-steel-compression-buckling",
         "0190-applications-steel-fem-3d-verification",
-        "0191-applications-steel-lateral-torsional-buckling"
+        "0191-applications-steel-lateral-torsional-buckling",
+        "0194-applications-steel-member-fem-3d-contract"
       ],
       "sourceOracles": ["tests/steelFrameAdvancedVerification.test.js"],
       "targetTests": [
@@ -42251,14 +42309,17 @@
         "tests/steel-fem-3d-verification-compile-time.test.ts",
         "tests/steel-fem-3d-verification-live-parity.test.ts",
         "tests/steel-lateral-torsional-buckling-compile-time.test.ts",
-        "tests/steel-lateral-torsional-buckling-live-parity.test.ts"
+        "tests/steel-lateral-torsional-buckling-live-parity.test.ts",
+        "tests/steel-member-fem-3d-contract-compile-time.test.ts",
+        "tests/steel-member-fem-3d-contract-live-parity.test.ts"
       ],
       "validationEvidence": [
         "0187-applications-steel-advanced-member-checks",
         "0188-applications-steel-beam-column-interaction",
         "0189-applications-steel-compression-buckling",
         "0190-applications-steel-fem-3d-verification",
-        "0191-applications-steel-lateral-torsional-buckling"
+        "0191-applications-steel-lateral-torsional-buckling",
+        "0194-applications-steel-member-fem-3d-contract"
       ],
       "status": "exact-parity",
       "testKind": "test"
@@ -46333,16 +46394,32 @@
         "publicStrings": "exact capability messages, required inputs, standards identifiers and Unicode code-point comparison",
         "errors": "exact TypeError name and message for null options; exact caught unsupported-profile error mapping"
       }
+    },
+    {
+      "sliceId": "0194-applications-steel-member-fem-3d-contract",
+      "sourceRevision": "6f33baead8b88166c4b2cf94af41763412e3c751",
+      "method": "Strict typed consumer declarations and independently executed pinned JavaScript versus built TypeScript comparison of FEM normalization, validation, strictness, aliases, legacy conversion, exact JSON, Unicode metadata and error paths.",
+      "targetTests": [
+        "tests/steel-member-fem-3d-contract-compile-time.test.ts",
+        "tests/steel-member-fem-3d-contract-live-parity.test.ts"
+      ],
+      "fixture": "Independent ULS/SLS FEM 3D member with actions, displacements, rotations, supports, stability, restraint segments, web panels, concentrated loads, Unicode metadata, alias normalization and invalid-input paths.",
+      "tolerances": {
+        "serializedParity": "exact JSON and enumerable result key order",
+        "numericParity": "exact normalized actions, coordinates, lengths, factors and legacy conversion values",
+        "publicStrings": "exact schema, limit-state identifiers, validation messages and Unicode code-point comparison",
+        "errors": "exact strict creation and null-options error name/message comparisons"
+      }
     }
   ],
   "counts": {
     "rootExports": {
       "javascript": 841,
-      "typescript": 800
+      "typescript": 803
     },
     "applicationsExports": {
       "javascript": 309,
-      "typescript": 273
+      "typescript": 276
     },
     "packageEntryPoints": {
       "javascript": 14,
@@ -46362,11 +46439,11 @@
     },
     "sourceFiles": {
       "javascript": 480,
-      "typescript": 455
+      "typescript": 456
     },
     "tests": {
       "javascript": 131,
-      "typescript": 372
+      "typescript": 374
     },
     "validationCampaigns": {
       "javascript": 17,
@@ -46418,7 +46495,7 @@
       "statusCounts": {
         "exact-parity": 0,
         "partial": 26,
-        "missing": 114,
+        "missing": 107,
         "intentionally-excluded": 0,
         "decision-required": 0
       },
@@ -46453,11 +46530,8 @@
         "application-export:calculateTimberLateralBucklingReduction",
         "application-export:calculateTimberRectangularCriticalBendingStress",
         "application-export:createDefaultApplicationRegistry",
-        "application-export:createSteelMemberFem3DResult",
         "application-export:createTimberConcreteCompositeBeamSectionProvider",
         "application-export:createTimberXlamCompositeBeamSectionProvider",
-        "application-export:steelMemberFem3DToLegacyAnalysisResult",
-        "application-export:validateSteelMemberFem3DResult",
         "application-export:verifyTimberLateralTorsionalStability",
         "registry:geotechnical-deep-foundations",
         "registry:geotechnical-earth-pressures",
@@ -46519,11 +46593,8 @@
         "root-export:calculateTimberLateralBucklingReduction",
         "root-export:calculateTimberRectangularCriticalBendingStress",
         "root-export:createDefaultApplicationRegistry",
-        "root-export:createSteelMemberFem3DResult",
         "root-export:createTimberConcreteCompositeBeamSectionProvider",
         "root-export:createTimberXlamCompositeBeamSectionProvider",
-        "root-export:steelMemberFem3DToLegacyAnalysisResult",
-        "root-export:validateSteelMemberFem3DResult",
         "root-export:verifyTimberLateralTorsionalStability",
         "source:src/applications/masonry-wall-openings/MasonryWallOpeningsApplication.js",
         "source:src/applications/masonry-wall-openings/analysis/AlignmentEquivalentFramePushoverAnalysis.js",
@@ -46539,7 +46610,6 @@
         "source:src/applications/steel-frames/analysis/SteelRingFramePushoverAnalysis.js",
         "source:src/applications/steel-frames/checks/SteelMemberVerification.js",
         "source:src/applications/steel-frames/checks/SteelMemberVerificationPolicies.js",
-        "source:src/applications/steel-frames/fem/SteelMemberFem3DContract.js",
         "source:src/applications/steel-frames/index.js",
         "source:src/applications/steel-frames/models/SteelRingFramePushoverModel.js",
         "source:src/applications/timber-beams/TimberBeamApplication.js",
