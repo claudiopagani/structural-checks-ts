@@ -27,6 +27,11 @@
       "import": "./dist/norms/en1992/index.js",
       "default": "./dist/norms/en1992/index.js"
     },
+    "./norms/ntc2018": {
+      "types": "./dist/norms/ntc2018/index.d.ts",
+      "import": "./dist/norms/ntc2018/index.js",
+      "default": "./dist/norms/ntc2018/index.js"
+    },
     "./norms/italian-historical": {
       "types": "./dist/norms/italian-historical/index.d.ts",
       "import": "./dist/norms/italian-historical/index.js",
