@@ -16401,13 +16401,24 @@
       "sourcePath": "src/applications/reinforced-concrete-columns/ReinforcedConcreteColumnApplication.js",
       "sourceBlobSha1": "b654d45deeb95ff8c9df5167a3d5cf9ca6f36534",
       "targetPath": "src/applications/reinforced-concrete-columns/ReinforcedConcreteColumnApplication.ts",
-      "migrationSlices": ["0013-reinforced-concrete-column-member"],
+      "migrationSlices": [
+        "0013-reinforced-concrete-column-member",
+        "0169-applications-reinforced-concrete-columns-index"
+      ],
       "sourceOracles": [
         "tests/packageExports.test.js",
         "tests/reinforcedConcreteColumnApplication.test.js"
       ],
-      "targetTests": ["tests/baseline-parity.test.ts", "tests/concrete-column-member.test.ts"],
-      "validationEvidence": ["0013-reinforced-concrete-column-member"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/concrete-column-member.test.ts",
+        "tests/reinforced-concrete-columns-index-compile-time.test.ts",
+        "tests/reinforced-concrete-columns-index-live-parity.test.ts"
+      ],
+      "validationEvidence": [
+        "0013-reinforced-concrete-column-member",
+        "0169-applications-reinforced-concrete-columns-index"
+      ],
       "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
@@ -16418,7 +16429,10 @@
       "sourcePath": "src/applications/reinforced-concrete-columns/ReinforcedConcreteColumnDetailingVerification.js",
       "sourceBlobSha1": "32ba95e142afbbf76a9390d960e514b072fd0a39",
       "targetPath": "src/applications/reinforced-concrete-columns/ReinforcedConcreteColumnDetailingVerification.ts",
-      "migrationSlices": ["0012-reinforced-concrete-detailing"],
+      "migrationSlices": [
+        "0012-reinforced-concrete-detailing",
+        "0169-applications-reinforced-concrete-columns-index"
+      ],
       "sourceOracles": [
         "tests/packageExports.test.js",
         "tests/reinforcedConcreteColumnApplication.test.js",
@@ -16427,9 +16441,14 @@
       "targetTests": [
         "tests/baseline-parity.test.ts",
         "tests/concrete-beam-detailing.test.ts",
-        "tests/concrete-column-detailing.test.ts"
+        "tests/concrete-column-detailing.test.ts",
+        "tests/reinforced-concrete-columns-index-compile-time.test.ts",
+        "tests/reinforced-concrete-columns-index-live-parity.test.ts"
       ],
-      "validationEvidence": ["0012-reinforced-concrete-detailing"],
+      "validationEvidence": [
+        "0012-reinforced-concrete-detailing",
+        "0169-applications-reinforced-concrete-columns-index"
+      ],
       "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
@@ -16440,7 +16459,10 @@
       "sourcePath": "src/applications/reinforced-concrete-columns/ReinforcedConcreteColumnModel.js",
       "sourceBlobSha1": "f06530b9f0cc7801dc5d094617726305fd2a9f6a",
       "targetPath": "src/applications/reinforced-concrete-columns/ReinforcedConcreteColumnModel.ts",
-      "migrationSlices": ["0012-reinforced-concrete-detailing"],
+      "migrationSlices": [
+        "0012-reinforced-concrete-detailing",
+        "0169-applications-reinforced-concrete-columns-index"
+      ],
       "sourceOracles": [
         "tests/packageExports.test.js",
         "tests/reinforcedConcreteColumnApplication.test.js",
@@ -16449,9 +16471,14 @@
       "targetTests": [
         "tests/baseline-parity.test.ts",
         "tests/concrete-beam-detailing.test.ts",
-        "tests/concrete-column-detailing.test.ts"
+        "tests/concrete-column-detailing.test.ts",
+        "tests/reinforced-concrete-columns-index-compile-time.test.ts",
+        "tests/reinforced-concrete-columns-index-live-parity.test.ts"
       ],
-      "validationEvidence": ["0012-reinforced-concrete-detailing"],
+      "validationEvidence": [
+        "0012-reinforced-concrete-detailing",
+        "0169-applications-reinforced-concrete-columns-index"
+      ],
       "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
@@ -16462,13 +16489,24 @@
       "sourcePath": "src/applications/reinforced-concrete-columns/ReinforcedConcreteColumnVerification.js",
       "sourceBlobSha1": "a138cf9dc208c25f5e7dc906aa235390bbb52ca9",
       "targetPath": "src/applications/reinforced-concrete-columns/ReinforcedConcreteColumnVerification.ts",
-      "migrationSlices": ["0013-reinforced-concrete-column-member"],
+      "migrationSlices": [
+        "0013-reinforced-concrete-column-member",
+        "0169-applications-reinforced-concrete-columns-index"
+      ],
       "sourceOracles": [
         "tests/packageExports.test.js",
         "tests/reinforcedConcreteColumnApplication.test.js"
       ],
-      "targetTests": ["tests/baseline-parity.test.ts", "tests/concrete-column-member.test.ts"],
-      "validationEvidence": ["0013-reinforced-concrete-column-member"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/concrete-column-member.test.ts",
+        "tests/reinforced-concrete-columns-index-compile-time.test.ts",
+        "tests/reinforced-concrete-columns-index-live-parity.test.ts"
+      ],
+      "validationEvidence": [
+        "0013-reinforced-concrete-column-member",
+        "0169-applications-reinforced-concrete-columns-index"
+      ],
       "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
@@ -25036,13 +25074,24 @@
       "sourcePath": "src/applications/reinforced-concrete-columns/ReinforcedConcreteColumnApplication.js",
       "sourceBlobSha1": "b654d45deeb95ff8c9df5167a3d5cf9ca6f36534",
       "targetPath": "src/applications/reinforced-concrete-columns/ReinforcedConcreteColumnApplication.ts",
-      "migrationSlices": ["0013-reinforced-concrete-column-member"],
+      "migrationSlices": [
+        "0013-reinforced-concrete-column-member",
+        "0169-applications-reinforced-concrete-columns-index"
+      ],
       "sourceOracles": [
         "tests/packageExports.test.js",
         "tests/reinforcedConcreteColumnApplication.test.js"
       ],
-      "targetTests": ["tests/baseline-parity.test.ts", "tests/concrete-column-member.test.ts"],
-      "validationEvidence": ["0013-reinforced-concrete-column-member"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/concrete-column-member.test.ts",
+        "tests/reinforced-concrete-columns-index-compile-time.test.ts",
+        "tests/reinforced-concrete-columns-index-live-parity.test.ts"
+      ],
+      "validationEvidence": [
+        "0013-reinforced-concrete-column-member",
+        "0169-applications-reinforced-concrete-columns-index"
+      ],
       "status": "exact-parity",
       "publicEntryPath": "src/applications/index.js",
       "publicEntryBlobSha1": "b70179c7cdd2a819f2151dc092c0f59cbce30ba6"
@@ -25053,7 +25102,10 @@
       "sourcePath": "src/applications/reinforced-concrete-columns/ReinforcedConcreteColumnDetailingVerification.js",
       "sourceBlobSha1": "32ba95e142afbbf76a9390d960e514b072fd0a39",
       "targetPath": "src/applications/reinforced-concrete-columns/ReinforcedConcreteColumnDetailingVerification.ts",
-      "migrationSlices": ["0012-reinforced-concrete-detailing"],
+      "migrationSlices": [
+        "0012-reinforced-concrete-detailing",
+        "0169-applications-reinforced-concrete-columns-index"
+      ],
       "sourceOracles": [
         "tests/packageExports.test.js",
         "tests/reinforcedConcreteColumnApplication.test.js",
@@ -25062,9 +25114,14 @@
       "targetTests": [
         "tests/baseline-parity.test.ts",
         "tests/concrete-beam-detailing.test.ts",
-        "tests/concrete-column-detailing.test.ts"
+        "tests/concrete-column-detailing.test.ts",
+        "tests/reinforced-concrete-columns-index-compile-time.test.ts",
+        "tests/reinforced-concrete-columns-index-live-parity.test.ts"
       ],
-      "validationEvidence": ["0012-reinforced-concrete-detailing"],
+      "validationEvidence": [
+        "0012-reinforced-concrete-detailing",
+        "0169-applications-reinforced-concrete-columns-index"
+      ],
       "status": "exact-parity",
       "publicEntryPath": "src/applications/index.js",
       "publicEntryBlobSha1": "b70179c7cdd2a819f2151dc092c0f59cbce30ba6"
@@ -25075,7 +25132,10 @@
       "sourcePath": "src/applications/reinforced-concrete-columns/ReinforcedConcreteColumnModel.js",
       "sourceBlobSha1": "f06530b9f0cc7801dc5d094617726305fd2a9f6a",
       "targetPath": "src/applications/reinforced-concrete-columns/ReinforcedConcreteColumnModel.ts",
-      "migrationSlices": ["0012-reinforced-concrete-detailing"],
+      "migrationSlices": [
+        "0012-reinforced-concrete-detailing",
+        "0169-applications-reinforced-concrete-columns-index"
+      ],
       "sourceOracles": [
         "tests/packageExports.test.js",
         "tests/reinforcedConcreteColumnApplication.test.js",
@@ -25084,9 +25144,14 @@
       "targetTests": [
         "tests/baseline-parity.test.ts",
         "tests/concrete-beam-detailing.test.ts",
-        "tests/concrete-column-detailing.test.ts"
+        "tests/concrete-column-detailing.test.ts",
+        "tests/reinforced-concrete-columns-index-compile-time.test.ts",
+        "tests/reinforced-concrete-columns-index-live-parity.test.ts"
       ],
-      "validationEvidence": ["0012-reinforced-concrete-detailing"],
+      "validationEvidence": [
+        "0012-reinforced-concrete-detailing",
+        "0169-applications-reinforced-concrete-columns-index"
+      ],
       "status": "exact-parity",
       "publicEntryPath": "src/applications/index.js",
       "publicEntryBlobSha1": "b70179c7cdd2a819f2151dc092c0f59cbce30ba6"
@@ -25097,13 +25162,24 @@
       "sourcePath": "src/applications/reinforced-concrete-columns/ReinforcedConcreteColumnVerification.js",
       "sourceBlobSha1": "a138cf9dc208c25f5e7dc906aa235390bbb52ca9",
       "targetPath": "src/applications/reinforced-concrete-columns/ReinforcedConcreteColumnVerification.ts",
-      "migrationSlices": ["0013-reinforced-concrete-column-member"],
+      "migrationSlices": [
+        "0013-reinforced-concrete-column-member",
+        "0169-applications-reinforced-concrete-columns-index"
+      ],
       "sourceOracles": [
         "tests/packageExports.test.js",
         "tests/reinforcedConcreteColumnApplication.test.js"
       ],
-      "targetTests": ["tests/baseline-parity.test.ts", "tests/concrete-column-member.test.ts"],
-      "validationEvidence": ["0013-reinforced-concrete-column-member"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/concrete-column-member.test.ts",
+        "tests/reinforced-concrete-columns-index-compile-time.test.ts",
+        "tests/reinforced-concrete-columns-index-live-parity.test.ts"
+      ],
+      "validationEvidence": [
+        "0013-reinforced-concrete-column-member",
+        "0169-applications-reinforced-concrete-columns-index"
+      ],
       "status": "exact-parity",
       "publicEntryPath": "src/applications/index.js",
       "publicEntryBlobSha1": "b70179c7cdd2a819f2151dc092c0f59cbce30ba6"
@@ -27351,7 +27427,12 @@
         "tests/reinforcedConcreteFoundationBeamApplication.test.js",
         "tests/reinforcedConcreteStrutAndTieApplication.test.js"
       ],
-      "targetTests": ["tests/baseline-parity.test.ts", "tests/concrete-column-member.test.ts"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/concrete-column-member.test.ts",
+        "tests/reinforced-concrete-columns-index-compile-time.test.ts",
+        "tests/reinforced-concrete-columns-index-live-parity.test.ts"
+      ],
       "validationEvidence": [
         "0024-reinforced-concrete-foundation-beams",
         "0026-reinforced-concrete-beam-column-joints",
@@ -31397,11 +31478,14 @@
       "sourcePath": "src/applications/reinforced-concrete-columns/index.js",
       "sourceBlobSha1": "dab84f510a075361caf7341d69fcff68f9e3475e",
       "targetPath": "src/applications/reinforced-concrete-columns/index.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing"
+      "migrationSlices": ["0169-applications-reinforced-concrete-columns-index"],
+      "sourceOracles": ["tests/reinforcedConcreteColumnApplication.test.js"],
+      "targetTests": [
+        "tests/reinforced-concrete-columns-index-compile-time.test.ts",
+        "tests/reinforced-concrete-columns-index-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0169-applications-reinforced-concrete-columns-index"],
+      "status": "exact-parity"
     },
     {
       "id": "src/applications/reinforced-concrete-foundation-beams/ReinforcedConcreteFoundationBeamApplication.js",
@@ -40486,18 +40570,22 @@
       "targetPath": "tests/reinforcedConcreteColumnApplication.test.ts",
       "migrationSlices": [
         "0012-reinforced-concrete-detailing",
-        "0013-reinforced-concrete-column-member"
+        "0013-reinforced-concrete-column-member",
+        "0169-applications-reinforced-concrete-columns-index"
       ],
       "sourceOracles": ["tests/reinforcedConcreteColumnApplication.test.js"],
       "targetTests": [
         "tests/baseline-parity.test.ts",
         "tests/concrete-beam-detailing.test.ts",
         "tests/concrete-column-detailing.test.ts",
-        "tests/concrete-column-member.test.ts"
+        "tests/concrete-column-member.test.ts",
+        "tests/reinforced-concrete-columns-index-compile-time.test.ts",
+        "tests/reinforced-concrete-columns-index-live-parity.test.ts"
       ],
       "validationEvidence": [
         "0012-reinforced-concrete-detailing",
-        "0013-reinforced-concrete-column-member"
+        "0013-reinforced-concrete-column-member",
+        "0169-applications-reinforced-concrete-columns-index"
       ],
       "status": "exact-parity",
       "testKind": "test"
@@ -44509,6 +44597,22 @@
         "publicStrings": "exact Unicode identifiers and property values",
         "errors": "exact missing-id, falsy-id and missing-options errors"
       }
+    },
+    {
+      "sliceId": "0169-applications-reinforced-concrete-columns-index",
+      "sourceRevision": "6f33baead8b88166c4b2cf94af41763412e3c751",
+      "method": "Strict root consumer declarations and independently executed pinned JavaScript versus built TypeScript comparison of exact public index export names, export count, function kinds and independent constructor identities.",
+      "targetTests": [
+        "tests/reinforced-concrete-columns-index-compile-time.test.ts",
+        "tests/reinforced-concrete-columns-index-live-parity.test.ts"
+      ],
+      "fixture": "Pinned reinforced-concrete column index with its four already-migrated runtime dependencies.",
+      "tolerances": {
+        "serializedParity": "exact sorted export-name JSON",
+        "numericParity": "not applicable to this public-index slice",
+        "publicStrings": "exact export names",
+        "errors": "not applicable to this public-index slice"
+      }
     }
   ],
   "counts": {
@@ -44538,11 +44642,11 @@
     },
     "sourceFiles": {
       "javascript": 480,
-      "typescript": 430
+      "typescript": 431
     },
     "tests": {
       "javascript": 131,
-      "typescript": 322
+      "typescript": 324
     },
     "validationCampaigns": {
       "javascript": 17,
@@ -44594,7 +44698,7 @@
       "statusCounts": {
         "exact-parity": 0,
         "partial": 24,
-        "missing": 203,
+        "missing": 202,
         "intentionally-excluded": 0,
         "decision-required": 0
       },
@@ -44774,7 +44878,6 @@
         "source:src/applications/micropiles-broms/MicropileBromsApplication.js",
         "source:src/applications/micropiles-broms/analysis/MicropileBromsAnalysis.js",
         "source:src/applications/micropiles-broms/index.js",
-        "source:src/applications/reinforced-concrete-columns/index.js",
         "source:src/applications/reinforced-concrete-plates/README.md",
         "source:src/applications/reinforced-concrete-sections/analysis/index.js",
         "source:src/applications/reinforced-concrete-sections/index.js",

@@ -1,0 +1,90 @@
+{
+  "schemaVersion": 1,
+  "sliceId": "0169-applications-reinforced-concrete-columns-index",
+  "title": "Reinforced concrete columns public index",
+  "migrationType": "mechanical-parity-public-index",
+  "implementationStatus": "implemented",
+  "dependencies": ["0012-reinforced-concrete-detailing", "0013-reinforced-concrete-column-member"],
+  "source": {
+    "repository": "https://github.com/claudiopagani/strutture-js",
+    "revision": "6f33baead8b88166c4b2cf94af41763412e3c751"
+  },
+  "normativeCorpusRevision": "41da3faa489600173106935bbcf726119300e48d",
+  "sourceFiles": [
+    {
+      "path": "src/applications/reinforced-concrete-columns/index.js",
+      "gitBlobSha1": "dab84f510a075361caf7341d69fcff68f9e3475e",
+      "targetPath": "src/applications/reinforced-concrete-columns/index.ts"
+    }
+  ],
+  "supportingSourceFiles": [
+    {
+      "path": "src/applications/reinforced-concrete-columns/ReinforcedConcreteColumnApplication.js",
+      "gitBlobSha1": "b654d45deeb95ff8c9df5167a3d5cf9ca6f36534",
+      "targetPath": "src/applications/reinforced-concrete-columns/ReinforcedConcreteColumnApplication.ts",
+      "coverage": "Already-migrated runtime dependency re-exported by the index."
+    },
+    {
+      "path": "src/applications/reinforced-concrete-columns/ReinforcedConcreteColumnModel.js",
+      "gitBlobSha1": "f06530b9f0cc7801dc5d094617726305fd2a9f6a",
+      "targetPath": "src/applications/reinforced-concrete-columns/ReinforcedConcreteColumnModel.ts",
+      "coverage": "Already-migrated runtime dependency re-exported by the index."
+    },
+    {
+      "path": "src/applications/reinforced-concrete-columns/ReinforcedConcreteColumnVerification.js",
+      "gitBlobSha1": "a138cf9dc208c25f5e7dc906aa235390bbb52ca9",
+      "targetPath": "src/applications/reinforced-concrete-columns/ReinforcedConcreteColumnVerification.ts",
+      "coverage": "Already-migrated runtime dependency re-exported by the index."
+    },
+    {
+      "path": "src/applications/reinforced-concrete-columns/ReinforcedConcreteColumnDetailingVerification.js",
+      "gitBlobSha1": "32ba95e142afbbf76a9390d960e514b072fd0a39",
+      "targetPath": "src/applications/reinforced-concrete-columns/ReinforcedConcreteColumnDetailingVerification.ts",
+      "coverage": "Already-migrated runtime dependency re-exported by the index."
+    }
+  ],
+  "sourceOracles": [
+    {
+      "path": "tests/reinforcedConcreteColumnApplication.test.js",
+      "gitBlobSha1": "c8ea5e3a1bfbbdebfe7de233f760f06e9efd7744",
+      "coverage": "Pinned reinforced-concrete column public construction and application behavior."
+    }
+  ],
+  "sourcePublicExport": {
+    "path": "src/applications/reinforced-concrete-columns/index.js",
+    "gitBlobSha1": "dab84f510a075361caf7341d69fcff68f9e3475e"
+  },
+  "targetTests": [
+    "tests/reinforced-concrete-columns-index-compile-time.test.ts",
+    "tests/reinforced-concrete-columns-index-live-parity.test.ts"
+  ],
+  "publicExports": [
+    "ReinforcedConcreteColumnApplication",
+    "ReinforcedConcreteColumnModel",
+    "ReinforcedConcreteColumnVerification",
+    "ReinforcedConcreteColumnDetailingVerification"
+  ],
+  "publicTypeExports": [],
+  "normativeReferences": {
+    "resolved": [],
+    "outsideCorpus": [],
+    "normativeConformityClaimed": false,
+    "status": "classified-for-declared-scope"
+  },
+  "independentValidation": {
+    "method": "Strict root consumer declarations and independently executed pinned JavaScript versus built TypeScript comparison of exact public index export names, export count, function kinds and independent constructor identities.",
+    "targetTests": [
+      "tests/reinforced-concrete-columns-index-compile-time.test.ts",
+      "tests/reinforced-concrete-columns-index-live-parity.test.ts"
+    ],
+    "fixture": "Pinned reinforced-concrete column index with its four already-migrated runtime dependencies.",
+    "tolerances": {
+      "serializedParity": "exact sorted export-name JSON",
+      "numericParity": "not applicable to this public-index slice",
+      "publicStrings": "exact export names",
+      "errors": "not applicable to this public-index slice"
+    }
+  },
+  "parityDifferences": [],
+  "engineeringFunctionality": "Source-compatible reinforced-concrete columns public index composition."
+}
