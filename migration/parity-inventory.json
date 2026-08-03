@@ -1012,6 +1012,7 @@
         "GeotechnicalGroundAnchorApplication",
         "GeotechnicalLateralPileApplication",
         "GeotechnicalRetainingWallApplication",
+        "GeotechnicalShallowFoundationApplication",
         "GlobalFemPostProcessingApplication",
         "GlulamTimberMaterial",
         "GroundAnchorAnalysis",
@@ -9557,11 +9558,18 @@
       "sourcePath": "src/applications/geotechnical-shallow-foundations/GeotechnicalShallowFoundationApplication.js",
       "sourceBlobSha1": "28903845165b213f5fe1cd39db53cf8f7aacd81c",
       "targetPath": "src/applications/geotechnical-shallow-foundations/GeotechnicalShallowFoundationApplication.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0146-applications-geotechnical-shallow-foundation-application"],
+      "sourceOracles": [
+        "tests/geotechnicalShallowFoundations.test.js",
+        "tests/packageExports.test.js"
+      ],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/geotechnical-shallow-foundation-application-compile-time.test.ts",
+        "tests/geotechnical-shallow-foundation-application-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0146-applications-geotechnical-shallow-foundation-application"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -22486,11 +22494,18 @@
       "sourcePath": "src/applications/geotechnical-shallow-foundations/GeotechnicalShallowFoundationApplication.js",
       "sourceBlobSha1": "28903845165b213f5fe1cd39db53cf8f7aacd81c",
       "targetPath": "src/applications/geotechnical-shallow-foundations/GeotechnicalShallowFoundationApplication.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0146-applications-geotechnical-shallow-foundation-application"],
+      "sourceOracles": [
+        "tests/geotechnicalShallowFoundations.test.js",
+        "tests/packageExports.test.js"
+      ],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/geotechnical-shallow-foundation-application-compile-time.test.ts",
+        "tests/geotechnical-shallow-foundation-application-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0146-applications-geotechnical-shallow-foundation-application"],
+      "status": "exact-parity",
       "publicEntryPath": "src/applications/index.js",
       "publicEntryBlobSha1": "b70179c7cdd2a819f2151dc092c0f59cbce30ba6"
     },
@@ -27539,13 +27554,17 @@
         "tests/reinforcedConcreteFoundationBeamApplication.test.js",
         "tests/reinforcedConcreteStrutAndTieApplication.test.js"
       ],
-      "targetTests": [],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/geotechnical-shallow-foundation-application-compile-time.test.ts",
+        "tests/geotechnical-shallow-foundation-application-live-parity.test.ts"
+      ],
       "validationEvidence": [
         "0024-reinforced-concrete-foundation-beams",
         "0026-reinforced-concrete-beam-column-joints",
         "0027-reinforced-concrete-strut-and-tie"
       ],
-      "status": "missing",
+      "status": "partial",
       "notes": ["Default registry construction is not present in the current TypeScript target."],
       "applicationId": "geotechnical-shallow-foundations",
       "applicationClass": "GeotechnicalShallowFoundationApplication",
@@ -29345,22 +29364,36 @@
       "sourcePath": "src/applications/geotechnical-shallow-foundations/GeotechnicalShallowFoundationApplication.js",
       "sourceBlobSha1": "28903845165b213f5fe1cd39db53cf8f7aacd81c",
       "targetPath": "src/applications/geotechnical-shallow-foundations/GeotechnicalShallowFoundationApplication.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing"
+      "migrationSlices": ["0146-applications-geotechnical-shallow-foundation-application"],
+      "sourceOracles": [
+        "tests/geotechnicalShallowFoundations.test.js",
+        "tests/packageExports.test.js"
+      ],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/geotechnical-shallow-foundation-application-compile-time.test.ts",
+        "tests/geotechnical-shallow-foundation-application-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0146-applications-geotechnical-shallow-foundation-application"],
+      "status": "exact-parity"
     },
     {
       "id": "src/applications/geotechnical-shallow-foundations/index.js",
       "sourcePath": "src/applications/geotechnical-shallow-foundations/index.js",
       "sourceBlobSha1": "001e3f769637b2c70b64e96e0f7cda8d57403710",
       "targetPath": "src/applications/geotechnical-shallow-foundations/index.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing"
+      "migrationSlices": ["0146-applications-geotechnical-shallow-foundation-application"],
+      "sourceOracles": [
+        "tests/geotechnicalShallowFoundations.test.js",
+        "tests/packageExports.test.js"
+      ],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/geotechnical-shallow-foundation-application-compile-time.test.ts",
+        "tests/geotechnical-shallow-foundation-application-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0146-applications-geotechnical-shallow-foundation-application"],
+      "status": "exact-parity"
     },
     {
       "id": "src/applications/geotechnical-slope-stability/GeotechnicalSlopeStabilityApplication.js",
@@ -36039,7 +36072,8 @@
         "0142-applications-geotechnical-embedded-retaining-wall-application",
         "0143-applications-geotechnical-ground-anchor-application",
         "0144-applications-geotechnical-lateral-pile-application",
-        "0145-applications-geotechnical-retaining-wall-application"
+        "0145-applications-geotechnical-retaining-wall-application",
+        "0146-applications-geotechnical-shallow-foundation-application"
       ],
       "sourceOracles": [
         "tests/architecture/applicationRegistry.test.js",
@@ -38044,11 +38078,14 @@
       "targetPath": "tests/geotechnicalShallowFoundations.test.ts",
       "migrationSlices": [
         "0072-domain-shallow-foundation-dtos",
-        "0099-domain-shallow-foundation-ultimate-limit-state-analysis"
+        "0099-domain-shallow-foundation-ultimate-limit-state-analysis",
+        "0146-applications-geotechnical-shallow-foundation-application"
       ],
       "sourceOracles": ["tests/geotechnicalShallowFoundations.test.js"],
       "targetTests": [
         "tests/baseline-parity.test.ts",
+        "tests/geotechnical-shallow-foundation-application-compile-time.test.ts",
+        "tests/geotechnical-shallow-foundation-application-live-parity.test.ts",
         "tests/shallow-foundation-model-compile-time.test.ts",
         "tests/shallow-foundation-model-live-parity.test.ts",
         "tests/shallow-foundation-uls-compile-time.test.ts",
@@ -38056,7 +38093,8 @@
       ],
       "validationEvidence": [
         "0072-domain-shallow-foundation-dtos",
-        "0099-domain-shallow-foundation-ultimate-limit-state-analysis"
+        "0099-domain-shallow-foundation-ultimate-limit-state-analysis",
+        "0146-applications-geotechnical-shallow-foundation-application"
       ],
       "status": "exact-parity",
       "testKind": "test"
@@ -39047,7 +39085,8 @@
         "0142-applications-geotechnical-embedded-retaining-wall-application",
         "0143-applications-geotechnical-ground-anchor-application",
         "0144-applications-geotechnical-lateral-pile-application",
-        "0145-applications-geotechnical-retaining-wall-application"
+        "0145-applications-geotechnical-retaining-wall-application",
+        "0146-applications-geotechnical-shallow-foundation-application"
       ],
       "sourceOracles": ["tests/packageExports.test.js"],
       "targetTests": [
@@ -39101,6 +39140,8 @@
         "tests/geotechnical-lateral-pile-application-live-parity.test.ts",
         "tests/geotechnical-retaining-wall-application-compile-time.test.ts",
         "tests/geotechnical-retaining-wall-application-live-parity.test.ts",
+        "tests/geotechnical-shallow-foundation-application-compile-time.test.ts",
+        "tests/geotechnical-shallow-foundation-application-live-parity.test.ts",
         "tests/ground-anchor-analysis-compile-time.test.ts",
         "tests/ground-anchor-analysis-live-parity.test.ts",
         "tests/ground-anchor-bond-catalog-compile-time.test.ts",
@@ -39286,7 +39327,8 @@
         "0142-applications-geotechnical-embedded-retaining-wall-application",
         "0143-applications-geotechnical-ground-anchor-application",
         "0144-applications-geotechnical-lateral-pile-application",
-        "0145-applications-geotechnical-retaining-wall-application"
+        "0145-applications-geotechnical-retaining-wall-application",
+        "0146-applications-geotechnical-shallow-foundation-application"
       ],
       "status": "exact-parity",
       "testKind": "test"
@@ -43266,16 +43308,32 @@
         "publicStrings": "exact manifest, summaries, metadata and Unicode strings",
         "errors": "exact null-input error, missing-input result and unsupported scenario result behavior"
       }
+    },
+    {
+      "sliceId": "0146-applications-geotechnical-shallow-foundation-application",
+      "sourceRevision": "6f33baead8b88166c4b2cf94af41763412e3c751",
+      "method": "Strict declaration consumer coverage and independently executed pinned JavaScript versus built TypeScript comparison of the application barrel, root aliases, application manifest, complete serialized ULS results, Unicode identifiers, SLS routing, missing-input and unsupported behavior, plus null-input error parity.",
+      "targetTests": [
+        "tests/geotechnical-shallow-foundation-application-compile-time.test.ts",
+        "tests/geotechnical-shallow-foundation-application-live-parity.test.ts"
+      ],
+      "fixture": "representative drained-soil rectangular shallow foundation with Unicode identifiers and explicit SLS dispatch",
+      "tolerances": {
+        "serializedParity": "exact complete CalculationResult JSON",
+        "numericParity": "exact shallow-foundation ULS actions, checks and metadata",
+        "publicStrings": "exact manifest, summaries, metadata and Unicode strings",
+        "errors": "exact null-input error, missing-input result and unsupported SLS result behavior"
+      }
     }
   ],
   "counts": {
     "rootExports": {
       "javascript": 841,
-      "typescript": 738
+      "typescript": 739
     },
     "applicationsExports": {
       "javascript": 309,
-      "typescript": 211
+      "typescript": 212
     },
     "packageEntryPoints": {
       "javascript": 14,
@@ -43295,11 +43353,11 @@
     },
     "sourceFiles": {
       "javascript": 480,
-      "typescript": 393
+      "typescript": 395
     },
     "tests": {
       "javascript": 131,
-      "typescript": 278
+      "typescript": 280
     },
     "validationCampaigns": {
       "javascript": 17,
@@ -43350,8 +43408,8 @@
     "applications": {
       "statusCounts": {
         "exact-parity": 0,
-        "partial": 17,
-        "missing": 309,
+        "partial": 18,
+        "missing": 304,
         "intentionally-excluded": 0,
         "decision-required": 0
       },
@@ -43366,7 +43424,6 @@
         "application-export:BEAM_REPORT_SCHEMA_VERSION",
         "application-export:BeamReportBuilder",
         "application-export:BeamReportMarkdownRenderer",
-        "application-export:GeotechnicalShallowFoundationApplication",
         "application-export:GeotechnicalSlopeStabilityApplication",
         "application-export:MASONRY_PIER_CAPACITY_CURVE_COMPARISON_REPORT_SCHEMA_VERSION",
         "application-export:MasonryEquivalentFrameBuilder",
@@ -43494,7 +43551,6 @@
         "root-export:BEAM_REPORT_SCHEMA_VERSION",
         "root-export:BeamReportBuilder",
         "root-export:BeamReportMarkdownRenderer",
-        "root-export:GeotechnicalShallowFoundationApplication",
         "root-export:GeotechnicalSlopeStabilityApplication",
         "root-export:MASONRY_PIER_CAPACITY_CURVE_COMPARISON_REPORT_SCHEMA_VERSION",
         "root-export:MasonryEquivalentFrameBuilder",
@@ -43582,8 +43638,6 @@
         "root-export:verifySteelShearTorsionInteraction",
         "root-export:verifySteelWebShearBuckling",
         "root-export:verifyTimberLateralTorsionalStability",
-        "source:src/applications/geotechnical-shallow-foundations/GeotechnicalShallowFoundationApplication.js",
-        "source:src/applications/geotechnical-shallow-foundations/index.js",
         "source:src/applications/geotechnical-slope-stability/GeotechnicalSlopeStabilityApplication.js",
         "source:src/applications/geotechnical-slope-stability/index.js",
         "source:src/applications/masonry-out-of-plane/MasonryOutOfPlaneApplication.js",

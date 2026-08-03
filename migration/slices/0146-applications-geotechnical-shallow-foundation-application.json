@@ -1,0 +1,102 @@
+{
+  "schemaVersion": 1,
+  "sliceId": "0146-applications-geotechnical-shallow-foundation-application",
+  "title": "Geotechnical shallow-foundation application",
+  "migrationType": "mechanical-parity-with-minimal-dependency-support",
+  "implementationStatus": "implemented",
+  "dependencies": [
+    "0072-domain-shallow-foundation-dtos",
+    "0099-domain-shallow-foundation-ultimate-limit-state-analysis",
+    "0101-domain-shallow-foundation-serviceability-analysis"
+  ],
+  "source": {
+    "repository": "https://github.com/claudiopagani/strutture-js",
+    "revision": "6f33baead8b88166c4b2cf94af41763412e3c751"
+  },
+  "normativeCorpusRevision": "41da3faa489600173106935bbcf726119300e48d",
+  "sourceFiles": [
+    {
+      "path": "src/applications/geotechnical-shallow-foundations/GeotechnicalShallowFoundationApplication.js",
+      "gitBlobSha1": "28903845165b213f5fe1cd39db53cf8f7aacd81c",
+      "targetPath": "src/applications/geotechnical-shallow-foundations/GeotechnicalShallowFoundationApplication.ts"
+    },
+    {
+      "path": "src/applications/geotechnical-shallow-foundations/index.js",
+      "gitBlobSha1": "001e3f769637b2c70b64e96e0f7cda8d57403710",
+      "targetPath": "src/applications/geotechnical-shallow-foundations/index.ts"
+    }
+  ],
+  "supportingSourceFiles": [
+    {
+      "path": "src/index.js",
+      "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7",
+      "targetPath": "src/index.ts",
+      "coverage": "Pinned root public-export context for the geotechnical shallow-foundation application."
+    },
+    {
+      "path": "src/domain/geotechnics/ShallowFoundationModel.js",
+      "gitBlobSha1": "8cff52bd6aab3c71aadc3c6f4eb64285000d0d25",
+      "targetPath": "src/domain/geotechnics/ShallowFoundationModel.ts",
+      "coverage": "Migrated shallow-foundation model and action-state dependencies re-exported by the application barrel."
+    },
+    {
+      "path": "src/domain/geotechnics/ShallowFoundationUltimateLimitStateAnalysis.js",
+      "gitBlobSha1": "bf51a272733a7d2ee28bda6abbd389d7ab343f68",
+      "targetPath": "src/domain/geotechnics/ShallowFoundationUltimateLimitStateAnalysis.ts",
+      "coverage": "Migrated ULS analysis delegated by the application wrapper."
+    },
+    {
+      "path": "src/domain/geotechnics/ShallowFoundationServiceabilityAnalysis.js",
+      "gitBlobSha1": "c2775e92603111988109c4e282a21f45bf3481f0",
+      "targetPath": "src/domain/geotechnics/ShallowFoundationServiceabilityAnalysis.ts",
+      "coverage": "Migrated SLS analysis delegated by the application wrapper."
+    }
+  ],
+  "sourceOracles": [
+    {
+      "path": "tests/geotechnicalShallowFoundations.test.js",
+      "gitBlobSha1": "65202bda05103e775255857c1cd69aef61a41a38",
+      "coverage": "Application wrapper routing, ULS serialization, SLS selection and unsupported behavior."
+    },
+    {
+      "path": "tests/packageExports.test.js",
+      "gitBlobSha1": "8dde24b4c97dd3dae7100207d07d9d96c52b9c74",
+      "coverage": "Pinned root and application public exports."
+    }
+  ],
+  "sourcePublicExport": {
+    "path": "src/index.js",
+    "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
+  },
+  "targetTests": [
+    "tests/baseline-parity.test.ts",
+    "tests/geotechnical-shallow-foundation-application-compile-time.test.ts",
+    "tests/geotechnical-shallow-foundation-application-live-parity.test.ts"
+  ],
+  "publicExports": ["GeotechnicalShallowFoundationApplication"],
+  "publicTypeExports": ["GeotechnicalShallowFoundationApplicationInput"],
+  "normativeReferences": {
+    "resolved": [],
+    "outsideCorpus": [],
+    "normativeConformityClaimed": false,
+    "status": "classified-for-declared-scope"
+  },
+  "independentValidation": {
+    "method": "Strict declaration consumer coverage and independently executed pinned JavaScript versus built TypeScript comparison of the application barrel, root aliases, application manifest, complete serialized ULS results, Unicode identifiers, SLS routing, missing-input and unsupported behavior, plus null-input error parity.",
+    "targetTests": [
+      "tests/geotechnical-shallow-foundation-application-compile-time.test.ts",
+      "tests/geotechnical-shallow-foundation-application-live-parity.test.ts"
+    ],
+    "fixture": "representative drained-soil rectangular shallow foundation with Unicode identifiers and explicit SLS dispatch",
+    "tolerances": {
+      "serializedParity": "exact complete CalculationResult JSON",
+      "numericParity": "exact shallow-foundation ULS actions, checks and metadata",
+      "publicStrings": "exact manifest, summaries, metadata and Unicode strings",
+      "errors": "exact null-input error, missing-input result and unsupported SLS result behavior"
+    }
+  },
+  "parityDifferences": [
+    "The TypeScript application exposes a strict union input declaration and selects the same ULS or SLS migrated analysis based on the source limit-state routing rules while preserving the JavaScript wrapper and serialized CalculationResult shape."
+  ],
+  "engineeringFunctionality": "Public geotechnical shallow-foundation application wrapper for method-neutral ULS resistance and SLS immediate-movement analysis."
+}
