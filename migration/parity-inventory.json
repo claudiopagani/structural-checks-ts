@@ -1062,6 +1062,9 @@
         "LoadCombination",
         "MasonryFiberInterface2D",
         "MasonryMaterial",
+        "MasonryOutOfPlaneApplication",
+        "MasonryOutOfPlaneKinematicAnalysis",
+        "MasonryOutOfPlaneModel",
         "MohrCoulombModel",
         "NORMATIVE_REFERENCE_RELATIONS",
         "NORMATIVE_REFERENCE_RESOLUTION_STATUS",
@@ -12279,11 +12282,15 @@
       "sourcePath": "src/applications/masonry-out-of-plane/MasonryOutOfPlaneApplication.js",
       "sourceBlobSha1": "2f5b33fc42c948838b8f284f12eda2ef6c9331b0",
       "targetPath": "src/applications/masonry-out-of-plane/MasonryOutOfPlaneApplication.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0148-applications-masonry-out-of-plane"],
+      "sourceOracles": ["tests/packageExports.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/masonry-out-of-plane-application-compile-time.test.ts",
+        "tests/masonry-out-of-plane-application-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0148-applications-masonry-out-of-plane"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -12293,11 +12300,15 @@
       "sourcePath": "src/applications/masonry-out-of-plane/analysis/MasonryOutOfPlaneKinematicAnalysis.js",
       "sourceBlobSha1": "fad74cfef4ce917602fe65833927ab1c244725f3",
       "targetPath": "src/applications/masonry-out-of-plane/analysis/MasonryOutOfPlaneKinematicAnalysis.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0148-applications-masonry-out-of-plane"],
+      "sourceOracles": ["tests/packageExports.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/masonry-out-of-plane-application-compile-time.test.ts",
+        "tests/masonry-out-of-plane-application-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0148-applications-masonry-out-of-plane"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -12307,11 +12318,15 @@
       "sourcePath": "src/applications/masonry-out-of-plane/models/MasonryOutOfPlaneModel.js",
       "sourceBlobSha1": "3fa8c721d019a6650642c6c866a12014e87c300d",
       "targetPath": "src/applications/masonry-out-of-plane/models/MasonryOutOfPlaneModel.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0148-applications-masonry-out-of-plane"],
+      "sourceOracles": ["tests/packageExports.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/masonry-out-of-plane-application-compile-time.test.ts",
+        "tests/masonry-out-of-plane-application-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0148-applications-masonry-out-of-plane"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -23676,11 +23691,15 @@
       "sourcePath": "src/applications/masonry-out-of-plane/MasonryOutOfPlaneApplication.js",
       "sourceBlobSha1": "2f5b33fc42c948838b8f284f12eda2ef6c9331b0",
       "targetPath": "src/applications/masonry-out-of-plane/MasonryOutOfPlaneApplication.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0148-applications-masonry-out-of-plane"],
+      "sourceOracles": ["tests/packageExports.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/masonry-out-of-plane-application-compile-time.test.ts",
+        "tests/masonry-out-of-plane-application-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0148-applications-masonry-out-of-plane"],
+      "status": "exact-parity",
       "publicEntryPath": "src/applications/index.js",
       "publicEntryBlobSha1": "b70179c7cdd2a819f2151dc092c0f59cbce30ba6"
     },
@@ -23690,11 +23709,15 @@
       "sourcePath": "src/applications/masonry-out-of-plane/analysis/MasonryOutOfPlaneKinematicAnalysis.js",
       "sourceBlobSha1": "fad74cfef4ce917602fe65833927ab1c244725f3",
       "targetPath": "src/applications/masonry-out-of-plane/analysis/MasonryOutOfPlaneKinematicAnalysis.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0148-applications-masonry-out-of-plane"],
+      "sourceOracles": ["tests/packageExports.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/masonry-out-of-plane-application-compile-time.test.ts",
+        "tests/masonry-out-of-plane-application-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0148-applications-masonry-out-of-plane"],
+      "status": "exact-parity",
       "publicEntryPath": "src/applications/index.js",
       "publicEntryBlobSha1": "b70179c7cdd2a819f2151dc092c0f59cbce30ba6"
     },
@@ -23704,11 +23727,15 @@
       "sourcePath": "src/applications/masonry-out-of-plane/models/MasonryOutOfPlaneModel.js",
       "sourceBlobSha1": "3fa8c721d019a6650642c6c866a12014e87c300d",
       "targetPath": "src/applications/masonry-out-of-plane/models/MasonryOutOfPlaneModel.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0148-applications-masonry-out-of-plane"],
+      "sourceOracles": ["tests/packageExports.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/masonry-out-of-plane-application-compile-time.test.ts",
+        "tests/masonry-out-of-plane-application-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0148-applications-masonry-out-of-plane"],
+      "status": "exact-parity",
       "publicEntryPath": "src/applications/index.js",
       "publicEntryBlobSha1": "b70179c7cdd2a819f2151dc092c0f59cbce30ba6"
     },
@@ -27311,13 +27338,17 @@
         "tests/reinforcedConcreteFoundationBeamApplication.test.js",
         "tests/reinforcedConcreteStrutAndTieApplication.test.js"
       ],
-      "targetTests": [],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/masonry-out-of-plane-application-compile-time.test.ts",
+        "tests/masonry-out-of-plane-application-live-parity.test.ts"
+      ],
       "validationEvidence": [
         "0024-reinforced-concrete-foundation-beams",
         "0026-reinforced-concrete-beam-column-joints",
         "0027-reinforced-concrete-strut-and-tie"
       ],
-      "status": "missing",
+      "status": "partial",
       "notes": ["Default registry construction is not present in the current TypeScript target."],
       "applicationId": "masonry-out-of-plane",
       "applicationClass": "MasonryOutOfPlaneApplication",
@@ -29595,44 +29626,60 @@
       "sourcePath": "src/applications/masonry-out-of-plane/MasonryOutOfPlaneApplication.js",
       "sourceBlobSha1": "2f5b33fc42c948838b8f284f12eda2ef6c9331b0",
       "targetPath": "src/applications/masonry-out-of-plane/MasonryOutOfPlaneApplication.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing"
+      "migrationSlices": ["0148-applications-masonry-out-of-plane"],
+      "sourceOracles": ["tests/packageExports.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/masonry-out-of-plane-application-compile-time.test.ts",
+        "tests/masonry-out-of-plane-application-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0148-applications-masonry-out-of-plane"],
+      "status": "exact-parity"
     },
     {
       "id": "src/applications/masonry-out-of-plane/analysis/MasonryOutOfPlaneKinematicAnalysis.js",
       "sourcePath": "src/applications/masonry-out-of-plane/analysis/MasonryOutOfPlaneKinematicAnalysis.js",
       "sourceBlobSha1": "fad74cfef4ce917602fe65833927ab1c244725f3",
       "targetPath": "src/applications/masonry-out-of-plane/analysis/MasonryOutOfPlaneKinematicAnalysis.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing"
+      "migrationSlices": ["0148-applications-masonry-out-of-plane"],
+      "sourceOracles": ["tests/packageExports.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/masonry-out-of-plane-application-compile-time.test.ts",
+        "tests/masonry-out-of-plane-application-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0148-applications-masonry-out-of-plane"],
+      "status": "exact-parity"
     },
     {
       "id": "src/applications/masonry-out-of-plane/index.js",
       "sourcePath": "src/applications/masonry-out-of-plane/index.js",
       "sourceBlobSha1": "3c3f7063681f211dd085d1932f1464db22ed0379",
       "targetPath": "src/applications/masonry-out-of-plane/index.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing"
+      "migrationSlices": ["0148-applications-masonry-out-of-plane"],
+      "sourceOracles": ["tests/packageExports.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/masonry-out-of-plane-application-compile-time.test.ts",
+        "tests/masonry-out-of-plane-application-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0148-applications-masonry-out-of-plane"],
+      "status": "exact-parity"
     },
     {
       "id": "src/applications/masonry-out-of-plane/models/MasonryOutOfPlaneModel.js",
       "sourcePath": "src/applications/masonry-out-of-plane/models/MasonryOutOfPlaneModel.js",
       "sourceBlobSha1": "3fa8c721d019a6650642c6c866a12014e87c300d",
       "targetPath": "src/applications/masonry-out-of-plane/models/MasonryOutOfPlaneModel.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing"
+      "migrationSlices": ["0148-applications-masonry-out-of-plane"],
+      "sourceOracles": ["tests/packageExports.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/masonry-out-of-plane-application-compile-time.test.ts",
+        "tests/masonry-out-of-plane-application-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0148-applications-masonry-out-of-plane"],
+      "status": "exact-parity"
     },
     {
       "id": "src/applications/masonry-piers/MasonryPierApplication.js",
@@ -36095,7 +36142,8 @@
         "0144-applications-geotechnical-lateral-pile-application",
         "0145-applications-geotechnical-retaining-wall-application",
         "0146-applications-geotechnical-shallow-foundation-application",
-        "0147-applications-geotechnical-slope-stability-application"
+        "0147-applications-geotechnical-slope-stability-application",
+        "0148-applications-masonry-out-of-plane"
       ],
       "sourceOracles": [
         "tests/architecture/applicationRegistry.test.js",
@@ -39113,7 +39161,8 @@
         "0144-applications-geotechnical-lateral-pile-application",
         "0145-applications-geotechnical-retaining-wall-application",
         "0146-applications-geotechnical-shallow-foundation-application",
-        "0147-applications-geotechnical-slope-stability-application"
+        "0147-applications-geotechnical-slope-stability-application",
+        "0148-applications-masonry-out-of-plane"
       ],
       "sourceOracles": ["tests/packageExports.test.js"],
       "targetTests": [
@@ -39189,6 +39238,8 @@
         "tests/masonry-fiber-interface-live-parity.test.ts",
         "tests/masonry-material-indexes-compile-time.test.ts",
         "tests/masonry-material-indexes-live-parity.test.ts",
+        "tests/masonry-out-of-plane-application-compile-time.test.ts",
+        "tests/masonry-out-of-plane-application-live-parity.test.ts",
         "tests/masonry-section-index-compile-time.test.ts",
         "tests/masonry-section-index-live-parity.test.ts",
         "tests/ntc2018-beam-combinations-compile-time.test.ts",
@@ -39358,7 +39409,8 @@
         "0144-applications-geotechnical-lateral-pile-application",
         "0145-applications-geotechnical-retaining-wall-application",
         "0146-applications-geotechnical-shallow-foundation-application",
-        "0147-applications-geotechnical-slope-stability-application"
+        "0147-applications-geotechnical-slope-stability-application",
+        "0148-applications-masonry-out-of-plane"
       ],
       "status": "exact-parity",
       "testKind": "test"
@@ -43370,16 +43422,32 @@
         "publicStrings": "exact manifest, summaries, metadata and Unicode strings",
         "errors": "exact null-input error and unsupported/missing-input behavior"
       }
+    },
+    {
+      "sliceId": "0148-applications-masonry-out-of-plane",
+      "sourceRevision": "6f33baead8b88166c4b2cf94af41763412e3c751",
+      "method": "Strict declaration consumer coverage and independently executed pinned JavaScript versus built TypeScript comparison of the application barrel, root aliases, model state, kinematic analysis result, application manifest, exact serialized placeholder result, Unicode metadata, missing-input and error behavior.",
+      "targetTests": [
+        "tests/masonry-out-of-plane-application-compile-time.test.ts",
+        "tests/masonry-out-of-plane-application-live-parity.test.ts"
+      ],
+      "fixture": "scaffolded masonry out-of-plane model with Unicode identifiers, restraints, macro-blocks, actions and metadata",
+      "tolerances": {
+        "serializedParity": "exact complete CalculationResult JSON",
+        "numericParity": "exact model and placeholder output values",
+        "publicStrings": "exact manifest, warnings, summaries, metadata and Unicode strings",
+        "errors": "exact missing-input and invalid-model error behavior"
+      }
     }
   ],
   "counts": {
     "rootExports": {
       "javascript": 841,
-      "typescript": 740
+      "typescript": 743
     },
     "applicationsExports": {
       "javascript": 309,
-      "typescript": 213
+      "typescript": 216
     },
     "packageEntryPoints": {
       "javascript": 14,
@@ -43399,11 +43467,11 @@
     },
     "sourceFiles": {
       "javascript": 480,
-      "typescript": 397
+      "typescript": 401
     },
     "tests": {
       "javascript": 131,
-      "typescript": 282
+      "typescript": 284
     },
     "validationCampaigns": {
       "javascript": 17,
@@ -43454,8 +43522,8 @@
     "applications": {
       "statusCounts": {
         "exact-parity": 0,
-        "partial": 19,
-        "missing": 299,
+        "partial": 20,
+        "missing": 288,
         "intentionally-excluded": 0,
         "decision-required": 0
       },
@@ -43472,9 +43540,6 @@
         "application-export:BeamReportMarkdownRenderer",
         "application-export:MASONRY_PIER_CAPACITY_CURVE_COMPARISON_REPORT_SCHEMA_VERSION",
         "application-export:MasonryEquivalentFrameBuilder",
-        "application-export:MasonryOutOfPlaneApplication",
-        "application-export:MasonryOutOfPlaneKinematicAnalysis",
-        "application-export:MasonryOutOfPlaneModel",
         "application-export:MasonryPierApplication",
         "application-export:MasonryPierCapacityCurveComparisonAnalysis",
         "application-export:MasonryPierCapacityCurveComparisonMarkdownRenderer",
@@ -43598,9 +43663,6 @@
         "root-export:BeamReportMarkdownRenderer",
         "root-export:MASONRY_PIER_CAPACITY_CURVE_COMPARISON_REPORT_SCHEMA_VERSION",
         "root-export:MasonryEquivalentFrameBuilder",
-        "root-export:MasonryOutOfPlaneApplication",
-        "root-export:MasonryOutOfPlaneKinematicAnalysis",
-        "root-export:MasonryOutOfPlaneModel",
         "root-export:MasonryPierApplication",
         "root-export:MasonryPierCapacityCurveComparisonAnalysis",
         "root-export:MasonryPierCapacityCurveComparisonMarkdownRenderer",
@@ -43682,10 +43744,6 @@
         "root-export:verifySteelShearTorsionInteraction",
         "root-export:verifySteelWebShearBuckling",
         "root-export:verifyTimberLateralTorsionalStability",
-        "source:src/applications/masonry-out-of-plane/MasonryOutOfPlaneApplication.js",
-        "source:src/applications/masonry-out-of-plane/analysis/MasonryOutOfPlaneKinematicAnalysis.js",
-        "source:src/applications/masonry-out-of-plane/index.js",
-        "source:src/applications/masonry-out-of-plane/models/MasonryOutOfPlaneModel.js",
         "source:src/applications/masonry-piers/MasonryPierApplication.js",
         "source:src/applications/masonry-piers/analysis/MasonryPierEquivalentFrameBuilder.js",
         "source:src/applications/masonry-piers/analysis/NTC2018MasonryPierAnalysis.js",

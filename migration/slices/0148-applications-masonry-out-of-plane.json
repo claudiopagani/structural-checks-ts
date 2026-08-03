@@ -1,0 +1,112 @@
+{
+  "schemaVersion": 1,
+  "sliceId": "0148-applications-masonry-out-of-plane",
+  "title": "Masonry out-of-plane application",
+  "migrationType": "mechanical-parity-with-minimal-dependency-support",
+  "implementationStatus": "implemented",
+  "dependencies": ["0001-foundation"],
+  "source": {
+    "repository": "https://github.com/claudiopagani/strutture-js",
+    "revision": "6f33baead8b88166c4b2cf94af41763412e3c751"
+  },
+  "normativeCorpusRevision": "41da3faa489600173106935bbcf726119300e48d",
+  "sourceFiles": [
+    {
+      "path": "src/applications/masonry-out-of-plane/MasonryOutOfPlaneApplication.js",
+      "gitBlobSha1": "2f5b33fc42c948838b8f284f12eda2ef6c9331b0",
+      "targetPath": "src/applications/masonry-out-of-plane/MasonryOutOfPlaneApplication.ts"
+    },
+    {
+      "path": "src/applications/masonry-out-of-plane/analysis/MasonryOutOfPlaneKinematicAnalysis.js",
+      "gitBlobSha1": "fad74cfef4ce917602fe65833927ab1c244725f3",
+      "targetPath": "src/applications/masonry-out-of-plane/analysis/MasonryOutOfPlaneKinematicAnalysis.ts"
+    },
+    {
+      "path": "src/applications/masonry-out-of-plane/models/MasonryOutOfPlaneModel.js",
+      "gitBlobSha1": "3fa8c721d019a6650642c6c866a12014e87c300d",
+      "targetPath": "src/applications/masonry-out-of-plane/models/MasonryOutOfPlaneModel.ts"
+    },
+    {
+      "path": "src/applications/masonry-out-of-plane/index.js",
+      "gitBlobSha1": "3c3f7063681f211dd085d1932f1464db22ed0379",
+      "targetPath": "src/applications/masonry-out-of-plane/index.ts"
+    }
+  ],
+  "supportingSourceFiles": [
+    {
+      "path": "src/index.js",
+      "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7",
+      "targetPath": "src/index.ts",
+      "coverage": "Pinned root public-export context for the masonry out-of-plane application."
+    },
+    {
+      "path": "src/core/applications/StructuralApplication.js",
+      "gitBlobSha1": "673e1f25c22eadc27e111853cc3a8c012f5fcad3",
+      "targetPath": "src/core/applications/StructuralApplication.ts",
+      "coverage": "Migrated structural application manifest and placeholder-result base class."
+    },
+    {
+      "path": "src/core/results/CalculationResult.js",
+      "gitBlobSha1": "de58f9d2a201435dd955cbfd4c4981d0b78610d4",
+      "targetPath": "src/core/results/CalculationResult.ts",
+      "coverage": "Migrated serialized calculation-result contract used by the analysis placeholder."
+    },
+    {
+      "path": "src/core/results/resultStatus.js",
+      "gitBlobSha1": "5c3e5621c2cec6cffe803e95eea79fc69b27ba01",
+      "targetPath": "src/core/results/resultStatus.ts",
+      "coverage": "Migrated result status constants used by the analysis placeholder."
+    }
+  ],
+  "sourceOracles": [
+    {
+      "path": "tests/packageExports.test.js",
+      "gitBlobSha1": "8dde24b4c97dd3dae7100207d07d9d96c52b9c74",
+      "coverage": "Pinned root public exports; the source application and analysis files contain the complete behavior oracle for this scaffolded cluster."
+    }
+  ],
+  "sourcePublicExport": {
+    "path": "src/index.js",
+    "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
+  },
+  "targetTests": [
+    "tests/baseline-parity.test.ts",
+    "tests/masonry-out-of-plane-application-compile-time.test.ts",
+    "tests/masonry-out-of-plane-application-live-parity.test.ts"
+  ],
+  "publicExports": [
+    "MasonryOutOfPlaneApplication",
+    "MasonryOutOfPlaneKinematicAnalysis",
+    "MasonryOutOfPlaneModel"
+  ],
+  "publicTypeExports": [
+    "MasonryOutOfPlaneApplicationInput",
+    "MasonryOutOfPlaneKinematicAnalysisInput",
+    "MasonryOutOfPlaneKinematicAnalysisOptions",
+    "MasonryOutOfPlaneModelOptions"
+  ],
+  "normativeReferences": {
+    "resolved": [],
+    "outsideCorpus": [],
+    "normativeConformityClaimed": false,
+    "status": "classified-for-declared-scope"
+  },
+  "independentValidation": {
+    "method": "Strict declaration consumer coverage and independently executed pinned JavaScript versus built TypeScript comparison of the application barrel, root aliases, model state, kinematic analysis result, application manifest, exact serialized placeholder result, Unicode metadata, missing-input and error behavior.",
+    "targetTests": [
+      "tests/masonry-out-of-plane-application-compile-time.test.ts",
+      "tests/masonry-out-of-plane-application-live-parity.test.ts"
+    ],
+    "fixture": "scaffolded masonry out-of-plane model with Unicode identifiers, restraints, macro-blocks, actions and metadata",
+    "tolerances": {
+      "serializedParity": "exact complete CalculationResult JSON",
+      "numericParity": "exact model and placeholder output values",
+      "publicStrings": "exact manifest, warnings, summaries, metadata and Unicode strings",
+      "errors": "exact missing-input and invalid-model error behavior"
+    }
+  },
+  "parityDifferences": [
+    "The TypeScript target adds strict consumer declarations for the source scaffolded classes while preserving the JavaScript runtime behavior and placeholder status; no engineering capability is added."
+  ],
+  "engineeringFunctionality": "Scaffolded masonry out-of-plane application, model and kinematic-analysis public contracts with explicit not-implemented result behavior."
+}

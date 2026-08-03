@@ -393,6 +393,17 @@ export type { GeotechnicalShallowFoundationApplicationInput } from "./applicatio
 export { GeotechnicalSlopeStabilityApplication } from "./applications/geotechnical-slope-stability/index.js";
 export type { GeotechnicalSlopeStabilityApplicationInput } from "./applications/geotechnical-slope-stability/index.js";
 export {
+  MasonryOutOfPlaneApplication,
+  MasonryOutOfPlaneKinematicAnalysis,
+  MasonryOutOfPlaneModel,
+} from "./applications/masonry-out-of-plane/index.js";
+export type {
+  MasonryOutOfPlaneApplicationInput,
+  MasonryOutOfPlaneKinematicAnalysisInput,
+  MasonryOutOfPlaneKinematicAnalysisOptions,
+  MasonryOutOfPlaneModelOptions,
+} from "./applications/masonry-out-of-plane/index.js";
+export {
   AXIAL_PILE_CAPACITY_REFERENCE,
   AXIAL_PILE_CAPACITY_RESULT_SCHEMA_VERSION,
   AxialPileCapacityAnalysis,
