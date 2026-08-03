@@ -21,9 +21,9 @@ establish behavioral parity.
 | Application catalog entries       |                30 |                 30 |
 | Serialized schema/version symbols |                49 |                 49 |
 | Source files                      |               480 |                475 |
-| Tests                             |               131 |                412 |
+| Tests                             |               131 |                411 |
 | Validation campaigns              |                17 |                  0 |
-| Validation files                  |                27 |                  1 |
+| Validation files                  |                27 |                  0 |
 | Examples                          |                32 |                  0 |
 | Benchmarks                        |                 4 |                  0 |
 | Browser gates                     |                 1 |                  1 |
@@ -37,7 +37,7 @@ implementation order required by the repository architecture.
 - **domain** — deferred: 1.
 - **norms** — no remaining items.
 - **applications** — deferred: 71.
-- **packageValidation** — partial: 4, missing: 103.
+- **packageValidation** — partial: 4, missing: 104.
 
 ## Status semantics
 
