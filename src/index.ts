@@ -783,6 +783,8 @@ export type {
   SteelPlasticHingeStateLike,
   SteelPlasticHingeStateOptions,
 } from "./applications/steel-frames/analysis/SteelPlasticHingeState.js";
+export { SteelFrameModel } from "./applications/steel-frames/models/SteelFrameModel.js";
+export type { SteelFrameModelOptions } from "./applications/steel-frames/models/SteelFrameModel.js";
 export { RCBiaxialDomainBuilder } from "./applications/reinforced-concrete-sections/analysis/RCBiaxialDomainBuilder.js";
 export { RCMomentCurvatureAnalyzer } from "./applications/reinforced-concrete-sections/analysis/RCMomentCurvatureAnalyzer.js";
 export { RCServiceStressSolver } from "./applications/reinforced-concrete-sections/analysis/RCServiceStressSolver.js";

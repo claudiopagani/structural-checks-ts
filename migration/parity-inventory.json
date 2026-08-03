@@ -1315,6 +1315,7 @@
         "SteelElasticLaw",
         "SteelElasticPerfectlyPlasticLaw",
         "SteelElasticPlasticHardeningLaw",
+        "SteelFrameModel",
         "SteelMaterial",
         "SteelPlasticHingeState",
         "SteelProfileSection",
@@ -19572,11 +19573,15 @@
       "sourcePath": "src/applications/steel-frames/models/SteelFrameModel.js",
       "sourceBlobSha1": "4a34bcce6c30470771dcb825e825668cf436b90b",
       "targetPath": "src/applications/steel-frames/models/SteelFrameModel.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0183-applications-steel-frame-model"],
+      "sourceOracles": ["tests/packageExports.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/steel-frame-model-compile-time.test.ts",
+        "tests/steel-frame-model-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0183-applications-steel-frame-model"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -27010,11 +27015,15 @@
       "sourcePath": "src/applications/steel-frames/models/SteelFrameModel.js",
       "sourceBlobSha1": "4a34bcce6c30470771dcb825e825668cf436b90b",
       "targetPath": "src/applications/steel-frames/models/SteelFrameModel.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0183-applications-steel-frame-model"],
+      "sourceOracles": ["tests/packageExports.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/steel-frame-model-compile-time.test.ts",
+        "tests/steel-frame-model-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0183-applications-steel-frame-model"],
+      "status": "exact-parity",
       "publicEntryPath": "src/applications/index.js",
       "publicEntryBlobSha1": "b70179c7cdd2a819f2151dc092c0f59cbce30ba6"
     },
@@ -33763,11 +33772,15 @@
       "sourcePath": "src/applications/steel-frames/models/SteelFrameModel.js",
       "sourceBlobSha1": "4a34bcce6c30470771dcb825e825668cf436b90b",
       "targetPath": "src/applications/steel-frames/models/SteelFrameModel.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing"
+      "migrationSlices": ["0183-applications-steel-frame-model"],
+      "sourceOracles": ["tests/packageExports.test.js"],
+      "targetTests": [
+        "tests/baseline-parity.test.ts",
+        "tests/steel-frame-model-compile-time.test.ts",
+        "tests/steel-frame-model-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0183-applications-steel-frame-model"],
+      "status": "exact-parity"
     },
     {
       "id": "src/applications/steel-frames/models/SteelRingFramePushoverModel.js",
@@ -37609,7 +37622,8 @@
         "0176-applications-beam-report-builder",
         "0177-applications-single-beam-design-application",
         "0179-applications-micropile-broms-analysis",
-        "0180-applications-micropile-broms-application"
+        "0180-applications-micropile-broms-application",
+        "0183-applications-steel-frame-model"
       ],
       "sourceOracles": [
         "tests/architecture/applicationRegistry.test.js",
@@ -40767,7 +40781,8 @@
         "0179-applications-micropile-broms-analysis",
         "0180-applications-micropile-broms-application",
         "0181-applications-micropile-broms-index",
-        "0182-applications-steel-plastic-hinge-state"
+        "0182-applications-steel-plastic-hinge-state",
+        "0183-applications-steel-frame-model"
       ],
       "sourceOracles": ["tests/packageExports.test.js"],
       "targetTests": [
@@ -40969,6 +40984,8 @@
         "tests/solver-public-index-live-parity.test.ts",
         "tests/spencer-method-compile-time.test.ts",
         "tests/spencer-method-live-parity.test.ts",
+        "tests/steel-frame-model-compile-time.test.ts",
+        "tests/steel-frame-model-live-parity.test.ts",
         "tests/steel-plastic-hinge-state-compile-time.test.ts",
         "tests/steel-plastic-hinge-state-live-parity.test.ts",
         "tests/structural-model-compile-time.test.ts",
@@ -41087,7 +41104,8 @@
         "0179-applications-micropile-broms-analysis",
         "0180-applications-micropile-broms-application",
         "0181-applications-micropile-broms-index",
-        "0182-applications-steel-plastic-hinge-state"
+        "0182-applications-steel-plastic-hinge-state",
+        "0183-applications-steel-frame-model"
       ],
       "status": "exact-parity",
       "testKind": "test"
@@ -45695,16 +45713,32 @@
         "publicStrings": "exact public error and activation strings plus Unicode code-point comparison",
         "errors": "exact error name and message for unsupported signs"
       }
+    },
+    {
+      "sliceId": "0183-applications-steel-frame-model",
+      "sourceRevision": "6f33baead8b88166c4b2cf94af41763412e3c751",
+      "method": "Strict typed consumer declarations and independently executed pinned JavaScript versus built TypeScript comparison of exact enumerable property order, JSON serialization, Unicode, shallow-copy behavior, default collections, prototype shape, instanceof boundaries and missing-input errors.",
+      "targetTests": [
+        "tests/steel-frame-model-compile-time.test.ts",
+        "tests/steel-frame-model-live-parity.test.ts"
+      ],
+      "fixture": "Default model, populated frame/member/load-combination metadata, numeric id, mutable collection isolation and missing/falsey ids.",
+      "tolerances": {
+        "serializedParity": "exact enumerable property order and JSON values",
+        "numericParity": "exact numeric id and collection behavior",
+        "publicStrings": "exact error messages and Unicode code-point comparison",
+        "errors": "exact error name and message for missing and falsey ids"
+      }
     }
   ],
   "counts": {
     "rootExports": {
       "javascript": 841,
-      "typescript": 779
+      "typescript": 780
     },
     "applicationsExports": {
       "javascript": 309,
-      "typescript": 252
+      "typescript": 253
     },
     "packageEntryPoints": {
       "javascript": 14,
@@ -45724,11 +45758,11 @@
     },
     "sourceFiles": {
       "javascript": 480,
-      "typescript": 444
+      "typescript": 445
     },
     "tests": {
       "javascript": 131,
-      "typescript": 350
+      "typescript": 352
     },
     "validationCampaigns": {
       "javascript": 17,
@@ -45780,7 +45814,7 @@
       "statusCounts": {
         "exact-parity": 0,
         "partial": 26,
-        "missing": 167,
+        "missing": 164,
         "intentionally-excluded": 0,
         "decision-required": 0
       },
@@ -45794,7 +45828,6 @@
         "application-export:MasonryWallOpeningsApplication",
         "application-export:SteelDisplacementControlPushoverSolver2D",
         "application-export:SteelFrameApplication",
-        "application-export:SteelFrameModel",
         "application-export:SteelMemberVerification",
         "application-export:SteelPlasticHingeFrameElement2D",
         "application-export:SteelRingFrame2DBuilder",
@@ -45881,7 +45914,6 @@
         "root-export:MasonryWallOpeningsApplication",
         "root-export:SteelDisplacementControlPushoverSolver2D",
         "root-export:SteelFrameApplication",
-        "root-export:SteelFrameModel",
         "root-export:SteelMemberVerification",
         "root-export:SteelPlasticHingeFrameElement2D",
         "root-export:SteelRingFrame2DBuilder",
@@ -45955,7 +45987,6 @@
         "source:src/applications/steel-frames/checks/steelVerificationCapabilities.js",
         "source:src/applications/steel-frames/fem/SteelMemberFem3DContract.js",
         "source:src/applications/steel-frames/index.js",
-        "source:src/applications/steel-frames/models/SteelFrameModel.js",
         "source:src/applications/steel-frames/models/SteelRingFramePushoverModel.js",
         "source:src/applications/timber-beams/TimberBeamApplication.js",
         "source:src/applications/timber-beams/checks/TimberBeamVerification.js",
