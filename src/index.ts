@@ -759,6 +759,7 @@ export type {
   BeamReportVerificationDto,
 } from "./applications/single-beam-design/dto/BeamReportDto.js";
 export { createBeamReportArtifacts } from "./applications/single-beam-design/reports/BeamReportArtifacts.js";
+export { BeamReportMarkdownRenderer } from "./applications/single-beam-design/reports/BeamReportMarkdownRenderer.js";
 export { SingleBeamDesignModel } from "./applications/single-beam-design/models/SingleBeamDesignModel.js";
 export type {
   SingleBeamAnalysisInputDto,

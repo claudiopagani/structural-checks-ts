@@ -1,0 +1,83 @@
+{
+  "schemaVersion": 1,
+  "sliceId": "0175-applications-beam-report-markdown-renderer",
+  "title": "Beam report Markdown renderer",
+  "migrationType": "mechanical-parity",
+  "implementationStatus": "implemented",
+  "dependencies": ["0174-applications-beam-report-artifacts"],
+  "source": {
+    "repository": "https://github.com/claudiopagani/strutture-js",
+    "revision": "6f33baead8b88166c4b2cf94af41763412e3c751"
+  },
+  "normativeCorpusRevision": "41da3faa489600173106935bbcf726119300e48d",
+  "sourceFiles": [
+    {
+      "path": "src/applications/single-beam-design/reports/BeamReportMarkdownRenderer.js",
+      "gitBlobSha1": "56d5284aa5d22168b72d9d13201617170bab4715",
+      "targetPath": "src/applications/single-beam-design/reports/BeamReportMarkdownRenderer.ts"
+    }
+  ],
+  "supportingSourceFiles": [
+    {
+      "path": "src/applications/single-beam-design/index.js",
+      "gitBlobSha1": "ccbf9e38bbd7042b92e86ed607a77ee8d95da2a1",
+      "targetPath": "src/index.ts",
+      "coverage": "Pinned single-beam public barrel export for BeamReportMarkdownRenderer."
+    },
+    {
+      "path": "src/applications/index.js",
+      "gitBlobSha1": "b70179c7cdd2a819f2151dc092c0f59cbce30ba6",
+      "targetPath": "src/index.ts",
+      "coverage": "Pinned applications public barrel export for BeamReportMarkdownRenderer."
+    },
+    {
+      "path": "src/index.js",
+      "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7",
+      "targetPath": "src/index.ts",
+      "coverage": "Pinned root public export for BeamReportMarkdownRenderer."
+    }
+  ],
+  "sourceOracles": [
+    {
+      "path": "tests/singleBeamDesignApplication.test.js",
+      "gitBlobSha1": "5e423cda0e4f6ad910fbd7cc7abd02969976f24d",
+      "coverage": "Pinned report Markdown sections, values and Unicode content."
+    },
+    {
+      "path": "tests/packageExports.test.js",
+      "gitBlobSha1": "8dde24b4c97dd3dae7100207d07d9d96c52b9c74",
+      "coverage": "Pinned root public-export behavior."
+    }
+  ],
+  "sourcePublicExport": {
+    "path": "src/index.js",
+    "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
+  },
+  "targetTests": [
+    "tests/beam-report-markdown-renderer-compile-time.test.ts",
+    "tests/beam-report-markdown-renderer-live-parity.test.ts"
+  ],
+  "publicExports": ["BeamReportMarkdownRenderer"],
+  "normativeReferences": {
+    "resolved": [],
+    "outsideCorpus": [],
+    "normativeConformityClaimed": false,
+    "status": "classified-for-declared-scope"
+  },
+  "independentValidation": {
+    "method": "Strict typed consumer declarations and independently executed pinned JavaScript versus built TypeScript comparison of complete Markdown output for tables, envelopes, reactions, principal actions, verifications, Unicode, escaping, formatting, defaults and errors.",
+    "targetTests": [
+      "tests/beam-report-markdown-renderer-compile-time.test.ts",
+      "tests/beam-report-markdown-renderer-live-parity.test.ts"
+    ],
+    "fixture": "Complete synthetic beam report with geometry, supports, loads, combinations, stiffness metadata, envelopes, principal actions, verification details, Unicode, pipes, non-finite values, warnings and assumptions.",
+    "tolerances": {
+      "serializedParity": "exact Markdown string and JSON.stringify output",
+      "numericParity": "exact rounded, non-finite and unit-rendered numeric values",
+      "publicStrings": "exact Italian section labels, filenames-independent Markdown, escaping and Unicode",
+      "errors": "exact invalid-report render errors"
+    }
+  },
+  "parityDifferences": [],
+  "engineeringFunctionality": "Source-compatible strict TypeScript rendering of complete single-beam report Markdown."
+}

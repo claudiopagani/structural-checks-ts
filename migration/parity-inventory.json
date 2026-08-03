@@ -891,6 +891,7 @@
         "BaseMaterial",
         "BeamElement",
         "BeamLinePreprocessor2D",
+        "BeamReportMarkdownRenderer",
         "BeamSectionActionVerifier",
         "BeamSystem",
         "CIRC2019_RC_REFERENCES",
@@ -4009,11 +4010,17 @@
       "sourcePath": "src/applications/single-beam-design/reports/BeamReportMarkdownRenderer.js",
       "sourceBlobSha1": "56d5284aa5d22168b72d9d13201617170bab4715",
       "targetPath": "src/applications/single-beam-design/reports/BeamReportMarkdownRenderer.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0175-applications-beam-report-markdown-renderer"],
+      "sourceOracles": [
+        "tests/packageExports.test.js",
+        "tests/singleBeamDesignApplication.test.js"
+      ],
+      "targetTests": [
+        "tests/beam-report-markdown-renderer-compile-time.test.ts",
+        "tests/beam-report-markdown-renderer-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0175-applications-beam-report-markdown-renderer"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -21841,11 +21848,17 @@
       "sourcePath": "src/applications/single-beam-design/reports/BeamReportMarkdownRenderer.js",
       "sourceBlobSha1": "56d5284aa5d22168b72d9d13201617170bab4715",
       "targetPath": "src/applications/single-beam-design/reports/BeamReportMarkdownRenderer.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing",
+      "migrationSlices": ["0175-applications-beam-report-markdown-renderer"],
+      "sourceOracles": [
+        "tests/packageExports.test.js",
+        "tests/singleBeamDesignApplication.test.js"
+      ],
+      "targetTests": [
+        "tests/beam-report-markdown-renderer-compile-time.test.ts",
+        "tests/beam-report-markdown-renderer-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0175-applications-beam-report-markdown-renderer"],
+      "status": "exact-parity",
       "publicEntryPath": "src/applications/index.js",
       "publicEntryBlobSha1": "b70179c7cdd2a819f2151dc092c0f59cbce30ba6"
     },
@@ -33277,11 +33290,17 @@
       "sourcePath": "src/applications/single-beam-design/reports/BeamReportMarkdownRenderer.js",
       "sourceBlobSha1": "56d5284aa5d22168b72d9d13201617170bab4715",
       "targetPath": "src/applications/single-beam-design/reports/BeamReportMarkdownRenderer.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing"
+      "migrationSlices": ["0175-applications-beam-report-markdown-renderer"],
+      "sourceOracles": [
+        "tests/packageExports.test.js",
+        "tests/singleBeamDesignApplication.test.js"
+      ],
+      "targetTests": [
+        "tests/beam-report-markdown-renderer-compile-time.test.ts",
+        "tests/beam-report-markdown-renderer-live-parity.test.ts"
+      ],
+      "validationEvidence": ["0175-applications-beam-report-markdown-renderer"],
+      "status": "exact-parity"
     },
     {
       "id": "src/applications/steel-frames/SteelFrameApplication.js",
@@ -37327,7 +37346,8 @@
         "0168-applications-micropile-broms-model",
         "0172-applications-single-beam-report-dto",
         "0173-applications-single-beam-design-model",
-        "0174-applications-beam-report-artifacts"
+        "0174-applications-beam-report-artifacts",
+        "0175-applications-beam-report-markdown-renderer"
       ],
       "sourceOracles": [
         "tests/architecture/applicationRegistry.test.js",
@@ -40465,7 +40485,8 @@
         "0171-applications-reinforced-concrete-sections-index",
         "0172-applications-single-beam-report-dto",
         "0173-applications-single-beam-design-model",
-        "0174-applications-beam-report-artifacts"
+        "0174-applications-beam-report-artifacts",
+        "0175-applications-beam-report-markdown-renderer"
       ],
       "sourceOracles": ["tests/packageExports.test.js"],
       "targetTests": [
@@ -40474,6 +40495,8 @@
         "tests/beam-report-artifacts-live-parity.test.ts",
         "tests/beam-report-dto-compile-time.test.ts",
         "tests/beam-report-dto-live-parity.test.ts",
+        "tests/beam-report-markdown-renderer-compile-time.test.ts",
+        "tests/beam-report-markdown-renderer-live-parity.test.ts",
         "tests/circular-slope-stability-analysis-compile-time.test.ts",
         "tests/circular-slope-stability-analysis-live-parity.test.ts",
         "tests/concrete-beam-detailing.test.ts",
@@ -40761,7 +40784,8 @@
         "0171-applications-reinforced-concrete-sections-index",
         "0172-applications-single-beam-report-dto",
         "0173-applications-single-beam-design-model",
-        "0174-applications-beam-report-artifacts"
+        "0174-applications-beam-report-artifacts",
+        "0175-applications-beam-report-markdown-renderer"
       ],
       "status": "exact-parity",
       "testKind": "test"
@@ -41401,7 +41425,8 @@
         "0022-single-beam-analysis",
         "0172-applications-single-beam-report-dto",
         "0173-applications-single-beam-design-model",
-        "0174-applications-beam-report-artifacts"
+        "0174-applications-beam-report-artifacts",
+        "0175-applications-beam-report-markdown-renderer"
       ],
       "sourceOracles": ["tests/singleBeamDesignApplication.test.js"],
       "targetTests": [
@@ -41410,6 +41435,8 @@
         "tests/beam-report-artifacts-live-parity.test.ts",
         "tests/beam-report-dto-compile-time.test.ts",
         "tests/beam-report-dto-live-parity.test.ts",
+        "tests/beam-report-markdown-renderer-compile-time.test.ts",
+        "tests/beam-report-markdown-renderer-live-parity.test.ts",
         "tests/single-beam-analysis.test.ts",
         "tests/single-beam-design-model-compile-time.test.ts",
         "tests/single-beam-design-model-live-parity.test.ts"
@@ -41418,7 +41445,8 @@
         "0022-single-beam-analysis",
         "0172-applications-single-beam-report-dto",
         "0173-applications-single-beam-design-model",
-        "0174-applications-beam-report-artifacts"
+        "0174-applications-beam-report-artifacts",
+        "0175-applications-beam-report-markdown-renderer"
       ],
       "status": "exact-parity",
       "testKind": "test"
@@ -45221,16 +45249,32 @@
         "publicStrings": "exact filenames, media types, metadata, Unicode content and error messages",
         "errors": "exact missing report, missing markdown, null-options and circular-JSON errors"
       }
+    },
+    {
+      "sliceId": "0175-applications-beam-report-markdown-renderer",
+      "sourceRevision": "6f33baead8b88166c4b2cf94af41763412e3c751",
+      "method": "Strict typed consumer declarations and independently executed pinned JavaScript versus built TypeScript comparison of complete Markdown output for tables, envelopes, reactions, principal actions, verifications, Unicode, escaping, formatting, defaults and errors.",
+      "targetTests": [
+        "tests/beam-report-markdown-renderer-compile-time.test.ts",
+        "tests/beam-report-markdown-renderer-live-parity.test.ts"
+      ],
+      "fixture": "Complete synthetic beam report with geometry, supports, loads, combinations, stiffness metadata, envelopes, principal actions, verification details, Unicode, pipes, non-finite values, warnings and assumptions.",
+      "tolerances": {
+        "serializedParity": "exact Markdown string and JSON.stringify output",
+        "numericParity": "exact rounded, non-finite and unit-rendered numeric values",
+        "publicStrings": "exact Italian section labels, filenames-independent Markdown, escaping and Unicode",
+        "errors": "exact invalid-report render errors"
+      }
     }
   ],
   "counts": {
     "rootExports": {
       "javascript": 841,
-      "typescript": 773
+      "typescript": 774
     },
     "applicationsExports": {
       "javascript": 309,
-      "typescript": 246
+      "typescript": 247
     },
     "packageEntryPoints": {
       "javascript": 14,
@@ -45250,11 +45294,11 @@
     },
     "sourceFiles": {
       "javascript": 480,
-      "typescript": 436
+      "typescript": 437
     },
     "tests": {
       "javascript": 131,
-      "typescript": 334
+      "typescript": 336
     },
     "validationCampaigns": {
       "javascript": 17,
@@ -45306,7 +45350,7 @@
       "statusCounts": {
         "exact-parity": 0,
         "partial": 25,
-        "missing": 188,
+        "missing": 185,
         "intentionally-excluded": 0,
         "decision-required": 0
       },
@@ -45316,7 +45360,6 @@
         "application-export:AlignmentStateComparisonAnalysis",
         "application-export:AlignmentStaticAnalysis",
         "application-export:BeamReportBuilder",
-        "application-export:BeamReportMarkdownRenderer",
         "application-export:MasonryEquivalentFrameBuilder",
         "application-export:MasonryPierCapacityCurveComparisonAnalysis",
         "application-export:MasonryWallOpeningsApplication",
@@ -45409,7 +45452,6 @@
         "root-export:AlignmentStateComparisonAnalysis",
         "root-export:AlignmentStaticAnalysis",
         "root-export:BeamReportBuilder",
-        "root-export:BeamReportMarkdownRenderer",
         "root-export:MasonryEquivalentFrameBuilder",
         "root-export:MasonryPierCapacityCurveComparisonAnalysis",
         "root-export:MasonryWallOpeningsApplication",
@@ -45482,7 +45524,6 @@
         "source:src/applications/single-beam-design/SingleBeamDesignApplication.js",
         "source:src/applications/single-beam-design/index.js",
         "source:src/applications/single-beam-design/reports/BeamReportBuilder.js",
-        "source:src/applications/single-beam-design/reports/BeamReportMarkdownRenderer.js",
         "source:src/applications/steel-frames/SteelFrameApplication.js",
         "source:src/applications/steel-frames/analysis/SteelDisplacementControlPushoverSolver2D.js",
         "source:src/applications/steel-frames/analysis/SteelPlasticHingeFrameElement2D.js",
