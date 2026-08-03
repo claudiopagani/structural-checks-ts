@@ -581,6 +581,15 @@ export {
   NTC2018_ULS_PARTIAL_FACTORS,
   NTC2018_VARIABLE_ACTION_CATEGORIES,
 } from "./norms/ntc2018/loads/ntc2018LoadParameters.js";
+export {
+  NTC2018_IMPOSED_LOAD_CATALOG,
+  NTC2018_IMPOSED_LOAD_REFERENCES,
+  calculateNTC2018ImposedLoadAreaReduction,
+  calculateNTC2018ImposedLoadMultiStoreyReduction,
+  getNTC2018ImposedLoadDefinition,
+  listNTC2018ImposedLoadDefinitions,
+  resolveNTC2018ImposedLoadDefinition,
+} from "./norms/ntc2018/loads/ntc2018ImposedLoads.js";
 export { createNTC2018BeamCombinations } from "./norms/ntc2018/beams/createNTC2018BeamCombinations.js";
 export {
   createNTC2018SLECombination,
@@ -1953,6 +1962,16 @@ export type {
   NTC2018UlsPartialFactors,
   NTC2018VariableActionCategory,
 } from "./norms/ntc2018/loads/ntc2018LoadParameters.js";
+export type {
+  CalculateNTC2018ImposedLoadAreaReductionOptions,
+  CalculateNTC2018ImposedLoadMultiStoreyReductionOptions,
+  ListNTC2018ImposedLoadDefinitionsOptions,
+  NTC2018ImposedLoadAreaReductionResult,
+  NTC2018ImposedLoadDefinition,
+  NTC2018ImposedLoadMultiStoreyReductionResult,
+  ResolveNTC2018ImposedLoadDefinitionOptions,
+  ResolvedNTC2018ImposedLoadDefinition,
+} from "./norms/ntc2018/loads/ntc2018ImposedLoads.js";
 export type {
   CreateNTC2018BeamCombinationsOptions,
   NTC2018BeamCombination,

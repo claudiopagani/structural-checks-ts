@@ -1,0 +1,114 @@
+{
+  "schemaVersion": 1,
+  "sliceId": "0128-norms-ntc2018-imposed-loads",
+  "title": "NTC 2018 imposed-load catalog and reductions",
+  "migrationType": "mechanical-parity",
+  "implementationStatus": "implemented",
+  "dependencies": ["0001-foundation", "0039-ntc2018-action-parameters-and-factories"],
+  "source": {
+    "repository": "https://github.com/claudiopagani/strutture-js",
+    "revision": "6f33baead8b88166c4b2cf94af41763412e3c751"
+  },
+  "normativeCorpusRevision": "41da3faa489600173106935bbcf726119300e48d",
+  "sourceFiles": [
+    {
+      "path": "src/norms/ntc2018/loads/ntc2018ImposedLoads.js",
+      "gitBlobSha1": "ae20e78518766f8af9d74c93800600fd7f5455f4",
+      "targetPath": "src/norms/ntc2018/loads/ntc2018ImposedLoads.ts"
+    }
+  ],
+  "supportingSourceFiles": [
+    {
+      "path": "src/domain/units/UnitSystem.js",
+      "gitBlobSha1": "b8f2f4926aff645efbf7b9f458b69eba264ed59a",
+      "targetPath": "src/domain/units/UnitSystem.ts",
+      "coverage": "Already-migrated explicit unit validation and conversion dependency."
+    },
+    {
+      "path": "src/norms/ntc2018/actions/ntc2018ActionParameters.js",
+      "gitBlobSha1": "fb00fa75c6453a901d6361d7308cd4fd3800d082",
+      "targetPath": "src/norms/ntc2018/actions/ntc2018ActionParameters.ts",
+      "coverage": "Already-migrated NTC 2018 action-combination factor dependency."
+    },
+    {
+      "path": "src/norms/ntc2018/index.js",
+      "gitBlobSha1": "0ac4cf551c455ec2a57d9bf8849db46fb14e0dcc",
+      "targetPath": "src/index.ts",
+      "coverage": "Pinned NTC 2018 norm-index export context."
+    },
+    {
+      "path": "src/index.js",
+      "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7",
+      "targetPath": "src/index.ts",
+      "coverage": "Root public exports for the imposed-load catalog and reduction utilities."
+    }
+  ],
+  "sourceOracles": [
+    {
+      "path": "tests/ntc2018ImposedLoads.test.js",
+      "gitBlobSha1": "3c5052aac4371aa7d3d150cf619ab7cfda75262d",
+      "coverage": "Catalog entries, inherited and documented resolution, unit conversion, reductions, and source errors."
+    },
+    {
+      "path": "tests/packageExports.test.js",
+      "gitBlobSha1": "8dde24b4c97dd3dae7100207d07d9d96c52b9c74",
+      "coverage": "Root public export behavior."
+    }
+  ],
+  "sourcePublicExport": {
+    "path": "src/index.js",
+    "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
+  },
+  "targetTests": [
+    "tests/baseline-parity.test.ts",
+    "tests/ntc2018-imposed-loads-compile-time.test.ts",
+    "tests/ntc2018-imposed-loads-live-parity.test.ts"
+  ],
+  "publicExports": [
+    "NTC2018_IMPOSED_LOAD_CATALOG",
+    "NTC2018_IMPOSED_LOAD_REFERENCES",
+    "calculateNTC2018ImposedLoadAreaReduction",
+    "calculateNTC2018ImposedLoadMultiStoreyReduction",
+    "getNTC2018ImposedLoadDefinition",
+    "listNTC2018ImposedLoadDefinitions",
+    "resolveNTC2018ImposedLoadDefinition"
+  ],
+  "publicTypeExports": [
+    "CalculateNTC2018ImposedLoadAreaReductionOptions",
+    "CalculateNTC2018ImposedLoadMultiStoreyReductionOptions",
+    "ListNTC2018ImposedLoadDefinitionsOptions",
+    "NTC2018ImposedLoadAreaReductionResult",
+    "NTC2018ImposedLoadDefinition",
+    "NTC2018ImposedLoadMultiStoreyReductionResult",
+    "ResolveNTC2018ImposedLoadDefinitionOptions",
+    "ResolvedNTC2018ImposedLoadDefinition"
+  ],
+  "normativeReferences": {
+    "resolved": [],
+    "outsideCorpus": [
+      "NTC 2018 section 3.1.4 and Table 3.1.II imposed characteristic loads",
+      "NTC 2018 section 3.1.4.1 equations 3.1.1 and 3.1.2 imposed-load reductions",
+      "NTC 2018 sections 3.1.4.2 and 3.1.4.3 local imposed-load applications",
+      "NTC 2018 section 2.5.2 Table 2.5.I combination factors"
+    ],
+    "normativeConformityClaimed": false,
+    "status": "classified-for-declared-scope"
+  },
+  "independentValidation": {
+    "method": "Strict declaration consumer coverage and independently executed pinned JavaScript versus built TypeScript comparison of all 21 catalog entries, references, direct and inherited resolution, documented unit conversion, reductions, exact JSON, Unicode, public exports, clone behavior, and error paths.",
+    "targetTests": [
+      "tests/ntc2018-imposed-loads-compile-time.test.ts",
+      "tests/ntc2018-imposed-loads-live-parity.test.ts"
+    ],
+    "tolerances": {
+      "serializedParity": "exact catalog, references, resolved-definition and reduction JSON",
+      "numericParity": "exact equality for tabulated values, unit conversions, alphaA, alphaN, and combination factors",
+      "publicStrings": "exact equality plus Unicode preservation for Italian catalog descriptions, references, documentation, formulas, and errors",
+      "errors": "exact error name and message equality for unsupported definitions, missing documentation, invalid reductions, missing served categories, and null options"
+    }
+  },
+  "parityDifferences": [
+    "The TypeScript module adds strict option, result, and catalog declarations and root type exports; runtime catalog values, resolution, units, reductions, serialization, public strings, and errors match the pinned source."
+  ],
+  "engineeringFunctionality": "Source-compatible NTC 2018 imposed-load catalog lookup, documented/inherited load resolution, and area and multi-storey reduction utilities."
+}
