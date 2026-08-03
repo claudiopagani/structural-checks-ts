@@ -1,0 +1,83 @@
+{
+  "schemaVersion": 1,
+  "sliceId": "0182-applications-steel-plastic-hinge-state",
+  "title": "Steel plastic hinge state primitive",
+  "migrationType": "mechanical-parity",
+  "implementationStatus": "implemented",
+  "dependencies": ["0181-applications-micropile-broms-index"],
+  "source": {
+    "repository": "https://github.com/claudiopagani/strutture-js",
+    "revision": "6f33baead8b88166c4b2cf94af41763412e3c751"
+  },
+  "normativeCorpusRevision": "41da3faa489600173106935bbcf726119300e48d",
+  "sourceFiles": [
+    {
+      "path": "src/applications/steel-frames/analysis/SteelPlasticHingeState.js",
+      "gitBlobSha1": "5126994245d2b8958f64432155e6fadaa4c438d5",
+      "targetPath": "src/applications/steel-frames/analysis/SteelPlasticHingeState.ts"
+    }
+  ],
+  "supportingSourceFiles": [
+    {
+      "path": "src/applications/steel-frames/index.js",
+      "gitBlobSha1": "00b0b647649aff91fa05b523a18df186f588223f",
+      "coverage": "The pinned steel-frames barrel publicly reexports SteelPlasticHingeState; barrel migration is deferred until its remaining sibling implementations exist."
+    },
+    {
+      "path": "src/index.js",
+      "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7",
+      "coverage": "Pinned root public export for SteelPlasticHingeState."
+    }
+  ],
+  "sourceOracles": [
+    {
+      "path": "tests/steelRingFramePushover.test.js",
+      "gitBlobSha1": "ece91e91fba59579941f9c562ef0507fbf5ad028",
+      "coverage": "Pinned steel-frame plastic-hinge behavior oracle; direct constructor and state-transition parity are exercised by the independent live test."
+    },
+    {
+      "path": "tests/packageExports.test.js",
+      "gitBlobSha1": "8dde24b4c97dd3dae7100207d07d9d96c52b9c74",
+      "coverage": "Pinned public package export and root-alias oracle."
+    }
+  ],
+  "sourcePublicExport": {
+    "path": "src/applications/steel-frames/index.js",
+    "gitBlobSha1": "00b0b647649aff91fa05b523a18df186f588223f"
+  },
+  "targetTests": [
+    "tests/baseline-parity.test.ts",
+    "tests/steel-plastic-hinge-state-compile-time.test.ts",
+    "tests/steel-plastic-hinge-state-live-parity.test.ts"
+  ],
+  "publicExports": ["SteelPlasticHingeState"],
+  "publicTypeExports": [
+    "SteelPlasticHingeActivationEvent",
+    "SteelPlasticHingeSign",
+    "SteelPlasticHingeStateJson",
+    "SteelPlasticHingeStateLike",
+    "SteelPlasticHingeStateOptions"
+  ],
+  "normativeReferences": {
+    "resolved": [],
+    "outsideCorpus": [],
+    "normativeConformityClaimed": false,
+    "status": "classified-for-declared-scope"
+  },
+  "independentValidation": {
+    "method": "Strict typed consumer declarations and independently executed pinned JavaScript versus built TypeScript comparison of exact state JSON, Unicode, normalization, transitions, clone behavior, prototype shape, instanceof boundaries and error paths.",
+    "targetTests": [
+      "tests/steel-plastic-hinge-state-compile-time.test.ts",
+      "tests/steel-plastic-hinge-state-live-parity.test.ts"
+    ],
+    "fixture": "Empty, normalized positive/negative, legacy numeric/sign aliases, activation, duplicate activation, activation delta, Unicode metadata and unsupported signs.",
+    "tolerances": {
+      "serializedParity": "exact JSON key order, values and history sequence",
+      "numericParity": "exact active-count and numeric sign-alias behavior",
+      "publicStrings": "exact public error and activation strings plus Unicode code-point comparison",
+      "errors": "exact error name and message for unsupported signs"
+    }
+  },
+  "parityDifferences": [],
+  "engineeringFunctionality": "Strict TypeScript parity for steel plastic-hinge endpoint state, activation history and transition comparison; steel-frame analyses and barrel composition remain outside this slice."
+}

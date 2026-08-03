@@ -775,6 +775,14 @@ export type {
   SingleBeamDesignModelInput,
   SingleBeamDesignUnitSystem,
 } from "./applications/single-beam-design/models/SingleBeamDesignModel.js";
+export { SteelPlasticHingeState } from "./applications/steel-frames/analysis/SteelPlasticHingeState.js";
+export type {
+  SteelPlasticHingeActivationEvent,
+  SteelPlasticHingeSign,
+  SteelPlasticHingeStateJson,
+  SteelPlasticHingeStateLike,
+  SteelPlasticHingeStateOptions,
+} from "./applications/steel-frames/analysis/SteelPlasticHingeState.js";
 export { RCBiaxialDomainBuilder } from "./applications/reinforced-concrete-sections/analysis/RCBiaxialDomainBuilder.js";
 export { RCMomentCurvatureAnalyzer } from "./applications/reinforced-concrete-sections/analysis/RCMomentCurvatureAnalyzer.js";
 export { RCServiceStressSolver } from "./applications/reinforced-concrete-sections/analysis/RCServiceStressSolver.js";

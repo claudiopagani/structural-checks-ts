@@ -461,6 +461,7 @@ const expectedExports = [
   "SteelElasticPlasticHardeningLaw",
   "SteelMaterial",
   "SteelCompoundProfileSection",
+  "SteelPlasticHingeState",
   "SteelProfileSection",
   "SingleBeamAnalysis",
   "SingleBeamFemBuilder",
