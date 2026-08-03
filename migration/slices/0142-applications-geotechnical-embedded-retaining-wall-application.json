@@ -1,0 +1,110 @@
+{
+  "schemaVersion": 1,
+  "sliceId": "0142-applications-geotechnical-embedded-retaining-wall-application",
+  "title": "Geotechnical embedded-retaining-wall application",
+  "migrationType": "mechanical-parity-with-minimal-dependency-support",
+  "implementationStatus": "implemented",
+  "dependencies": [
+    "0066-domain-embedded-retaining-wall-model",
+    "0077-domain-wall-soil-reaction-law",
+    "0081-domain-embedded-retaining-wall-scenario",
+    "0082-domain-embedded-retaining-wall-analysis"
+  ],
+  "source": {
+    "repository": "https://github.com/claudiopagani/strutture-js",
+    "revision": "6f33baead8b88166c4b2cf94af41763412e3c751"
+  },
+  "normativeCorpusRevision": "41da3faa489600173106935bbcf726119300e48d",
+  "sourceFiles": [
+    {
+      "path": "src/applications/geotechnical-embedded-retaining-walls/GeotechnicalEmbeddedRetainingWallApplication.js",
+      "gitBlobSha1": "8d3e459f506ae1bc30117cc05c75541d1e5d4470",
+      "targetPath": "src/applications/geotechnical-embedded-retaining-walls/GeotechnicalEmbeddedRetainingWallApplication.ts"
+    },
+    {
+      "path": "src/applications/geotechnical-embedded-retaining-walls/index.js",
+      "gitBlobSha1": "61a8e74c40fd6247b39c8028bde0df09c043a4c2",
+      "targetPath": "src/applications/geotechnical-embedded-retaining-walls/index.ts"
+    }
+  ],
+  "supportingSourceFiles": [
+    {
+      "path": "src/index.js",
+      "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7",
+      "targetPath": "src/index.ts",
+      "coverage": "Pinned root public-export context for the embedded-retaining-wall application."
+    },
+    {
+      "path": "src/domain/geotechnics/EmbeddedRetainingWallAnalysis.js",
+      "gitBlobSha1": "314b70cbe1793c50f4f0d52d3e25588f7ed3ffdf",
+      "targetPath": "src/domain/geotechnics/EmbeddedRetainingWallAnalysis.ts",
+      "coverage": "Migrated analysis dependency consumed by the application wrapper."
+    },
+    {
+      "path": "src/domain/geotechnics/EmbeddedRetainingWallModel.js",
+      "gitBlobSha1": "ca178caab8ce37dbc37ad237838840d80c91ab20",
+      "targetPath": "src/domain/geotechnics/EmbeddedRetainingWallModel.ts",
+      "coverage": "Migrated wall model dependency re-exported by the application barrel."
+    },
+    {
+      "path": "src/domain/geotechnics/EmbeddedRetainingWallScenario.js",
+      "gitBlobSha1": "5f72c4faf67df7fa9e510641a81179a624ed13e9",
+      "targetPath": "src/domain/geotechnics/EmbeddedRetainingWallScenario.ts",
+      "coverage": "Migrated scenario dependency re-exported by the application barrel."
+    },
+    {
+      "path": "src/domain/geotechnics/WallSoilReactionLaw.js",
+      "gitBlobSha1": "a7a645fc6391fb91b3546786204f05f445bcc193",
+      "targetPath": "src/domain/geotechnics/WallSoilReactionLaw.ts",
+      "coverage": "Migrated soil-reaction dependency re-exported by the application barrel."
+    }
+  ],
+  "sourceOracles": [
+    {
+      "path": "tests/geotechnicalEmbeddedRetainingWalls.test.js",
+      "gitBlobSha1": "4e5ac3cc7b3d0db759c3a7a2dae5b7d9e7ec788a",
+      "coverage": "Application wrapper result, staged response, serialization and unsupported behavior."
+    },
+    {
+      "path": "tests/packageExports.test.js",
+      "gitBlobSha1": "8dde24b4c97dd3dae7100207d07d9d96c52b9c74",
+      "coverage": "Pinned root and application public exports."
+    }
+  ],
+  "sourcePublicExport": {
+    "path": "src/index.js",
+    "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
+  },
+  "targetTests": [
+    "tests/baseline-parity.test.ts",
+    "tests/embedded-retaining-wall-analysis-live-parity.test.ts",
+    "tests/geotechnical-embedded-retaining-wall-application-compile-time.test.ts",
+    "tests/geotechnical-embedded-retaining-wall-application-live-parity.test.ts"
+  ],
+  "publicExports": ["GeotechnicalEmbeddedRetainingWallApplication"],
+  "publicTypeExports": [],
+  "normativeReferences": {
+    "resolved": [],
+    "outsideCorpus": [],
+    "normativeConformityClaimed": false,
+    "status": "classified-for-declared-scope"
+  },
+  "independentValidation": {
+    "method": "Strict declaration consumer coverage and independently executed pinned JavaScript versus built TypeScript comparison of the application barrel, root aliases, application manifest, complete serialized results, Unicode identifiers, missing input and unsupported pseudostatic behavior.",
+    "targetTests": [
+      "tests/geotechnical-embedded-retaining-wall-application-compile-time.test.ts",
+      "tests/geotechnical-embedded-retaining-wall-application-live-parity.test.ts"
+    ],
+    "fixture": "staged static embedded wall with assigned pressure-displacement curves and Unicode identifiers",
+    "tolerances": {
+      "serializedParity": "exact complete CalculationResult JSON",
+      "numericParity": "exact staged wall response values for the wrapper fixture",
+      "publicStrings": "exact manifest, summaries, metadata and Unicode strings",
+      "errors": "exact missing-input and unsupported pseudostatic result behavior"
+    }
+  },
+  "parityDifferences": [
+    "The TypeScript application uses the migrated strict EmbeddedRetainingWallAnalysisInput declaration while preserving the JavaScript wrapper delegation and serialized CalculationResult shape."
+  ],
+  "engineeringFunctionality": "Public geotechnical embedded-retaining-wall application wrapper for staged static and assigned-pseudostatic wall response on nonlinear pressure-displacement springs."
+}

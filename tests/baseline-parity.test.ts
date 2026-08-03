@@ -88,6 +88,7 @@ const expectedExports = [
   "DeepFoundationModel",
   "GeotechnicalDeepFoundationApplication",
   "GeotechnicalEarthPressureApplication",
+  "GeotechnicalEmbeddedRetainingWallApplication",
   "GeotechnicalDesignSituation",
   "GroundModel",
   "GroundProfile",
