@@ -29,8 +29,8 @@
     {
       "path": "src/applications/rc-building-verification/wallBiaxialVerification.js",
       "gitBlobSha1": "b3fc77c77d81ee9d21e7194615d8d4dc9fe16db0",
-      "targetPath": "src/applications/reinforced-concrete-walls/wallBiaxialVerification.ts",
-      "coverage": "Moves the source application-layer biaxial wall function into a bounded public wall module without changing its application-to-domain dependency direction."
+      "targetPath": "src/applications/rc-building-verification/wallBiaxialVerification.ts",
+      "coverage": "Keeps the source application-layer biaxial wall function in the existing rc-building-verification application barrel without changing its application-to-domain dependency direction."
     },
     {
       "path": "src/norms/ntc2018/normativeReferences.js",

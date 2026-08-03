@@ -1,0 +1,150 @@
+{
+  "schemaVersion": 1,
+  "sliceId": "0215-phase-a5-package-subpath-parity",
+  "title": "Phase A5 package export and wildcard subpath parity",
+  "migrationType": "mechanical-parity",
+  "implementationStatus": "implemented",
+  "dependencies": ["0214-phase-a5-root-applications-export-parity"],
+  "source": {
+    "repository": "https://github.com/claudiopagani/strutture-js",
+    "revision": "6f33baead8b88166c4b2cf94af41763412e3c751"
+  },
+  "normativeCorpusRevision": "41da3faa489600173106935bbcf726119300e48d",
+  "sourceFiles": [
+    {
+      "path": "package.json",
+      "gitBlobSha1": "9133db99ac7e23988ba0dfc569cabc26db7426cb",
+      "targetPath": "package.json"
+    },
+    {
+      "path": "src/applications/index.js",
+      "gitBlobSha1": "b70179c7cdd2a819f2151dc092c0f59cbce30ba6",
+      "targetPath": "src/applications/index.ts"
+    },
+    {
+      "path": "src/domain/fem/index.js",
+      "gitBlobSha1": "500ed76831bf15f757c0ed2c7eff05844c39511c",
+      "targetPath": "src/domain/fem/index.ts"
+    },
+    {
+      "path": "src/domain/geotechnics/index.js",
+      "gitBlobSha1": "41ed2053fc2e37dc90da412846609f4050af9668",
+      "targetPath": "src/domain/geotechnics/index.ts"
+    },
+    {
+      "path": "src/domain/math/index.js",
+      "gitBlobSha1": "5657a5145a3569b30385d7a4bd12f212194f22d3",
+      "targetPath": "src/domain/math/index.ts"
+    },
+    {
+      "path": "src/domain/terrain/index.js",
+      "gitBlobSha1": "7f603da8d378a3569c506844d42f847edd84bd22",
+      "targetPath": "src/domain/terrain/index.ts"
+    },
+    {
+      "path": "src/domain/strut-and-tie/index.js",
+      "gitBlobSha1": "5868ba5a629df69ce9d20ce73a967ece9a7eb125",
+      "targetPath": "src/domain/strut-and-tie/index.ts"
+    },
+    {
+      "path": "src/catalogs/soil-types.js",
+      "gitBlobSha1": "0ad8403c9f73f6ff7274c8da17b857a3bd8124c6",
+      "targetPath": "src/catalogs/soil-types.ts"
+    },
+    {
+      "path": "src/catalogs/wall-interface-types.js",
+      "gitBlobSha1": "0b087b153d230c46d3fa218507a4d34a30bfe437",
+      "targetPath": "src/catalogs/wall-interface-types.ts"
+    },
+    {
+      "path": "src/catalogs/steel-profiles.js",
+      "gitBlobSha1": "ea00de147aeb6d32e09e246aac54db141000523c",
+      "targetPath": "src/catalogs/steel-profiles.ts"
+    },
+    {
+      "path": "src/norms/en1992/index.js",
+      "gitBlobSha1": "3540c261f26eb6922a916adb203669650ca08970",
+      "targetPath": "src/norms/en1992/index.ts"
+    },
+    {
+      "path": "src/norms/italian-historical/index.js",
+      "gitBlobSha1": "07cc1d987fdef4b24dcc11e67e1d11c85151807a",
+      "targetPath": "src/norms/italian-historical/index.ts"
+    },
+    {
+      "path": "src/norms/ntc2018/index.js",
+      "gitBlobSha1": "0ac4cf551c455ec2a57d9bf8849db46fb14e0dcc",
+      "targetPath": "src/norms/ntc2018/index.ts"
+    },
+    {
+      "path": "tests/packageExports.test.js",
+      "gitBlobSha1": "8dde24b4c97dd3dae7100207d07d9d96c52b9c74",
+      "targetPath": "tests/package-subpath-consumers.test.ts"
+    }
+  ],
+  "supportingSourceFiles": [
+    {
+      "path": "src/applications",
+      "coverage": "Every pinned application directory is exercised through the ./applications/* wildcard consumer test."
+    }
+  ],
+  "sourceOracles": [
+    {
+      "path": "tests/packageExports.test.js",
+      "gitBlobSha1": "8dde24b4c97dd3dae7100207d07d9d96c52b9c74",
+      "coverage": "Pinned package export keys, subpath availability and public application barrel behavior."
+    }
+  ],
+  "sourcePublicExport": {
+    "path": "package.json",
+    "gitBlobSha1": "9133db99ac7e23988ba0dfc569cabc26db7426cb"
+  },
+  "targetTests": [
+    "tests/package-subpath-consumers.test.ts",
+    "tests/package-subpath-static-consumers.test.ts",
+    "tests/application-api-parity.test.ts"
+  ],
+  "publicExports": [
+    ".",
+    "./applications",
+    "./applications/*",
+    "./domain/fem",
+    "./domain/geotechnics",
+    "./domain/math",
+    "./domain/terrain",
+    "./domain/strut-and-tie",
+    "./catalogs/soil-types",
+    "./catalogs/wall-interface-types",
+    "./catalogs/steel-profiles",
+    "./norms/en1992",
+    "./norms/italian-historical",
+    "./norms/ntc2018"
+  ],
+  "normativeReferences": {
+    "resolved": [],
+    "outsideCorpus": [],
+    "normativeConformityClaimed": false,
+    "status": "classified-for-declared-scope"
+  },
+  "independentValidation": {
+    "method": "Strict typed static imports, source-pinned runtime imports, exact package-key comparison, exact subpath export-name comparison, and wildcard directory/export comparison.",
+    "targetTests": [
+      "tests/package-subpath-consumers.test.ts",
+      "tests/package-subpath-static-consumers.test.ts"
+    ],
+    "fixture": "All 14 declared package keys and every pinned application barrel resolved from the self-referencing migration-workspace package.",
+    "tolerances": {
+      "serializedParity": "exact source-defined serializable values, with the two documented pre-existing target-only normative-reference compatibility entries excluded from the source projection",
+      "numericParity": "exact for serializable catalog and schema values",
+      "publicStrings": "exact entrypoint keys, export names, identifiers and source ordering",
+      "errors": "unresolvable entrypoints and missing wildcard barrels fail the consumer tests"
+    }
+  },
+  "parityDifferences": [
+    "The package identity remains the private 0.0.0 migration workspace; no publish, rename, tag or cutover is introduced.",
+    "The inventory represents ./applications/* through the target applications barrel for name accounting; the consumer test additionally resolves every concrete wildcard directory.",
+    "The target retains the already-documented serviceModularRatio and cosenzaCircularShear normative-reference compatibility entries; the subpath test compares the complete source-defined projection without silently removing or altering them at runtime.",
+    "Approved architecture decision: AXIAL_PILE_CAPACITY_REFERENCE, AXIAL_PILE_CAPACITY_RESULT_SCHEMA_VERSION and AxialPileCapacityAnalysis remain available from the root and norms surfaces but are not re-exported through domain/geotechnics, because doing so would make domain import norms. A future compatibility decision may relocate or otherwise expose these three source subpath names without reversing the dependency direction."
+  ],
+  "engineeringFunctionality": "Restored all 14 pinned package entrypoints, direct subpath exports, wildcard application barrels and declaration-level self-package consumers without exposing private source paths."
+}

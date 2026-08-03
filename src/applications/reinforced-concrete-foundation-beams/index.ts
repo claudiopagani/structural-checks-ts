@@ -7,3 +7,8 @@ export type {
   ReinforcedConcreteFoundationBeamVerificationOptions,
   ReinforcedConcreteFoundationBeamVerificationSettings,
 } from "./ReinforcedConcreteFoundationBeamModel.js";
+export {
+  FoundationBeamAnalysis,
+  FoundationBeamFemBuilder,
+  FoundationBeamModel,
+} from "../../domain/foundations/index.js";

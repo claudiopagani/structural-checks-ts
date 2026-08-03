@@ -1412,7 +1412,7 @@ export {
 export {
   WALL_BIAXIAL_REFERENCE,
   verifyWallBiaxialBending,
-} from "./applications/reinforced-concrete-walls/index.js";
+} from "./applications/rc-building-verification/index.js";
 export {
   calculateEn1992AnchorageLength,
   calculateEn1992DesignBondStrength,
@@ -2628,4 +2628,26 @@ export type {
 export type { Ntc2018OverstrengthFactors } from "./norms/ntc2018/reinforced-concrete/structuralBehavior.js";
 export type * from "./norms/ntc2018/reinforced-concrete/ntc2018ShearWall.js";
 export type * from "./norms/ntc2018/reinforced-concrete/wallSystemChecks.js";
-export type * from "./applications/reinforced-concrete-walls/index.js";
+export {
+  TimberConcreteCompositeBeamApplication,
+  TimberConcreteCompositeBeamVerification,
+  TimberXlamCompositeBeamApplication,
+  TimberXlamCompositeBeamModel,
+  TimberXlamCompositeBeamSectionProvider,
+  TimberXlamCompositeBeamVerification,
+  XlamBeamVerification,
+  XlamOutOfPlanePanelApplication,
+  XlamOutOfPlanePanelModel,
+  XlamOutOfPlanePanelVerification,
+  createDefaultApplicationRegistry,
+  createTimberXlamCompositeBeamSectionProvider,
+} from "./applications/index.js";
+export {
+  SOIL_TYPE_CATALOG,
+  SOIL_TYPE_IDS,
+  createSoilMaterialFromType,
+  getSoilTypeData,
+  listSoilTypes,
+} from "./catalogs/soil-types.js";
+export type { XlamOutOfPlanePanelModelOptions } from "./applications/xlam-panels-out-of-plane/models/XlamOutOfPlanePanelModel.js";
+export type * from "./applications/rc-building-verification/wallBiaxialVerification.js";

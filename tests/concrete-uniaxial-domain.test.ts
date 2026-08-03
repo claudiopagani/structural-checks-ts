@@ -206,15 +206,12 @@ void test("the public domain builder can limit sampling to one curvature sign", 
 void test("the application manifest advertises the migrated concrete section modes", () => {
   const manifest = new ReinforcedConcreteSectionApplication().getManifest();
 
-  assert.deepEqual(manifest.supportedCodes, ["NTC2018"]);
+  assert.deepEqual(manifest.supportedCodes, ["NTC2018", "Eurocode 2"]);
   assert.ok(manifest.tags.includes("interaction-domain"));
-  assert.equal(manifest.metadata.maturity, "partial");
-  assert.deepEqual(manifest.metadata.implementedAnalysisTypes, [
-    "uls-uniaxial-resistance",
-    "uls-uniaxial-domain",
-    "uls-biaxial-domain",
-    "service-stress",
-    "moment-curvature",
+  assert.equal(manifest.metadata.maturity, "implemented");
+  assert.deepEqual(manifest.metadata.limitations, [
+    "domain sampling and mesh refinement are explicit solver settings",
+    "member detailing is handled by the beam and column verification contracts",
   ]);
 });
 

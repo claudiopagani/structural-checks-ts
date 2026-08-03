@@ -1291,6 +1291,8 @@
         "SOIL_STRENGTH_MODELS",
         "SOIL_STRUCTURE_INTERFACE_MODELS",
         "SOIL_STRUCTURE_INTERFACE_SCHEMA_VERSION",
+        "SOIL_TYPE_CATALOG",
+        "SOIL_TYPE_IDS",
         "STEEL_PROFILE_CATALOG_UNITS",
         "STEEL_PROFILE_FAMILIES",
         "STEEL_PROFILE_SECTION_DATABASE",
@@ -1351,10 +1353,16 @@
         "TimberBeamModel",
         "TimberBeamSectionProvider",
         "TimberBeamVerification",
+        "TimberConcreteCompositeBeamApplication",
         "TimberConcreteCompositeBeamModel",
         "TimberConcreteCompositeBeamSectionProvider",
+        "TimberConcreteCompositeBeamVerification",
         "TimberDowelConnector",
         "TimberMaterial",
+        "TimberXlamCompositeBeamApplication",
+        "TimberXlamCompositeBeamModel",
+        "TimberXlamCompositeBeamSectionProvider",
+        "TimberXlamCompositeBeamVerification",
         "TrafficAction",
         "TurnsekSheppardModel",
         "VariableAction",
@@ -1370,7 +1378,11 @@
         "WallSoilReactionLaw",
         "WindAction",
         "XlamBeamSectionProvider",
+        "XlamBeamVerification",
         "XlamMaterial",
+        "XlamOutOfPlanePanelApplication",
+        "XlamOutOfPlanePanelModel",
+        "XlamOutOfPlanePanelVerification",
         "XlamPanelSection",
         "amplifyNTC2018DiaphragmActions",
         "applyNTC2018ExistingMasonryMaltaBuonaUpdate",
@@ -1475,6 +1487,7 @@
         "createBeamReportArtifacts",
         "createCapacityDesignAssessment",
         "createCouplingBeamAssessment",
+        "createDefaultApplicationRegistry",
         "createDiaphragmAssessment",
         "createDisplacementAssessment",
         "createDoubleAngleOpposedSection",
@@ -1516,6 +1529,7 @@
         "createReinforcedConcreteBeamSectionProvider",
         "createScaServiceDeflectionAnalysisResult",
         "createServiceDeflectionAnalysisResult",
+        "createSoilMaterialFromType",
         "createSteelBeamSectionProvider",
         "createSteelCompoundProfileSection",
         "createSteelMemberFem3DResult",
@@ -1523,6 +1537,7 @@
         "createTecnariaConnector",
         "createTimberBeamSectionProvider",
         "createTimberConcreteCompositeBeamSectionProvider",
+        "createTimberXlamCompositeBeamSectionProvider",
         "createUnitResolver",
         "createWallHeightSystemAssessment",
         "createWallSectionAssessment",
@@ -1566,6 +1581,7 @@
         "getNTC2018WindZoneDefinition",
         "getRcPunchingDesignCodeManifest",
         "getSlabMaterialWeightPresetValue",
+        "getSoilTypeData",
         "getSteelProfileSectionData",
         "getSteelVerificationCapabilities",
         "getTecnariaConnectorData",
@@ -1586,6 +1602,7 @@
         "listNTC2018UnitWeightDefinitions",
         "listSlabMaterialWeightPresetCategories",
         "listSlabMaterialWeightPresetEntries",
+        "listSoilTypes",
         "listSteelProfileSectionsByFamily",
         "listXlamPanelProducts",
         "modifierSelectionsFromState",
@@ -1691,7 +1708,7 @@
         "verifyWallShear",
         "woodArmer"
       ],
-      "status": "partial"
+      "status": "exact-parity"
     },
     {
       "id": "./applications",
@@ -2010,9 +2027,319 @@
         "verifyWallBiaxialBending",
         "woodArmer"
       ],
-      "targetPath": null,
-      "targetExportNames": [],
-      "status": "missing"
+      "targetPath": "src/applications/index.ts",
+      "targetExportNames": [
+        "ALIGNMENT_STATE_COMPARISON_REPORT_SCHEMA_VERSION",
+        "AXIAL_PILE_BASE_RESISTANCE_METHODS",
+        "AXIAL_PILE_CAPACITY_REFERENCE",
+        "AXIAL_PILE_CAPACITY_RESULT_SCHEMA_VERSION",
+        "AXIAL_PILE_EFFECTIVE_STRESS_COEFFICIENT_MODELS",
+        "AXIAL_PILE_LOAD_DIRECTIONS",
+        "AXIAL_PILE_LOAD_SCENARIO_SCHEMA_VERSION",
+        "AXIAL_PILE_RESISTANCE_CONVERSION_MODELS",
+        "AXIAL_PILE_SHAFT_RESISTANCE_METHODS",
+        "AlignmentEquivalentFramePushoverAnalysis",
+        "AlignmentSeismicAggregatedAnalysis",
+        "AlignmentStateComparisonAnalysis",
+        "AlignmentStateComparisonMarkdownRenderer",
+        "AlignmentStateComparisonReportBuilder",
+        "AlignmentStaticAnalysis",
+        "AxialPileCapacityAnalysis",
+        "AxialPileLoadScenario",
+        "BEAM_REPORT_SCHEMA_VERSION",
+        "BeamReportBuilder",
+        "BeamReportMarkdownRenderer",
+        "CrackedSectionBeamModel",
+        "CrackedSectionDeflectionAnalysis",
+        "DEEP_FOUNDATION_DISPLACEMENT_CLASSES",
+        "DEEP_FOUNDATION_ELEMENT_TYPES",
+        "DEEP_FOUNDATION_GEOMETRY_MODELS",
+        "DEEP_FOUNDATION_MODEL_SCHEMA_VERSION",
+        "DEFAULT_GLOBAL_FEM_CLASSIFICATION_POLICY",
+        "DeepFoundationModel",
+        "EMBEDDED_RETAINING_WALL_END_RESTRAINTS",
+        "EMBEDDED_RETAINING_WALL_LOADING_CONDITIONS",
+        "EMBEDDED_RETAINING_WALL_MODEL_SCHEMA_VERSION",
+        "EMBEDDED_RETAINING_WALL_REFERENCES",
+        "EMBEDDED_RETAINING_WALL_RESULT_SCHEMA_VERSION",
+        "EMBEDDED_RETAINING_WALL_SCENARIO_SCHEMA_VERSION",
+        "EMBEDDED_RETAINING_WALL_SUPPORT_BEHAVIORS",
+        "EMBEDDED_RETAINING_WALL_SUPPORT_TYPES",
+        "EMBEDDED_RETAINING_WALL_TYPES",
+        "EmbeddedRetainingWallAnalysis",
+        "EmbeddedRetainingWallModel",
+        "EmbeddedRetainingWallScenario",
+        "FoundationBeamAnalysis",
+        "FoundationBeamFemBuilder",
+        "FoundationBeamModel",
+        "GLOBAL_FEM_CLASSIFICATION_PROPOSAL_VERSION",
+        "GLOBAL_FEM_DEMAND_SET_VERSION",
+        "GLOBAL_FEM_POSTPROCESSING_PROFILES",
+        "GLOBAL_FEM_POSTPROCESSING_PROFILE_VALUES",
+        "GLOBAL_FEM_READINESS_ASSESSMENTS",
+        "GLOBAL_FEM_READINESS_ASSESSMENT_VALUES",
+        "GLOBAL_FEM_READINESS_REPORT_VERSION",
+        "GROUND_ANCHOR_BOND_CATALOG",
+        "GROUND_ANCHOR_BOND_CATALOG_IDS",
+        "GROUND_ANCHOR_BOND_CATALOG_REFERENCE",
+        "GROUND_ANCHOR_BOND_RESISTANCE_MODELS",
+        "GROUND_ANCHOR_CORROSION_CLASSES",
+        "GROUND_ANCHOR_DEMAND_SOURCES",
+        "GROUND_ANCHOR_DESIGN_REFERENCE",
+        "GROUND_ANCHOR_DESIGN_RESULT_SCHEMA_VERSION",
+        "GROUND_ANCHOR_DESIGN_SCENARIO_SCHEMA_VERSION",
+        "GROUND_ANCHOR_FAILURE_SURFACE_MODELS",
+        "GROUND_ANCHOR_FHWA_CRITERIA",
+        "GROUND_ANCHOR_GROUND_CLASSES",
+        "GROUND_ANCHOR_HORIZONTAL_DIRECTIONS",
+        "GROUND_ANCHOR_MODEL_SCHEMA_VERSION",
+        "GROUND_ANCHOR_STABILITY_ACTION_2D_SCHEMA_VERSION",
+        "GROUND_ANCHOR_STABILITY_FORCE_MODELS",
+        "GROUND_ANCHOR_STABILITY_REFERENCE",
+        "GROUND_ANCHOR_TENDON_TYPES",
+        "GROUND_ANCHOR_TEST_TYPES",
+        "GeotechnicalDeepFoundationApplication",
+        "GeotechnicalEarthPressureApplication",
+        "GeotechnicalEmbeddedRetainingWallApplication",
+        "GeotechnicalGroundAnchorApplication",
+        "GeotechnicalLateralPileApplication",
+        "GeotechnicalRetainingWallApplication",
+        "GeotechnicalShallowFoundationApplication",
+        "GeotechnicalSlopeStabilityApplication",
+        "GlobalFemPostProcessingApplication",
+        "GroundAnchorAnalysis",
+        "GroundAnchorDesignScenario",
+        "GroundAnchorModel",
+        "GroundAnchorStabilityAction2D",
+        "HyperstaticDeflectionIteration",
+        "LATERAL_PILE_ACTION_REFERENCE_POINTS",
+        "LATERAL_PILE_BEHAVIOR_CLASSIFICATIONS",
+        "LATERAL_PILE_BROMS_REFERENCE",
+        "LATERAL_PILE_CAPACITY_METHODS",
+        "LATERAL_PILE_CAPACITY_RESULT_SCHEMA_VERSION",
+        "LATERAL_PILE_END_RESTRAINTS",
+        "LATERAL_PILE_HEAD_CONDITIONS",
+        "LATERAL_PILE_LOAD_SCENARIO_SCHEMA_VERSION",
+        "LATERAL_PILE_PY_REFERENCE",
+        "LATERAL_PILE_PY_RESULT_SCHEMA_VERSION",
+        "LATERAL_PILE_RESISTANCE_CONVERSION_MODELS",
+        "LATERAL_PILE_RESPONSE_METHODS",
+        "LATERAL_PILE_RESPONSE_SCENARIO_SCHEMA_VERSION",
+        "LATERAL_PILE_SOIL_BRANCHES",
+        "LATERAL_PILE_SOIL_RESPONSE_MODELS",
+        "LateralPileBeamOnSpringsAnalysis",
+        "LateralPileCapacityAnalysis",
+        "LateralPileLoadScenario",
+        "LateralPileResponseScenario",
+        "MASONRY_PIER_CAPACITY_CURVE_COMPARISON_REPORT_SCHEMA_VERSION",
+        "MasonryEquivalentFrameBuilder",
+        "MasonryOutOfPlaneApplication",
+        "MasonryOutOfPlaneKinematicAnalysis",
+        "MasonryOutOfPlaneModel",
+        "MasonryPierApplication",
+        "MasonryPierCapacityCurveComparisonAnalysis",
+        "MasonryPierCapacityCurveComparisonMarkdownRenderer",
+        "MasonryPierCapacityCurveComparisonReportBuilder",
+        "MasonryPierEquivalentFrameBuilder",
+        "MasonryPierModel",
+        "MasonryPierVerticalVerification",
+        "MasonryRingBeamApplication",
+        "MasonryRingBeamModel",
+        "MasonryRingBeamVerification",
+        "MasonryWallOpeningsApplication",
+        "MasonryWallOpeningsModel",
+        "MasonryWallPierModel",
+        "MasonryWallSpandrelModel",
+        "MicropileBromsAnalysis",
+        "MicropileBromsApplication",
+        "MicropileBromsModel",
+        "NTC2018MasonryPierAnalysis",
+        "NTC2018MasonryPierModel",
+        "NTC2018_RC_BUILDING_CAPABILITIES",
+        "NTC2018_RC_COVERAGE_STATUS",
+        "NTC2018_RC_TRACEABILITY_STATUS",
+        "PILE_TRANSFER_CURVE_MODELS",
+        "PILE_TRANSFER_EXTRAPOLATION_MODELS",
+        "PILE_TRANSFER_LAW_KINDS",
+        "PILE_TRANSFER_LAW_SCHEMA_VERSION",
+        "PUNCHING_VERIFICATION_REQUEST_SCHEMA_VERSION",
+        "PileTransferLaw",
+        "PunchingVerification",
+        "PunchingVerificationRequest",
+        "RCBiaxialDomainBuilder",
+        "RCMomentCurvatureAnalyzer",
+        "RCSectionStateIntegrator",
+        "RCServiceStressSolver",
+        "RCUltimateSectionSolver",
+        "RCUniaxialDomainBuilder",
+        "RC_DEFLECTION_PERFORMANCE_PROFILES",
+        "RC_PLATE_ANALYSIS_TYPES",
+        "RC_PUNCHING_DESIGN_CODE_IDS",
+        "RC_PUNCHING_DESIGN_CODE_ID_VALUES",
+        "RC_PUNCHING_PARAMETER_PROFILES",
+        "RC_STRUT_AND_TIE_SUPPORTED_CODE",
+        "RCrackedDeflectionApplication",
+        "RETAINING_WALL_ANALYSIS_RESULT_SCHEMA_VERSION",
+        "RETAINING_WALL_BASE_UPLIFT_MODELS",
+        "RETAINING_WALL_LOAD_SCENARIO_SCHEMA_VERSION",
+        "RETAINING_WALL_MODEL_SCHEMA_VERSION",
+        "RETAINING_WALL_SEISMIC_DIRECTIONS",
+        "RETAINING_WALL_TYPES",
+        "RcBuildingVerificationApplication",
+        "ReinforcedConcreteBeamColumnJoint3DModel",
+        "ReinforcedConcreteBeamColumnJoint3DVerification",
+        "ReinforcedConcreteBeamColumnJointApplication",
+        "ReinforcedConcreteBeamColumnJointModel",
+        "ReinforcedConcreteBeamColumnJointVerification",
+        "ReinforcedConcreteBeamDetailingVerification",
+        "ReinforcedConcreteBeamVerification",
+        "ReinforcedConcreteColumnApplication",
+        "ReinforcedConcreteColumnDetailingVerification",
+        "ReinforcedConcreteColumnModel",
+        "ReinforcedConcreteColumnVerification",
+        "ReinforcedConcreteFoundationBeamApplication",
+        "ReinforcedConcreteFoundationBeamModel",
+        "ReinforcedConcreteIsolatedFootingApplication",
+        "ReinforcedConcreteIsolatedFootingModel",
+        "ReinforcedConcreteIsolatedFootingVerification",
+        "ReinforcedConcretePlateApplication",
+        "ReinforcedConcretePlateModel",
+        "ReinforcedConcretePlateVerification",
+        "ReinforcedConcretePunchingApplication",
+        "ReinforcedConcreteSectionApplication",
+        "ReinforcedConcreteSectionModel",
+        "ReinforcedConcreteSectionVerification",
+        "ReinforcedConcreteServiceabilityVerification",
+        "ReinforcedConcreteShearVerification",
+        "ReinforcedConcreteStrutAndTieApplication",
+        "ReinforcedConcreteStrutAndTieModel",
+        "ReinforcedConcreteStrutAndTieVerification",
+        "ReinforcedConcreteTorsionVerification",
+        "RetainingWallAnalysis",
+        "RetainingWallLoadScenario",
+        "RetainingWallModel",
+        "SHALLOW_FOUNDATION_ACTION_BASES",
+        "SHALLOW_FOUNDATION_ACTION_STATE_SCHEMA_VERSION",
+        "SHALLOW_FOUNDATION_BASE_UPLIFT_TREATMENTS",
+        "SHALLOW_FOUNDATION_BEARING_METHODS",
+        "SHALLOW_FOUNDATION_BEARING_SELECTIONS",
+        "SHALLOW_FOUNDATION_MODEL_SCHEMA_VERSION",
+        "SHALLOW_FOUNDATION_SETTLEMENT_METHODS",
+        "SHALLOW_FOUNDATION_SHAPES",
+        "SHALLOW_FOUNDATION_SLS_RESULT_SCHEMA_VERSION",
+        "SHALLOW_FOUNDATION_ULS_RESULT_SCHEMA_VERSION",
+        "SectionFiberDiscretizer",
+        "SectionMomentCurvatureCurve",
+        "ShallowFoundationActionState",
+        "ShallowFoundationModel",
+        "ShallowFoundationServiceabilityAnalysis",
+        "ShallowFoundationUltimateLimitStateAnalysis",
+        "SingleBeamDesignApplication",
+        "SingleBeamDesignModel",
+        "SteelDisplacementControlPushoverSolver2D",
+        "SteelFrameApplication",
+        "SteelFrameModel",
+        "SteelMemberVerification",
+        "SteelPlasticHingeFrameElement2D",
+        "SteelPlasticHingeState",
+        "SteelRingFrame2DBuilder",
+        "SteelRingFramePushoverAnalysis",
+        "SteelRingFramePushoverModel",
+        "StrainField",
+        "TimberBeamApplication",
+        "TimberBeamModel",
+        "TimberBeamVerification",
+        "TimberConcreteCompositeBeamApplication",
+        "TimberConcreteCompositeBeamModel",
+        "TimberConcreteCompositeBeamSectionProvider",
+        "TimberConcreteCompositeBeamVerification",
+        "TimberXlamCompositeBeamApplication",
+        "TimberXlamCompositeBeamModel",
+        "TimberXlamCompositeBeamSectionProvider",
+        "TimberXlamCompositeBeamVerification",
+        "WALL_BIAXIAL_REFERENCE",
+        "WALL_SOIL_REACTION_EXTRAPOLATION_MODELS",
+        "WALL_SOIL_REACTION_LAW_SCHEMA_VERSION",
+        "WALL_SOIL_REACTION_MODELS",
+        "WallSoilReactionLaw",
+        "XlamBeamVerification",
+        "XlamOutOfPlanePanelApplication",
+        "XlamOutOfPlanePanelModel",
+        "XlamOutOfPlanePanelVerification",
+        "auditNTC2018RcDesignBasis",
+        "bilinearizeCapacityCurve",
+        "calculateElasticCriticalMomentLT",
+        "calculateRetainingWallPolygonProperties",
+        "calculateRigidFoundationElasticStiffness",
+        "calculateSchmertmannStrainInfluence",
+        "calculateShallowFoundationBearingCapacity",
+        "calculateShallowFoundationDifferentialMovement",
+        "calculateShallowFoundationEffectiveGeometry",
+        "calculateShallowFoundationSlidingResistance",
+        "calculateShallowFoundationVerticalStressInfluence",
+        "calculateSteelCompressionBucklingAxis",
+        "calculateSteelMethodBInteractionCoefficients",
+        "calculateSteelMethodBInteractionCoefficientsMyMz",
+        "calculateSteelMomentDiagramFactor",
+        "calculateTimberLateralBucklingReduction",
+        "calculateTimberRectangularCriticalBendingStress",
+        "classifyGlobalFemStructuralEntities",
+        "classifySteelSection",
+        "createAlignmentStateComparisonReportArtifacts",
+        "createBeamReportArtifacts",
+        "createDefaultApplicationRegistry",
+        "createMasonryPierCapacityCurveComparisonReportArtifacts",
+        "createPlateStripSection",
+        "createScaServiceDeflectionAnalysisResult",
+        "createServiceDeflectionAnalysisResult",
+        "createSteelMemberFem3DResult",
+        "createTimberConcreteCompositeBeamSectionProvider",
+        "createTimberXlamCompositeBeamSectionProvider",
+        "evaluateGlobalFemVerificationReadiness",
+        "evaluateNTC2018RcBuildingCompleteness",
+        "extractEquivalentFrameMembers",
+        "extractGlobalFemDemands",
+        "getGroundAnchorBondCatalogEntry",
+        "getNTC2018RcBuildingCoverage",
+        "getRcPunchingDesignCodeManifest",
+        "getSteelVerificationCapabilities",
+        "groundAnchorDemandFromEmbeddedWallResult",
+        "inferSteelCompressionBucklingCurves",
+        "listGroundAnchorBondCatalogEntries",
+        "normalizeGlobalFemClassificationPolicy",
+        "resolveAlignmentMechanicalState",
+        "resolveMasonryStageMaterial",
+        "rotatePlateMoments",
+        "rotatePlateShear",
+        "runFoundationSystemVerifications",
+        "runRcServiceDeflectionAnalysis",
+        "runScaRcDeflectionAnalysis",
+        "runSlabSystemVerifications",
+        "runWallSystemVerifications",
+        "sanitizeAlignmentOpenings",
+        "steelBucklingCurveImperfectionFactor",
+        "steelMemberFem3DToLegacyAnalysisResult",
+        "steelNotSupportedCheck",
+        "validateBeamReportDto",
+        "validateSteelMemberFem3DResult",
+        "verifyPlateBending",
+        "verifyPlateServiceability",
+        "verifyPlateShear",
+        "verifyPlateSlenderness",
+        "verifyPunching",
+        "verifySteelBeamColumnInteractionMy",
+        "verifySteelBeamColumnInteractionMyMz",
+        "verifySteelBendingShearInteraction",
+        "verifySteelCompressionBuckling",
+        "verifySteelConcentratedWebLoad",
+        "verifySteelLateralTorsionalBuckling",
+        "verifySteelShearTorsionInteraction",
+        "verifySteelWebShearBuckling",
+        "verifyTimberLateralTorsionalStability",
+        "verifyWallBiaxialBending",
+        "woodArmer"
+      ],
+      "status": "exact-parity"
     },
     {
       "id": "./applications/*",
@@ -2331,9 +2658,319 @@
         "verifyWallBiaxialBending",
         "woodArmer"
       ],
-      "targetPath": null,
-      "targetExportNames": [],
-      "status": "missing",
+      "targetPath": "src/applications/index.ts",
+      "targetExportNames": [
+        "ALIGNMENT_STATE_COMPARISON_REPORT_SCHEMA_VERSION",
+        "AXIAL_PILE_BASE_RESISTANCE_METHODS",
+        "AXIAL_PILE_CAPACITY_REFERENCE",
+        "AXIAL_PILE_CAPACITY_RESULT_SCHEMA_VERSION",
+        "AXIAL_PILE_EFFECTIVE_STRESS_COEFFICIENT_MODELS",
+        "AXIAL_PILE_LOAD_DIRECTIONS",
+        "AXIAL_PILE_LOAD_SCENARIO_SCHEMA_VERSION",
+        "AXIAL_PILE_RESISTANCE_CONVERSION_MODELS",
+        "AXIAL_PILE_SHAFT_RESISTANCE_METHODS",
+        "AlignmentEquivalentFramePushoverAnalysis",
+        "AlignmentSeismicAggregatedAnalysis",
+        "AlignmentStateComparisonAnalysis",
+        "AlignmentStateComparisonMarkdownRenderer",
+        "AlignmentStateComparisonReportBuilder",
+        "AlignmentStaticAnalysis",
+        "AxialPileCapacityAnalysis",
+        "AxialPileLoadScenario",
+        "BEAM_REPORT_SCHEMA_VERSION",
+        "BeamReportBuilder",
+        "BeamReportMarkdownRenderer",
+        "CrackedSectionBeamModel",
+        "CrackedSectionDeflectionAnalysis",
+        "DEEP_FOUNDATION_DISPLACEMENT_CLASSES",
+        "DEEP_FOUNDATION_ELEMENT_TYPES",
+        "DEEP_FOUNDATION_GEOMETRY_MODELS",
+        "DEEP_FOUNDATION_MODEL_SCHEMA_VERSION",
+        "DEFAULT_GLOBAL_FEM_CLASSIFICATION_POLICY",
+        "DeepFoundationModel",
+        "EMBEDDED_RETAINING_WALL_END_RESTRAINTS",
+        "EMBEDDED_RETAINING_WALL_LOADING_CONDITIONS",
+        "EMBEDDED_RETAINING_WALL_MODEL_SCHEMA_VERSION",
+        "EMBEDDED_RETAINING_WALL_REFERENCES",
+        "EMBEDDED_RETAINING_WALL_RESULT_SCHEMA_VERSION",
+        "EMBEDDED_RETAINING_WALL_SCENARIO_SCHEMA_VERSION",
+        "EMBEDDED_RETAINING_WALL_SUPPORT_BEHAVIORS",
+        "EMBEDDED_RETAINING_WALL_SUPPORT_TYPES",
+        "EMBEDDED_RETAINING_WALL_TYPES",
+        "EmbeddedRetainingWallAnalysis",
+        "EmbeddedRetainingWallModel",
+        "EmbeddedRetainingWallScenario",
+        "FoundationBeamAnalysis",
+        "FoundationBeamFemBuilder",
+        "FoundationBeamModel",
+        "GLOBAL_FEM_CLASSIFICATION_PROPOSAL_VERSION",
+        "GLOBAL_FEM_DEMAND_SET_VERSION",
+        "GLOBAL_FEM_POSTPROCESSING_PROFILES",
+        "GLOBAL_FEM_POSTPROCESSING_PROFILE_VALUES",
+        "GLOBAL_FEM_READINESS_ASSESSMENTS",
+        "GLOBAL_FEM_READINESS_ASSESSMENT_VALUES",
+        "GLOBAL_FEM_READINESS_REPORT_VERSION",
+        "GROUND_ANCHOR_BOND_CATALOG",
+        "GROUND_ANCHOR_BOND_CATALOG_IDS",
+        "GROUND_ANCHOR_BOND_CATALOG_REFERENCE",
+        "GROUND_ANCHOR_BOND_RESISTANCE_MODELS",
+        "GROUND_ANCHOR_CORROSION_CLASSES",
+        "GROUND_ANCHOR_DEMAND_SOURCES",
+        "GROUND_ANCHOR_DESIGN_REFERENCE",
+        "GROUND_ANCHOR_DESIGN_RESULT_SCHEMA_VERSION",
+        "GROUND_ANCHOR_DESIGN_SCENARIO_SCHEMA_VERSION",
+        "GROUND_ANCHOR_FAILURE_SURFACE_MODELS",
+        "GROUND_ANCHOR_FHWA_CRITERIA",
+        "GROUND_ANCHOR_GROUND_CLASSES",
+        "GROUND_ANCHOR_HORIZONTAL_DIRECTIONS",
+        "GROUND_ANCHOR_MODEL_SCHEMA_VERSION",
+        "GROUND_ANCHOR_STABILITY_ACTION_2D_SCHEMA_VERSION",
+        "GROUND_ANCHOR_STABILITY_FORCE_MODELS",
+        "GROUND_ANCHOR_STABILITY_REFERENCE",
+        "GROUND_ANCHOR_TENDON_TYPES",
+        "GROUND_ANCHOR_TEST_TYPES",
+        "GeotechnicalDeepFoundationApplication",
+        "GeotechnicalEarthPressureApplication",
+        "GeotechnicalEmbeddedRetainingWallApplication",
+        "GeotechnicalGroundAnchorApplication",
+        "GeotechnicalLateralPileApplication",
+        "GeotechnicalRetainingWallApplication",
+        "GeotechnicalShallowFoundationApplication",
+        "GeotechnicalSlopeStabilityApplication",
+        "GlobalFemPostProcessingApplication",
+        "GroundAnchorAnalysis",
+        "GroundAnchorDesignScenario",
+        "GroundAnchorModel",
+        "GroundAnchorStabilityAction2D",
+        "HyperstaticDeflectionIteration",
+        "LATERAL_PILE_ACTION_REFERENCE_POINTS",
+        "LATERAL_PILE_BEHAVIOR_CLASSIFICATIONS",
+        "LATERAL_PILE_BROMS_REFERENCE",
+        "LATERAL_PILE_CAPACITY_METHODS",
+        "LATERAL_PILE_CAPACITY_RESULT_SCHEMA_VERSION",
+        "LATERAL_PILE_END_RESTRAINTS",
+        "LATERAL_PILE_HEAD_CONDITIONS",
+        "LATERAL_PILE_LOAD_SCENARIO_SCHEMA_VERSION",
+        "LATERAL_PILE_PY_REFERENCE",
+        "LATERAL_PILE_PY_RESULT_SCHEMA_VERSION",
+        "LATERAL_PILE_RESISTANCE_CONVERSION_MODELS",
+        "LATERAL_PILE_RESPONSE_METHODS",
+        "LATERAL_PILE_RESPONSE_SCENARIO_SCHEMA_VERSION",
+        "LATERAL_PILE_SOIL_BRANCHES",
+        "LATERAL_PILE_SOIL_RESPONSE_MODELS",
+        "LateralPileBeamOnSpringsAnalysis",
+        "LateralPileCapacityAnalysis",
+        "LateralPileLoadScenario",
+        "LateralPileResponseScenario",
+        "MASONRY_PIER_CAPACITY_CURVE_COMPARISON_REPORT_SCHEMA_VERSION",
+        "MasonryEquivalentFrameBuilder",
+        "MasonryOutOfPlaneApplication",
+        "MasonryOutOfPlaneKinematicAnalysis",
+        "MasonryOutOfPlaneModel",
+        "MasonryPierApplication",
+        "MasonryPierCapacityCurveComparisonAnalysis",
+        "MasonryPierCapacityCurveComparisonMarkdownRenderer",
+        "MasonryPierCapacityCurveComparisonReportBuilder",
+        "MasonryPierEquivalentFrameBuilder",
+        "MasonryPierModel",
+        "MasonryPierVerticalVerification",
+        "MasonryRingBeamApplication",
+        "MasonryRingBeamModel",
+        "MasonryRingBeamVerification",
+        "MasonryWallOpeningsApplication",
+        "MasonryWallOpeningsModel",
+        "MasonryWallPierModel",
+        "MasonryWallSpandrelModel",
+        "MicropileBromsAnalysis",
+        "MicropileBromsApplication",
+        "MicropileBromsModel",
+        "NTC2018MasonryPierAnalysis",
+        "NTC2018MasonryPierModel",
+        "NTC2018_RC_BUILDING_CAPABILITIES",
+        "NTC2018_RC_COVERAGE_STATUS",
+        "NTC2018_RC_TRACEABILITY_STATUS",
+        "PILE_TRANSFER_CURVE_MODELS",
+        "PILE_TRANSFER_EXTRAPOLATION_MODELS",
+        "PILE_TRANSFER_LAW_KINDS",
+        "PILE_TRANSFER_LAW_SCHEMA_VERSION",
+        "PUNCHING_VERIFICATION_REQUEST_SCHEMA_VERSION",
+        "PileTransferLaw",
+        "PunchingVerification",
+        "PunchingVerificationRequest",
+        "RCBiaxialDomainBuilder",
+        "RCMomentCurvatureAnalyzer",
+        "RCSectionStateIntegrator",
+        "RCServiceStressSolver",
+        "RCUltimateSectionSolver",
+        "RCUniaxialDomainBuilder",
+        "RC_DEFLECTION_PERFORMANCE_PROFILES",
+        "RC_PLATE_ANALYSIS_TYPES",
+        "RC_PUNCHING_DESIGN_CODE_IDS",
+        "RC_PUNCHING_DESIGN_CODE_ID_VALUES",
+        "RC_PUNCHING_PARAMETER_PROFILES",
+        "RC_STRUT_AND_TIE_SUPPORTED_CODE",
+        "RCrackedDeflectionApplication",
+        "RETAINING_WALL_ANALYSIS_RESULT_SCHEMA_VERSION",
+        "RETAINING_WALL_BASE_UPLIFT_MODELS",
+        "RETAINING_WALL_LOAD_SCENARIO_SCHEMA_VERSION",
+        "RETAINING_WALL_MODEL_SCHEMA_VERSION",
+        "RETAINING_WALL_SEISMIC_DIRECTIONS",
+        "RETAINING_WALL_TYPES",
+        "RcBuildingVerificationApplication",
+        "ReinforcedConcreteBeamColumnJoint3DModel",
+        "ReinforcedConcreteBeamColumnJoint3DVerification",
+        "ReinforcedConcreteBeamColumnJointApplication",
+        "ReinforcedConcreteBeamColumnJointModel",
+        "ReinforcedConcreteBeamColumnJointVerification",
+        "ReinforcedConcreteBeamDetailingVerification",
+        "ReinforcedConcreteBeamVerification",
+        "ReinforcedConcreteColumnApplication",
+        "ReinforcedConcreteColumnDetailingVerification",
+        "ReinforcedConcreteColumnModel",
+        "ReinforcedConcreteColumnVerification",
+        "ReinforcedConcreteFoundationBeamApplication",
+        "ReinforcedConcreteFoundationBeamModel",
+        "ReinforcedConcreteIsolatedFootingApplication",
+        "ReinforcedConcreteIsolatedFootingModel",
+        "ReinforcedConcreteIsolatedFootingVerification",
+        "ReinforcedConcretePlateApplication",
+        "ReinforcedConcretePlateModel",
+        "ReinforcedConcretePlateVerification",
+        "ReinforcedConcretePunchingApplication",
+        "ReinforcedConcreteSectionApplication",
+        "ReinforcedConcreteSectionModel",
+        "ReinforcedConcreteSectionVerification",
+        "ReinforcedConcreteServiceabilityVerification",
+        "ReinforcedConcreteShearVerification",
+        "ReinforcedConcreteStrutAndTieApplication",
+        "ReinforcedConcreteStrutAndTieModel",
+        "ReinforcedConcreteStrutAndTieVerification",
+        "ReinforcedConcreteTorsionVerification",
+        "RetainingWallAnalysis",
+        "RetainingWallLoadScenario",
+        "RetainingWallModel",
+        "SHALLOW_FOUNDATION_ACTION_BASES",
+        "SHALLOW_FOUNDATION_ACTION_STATE_SCHEMA_VERSION",
+        "SHALLOW_FOUNDATION_BASE_UPLIFT_TREATMENTS",
+        "SHALLOW_FOUNDATION_BEARING_METHODS",
+        "SHALLOW_FOUNDATION_BEARING_SELECTIONS",
+        "SHALLOW_FOUNDATION_MODEL_SCHEMA_VERSION",
+        "SHALLOW_FOUNDATION_SETTLEMENT_METHODS",
+        "SHALLOW_FOUNDATION_SHAPES",
+        "SHALLOW_FOUNDATION_SLS_RESULT_SCHEMA_VERSION",
+        "SHALLOW_FOUNDATION_ULS_RESULT_SCHEMA_VERSION",
+        "SectionFiberDiscretizer",
+        "SectionMomentCurvatureCurve",
+        "ShallowFoundationActionState",
+        "ShallowFoundationModel",
+        "ShallowFoundationServiceabilityAnalysis",
+        "ShallowFoundationUltimateLimitStateAnalysis",
+        "SingleBeamDesignApplication",
+        "SingleBeamDesignModel",
+        "SteelDisplacementControlPushoverSolver2D",
+        "SteelFrameApplication",
+        "SteelFrameModel",
+        "SteelMemberVerification",
+        "SteelPlasticHingeFrameElement2D",
+        "SteelPlasticHingeState",
+        "SteelRingFrame2DBuilder",
+        "SteelRingFramePushoverAnalysis",
+        "SteelRingFramePushoverModel",
+        "StrainField",
+        "TimberBeamApplication",
+        "TimberBeamModel",
+        "TimberBeamVerification",
+        "TimberConcreteCompositeBeamApplication",
+        "TimberConcreteCompositeBeamModel",
+        "TimberConcreteCompositeBeamSectionProvider",
+        "TimberConcreteCompositeBeamVerification",
+        "TimberXlamCompositeBeamApplication",
+        "TimberXlamCompositeBeamModel",
+        "TimberXlamCompositeBeamSectionProvider",
+        "TimberXlamCompositeBeamVerification",
+        "WALL_BIAXIAL_REFERENCE",
+        "WALL_SOIL_REACTION_EXTRAPOLATION_MODELS",
+        "WALL_SOIL_REACTION_LAW_SCHEMA_VERSION",
+        "WALL_SOIL_REACTION_MODELS",
+        "WallSoilReactionLaw",
+        "XlamBeamVerification",
+        "XlamOutOfPlanePanelApplication",
+        "XlamOutOfPlanePanelModel",
+        "XlamOutOfPlanePanelVerification",
+        "auditNTC2018RcDesignBasis",
+        "bilinearizeCapacityCurve",
+        "calculateElasticCriticalMomentLT",
+        "calculateRetainingWallPolygonProperties",
+        "calculateRigidFoundationElasticStiffness",
+        "calculateSchmertmannStrainInfluence",
+        "calculateShallowFoundationBearingCapacity",
+        "calculateShallowFoundationDifferentialMovement",
+        "calculateShallowFoundationEffectiveGeometry",
+        "calculateShallowFoundationSlidingResistance",
+        "calculateShallowFoundationVerticalStressInfluence",
+        "calculateSteelCompressionBucklingAxis",
+        "calculateSteelMethodBInteractionCoefficients",
+        "calculateSteelMethodBInteractionCoefficientsMyMz",
+        "calculateSteelMomentDiagramFactor",
+        "calculateTimberLateralBucklingReduction",
+        "calculateTimberRectangularCriticalBendingStress",
+        "classifyGlobalFemStructuralEntities",
+        "classifySteelSection",
+        "createAlignmentStateComparisonReportArtifacts",
+        "createBeamReportArtifacts",
+        "createDefaultApplicationRegistry",
+        "createMasonryPierCapacityCurveComparisonReportArtifacts",
+        "createPlateStripSection",
+        "createScaServiceDeflectionAnalysisResult",
+        "createServiceDeflectionAnalysisResult",
+        "createSteelMemberFem3DResult",
+        "createTimberConcreteCompositeBeamSectionProvider",
+        "createTimberXlamCompositeBeamSectionProvider",
+        "evaluateGlobalFemVerificationReadiness",
+        "evaluateNTC2018RcBuildingCompleteness",
+        "extractEquivalentFrameMembers",
+        "extractGlobalFemDemands",
+        "getGroundAnchorBondCatalogEntry",
+        "getNTC2018RcBuildingCoverage",
+        "getRcPunchingDesignCodeManifest",
+        "getSteelVerificationCapabilities",
+        "groundAnchorDemandFromEmbeddedWallResult",
+        "inferSteelCompressionBucklingCurves",
+        "listGroundAnchorBondCatalogEntries",
+        "normalizeGlobalFemClassificationPolicy",
+        "resolveAlignmentMechanicalState",
+        "resolveMasonryStageMaterial",
+        "rotatePlateMoments",
+        "rotatePlateShear",
+        "runFoundationSystemVerifications",
+        "runRcServiceDeflectionAnalysis",
+        "runScaRcDeflectionAnalysis",
+        "runSlabSystemVerifications",
+        "runWallSystemVerifications",
+        "sanitizeAlignmentOpenings",
+        "steelBucklingCurveImperfectionFactor",
+        "steelMemberFem3DToLegacyAnalysisResult",
+        "steelNotSupportedCheck",
+        "validateBeamReportDto",
+        "validateSteelMemberFem3DResult",
+        "verifyPlateBending",
+        "verifyPlateServiceability",
+        "verifyPlateShear",
+        "verifyPlateSlenderness",
+        "verifyPunching",
+        "verifySteelBeamColumnInteractionMy",
+        "verifySteelBeamColumnInteractionMyMz",
+        "verifySteelBendingShearInteraction",
+        "verifySteelCompressionBuckling",
+        "verifySteelConcentratedWebLoad",
+        "verifySteelLateralTorsionalBuckling",
+        "verifySteelShearTorsionInteraction",
+        "verifySteelWebShearBuckling",
+        "verifyTimberLateralTorsionalStability",
+        "verifyWallBiaxialBending",
+        "woodArmer"
+      ],
+      "status": "exact-parity",
       "notes": ["Wildcard application subpath is resolved to the source applications entrypoint."]
     },
     {
@@ -2349,9 +2986,15 @@
         "getSoilTypeData",
         "listSoilTypes"
       ],
-      "targetPath": null,
-      "targetExportNames": [],
-      "status": "missing"
+      "targetPath": "src/catalogs/soil-types.ts",
+      "targetExportNames": [
+        "SOIL_TYPE_CATALOG",
+        "SOIL_TYPE_IDS",
+        "createSoilMaterialFromType",
+        "getSoilTypeData",
+        "listSoilTypes"
+      ],
+      "status": "exact-parity"
     },
     {
       "id": "./catalogs/steel-profiles",
@@ -2367,9 +3010,16 @@
         "getSteelProfileSectionData",
         "listSteelProfileSectionsByFamily"
       ],
-      "targetPath": null,
-      "targetExportNames": [],
-      "status": "missing"
+      "targetPath": "src/catalogs/steel-profiles.ts",
+      "targetExportNames": [
+        "STEEL_PROFILE_CATALOG_UNITS",
+        "STEEL_PROFILE_FAMILIES",
+        "STEEL_PROFILE_SECTION_DATABASE",
+        "STEEL_PROFILE_SECTION_NAMES",
+        "getSteelProfileSectionData",
+        "listSteelProfileSectionsByFamily"
+      ],
+      "status": "exact-parity"
     },
     {
       "id": "./catalogs/wall-interface-types",
@@ -2389,9 +3039,20 @@
         "listSoilInterfaceClasses",
         "listWallSurfaceTypes"
       ],
-      "targetPath": null,
-      "targetExportNames": [],
-      "status": "missing"
+      "targetPath": "src/catalogs/wall-interface-types.ts",
+      "targetExportNames": [
+        "SOIL_INTERFACE_CLASS_CATALOG",
+        "SOIL_INTERFACE_CLASS_IDS",
+        "WALL_SURFACE_TYPE_CATALOG",
+        "WALL_SURFACE_TYPE_IDS",
+        "createSoilStructureInterfaceFromWallSurface",
+        "getSoilInterfaceClassData",
+        "getUSACE2022InterfaceRecommendation",
+        "getWallSurfaceTypeData",
+        "listSoilInterfaceClasses",
+        "listWallSurfaceTypes"
+      ],
+      "status": "exact-parity"
     },
     {
       "id": "./domain/fem",
@@ -2455,9 +3116,64 @@
         "validateResistanceAxisTransformation",
         "validateSurfaceResistanceAxisTransformation"
       ],
-      "targetPath": null,
-      "targetExportNames": [],
-      "status": "missing"
+      "targetPath": "src/domain/fem/index.ts",
+      "targetExportNames": [
+        "BeamLinePreprocessor2D",
+        "CyclicMasonryPier2D",
+        "CyclicMasonryPierAnalysis2D",
+        "DisplacementControlNonlinearStaticSolver2D",
+        "DofRegistry",
+        "FEM_ANALYSIS_CAPABILITY_KEYS",
+        "FEM_ANALYSIS_TYPES",
+        "FEM_CONTRACT_SCHEMAS",
+        "FEM_ELEMENT_CAPABILITY_KEYS",
+        "FEM_RESULT_CAPABILITY_KEYS",
+        "FEM_RESULT_STATUS_VALUES",
+        "FemAssembler2D",
+        "FrameElement2DEulerBernoulli",
+        "FrameElement2DTimoshenko",
+        "FrameElement2DTimoshenkoRigidOffsets",
+        "GLOBAL_FEM_CONTRACT_VERSION",
+        "GLOBAL_FEM_LINE_ACTION_COMPONENTS",
+        "GLOBAL_FEM_REQUIRED_UNIT_KEYS",
+        "GLOBAL_FEM_SECTION_CUT_COMPONENTS",
+        "GLOBAL_FEM_SHELL_RESULTANT_COMPONENTS",
+        "IDENTITY_RESISTANCE_AXIS_TRANSFORMATION",
+        "KinematicConstraintReducer2D",
+        "LinearStaticSolver2D",
+        "collectConcurrentJointActionStates",
+        "collectConcurrentLineElementActionStates",
+        "collectConcurrentMemberActionStates",
+        "collectConcurrentSectionCutStates",
+        "collectConcurrentSupportReactionStates",
+        "collectConcurrentSurfaceResultantStates",
+        "createFemCapabilitiesContract",
+        "createFemEntityMappingContract",
+        "createGlobalFemAnalysisContract",
+        "createGlobalFemContractSet",
+        "createGlobalFemModelContract",
+        "createGlobalFemResultContract",
+        "cyclicMasonryPierHistoryToCsv",
+        "filterConcurrentFemStates",
+        "projectFoundationReactionStatesToResistanceAxes",
+        "projectJointActionStatesToResistanceAxes",
+        "projectLineActionStateToResistanceAxes",
+        "projectMemberActionStatesToResistanceAxes",
+        "projectSectionCutStateToResistanceAxes",
+        "projectShellResultantStateToResistanceAxes",
+        "projectSlabResultantStatesToResistanceAxes",
+        "projectSupportReactionStateToResistanceAxes",
+        "projectWallSectionCutStatesToResistanceAxes",
+        "validateFemCapabilitiesContract",
+        "validateFemEntityMappingContract",
+        "validateGlobalFemAnalysisContract",
+        "validateGlobalFemContractSet",
+        "validateGlobalFemModelContract",
+        "validateGlobalFemResultContract",
+        "validateResistanceAxisTransformation",
+        "validateSurfaceResistanceAxisTransformation"
+      ],
+      "status": "exact-parity"
     },
     {
       "id": "./domain/geotechnics",
@@ -2632,9 +3348,175 @@
         "simplifiedBishop",
         "spencerMethod"
       ],
-      "targetPath": null,
-      "targetExportNames": [],
-      "status": "missing"
+      "targetPath": "src/domain/geotechnics/index.ts",
+      "targetExportNames": [
+        "AXIAL_PILE_BASE_RESISTANCE_METHODS",
+        "AXIAL_PILE_EFFECTIVE_STRESS_COEFFICIENT_MODELS",
+        "AXIAL_PILE_LOAD_DIRECTIONS",
+        "AXIAL_PILE_LOAD_SCENARIO_SCHEMA_VERSION",
+        "AXIAL_PILE_RESISTANCE_CONVERSION_MODELS",
+        "AXIAL_PILE_SHAFT_RESISTANCE_METHODS",
+        "AxialPileLoadScenario",
+        "CIRCULAR_SLIP_SURFACE_2D_SCHEMA_VERSION",
+        "CIRCULAR_SLOPE_STABILITY_RESULT_SCHEMA_VERSION",
+        "CircularSlipSurface2D",
+        "CircularSlopeStabilityAnalysis",
+        "DEEP_FOUNDATION_DISPLACEMENT_CLASSES",
+        "DEEP_FOUNDATION_ELEMENT_TYPES",
+        "DEEP_FOUNDATION_GEOMETRY_MODELS",
+        "DEEP_FOUNDATION_MODEL_SCHEMA_VERSION",
+        "DeepFoundationModel",
+        "EARTH_PRESSURE_METHODS",
+        "EARTH_PRESSURE_STATES",
+        "EMBEDDED_RETAINING_WALL_END_RESTRAINTS",
+        "EMBEDDED_RETAINING_WALL_LOADING_CONDITIONS",
+        "EMBEDDED_RETAINING_WALL_MODEL_SCHEMA_VERSION",
+        "EMBEDDED_RETAINING_WALL_REFERENCES",
+        "EMBEDDED_RETAINING_WALL_RESULT_SCHEMA_VERSION",
+        "EMBEDDED_RETAINING_WALL_SCENARIO_SCHEMA_VERSION",
+        "EMBEDDED_RETAINING_WALL_SUPPORT_BEHAVIORS",
+        "EMBEDDED_RETAINING_WALL_SUPPORT_TYPES",
+        "EMBEDDED_RETAINING_WALL_TYPES",
+        "EmbeddedRetainingWallAnalysis",
+        "EmbeddedRetainingWallModel",
+        "EmbeddedRetainingWallScenario",
+        "GEOTECHNICAL_DESIGN_SITUATION_SCHEMA_VERSION",
+        "GEOTECHNICAL_DESIGN_SITUATION_TYPES",
+        "GEOTECHNICAL_DRAINAGE_CONDITIONS",
+        "GEOTECHNICAL_INTERNAL_UNITS",
+        "GEOTECHNICAL_LIMIT_STATES",
+        "GEOTECHNICAL_SEISMIC_MODELS",
+        "GEOTECHNICAL_TIME_CONDITIONS",
+        "GROUND_ANCHOR_BOND_CATALOG",
+        "GROUND_ANCHOR_BOND_CATALOG_IDS",
+        "GROUND_ANCHOR_BOND_CATALOG_REFERENCE",
+        "GROUND_ANCHOR_BOND_RESISTANCE_MODELS",
+        "GROUND_ANCHOR_CORROSION_CLASSES",
+        "GROUND_ANCHOR_DEMAND_SOURCES",
+        "GROUND_ANCHOR_DESIGN_REFERENCE",
+        "GROUND_ANCHOR_DESIGN_RESULT_SCHEMA_VERSION",
+        "GROUND_ANCHOR_DESIGN_SCENARIO_SCHEMA_VERSION",
+        "GROUND_ANCHOR_FAILURE_SURFACE_MODELS",
+        "GROUND_ANCHOR_FHWA_CRITERIA",
+        "GROUND_ANCHOR_GROUND_CLASSES",
+        "GROUND_ANCHOR_HORIZONTAL_DIRECTIONS",
+        "GROUND_ANCHOR_MODEL_SCHEMA_VERSION",
+        "GROUND_ANCHOR_STABILITY_ACTION_2D_SCHEMA_VERSION",
+        "GROUND_ANCHOR_STABILITY_FORCE_MODELS",
+        "GROUND_ANCHOR_STABILITY_REFERENCE",
+        "GROUND_ANCHOR_TENDON_TYPES",
+        "GROUND_ANCHOR_TEST_TYPES",
+        "GROUND_MODEL_SCHEMA_VERSION",
+        "GROUND_PROFILE_SCHEMA_VERSION",
+        "GROUND_SECTION_2D_SCHEMA_VERSION",
+        "GeotechnicalDesignSituation",
+        "GroundAnchorAnalysis",
+        "GroundAnchorDesignScenario",
+        "GroundAnchorModel",
+        "GroundAnchorStabilityAction2D",
+        "GroundModel",
+        "GroundProfile",
+        "GroundSection2D",
+        "LATERAL_PILE_ACTION_REFERENCE_POINTS",
+        "LATERAL_PILE_BEHAVIOR_CLASSIFICATIONS",
+        "LATERAL_PILE_BROMS_REFERENCE",
+        "LATERAL_PILE_CAPACITY_METHODS",
+        "LATERAL_PILE_CAPACITY_RESULT_SCHEMA_VERSION",
+        "LATERAL_PILE_END_RESTRAINTS",
+        "LATERAL_PILE_HEAD_CONDITIONS",
+        "LATERAL_PILE_LOAD_SCENARIO_SCHEMA_VERSION",
+        "LATERAL_PILE_PY_REFERENCE",
+        "LATERAL_PILE_PY_RESULT_SCHEMA_VERSION",
+        "LATERAL_PILE_RESISTANCE_CONVERSION_MODELS",
+        "LATERAL_PILE_RESPONSE_METHODS",
+        "LATERAL_PILE_RESPONSE_SCENARIO_SCHEMA_VERSION",
+        "LATERAL_PILE_SOIL_BRANCHES",
+        "LATERAL_PILE_SOIL_RESPONSE_MODELS",
+        "LateralEarthPressureAnalysis",
+        "LateralPileBeamOnSpringsAnalysis",
+        "LateralPileCapacityAnalysis",
+        "LateralPileLoadScenario",
+        "LateralPileResponseScenario",
+        "PILE_TRANSFER_CURVE_MODELS",
+        "PILE_TRANSFER_EXTRAPOLATION_MODELS",
+        "PILE_TRANSFER_LAW_KINDS",
+        "PILE_TRANSFER_LAW_SCHEMA_VERSION",
+        "PORE_PRESSURE_FIELD_2D_MODELS",
+        "PORE_PRESSURE_FIELD_2D_SCHEMA_VERSION",
+        "PRESSURE_DIAGRAM_2D_SCHEMA_VERSION",
+        "PileTransferLaw",
+        "PorePressureField2D",
+        "PressureDiagram2D",
+        "RETAINING_WALL_ANALYSIS_RESULT_SCHEMA_VERSION",
+        "RETAINING_WALL_BASE_UPLIFT_MODELS",
+        "RETAINING_WALL_LOAD_SCENARIO_SCHEMA_VERSION",
+        "RETAINING_WALL_MODEL_SCHEMA_VERSION",
+        "RETAINING_WALL_SEISMIC_DIRECTIONS",
+        "RETAINING_WALL_TYPES",
+        "RetainingWallAnalysis",
+        "RetainingWallLoadScenario",
+        "RetainingWallModel",
+        "SHALLOW_FOUNDATION_ACTION_BASES",
+        "SHALLOW_FOUNDATION_ACTION_STATE_SCHEMA_VERSION",
+        "SHALLOW_FOUNDATION_BASE_UPLIFT_TREATMENTS",
+        "SHALLOW_FOUNDATION_BEARING_METHODS",
+        "SHALLOW_FOUNDATION_BEARING_SELECTIONS",
+        "SHALLOW_FOUNDATION_MODEL_SCHEMA_VERSION",
+        "SHALLOW_FOUNDATION_SETTLEMENT_METHODS",
+        "SHALLOW_FOUNDATION_SHAPES",
+        "SHALLOW_FOUNDATION_SLS_RESULT_SCHEMA_VERSION",
+        "SHALLOW_FOUNDATION_ULS_RESULT_SCHEMA_VERSION",
+        "SLOPE_MOVEMENT_DIRECTIONS",
+        "SLOPE_SLICE_DISCRETIZATION_2D_SCHEMA_VERSION",
+        "SLOPE_STABILITY_ANALYSIS_MODES",
+        "SLOPE_STABILITY_METHODS",
+        "SLOPE_SURFACE_SURCHARGE_2D_SCHEMA_VERSION",
+        "SOIL_DEFORMATION_MODELS",
+        "SOIL_DRAINAGE_CONDITIONS",
+        "SOIL_MODULUS_DEFINITIONS",
+        "SOIL_PARAMETER_BASES",
+        "SOIL_SETTLEMENT_COMPONENTS",
+        "SOIL_STRENGTH_MODELS",
+        "SOIL_STRUCTURE_INTERFACE_MODELS",
+        "SOIL_STRUCTURE_INTERFACE_SCHEMA_VERSION",
+        "ShallowFoundationActionState",
+        "ShallowFoundationModel",
+        "ShallowFoundationServiceabilityAnalysis",
+        "ShallowFoundationUltimateLimitStateAnalysis",
+        "SlopeSliceDiscretizer2D",
+        "SlopeSurfaceSurcharge2D",
+        "SoilMaterial",
+        "SoilStructureInterface",
+        "VerticalStressProfile",
+        "WALL_SOIL_REACTION_EXTRAPOLATION_MODELS",
+        "WALL_SOIL_REACTION_LAW_SCHEMA_VERSION",
+        "WALL_SOIL_REACTION_MODELS",
+        "WallSoilReactionLaw",
+        "calculateRetainingWallPolygonProperties",
+        "calculateRigidFoundationElasticStiffness",
+        "calculateSchmertmannStrainInfluence",
+        "calculateShallowFoundationBearingCapacity",
+        "calculateShallowFoundationDifferentialMovement",
+        "calculateShallowFoundationEffectiveGeometry",
+        "calculateShallowFoundationSlidingResistance",
+        "calculateShallowFoundationVerticalStressInfluence",
+        "coulombActiveEarthPressureCoefficient",
+        "coulombPassiveEarthPressureCoefficient",
+        "getGroundAnchorBondCatalogEntry",
+        "groundAnchorDemandFromEmbeddedWallResult",
+        "integratePressureSegments",
+        "jakyAtRestCoefficient",
+        "listGroundAnchorBondCatalogEntries",
+        "mononobeOkabeActiveEarthPressureCoefficient",
+        "ordinaryMethodOfSlices",
+        "rankineEarthPressureCoefficients",
+        "simplifiedBishop",
+        "spencerMethod"
+      ],
+      "status": "intentionally-excluded",
+      "notes": [
+        "Approved architecture decision: three source names remain excluded from this subpath to preserve domain -> norms independence; they remain available from the root/norms surfaces."
+      ]
     },
     {
       "id": "./domain/math",
@@ -2681,9 +3563,14 @@
         "StrutAndTieAnalysis2D",
         "StrutAndTieModel2D"
       ],
-      "targetPath": null,
-      "targetExportNames": [],
-      "status": "missing"
+      "targetPath": "src/domain/strut-and-tie/index.ts",
+      "targetExportNames": [
+        "AxialMember2D",
+        "STRUT_AND_TIE_MEMBER_TYPES",
+        "StrutAndTieAnalysis2D",
+        "StrutAndTieModel2D"
+      ],
+      "status": "exact-parity"
     },
     {
       "id": "./domain/terrain",
@@ -2695,9 +3582,12 @@
         "TERRAIN_ELEVATION_GRID_SCHEMA_VERSION",
         "normalizeTerrainElevationGrid"
       ],
-      "targetPath": null,
-      "targetExportNames": [],
-      "status": "missing"
+      "targetPath": "src/domain/terrain/index.ts",
+      "targetExportNames": [
+        "TERRAIN_ELEVATION_GRID_SCHEMA_VERSION",
+        "normalizeTerrainElevationGrid"
+      ],
+      "status": "exact-parity"
     },
     {
       "id": "./norms/en1992",
@@ -2727,8 +3617,28 @@
         "generateEn1992PunchingPerimeters"
       ],
       "targetPath": "src/norms/en1992/index.ts",
-      "targetExportNames": ["EN1992_RC_EXTERNAL_REFERENCES"],
-      "status": "partial"
+      "targetExportNames": [
+        "EN1992_RC_EXTERNAL_REFERENCES",
+        "EN1992_STRUT_AND_TIE_NODE_TYPES",
+        "EN1992_STRUT_STRENGTH_MODELS",
+        "calculateEn1992AnchorageLength",
+        "calculateEn1992DesignBondStrength",
+        "calculateEn1992LocalBearingResistance",
+        "calculateEn1992NodalDesignStrength",
+        "calculateEn1992Punching2004WithShearReinforcement",
+        "calculateEn1992Punching2004WithoutShearReinforcement",
+        "calculateEn1992Punching2023WithShearReinforcement",
+        "calculateEn1992Punching2023WithoutShearReinforcement",
+        "calculateEn1992PunchingBeta2004",
+        "calculateEn1992PunchingBetaE2023",
+        "calculateEn1992ShrinkageCurvature",
+        "calculateEn1992StrutAndTieNuPrime",
+        "calculateEn1992StrutDesignStrength",
+        "calculateEn1992TieResistance",
+        "generateEn1992PunchingPerimeterAtOffset",
+        "generateEn1992PunchingPerimeters"
+      ],
+      "status": "exact-parity"
     },
     {
       "id": "./norms/italian-historical",
@@ -6906,11 +7816,19 @@
       "sourcePath": "src/applications/index.js",
       "sourceBlobSha1": "b70179c7cdd2a819f2151dc092c0f59cbce30ba6",
       "targetPath": "src/applications/index.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "deferred",
+      "migrationSlices": ["0214-phase-a5-root-applications-export-parity"],
+      "sourceOracles": [
+        "tests/architecture/applicationRegistry.test.js",
+        "tests/packageExports.test.js",
+        "tests/timberConcreteCompositeBeam.test.js",
+        "tests/timberXlamCompositeBeam.test.js",
+        "tests/unitConversionLayer.test.js",
+        "tests/xlamBeamProviderVerification.test.js",
+        "tests/xlamOutOfPlanePanel.test.js"
+      ],
+      "targetTests": ["tests/application-api-parity.test.ts"],
+      "validationEvidence": ["0214-phase-a5-root-applications-export-parity"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -7905,11 +8823,19 @@
       "sourcePath": "src/catalogs/soil-types.js",
       "sourceBlobSha1": "0ad8403c9f73f6ff7274c8da17b857a3bd8124c6",
       "targetPath": "src/catalogs/soil-types.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "deferred",
+      "migrationSlices": ["0214-phase-a5-root-applications-export-parity"],
+      "sourceOracles": [
+        "tests/architecture/applicationRegistry.test.js",
+        "tests/packageExports.test.js",
+        "tests/timberConcreteCompositeBeam.test.js",
+        "tests/timberXlamCompositeBeam.test.js",
+        "tests/unitConversionLayer.test.js",
+        "tests/xlamBeamProviderVerification.test.js",
+        "tests/xlamOutOfPlanePanel.test.js"
+      ],
+      "targetTests": ["tests/application-api-parity.test.ts"],
+      "validationEvidence": ["0214-phase-a5-root-applications-export-parity"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -8060,11 +8986,19 @@
       "sourcePath": "src/applications/timber-xlam-composite-beams/analysis/TimberXlamCompositeBeamSectionProvider.js",
       "sourceBlobSha1": "1a8e158285d205154c81821c55538d1e2f32b10c",
       "targetPath": "src/applications/timber-xlam-composite-beams/analysis/TimberXlamCompositeBeamSectionProvider.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "deferred",
+      "migrationSlices": ["0214-phase-a5-root-applications-export-parity"],
+      "sourceOracles": [
+        "tests/architecture/applicationRegistry.test.js",
+        "tests/packageExports.test.js",
+        "tests/timberConcreteCompositeBeam.test.js",
+        "tests/timberXlamCompositeBeam.test.js",
+        "tests/unitConversionLayer.test.js",
+        "tests/xlamBeamProviderVerification.test.js",
+        "tests/xlamOutOfPlanePanel.test.js"
+      ],
+      "targetTests": ["tests/application-api-parity.test.ts"],
+      "validationEvidence": ["0214-phase-a5-root-applications-export-parity"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -10497,11 +11431,19 @@
       "sourcePath": "src/catalogs/soil-types.js",
       "sourceBlobSha1": "0ad8403c9f73f6ff7274c8da17b857a3bd8124c6",
       "targetPath": "src/catalogs/soil-types.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "deferred",
+      "migrationSlices": ["0214-phase-a5-root-applications-export-parity"],
+      "sourceOracles": [
+        "tests/architecture/applicationRegistry.test.js",
+        "tests/packageExports.test.js",
+        "tests/timberConcreteCompositeBeam.test.js",
+        "tests/timberXlamCompositeBeam.test.js",
+        "tests/unitConversionLayer.test.js",
+        "tests/xlamBeamProviderVerification.test.js",
+        "tests/xlamOutOfPlanePanel.test.js"
+      ],
+      "targetTests": ["tests/application-api-parity.test.ts"],
+      "validationEvidence": ["0214-phase-a5-root-applications-export-parity"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -12390,11 +13332,19 @@
       "sourcePath": "src/catalogs/soil-types.js",
       "sourceBlobSha1": "0ad8403c9f73f6ff7274c8da17b857a3bd8124c6",
       "targetPath": "src/catalogs/soil-types.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "deferred",
+      "migrationSlices": ["0214-phase-a5-root-applications-export-parity"],
+      "sourceOracles": [
+        "tests/architecture/applicationRegistry.test.js",
+        "tests/packageExports.test.js",
+        "tests/timberConcreteCompositeBeam.test.js",
+        "tests/timberXlamCompositeBeam.test.js",
+        "tests/unitConversionLayer.test.js",
+        "tests/xlamBeamProviderVerification.test.js",
+        "tests/xlamOutOfPlanePanel.test.js"
+      ],
+      "targetTests": ["tests/application-api-parity.test.ts"],
+      "validationEvidence": ["0214-phase-a5-root-applications-export-parity"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -19378,11 +20328,19 @@
       "sourcePath": "src/catalogs/soil-types.js",
       "sourceBlobSha1": "0ad8403c9f73f6ff7274c8da17b857a3bd8124c6",
       "targetPath": "src/catalogs/soil-types.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "deferred",
+      "migrationSlices": ["0214-phase-a5-root-applications-export-parity"],
+      "sourceOracles": [
+        "tests/architecture/applicationRegistry.test.js",
+        "tests/packageExports.test.js",
+        "tests/timberConcreteCompositeBeam.test.js",
+        "tests/timberXlamCompositeBeam.test.js",
+        "tests/unitConversionLayer.test.js",
+        "tests/xlamBeamProviderVerification.test.js",
+        "tests/xlamOutOfPlanePanel.test.js"
+      ],
+      "targetTests": ["tests/application-api-parity.test.ts"],
+      "validationEvidence": ["0214-phase-a5-root-applications-export-parity"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -19392,11 +20350,19 @@
       "sourcePath": "src/catalogs/soil-types.js",
       "sourceBlobSha1": "0ad8403c9f73f6ff7274c8da17b857a3bd8124c6",
       "targetPath": "src/catalogs/soil-types.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "deferred",
+      "migrationSlices": ["0214-phase-a5-root-applications-export-parity"],
+      "sourceOracles": [
+        "tests/architecture/applicationRegistry.test.js",
+        "tests/packageExports.test.js",
+        "tests/timberConcreteCompositeBeam.test.js",
+        "tests/timberXlamCompositeBeam.test.js",
+        "tests/unitConversionLayer.test.js",
+        "tests/xlamBeamProviderVerification.test.js",
+        "tests/xlamOutOfPlanePanel.test.js"
+      ],
+      "targetTests": ["tests/application-api-parity.test.ts"],
+      "validationEvidence": ["0214-phase-a5-root-applications-export-parity"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -20333,11 +21299,19 @@
       "sourcePath": "src/applications/timber-concrete-composite-beams/TimberConcreteCompositeBeamApplication.js",
       "sourceBlobSha1": "0ca1c332dd957b09a867e17c43505332757a360a",
       "targetPath": "src/applications/timber-concrete-composite-beams/TimberConcreteCompositeBeamApplication.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "deferred",
+      "migrationSlices": ["0214-phase-a5-root-applications-export-parity"],
+      "sourceOracles": [
+        "tests/architecture/applicationRegistry.test.js",
+        "tests/packageExports.test.js",
+        "tests/timberConcreteCompositeBeam.test.js",
+        "tests/timberXlamCompositeBeam.test.js",
+        "tests/unitConversionLayer.test.js",
+        "tests/xlamBeamProviderVerification.test.js",
+        "tests/xlamOutOfPlanePanel.test.js"
+      ],
+      "targetTests": ["tests/application-api-parity.test.ts"],
+      "validationEvidence": ["0214-phase-a5-root-applications-export-parity"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -20391,11 +21365,19 @@
       "sourcePath": "src/applications/timber-concrete-composite-beams/checks/TimberConcreteCompositeBeamVerification.js",
       "sourceBlobSha1": "2f8ee4b52ced9bcf1ec26cd131cd591e76264971",
       "targetPath": "src/applications/timber-concrete-composite-beams/checks/TimberConcreteCompositeBeamVerification.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "deferred",
+      "migrationSlices": ["0214-phase-a5-root-applications-export-parity"],
+      "sourceOracles": [
+        "tests/architecture/applicationRegistry.test.js",
+        "tests/packageExports.test.js",
+        "tests/timberConcreteCompositeBeam.test.js",
+        "tests/timberXlamCompositeBeam.test.js",
+        "tests/unitConversionLayer.test.js",
+        "tests/xlamBeamProviderVerification.test.js",
+        "tests/xlamOutOfPlanePanel.test.js"
+      ],
+      "targetTests": ["tests/application-api-parity.test.ts"],
+      "validationEvidence": ["0214-phase-a5-root-applications-export-parity"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -20445,11 +21427,19 @@
       "sourcePath": "src/applications/timber-xlam-composite-beams/TimberXlamCompositeBeamApplication.js",
       "sourceBlobSha1": "03993b16d0e9e7d6596c8c1477424b873558c097",
       "targetPath": "src/applications/timber-xlam-composite-beams/TimberXlamCompositeBeamApplication.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "deferred",
+      "migrationSlices": ["0214-phase-a5-root-applications-export-parity"],
+      "sourceOracles": [
+        "tests/architecture/applicationRegistry.test.js",
+        "tests/packageExports.test.js",
+        "tests/timberConcreteCompositeBeam.test.js",
+        "tests/timberXlamCompositeBeam.test.js",
+        "tests/unitConversionLayer.test.js",
+        "tests/xlamBeamProviderVerification.test.js",
+        "tests/xlamOutOfPlanePanel.test.js"
+      ],
+      "targetTests": ["tests/application-api-parity.test.ts"],
+      "validationEvidence": ["0214-phase-a5-root-applications-export-parity"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -20459,11 +21449,19 @@
       "sourcePath": "src/applications/timber-xlam-composite-beams/models/TimberXlamCompositeBeamModel.js",
       "sourceBlobSha1": "800e1375ec122fee64e2b206271bd14a98bbdb7a",
       "targetPath": "src/applications/timber-xlam-composite-beams/models/TimberXlamCompositeBeamModel.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "deferred",
+      "migrationSlices": ["0214-phase-a5-root-applications-export-parity"],
+      "sourceOracles": [
+        "tests/architecture/applicationRegistry.test.js",
+        "tests/packageExports.test.js",
+        "tests/timberConcreteCompositeBeam.test.js",
+        "tests/timberXlamCompositeBeam.test.js",
+        "tests/unitConversionLayer.test.js",
+        "tests/xlamBeamProviderVerification.test.js",
+        "tests/xlamOutOfPlanePanel.test.js"
+      ],
+      "targetTests": ["tests/application-api-parity.test.ts"],
+      "validationEvidence": ["0214-phase-a5-root-applications-export-parity"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -20473,11 +21471,19 @@
       "sourcePath": "src/applications/timber-xlam-composite-beams/analysis/TimberXlamCompositeBeamSectionProvider.js",
       "sourceBlobSha1": "1a8e158285d205154c81821c55538d1e2f32b10c",
       "targetPath": "src/applications/timber-xlam-composite-beams/analysis/TimberXlamCompositeBeamSectionProvider.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "deferred",
+      "migrationSlices": ["0214-phase-a5-root-applications-export-parity"],
+      "sourceOracles": [
+        "tests/architecture/applicationRegistry.test.js",
+        "tests/packageExports.test.js",
+        "tests/timberConcreteCompositeBeam.test.js",
+        "tests/timberXlamCompositeBeam.test.js",
+        "tests/unitConversionLayer.test.js",
+        "tests/xlamBeamProviderVerification.test.js",
+        "tests/xlamOutOfPlanePanel.test.js"
+      ],
+      "targetTests": ["tests/application-api-parity.test.ts"],
+      "validationEvidence": ["0214-phase-a5-root-applications-export-parity"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -20487,11 +21493,19 @@
       "sourcePath": "src/applications/timber-xlam-composite-beams/checks/TimberXlamCompositeBeamVerification.js",
       "sourceBlobSha1": "6f05ce92d381f5cd9498139f26fd752dfa3043bc",
       "targetPath": "src/applications/timber-xlam-composite-beams/checks/TimberXlamCompositeBeamVerification.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "deferred",
+      "migrationSlices": ["0214-phase-a5-root-applications-export-parity"],
+      "sourceOracles": [
+        "tests/architecture/applicationRegistry.test.js",
+        "tests/packageExports.test.js",
+        "tests/timberConcreteCompositeBeam.test.js",
+        "tests/timberXlamCompositeBeam.test.js",
+        "tests/unitConversionLayer.test.js",
+        "tests/xlamBeamProviderVerification.test.js",
+        "tests/xlamOutOfPlanePanel.test.js"
+      ],
+      "targetTests": ["tests/application-api-parity.test.ts"],
+      "validationEvidence": ["0214-phase-a5-root-applications-export-parity"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -21716,11 +22730,19 @@
       "sourcePath": "src/applications/xlam-beams/checks/XlamBeamVerification.js",
       "sourceBlobSha1": "669677592acbd02111a5e2314f88f293d3f07569",
       "targetPath": "src/applications/xlam-beams/checks/XlamBeamVerification.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "deferred",
+      "migrationSlices": ["0214-phase-a5-root-applications-export-parity"],
+      "sourceOracles": [
+        "tests/architecture/applicationRegistry.test.js",
+        "tests/packageExports.test.js",
+        "tests/timberConcreteCompositeBeam.test.js",
+        "tests/timberXlamCompositeBeam.test.js",
+        "tests/unitConversionLayer.test.js",
+        "tests/xlamBeamProviderVerification.test.js",
+        "tests/xlamOutOfPlanePanel.test.js"
+      ],
+      "targetTests": ["tests/application-api-parity.test.ts"],
+      "validationEvidence": ["0214-phase-a5-root-applications-export-parity"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -21752,11 +22774,19 @@
       "sourcePath": "src/applications/xlam-panels-out-of-plane/XlamOutOfPlanePanelApplication.js",
       "sourceBlobSha1": "c30c4456d0c56537d415bbdf42b69b4d2f6d54d2",
       "targetPath": "src/applications/xlam-panels-out-of-plane/XlamOutOfPlanePanelApplication.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "deferred",
+      "migrationSlices": ["0214-phase-a5-root-applications-export-parity"],
+      "sourceOracles": [
+        "tests/architecture/applicationRegistry.test.js",
+        "tests/packageExports.test.js",
+        "tests/timberConcreteCompositeBeam.test.js",
+        "tests/timberXlamCompositeBeam.test.js",
+        "tests/unitConversionLayer.test.js",
+        "tests/xlamBeamProviderVerification.test.js",
+        "tests/xlamOutOfPlanePanel.test.js"
+      ],
+      "targetTests": ["tests/application-api-parity.test.ts"],
+      "validationEvidence": ["0214-phase-a5-root-applications-export-parity"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -21766,11 +22796,19 @@
       "sourcePath": "src/applications/xlam-panels-out-of-plane/models/XlamOutOfPlanePanelModel.js",
       "sourceBlobSha1": "b77b6179ac89aea104927a9cb586dfce76cf9a8a",
       "targetPath": "src/applications/xlam-panels-out-of-plane/models/XlamOutOfPlanePanelModel.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "deferred",
+      "migrationSlices": ["0214-phase-a5-root-applications-export-parity"],
+      "sourceOracles": [
+        "tests/architecture/applicationRegistry.test.js",
+        "tests/packageExports.test.js",
+        "tests/timberConcreteCompositeBeam.test.js",
+        "tests/timberXlamCompositeBeam.test.js",
+        "tests/unitConversionLayer.test.js",
+        "tests/xlamBeamProviderVerification.test.js",
+        "tests/xlamOutOfPlanePanel.test.js"
+      ],
+      "targetTests": ["tests/application-api-parity.test.ts"],
+      "validationEvidence": ["0214-phase-a5-root-applications-export-parity"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -21780,11 +22818,19 @@
       "sourcePath": "src/applications/xlam-panels-out-of-plane/checks/XlamOutOfPlanePanelVerification.js",
       "sourceBlobSha1": "642ba80b9843bd1d4b88714f9339f6bf0aecb783",
       "targetPath": "src/applications/xlam-panels-out-of-plane/checks/XlamOutOfPlanePanelVerification.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "deferred",
+      "migrationSlices": ["0214-phase-a5-root-applications-export-parity"],
+      "sourceOracles": [
+        "tests/architecture/applicationRegistry.test.js",
+        "tests/packageExports.test.js",
+        "tests/timberConcreteCompositeBeam.test.js",
+        "tests/timberXlamCompositeBeam.test.js",
+        "tests/unitConversionLayer.test.js",
+        "tests/xlamBeamProviderVerification.test.js",
+        "tests/xlamOutOfPlanePanel.test.js"
+      ],
+      "targetTests": ["tests/application-api-parity.test.ts"],
+      "validationEvidence": ["0214-phase-a5-root-applications-export-parity"],
+      "status": "exact-parity",
       "publicEntryPath": "src/index.js",
       "publicEntryBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
     },
@@ -22809,11 +23855,19 @@
       "sourcePath": "src/applications/index.js",
       "sourceBlobSha1": "b70179c7cdd2a819f2151dc092c0f59cbce30ba6",
       "targetPath": "src/applications/index.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "deferred",
+      "migrationSlices": ["0214-phase-a5-root-applications-export-parity"],
+      "sourceOracles": [
+        "tests/architecture/applicationRegistry.test.js",
+        "tests/packageExports.test.js",
+        "tests/timberConcreteCompositeBeam.test.js",
+        "tests/timberXlamCompositeBeam.test.js",
+        "tests/unitConversionLayer.test.js",
+        "tests/xlamBeamProviderVerification.test.js",
+        "tests/xlamOutOfPlanePanel.test.js"
+      ],
+      "targetTests": ["tests/application-api-parity.test.ts"],
+      "validationEvidence": ["0214-phase-a5-root-applications-export-parity"],
+      "status": "exact-parity",
       "publicEntryPath": "src/applications/index.js",
       "publicEntryBlobSha1": "b70179c7cdd2a819f2151dc092c0f59cbce30ba6"
     },
@@ -22936,11 +23990,19 @@
       "sourcePath": "src/applications/timber-xlam-composite-beams/analysis/TimberXlamCompositeBeamSectionProvider.js",
       "sourceBlobSha1": "1a8e158285d205154c81821c55538d1e2f32b10c",
       "targetPath": "src/applications/timber-xlam-composite-beams/analysis/TimberXlamCompositeBeamSectionProvider.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "deferred",
+      "migrationSlices": ["0214-phase-a5-root-applications-export-parity"],
+      "sourceOracles": [
+        "tests/architecture/applicationRegistry.test.js",
+        "tests/packageExports.test.js",
+        "tests/timberConcreteCompositeBeam.test.js",
+        "tests/timberXlamCompositeBeam.test.js",
+        "tests/unitConversionLayer.test.js",
+        "tests/xlamBeamProviderVerification.test.js",
+        "tests/xlamOutOfPlanePanel.test.js"
+      ],
+      "targetTests": ["tests/application-api-parity.test.ts"],
+      "validationEvidence": ["0214-phase-a5-root-applications-export-parity"],
+      "status": "exact-parity",
       "publicEntryPath": "src/applications/index.js",
       "publicEntryBlobSha1": "b70179c7cdd2a819f2151dc092c0f59cbce30ba6"
     },
@@ -27751,11 +28813,19 @@
       "sourcePath": "src/applications/timber-concrete-composite-beams/TimberConcreteCompositeBeamApplication.js",
       "sourceBlobSha1": "0ca1c332dd957b09a867e17c43505332757a360a",
       "targetPath": "src/applications/timber-concrete-composite-beams/TimberConcreteCompositeBeamApplication.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "deferred",
+      "migrationSlices": ["0214-phase-a5-root-applications-export-parity"],
+      "sourceOracles": [
+        "tests/architecture/applicationRegistry.test.js",
+        "tests/packageExports.test.js",
+        "tests/timberConcreteCompositeBeam.test.js",
+        "tests/timberXlamCompositeBeam.test.js",
+        "tests/unitConversionLayer.test.js",
+        "tests/xlamBeamProviderVerification.test.js",
+        "tests/xlamOutOfPlanePanel.test.js"
+      ],
+      "targetTests": ["tests/application-api-parity.test.ts"],
+      "validationEvidence": ["0214-phase-a5-root-applications-export-parity"],
+      "status": "exact-parity",
       "publicEntryPath": "src/applications/index.js",
       "publicEntryBlobSha1": "b70179c7cdd2a819f2151dc092c0f59cbce30ba6"
     },
@@ -27809,11 +28879,19 @@
       "sourcePath": "src/applications/timber-concrete-composite-beams/checks/TimberConcreteCompositeBeamVerification.js",
       "sourceBlobSha1": "2f8ee4b52ced9bcf1ec26cd131cd591e76264971",
       "targetPath": "src/applications/timber-concrete-composite-beams/checks/TimberConcreteCompositeBeamVerification.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "deferred",
+      "migrationSlices": ["0214-phase-a5-root-applications-export-parity"],
+      "sourceOracles": [
+        "tests/architecture/applicationRegistry.test.js",
+        "tests/packageExports.test.js",
+        "tests/timberConcreteCompositeBeam.test.js",
+        "tests/timberXlamCompositeBeam.test.js",
+        "tests/unitConversionLayer.test.js",
+        "tests/xlamBeamProviderVerification.test.js",
+        "tests/xlamOutOfPlanePanel.test.js"
+      ],
+      "targetTests": ["tests/application-api-parity.test.ts"],
+      "validationEvidence": ["0214-phase-a5-root-applications-export-parity"],
+      "status": "exact-parity",
       "publicEntryPath": "src/applications/index.js",
       "publicEntryBlobSha1": "b70179c7cdd2a819f2151dc092c0f59cbce30ba6"
     },
@@ -27823,11 +28901,19 @@
       "sourcePath": "src/applications/timber-xlam-composite-beams/TimberXlamCompositeBeamApplication.js",
       "sourceBlobSha1": "03993b16d0e9e7d6596c8c1477424b873558c097",
       "targetPath": "src/applications/timber-xlam-composite-beams/TimberXlamCompositeBeamApplication.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "deferred",
+      "migrationSlices": ["0214-phase-a5-root-applications-export-parity"],
+      "sourceOracles": [
+        "tests/architecture/applicationRegistry.test.js",
+        "tests/packageExports.test.js",
+        "tests/timberConcreteCompositeBeam.test.js",
+        "tests/timberXlamCompositeBeam.test.js",
+        "tests/unitConversionLayer.test.js",
+        "tests/xlamBeamProviderVerification.test.js",
+        "tests/xlamOutOfPlanePanel.test.js"
+      ],
+      "targetTests": ["tests/application-api-parity.test.ts"],
+      "validationEvidence": ["0214-phase-a5-root-applications-export-parity"],
+      "status": "exact-parity",
       "publicEntryPath": "src/applications/index.js",
       "publicEntryBlobSha1": "b70179c7cdd2a819f2151dc092c0f59cbce30ba6"
     },
@@ -27837,11 +28923,19 @@
       "sourcePath": "src/applications/timber-xlam-composite-beams/models/TimberXlamCompositeBeamModel.js",
       "sourceBlobSha1": "800e1375ec122fee64e2b206271bd14a98bbdb7a",
       "targetPath": "src/applications/timber-xlam-composite-beams/models/TimberXlamCompositeBeamModel.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "deferred",
+      "migrationSlices": ["0214-phase-a5-root-applications-export-parity"],
+      "sourceOracles": [
+        "tests/architecture/applicationRegistry.test.js",
+        "tests/packageExports.test.js",
+        "tests/timberConcreteCompositeBeam.test.js",
+        "tests/timberXlamCompositeBeam.test.js",
+        "tests/unitConversionLayer.test.js",
+        "tests/xlamBeamProviderVerification.test.js",
+        "tests/xlamOutOfPlanePanel.test.js"
+      ],
+      "targetTests": ["tests/application-api-parity.test.ts"],
+      "validationEvidence": ["0214-phase-a5-root-applications-export-parity"],
+      "status": "exact-parity",
       "publicEntryPath": "src/applications/index.js",
       "publicEntryBlobSha1": "b70179c7cdd2a819f2151dc092c0f59cbce30ba6"
     },
@@ -27851,11 +28945,19 @@
       "sourcePath": "src/applications/timber-xlam-composite-beams/analysis/TimberXlamCompositeBeamSectionProvider.js",
       "sourceBlobSha1": "1a8e158285d205154c81821c55538d1e2f32b10c",
       "targetPath": "src/applications/timber-xlam-composite-beams/analysis/TimberXlamCompositeBeamSectionProvider.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "deferred",
+      "migrationSlices": ["0214-phase-a5-root-applications-export-parity"],
+      "sourceOracles": [
+        "tests/architecture/applicationRegistry.test.js",
+        "tests/packageExports.test.js",
+        "tests/timberConcreteCompositeBeam.test.js",
+        "tests/timberXlamCompositeBeam.test.js",
+        "tests/unitConversionLayer.test.js",
+        "tests/xlamBeamProviderVerification.test.js",
+        "tests/xlamOutOfPlanePanel.test.js"
+      ],
+      "targetTests": ["tests/application-api-parity.test.ts"],
+      "validationEvidence": ["0214-phase-a5-root-applications-export-parity"],
+      "status": "exact-parity",
       "publicEntryPath": "src/applications/index.js",
       "publicEntryBlobSha1": "b70179c7cdd2a819f2151dc092c0f59cbce30ba6"
     },
@@ -27865,11 +28967,19 @@
       "sourcePath": "src/applications/timber-xlam-composite-beams/checks/TimberXlamCompositeBeamVerification.js",
       "sourceBlobSha1": "6f05ce92d381f5cd9498139f26fd752dfa3043bc",
       "targetPath": "src/applications/timber-xlam-composite-beams/checks/TimberXlamCompositeBeamVerification.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "deferred",
+      "migrationSlices": ["0214-phase-a5-root-applications-export-parity"],
+      "sourceOracles": [
+        "tests/architecture/applicationRegistry.test.js",
+        "tests/packageExports.test.js",
+        "tests/timberConcreteCompositeBeam.test.js",
+        "tests/timberXlamCompositeBeam.test.js",
+        "tests/unitConversionLayer.test.js",
+        "tests/xlamBeamProviderVerification.test.js",
+        "tests/xlamOutOfPlanePanel.test.js"
+      ],
+      "targetTests": ["tests/application-api-parity.test.ts"],
+      "validationEvidence": ["0214-phase-a5-root-applications-export-parity"],
+      "status": "exact-parity",
       "publicEntryPath": "src/applications/index.js",
       "publicEntryBlobSha1": "b70179c7cdd2a819f2151dc092c0f59cbce30ba6"
     },
@@ -28316,11 +29426,19 @@
       "sourcePath": "src/applications/xlam-beams/checks/XlamBeamVerification.js",
       "sourceBlobSha1": "669677592acbd02111a5e2314f88f293d3f07569",
       "targetPath": "src/applications/xlam-beams/checks/XlamBeamVerification.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "deferred",
+      "migrationSlices": ["0214-phase-a5-root-applications-export-parity"],
+      "sourceOracles": [
+        "tests/architecture/applicationRegistry.test.js",
+        "tests/packageExports.test.js",
+        "tests/timberConcreteCompositeBeam.test.js",
+        "tests/timberXlamCompositeBeam.test.js",
+        "tests/unitConversionLayer.test.js",
+        "tests/xlamBeamProviderVerification.test.js",
+        "tests/xlamOutOfPlanePanel.test.js"
+      ],
+      "targetTests": ["tests/application-api-parity.test.ts"],
+      "validationEvidence": ["0214-phase-a5-root-applications-export-parity"],
+      "status": "exact-parity",
       "publicEntryPath": "src/applications/index.js",
       "publicEntryBlobSha1": "b70179c7cdd2a819f2151dc092c0f59cbce30ba6"
     },
@@ -28330,11 +29448,19 @@
       "sourcePath": "src/applications/xlam-panels-out-of-plane/XlamOutOfPlanePanelApplication.js",
       "sourceBlobSha1": "c30c4456d0c56537d415bbdf42b69b4d2f6d54d2",
       "targetPath": "src/applications/xlam-panels-out-of-plane/XlamOutOfPlanePanelApplication.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "deferred",
+      "migrationSlices": ["0214-phase-a5-root-applications-export-parity"],
+      "sourceOracles": [
+        "tests/architecture/applicationRegistry.test.js",
+        "tests/packageExports.test.js",
+        "tests/timberConcreteCompositeBeam.test.js",
+        "tests/timberXlamCompositeBeam.test.js",
+        "tests/unitConversionLayer.test.js",
+        "tests/xlamBeamProviderVerification.test.js",
+        "tests/xlamOutOfPlanePanel.test.js"
+      ],
+      "targetTests": ["tests/application-api-parity.test.ts"],
+      "validationEvidence": ["0214-phase-a5-root-applications-export-parity"],
+      "status": "exact-parity",
       "publicEntryPath": "src/applications/index.js",
       "publicEntryBlobSha1": "b70179c7cdd2a819f2151dc092c0f59cbce30ba6"
     },
@@ -28344,11 +29470,19 @@
       "sourcePath": "src/applications/xlam-panels-out-of-plane/models/XlamOutOfPlanePanelModel.js",
       "sourceBlobSha1": "b77b6179ac89aea104927a9cb586dfce76cf9a8a",
       "targetPath": "src/applications/xlam-panels-out-of-plane/models/XlamOutOfPlanePanelModel.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "deferred",
+      "migrationSlices": ["0214-phase-a5-root-applications-export-parity"],
+      "sourceOracles": [
+        "tests/architecture/applicationRegistry.test.js",
+        "tests/packageExports.test.js",
+        "tests/timberConcreteCompositeBeam.test.js",
+        "tests/timberXlamCompositeBeam.test.js",
+        "tests/unitConversionLayer.test.js",
+        "tests/xlamBeamProviderVerification.test.js",
+        "tests/xlamOutOfPlanePanel.test.js"
+      ],
+      "targetTests": ["tests/application-api-parity.test.ts"],
+      "validationEvidence": ["0214-phase-a5-root-applications-export-parity"],
+      "status": "exact-parity",
       "publicEntryPath": "src/applications/index.js",
       "publicEntryBlobSha1": "b70179c7cdd2a819f2151dc092c0f59cbce30ba6"
     },
@@ -28358,11 +29492,19 @@
       "sourcePath": "src/applications/xlam-panels-out-of-plane/checks/XlamOutOfPlanePanelVerification.js",
       "sourceBlobSha1": "642ba80b9843bd1d4b88714f9339f6bf0aecb783",
       "targetPath": "src/applications/xlam-panels-out-of-plane/checks/XlamOutOfPlanePanelVerification.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "deferred",
+      "migrationSlices": ["0214-phase-a5-root-applications-export-parity"],
+      "sourceOracles": [
+        "tests/architecture/applicationRegistry.test.js",
+        "tests/packageExports.test.js",
+        "tests/timberConcreteCompositeBeam.test.js",
+        "tests/timberXlamCompositeBeam.test.js",
+        "tests/unitConversionLayer.test.js",
+        "tests/xlamBeamProviderVerification.test.js",
+        "tests/xlamOutOfPlanePanel.test.js"
+      ],
+      "targetTests": ["tests/application-api-parity.test.ts"],
+      "validationEvidence": ["0214-phase-a5-root-applications-export-parity"],
+      "status": "exact-parity",
       "publicEntryPath": "src/applications/index.js",
       "publicEntryBlobSha1": "b70179c7cdd2a819f2151dc092c0f59cbce30ba6"
     }
@@ -28377,7 +29519,9 @@
       "migrationSlices": [
         "0024-reinforced-concrete-foundation-beams",
         "0026-reinforced-concrete-beam-column-joints",
-        "0027-reinforced-concrete-strut-and-tie"
+        "0027-reinforced-concrete-strut-and-tie",
+        "0214-phase-a5-root-applications-export-parity",
+        "0215-phase-a5-package-subpath-parity"
       ],
       "sourceOracles": [
         "tests/architecture/applicationRegistry.test.js",
@@ -28386,7 +29530,12 @@
         "tests/reinforcedConcreteBeamColumnJointApplication.test.js",
         "tests/reinforcedConcreteBeamSectionProvider.test.js",
         "tests/reinforcedConcreteFoundationBeamApplication.test.js",
-        "tests/reinforcedConcreteStrutAndTieApplication.test.js"
+        "tests/reinforcedConcreteStrutAndTieApplication.test.js",
+        "tests/timberConcreteCompositeBeam.test.js",
+        "tests/timberXlamCompositeBeam.test.js",
+        "tests/unitConversionLayer.test.js",
+        "tests/xlamBeamProviderVerification.test.js",
+        "tests/xlamOutOfPlanePanel.test.js"
       ],
       "targetTests": [
         "tests/baseline-parity.test.ts",
@@ -28397,9 +29546,11 @@
       "validationEvidence": [
         "0024-reinforced-concrete-foundation-beams",
         "0026-reinforced-concrete-beam-column-joints",
-        "0027-reinforced-concrete-strut-and-tie"
+        "0027-reinforced-concrete-strut-and-tie",
+        "0214-phase-a5-root-applications-export-parity",
+        "0215-phase-a5-package-subpath-parity"
       ],
-      "status": "deferred",
+      "status": "exact-parity",
       "notes": ["Default registry construction is not present in the current TypeScript target."],
       "applicationId": "single-beam-design",
       "applicationClass": "SingleBeamDesignApplication",
@@ -28415,7 +29566,9 @@
       "migrationSlices": [
         "0024-reinforced-concrete-foundation-beams",
         "0026-reinforced-concrete-beam-column-joints",
-        "0027-reinforced-concrete-strut-and-tie"
+        "0027-reinforced-concrete-strut-and-tie",
+        "0214-phase-a5-root-applications-export-parity",
+        "0215-phase-a5-package-subpath-parity"
       ],
       "sourceOracles": [
         "tests/architecture/applicationRegistry.test.js",
@@ -28424,7 +29577,12 @@
         "tests/reinforcedConcreteBeamColumnJointApplication.test.js",
         "tests/reinforcedConcreteBeamSectionProvider.test.js",
         "tests/reinforcedConcreteFoundationBeamApplication.test.js",
-        "tests/reinforcedConcreteStrutAndTieApplication.test.js"
+        "tests/reinforcedConcreteStrutAndTieApplication.test.js",
+        "tests/timberConcreteCompositeBeam.test.js",
+        "tests/timberXlamCompositeBeam.test.js",
+        "tests/unitConversionLayer.test.js",
+        "tests/xlamBeamProviderVerification.test.js",
+        "tests/xlamOutOfPlanePanel.test.js"
       ],
       "targetTests": [
         "tests/baseline-parity.test.ts",
@@ -28437,9 +29595,11 @@
       "validationEvidence": [
         "0024-reinforced-concrete-foundation-beams",
         "0026-reinforced-concrete-beam-column-joints",
-        "0027-reinforced-concrete-strut-and-tie"
+        "0027-reinforced-concrete-strut-and-tie",
+        "0214-phase-a5-root-applications-export-parity",
+        "0215-phase-a5-package-subpath-parity"
       ],
-      "status": "deferred",
+      "status": "exact-parity",
       "notes": ["Default registry construction is not present in the current TypeScript target."],
       "applicationId": "global-fem-postprocessing",
       "applicationClass": "GlobalFemPostProcessingApplication",
@@ -28455,7 +29615,9 @@
       "migrationSlices": [
         "0024-reinforced-concrete-foundation-beams",
         "0026-reinforced-concrete-beam-column-joints",
-        "0027-reinforced-concrete-strut-and-tie"
+        "0027-reinforced-concrete-strut-and-tie",
+        "0214-phase-a5-root-applications-export-parity",
+        "0215-phase-a5-package-subpath-parity"
       ],
       "sourceOracles": [
         "tests/architecture/applicationRegistry.test.js",
@@ -28464,7 +29626,12 @@
         "tests/reinforcedConcreteBeamColumnJointApplication.test.js",
         "tests/reinforcedConcreteBeamSectionProvider.test.js",
         "tests/reinforcedConcreteFoundationBeamApplication.test.js",
-        "tests/reinforcedConcreteStrutAndTieApplication.test.js"
+        "tests/reinforcedConcreteStrutAndTieApplication.test.js",
+        "tests/timberConcreteCompositeBeam.test.js",
+        "tests/timberXlamCompositeBeam.test.js",
+        "tests/unitConversionLayer.test.js",
+        "tests/xlamBeamProviderVerification.test.js",
+        "tests/xlamOutOfPlanePanel.test.js"
       ],
       "targetTests": [
         "tests/baseline-parity.test.ts",
@@ -28474,9 +29641,11 @@
       "validationEvidence": [
         "0024-reinforced-concrete-foundation-beams",
         "0026-reinforced-concrete-beam-column-joints",
-        "0027-reinforced-concrete-strut-and-tie"
+        "0027-reinforced-concrete-strut-and-tie",
+        "0214-phase-a5-root-applications-export-parity",
+        "0215-phase-a5-package-subpath-parity"
       ],
-      "status": "deferred",
+      "status": "exact-parity",
       "notes": ["Default registry construction is not present in the current TypeScript target."],
       "applicationId": "steel-frames",
       "applicationClass": "SteelFrameApplication",
@@ -28492,7 +29661,9 @@
       "migrationSlices": [
         "0024-reinforced-concrete-foundation-beams",
         "0026-reinforced-concrete-beam-column-joints",
-        "0027-reinforced-concrete-strut-and-tie"
+        "0027-reinforced-concrete-strut-and-tie",
+        "0214-phase-a5-root-applications-export-parity",
+        "0215-phase-a5-package-subpath-parity"
       ],
       "sourceOracles": [
         "tests/architecture/applicationRegistry.test.js",
@@ -28501,7 +29672,12 @@
         "tests/reinforcedConcreteBeamColumnJointApplication.test.js",
         "tests/reinforcedConcreteBeamSectionProvider.test.js",
         "tests/reinforcedConcreteFoundationBeamApplication.test.js",
-        "tests/reinforcedConcreteStrutAndTieApplication.test.js"
+        "tests/reinforcedConcreteStrutAndTieApplication.test.js",
+        "tests/timberConcreteCompositeBeam.test.js",
+        "tests/timberXlamCompositeBeam.test.js",
+        "tests/unitConversionLayer.test.js",
+        "tests/xlamBeamProviderVerification.test.js",
+        "tests/xlamOutOfPlanePanel.test.js"
       ],
       "targetTests": [
         "tests/baseline-parity.test.ts",
@@ -28513,9 +29689,11 @@
       "validationEvidence": [
         "0024-reinforced-concrete-foundation-beams",
         "0026-reinforced-concrete-beam-column-joints",
-        "0027-reinforced-concrete-strut-and-tie"
+        "0027-reinforced-concrete-strut-and-tie",
+        "0214-phase-a5-root-applications-export-parity",
+        "0215-phase-a5-package-subpath-parity"
       ],
-      "status": "deferred",
+      "status": "exact-parity",
       "notes": ["Default registry construction is not present in the current TypeScript target."],
       "applicationId": "masonry-ring-beams",
       "applicationClass": "MasonryRingBeamApplication",
@@ -28531,7 +29709,9 @@
       "migrationSlices": [
         "0024-reinforced-concrete-foundation-beams",
         "0026-reinforced-concrete-beam-column-joints",
-        "0027-reinforced-concrete-strut-and-tie"
+        "0027-reinforced-concrete-strut-and-tie",
+        "0214-phase-a5-root-applications-export-parity",
+        "0215-phase-a5-package-subpath-parity"
       ],
       "sourceOracles": [
         "tests/architecture/applicationRegistry.test.js",
@@ -28540,7 +29720,12 @@
         "tests/reinforcedConcreteBeamColumnJointApplication.test.js",
         "tests/reinforcedConcreteBeamSectionProvider.test.js",
         "tests/reinforcedConcreteFoundationBeamApplication.test.js",
-        "tests/reinforcedConcreteStrutAndTieApplication.test.js"
+        "tests/reinforcedConcreteStrutAndTieApplication.test.js",
+        "tests/timberConcreteCompositeBeam.test.js",
+        "tests/timberXlamCompositeBeam.test.js",
+        "tests/unitConversionLayer.test.js",
+        "tests/xlamBeamProviderVerification.test.js",
+        "tests/xlamOutOfPlanePanel.test.js"
       ],
       "targetTests": [
         "tests/baseline-parity.test.ts",
@@ -28550,9 +29735,11 @@
       "validationEvidence": [
         "0024-reinforced-concrete-foundation-beams",
         "0026-reinforced-concrete-beam-column-joints",
-        "0027-reinforced-concrete-strut-and-tie"
+        "0027-reinforced-concrete-strut-and-tie",
+        "0214-phase-a5-root-applications-export-parity",
+        "0215-phase-a5-package-subpath-parity"
       ],
-      "status": "deferred",
+      "status": "exact-parity",
       "notes": ["Default registry construction is not present in the current TypeScript target."],
       "applicationId": "masonry-piers",
       "applicationClass": "MasonryPierApplication",
@@ -28568,7 +29755,9 @@
       "migrationSlices": [
         "0024-reinforced-concrete-foundation-beams",
         "0026-reinforced-concrete-beam-column-joints",
-        "0027-reinforced-concrete-strut-and-tie"
+        "0027-reinforced-concrete-strut-and-tie",
+        "0214-phase-a5-root-applications-export-parity",
+        "0215-phase-a5-package-subpath-parity"
       ],
       "sourceOracles": [
         "tests/architecture/applicationRegistry.test.js",
@@ -28577,7 +29766,12 @@
         "tests/reinforcedConcreteBeamColumnJointApplication.test.js",
         "tests/reinforcedConcreteBeamSectionProvider.test.js",
         "tests/reinforcedConcreteFoundationBeamApplication.test.js",
-        "tests/reinforcedConcreteStrutAndTieApplication.test.js"
+        "tests/reinforcedConcreteStrutAndTieApplication.test.js",
+        "tests/timberConcreteCompositeBeam.test.js",
+        "tests/timberXlamCompositeBeam.test.js",
+        "tests/unitConversionLayer.test.js",
+        "tests/xlamBeamProviderVerification.test.js",
+        "tests/xlamOutOfPlanePanel.test.js"
       ],
       "targetTests": [
         "tests/baseline-parity.test.ts",
@@ -28587,9 +29781,11 @@
       "validationEvidence": [
         "0024-reinforced-concrete-foundation-beams",
         "0026-reinforced-concrete-beam-column-joints",
-        "0027-reinforced-concrete-strut-and-tie"
+        "0027-reinforced-concrete-strut-and-tie",
+        "0214-phase-a5-root-applications-export-parity",
+        "0215-phase-a5-package-subpath-parity"
       ],
-      "status": "deferred",
+      "status": "exact-parity",
       "notes": ["Default registry construction is not present in the current TypeScript target."],
       "applicationId": "masonry-wall-openings",
       "applicationClass": "MasonryWallOpeningsApplication",
@@ -28605,7 +29801,9 @@
       "migrationSlices": [
         "0024-reinforced-concrete-foundation-beams",
         "0026-reinforced-concrete-beam-column-joints",
-        "0027-reinforced-concrete-strut-and-tie"
+        "0027-reinforced-concrete-strut-and-tie",
+        "0214-phase-a5-root-applications-export-parity",
+        "0215-phase-a5-package-subpath-parity"
       ],
       "sourceOracles": [
         "tests/architecture/applicationRegistry.test.js",
@@ -28614,7 +29812,12 @@
         "tests/reinforcedConcreteBeamColumnJointApplication.test.js",
         "tests/reinforcedConcreteBeamSectionProvider.test.js",
         "tests/reinforcedConcreteFoundationBeamApplication.test.js",
-        "tests/reinforcedConcreteStrutAndTieApplication.test.js"
+        "tests/reinforcedConcreteStrutAndTieApplication.test.js",
+        "tests/timberConcreteCompositeBeam.test.js",
+        "tests/timberXlamCompositeBeam.test.js",
+        "tests/unitConversionLayer.test.js",
+        "tests/xlamBeamProviderVerification.test.js",
+        "tests/xlamOutOfPlanePanel.test.js"
       ],
       "targetTests": [
         "tests/baseline-parity.test.ts",
@@ -28630,9 +29833,11 @@
       "validationEvidence": [
         "0024-reinforced-concrete-foundation-beams",
         "0026-reinforced-concrete-beam-column-joints",
-        "0027-reinforced-concrete-strut-and-tie"
+        "0027-reinforced-concrete-strut-and-tie",
+        "0214-phase-a5-root-applications-export-parity",
+        "0215-phase-a5-package-subpath-parity"
       ],
-      "status": "deferred",
+      "status": "exact-parity",
       "notes": ["Default registry construction is not present in the current TypeScript target."],
       "applicationId": "reinforced-concrete-sections",
       "applicationClass": "ReinforcedConcreteSectionApplication",
@@ -28648,7 +29853,9 @@
       "migrationSlices": [
         "0024-reinforced-concrete-foundation-beams",
         "0026-reinforced-concrete-beam-column-joints",
-        "0027-reinforced-concrete-strut-and-tie"
+        "0027-reinforced-concrete-strut-and-tie",
+        "0214-phase-a5-root-applications-export-parity",
+        "0215-phase-a5-package-subpath-parity"
       ],
       "sourceOracles": [
         "tests/architecture/applicationRegistry.test.js",
@@ -28657,15 +29864,22 @@
         "tests/reinforcedConcreteBeamColumnJointApplication.test.js",
         "tests/reinforcedConcreteBeamSectionProvider.test.js",
         "tests/reinforcedConcreteFoundationBeamApplication.test.js",
-        "tests/reinforcedConcreteStrutAndTieApplication.test.js"
+        "tests/reinforcedConcreteStrutAndTieApplication.test.js",
+        "tests/timberConcreteCompositeBeam.test.js",
+        "tests/timberXlamCompositeBeam.test.js",
+        "tests/unitConversionLayer.test.js",
+        "tests/xlamBeamProviderVerification.test.js",
+        "tests/xlamOutOfPlanePanel.test.js"
       ],
       "targetTests": ["tests/baseline-parity.test.ts", "tests/concrete-plate.test.ts"],
       "validationEvidence": [
         "0024-reinforced-concrete-foundation-beams",
         "0026-reinforced-concrete-beam-column-joints",
-        "0027-reinforced-concrete-strut-and-tie"
+        "0027-reinforced-concrete-strut-and-tie",
+        "0214-phase-a5-root-applications-export-parity",
+        "0215-phase-a5-package-subpath-parity"
       ],
-      "status": "deferred",
+      "status": "exact-parity",
       "notes": ["Default registry construction is not present in the current TypeScript target."],
       "applicationId": "reinforced-concrete-plates",
       "applicationClass": "ReinforcedConcretePlateApplication",
@@ -28681,7 +29895,9 @@
       "migrationSlices": [
         "0024-reinforced-concrete-foundation-beams",
         "0026-reinforced-concrete-beam-column-joints",
-        "0027-reinforced-concrete-strut-and-tie"
+        "0027-reinforced-concrete-strut-and-tie",
+        "0214-phase-a5-root-applications-export-parity",
+        "0215-phase-a5-package-subpath-parity"
       ],
       "sourceOracles": [
         "tests/architecture/applicationRegistry.test.js",
@@ -28690,15 +29906,22 @@
         "tests/reinforcedConcreteBeamColumnJointApplication.test.js",
         "tests/reinforcedConcreteBeamSectionProvider.test.js",
         "tests/reinforcedConcreteFoundationBeamApplication.test.js",
-        "tests/reinforcedConcreteStrutAndTieApplication.test.js"
+        "tests/reinforcedConcreteStrutAndTieApplication.test.js",
+        "tests/timberConcreteCompositeBeam.test.js",
+        "tests/timberXlamCompositeBeam.test.js",
+        "tests/unitConversionLayer.test.js",
+        "tests/xlamBeamProviderVerification.test.js",
+        "tests/xlamOutOfPlanePanel.test.js"
       ],
       "targetTests": ["tests/baseline-parity.test.ts", "tests/concrete-punching.test.ts"],
       "validationEvidence": [
         "0024-reinforced-concrete-foundation-beams",
         "0026-reinforced-concrete-beam-column-joints",
-        "0027-reinforced-concrete-strut-and-tie"
+        "0027-reinforced-concrete-strut-and-tie",
+        "0214-phase-a5-root-applications-export-parity",
+        "0215-phase-a5-package-subpath-parity"
       ],
-      "status": "deferred",
+      "status": "exact-parity",
       "notes": ["Default registry construction is not present in the current TypeScript target."],
       "applicationId": "reinforced-concrete-punching",
       "applicationClass": "ReinforcedConcretePunchingApplication",
@@ -28714,7 +29937,9 @@
       "migrationSlices": [
         "0024-reinforced-concrete-foundation-beams",
         "0026-reinforced-concrete-beam-column-joints",
-        "0027-reinforced-concrete-strut-and-tie"
+        "0027-reinforced-concrete-strut-and-tie",
+        "0214-phase-a5-root-applications-export-parity",
+        "0215-phase-a5-package-subpath-parity"
       ],
       "sourceOracles": [
         "tests/architecture/applicationRegistry.test.js",
@@ -28723,7 +29948,12 @@
         "tests/reinforcedConcreteBeamColumnJointApplication.test.js",
         "tests/reinforcedConcreteBeamSectionProvider.test.js",
         "tests/reinforcedConcreteFoundationBeamApplication.test.js",
-        "tests/reinforcedConcreteStrutAndTieApplication.test.js"
+        "tests/reinforcedConcreteStrutAndTieApplication.test.js",
+        "tests/timberConcreteCompositeBeam.test.js",
+        "tests/timberXlamCompositeBeam.test.js",
+        "tests/unitConversionLayer.test.js",
+        "tests/xlamBeamProviderVerification.test.js",
+        "tests/xlamOutOfPlanePanel.test.js"
       ],
       "targetTests": [
         "tests/baseline-parity.test.ts",
@@ -28734,9 +29964,11 @@
       "validationEvidence": [
         "0024-reinforced-concrete-foundation-beams",
         "0026-reinforced-concrete-beam-column-joints",
-        "0027-reinforced-concrete-strut-and-tie"
+        "0027-reinforced-concrete-strut-and-tie",
+        "0214-phase-a5-root-applications-export-parity",
+        "0215-phase-a5-package-subpath-parity"
       ],
-      "status": "deferred",
+      "status": "exact-parity",
       "notes": ["Default registry construction is not present in the current TypeScript target."],
       "applicationId": "reinforced-concrete-columns",
       "applicationClass": "ReinforcedConcreteColumnApplication",
@@ -28752,7 +29984,9 @@
       "migrationSlices": [
         "0024-reinforced-concrete-foundation-beams",
         "0026-reinforced-concrete-beam-column-joints",
-        "0027-reinforced-concrete-strut-and-tie"
+        "0027-reinforced-concrete-strut-and-tie",
+        "0214-phase-a5-root-applications-export-parity",
+        "0215-phase-a5-package-subpath-parity"
       ],
       "sourceOracles": [
         "tests/architecture/applicationRegistry.test.js",
@@ -28761,7 +29995,12 @@
         "tests/reinforcedConcreteBeamColumnJointApplication.test.js",
         "tests/reinforcedConcreteBeamSectionProvider.test.js",
         "tests/reinforcedConcreteFoundationBeamApplication.test.js",
-        "tests/reinforcedConcreteStrutAndTieApplication.test.js"
+        "tests/reinforcedConcreteStrutAndTieApplication.test.js",
+        "tests/timberConcreteCompositeBeam.test.js",
+        "tests/timberXlamCompositeBeam.test.js",
+        "tests/unitConversionLayer.test.js",
+        "tests/xlamBeamProviderVerification.test.js",
+        "tests/xlamOutOfPlanePanel.test.js"
       ],
       "targetTests": [
         "tests/baseline-parity.test.ts",
@@ -28772,9 +30011,11 @@
       "validationEvidence": [
         "0024-reinforced-concrete-foundation-beams",
         "0026-reinforced-concrete-beam-column-joints",
-        "0027-reinforced-concrete-strut-and-tie"
+        "0027-reinforced-concrete-strut-and-tie",
+        "0214-phase-a5-root-applications-export-parity",
+        "0215-phase-a5-package-subpath-parity"
       ],
-      "status": "deferred",
+      "status": "exact-parity",
       "notes": ["Default registry construction is not present in the current TypeScript target."],
       "applicationId": "reinforced-concrete-isolated-footings",
       "applicationClass": "ReinforcedConcreteIsolatedFootingApplication",
@@ -28790,7 +30031,9 @@
       "migrationSlices": [
         "0024-reinforced-concrete-foundation-beams",
         "0026-reinforced-concrete-beam-column-joints",
-        "0027-reinforced-concrete-strut-and-tie"
+        "0027-reinforced-concrete-strut-and-tie",
+        "0214-phase-a5-root-applications-export-parity",
+        "0215-phase-a5-package-subpath-parity"
       ],
       "sourceOracles": [
         "tests/architecture/applicationRegistry.test.js",
@@ -28799,7 +30042,12 @@
         "tests/reinforcedConcreteBeamColumnJointApplication.test.js",
         "tests/reinforcedConcreteBeamSectionProvider.test.js",
         "tests/reinforcedConcreteFoundationBeamApplication.test.js",
-        "tests/reinforcedConcreteStrutAndTieApplication.test.js"
+        "tests/reinforcedConcreteStrutAndTieApplication.test.js",
+        "tests/timberConcreteCompositeBeam.test.js",
+        "tests/timberXlamCompositeBeam.test.js",
+        "tests/unitConversionLayer.test.js",
+        "tests/xlamBeamProviderVerification.test.js",
+        "tests/xlamOutOfPlanePanel.test.js"
       ],
       "targetTests": [
         "tests/baseline-parity.test.ts",
@@ -28808,9 +30056,11 @@
       "validationEvidence": [
         "0024-reinforced-concrete-foundation-beams",
         "0026-reinforced-concrete-beam-column-joints",
-        "0027-reinforced-concrete-strut-and-tie"
+        "0027-reinforced-concrete-strut-and-tie",
+        "0214-phase-a5-root-applications-export-parity",
+        "0215-phase-a5-package-subpath-parity"
       ],
-      "status": "deferred",
+      "status": "exact-parity",
       "notes": ["Default registry construction is not present in the current TypeScript target."],
       "applicationId": "reinforced-concrete-foundation-beams",
       "applicationClass": "ReinforcedConcreteFoundationBeamApplication",
@@ -28826,7 +30076,9 @@
       "migrationSlices": [
         "0024-reinforced-concrete-foundation-beams",
         "0026-reinforced-concrete-beam-column-joints",
-        "0027-reinforced-concrete-strut-and-tie"
+        "0027-reinforced-concrete-strut-and-tie",
+        "0214-phase-a5-root-applications-export-parity",
+        "0215-phase-a5-package-subpath-parity"
       ],
       "sourceOracles": [
         "tests/architecture/applicationRegistry.test.js",
@@ -28835,7 +30087,12 @@
         "tests/reinforcedConcreteBeamColumnJointApplication.test.js",
         "tests/reinforcedConcreteBeamSectionProvider.test.js",
         "tests/reinforcedConcreteFoundationBeamApplication.test.js",
-        "tests/reinforcedConcreteStrutAndTieApplication.test.js"
+        "tests/reinforcedConcreteStrutAndTieApplication.test.js",
+        "tests/timberConcreteCompositeBeam.test.js",
+        "tests/timberXlamCompositeBeam.test.js",
+        "tests/unitConversionLayer.test.js",
+        "tests/xlamBeamProviderVerification.test.js",
+        "tests/xlamOutOfPlanePanel.test.js"
       ],
       "targetTests": [
         "tests/baseline-parity.test.ts",
@@ -28844,9 +30101,11 @@
       "validationEvidence": [
         "0024-reinforced-concrete-foundation-beams",
         "0026-reinforced-concrete-beam-column-joints",
-        "0027-reinforced-concrete-strut-and-tie"
+        "0027-reinforced-concrete-strut-and-tie",
+        "0214-phase-a5-root-applications-export-parity",
+        "0215-phase-a5-package-subpath-parity"
       ],
-      "status": "deferred",
+      "status": "exact-parity",
       "notes": ["Default registry construction is not present in the current TypeScript target."],
       "applicationId": "reinforced-concrete-beam-column-joints",
       "applicationClass": "ReinforcedConcreteBeamColumnJointApplication",
@@ -28862,7 +30121,9 @@
       "migrationSlices": [
         "0024-reinforced-concrete-foundation-beams",
         "0026-reinforced-concrete-beam-column-joints",
-        "0027-reinforced-concrete-strut-and-tie"
+        "0027-reinforced-concrete-strut-and-tie",
+        "0214-phase-a5-root-applications-export-parity",
+        "0215-phase-a5-package-subpath-parity"
       ],
       "sourceOracles": [
         "tests/architecture/applicationRegistry.test.js",
@@ -28871,7 +30132,12 @@
         "tests/reinforcedConcreteBeamColumnJointApplication.test.js",
         "tests/reinforcedConcreteBeamSectionProvider.test.js",
         "tests/reinforcedConcreteFoundationBeamApplication.test.js",
-        "tests/reinforcedConcreteStrutAndTieApplication.test.js"
+        "tests/reinforcedConcreteStrutAndTieApplication.test.js",
+        "tests/timberConcreteCompositeBeam.test.js",
+        "tests/timberXlamCompositeBeam.test.js",
+        "tests/unitConversionLayer.test.js",
+        "tests/xlamBeamProviderVerification.test.js",
+        "tests/xlamOutOfPlanePanel.test.js"
       ],
       "targetTests": [
         "tests/baseline-parity.test.ts",
@@ -28880,9 +30146,11 @@
       "validationEvidence": [
         "0024-reinforced-concrete-foundation-beams",
         "0026-reinforced-concrete-beam-column-joints",
-        "0027-reinforced-concrete-strut-and-tie"
+        "0027-reinforced-concrete-strut-and-tie",
+        "0214-phase-a5-root-applications-export-parity",
+        "0215-phase-a5-package-subpath-parity"
       ],
-      "status": "deferred",
+      "status": "exact-parity",
       "notes": ["Default registry construction is not present in the current TypeScript target."],
       "applicationId": "reinforced-concrete-strut-and-tie",
       "applicationClass": "ReinforcedConcreteStrutAndTieApplication",
@@ -28898,7 +30166,9 @@
       "migrationSlices": [
         "0024-reinforced-concrete-foundation-beams",
         "0026-reinforced-concrete-beam-column-joints",
-        "0027-reinforced-concrete-strut-and-tie"
+        "0027-reinforced-concrete-strut-and-tie",
+        "0214-phase-a5-root-applications-export-parity",
+        "0215-phase-a5-package-subpath-parity"
       ],
       "sourceOracles": [
         "tests/architecture/applicationRegistry.test.js",
@@ -28907,7 +30177,12 @@
         "tests/reinforcedConcreteBeamColumnJointApplication.test.js",
         "tests/reinforcedConcreteBeamSectionProvider.test.js",
         "tests/reinforcedConcreteFoundationBeamApplication.test.js",
-        "tests/reinforcedConcreteStrutAndTieApplication.test.js"
+        "tests/reinforcedConcreteStrutAndTieApplication.test.js",
+        "tests/timberConcreteCompositeBeam.test.js",
+        "tests/timberXlamCompositeBeam.test.js",
+        "tests/unitConversionLayer.test.js",
+        "tests/xlamBeamProviderVerification.test.js",
+        "tests/xlamOutOfPlanePanel.test.js"
       ],
       "targetTests": [
         "tests/baseline-parity.test.ts",
@@ -28919,9 +30194,11 @@
       "validationEvidence": [
         "0024-reinforced-concrete-foundation-beams",
         "0026-reinforced-concrete-beam-column-joints",
-        "0027-reinforced-concrete-strut-and-tie"
+        "0027-reinforced-concrete-strut-and-tie",
+        "0214-phase-a5-root-applications-export-parity",
+        "0215-phase-a5-package-subpath-parity"
       ],
-      "status": "deferred",
+      "status": "exact-parity",
       "notes": ["Default registry construction is not present in the current TypeScript target."],
       "applicationId": "rc-building-verification",
       "applicationClass": "RcBuildingVerificationApplication",
@@ -28937,7 +30214,9 @@
       "migrationSlices": [
         "0024-reinforced-concrete-foundation-beams",
         "0026-reinforced-concrete-beam-column-joints",
-        "0027-reinforced-concrete-strut-and-tie"
+        "0027-reinforced-concrete-strut-and-tie",
+        "0214-phase-a5-root-applications-export-parity",
+        "0215-phase-a5-package-subpath-parity"
       ],
       "sourceOracles": [
         "tests/architecture/applicationRegistry.test.js",
@@ -28946,7 +30225,12 @@
         "tests/reinforcedConcreteBeamColumnJointApplication.test.js",
         "tests/reinforcedConcreteBeamSectionProvider.test.js",
         "tests/reinforcedConcreteFoundationBeamApplication.test.js",
-        "tests/reinforcedConcreteStrutAndTieApplication.test.js"
+        "tests/reinforcedConcreteStrutAndTieApplication.test.js",
+        "tests/timberConcreteCompositeBeam.test.js",
+        "tests/timberXlamCompositeBeam.test.js",
+        "tests/unitConversionLayer.test.js",
+        "tests/xlamBeamProviderVerification.test.js",
+        "tests/xlamOutOfPlanePanel.test.js"
       ],
       "targetTests": [
         "tests/baseline-parity.test.ts",
@@ -28956,9 +30240,11 @@
       "validationEvidence": [
         "0024-reinforced-concrete-foundation-beams",
         "0026-reinforced-concrete-beam-column-joints",
-        "0027-reinforced-concrete-strut-and-tie"
+        "0027-reinforced-concrete-strut-and-tie",
+        "0214-phase-a5-root-applications-export-parity",
+        "0215-phase-a5-package-subpath-parity"
       ],
-      "status": "deferred",
+      "status": "exact-parity",
       "notes": ["Default registry construction is not present in the current TypeScript target."],
       "applicationId": "timber-beams",
       "applicationClass": "TimberBeamApplication",
@@ -28974,7 +30260,9 @@
       "migrationSlices": [
         "0024-reinforced-concrete-foundation-beams",
         "0026-reinforced-concrete-beam-column-joints",
-        "0027-reinforced-concrete-strut-and-tie"
+        "0027-reinforced-concrete-strut-and-tie",
+        "0214-phase-a5-root-applications-export-parity",
+        "0215-phase-a5-package-subpath-parity"
       ],
       "sourceOracles": [
         "tests/architecture/applicationRegistry.test.js",
@@ -28983,15 +30271,22 @@
         "tests/reinforcedConcreteBeamColumnJointApplication.test.js",
         "tests/reinforcedConcreteBeamSectionProvider.test.js",
         "tests/reinforcedConcreteFoundationBeamApplication.test.js",
-        "tests/reinforcedConcreteStrutAndTieApplication.test.js"
+        "tests/reinforcedConcreteStrutAndTieApplication.test.js",
+        "tests/timberConcreteCompositeBeam.test.js",
+        "tests/timberXlamCompositeBeam.test.js",
+        "tests/unitConversionLayer.test.js",
+        "tests/xlamBeamProviderVerification.test.js",
+        "tests/xlamOutOfPlanePanel.test.js"
       ],
-      "targetTests": [],
+      "targetTests": ["tests/baseline-parity.test.ts"],
       "validationEvidence": [
         "0024-reinforced-concrete-foundation-beams",
         "0026-reinforced-concrete-beam-column-joints",
-        "0027-reinforced-concrete-strut-and-tie"
+        "0027-reinforced-concrete-strut-and-tie",
+        "0214-phase-a5-root-applications-export-parity",
+        "0215-phase-a5-package-subpath-parity"
       ],
-      "status": "deferred",
+      "status": "exact-parity",
       "notes": ["Default registry construction is not present in the current TypeScript target."],
       "applicationId": "timber-concrete-composite-beams",
       "applicationClass": "TimberConcreteCompositeBeamApplication",
@@ -29007,7 +30302,9 @@
       "migrationSlices": [
         "0024-reinforced-concrete-foundation-beams",
         "0026-reinforced-concrete-beam-column-joints",
-        "0027-reinforced-concrete-strut-and-tie"
+        "0027-reinforced-concrete-strut-and-tie",
+        "0214-phase-a5-root-applications-export-parity",
+        "0215-phase-a5-package-subpath-parity"
       ],
       "sourceOracles": [
         "tests/architecture/applicationRegistry.test.js",
@@ -29016,15 +30313,22 @@
         "tests/reinforcedConcreteBeamColumnJointApplication.test.js",
         "tests/reinforcedConcreteBeamSectionProvider.test.js",
         "tests/reinforcedConcreteFoundationBeamApplication.test.js",
-        "tests/reinforcedConcreteStrutAndTieApplication.test.js"
+        "tests/reinforcedConcreteStrutAndTieApplication.test.js",
+        "tests/timberConcreteCompositeBeam.test.js",
+        "tests/timberXlamCompositeBeam.test.js",
+        "tests/unitConversionLayer.test.js",
+        "tests/xlamBeamProviderVerification.test.js",
+        "tests/xlamOutOfPlanePanel.test.js"
       ],
-      "targetTests": [],
+      "targetTests": ["tests/application-api-parity.test.ts", "tests/baseline-parity.test.ts"],
       "validationEvidence": [
         "0024-reinforced-concrete-foundation-beams",
         "0026-reinforced-concrete-beam-column-joints",
-        "0027-reinforced-concrete-strut-and-tie"
+        "0027-reinforced-concrete-strut-and-tie",
+        "0214-phase-a5-root-applications-export-parity",
+        "0215-phase-a5-package-subpath-parity"
       ],
-      "status": "deferred",
+      "status": "exact-parity",
       "notes": ["Default registry construction is not present in the current TypeScript target."],
       "applicationId": "timber-xlam-composite-beams",
       "applicationClass": "TimberXlamCompositeBeamApplication",
@@ -29040,7 +30344,9 @@
       "migrationSlices": [
         "0024-reinforced-concrete-foundation-beams",
         "0026-reinforced-concrete-beam-column-joints",
-        "0027-reinforced-concrete-strut-and-tie"
+        "0027-reinforced-concrete-strut-and-tie",
+        "0214-phase-a5-root-applications-export-parity",
+        "0215-phase-a5-package-subpath-parity"
       ],
       "sourceOracles": [
         "tests/architecture/applicationRegistry.test.js",
@@ -29049,15 +30355,22 @@
         "tests/reinforcedConcreteBeamColumnJointApplication.test.js",
         "tests/reinforcedConcreteBeamSectionProvider.test.js",
         "tests/reinforcedConcreteFoundationBeamApplication.test.js",
-        "tests/reinforcedConcreteStrutAndTieApplication.test.js"
+        "tests/reinforcedConcreteStrutAndTieApplication.test.js",
+        "tests/timberConcreteCompositeBeam.test.js",
+        "tests/timberXlamCompositeBeam.test.js",
+        "tests/unitConversionLayer.test.js",
+        "tests/xlamBeamProviderVerification.test.js",
+        "tests/xlamOutOfPlanePanel.test.js"
       ],
-      "targetTests": [],
+      "targetTests": ["tests/baseline-parity.test.ts"],
       "validationEvidence": [
         "0024-reinforced-concrete-foundation-beams",
         "0026-reinforced-concrete-beam-column-joints",
-        "0027-reinforced-concrete-strut-and-tie"
+        "0027-reinforced-concrete-strut-and-tie",
+        "0214-phase-a5-root-applications-export-parity",
+        "0215-phase-a5-package-subpath-parity"
       ],
-      "status": "deferred",
+      "status": "exact-parity",
       "notes": ["Default registry construction is not present in the current TypeScript target."],
       "applicationId": "xlam-panels-out-of-plane",
       "applicationClass": "XlamOutOfPlanePanelApplication",
@@ -29073,7 +30386,9 @@
       "migrationSlices": [
         "0024-reinforced-concrete-foundation-beams",
         "0026-reinforced-concrete-beam-column-joints",
-        "0027-reinforced-concrete-strut-and-tie"
+        "0027-reinforced-concrete-strut-and-tie",
+        "0214-phase-a5-root-applications-export-parity",
+        "0215-phase-a5-package-subpath-parity"
       ],
       "sourceOracles": [
         "tests/architecture/applicationRegistry.test.js",
@@ -29082,15 +30397,22 @@
         "tests/reinforcedConcreteBeamColumnJointApplication.test.js",
         "tests/reinforcedConcreteBeamSectionProvider.test.js",
         "tests/reinforcedConcreteFoundationBeamApplication.test.js",
-        "tests/reinforcedConcreteStrutAndTieApplication.test.js"
+        "tests/reinforcedConcreteStrutAndTieApplication.test.js",
+        "tests/timberConcreteCompositeBeam.test.js",
+        "tests/timberXlamCompositeBeam.test.js",
+        "tests/unitConversionLayer.test.js",
+        "tests/xlamBeamProviderVerification.test.js",
+        "tests/xlamOutOfPlanePanel.test.js"
       ],
       "targetTests": ["tests/baseline-parity.test.ts", "tests/rc-cracked-deflection.test.ts"],
       "validationEvidence": [
         "0024-reinforced-concrete-foundation-beams",
         "0026-reinforced-concrete-beam-column-joints",
-        "0027-reinforced-concrete-strut-and-tie"
+        "0027-reinforced-concrete-strut-and-tie",
+        "0214-phase-a5-root-applications-export-parity",
+        "0215-phase-a5-package-subpath-parity"
       ],
-      "status": "deferred",
+      "status": "exact-parity",
       "notes": ["Default registry construction is not present in the current TypeScript target."],
       "applicationId": "rc-cracked-deflection",
       "applicationClass": "RCrackedDeflectionApplication",
@@ -29106,7 +30428,9 @@
       "migrationSlices": [
         "0024-reinforced-concrete-foundation-beams",
         "0026-reinforced-concrete-beam-column-joints",
-        "0027-reinforced-concrete-strut-and-tie"
+        "0027-reinforced-concrete-strut-and-tie",
+        "0214-phase-a5-root-applications-export-parity",
+        "0215-phase-a5-package-subpath-parity"
       ],
       "sourceOracles": [
         "tests/architecture/applicationRegistry.test.js",
@@ -29115,7 +30439,12 @@
         "tests/reinforcedConcreteBeamColumnJointApplication.test.js",
         "tests/reinforcedConcreteBeamSectionProvider.test.js",
         "tests/reinforcedConcreteFoundationBeamApplication.test.js",
-        "tests/reinforcedConcreteStrutAndTieApplication.test.js"
+        "tests/reinforcedConcreteStrutAndTieApplication.test.js",
+        "tests/timberConcreteCompositeBeam.test.js",
+        "tests/timberXlamCompositeBeam.test.js",
+        "tests/unitConversionLayer.test.js",
+        "tests/xlamBeamProviderVerification.test.js",
+        "tests/xlamOutOfPlanePanel.test.js"
       ],
       "targetTests": [
         "tests/baseline-parity.test.ts",
@@ -29125,9 +30454,11 @@
       "validationEvidence": [
         "0024-reinforced-concrete-foundation-beams",
         "0026-reinforced-concrete-beam-column-joints",
-        "0027-reinforced-concrete-strut-and-tie"
+        "0027-reinforced-concrete-strut-and-tie",
+        "0214-phase-a5-root-applications-export-parity",
+        "0215-phase-a5-package-subpath-parity"
       ],
-      "status": "deferred",
+      "status": "exact-parity",
       "notes": ["Default registry construction is not present in the current TypeScript target."],
       "applicationId": "masonry-out-of-plane",
       "applicationClass": "MasonryOutOfPlaneApplication",
@@ -29143,7 +30474,9 @@
       "migrationSlices": [
         "0024-reinforced-concrete-foundation-beams",
         "0026-reinforced-concrete-beam-column-joints",
-        "0027-reinforced-concrete-strut-and-tie"
+        "0027-reinforced-concrete-strut-and-tie",
+        "0214-phase-a5-root-applications-export-parity",
+        "0215-phase-a5-package-subpath-parity"
       ],
       "sourceOracles": [
         "tests/architecture/applicationRegistry.test.js",
@@ -29152,7 +30485,12 @@
         "tests/reinforcedConcreteBeamColumnJointApplication.test.js",
         "tests/reinforcedConcreteBeamSectionProvider.test.js",
         "tests/reinforcedConcreteFoundationBeamApplication.test.js",
-        "tests/reinforcedConcreteStrutAndTieApplication.test.js"
+        "tests/reinforcedConcreteStrutAndTieApplication.test.js",
+        "tests/timberConcreteCompositeBeam.test.js",
+        "tests/timberXlamCompositeBeam.test.js",
+        "tests/unitConversionLayer.test.js",
+        "tests/xlamBeamProviderVerification.test.js",
+        "tests/xlamOutOfPlanePanel.test.js"
       ],
       "targetTests": [
         "tests/baseline-parity.test.ts",
@@ -29163,9 +30501,11 @@
       "validationEvidence": [
         "0024-reinforced-concrete-foundation-beams",
         "0026-reinforced-concrete-beam-column-joints",
-        "0027-reinforced-concrete-strut-and-tie"
+        "0027-reinforced-concrete-strut-and-tie",
+        "0214-phase-a5-root-applications-export-parity",
+        "0215-phase-a5-package-subpath-parity"
       ],
-      "status": "deferred",
+      "status": "exact-parity",
       "notes": ["Default registry construction is not present in the current TypeScript target."],
       "applicationId": "micropiles-broms",
       "applicationClass": "MicropileBromsApplication",
@@ -29181,7 +30521,9 @@
       "migrationSlices": [
         "0024-reinforced-concrete-foundation-beams",
         "0026-reinforced-concrete-beam-column-joints",
-        "0027-reinforced-concrete-strut-and-tie"
+        "0027-reinforced-concrete-strut-and-tie",
+        "0214-phase-a5-root-applications-export-parity",
+        "0215-phase-a5-package-subpath-parity"
       ],
       "sourceOracles": [
         "tests/architecture/applicationRegistry.test.js",
@@ -29190,7 +30532,12 @@
         "tests/reinforcedConcreteBeamColumnJointApplication.test.js",
         "tests/reinforcedConcreteBeamSectionProvider.test.js",
         "tests/reinforcedConcreteFoundationBeamApplication.test.js",
-        "tests/reinforcedConcreteStrutAndTieApplication.test.js"
+        "tests/reinforcedConcreteStrutAndTieApplication.test.js",
+        "tests/timberConcreteCompositeBeam.test.js",
+        "tests/timberXlamCompositeBeam.test.js",
+        "tests/unitConversionLayer.test.js",
+        "tests/xlamBeamProviderVerification.test.js",
+        "tests/xlamOutOfPlanePanel.test.js"
       ],
       "targetTests": [
         "tests/baseline-parity.test.ts",
@@ -29201,9 +30548,11 @@
       "validationEvidence": [
         "0024-reinforced-concrete-foundation-beams",
         "0026-reinforced-concrete-beam-column-joints",
-        "0027-reinforced-concrete-strut-and-tie"
+        "0027-reinforced-concrete-strut-and-tie",
+        "0214-phase-a5-root-applications-export-parity",
+        "0215-phase-a5-package-subpath-parity"
       ],
-      "status": "deferred",
+      "status": "exact-parity",
       "notes": ["Default registry construction is not present in the current TypeScript target."],
       "applicationId": "geotechnical-deep-foundations",
       "applicationClass": "GeotechnicalDeepFoundationApplication",
@@ -29219,7 +30568,9 @@
       "migrationSlices": [
         "0024-reinforced-concrete-foundation-beams",
         "0026-reinforced-concrete-beam-column-joints",
-        "0027-reinforced-concrete-strut-and-tie"
+        "0027-reinforced-concrete-strut-and-tie",
+        "0214-phase-a5-root-applications-export-parity",
+        "0215-phase-a5-package-subpath-parity"
       ],
       "sourceOracles": [
         "tests/architecture/applicationRegistry.test.js",
@@ -29228,7 +30579,12 @@
         "tests/reinforcedConcreteBeamColumnJointApplication.test.js",
         "tests/reinforcedConcreteBeamSectionProvider.test.js",
         "tests/reinforcedConcreteFoundationBeamApplication.test.js",
-        "tests/reinforcedConcreteStrutAndTieApplication.test.js"
+        "tests/reinforcedConcreteStrutAndTieApplication.test.js",
+        "tests/timberConcreteCompositeBeam.test.js",
+        "tests/timberXlamCompositeBeam.test.js",
+        "tests/unitConversionLayer.test.js",
+        "tests/xlamBeamProviderVerification.test.js",
+        "tests/xlamOutOfPlanePanel.test.js"
       ],
       "targetTests": [
         "tests/baseline-parity.test.ts",
@@ -29238,9 +30594,11 @@
       "validationEvidence": [
         "0024-reinforced-concrete-foundation-beams",
         "0026-reinforced-concrete-beam-column-joints",
-        "0027-reinforced-concrete-strut-and-tie"
+        "0027-reinforced-concrete-strut-and-tie",
+        "0214-phase-a5-root-applications-export-parity",
+        "0215-phase-a5-package-subpath-parity"
       ],
-      "status": "deferred",
+      "status": "exact-parity",
       "notes": ["Default registry construction is not present in the current TypeScript target."],
       "applicationId": "geotechnical-embedded-retaining-walls",
       "applicationClass": "GeotechnicalEmbeddedRetainingWallApplication",
@@ -29256,7 +30614,9 @@
       "migrationSlices": [
         "0024-reinforced-concrete-foundation-beams",
         "0026-reinforced-concrete-beam-column-joints",
-        "0027-reinforced-concrete-strut-and-tie"
+        "0027-reinforced-concrete-strut-and-tie",
+        "0214-phase-a5-root-applications-export-parity",
+        "0215-phase-a5-package-subpath-parity"
       ],
       "sourceOracles": [
         "tests/architecture/applicationRegistry.test.js",
@@ -29265,7 +30625,12 @@
         "tests/reinforcedConcreteBeamColumnJointApplication.test.js",
         "tests/reinforcedConcreteBeamSectionProvider.test.js",
         "tests/reinforcedConcreteFoundationBeamApplication.test.js",
-        "tests/reinforcedConcreteStrutAndTieApplication.test.js"
+        "tests/reinforcedConcreteStrutAndTieApplication.test.js",
+        "tests/timberConcreteCompositeBeam.test.js",
+        "tests/timberXlamCompositeBeam.test.js",
+        "tests/unitConversionLayer.test.js",
+        "tests/xlamBeamProviderVerification.test.js",
+        "tests/xlamOutOfPlanePanel.test.js"
       ],
       "targetTests": [
         "tests/baseline-parity.test.ts",
@@ -29275,9 +30640,11 @@
       "validationEvidence": [
         "0024-reinforced-concrete-foundation-beams",
         "0026-reinforced-concrete-beam-column-joints",
-        "0027-reinforced-concrete-strut-and-tie"
+        "0027-reinforced-concrete-strut-and-tie",
+        "0214-phase-a5-root-applications-export-parity",
+        "0215-phase-a5-package-subpath-parity"
       ],
-      "status": "deferred",
+      "status": "exact-parity",
       "notes": ["Default registry construction is not present in the current TypeScript target."],
       "applicationId": "geotechnical-ground-anchors",
       "applicationClass": "GeotechnicalGroundAnchorApplication",
@@ -29293,7 +30660,9 @@
       "migrationSlices": [
         "0024-reinforced-concrete-foundation-beams",
         "0026-reinforced-concrete-beam-column-joints",
-        "0027-reinforced-concrete-strut-and-tie"
+        "0027-reinforced-concrete-strut-and-tie",
+        "0214-phase-a5-root-applications-export-parity",
+        "0215-phase-a5-package-subpath-parity"
       ],
       "sourceOracles": [
         "tests/architecture/applicationRegistry.test.js",
@@ -29302,7 +30671,12 @@
         "tests/reinforcedConcreteBeamColumnJointApplication.test.js",
         "tests/reinforcedConcreteBeamSectionProvider.test.js",
         "tests/reinforcedConcreteFoundationBeamApplication.test.js",
-        "tests/reinforcedConcreteStrutAndTieApplication.test.js"
+        "tests/reinforcedConcreteStrutAndTieApplication.test.js",
+        "tests/timberConcreteCompositeBeam.test.js",
+        "tests/timberXlamCompositeBeam.test.js",
+        "tests/unitConversionLayer.test.js",
+        "tests/xlamBeamProviderVerification.test.js",
+        "tests/xlamOutOfPlanePanel.test.js"
       ],
       "targetTests": [
         "tests/baseline-parity.test.ts",
@@ -29312,9 +30686,11 @@
       "validationEvidence": [
         "0024-reinforced-concrete-foundation-beams",
         "0026-reinforced-concrete-beam-column-joints",
-        "0027-reinforced-concrete-strut-and-tie"
+        "0027-reinforced-concrete-strut-and-tie",
+        "0214-phase-a5-root-applications-export-parity",
+        "0215-phase-a5-package-subpath-parity"
       ],
-      "status": "deferred",
+      "status": "exact-parity",
       "notes": ["Default registry construction is not present in the current TypeScript target."],
       "applicationId": "geotechnical-lateral-piles",
       "applicationClass": "GeotechnicalLateralPileApplication",
@@ -29330,7 +30706,9 @@
       "migrationSlices": [
         "0024-reinforced-concrete-foundation-beams",
         "0026-reinforced-concrete-beam-column-joints",
-        "0027-reinforced-concrete-strut-and-tie"
+        "0027-reinforced-concrete-strut-and-tie",
+        "0214-phase-a5-root-applications-export-parity",
+        "0215-phase-a5-package-subpath-parity"
       ],
       "sourceOracles": [
         "tests/architecture/applicationRegistry.test.js",
@@ -29339,7 +30717,12 @@
         "tests/reinforcedConcreteBeamColumnJointApplication.test.js",
         "tests/reinforcedConcreteBeamSectionProvider.test.js",
         "tests/reinforcedConcreteFoundationBeamApplication.test.js",
-        "tests/reinforcedConcreteStrutAndTieApplication.test.js"
+        "tests/reinforcedConcreteStrutAndTieApplication.test.js",
+        "tests/timberConcreteCompositeBeam.test.js",
+        "tests/timberXlamCompositeBeam.test.js",
+        "tests/unitConversionLayer.test.js",
+        "tests/xlamBeamProviderVerification.test.js",
+        "tests/xlamOutOfPlanePanel.test.js"
       ],
       "targetTests": [
         "tests/baseline-parity.test.ts",
@@ -29349,9 +30732,11 @@
       "validationEvidence": [
         "0024-reinforced-concrete-foundation-beams",
         "0026-reinforced-concrete-beam-column-joints",
-        "0027-reinforced-concrete-strut-and-tie"
+        "0027-reinforced-concrete-strut-and-tie",
+        "0214-phase-a5-root-applications-export-parity",
+        "0215-phase-a5-package-subpath-parity"
       ],
-      "status": "deferred",
+      "status": "exact-parity",
       "notes": ["Default registry construction is not present in the current TypeScript target."],
       "applicationId": "geotechnical-earth-pressures",
       "applicationClass": "GeotechnicalEarthPressureApplication",
@@ -29367,7 +30752,9 @@
       "migrationSlices": [
         "0024-reinforced-concrete-foundation-beams",
         "0026-reinforced-concrete-beam-column-joints",
-        "0027-reinforced-concrete-strut-and-tie"
+        "0027-reinforced-concrete-strut-and-tie",
+        "0214-phase-a5-root-applications-export-parity",
+        "0215-phase-a5-package-subpath-parity"
       ],
       "sourceOracles": [
         "tests/architecture/applicationRegistry.test.js",
@@ -29376,7 +30763,12 @@
         "tests/reinforcedConcreteBeamColumnJointApplication.test.js",
         "tests/reinforcedConcreteBeamSectionProvider.test.js",
         "tests/reinforcedConcreteFoundationBeamApplication.test.js",
-        "tests/reinforcedConcreteStrutAndTieApplication.test.js"
+        "tests/reinforcedConcreteStrutAndTieApplication.test.js",
+        "tests/timberConcreteCompositeBeam.test.js",
+        "tests/timberXlamCompositeBeam.test.js",
+        "tests/unitConversionLayer.test.js",
+        "tests/xlamBeamProviderVerification.test.js",
+        "tests/xlamOutOfPlanePanel.test.js"
       ],
       "targetTests": [
         "tests/baseline-parity.test.ts",
@@ -29386,9 +30778,11 @@
       "validationEvidence": [
         "0024-reinforced-concrete-foundation-beams",
         "0026-reinforced-concrete-beam-column-joints",
-        "0027-reinforced-concrete-strut-and-tie"
+        "0027-reinforced-concrete-strut-and-tie",
+        "0214-phase-a5-root-applications-export-parity",
+        "0215-phase-a5-package-subpath-parity"
       ],
-      "status": "deferred",
+      "status": "exact-parity",
       "notes": ["Default registry construction is not present in the current TypeScript target."],
       "applicationId": "geotechnical-shallow-foundations",
       "applicationClass": "GeotechnicalShallowFoundationApplication",
@@ -29404,7 +30798,9 @@
       "migrationSlices": [
         "0024-reinforced-concrete-foundation-beams",
         "0026-reinforced-concrete-beam-column-joints",
-        "0027-reinforced-concrete-strut-and-tie"
+        "0027-reinforced-concrete-strut-and-tie",
+        "0214-phase-a5-root-applications-export-parity",
+        "0215-phase-a5-package-subpath-parity"
       ],
       "sourceOracles": [
         "tests/architecture/applicationRegistry.test.js",
@@ -29413,7 +30809,12 @@
         "tests/reinforcedConcreteBeamColumnJointApplication.test.js",
         "tests/reinforcedConcreteBeamSectionProvider.test.js",
         "tests/reinforcedConcreteFoundationBeamApplication.test.js",
-        "tests/reinforcedConcreteStrutAndTieApplication.test.js"
+        "tests/reinforcedConcreteStrutAndTieApplication.test.js",
+        "tests/timberConcreteCompositeBeam.test.js",
+        "tests/timberXlamCompositeBeam.test.js",
+        "tests/unitConversionLayer.test.js",
+        "tests/xlamBeamProviderVerification.test.js",
+        "tests/xlamOutOfPlanePanel.test.js"
       ],
       "targetTests": [
         "tests/baseline-parity.test.ts",
@@ -29423,9 +30824,11 @@
       "validationEvidence": [
         "0024-reinforced-concrete-foundation-beams",
         "0026-reinforced-concrete-beam-column-joints",
-        "0027-reinforced-concrete-strut-and-tie"
+        "0027-reinforced-concrete-strut-and-tie",
+        "0214-phase-a5-root-applications-export-parity",
+        "0215-phase-a5-package-subpath-parity"
       ],
-      "status": "deferred",
+      "status": "exact-parity",
       "notes": ["Default registry construction is not present in the current TypeScript target."],
       "applicationId": "geotechnical-retaining-walls",
       "applicationClass": "GeotechnicalRetainingWallApplication",
@@ -29441,7 +30844,9 @@
       "migrationSlices": [
         "0024-reinforced-concrete-foundation-beams",
         "0026-reinforced-concrete-beam-column-joints",
-        "0027-reinforced-concrete-strut-and-tie"
+        "0027-reinforced-concrete-strut-and-tie",
+        "0214-phase-a5-root-applications-export-parity",
+        "0215-phase-a5-package-subpath-parity"
       ],
       "sourceOracles": [
         "tests/architecture/applicationRegistry.test.js",
@@ -29450,7 +30855,12 @@
         "tests/reinforcedConcreteBeamColumnJointApplication.test.js",
         "tests/reinforcedConcreteBeamSectionProvider.test.js",
         "tests/reinforcedConcreteFoundationBeamApplication.test.js",
-        "tests/reinforcedConcreteStrutAndTieApplication.test.js"
+        "tests/reinforcedConcreteStrutAndTieApplication.test.js",
+        "tests/timberConcreteCompositeBeam.test.js",
+        "tests/timberXlamCompositeBeam.test.js",
+        "tests/unitConversionLayer.test.js",
+        "tests/xlamBeamProviderVerification.test.js",
+        "tests/xlamOutOfPlanePanel.test.js"
       ],
       "targetTests": [
         "tests/baseline-parity.test.ts",
@@ -29460,9 +30870,11 @@
       "validationEvidence": [
         "0024-reinforced-concrete-foundation-beams",
         "0026-reinforced-concrete-beam-column-joints",
-        "0027-reinforced-concrete-strut-and-tie"
+        "0027-reinforced-concrete-strut-and-tie",
+        "0214-phase-a5-root-applications-export-parity",
+        "0215-phase-a5-package-subpath-parity"
       ],
-      "status": "deferred",
+      "status": "exact-parity",
       "notes": ["Default registry construction is not present in the current TypeScript target."],
       "applicationId": "geotechnical-slope-stability",
       "applicationClass": "GeotechnicalSlopeStabilityApplication",
@@ -31407,7 +32819,9 @@
       "migrationSlices": [
         "0024-reinforced-concrete-foundation-beams",
         "0026-reinforced-concrete-beam-column-joints",
-        "0027-reinforced-concrete-strut-and-tie"
+        "0027-reinforced-concrete-strut-and-tie",
+        "0214-phase-a5-root-applications-export-parity",
+        "0215-phase-a5-package-subpath-parity"
       ],
       "sourceOracles": [
         "tests/architecture/applicationRegistry.test.js",
@@ -31416,10 +32830,18 @@
         "tests/reinforcedConcreteBeamColumnJointApplication.test.js",
         "tests/reinforcedConcreteBeamSectionProvider.test.js",
         "tests/reinforcedConcreteFoundationBeamApplication.test.js",
-        "tests/reinforcedConcreteStrutAndTieApplication.test.js"
+        "tests/reinforcedConcreteStrutAndTieApplication.test.js",
+        "tests/timberConcreteCompositeBeam.test.js",
+        "tests/timberXlamCompositeBeam.test.js",
+        "tests/unitConversionLayer.test.js",
+        "tests/xlamBeamProviderVerification.test.js",
+        "tests/xlamOutOfPlanePanel.test.js"
       ],
       "targetTests": [
+        "tests/application-api-parity.test.ts",
         "tests/baseline-parity.test.ts",
+        "tests/package-subpath-consumers.test.ts",
+        "tests/package-subpath-static-consumers.test.ts",
         "tests/reinforced-concrete-beam-column-joint.test.ts",
         "tests/reinforced-concrete-foundation-beam.test.ts",
         "tests/reinforced-concrete-strut-and-tie.test.ts"
@@ -31427,7 +32849,9 @@
       "validationEvidence": [
         "0024-reinforced-concrete-foundation-beams",
         "0026-reinforced-concrete-beam-column-joints",
-        "0027-reinforced-concrete-strut-and-tie"
+        "0027-reinforced-concrete-strut-and-tie",
+        "0214-phase-a5-root-applications-export-parity",
+        "0215-phase-a5-package-subpath-parity"
       ],
       "status": "exact-parity"
     },
@@ -31904,11 +33328,19 @@
       "sourcePath": "src/applications/masonry-wall-openings/index.js",
       "sourceBlobSha1": "eff11642dcba529d9307f41cd5e19afc32cc99b1",
       "targetPath": "src/applications/masonry-wall-openings/index.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "deferred"
+      "migrationSlices": ["0214-phase-a5-root-applications-export-parity"],
+      "sourceOracles": [
+        "tests/architecture/applicationRegistry.test.js",
+        "tests/packageExports.test.js",
+        "tests/timberConcreteCompositeBeam.test.js",
+        "tests/timberXlamCompositeBeam.test.js",
+        "tests/unitConversionLayer.test.js",
+        "tests/xlamBeamProviderVerification.test.js",
+        "tests/xlamOutOfPlanePanel.test.js"
+      ],
+      "targetTests": ["tests/application-api-parity.test.ts"],
+      "validationEvidence": ["0214-phase-a5-root-applications-export-parity"],
+      "status": "exact-parity"
     },
     {
       "id": "src/applications/masonry-wall-openings/materials/resolveAlignmentMechanicalState.js",
@@ -34525,12 +35957,21 @@
       "migrationSlices": [
         "0182-applications-steel-plastic-hinge-state",
         "0190-applications-steel-fem-3d-verification",
-        "0195-applications-steel-member-verification-policies"
+        "0195-applications-steel-member-verification-policies",
+        "0214-phase-a5-root-applications-export-parity"
       ],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "deferred"
+      "sourceOracles": [
+        "tests/architecture/applicationRegistry.test.js",
+        "tests/packageExports.test.js",
+        "tests/timberConcreteCompositeBeam.test.js",
+        "tests/timberXlamCompositeBeam.test.js",
+        "tests/unitConversionLayer.test.js",
+        "tests/xlamBeamProviderVerification.test.js",
+        "tests/xlamOutOfPlanePanel.test.js"
+      ],
+      "targetTests": ["tests/application-api-parity.test.ts"],
+      "validationEvidence": ["0214-phase-a5-root-applications-export-parity"],
+      "status": "exact-parity"
     },
     {
       "id": "src/applications/steel-frames/models/SteelFrameModel.js",
@@ -34619,11 +36060,19 @@
       "sourcePath": "src/applications/timber-beams/index.js",
       "sourceBlobSha1": "b1a6dbf458601210a81815d0ce722831b347465c",
       "targetPath": "src/applications/timber-beams/index.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "deferred"
+      "migrationSlices": ["0214-phase-a5-root-applications-export-parity"],
+      "sourceOracles": [
+        "tests/architecture/applicationRegistry.test.js",
+        "tests/packageExports.test.js",
+        "tests/timberConcreteCompositeBeam.test.js",
+        "tests/timberXlamCompositeBeam.test.js",
+        "tests/unitConversionLayer.test.js",
+        "tests/xlamBeamProviderVerification.test.js",
+        "tests/xlamOutOfPlanePanel.test.js"
+      ],
+      "targetTests": ["tests/application-api-parity.test.ts"],
+      "validationEvidence": ["0214-phase-a5-root-applications-export-parity"],
+      "status": "exact-parity"
     },
     {
       "id": "src/applications/timber-beams/models/TimberBeamModel.js",
@@ -34645,11 +36094,19 @@
       "sourcePath": "src/applications/timber-concrete-composite-beams/TimberConcreteCompositeBeamApplication.js",
       "sourceBlobSha1": "0ca1c332dd957b09a867e17c43505332757a360a",
       "targetPath": "src/applications/timber-concrete-composite-beams/TimberConcreteCompositeBeamApplication.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "deferred"
+      "migrationSlices": ["0214-phase-a5-root-applications-export-parity"],
+      "sourceOracles": [
+        "tests/architecture/applicationRegistry.test.js",
+        "tests/packageExports.test.js",
+        "tests/timberConcreteCompositeBeam.test.js",
+        "tests/timberXlamCompositeBeam.test.js",
+        "tests/unitConversionLayer.test.js",
+        "tests/xlamBeamProviderVerification.test.js",
+        "tests/xlamOutOfPlanePanel.test.js"
+      ],
+      "targetTests": ["tests/application-api-parity.test.ts"],
+      "validationEvidence": ["0214-phase-a5-root-applications-export-parity"],
+      "status": "exact-parity"
     },
     {
       "id": "src/applications/timber-concrete-composite-beams/analysis/TimberConcreteCompositeBeamSectionProvider.js",
@@ -34675,22 +36132,38 @@
       "sourcePath": "src/applications/timber-concrete-composite-beams/checks/TimberConcreteCompositeBeamVerification.js",
       "sourceBlobSha1": "2f8ee4b52ced9bcf1ec26cd131cd591e76264971",
       "targetPath": "src/applications/timber-concrete-composite-beams/checks/TimberConcreteCompositeBeamVerification.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "deferred"
+      "migrationSlices": ["0214-phase-a5-root-applications-export-parity"],
+      "sourceOracles": [
+        "tests/architecture/applicationRegistry.test.js",
+        "tests/packageExports.test.js",
+        "tests/timberConcreteCompositeBeam.test.js",
+        "tests/timberXlamCompositeBeam.test.js",
+        "tests/unitConversionLayer.test.js",
+        "tests/xlamBeamProviderVerification.test.js",
+        "tests/xlamOutOfPlanePanel.test.js"
+      ],
+      "targetTests": ["tests/application-api-parity.test.ts"],
+      "validationEvidence": ["0214-phase-a5-root-applications-export-parity"],
+      "status": "exact-parity"
     },
     {
       "id": "src/applications/timber-concrete-composite-beams/index.js",
       "sourcePath": "src/applications/timber-concrete-composite-beams/index.js",
       "sourceBlobSha1": "90395b35711d81ec6cf57d882ae4da202a6531de",
       "targetPath": "src/applications/timber-concrete-composite-beams/index.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "deferred"
+      "migrationSlices": ["0214-phase-a5-root-applications-export-parity"],
+      "sourceOracles": [
+        "tests/architecture/applicationRegistry.test.js",
+        "tests/packageExports.test.js",
+        "tests/timberConcreteCompositeBeam.test.js",
+        "tests/timberXlamCompositeBeam.test.js",
+        "tests/unitConversionLayer.test.js",
+        "tests/xlamBeamProviderVerification.test.js",
+        "tests/xlamOutOfPlanePanel.test.js"
+      ],
+      "targetTests": ["tests/application-api-parity.test.ts"],
+      "validationEvidence": ["0214-phase-a5-root-applications-export-parity"],
+      "status": "exact-parity"
     },
     {
       "id": "src/applications/timber-concrete-composite-beams/models/TimberConcreteCompositeBeamModel.js",
@@ -34716,154 +36189,268 @@
       "sourcePath": "src/applications/timber-xlam-composite-beams/TimberXlamCompositeBeamApplication.js",
       "sourceBlobSha1": "03993b16d0e9e7d6596c8c1477424b873558c097",
       "targetPath": "src/applications/timber-xlam-composite-beams/TimberXlamCompositeBeamApplication.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "deferred"
+      "migrationSlices": ["0214-phase-a5-root-applications-export-parity"],
+      "sourceOracles": [
+        "tests/architecture/applicationRegistry.test.js",
+        "tests/packageExports.test.js",
+        "tests/timberConcreteCompositeBeam.test.js",
+        "tests/timberXlamCompositeBeam.test.js",
+        "tests/unitConversionLayer.test.js",
+        "tests/xlamBeamProviderVerification.test.js",
+        "tests/xlamOutOfPlanePanel.test.js"
+      ],
+      "targetTests": ["tests/application-api-parity.test.ts"],
+      "validationEvidence": ["0214-phase-a5-root-applications-export-parity"],
+      "status": "exact-parity"
     },
     {
       "id": "src/applications/timber-xlam-composite-beams/analysis/TimberXlamCompositeBeamSectionProvider.js",
       "sourcePath": "src/applications/timber-xlam-composite-beams/analysis/TimberXlamCompositeBeamSectionProvider.js",
       "sourceBlobSha1": "1a8e158285d205154c81821c55538d1e2f32b10c",
       "targetPath": "src/applications/timber-xlam-composite-beams/analysis/TimberXlamCompositeBeamSectionProvider.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "deferred"
+      "migrationSlices": ["0214-phase-a5-root-applications-export-parity"],
+      "sourceOracles": [
+        "tests/architecture/applicationRegistry.test.js",
+        "tests/packageExports.test.js",
+        "tests/timberConcreteCompositeBeam.test.js",
+        "tests/timberXlamCompositeBeam.test.js",
+        "tests/unitConversionLayer.test.js",
+        "tests/xlamBeamProviderVerification.test.js",
+        "tests/xlamOutOfPlanePanel.test.js"
+      ],
+      "targetTests": ["tests/application-api-parity.test.ts"],
+      "validationEvidence": ["0214-phase-a5-root-applications-export-parity"],
+      "status": "exact-parity"
     },
     {
       "id": "src/applications/timber-xlam-composite-beams/checks/TimberXlamCompositeBeamVerification.js",
       "sourcePath": "src/applications/timber-xlam-composite-beams/checks/TimberXlamCompositeBeamVerification.js",
       "sourceBlobSha1": "6f05ce92d381f5cd9498139f26fd752dfa3043bc",
       "targetPath": "src/applications/timber-xlam-composite-beams/checks/TimberXlamCompositeBeamVerification.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "deferred"
+      "migrationSlices": ["0214-phase-a5-root-applications-export-parity"],
+      "sourceOracles": [
+        "tests/architecture/applicationRegistry.test.js",
+        "tests/packageExports.test.js",
+        "tests/timberConcreteCompositeBeam.test.js",
+        "tests/timberXlamCompositeBeam.test.js",
+        "tests/unitConversionLayer.test.js",
+        "tests/xlamBeamProviderVerification.test.js",
+        "tests/xlamOutOfPlanePanel.test.js"
+      ],
+      "targetTests": ["tests/application-api-parity.test.ts"],
+      "validationEvidence": ["0214-phase-a5-root-applications-export-parity"],
+      "status": "exact-parity"
     },
     {
       "id": "src/applications/timber-xlam-composite-beams/index.js",
       "sourcePath": "src/applications/timber-xlam-composite-beams/index.js",
       "sourceBlobSha1": "d0f62052f989200e3b36aaf45998f6e5d4e01cb4",
       "targetPath": "src/applications/timber-xlam-composite-beams/index.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "deferred"
+      "migrationSlices": ["0214-phase-a5-root-applications-export-parity"],
+      "sourceOracles": [
+        "tests/architecture/applicationRegistry.test.js",
+        "tests/packageExports.test.js",
+        "tests/timberConcreteCompositeBeam.test.js",
+        "tests/timberXlamCompositeBeam.test.js",
+        "tests/unitConversionLayer.test.js",
+        "tests/xlamBeamProviderVerification.test.js",
+        "tests/xlamOutOfPlanePanel.test.js"
+      ],
+      "targetTests": ["tests/application-api-parity.test.ts"],
+      "validationEvidence": ["0214-phase-a5-root-applications-export-parity"],
+      "status": "exact-parity"
     },
     {
       "id": "src/applications/timber-xlam-composite-beams/models/TimberXlamCompositeBeamModel.js",
       "sourcePath": "src/applications/timber-xlam-composite-beams/models/TimberXlamCompositeBeamModel.js",
       "sourceBlobSha1": "800e1375ec122fee64e2b206271bd14a98bbdb7a",
       "targetPath": "src/applications/timber-xlam-composite-beams/models/TimberXlamCompositeBeamModel.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "deferred"
+      "migrationSlices": ["0214-phase-a5-root-applications-export-parity"],
+      "sourceOracles": [
+        "tests/architecture/applicationRegistry.test.js",
+        "tests/packageExports.test.js",
+        "tests/timberConcreteCompositeBeam.test.js",
+        "tests/timberXlamCompositeBeam.test.js",
+        "tests/unitConversionLayer.test.js",
+        "tests/xlamBeamProviderVerification.test.js",
+        "tests/xlamOutOfPlanePanel.test.js"
+      ],
+      "targetTests": ["tests/application-api-parity.test.ts"],
+      "validationEvidence": ["0214-phase-a5-root-applications-export-parity"],
+      "status": "exact-parity"
     },
     {
       "id": "src/applications/xlam-beams/checks/XlamBeamVerification.js",
       "sourcePath": "src/applications/xlam-beams/checks/XlamBeamVerification.js",
       "sourceBlobSha1": "669677592acbd02111a5e2314f88f293d3f07569",
       "targetPath": "src/applications/xlam-beams/checks/XlamBeamVerification.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "deferred"
+      "migrationSlices": ["0214-phase-a5-root-applications-export-parity"],
+      "sourceOracles": [
+        "tests/architecture/applicationRegistry.test.js",
+        "tests/packageExports.test.js",
+        "tests/timberConcreteCompositeBeam.test.js",
+        "tests/timberXlamCompositeBeam.test.js",
+        "tests/unitConversionLayer.test.js",
+        "tests/xlamBeamProviderVerification.test.js",
+        "tests/xlamOutOfPlanePanel.test.js"
+      ],
+      "targetTests": ["tests/application-api-parity.test.ts"],
+      "validationEvidence": ["0214-phase-a5-root-applications-export-parity"],
+      "status": "exact-parity"
     },
     {
       "id": "src/applications/xlam-beams/index.js",
       "sourcePath": "src/applications/xlam-beams/index.js",
       "sourceBlobSha1": "36c74e2e492d9c8fd1aaa48ba257579d482b5b07",
       "targetPath": "src/applications/xlam-beams/index.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "deferred"
+      "migrationSlices": ["0214-phase-a5-root-applications-export-parity"],
+      "sourceOracles": [
+        "tests/architecture/applicationRegistry.test.js",
+        "tests/packageExports.test.js",
+        "tests/timberConcreteCompositeBeam.test.js",
+        "tests/timberXlamCompositeBeam.test.js",
+        "tests/unitConversionLayer.test.js",
+        "tests/xlamBeamProviderVerification.test.js",
+        "tests/xlamOutOfPlanePanel.test.js"
+      ],
+      "targetTests": ["tests/application-api-parity.test.ts"],
+      "validationEvidence": ["0214-phase-a5-root-applications-export-parity"],
+      "status": "exact-parity"
     },
     {
       "id": "src/applications/xlam-panels-out-of-plane/XlamOutOfPlanePanelApplication.js",
       "sourcePath": "src/applications/xlam-panels-out-of-plane/XlamOutOfPlanePanelApplication.js",
       "sourceBlobSha1": "c30c4456d0c56537d415bbdf42b69b4d2f6d54d2",
       "targetPath": "src/applications/xlam-panels-out-of-plane/XlamOutOfPlanePanelApplication.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "deferred"
+      "migrationSlices": ["0214-phase-a5-root-applications-export-parity"],
+      "sourceOracles": [
+        "tests/architecture/applicationRegistry.test.js",
+        "tests/packageExports.test.js",
+        "tests/timberConcreteCompositeBeam.test.js",
+        "tests/timberXlamCompositeBeam.test.js",
+        "tests/unitConversionLayer.test.js",
+        "tests/xlamBeamProviderVerification.test.js",
+        "tests/xlamOutOfPlanePanel.test.js"
+      ],
+      "targetTests": ["tests/application-api-parity.test.ts"],
+      "validationEvidence": ["0214-phase-a5-root-applications-export-parity"],
+      "status": "exact-parity"
     },
     {
       "id": "src/applications/xlam-panels-out-of-plane/checks/XlamOutOfPlanePanelVerification.js",
       "sourcePath": "src/applications/xlam-panels-out-of-plane/checks/XlamOutOfPlanePanelVerification.js",
       "sourceBlobSha1": "642ba80b9843bd1d4b88714f9339f6bf0aecb783",
       "targetPath": "src/applications/xlam-panels-out-of-plane/checks/XlamOutOfPlanePanelVerification.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "deferred"
+      "migrationSlices": ["0214-phase-a5-root-applications-export-parity"],
+      "sourceOracles": [
+        "tests/architecture/applicationRegistry.test.js",
+        "tests/packageExports.test.js",
+        "tests/timberConcreteCompositeBeam.test.js",
+        "tests/timberXlamCompositeBeam.test.js",
+        "tests/unitConversionLayer.test.js",
+        "tests/xlamBeamProviderVerification.test.js",
+        "tests/xlamOutOfPlanePanel.test.js"
+      ],
+      "targetTests": ["tests/application-api-parity.test.ts"],
+      "validationEvidence": ["0214-phase-a5-root-applications-export-parity"],
+      "status": "exact-parity"
     },
     {
       "id": "src/applications/xlam-panels-out-of-plane/index.js",
       "sourcePath": "src/applications/xlam-panels-out-of-plane/index.js",
       "sourceBlobSha1": "bb29d32756ea8b5a6165acede1dc818dd734d773",
       "targetPath": "src/applications/xlam-panels-out-of-plane/index.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "deferred"
+      "migrationSlices": ["0214-phase-a5-root-applications-export-parity"],
+      "sourceOracles": [
+        "tests/architecture/applicationRegistry.test.js",
+        "tests/packageExports.test.js",
+        "tests/timberConcreteCompositeBeam.test.js",
+        "tests/timberXlamCompositeBeam.test.js",
+        "tests/unitConversionLayer.test.js",
+        "tests/xlamBeamProviderVerification.test.js",
+        "tests/xlamOutOfPlanePanel.test.js"
+      ],
+      "targetTests": ["tests/application-api-parity.test.ts"],
+      "validationEvidence": ["0214-phase-a5-root-applications-export-parity"],
+      "status": "exact-parity"
     },
     {
       "id": "src/applications/xlam-panels-out-of-plane/models/XlamOutOfPlanePanelModel.js",
       "sourcePath": "src/applications/xlam-panels-out-of-plane/models/XlamOutOfPlanePanelModel.js",
       "sourceBlobSha1": "b77b6179ac89aea104927a9cb586dfce76cf9a8a",
       "targetPath": "src/applications/xlam-panels-out-of-plane/models/XlamOutOfPlanePanelModel.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "deferred"
+      "migrationSlices": ["0214-phase-a5-root-applications-export-parity"],
+      "sourceOracles": [
+        "tests/architecture/applicationRegistry.test.js",
+        "tests/packageExports.test.js",
+        "tests/timberConcreteCompositeBeam.test.js",
+        "tests/timberXlamCompositeBeam.test.js",
+        "tests/unitConversionLayer.test.js",
+        "tests/xlamBeamProviderVerification.test.js",
+        "tests/xlamOutOfPlanePanel.test.js"
+      ],
+      "targetTests": ["tests/application-api-parity.test.ts"],
+      "validationEvidence": ["0214-phase-a5-root-applications-export-parity"],
+      "status": "exact-parity"
     },
     {
       "id": "src/catalogs/soil-types.js",
       "sourcePath": "src/catalogs/soil-types.js",
       "sourceBlobSha1": "0ad8403c9f73f6ff7274c8da17b857a3bd8124c6",
       "targetPath": "src/catalogs/soil-types.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing"
+      "migrationSlices": [
+        "0214-phase-a5-root-applications-export-parity",
+        "0215-phase-a5-package-subpath-parity"
+      ],
+      "sourceOracles": [
+        "tests/architecture/applicationRegistry.test.js",
+        "tests/packageExports.test.js",
+        "tests/timberConcreteCompositeBeam.test.js",
+        "tests/timberXlamCompositeBeam.test.js",
+        "tests/unitConversionLayer.test.js",
+        "tests/xlamBeamProviderVerification.test.js",
+        "tests/xlamOutOfPlanePanel.test.js"
+      ],
+      "targetTests": [
+        "tests/application-api-parity.test.ts",
+        "tests/package-subpath-consumers.test.ts",
+        "tests/package-subpath-static-consumers.test.ts"
+      ],
+      "validationEvidence": [
+        "0214-phase-a5-root-applications-export-parity",
+        "0215-phase-a5-package-subpath-parity"
+      ],
+      "status": "exact-parity"
     },
     {
       "id": "src/catalogs/steel-profiles.js",
       "sourcePath": "src/catalogs/steel-profiles.js",
       "sourceBlobSha1": "ea00de147aeb6d32e09e246aac54db141000523c",
       "targetPath": "src/catalogs/steel-profiles.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing"
+      "migrationSlices": ["0215-phase-a5-package-subpath-parity"],
+      "sourceOracles": ["tests/packageExports.test.js"],
+      "targetTests": [
+        "tests/application-api-parity.test.ts",
+        "tests/package-subpath-consumers.test.ts",
+        "tests/package-subpath-static-consumers.test.ts"
+      ],
+      "validationEvidence": ["0215-phase-a5-package-subpath-parity"],
+      "status": "exact-parity"
     },
     {
       "id": "src/catalogs/wall-interface-types.js",
       "sourcePath": "src/catalogs/wall-interface-types.js",
       "sourceBlobSha1": "0b087b153d230c46d3fa218507a4d34a30bfe437",
       "targetPath": "src/catalogs/wall-interface-types.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "missing"
+      "migrationSlices": ["0215-phase-a5-package-subpath-parity"],
+      "sourceOracles": ["tests/packageExports.test.js"],
+      "targetTests": [
+        "tests/application-api-parity.test.ts",
+        "tests/package-subpath-consumers.test.ts",
+        "tests/package-subpath-static-consumers.test.ts"
+      ],
+      "validationEvidence": ["0215-phase-a5-package-subpath-parity"],
+      "status": "exact-parity"
     },
     {
       "id": "src/config/applicationCatalog.js",
@@ -36136,7 +37723,7 @@
       "sourcePath": "src/domain/fem/index.js",
       "sourceBlobSha1": "500ed76831bf15f757c0ed2c7eff05844c39511c",
       "targetPath": "src/domain/fem/index.ts",
-      "migrationSlices": ["0105-domain-fem-public-indexes"],
+      "migrationSlices": ["0105-domain-fem-public-indexes", "0215-phase-a5-package-subpath-parity"],
       "sourceOracles": [
         "tests/cyclicMasonryPier2D.test.js",
         "tests/displacementControlNonlinearStaticSolver2D.test.js",
@@ -36145,11 +37732,17 @@
         "tests/packageExports.test.js"
       ],
       "targetTests": [
+        "tests/application-api-parity.test.ts",
         "tests/baseline-parity.test.ts",
         "tests/fem-public-indexes-compile-time.test.ts",
-        "tests/fem-public-indexes-live-parity.test.ts"
+        "tests/fem-public-indexes-live-parity.test.ts",
+        "tests/package-subpath-consumers.test.ts",
+        "tests/package-subpath-static-consumers.test.ts"
       ],
-      "validationEvidence": ["0105-domain-fem-public-indexes"],
+      "validationEvidence": [
+        "0105-domain-fem-public-indexes",
+        "0215-phase-a5-package-subpath-parity"
+      ],
       "status": "exact-parity"
     },
     {
@@ -37164,11 +38757,15 @@
       "sourcePath": "src/domain/geotechnics/index.js",
       "sourceBlobSha1": "41ed2053fc2e37dc90da412846609f4050af9668",
       "targetPath": "src/domain/geotechnics/index.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "deferred"
+      "migrationSlices": ["0215-phase-a5-package-subpath-parity"],
+      "sourceOracles": ["tests/packageExports.test.js"],
+      "targetTests": [
+        "tests/application-api-parity.test.ts",
+        "tests/package-subpath-consumers.test.ts",
+        "tests/package-subpath-static-consumers.test.ts"
+      ],
+      "validationEvidence": ["0215-phase-a5-package-subpath-parity"],
+      "status": "exact-parity"
     },
     {
       "id": "src/domain/geotechnics/slopeStabilityMethods.js",
@@ -37708,18 +39305,27 @@
       "sourcePath": "src/domain/math/index.js",
       "sourceBlobSha1": "5657a5145a3569b30385d7a4bd12f212194f22d3",
       "targetPath": "src/domain/math/index.ts",
-      "migrationSlices": ["0007-domain-math-and-biaxial-demand-capacity"],
+      "migrationSlices": [
+        "0007-domain-math-and-biaxial-demand-capacity",
+        "0215-phase-a5-package-subpath-parity"
+      ],
       "sourceOracles": [
         "tests/denseLinearSolver.test.js",
         "tests/packageExports.test.js",
         "tests/rayPolygonCapacity.test.js"
       ],
       "targetTests": [
+        "tests/application-api-parity.test.ts",
         "tests/baseline-parity.test.ts",
         "tests/concrete-biaxial-domain.test.ts",
-        "tests/domain-math.test.ts"
+        "tests/domain-math.test.ts",
+        "tests/package-subpath-consumers.test.ts",
+        "tests/package-subpath-static-consumers.test.ts"
       ],
-      "validationEvidence": ["0007-domain-math-and-biaxial-demand-capacity"],
+      "validationEvidence": [
+        "0007-domain-math-and-biaxial-demand-capacity",
+        "0215-phase-a5-package-subpath-parity"
+      ],
       "status": "exact-parity"
     },
     {
@@ -38181,16 +39787,25 @@
       "sourcePath": "src/domain/strut-and-tie/index.js",
       "sourceBlobSha1": "5868ba5a629df69ce9d20ce73a967ece9a7eb125",
       "targetPath": "src/domain/strut-and-tie/index.ts",
-      "migrationSlices": ["0027-reinforced-concrete-strut-and-tie"],
+      "migrationSlices": [
+        "0027-reinforced-concrete-strut-and-tie",
+        "0215-phase-a5-package-subpath-parity"
+      ],
       "sourceOracles": [
         "tests/packageExports.test.js",
         "tests/reinforcedConcreteStrutAndTieApplication.test.js"
       ],
       "targetTests": [
+        "tests/application-api-parity.test.ts",
         "tests/baseline-parity.test.ts",
+        "tests/package-subpath-consumers.test.ts",
+        "tests/package-subpath-static-consumers.test.ts",
         "tests/reinforced-concrete-strut-and-tie.test.ts"
       ],
-      "validationEvidence": ["0027-reinforced-concrete-strut-and-tie"],
+      "validationEvidence": [
+        "0027-reinforced-concrete-strut-and-tie",
+        "0215-phase-a5-package-subpath-parity"
+      ],
       "status": "exact-parity"
     },
     {
@@ -38224,14 +39839,23 @@
       "sourcePath": "src/domain/terrain/index.js",
       "sourceBlobSha1": "7f603da8d378a3569c506844d42f847edd84bd22",
       "targetPath": "src/domain/terrain/index.ts",
-      "migrationSlices": ["0110-domain-terrain-public-index"],
+      "migrationSlices": [
+        "0110-domain-terrain-public-index",
+        "0215-phase-a5-package-subpath-parity"
+      ],
       "sourceOracles": ["tests/packageExports.test.js"],
       "targetTests": [
+        "tests/application-api-parity.test.ts",
         "tests/baseline-parity.test.ts",
+        "tests/package-subpath-consumers.test.ts",
+        "tests/package-subpath-static-consumers.test.ts",
         "tests/terrain-public-index-compile-time.test.ts",
         "tests/terrain-public-index-live-parity.test.ts"
       ],
-      "validationEvidence": ["0110-domain-terrain-public-index"],
+      "validationEvidence": [
+        "0110-domain-terrain-public-index",
+        "0215-phase-a5-package-subpath-parity"
+      ],
       "status": "exact-parity"
     },
     {
@@ -38459,7 +40083,8 @@
         "0210-applications-timber-beam-application",
         "0211-applications-timber-concrete-composite-beam-model",
         "0212-applications-timber-concrete-composite-beam-section-provider",
-        "0213-applications-reinforced-concrete-plates-documentation"
+        "0213-applications-reinforced-concrete-plates-documentation",
+        "0214-phase-a5-root-applications-export-parity"
       ],
       "sourceOracles": [
         "tests/architecture/applicationRegistry.test.js",
@@ -38501,18 +40126,24 @@
       "sourcePath": "src/norms/en1992/index.js",
       "sourceBlobSha1": "3540c261f26eb6922a916adb203669650ca08970",
       "targetPath": "src/norms/en1992/index.ts",
-      "migrationSlices": ["0111-norms-en1992-public-index"],
+      "migrationSlices": ["0111-norms-en1992-public-index", "0215-phase-a5-package-subpath-parity"],
       "sourceOracles": [
         "tests/packageExports.test.js",
         "tests/punchingVerification.test.js",
         "tests/reinforcedConcreteStrutAndTieApplication.test.js"
       ],
       "targetTests": [
+        "tests/application-api-parity.test.ts",
         "tests/baseline-parity.test.ts",
         "tests/en1992-public-index-compile-time.test.ts",
-        "tests/en1992-public-index-live-parity.test.ts"
+        "tests/en1992-public-index-live-parity.test.ts",
+        "tests/package-subpath-consumers.test.ts",
+        "tests/package-subpath-static-consumers.test.ts"
       ],
-      "validationEvidence": ["0111-norms-en1992-public-index"],
+      "validationEvidence": [
+        "0111-norms-en1992-public-index",
+        "0215-phase-a5-package-subpath-parity"
+      ],
       "status": "exact-parity"
     },
     {
@@ -38698,17 +40329,26 @@
       "sourcePath": "src/norms/italian-historical/index.js",
       "sourceBlobSha1": "07cc1d987fdef4b24dcc11e67e1d11c85151807a",
       "targetPath": "src/norms/italian-historical/index.ts",
-      "migrationSlices": ["0112-norms-italian-historical-reinforcement-steel"],
+      "migrationSlices": [
+        "0112-norms-italian-historical-reinforcement-steel",
+        "0215-phase-a5-package-subpath-parity"
+      ],
       "sourceOracles": [
         "tests/italianHistoricalReinforcementSteel.test.js",
         "tests/packageExports.test.js"
       ],
       "targetTests": [
+        "tests/application-api-parity.test.ts",
         "tests/baseline-parity.test.ts",
         "tests/italian-historical-public-index-compile-time.test.ts",
-        "tests/italian-historical-public-index-live-parity.test.ts"
+        "tests/italian-historical-public-index-live-parity.test.ts",
+        "tests/package-subpath-consumers.test.ts",
+        "tests/package-subpath-static-consumers.test.ts"
       ],
-      "validationEvidence": ["0112-norms-italian-historical-reinforcement-steel"],
+      "validationEvidence": [
+        "0112-norms-italian-historical-reinforcement-steel",
+        "0215-phase-a5-package-subpath-parity"
+      ],
       "status": "exact-parity"
     },
     {
@@ -38949,14 +40589,23 @@
       "sourcePath": "src/norms/ntc2018/index.js",
       "sourceBlobSha1": "0ac4cf551c455ec2a57d9bf8849db46fb14e0dcc",
       "targetPath": "src/norms/ntc2018/index.ts",
-      "migrationSlices": ["0135-norms-ntc2018-public-index"],
+      "migrationSlices": [
+        "0135-norms-ntc2018-public-index",
+        "0215-phase-a5-package-subpath-parity"
+      ],
       "sourceOracles": ["tests/packageExports.test.js"],
       "targetTests": [
+        "tests/application-api-parity.test.ts",
         "tests/baseline-parity.test.ts",
         "tests/ntc2018-public-index-compile-time.test.ts",
-        "tests/ntc2018-public-index-live-parity.test.ts"
+        "tests/ntc2018-public-index-live-parity.test.ts",
+        "tests/package-subpath-consumers.test.ts",
+        "tests/package-subpath-static-consumers.test.ts"
       ],
-      "validationEvidence": ["0135-norms-ntc2018-public-index"],
+      "validationEvidence": [
+        "0135-norms-ntc2018-public-index",
+        "0215-phase-a5-package-subpath-parity"
+      ],
       "status": "exact-parity"
     },
     {
@@ -39712,10 +41361,12 @@
         "0158-applications-masonry-ring-beam-verification",
         "0159-applications-masonry-ring-beam-application",
         "0160-applications-masonry-ring-beam-index",
-        "0210-applications-timber-beam-application"
+        "0210-applications-timber-beam-application",
+        "0214-phase-a5-root-applications-export-parity"
       ],
       "sourceOracles": ["tests/architecture/applicationRegistry.test.js"],
       "targetTests": [
+        "tests/application-api-parity.test.ts",
         "tests/application-registry-code-metadata-compile-time.test.ts",
         "tests/application-registry-code-metadata-live-parity.test.ts",
         "tests/baseline-parity.test.ts",
@@ -39746,7 +41397,8 @@
         "0158-applications-masonry-ring-beam-verification",
         "0159-applications-masonry-ring-beam-application",
         "0160-applications-masonry-ring-beam-index",
-        "0210-applications-timber-beam-application"
+        "0210-applications-timber-beam-application",
+        "0214-phase-a5-root-applications-export-parity"
       ],
       "status": "exact-parity",
       "testKind": "test"
@@ -41571,7 +43223,7 @@
       "id": "tests/packageExports.test.js",
       "sourcePath": "tests/packageExports.test.js",
       "sourceBlobSha1": "8dde24b4c97dd3dae7100207d07d9d96c52b9c74",
-      "targetPath": "tests/packageExports.test.ts",
+      "targetPath": "tests/package-subpath-consumers.test.ts",
       "migrationSlices": [
         "0007-domain-math-and-biaxial-demand-capacity",
         "0008-reinforced-concrete-service-stress",
@@ -41703,10 +43355,14 @@
         "0210-applications-timber-beam-application",
         "0211-applications-timber-concrete-composite-beam-model",
         "0212-applications-timber-concrete-composite-beam-section-provider",
-        "0213-applications-reinforced-concrete-plates-documentation"
+        "0213-applications-reinforced-concrete-plates-documentation",
+        "0214-phase-a5-root-applications-export-parity",
+        "0215-phase-a5-package-subpath-parity",
+        "0216-phase-a5-packed-consumer-verification"
       ],
-      "sourceOracles": ["tests/packageExports.test.js"],
+      "sourceOracles": ["scripts/check-web-worker-bundle.js", "tests/packageExports.test.js"],
       "targetTests": [
+        "tests/application-api-parity.test.ts",
         "tests/baseline-parity.test.ts",
         "tests/beam-report-artifacts-compile-time.test.ts",
         "tests/beam-report-artifacts-live-parity.test.ts",
@@ -41869,6 +43525,8 @@
         "tests/ntc2018-topographic-classification-live-parity.test.ts",
         "tests/ntc2018-wind-load-compile-time.test.ts",
         "tests/ntc2018-wind-load-live-parity.test.ts",
+        "tests/package-subpath-consumers.test.ts",
+        "tests/package-subpath-static-consumers.test.ts",
         "tests/rc-cracked-deflection.test.ts",
         "tests/rc-isolated-footings-index-compile-time.test.ts",
         "tests/rc-isolated-footings-index-live-parity.test.ts",
@@ -42094,7 +43752,10 @@
         "0210-applications-timber-beam-application",
         "0211-applications-timber-concrete-composite-beam-model",
         "0212-applications-timber-concrete-composite-beam-section-provider",
-        "0213-applications-reinforced-concrete-plates-documentation"
+        "0213-applications-reinforced-concrete-plates-documentation",
+        "0214-phase-a5-root-applications-export-parity",
+        "0215-phase-a5-package-subpath-parity",
+        "0216-phase-a5-packed-consumer-verification"
       ],
       "status": "exact-parity",
       "testKind": "test"
@@ -43019,10 +44680,12 @@
       "targetPath": "tests/timberConcreteCompositeBeam.test.ts",
       "migrationSlices": [
         "0211-applications-timber-concrete-composite-beam-model",
-        "0212-applications-timber-concrete-composite-beam-section-provider"
+        "0212-applications-timber-concrete-composite-beam-section-provider",
+        "0214-phase-a5-root-applications-export-parity"
       ],
       "sourceOracles": ["tests/timberConcreteCompositeBeam.test.js"],
       "targetTests": [
+        "tests/application-api-parity.test.ts",
         "tests/baseline-parity.test.ts",
         "tests/timber-concrete-composite-beam-model-compile-time.test.ts",
         "tests/timber-concrete-composite-beam-model-live-parity.test.ts",
@@ -43031,7 +44694,8 @@
       ],
       "validationEvidence": [
         "0211-applications-timber-concrete-composite-beam-model",
-        "0212-applications-timber-concrete-composite-beam-section-provider"
+        "0212-applications-timber-concrete-composite-beam-section-provider",
+        "0214-phase-a5-root-applications-export-parity"
       ],
       "status": "exact-parity",
       "testKind": "test"
@@ -43072,10 +44736,12 @@
       "migrationSlices": [
         "0044-domain-timber-dowel-connector",
         "0053-domain-xlam-panel-section",
-        "0064-domain-timber-material-hierarchy"
+        "0064-domain-timber-material-hierarchy",
+        "0214-phase-a5-root-applications-export-parity"
       ],
       "sourceOracles": ["tests/timberXlamCompositeBeam.test.js"],
       "targetTests": [
+        "tests/application-api-parity.test.ts",
         "tests/baseline-parity.test.ts",
         "tests/timber-dowel-connector-compile-time.test.ts",
         "tests/timber-dowel-connector-live-parity.test.ts",
@@ -43087,7 +44753,8 @@
       "validationEvidence": [
         "0044-domain-timber-dowel-connector",
         "0053-domain-xlam-panel-section",
-        "0064-domain-timber-material-hierarchy"
+        "0064-domain-timber-material-hierarchy",
+        "0214-phase-a5-root-applications-export-parity"
       ],
       "status": "exact-parity",
       "testKind": "test"
@@ -43100,10 +44767,12 @@
       "migrationSlices": [
         "0001-foundation",
         "0003-concrete-materials",
-        "0211-applications-timber-concrete-composite-beam-model"
+        "0211-applications-timber-concrete-composite-beam-model",
+        "0214-phase-a5-root-applications-export-parity"
       ],
       "sourceOracles": ["tests/unitConversionLayer.test.js"],
       "targetTests": [
+        "tests/application-api-parity.test.ts",
         "tests/baseline-parity.test.ts",
         "tests/check-utils.test.ts",
         "tests/concrete-materials.test.ts",
@@ -43115,7 +44784,10 @@
         "tests/timber-concrete-composite-beam-model-live-parity.test.ts",
         "tests/unit-system.test.ts"
       ],
-      "validationEvidence": ["0211-applications-timber-concrete-composite-beam-model"],
+      "validationEvidence": [
+        "0211-applications-timber-concrete-composite-beam-model",
+        "0214-phase-a5-root-applications-export-parity"
+      ],
       "status": "exact-parity",
       "testKind": "test"
     },
@@ -43124,9 +44796,14 @@
       "sourcePath": "tests/xlamBeamProviderVerification.test.js",
       "sourceBlobSha1": "9450e10ffcd5206057308a5942aaafdaf5831103",
       "targetPath": "tests/xlamBeamProviderVerification.test.ts",
-      "migrationSlices": ["0041-domain-beam-section-providers", "0053-domain-xlam-panel-section"],
+      "migrationSlices": [
+        "0041-domain-beam-section-providers",
+        "0053-domain-xlam-panel-section",
+        "0214-phase-a5-root-applications-export-parity"
+      ],
       "sourceOracles": ["tests/xlamBeamProviderVerification.test.js"],
       "targetTests": [
+        "tests/application-api-parity.test.ts",
         "tests/baseline-parity.test.ts",
         "tests/beam-section-providers-compile-time.test.ts",
         "tests/beam-section-providers-live-parity.test.ts",
@@ -43135,7 +44812,8 @@
       ],
       "validationEvidence": [
         "0041-domain-beam-section-providers",
-        "0053-domain-xlam-panel-section"
+        "0053-domain-xlam-panel-section",
+        "0214-phase-a5-root-applications-export-parity"
       ],
       "status": "exact-parity",
       "testKind": "test"
@@ -43148,10 +44826,12 @@
       "migrationSlices": [
         "0042-domain-xlam-panel-catalog",
         "0053-domain-xlam-panel-section",
-        "0064-domain-timber-material-hierarchy"
+        "0064-domain-timber-material-hierarchy",
+        "0214-phase-a5-root-applications-export-parity"
       ],
       "sourceOracles": ["tests/xlamOutOfPlanePanel.test.js"],
       "targetTests": [
+        "tests/application-api-parity.test.ts",
         "tests/baseline-parity.test.ts",
         "tests/timber-material-hierarchy-compile-time.test.ts",
         "tests/timber-material-hierarchy-live-parity.test.ts",
@@ -43163,7 +44843,8 @@
       "validationEvidence": [
         "0042-domain-xlam-panel-catalog",
         "0053-domain-xlam-panel-section",
-        "0064-domain-timber-material-hierarchy"
+        "0064-domain-timber-material-hierarchy",
+        "0214-phase-a5-root-applications-export-parity"
       ],
       "status": "exact-parity",
       "testKind": "test"
@@ -44169,11 +45850,14 @@
       "sourcePath": "scripts/check-web-worker-bundle.js",
       "sourceBlobSha1": "f228205682b16aea34ce0d897107f14228fde12c",
       "targetPath": "scripts/check-worker-bundle.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
-      "targetTests": [],
-      "validationEvidence": [],
-      "status": "partial",
+      "migrationSlices": ["0216-phase-a5-packed-consumer-verification"],
+      "sourceOracles": ["scripts/check-web-worker-bundle.js", "tests/packageExports.test.js"],
+      "targetTests": [
+        "tests/package-subpath-consumers.test.ts",
+        "tests/package-subpath-static-consumers.test.ts"
+      ],
+      "validationEvidence": ["0216-phase-a5-packed-consumer-verification"],
+      "status": "exact-parity",
       "notes": [
         "The source gate uses an esbuild browser platform bundle; it is also the Web Worker gate input."
       ]
@@ -44186,11 +45870,11 @@
       "sourcePath": "scripts/check-web-worker-bundle.js",
       "sourceBlobSha1": "f228205682b16aea34ce0d897107f14228fde12c",
       "targetPath": "scripts/check-worker-bundle.ts",
-      "migrationSlices": [],
-      "sourceOracles": [],
+      "migrationSlices": ["0216-phase-a5-packed-consumer-verification"],
+      "sourceOracles": ["scripts/check-web-worker-bundle.js", "tests/packageExports.test.js"],
       "targetTests": ["tests/fixtures/globalFemBuildingFixture.ts"],
-      "validationEvidence": [],
-      "status": "partial",
+      "validationEvidence": ["0216-phase-a5-packed-consumer-verification"],
+      "status": "exact-parity",
       "notes": ["The source fixture is tests/fixtures/strutture-js-web-worker-entry.js."]
     }
   ],
@@ -47340,6 +49024,47 @@
         "publicStrings": "exact documentation strings and Unicode code points",
         "errors": "not applicable"
       }
+    },
+    {
+      "sliceId": "0214-phase-a5-root-applications-export-parity",
+      "sourceRevision": "6f33baead8b88166c4b2cf94af41763412e3c751",
+      "method": "Strict consumer and independently executed pinned JavaScript versus built TypeScript comparison of root and applications export names, entrypoint barrel loading, application catalog metadata, registry IDs and ordering, manifests, schema/version values, and representative construction serialization.",
+      "targetTests": ["tests/application-api-parity.test.ts"],
+      "fixture": "The complete default application registry plus representative timber/XLAM application and model construction paths.",
+      "tolerances": {
+        "serializedParity": "exact JSON and export-name parity",
+        "numericParity": "exact for catalog and registry metadata values",
+        "publicStrings": "exact identifiers, descriptions, maturity values, warnings and Unicode code points"
+      }
+    },
+    {
+      "sliceId": "0215-phase-a5-package-subpath-parity",
+      "sourceRevision": "6f33baead8b88166c4b2cf94af41763412e3c751",
+      "method": "Strict typed static imports, source-pinned runtime imports, exact package-key comparison, exact subpath export-name comparison, and wildcard directory/export comparison.",
+      "targetTests": [
+        "tests/package-subpath-consumers.test.ts",
+        "tests/package-subpath-static-consumers.test.ts"
+      ],
+      "fixture": "All 14 declared package keys and every pinned application barrel resolved from the self-referencing migration-workspace package.",
+      "tolerances": {
+        "serializedParity": "exact source-defined serializable values, with the two documented pre-existing target-only normative-reference compatibility entries excluded from the source projection",
+        "numericParity": "exact for serializable catalog and schema values",
+        "publicStrings": "exact entrypoint keys, export names, identifiers and source ordering",
+        "errors": "unresolvable entrypoints and missing wildcard barrels fail the consumer tests"
+      }
+    },
+    {
+      "sliceId": "0216-phase-a5-packed-consumer-verification",
+      "sourceRevision": "6f33baead8b88166c4b2cf94af41763412e3c751",
+      "method": "npm pack --dry-run file-list inspection, temporary real tarball installation, self-package imports for every declared non-wildcard entrypoint and every concrete application wildcard, plus the existing browser/Worker esbuild smoke gate.",
+      "targetTests": ["scripts/check-packed-package-consumer.ts", "scripts/check-worker-bundle.ts"],
+      "fixture": "A temporary consumer project imports only package-name and declared subpath specifiers from the packed migration workspace.",
+      "tolerances": {
+        "serializedParity": "all packed imports resolve and expose non-empty public modules",
+        "numericParity": "not applicable",
+        "publicStrings": "package identity, private flag, version, export targets and import specifiers are exact",
+        "errors": "missing dist files, private source-path imports, unavailable package exports or failed bundle smoke tests fail the gate"
+      }
     }
   ],
   "phaseA4Scope": {
@@ -47442,19 +49167,19 @@
   "counts": {
     "rootExports": {
       "javascript": 841,
-      "typescript": 824
+      "typescript": 841
     },
     "applicationsExports": {
       "javascript": 309,
-      "typescript": 297
+      "typescript": 309
     },
     "packageEntryPoints": {
       "javascript": 14,
-      "typescript": 5
+      "typescript": 14
     },
     "applicationRegistryEntries": {
       "javascript": 30,
-      "typescript": 0
+      "typescript": 30
     },
     "applicationCatalogEntries": {
       "javascript": 30,
@@ -47466,11 +49191,11 @@
     },
     "sourceFiles": {
       "javascript": 480,
-      "typescript": 475
+      "typescript": 496
     },
     "tests": {
       "javascript": 131,
-      "typescript": 411
+      "typescript": 414
     },
     "validationCampaigns": {
       "javascript": 17,
@@ -47503,11 +49228,11 @@
         "exact-parity": 0,
         "partial": 0,
         "missing": 0,
-        "deferred": 1,
+        "deferred": 0,
         "intentionally-excluded": 0,
         "decision-required": 0
       },
-      "itemIds": ["source:src/domain/geotechnics/index.js"]
+      "itemIds": []
     },
     "norms": {
       "statusCounts": {
@@ -47525,95 +49250,22 @@
         "exact-parity": 0,
         "partial": 0,
         "missing": 0,
-        "deferred": 71,
+        "deferred": 0,
         "intentionally-excluded": 0,
         "decision-required": 0
       },
-      "itemIds": [
-        "application-export:TimberConcreteCompositeBeamApplication",
-        "application-export:TimberConcreteCompositeBeamVerification",
-        "application-export:TimberXlamCompositeBeamApplication",
-        "application-export:TimberXlamCompositeBeamModel",
-        "application-export:TimberXlamCompositeBeamSectionProvider",
-        "application-export:TimberXlamCompositeBeamVerification",
-        "application-export:XlamBeamVerification",
-        "application-export:XlamOutOfPlanePanelApplication",
-        "application-export:XlamOutOfPlanePanelModel",
-        "application-export:XlamOutOfPlanePanelVerification",
-        "application-export:createDefaultApplicationRegistry",
-        "application-export:createTimberXlamCompositeBeamSectionProvider",
-        "registry:geotechnical-deep-foundations",
-        "registry:geotechnical-earth-pressures",
-        "registry:geotechnical-embedded-retaining-walls",
-        "registry:geotechnical-ground-anchors",
-        "registry:geotechnical-lateral-piles",
-        "registry:geotechnical-retaining-walls",
-        "registry:geotechnical-shallow-foundations",
-        "registry:geotechnical-slope-stability",
-        "registry:global-fem-postprocessing",
-        "registry:masonry-out-of-plane",
-        "registry:masonry-piers",
-        "registry:masonry-ring-beams",
-        "registry:masonry-wall-openings",
-        "registry:micropiles-broms",
-        "registry:rc-building-verification",
-        "registry:rc-cracked-deflection",
-        "registry:reinforced-concrete-beam-column-joints",
-        "registry:reinforced-concrete-columns",
-        "registry:reinforced-concrete-foundation-beams",
-        "registry:reinforced-concrete-isolated-footings",
-        "registry:reinforced-concrete-plates",
-        "registry:reinforced-concrete-punching",
-        "registry:reinforced-concrete-sections",
-        "registry:reinforced-concrete-strut-and-tie",
-        "registry:single-beam-design",
-        "registry:steel-frames",
-        "registry:timber-beams",
-        "registry:timber-concrete-composite-beams",
-        "registry:timber-xlam-composite-beams",
-        "registry:xlam-panels-out-of-plane",
-        "root-export:TimberConcreteCompositeBeamApplication",
-        "root-export:TimberConcreteCompositeBeamVerification",
-        "root-export:TimberXlamCompositeBeamApplication",
-        "root-export:TimberXlamCompositeBeamModel",
-        "root-export:TimberXlamCompositeBeamSectionProvider",
-        "root-export:TimberXlamCompositeBeamVerification",
-        "root-export:XlamBeamVerification",
-        "root-export:XlamOutOfPlanePanelApplication",
-        "root-export:XlamOutOfPlanePanelModel",
-        "root-export:XlamOutOfPlanePanelVerification",
-        "root-export:createDefaultApplicationRegistry",
-        "root-export:createTimberXlamCompositeBeamSectionProvider",
-        "source:src/applications/masonry-wall-openings/index.js",
-        "source:src/applications/steel-frames/index.js",
-        "source:src/applications/timber-beams/index.js",
-        "source:src/applications/timber-concrete-composite-beams/TimberConcreteCompositeBeamApplication.js",
-        "source:src/applications/timber-concrete-composite-beams/checks/TimberConcreteCompositeBeamVerification.js",
-        "source:src/applications/timber-concrete-composite-beams/index.js",
-        "source:src/applications/timber-xlam-composite-beams/TimberXlamCompositeBeamApplication.js",
-        "source:src/applications/timber-xlam-composite-beams/analysis/TimberXlamCompositeBeamSectionProvider.js",
-        "source:src/applications/timber-xlam-composite-beams/checks/TimberXlamCompositeBeamVerification.js",
-        "source:src/applications/timber-xlam-composite-beams/index.js",
-        "source:src/applications/timber-xlam-composite-beams/models/TimberXlamCompositeBeamModel.js",
-        "source:src/applications/xlam-beams/checks/XlamBeamVerification.js",
-        "source:src/applications/xlam-beams/index.js",
-        "source:src/applications/xlam-panels-out-of-plane/XlamOutOfPlanePanelApplication.js",
-        "source:src/applications/xlam-panels-out-of-plane/checks/XlamOutOfPlanePanelVerification.js",
-        "source:src/applications/xlam-panels-out-of-plane/index.js",
-        "source:src/applications/xlam-panels-out-of-plane/models/XlamOutOfPlanePanelModel.js"
-      ]
+      "itemIds": []
     },
     "packageValidation": {
       "statusCounts": {
         "exact-parity": 0,
-        "partial": 4,
-        "missing": 104,
+        "partial": 0,
+        "missing": 95,
         "deferred": 0,
         "intentionally-excluded": 0,
         "decision-required": 0
       },
       "itemIds": [
-        "artifact:browser-esm-bundle",
         "artifact:examples/application-registry.js",
         "artifact:examples/basic-model.js",
         "artifact:examples/beam-report-fixtures.js",
@@ -47694,18 +49346,6 @@
         "artifact:validation/run-validation.js",
         "artifact:validation/steel-validation-sources.md",
         "artifact:validation/timber-xlam-validation-sources.md",
-        "artifact:web-worker-bundle",
-        "package:.",
-        "package:./applications",
-        "package:./applications/*",
-        "package:./catalogs/soil-types",
-        "package:./catalogs/steel-profiles",
-        "package:./catalogs/wall-interface-types",
-        "package:./domain/fem",
-        "package:./domain/geotechnics",
-        "package:./domain/strut-and-tie",
-        "package:./domain/terrain",
-        "package:./norms/en1992",
         "test:tests/beamValidationCampaign.test.js",
         "test:tests/cyclicMasonryPierValidationCampaign.test.js",
         "test:tests/fixtures/strutture-js-web-worker-entry.js",

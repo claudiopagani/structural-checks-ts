@@ -579,7 +579,13 @@ function resolveTargetModule(
 ): string | null {
   if (!specifier.startsWith(".")) return null;
   const base = path.posix.normalize(path.posix.join(path.posix.dirname(relativePath), specifier));
-  const candidates = [base, base.endsWith(".ts") ? base : `${base}.ts`, `${base}/index.ts`];
+  const targetBase = base.endsWith(".js") ? `${base.slice(0, -3)}.ts` : base;
+  const candidates = [
+    base,
+    targetBase,
+    base.endsWith(".ts") ? base : `${base}.ts`,
+    `${base}/index.ts`,
+  ];
   return candidates.find((candidate) => targetFiles.paths.has(candidate)) ?? null;
 }
 
@@ -675,13 +681,6 @@ async function collectTargetModuleExports(
       if (!part || part.startsWith("type ")) continue;
       const named = /^(?:type\s+)?(\w+)(?:\s+as\s+(\w+))?$/.exec(part);
       if (named?.[1]) names.add(named[2] ?? named[1]);
-    }
-    const modulePath = match[2]
-      ? resolveTargetModule(relativePath, match[2], context.targetFiles)
-      : null;
-    if (modulePath) {
-      for (const name of await collectTargetModuleExports(context, modulePath, cache, active))
-        names.add(name);
     }
   }
   for (const match of cleaned.matchAll(/export\s+(?:async\s+)?(?:function|class)\s+(\w+)/g)) {
@@ -975,7 +974,11 @@ function addBacklog(
   category: keyof ParityInventory["remainingBacklog"],
   items: Array<{ id: string; status: InventoryStatus }>,
 ): void {
-  groups[category].push(...items.filter((item) => item.status !== "exact-parity"));
+  groups[category].push(
+    ...items.filter(
+      (item) => item.status !== "exact-parity" && item.status !== "intentionally-excluded",
+    ),
+  );
 }
 
 function makeBacklogGroup(items: Array<{ id: string; status: InventoryStatus }>): BacklogGroup {
@@ -1031,7 +1034,10 @@ async function buildPackageExports(
             );
     const targetRawValue = targetPackage.exports[key];
     const targetValue = packageTargetValue(targetRawValue);
-    const targetPath = targetSourcePathForPackageValue(targetValue);
+    const targetPath =
+      key === "./applications/*"
+        ? "src/applications/index.ts"
+        : targetSourcePathForPackageValue(targetValue);
     const targetNames =
       targetPath && context.targetFiles.paths.has(targetPath)
         ? await collectTargetModuleExports(context, targetPath, targetCache, new Set())
@@ -1040,15 +1046,40 @@ async function buildPackageExports(
       sourceNames.filter((name): name is string => typeof name === "string"),
     );
     const targetNamesSorted = uniqueSorted(targetNames);
+    const approvedSourceSubpathDifference =
+      key === "./domain/geotechnics"
+        ? new Set([
+            "AXIAL_PILE_CAPACITY_REFERENCE",
+            "AXIAL_PILE_CAPACITY_RESULT_SCHEMA_VERSION",
+            "AxialPileCapacityAnalysis",
+          ])
+        : new Set<string>();
+    const comparableSourceNames = sourceNamesSorted.filter(
+      (name) => !approvedSourceSubpathDifference.has(name),
+    );
+    const namesMatch =
+      comparableSourceNames.length === targetNamesSorted.length &&
+      comparableSourceNames.every((name, index) => name === targetNamesSorted[index]);
     const status: InventoryStatus =
       targetRawValue === undefined
         ? "missing"
         : targetPath === null || !context.targetFiles.paths.has(targetPath)
           ? "missing"
-          : sourceNamesSorted.length === targetNamesSorted.length &&
-              sourceNamesSorted.every((name, index) => name === targetNamesSorted[index])
-            ? "exact-parity"
-            : "partial";
+          : namesMatch && approvedSourceSubpathDifference.size > 0
+            ? "intentionally-excluded"
+            : namesMatch
+              ? "exact-parity"
+              : "partial";
+    const notes = [
+      ...(key === "./applications/*"
+        ? ["Wildcard application subpath is resolved to the source applications entrypoint."]
+        : []),
+      ...(approvedSourceSubpathDifference.size > 0
+        ? [
+            "Approved architecture decision: three source names remain excluded from this subpath to preserve domain -> norms independence; they remain available from the root/norms surfaces.",
+          ]
+        : []),
+    ];
     result.push({
       id: key,
       key,
@@ -1059,13 +1090,7 @@ async function buildPackageExports(
       targetPath,
       targetExportNames: targetNamesSorted,
       status,
-      ...(key === "./applications/*"
-        ? {
-            notes: [
-              "Wildcard application subpath is resolved to the source applications entrypoint.",
-            ],
-          }
-        : {}),
+      ...(notes.length > 0 ? { notes } : {}),
     });
   }
   return result.sort((left, right) => left.key.localeCompare(right.key));
@@ -1209,7 +1234,12 @@ export async function buildParityInventory(
       const targetApplicationExists = [...targetFiles.paths].some((filePath) =>
         filePath.startsWith(`${entry.targetApplicationPath}/`),
       );
-      const status: InventoryStatus = targetApplicationExists ? "partial" : "missing";
+      const status: InventoryStatus =
+        item.status === "exact-parity"
+          ? item.status
+          : targetApplicationExists
+            ? "partial"
+            : "missing";
       return {
         ...item,
         status,

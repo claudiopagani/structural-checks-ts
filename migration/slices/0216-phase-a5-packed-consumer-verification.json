@@ -1,0 +1,74 @@
+{
+  "schemaVersion": 1,
+  "sliceId": "0216-phase-a5-packed-consumer-verification",
+  "title": "Phase A5 packed-package consumer and bundle verification",
+  "migrationType": "compatibility-validation",
+  "implementationStatus": "implemented",
+  "dependencies": ["0215-phase-a5-package-subpath-parity"],
+  "source": {
+    "repository": "https://github.com/claudiopagani/strutture-js",
+    "revision": "6f33baead8b88166c4b2cf94af41763412e3c751"
+  },
+  "normativeCorpusRevision": "41da3faa489600173106935bbcf726119300e48d",
+  "sourceFiles": [
+    {
+      "path": "package.json",
+      "gitBlobSha1": "9133db99ac7e23988ba0dfc569cabc26db7426cb",
+      "targetPath": "package.json"
+    },
+    {
+      "path": "tests/packageExports.test.js",
+      "gitBlobSha1": "8dde24b4c97dd3dae7100207d07d9d96c52b9c74",
+      "targetPath": "tests/package-subpath-consumers.test.ts"
+    },
+    {
+      "path": "scripts/check-web-worker-bundle.js",
+      "gitBlobSha1": "f228205682b16aea34ce0d897107f14228fde12c",
+      "targetPath": "scripts/check-worker-bundle.ts"
+    }
+  ],
+  "sourceOracles": [
+    {
+      "path": "tests/packageExports.test.js",
+      "gitBlobSha1": "8dde24b4c97dd3dae7100207d07d9d96c52b9c74",
+      "coverage": "Pinned public package import and export behavior."
+    },
+    {
+      "path": "scripts/check-web-worker-bundle.js",
+      "gitBlobSha1": "f228205682b16aea34ce0d897107f14228fde12c",
+      "coverage": "Pinned browser and Web Worker bundle smoke gate."
+    }
+  ],
+  "sourcePublicExport": {
+    "path": "package.json",
+    "gitBlobSha1": "9133db99ac7e23988ba0dfc569cabc26db7426cb"
+  },
+  "targetTests": [
+    "tests/package-subpath-consumers.test.ts",
+    "tests/package-subpath-static-consumers.test.ts"
+  ],
+  "targetScripts": ["scripts/check-packed-package-consumer.ts"],
+  "publicExports": [],
+  "normativeReferences": {
+    "resolved": [],
+    "outsideCorpus": [],
+    "normativeConformityClaimed": false,
+    "status": "classified-for-declared-scope"
+  },
+  "independentValidation": {
+    "method": "npm pack --dry-run file-list inspection, temporary real tarball installation, self-package imports for every declared non-wildcard entrypoint and every concrete application wildcard, plus the existing browser/Worker esbuild smoke gate.",
+    "targetTests": ["scripts/check-packed-package-consumer.ts", "scripts/check-worker-bundle.ts"],
+    "fixture": "A temporary consumer project imports only package-name and declared subpath specifiers from the packed migration workspace.",
+    "tolerances": {
+      "serializedParity": "all packed imports resolve and expose non-empty public modules",
+      "numericParity": "not applicable",
+      "publicStrings": "package identity, private flag, version, export targets and import specifiers are exact",
+      "errors": "missing dist files, private source-path imports, unavailable package exports or failed bundle smoke tests fail the gate"
+    }
+  },
+  "parityDifferences": [
+    "The verification creates and removes only temporary pack and consumer directories; it does not publish, rename, tag or cut over the package.",
+    "The package remains private with version 0.0.0 and the migration-workspace name."
+  ],
+  "engineeringFunctionality": "Executable packed-package and browser/Web Worker verification for the restored public package surface."
+}

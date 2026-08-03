@@ -27,7 +27,10 @@ import type { ReinforcedConcreteSection } from "../../domain/geometry/Reinforced
 import { ConcreteParabolaRectangleLaw } from "../../domain/constitutive-laws/ConcreteParabolaRectangleLaw.js";
 import { SteelElasticPerfectlyPlasticLaw } from "../../domain/constitutive-laws/SteelElasticPerfectlyPlasticLaw.js";
 import { rayPolygonCapacity } from "../../domain/math/rayPolygonCapacity.js";
-import { withNormativeReferences } from "../../norms/normativeReference.js";
+import {
+  withNormativeReferences,
+  type NormativeReference,
+} from "../../norms/normativeReference.js";
 import {
   NTC2018_RC_CHAPTER_4_REFERENCES,
   NTC2018_RC_CHAPTER_7_4_REFERENCES,
@@ -70,7 +73,9 @@ export interface WallBiaxialVerificationResult {
   } | null;
   readonly check: "wall-biaxial-bending";
   readonly reference: string;
-  readonly metadata: Record<string, unknown>;
+  readonly metadata: Record<string, unknown> & {
+    readonly normativeReferences: NormativeReference[];
+  };
 }
 
 function positive(value: unknown, label: string): number {

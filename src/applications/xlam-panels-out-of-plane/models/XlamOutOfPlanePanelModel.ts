@@ -1,0 +1,105 @@
+// Mechanical TypeScript migration from strutture-js 6f33baead8b88166c4b2cf94af41763412e3c751; source path: src/applications/xlam-panels-out-of-plane/models/XlamOutOfPlanePanelModel.js.
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
+import {
+  assertExplicitUnitSystem,
+  convertUnitProperties,
+  createUnitResolver,
+  type UnitSystem,
+  type UnitSystemInput,
+} from "../../../domain/units/UnitSystem.js";
+
+type JsonRecord = Record<string, any>;
+
+export interface XlamOutOfPlanePanelModelOptions {
+  id: string | number | bigint;
+  span: number;
+  section: JsonRecord;
+  material: JsonRecord;
+  serviceClass?: number;
+  kmod?: number;
+  gammaM?: number;
+  systemBoardCount?: number;
+  loads?: JsonRecord;
+  deflectionLimitDenominator?: number;
+  longTermDeflectionLimitDenominator?: number;
+  units: UnitSystemInput | null;
+  metadata?: JsonRecord;
+}
+
+export class XlamOutOfPlanePanelModel {
+  id: string | number | bigint;
+  span: number;
+  section: JsonRecord;
+  material: JsonRecord;
+  serviceClass: number;
+  kmod: number;
+  gammaM: number;
+  systemBoardCount: number;
+  loads: JsonRecord;
+  deflectionLimitDenominator: number;
+  longTermDeflectionLimitDenominator: number;
+  units: UnitSystem;
+  metadata: JsonRecord;
+
+  constructor({
+    id,
+    span,
+    section,
+    material,
+    serviceClass = 1,
+    kmod = 0.8,
+    gammaM = 1.45,
+    systemBoardCount = 1,
+    loads = {},
+    deflectionLimitDenominator = 300,
+    longTermDeflectionLimitDenominator = 200,
+    units = null,
+    metadata = {},
+  }: XlamOutOfPlanePanelModelOptions) {
+    if (!id) {
+      throw new Error("An XLAM out-of-plane panel model id is required.");
+    }
+
+    assertExplicitUnitSystem(units, "XlamOutOfPlanePanelModel");
+    const unitResolver = createUnitResolver(units, { force: "N", length: "mm" });
+    const convertLineLoad = (value: unknown): unknown =>
+      unitResolver.lineLoad(value as number | null | undefined);
+
+    this.id = id;
+    this.span = unitResolver.length(span);
+    this.section = section;
+    this.material = material;
+    this.serviceClass = serviceClass;
+    this.kmod = kmod;
+    this.gammaM = gammaM;
+    this.systemBoardCount = systemBoardCount;
+    this.loads = convertUnitProperties(loads, {
+      ulsLineLoad: convertLineLoad,
+      sleLineLoad: convertLineLoad,
+      slePermanentLineLoad: convertLineLoad,
+      sleVariableLineLoad: convertLineLoad,
+    });
+    this.deflectionLimitDenominator = deflectionLimitDenominator;
+    this.longTermDeflectionLimitDenominator = longTermDeflectionLimitDenominator;
+    this.units = unitResolver.targetUnitSystem;
+    this.metadata = {
+      ...metadata,
+      unitSystem: unitResolver.targetUnitSystem,
+      sourceUnitSystem: metadata.sourceUnitSystem ?? unitResolver.sourceUnitSystem,
+    };
+  }
+
+  kdef() {
+    if (this.serviceClass === 1) {
+      return 0.85;
+    }
+
+    if (this.serviceClass === 2) {
+      return 1.1;
+    }
+
+    return 2;
+  }
+}

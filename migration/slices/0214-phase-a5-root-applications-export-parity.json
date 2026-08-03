@@ -1,0 +1,191 @@
+{
+  "schemaVersion": 1,
+  "sliceId": "0214-phase-a5-root-applications-export-parity",
+  "title": "Phase A5 root and applications export, registry, and catalog parity",
+  "migrationType": "mechanical-parity",
+  "implementationStatus": "implemented",
+  "dependencies": [
+    "0037-application-registry-code-metadata",
+    "0041-domain-beam-section-providers",
+    "0211-applications-timber-concrete-composite-beam-model",
+    "0212-applications-timber-concrete-composite-beam-section-provider"
+  ],
+  "source": {
+    "repository": "https://github.com/claudiopagani/strutture-js",
+    "revision": "6f33baead8b88166c4b2cf94af41763412e3c751"
+  },
+  "normativeCorpusRevision": "41da3faa489600173106935bbcf726119300e48d",
+  "sourceFiles": [
+    {
+      "path": "src/applications/index.js",
+      "gitBlobSha1": "b70179c7cdd2a819f2151dc092c0f59cbce30ba6",
+      "targetPath": "src/applications/index.ts"
+    },
+    {
+      "path": "src/applications/masonry-wall-openings/index.js",
+      "gitBlobSha1": "eff11642dcba529d9307f41cd5e19afc32cc99b1",
+      "targetPath": "src/applications/masonry-wall-openings/index.ts"
+    },
+    {
+      "path": "src/applications/steel-frames/index.js",
+      "gitBlobSha1": "00b0b647649aff91fa05b523a18df186f588223f",
+      "targetPath": "src/applications/steel-frames/index.ts"
+    },
+    {
+      "path": "src/applications/timber-beams/index.js",
+      "gitBlobSha1": "b1a6dbf458601210a81815d0ce722831b347465c",
+      "targetPath": "src/applications/timber-beams/index.ts"
+    },
+    {
+      "path": "src/applications/timber-concrete-composite-beams/index.js",
+      "gitBlobSha1": "90395b35711d81ec6cf57d882ae4da202a6531de",
+      "targetPath": "src/applications/timber-concrete-composite-beams/index.ts"
+    },
+    {
+      "path": "src/applications/timber-concrete-composite-beams/TimberConcreteCompositeBeamApplication.js",
+      "gitBlobSha1": "0ca1c332dd957b09a867e17c43505332757a360a",
+      "targetPath": "src/applications/timber-concrete-composite-beams/TimberConcreteCompositeBeamApplication.ts"
+    },
+    {
+      "path": "src/applications/timber-concrete-composite-beams/checks/TimberConcreteCompositeBeamVerification.js",
+      "gitBlobSha1": "2f8ee4b52ced9bcf1ec26cd131cd591e76264971",
+      "targetPath": "src/applications/timber-concrete-composite-beams/checks/TimberConcreteCompositeBeamVerification.ts"
+    },
+    {
+      "path": "src/applications/timber-xlam-composite-beams/index.js",
+      "gitBlobSha1": "d0f62052f989200e3b36aaf45998f6e5d4e01cb4",
+      "targetPath": "src/applications/timber-xlam-composite-beams/index.ts"
+    },
+    {
+      "path": "src/applications/timber-xlam-composite-beams/TimberXlamCompositeBeamApplication.js",
+      "gitBlobSha1": "03993b16d0e9e7d6596c8c1477424b873558c097",
+      "targetPath": "src/applications/timber-xlam-composite-beams/TimberXlamCompositeBeamApplication.ts"
+    },
+    {
+      "path": "src/applications/timber-xlam-composite-beams/models/TimberXlamCompositeBeamModel.js",
+      "gitBlobSha1": "800e1375ec122fee64e2b206271bd14a98bbdb7a",
+      "targetPath": "src/applications/timber-xlam-composite-beams/models/TimberXlamCompositeBeamModel.ts"
+    },
+    {
+      "path": "src/applications/timber-xlam-composite-beams/analysis/TimberXlamCompositeBeamSectionProvider.js",
+      "gitBlobSha1": "1a8e158285d205154c81821c55538d1e2f32b10c",
+      "targetPath": "src/applications/timber-xlam-composite-beams/analysis/TimberXlamCompositeBeamSectionProvider.ts"
+    },
+    {
+      "path": "src/applications/timber-xlam-composite-beams/checks/TimberXlamCompositeBeamVerification.js",
+      "gitBlobSha1": "6f05ce92d381f5cd9498139f26fd752dfa3043bc",
+      "targetPath": "src/applications/timber-xlam-composite-beams/checks/TimberXlamCompositeBeamVerification.ts"
+    },
+    {
+      "path": "src/applications/xlam-beams/index.js",
+      "gitBlobSha1": "36c74e2e492d9c8fd1aaa48ba257579d482b5b07",
+      "targetPath": "src/applications/xlam-beams/index.ts"
+    },
+    {
+      "path": "src/applications/xlam-beams/checks/XlamBeamVerification.js",
+      "gitBlobSha1": "669677592acbd02111a5e2314f88f293d3f07569",
+      "targetPath": "src/applications/xlam-beams/checks/XlamBeamVerification.ts"
+    },
+    {
+      "path": "src/applications/xlam-panels-out-of-plane/index.js",
+      "gitBlobSha1": "bb29d32756ea8b5a6165acede1dc818dd734d773",
+      "targetPath": "src/applications/xlam-panels-out-of-plane/index.ts"
+    },
+    {
+      "path": "src/applications/xlam-panels-out-of-plane/XlamOutOfPlanePanelApplication.js",
+      "gitBlobSha1": "c30c4456d0c56537d415bbdf42b69b4d2f6d54d2",
+      "targetPath": "src/applications/xlam-panels-out-of-plane/XlamOutOfPlanePanelApplication.ts"
+    },
+    {
+      "path": "src/applications/xlam-panels-out-of-plane/models/XlamOutOfPlanePanelModel.js",
+      "gitBlobSha1": "b77b6179ac89aea104927a9cb586dfce76cf9a8a",
+      "targetPath": "src/applications/xlam-panels-out-of-plane/models/XlamOutOfPlanePanelModel.ts"
+    },
+    {
+      "path": "src/applications/xlam-panels-out-of-plane/checks/XlamOutOfPlanePanelVerification.js",
+      "gitBlobSha1": "642ba80b9843bd1d4b88714f9339f6bf0aecb783",
+      "targetPath": "src/applications/xlam-panels-out-of-plane/checks/XlamOutOfPlanePanelVerification.ts"
+    },
+    {
+      "path": "src/catalogs/soil-types.js",
+      "gitBlobSha1": "0ad8403c9f73f6ff7274c8da17b857a3bd8124c6",
+      "targetPath": "src/catalogs/soil-types.ts"
+    }
+  ],
+  "sourceOracles": [
+    {
+      "path": "tests/architecture/applicationRegistry.test.js",
+      "gitBlobSha1": "f7c4ab649b9f19600ab5894ea112bf7613466cd4"
+    },
+    {
+      "path": "tests/packageExports.test.js",
+      "gitBlobSha1": "8dde24b4c97dd3dae7100207d07d9d96c52b9c74"
+    },
+    {
+      "path": "tests/timberConcreteCompositeBeam.test.js",
+      "gitBlobSha1": "c24e21a2b79d5a14bb9b8e45b80a318675cd8f5c"
+    },
+    {
+      "path": "tests/timberXlamCompositeBeam.test.js",
+      "gitBlobSha1": "cddaa0e637e8f72fea9b83c9feaac71d027a07b7"
+    },
+    {
+      "path": "tests/xlamOutOfPlanePanel.test.js",
+      "gitBlobSha1": "3ade818fb4c2023fd76db27340c9b7fa12c7f13a"
+    },
+    {
+      "path": "tests/xlamBeamProviderVerification.test.js",
+      "gitBlobSha1": "9450e10ffcd5206057308a5942aaafdaf5831103"
+    },
+    {
+      "path": "tests/unitConversionLayer.test.js",
+      "gitBlobSha1": "a74facdc503cf31160e81f5b73f5915129db71b1"
+    }
+  ],
+  "sourcePublicExport": {
+    "path": "src/index.js",
+    "gitBlobSha1": "15bea0163ffc1109c7c7e6c17661e9308b313af7"
+  },
+  "targetTests": ["tests/application-api-parity.test.ts"],
+  "publicExports": [
+    "SOIL_TYPE_CATALOG",
+    "SOIL_TYPE_IDS",
+    "TimberConcreteCompositeBeamApplication",
+    "TimberConcreteCompositeBeamVerification",
+    "TimberXlamCompositeBeamApplication",
+    "TimberXlamCompositeBeamModel",
+    "TimberXlamCompositeBeamSectionProvider",
+    "TimberXlamCompositeBeamVerification",
+    "XlamBeamVerification",
+    "XlamOutOfPlanePanelApplication",
+    "XlamOutOfPlanePanelModel",
+    "XlamOutOfPlanePanelVerification",
+    "createDefaultApplicationRegistry",
+    "createSoilMaterialFromType",
+    "createTimberXlamCompositeBeamSectionProvider",
+    "getSoilTypeData",
+    "listSoilTypes"
+  ],
+  "publicTypeExports": [],
+  "normativeReferences": {
+    "resolved": [],
+    "outsideCorpus": [],
+    "normativeConformityClaimed": false,
+    "status": "classified-for-declared-scope"
+  },
+  "independentValidation": {
+    "method": "Strict consumer and independently executed pinned JavaScript versus built TypeScript comparison of root and applications export names, entrypoint barrel loading, application catalog metadata, registry IDs and ordering, manifests, schema/version values, and representative construction serialization.",
+    "targetTests": ["tests/application-api-parity.test.ts"],
+    "fixture": "The complete default application registry plus representative timber/XLAM application and model construction paths.",
+    "tolerances": {
+      "serializedParity": "exact JSON and export-name parity",
+      "numericParity": "exact for catalog and registry metadata values",
+      "publicStrings": "exact identifiers, descriptions, maturity values, warnings and Unicode code points"
+    }
+  },
+  "parityDifferences": [
+    "TypeScript declarations are added for migrated application implementations; runtime behavior remains mechanically source-derived.",
+    "The pinned source reports reinforced-concrete section maturity as implemented; the target manifest was corrected to preserve that source maturity and metadata. This does not change engineering scope or make a legal or regulatory conformity claim."
+  ],
+  "engineeringFunctionality": "Restored the complete root and applications runtime public names and the source-ordered default application registry without adding a new application family."
+}

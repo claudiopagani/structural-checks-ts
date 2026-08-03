@@ -17,25 +17,70 @@
       "import": "./dist/index.js",
       "default": "./dist/index.js"
     },
+    "./applications": {
+      "types": "./dist/applications/index.d.ts",
+      "import": "./dist/applications/index.js",
+      "default": "./dist/applications/index.js"
+    },
+    "./applications/*": {
+      "types": "./dist/applications/*/index.d.ts",
+      "import": "./dist/applications/*/index.js",
+      "default": "./dist/applications/*/index.js"
+    },
+    "./domain/fem": {
+      "types": "./dist/domain/fem/index.d.ts",
+      "import": "./dist/domain/fem/index.js",
+      "default": "./dist/domain/fem/index.js"
+    },
+    "./domain/geotechnics": {
+      "types": "./dist/domain/geotechnics/index.d.ts",
+      "import": "./dist/domain/geotechnics/index.js",
+      "default": "./dist/domain/geotechnics/index.js"
+    },
     "./domain/math": {
       "types": "./dist/domain/math/index.d.ts",
       "import": "./dist/domain/math/index.js",
       "default": "./dist/domain/math/index.js"
+    },
+    "./domain/terrain": {
+      "types": "./dist/domain/terrain/index.d.ts",
+      "import": "./dist/domain/terrain/index.js",
+      "default": "./dist/domain/terrain/index.js"
+    },
+    "./domain/strut-and-tie": {
+      "types": "./dist/domain/strut-and-tie/index.d.ts",
+      "import": "./dist/domain/strut-and-tie/index.js",
+      "default": "./dist/domain/strut-and-tie/index.js"
+    },
+    "./catalogs/soil-types": {
+      "types": "./dist/catalogs/soil-types.d.ts",
+      "import": "./dist/catalogs/soil-types.js",
+      "default": "./dist/catalogs/soil-types.js"
+    },
+    "./catalogs/wall-interface-types": {
+      "types": "./dist/catalogs/wall-interface-types.d.ts",
+      "import": "./dist/catalogs/wall-interface-types.js",
+      "default": "./dist/catalogs/wall-interface-types.js"
+    },
+    "./catalogs/steel-profiles": {
+      "types": "./dist/catalogs/steel-profiles.d.ts",
+      "import": "./dist/catalogs/steel-profiles.js",
+      "default": "./dist/catalogs/steel-profiles.js"
     },
     "./norms/en1992": {
       "types": "./dist/norms/en1992/index.d.ts",
       "import": "./dist/norms/en1992/index.js",
       "default": "./dist/norms/en1992/index.js"
     },
-    "./norms/ntc2018": {
-      "types": "./dist/norms/ntc2018/index.d.ts",
-      "import": "./dist/norms/ntc2018/index.js",
-      "default": "./dist/norms/ntc2018/index.js"
-    },
     "./norms/italian-historical": {
       "types": "./dist/norms/italian-historical/index.d.ts",
       "import": "./dist/norms/italian-historical/index.js",
       "default": "./dist/norms/italian-historical/index.js"
+    },
+    "./norms/ntc2018": {
+      "types": "./dist/norms/ntc2018/index.d.ts",
+      "import": "./dist/norms/ntc2018/index.js",
+      "default": "./dist/norms/ntc2018/index.js"
     }
   },
   "files": [
@@ -63,12 +108,13 @@
     "check:architecture": "node --experimental-strip-types scripts/check-architecture.ts",
     "check:normative-references": "node --experimental-strip-types scripts/check-normative-references.ts",
     "check:package": "node --experimental-strip-types scripts/check-package.ts",
+    "check:packed-consumer": "node --experimental-strip-types scripts/check-packed-package-consumer.ts",
     "check:provenance": "node --experimental-strip-types scripts/check-provenance.ts",
     "check:worker-bundle": "node --experimental-strip-types scripts/check-worker-bundle.ts",
     "check:encoding": "node --experimental-strip-types scripts/check-encoding.ts",
     "inventory:generate": "node --experimental-strip-types scripts/generate-parity-inventory.ts",
     "check:parity-inventory": "node --experimental-strip-types scripts/check-parity-inventory.ts",
-    "check": "npm run build && npm run format:check && npm run lint && npm run typecheck && npm run test:run && npm run check:architecture && npm run check:provenance && npm run check:normative-references && npm run check:package && npm run check:worker-bundle && npm run check:encoding && npm run check:parity-inventory"
+    "check": "npm run build && npm run format:check && npm run lint && npm run typecheck && npm run test:run && npm run check:architecture && npm run check:provenance && npm run check:normative-references && npm run check:package && npm run check:packed-consumer && npm run check:worker-bundle && npm run check:encoding && npm run check:parity-inventory"
   },
   "devDependencies": {
     "@eslint/js": "10.0.1",

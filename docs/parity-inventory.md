@@ -14,14 +14,14 @@ establish behavioral parity.
 
 | Surface                           | Pinned JavaScript | Current TypeScript |
 | --------------------------------- | ----------------: | -----------------: |
-| Root exports                      |               841 |                824 |
-| Applications exports              |               309 |                297 |
-| Package entry points              |                14 |                  5 |
-| ApplicationRegistry entries       |                30 |                  0 |
+| Root exports                      |               841 |                841 |
+| Applications exports              |               309 |                309 |
+| Package entry points              |                14 |                 14 |
+| ApplicationRegistry entries       |                30 |                 30 |
 | Application catalog entries       |                30 |                 30 |
 | Serialized schema/version symbols |                49 |                 49 |
-| Source files                      |               480 |                475 |
-| Tests                             |               131 |                411 |
+| Source files                      |               480 |                496 |
+| Tests                             |               131 |                414 |
 | Validation campaigns              |                17 |                  0 |
 | Validation files                  |                27 |                  0 |
 | Examples                          |                32 |                  0 |
@@ -34,10 +34,10 @@ establish behavioral parity.
 The JSON inventory contains the exact item IDs for every non-exact item. The groups below are the
 implementation order required by the repository architecture.
 
-- **domain** — deferred: 1.
+- **domain** — no remaining items.
 - **norms** — no remaining items.
-- **applications** — deferred: 71.
-- **packageValidation** — partial: 4, missing: 104.
+- **applications** — no remaining items.
+- **packageValidation** — missing: 95.
 
 ## Status semantics
 

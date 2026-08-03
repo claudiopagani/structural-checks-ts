@@ -20,20 +20,13 @@ export class ReinforcedConcreteSectionApplication extends StructuralApplication 
       description:
         "Analysis and verification of reinforced concrete sections under axial load and bending.",
       domain: "reinforced-concrete",
-      supportedCodes: ["NTC2018"],
-      tags: ["rc", "interaction-domain", "section-analysis", "uls", "uniaxial-resistance"],
+      supportedCodes: ["NTC2018", "Eurocode 2"],
+      tags: ["rc", "interaction-domain", "section-analysis", "uls"],
       metadata: {
-        maturity: "partial",
-        implementedAnalysisTypes: [
-          "uls-uniaxial-resistance",
-          "uls-uniaxial-domain",
-          "uls-biaxial-domain",
-          "service-stress",
-          "moment-curvature",
-        ],
+        maturity: "implemented",
         limitations: [
           "domain sampling and mesh refinement are explicit solver settings",
-          "shear, torsion and member detailing are not implemented in the current TypeScript slices",
+          "member detailing is handled by the beam and column verification contracts",
         ],
       },
     });
