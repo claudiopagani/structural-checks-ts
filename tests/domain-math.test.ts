@@ -67,19 +67,26 @@ const rectangle = [
   { x: -100, y: 50 },
 ];
 
-void test("the public math subpath exposes the complete migrated source boundary", () => {
+void test("the public math subpath exposes the canonical source boundary", () => {
   assert.deepEqual(
     Object.keys(MathApi).sort(),
     [
       "BandedCholeskyFactorization",
       "BandedLinearSolver",
       "DenseLinearSolver",
+      "GeneralBandedLUFactorization",
+      "GeneralBandedLinearSolver",
+      "addCompactBandedValue",
       "clamp",
+      "compactBandedMatrixToDense",
+      "compactBandedValue",
+      "createCompactBandedMatrix",
       "createZeroMatrix",
       "createZeroVector",
       "detectMatrixSemiBandwidth",
       "rayPolygonCapacity",
       "roundTo",
+      "setCompactBandedValue",
       "solveLinearSystem3x3",
     ].sort(),
   );
@@ -193,6 +200,46 @@ void test("banded Cholesky solving matches the dense solver", () => {
   approximateVector(
     new BandedLinearSolver().factorize(matrix).solve([4, -1, 0]),
     new DenseLinearSolver().solve(matrix, [4, -1, 0]),
+  );
+});
+
+void test("general banded pivoting solves a non-symmetric matrix and reuses its factorization", () => {
+  const denseMatrix = [
+    [0, 2, 0, 0],
+    [1, 3, 4, 0],
+    [0, 5, 6, 7],
+    [0, 0, 8, 9],
+  ];
+  const bandedMatrix = MathApi.createCompactBandedMatrix(4, 1);
+  for (let row = 0; row < denseMatrix.length; row += 1) {
+    for (let column = Math.max(0, row - 1); column <= Math.min(3, row + 1); column += 1) {
+      MathApi.addCompactBandedValue(bandedMatrix, row, column, denseMatrix[row]![column]!);
+    }
+  }
+  assert.deepEqual(MathApi.compactBandedMatrixToDense(bandedMatrix), denseMatrix);
+  const rightHandSides = [
+    [2, 18, 46, 60],
+    [4, 5, 6, 7],
+  ];
+  const factorization = new MathApi.GeneralBandedLinearSolver().factorize(bandedMatrix);
+  const actual = factorization.solveMany(rightHandSides);
+  const dense = new DenseLinearSolver();
+  approximateVector(actual[0]!, dense.solve(denseMatrix, rightHandSides[0]!));
+  approximateVector(actual[1]!, dense.solve(denseMatrix, rightHandSides[1]!));
+});
+
+void test("general banded storage rejects invalid bounds and singular pivots", () => {
+  assert.throws(() => MathApi.createCompactBandedMatrix(0, 1), /positive integer/iu);
+  const diagonal = MathApi.createCompactBandedMatrix(3, 0);
+  assert.throws(
+    () => MathApi.addCompactBandedValue(diagonal, 0, 1, 1),
+    /outside the compact matrix bandwidth/iu,
+  );
+  MathApi.addCompactBandedValue(diagonal, 0, 0, 1);
+  MathApi.addCompactBandedValue(diagonal, 2, 2, 1);
+  assert.throws(
+    () => new MathApi.GeneralBandedLinearSolver().solve(diagonal, [1, 0, 1]),
+    /singular matrix near pivot 2/iu,
   );
 });
 

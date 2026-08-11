@@ -1,8 +1,8 @@
 # Project boundaries
 
-`structural-checks-ts` is a public, solver-neutral library for structural calculation and
-verification. During migration it is a parity target for `strutture-js`, which remains canonical
-until an explicit cutover.
+`structural-checks-ts` is the canonical public, solver-neutral library for structural calculation
+and verification. Historical migration records remain provenance evidence, not an external
+implementation authority.
 
 ## In scope
 

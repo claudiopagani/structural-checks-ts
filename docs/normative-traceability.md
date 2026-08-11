@@ -6,7 +6,7 @@ corpus. The corpus is a development, audit, and CI resource, never a runtime dep
 ## Canonical identity
 
 Normatively relevant formulas, limits, coefficients, choices, and verifications must use canonical
-unit URNs and asset identifiers from the pinned corpus revision:
+unit URNs and asset identifiers that resolve in the selected schema-compatible current corpus:
 
 ```text
 urn:structural-codes:it:unit:<corpus>:<numbering>
@@ -16,26 +16,26 @@ urn:structural-codes:it:asset:<formula|table|figure>:<key>
 A title, URL, viewer link, or repository path is not a canonical identity. Runtime results store
 structured references in `metadata.normativeReferences`.
 
-## Pinned corpus
+## Compatible evolving corpus
 
-The current development pin is `41da3faa489600173106935bbcf726119300e48d`. The check reads a clean
-external checkout, validates the revision, resolves declared identifiers, and confirms that corpus
-content is absent from the runtime package.
+The check reads a clean external checkout, validates its expected structure, resolves declared
+identifiers, and confirms that corpus content is absent from the runtime package. It reports the
+observed revision but does not require rollback to a historical commit.
 
 ```bash
 npm run check:normative-references
 npm run check:normative-references -- --corpus ../strutture-normative
 ```
 
-`STRUTTURE_NORMATIVE_PATH` may select another checkout path, but the revision must still match.
-Changing the pin requires impact analysis and rerunning every affected parity and validation
-campaign.
+`STRUTTURE_NORMATIVE_PATH` may select another compatible checkout path. A release or engineering
+validation campaign records the exact revision it actually used and reruns affected tests when a
+corpus correction changes a referenced unit or asset. That campaign evidence does not become a
+global development pin.
 
 ## Editorial status and missing material
 
-The pinned corpus is `extracted`; this does not mean that a normative review is approved. Identifier
-resolution, a green test, or a backlink does not establish legal, regulatory, or professional
-conformity.
+An `extracted` corpus record is not thereby approved by normative review. Identifier resolution, a
+green test, or a backlink does not establish legal, regulatory, or professional conformity.
 
 When required material is unavailable:
 
@@ -75,7 +75,7 @@ by the implemented scopes:
 
 The chapter 11 source for existing-material properties remains explicitly `outside-corpus`. The
 Cosenza-Maddaloni-Cuomo circular-section shear research equations are also `outside-corpus`; this
-classification distinguishes an empirical publication from the pinned normative units. The inherited
+classification distinguishes an empirical publication from canonical normative units. The inherited
 EN 1992 bond, anchorage, local-bearing, deflection, shrinkage-curvature, and first- and
 second-generation punching references are also `outside-corpus`; no canonical EN identifier is
 reconstructed. Machine-readable mappings are recorded in

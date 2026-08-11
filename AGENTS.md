@@ -38,23 +38,24 @@ style consistency.
 User-facing conversation may follow the user's language. Never translate, normalize, or otherwise
 alter a canonical normative identifier.
 
-## Migration authority
+## Canonical authority
 
-- `strutture-js` remains the single canonical implementation until maintainers publish an explicit
-  public cutover record.
-- Before that public record, this repository is a TypeScript parity target. Do not develop or
-  advertise an independently evolving canonical implementation here.
-- Do not introduce functionality only in this repository while `strutture-js` is canonical.
-- After a public cutover record designates this repository as canonical, do not maintain formulas or
-  normative branches independently in `strutture-js`.
+- `structural-checks-ts` is the sole canonical implementation as of the public cutover recorded in
+  Decision 0004. Develop and maintain all new functionality in this repository.
+- Do not use the previous JavaScript repository as an active implementation, source of truth,
+  development target, or mandatory dependency for new tests and verification campaigns.
+- Historical migration records and source links remain provenance evidence only. Preserve them
+  without allowing them to constrain deliberate, validated development in this repository.
 - Preserve public behavior, formulas, numerical evidence, normative traceability, license, and
-  provenance. Version deliberate incompatibilities explicitly.
+  provenance unless a documented decision and proportionate validation approve a change. Version
+  deliberate incompatibilities explicitly.
 
 ## License and provenance
 
-- Preserve `LGPL-2.1-or-later`; migration does not authorize relicensing.
+- Preserve `LGPL-2.1-or-later`; canonical cutover does not authorize relicensing.
 - Preserve copyright notices, license files, third-party notices, and contributor rights.
-- Record the source `strutture-js` revision for every migrated slice.
+- Retain the recorded source revision for every historical migrated slice. New code must be
+  identified as new work and must not claim a fictitious migration source.
 - Keep a verifiable link from migrated symbols to their source files, tests, validation campaigns,
   and reports.
 - Distinguish migrated code, new code, generated output, and third-party code.
@@ -67,7 +68,7 @@ alter a canonical normative identifier.
   storage, analytics, network orchestration, or product-specific logic.
 - Do not add a NextFEM adapter to this library.
 - Define only generic, solver-neutral, serializable analysis-result contracts when they are required
-  by migrated behavior.
+  by library behavior.
 - Keep concrete NextFEM integration in a consumer or a dedicated adapter repository.
 - Preserve the internal dependency direction `applications -> norms -> domain`. `domain` must not
   import `norms` or `applications`, and `norms` must not import `applications`.
@@ -78,8 +79,8 @@ alter a canonical normative identifier.
 
 - Every normatively relevant formula, limit, coefficient, design choice, and verification must have
   a traceable normative reference.
-- Use canonical unit URNs and asset identifiers from a pinned revision of the `strutture-normative`
-  JSON corpus.
+- Use canonical unit URNs and asset identifiers that resolve in the current schema-compatible
+  `strutture-normative` JSON corpus.
 - Store structured runtime references in `metadata.normativeReferences`.
 - A URL is a human resolver, not a replacement for a canonical identifier.
 - Treat `strutture-normative` as an external development, audit, and validation resource, never as a
@@ -93,7 +94,11 @@ alter a canonical normative identifier.
   `normativeConformityClaimed: false` where applicable.
 - Do not claim legal, regulatory, or professional conformity from resolved references, passing
   tests, or corpus extraction status.
-- Prefer a development or CI checkout pinned to an exact corpus revision for reference validation.
+- Do not require contributors to roll the corpus back to an old commit. Reference validation must
+  check schema compatibility and identifier resolution against the selected current checkout.
+- Record the exact observed corpus revision and cleanliness in versioned validation evidence when
+  reproducibility of a release or engineering campaign requires it; this evidence is not a global
+  development pin.
 
 ## Solver neutrality
 
@@ -107,15 +112,16 @@ alter a canonical normative identifier.
   combinations, coverage, and provenance.
 - Do not replace missing solver data with zero or infer unsupported capabilities.
 
-## Migration safety
+## Engineering change safety
 
-- Treat the recorded `strutture-js` implementation and its tests as the behavioral baseline.
-- Do not migrate from an unidentified revision, a dirty source worktree, or a partially saved
-  normative audit.
-- The initial TypeScript migration must not change formulas, coefficients, numerical tolerances, or
-  engineering assumptions.
-- Keep mechanical migration separate from later engineering improvements.
-- Port incrementally in bounded functional slices and keep all checks green after every slice.
+- Treat this repository's versioned tests, benchmarks, decisions, and validation evidence as the
+  behavioral baseline.
+- Retain historical migration evidence, but do not require a live checkout of the previous
+  implementation for new development or the default verification workflow.
+- Separate mechanical cleanup of historical migrated code from engineering changes to formulas,
+  coefficients, numerical tolerances, or assumptions.
+- Develop incrementally in bounded functional slices and keep all applicable checks green after
+  every slice.
 - Preserve public exports and serialized result shapes unless a documented compatibility decision
   explicitly versions a difference.
 - Preserve `status`, `outputs`, `checks`, `warnings`, `assumptions`, `metadata`, `demand`,
@@ -126,30 +132,29 @@ alter a canonical normative identifier.
 
 ## Project setup
 
-- Use strict TypeScript for manually maintained library source and migrated tests.
+- Use strict TypeScript for manually maintained library source and tests.
 - Keep formatting, linting, type checking, testing, build output, package exports, and CI
   deterministic.
 - Produce ESM JavaScript for the supported Node.js ecosystem together with TypeScript declarations,
   without compromising the documented browser and Web Worker boundary.
 - Do not import private implementation paths outside the declared package exports in consumer-facing
   material.
-- Preserve `LGPL-2.1-or-later`, copyright notices, attribution, and verifiable derivation from
-  `strutture-js`.
-- Do not silently select a publishable npm identity, history-import strategy, compatibility policy,
-  or cutover baseline while those decisions remain open.
+- Preserve `LGPL-2.1-or-later`, copyright notices, attribution, and verifiable historical derivation
+  where code was migrated.
+- Do not silently select a publishable npm identity, history-import strategy, or compatibility
+  policy while those publication decisions remain open. Canonical engineering authority is no longer
+  an open decision.
 
-## Migration sequence
+## Development sequence
 
-1. Establish governance, license, provenance, TypeScript configuration, build, tests, lint, package
-   exports, and CI.
-2. Record the exact clean `strutture-js` baseline revision.
-3. Import or reconstruct existing tests as migration oracles.
-4. Port low-level domain primitives first.
-5. Port normative and reinforced-concrete checks in bounded slices.
-6. Preserve and validate structured normative metadata.
-7. Add compatibility tests against the JavaScript baseline.
-8. Consider API improvements or additional verifiers only after behavioral parity.
-9. Keep solver integrations as separate adapter work behind a solver-neutral contract.
+1. Preserve governance, license, provenance, strict TypeScript configuration, build, tests, lint,
+   package exports, and CI.
+2. Use this repository's tests and versioned engineering benchmarks as the executable baseline.
+3. Add or change structural mechanics in bounded, independently testable slices.
+4. Preserve and validate structured normative metadata against a compatible current corpus.
+5. Record assumptions, tolerances, applicability limits, and validation evidence proportionate to
+   engineering risk.
+6. Keep solver integrations as separate adapter work behind a solver-neutral contract.
 
 ## Confidentiality
 

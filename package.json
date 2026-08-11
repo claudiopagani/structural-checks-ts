@@ -2,7 +2,7 @@
   "name": "structural-checks-ts-migration-workspace",
   "version": "0.0.0",
   "private": true,
-  "description": "Non-publishable TypeScript parity workspace for the planned successor to strutture-js.",
+  "description": "Non-publishable canonical TypeScript workspace for solver-neutral structural calculations and checks.",
   "license": "LGPL-2.1-or-later",
   "allowScripts": {
     "esbuild@0.28.1": true
@@ -100,7 +100,9 @@
   "scripts": {
     "build": "node --experimental-strip-types scripts/build.ts",
     "test": "npm run build && npm run test:run",
-    "test:run": "node --experimental-strip-types --test \"tests/*.test.ts\"",
+    "test:run": "node --experimental-strip-types scripts/run-tests.ts --suite canonical",
+    "test:legacy-parity": "node --experimental-strip-types scripts/run-tests.ts --suite legacy-parity",
+    "test:all": "node --experimental-strip-types scripts/run-tests.ts --suite all",
     "lint": "eslint src tests scripts eslint.config.mjs prettier.config.mjs",
     "typecheck": "tsc --noEmit -p tsconfig.json",
     "format": "prettier --write .",
@@ -114,7 +116,7 @@
     "check:encoding": "node --experimental-strip-types scripts/check-encoding.ts",
     "inventory:generate": "node --experimental-strip-types scripts/generate-parity-inventory.ts",
     "check:parity-inventory": "node --experimental-strip-types scripts/check-parity-inventory.ts",
-    "check": "npm run build && npm run format:check && npm run lint && npm run typecheck && npm run test:run && npm run check:architecture && npm run check:provenance && npm run check:normative-references && npm run check:package && npm run check:packed-consumer && npm run check:worker-bundle && npm run check:encoding && npm run check:parity-inventory"
+    "check": "npm run build && npm run format:check && npm run lint && npm run typecheck && npm run test:run && npm run check:architecture && npm run check:normative-references && npm run check:package && npm run check:packed-consumer && npm run check:worker-bundle && npm run check:encoding"
   },
   "devDependencies": {
     "@eslint/js": "10.0.1",

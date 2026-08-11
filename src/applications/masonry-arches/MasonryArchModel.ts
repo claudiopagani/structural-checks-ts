@@ -1,0 +1,678 @@
+import {
+  assertExplicitUnitSystem,
+  createUnitResolver,
+  type UnitResolver,
+} from "../../domain/units/UnitSystem.js";
+import { buildSimplifiedMasonryArchGeometry } from "./geometry.js";
+import {
+  MASONRY_ARCH_MODEL_SCHEMA_VERSION,
+  type ArchAnchorCapacityInput,
+  type ArchReinforcementInput,
+  type ArchReinforcementTerminationInput,
+  type BondedLayerReinforcementInput,
+  type BondedLayerTerminationInput,
+  type MasonryArchFillLoadInput,
+  type MasonryArchCoulombParametersInput,
+  type MasonryArchInterfaceInput,
+  type MasonryArchLoadInput,
+  type MasonryArchModelInput,
+  type NormalizedMasonryArchLoad,
+  type NormalizedMasonryArchInterface,
+  type NormalizedMasonryArchModel,
+  type NormalizedArchAnchorCapacity,
+  type NormalizedArchReinforcement,
+  type NormalizedArchReinforcementTermination,
+  type NormalizedBondedLayerReinforcement,
+  type SimplifiedSymmetricMasonryArchGeometryInput,
+} from "./types.js";
+
+const INTERNAL_UNITS = Object.freeze({ force: "kN", length: "m" } as const);
+
+function finite(value: number, label: string): number {
+  if (!Number.isFinite(value)) {
+    throw new Error(`${label} must be finite.`);
+  }
+  return value;
+}
+
+function positive(value: number, label: string): number {
+  const resolved = finite(value, label);
+  if (resolved <= 0) {
+    throw new Error(`${label} must be positive.`);
+  }
+  return resolved;
+}
+
+function nonNegative(value: number, label: string): number {
+  const resolved = finite(value, label);
+  if (resolved < 0) {
+    throw new Error(`${label} must be non-negative.`);
+  }
+  return resolved;
+}
+
+function normalizedStation(value: number | undefined, fallback: number, label: string): number {
+  const resolved = finite(value ?? fallback, label);
+  if (resolved < 0 || resolved > 1) {
+    throw new Error(`${label} must satisfy 0 <= station <= 1.`);
+  }
+  return resolved;
+}
+
+function loadCaseId(load: MasonryArchLoadInput): string {
+  const id = load.loadCaseId ?? load.loadCase?.id;
+  if (typeof id !== "string" || id.trim().length === 0) {
+    throw new Error(`Arch load ${load.id} requires an explicit load case id.`);
+  }
+  return id;
+}
+
+function loadInterval(load: MasonryArchFillLoadInput): {
+  readonly startStation: number;
+  readonly endStation: number;
+} {
+  const startStation = normalizedStation(load.startStation, 0, `${load.id}.startStation`);
+  const endStation = normalizedStation(load.endStation, 1, `${load.id}.endStation`);
+  if (endStation <= startStation) {
+    throw new Error(`${load.id} requires endStation greater than startStation.`);
+  }
+  return { startStation, endStation };
+}
+
+function normalizeLoad(
+  load: MasonryArchLoadInput,
+  resolver: UnitResolver,
+  referenceCurve: SimplifiedSymmetricMasonryArchGeometryInput["referenceCurve"],
+): NormalizedMasonryArchLoad {
+  if (typeof load.id !== "string" || load.id.trim().length === 0) {
+    throw new Error("Every arch load requires a non-empty id.");
+  }
+  const caseId = loadCaseId(load);
+
+  if (load.type === "self-weight") {
+    return { id: load.id, type: load.type, loadCaseId: caseId };
+  }
+  if (load.type === "fill") {
+    const interval = loadInterval(load);
+    return {
+      id: load.id,
+      type: load.type,
+      loadCaseId: caseId,
+      unitWeight: positive(resolver.volumeLoad(load.unitWeight), `${load.id}.unitWeight`),
+      crownCoverDepth: positiveOrZero(
+        resolver.length(load.crownCoverDepth ?? 0),
+        `${load.id}.crownCoverDepth`,
+      ),
+      ...interval,
+    };
+  }
+  if (load.type === "uniform" || load.type === "patch") {
+    const common = {
+      id: load.id,
+      loadCaseId: caseId,
+      components: {
+        x: finite(resolver.lineLoad(load.components.x), `${load.id}.components.x`),
+        y: finite(resolver.lineLoad(load.components.y), `${load.id}.components.y`),
+      },
+      distributionBasis: load.distributionBasis ?? "horizontal-projection",
+      distributionCurve: load.distributionCurve ?? referenceCurve,
+      applicationCurve: load.applicationCurve ?? "extrados",
+    } as const;
+    if (load.type === "uniform") {
+      return { ...common, type: "uniform" };
+    }
+    const startStation = normalizedStation(load.startStation, 0, `${load.id}.startStation`);
+    const endStation = normalizedStation(load.endStation, 1, `${load.id}.endStation`);
+    if (endStation <= startStation) {
+      throw new Error(`${load.id} requires endStation greater than startStation.`);
+    }
+    return { ...common, type: "patch", startStation, endStation };
+  }
+
+  const station = normalizedStation(load.station, 0, `${load.id}.station`);
+  return {
+    id: load.id,
+    type: load.type,
+    loadCaseId: caseId,
+    station,
+    force: {
+      x: finite(resolver.force(load.force.x), `${load.id}.force.x`),
+      y: finite(resolver.force(load.force.y), `${load.id}.force.y`),
+    },
+    moment: finite(resolver.moment(load.moment ?? 0), `${load.id}.moment`),
+    applicationCurve: load.applicationCurve ?? "extrados",
+    targetVoussoirId: load.targetVoussoirId ?? null,
+  };
+}
+
+function positiveOrZero(value: number, label: string): number {
+  const resolved = finite(value, label);
+  if (resolved < 0) {
+    throw new Error(`${label} must be non-negative.`);
+  }
+  return resolved;
+}
+
+function normalizeFriction(
+  input: MasonryArchCoulombParametersInput,
+  resolver: UnitResolver,
+  label: string,
+): NonNullable<NormalizedMasonryArchInterface["friction"]> {
+  const frictionCoefficient = positiveOrZero(
+    input.frictionCoefficient,
+    `${label}.frictionCoefficient`,
+  );
+  const cohesion = positiveOrZero(resolver.stress(input.cohesion ?? 0), `${label}.cohesion`);
+  const frictionAngle = Math.atan(frictionCoefficient);
+  const flowInput = input.flowRule ?? { type: "non-associated" as const };
+  const dilationAngle =
+    flowInput.type === "associated"
+      ? frictionAngle
+      : (() => {
+          const supplied = finite(flowInput.dilationAngle ?? 0, `${label}.dilationAngle`);
+          const radians =
+            (flowInput.angleUnits ?? "rad") === "deg" ? (supplied * Math.PI) / 180 : supplied;
+          if (radians < 0 || radians > frictionAngle + 1e-12) {
+            throw new Error(`${label}.dilationAngle must satisfy 0 <= psi <= atan(mu).`);
+          }
+          return radians;
+        })();
+  return {
+    frictionCoefficient,
+    cohesion,
+    flowRule: { type: flowInput.type, dilationAngle },
+  };
+}
+
+function normalizeInterface(
+  input: MasonryArchInterfaceInput | undefined,
+  resolver: UnitResolver,
+  label: string,
+): NormalizedMasonryArchInterface {
+  const resolved = input ?? { model: "heyman" as const };
+  const approachingHingeRatio = resolved.approachingHingeRatio ?? 0.9;
+  if (
+    !Number.isFinite(approachingHingeRatio) ||
+    approachingHingeRatio <= 0 ||
+    approachingHingeRatio >= 1
+  ) {
+    throw new Error(`${label}.approachingHingeRatio must satisfy 0 < ratio < 1.`);
+  }
+  if (resolved.model === "heyman") {
+    return {
+      model: resolved.model,
+      approachingHingeRatio,
+      friction: null,
+      compressiveStrength: null,
+      compressionFacetCount: 1,
+      deformability: null,
+    };
+  }
+  if (resolved.model === "coulomb") {
+    return {
+      model: resolved.model,
+      approachingHingeRatio,
+      friction: normalizeFriction(resolved, resolver, label),
+      compressiveStrength: null,
+      compressionFacetCount: 1,
+      deformability: null,
+    };
+  }
+  if (resolved.model === "deformable-no-tension") {
+    const integrationPointCount = resolved.normal.integrationPointCount ?? 16;
+    if (!Number.isInteger(integrationPointCount) || integrationPointCount < 2) {
+      throw new Error(
+        `${label}.normal.integrationPointCount must be an integer not smaller than two.`,
+      );
+    }
+    const compressiveStrength =
+      resolved.normal.compressiveStrength === undefined
+        ? null
+        : positive(
+            resolver.stress(resolved.normal.compressiveStrength),
+            `${label}.normal.compressiveStrength`,
+          );
+    const compressionFacetCount = resolved.normal.compressionFacetCount ?? 8;
+    if (!Number.isInteger(compressionFacetCount) || compressionFacetCount < 2) {
+      throw new Error(
+        `${label}.normal.compressionFacetCount must be an integer not smaller than two.`,
+      );
+    }
+    if (
+      resolved.normal.postCrushingBehavior === "perfectly-plastic" &&
+      compressiveStrength === null
+    ) {
+      throw new Error(`${label}.normal perfectly-plastic crushing requires compressiveStrength.`);
+    }
+    return {
+      model: resolved.model,
+      approachingHingeRatio,
+      friction: normalizeFriction(resolved.tangential, resolver, `${label}.tangential`),
+      compressiveStrength,
+      compressionFacetCount,
+      deformability: {
+        normal: {
+          elasticModulus: positive(
+            resolver.stress(resolved.normal.elasticModulus),
+            `${label}.normal.elasticModulus`,
+          ),
+          characteristicLength: positive(
+            resolver.length(resolved.normal.characteristicLength),
+            `${label}.normal.characteristicLength`,
+          ),
+          integrationPointCount,
+          postCrushingBehavior: resolved.normal.postCrushingBehavior ?? "stop-at-onset",
+        },
+        tangential: {
+          shearModulus: positive(
+            resolver.stress(resolved.tangential.shearModulus),
+            `${label}.tangential.shearModulus`,
+          ),
+          characteristicLength: positive(
+            resolver.length(resolved.tangential.characteristicLength),
+            `${label}.tangential.characteristicLength`,
+          ),
+        },
+      },
+    };
+  }
+  const compressionFacetCount = resolved.compressionFacetCount ?? 8;
+  if (!Number.isInteger(compressionFacetCount) || compressionFacetCount < 2) {
+    throw new Error(`${label}.compressionFacetCount must be an integer not smaller than two.`);
+  }
+  return {
+    model: resolved.model,
+    approachingHingeRatio,
+    friction:
+      resolved.friction === undefined
+        ? null
+        : normalizeFriction(resolved.friction, resolver, `${label}.friction`),
+    compressiveStrength: positive(
+      resolver.stress(resolved.compressiveStrength),
+      `${label}.compressiveStrength`,
+    ),
+    compressionFacetCount,
+    deformability: null,
+  };
+}
+
+function normalizeAnchorCapacity(
+  input: ArchAnchorCapacityInput | undefined,
+  resolver: UnitResolver,
+  label: string,
+): NormalizedArchAnchorCapacity {
+  return {
+    normalResistance:
+      input?.normalResistance === undefined
+        ? null
+        : positive(resolver.force(input.normalResistance), `${label}.normalResistance`),
+    shearResistance:
+      input?.shearResistance === undefined
+        ? null
+        : positive(resolver.force(input.shearResistance), `${label}.shearResistance`),
+    resultantResistance:
+      input?.resultantResistance === undefined
+        ? null
+        : positive(resolver.force(input.resultantResistance), `${label}.resultantResistance`),
+    interactionRule: input?.interactionRule ?? "independent",
+  };
+}
+
+function normalizeTermination(
+  input: ArchReinforcementTerminationInput | undefined,
+  resolver: UnitResolver,
+  label: string,
+): NormalizedArchReinforcementTermination {
+  if (input === undefined || input.type === "continuous-external") {
+    return { type: "continuous-external" };
+  }
+  if (!Number.isInteger(input.connectorCount) || input.connectorCount < 1) {
+    throw new Error(`${label}.connectorCount must be a positive integer.`);
+  }
+  const connectorSpacing =
+    input.connectorCount === 1
+      ? nonNegative(resolver.length(input.connectorSpacing ?? 0), `${label}.connectorSpacing`)
+      : input.connectorSpacing === undefined
+        ? (() => {
+            throw new Error(
+              `${label}.connectorSpacing is required when connectorCount exceeds one.`,
+            );
+          })()
+        : positive(resolver.length(input.connectorSpacing), `${label}.connectorSpacing`);
+  const suppliedWeights = input.loadShareWeights;
+  if (suppliedWeights !== undefined && suppliedWeights.length !== input.connectorCount) {
+    throw new Error(`${label}.loadShareWeights must contain one value per connector.`);
+  }
+  const weights =
+    suppliedWeights?.map((weight, index) =>
+      positive(weight, `${label}.loadShareWeights[${index}]`),
+    ) ?? Array.from({ length: input.connectorCount }, () => 1 / input.connectorCount);
+  const weightSum = weights.reduce((sum, weight) => sum + weight, 0);
+  if (Math.abs(weightSum - 1) > 1e-9) {
+    throw new Error(`${label}.loadShareWeights must sum to one.`);
+  }
+  return {
+    type: "distributed-anchorage",
+    connectorCount: input.connectorCount,
+    connectorSpacing,
+    loadShareWeights: weights.map((weight) => weight / weightSum),
+    capacity: normalizeAnchorCapacity(input.capacity, resolver, `${label}.capacity`),
+  };
+}
+
+function normalizeReinforcement(
+  input: ArchReinforcementInput,
+  resolver: UnitResolver,
+  voussoirCount: number,
+): NormalizedArchReinforcement {
+  const label = `reinforcements.${input.id}`;
+  if (typeof input.id !== "string" || input.id.trim().length === 0) {
+    throw new Error("Every arch reinforcement requires a non-empty id.");
+  }
+  const area = positive(resolver.area(input.area), `${label}.area`);
+  const elasticModulus = positive(resolver.stress(input.elasticModulus), `${label}.elasticModulus`);
+  const initialForce = nonNegative(resolver.force(input.initialForce), `${label}.initialForce`);
+  const yieldStrength =
+    input.yieldStrength === undefined
+      ? null
+      : positive(resolver.stress(input.yieldStrength), `${label}.yieldStrength`);
+  const tensileStrength =
+    input.tensileStrength === undefined
+      ? null
+      : positive(resolver.stress(input.tensileStrength), `${label}.tensileStrength`);
+  if (yieldStrength !== null && tensileStrength !== null && yieldStrength > tensileStrength) {
+    throw new Error(`${label}.yieldStrength cannot exceed tensileStrength.`);
+  }
+  const ultimateStrain =
+    input.ultimateStrain === undefined
+      ? null
+      : positive(input.ultimateStrain, `${label}.ultimateStrain`);
+  const common = {
+    id: input.id,
+    area,
+    elasticModulus,
+    initialForce,
+    yieldStrength,
+    tensileStrength,
+    ultimateStrain,
+    terminations: {
+      left: normalizeTermination(input.terminations?.left, resolver, `${label}.terminations.left`),
+      right: normalizeTermination(
+        input.terminations?.right,
+        resolver,
+        `${label}.terminations.right`,
+      ),
+    },
+  } as const;
+  if (input.side === "intrados") {
+    if (!Number.isInteger(input.interaction.count) || input.interaction.count < 3) {
+      throw new Error(`${label}.interaction.count must be an integer not smaller than three.`);
+    }
+    if (input.interaction.count % 2 === 0) {
+      throw new Error(`${label}.interaction.count must be odd so one deviator lies at the crown.`);
+    }
+    return {
+      ...common,
+      side: input.side,
+      interaction: {
+        type: "rigid-deviators",
+        count: input.interaction.count,
+        capacity: normalizeAnchorCapacity(
+          input.interaction.capacity,
+          resolver,
+          `${label}.interaction.capacity`,
+        ),
+      },
+    };
+  }
+  const segmentCount = input.interaction?.segmentCount ?? Math.max(32, 2 * voussoirCount);
+  if (!Number.isInteger(segmentCount) || segmentCount < 2) {
+    throw new Error(`${label}.interaction.segmentCount must be an integer not smaller than two.`);
+  }
+  return {
+    ...common,
+    side: input.side,
+    interaction: { type: "unilateral-contact", segmentCount },
+  };
+}
+
+function normalizeBondedLayerTermination(
+  input: BondedLayerTerminationInput | undefined,
+  resolver: UnitResolver,
+  label: string,
+): BondedLayerTerminationInput {
+  if (input === undefined || input.type === "anchored") return { type: "anchored" };
+  return {
+    type: "unanchored",
+    developmentLength: positive(
+      resolver.length(input.developmentLength),
+      `${label}.developmentLength`,
+    ),
+  };
+}
+
+function normalizeBondedLayer(
+  input: BondedLayerReinforcementInput,
+  resolver: UnitResolver,
+): NormalizedBondedLayerReinforcement {
+  const label = `bondedLayers.${input.id}`;
+  if (typeof input.id !== "string" || input.id.trim().length === 0) {
+    throw new Error("Every bonded layer requires a non-empty id.");
+  }
+  const area = positive(resolver.area(input.area), `${label}.area`);
+  const elasticModulus = positive(resolver.stress(input.elasticModulus), `${label}.elasticModulus`);
+  const tensileStrength =
+    input.tensileStrength === undefined
+      ? null
+      : positive(resolver.stress(input.tensileStrength), `${label}.tensileStrength`);
+  const debondingStrain =
+    input.debondingStrain === undefined
+      ? null
+      : positive(input.debondingStrain, `${label}.debondingStrain`);
+  const ultimateStrain =
+    input.ultimateStrain === undefined
+      ? null
+      : positive(input.ultimateStrain, `${label}.ultimateStrain`);
+  const capacityCandidates = [
+    tensileStrength === null
+      ? null
+      : { limit: "tensile-strength" as const, force: area * tensileStrength },
+    debondingStrain === null
+      ? null
+      : { limit: "debonding-strain" as const, force: area * elasticModulus * debondingStrain },
+    ultimateStrain === null
+      ? null
+      : { limit: "ultimate-strain" as const, force: area * elasticModulus * ultimateStrain },
+  ].filter((item): item is NonNullable<typeof item> => item !== null);
+  if (capacityCandidates.length === 0) {
+    throw new Error(
+      `${label} requires tensileStrength, debondingStrain, or ultimateStrain to define capacity.`,
+    );
+  }
+  const governing = capacityCandidates.reduce((minimum, candidate) =>
+    candidate.force < minimum.force ? candidate : minimum,
+  );
+  const startStation = normalizedStation(input.startStation, 0, `${label}.startStation`);
+  const endStation = normalizedStation(input.endStation, 1, `${label}.endStation`);
+  if (endStation <= startStation) {
+    throw new Error(`${label} requires endStation greater than startStation.`);
+  }
+  return {
+    id: input.id,
+    family: input.family,
+    side: input.side,
+    area,
+    elasticModulus,
+    tensileStrength,
+    debondingStrain,
+    ultimateStrain,
+    transferLength:
+      input.transferLength === undefined
+        ? null
+        : positive(resolver.length(input.transferLength), `${label}.transferLength`),
+    startStation,
+    endStation,
+    terminations: {
+      left: normalizeBondedLayerTermination(
+        input.terminations?.left,
+        resolver,
+        `${label}.terminations.left`,
+      ),
+      right: normalizeBondedLayerTermination(
+        input.terminations?.right,
+        resolver,
+        `${label}.terminations.right`,
+      ),
+    },
+    tensileCapacity: governing.force,
+    governingCapacityLimit: governing.limit,
+  };
+}
+
+function normalizeGeometryInput(
+  geometry: SimplifiedSymmetricMasonryArchGeometryInput,
+  resolver: UnitResolver,
+): SimplifiedSymmetricMasonryArchGeometryInput {
+  return {
+    kind: geometry.kind,
+    referenceCurve: geometry.referenceCurve,
+    profile: { ...geometry.profile },
+    span: resolver.length(geometry.span),
+    rise: resolver.length(geometry.rise),
+    thickness: resolver.length(geometry.thickness),
+    outOfPlaneWidth: resolver.length(geometry.outOfPlaneWidth),
+    voussoirCount: geometry.voussoirCount,
+    ...(geometry.keystone === undefined
+      ? {}
+      : { keystone: { arcLength: resolver.length(geometry.keystone.arcLength) } }),
+    ...(geometry.stationing === undefined ? {} : { stationing: geometry.stationing }),
+  };
+}
+
+export class MasonryArchModel implements NormalizedMasonryArchModel {
+  readonly schemaVersion = MASONRY_ARCH_MODEL_SCHEMA_VERSION;
+  readonly id: string;
+  readonly sourceUnits: NormalizedMasonryArchModel["sourceUnits"];
+  readonly units = INTERNAL_UNITS;
+  readonly geometry: NormalizedMasonryArchModel["geometry"];
+  readonly masonry: NormalizedMasonryArchModel["masonry"];
+  readonly interfaces: NormalizedMasonryArchModel["interfaces"];
+  readonly supports: NormalizedMasonryArchModel["supports"];
+  readonly loads: NormalizedMasonryArchModel["loads"];
+  readonly reinforcements: NormalizedMasonryArchModel["reinforcements"];
+  readonly bondedLayers: NormalizedMasonryArchModel["bondedLayers"];
+  readonly metadata: Record<string, unknown>;
+
+  constructor(input: MasonryArchModelInput) {
+    if (typeof input.id !== "string" || input.id.trim().length === 0) {
+      throw new Error("Masonry arch model requires a non-empty id.");
+    }
+    this.id = input.id;
+    this.sourceUnits = assertExplicitUnitSystem(input.units, "MasonryArchModel");
+    const resolver = createUnitResolver(this.sourceUnits, INTERNAL_UNITS);
+    this.geometry = buildSimplifiedMasonryArchGeometry(
+      normalizeGeometryInput(input.geometry, resolver),
+    );
+    const unitWeight =
+      input.masonry?.unitWeight === undefined
+        ? null
+        : positive(
+            resolver.volumeLoad(input.masonry.unitWeight),
+            "Masonry arch masonry.unitWeight",
+          );
+    this.masonry = { unitWeight };
+
+    this.interfaces = normalizeInterface(input.interfaces, resolver, "interfaces");
+
+    for (const [side, support] of [
+      ["left", input.supports?.left],
+      ["right", input.supports?.right],
+    ] as const) {
+      if (support !== undefined && support.type !== "rigid-contact") {
+        throw new Error(`Unsupported ${side} arch support type: ${String(support.type)}.`);
+      }
+    }
+    this.supports = {
+      left: {
+        type: "rigid-contact",
+        interface: normalizeInterface(
+          input.supports?.left?.interface ?? input.interfaces,
+          resolver,
+          "supports.left.interface",
+        ),
+      },
+      right: {
+        type: "rigid-contact",
+        interface: normalizeInterface(
+          input.supports?.right?.interface ?? input.interfaces,
+          resolver,
+          "supports.right.interface",
+        ),
+      },
+    };
+
+    const loads = (input.loads ?? []).map((load) =>
+      normalizeLoad(load, resolver, this.geometry.referenceCurve),
+    );
+    const ids = new Set<string>();
+    for (const load of loads) {
+      if (ids.has(load.id)) {
+        throw new Error(`Duplicate masonry arch load id: ${load.id}.`);
+      }
+      ids.add(load.id);
+      if (load.type === "self-weight" && unitWeight === null) {
+        throw new Error("Masonry unitWeight is required when a self-weight load is present.");
+      }
+    }
+    this.loads = loads;
+
+    const reinforcements = (input.reinforcements ?? []).map((reinforcement) =>
+      normalizeReinforcement(reinforcement, resolver, this.geometry.voussoirCount),
+    );
+    const reinforcementIds = new Set<string>();
+    for (const reinforcement of reinforcements) {
+      if (reinforcementIds.has(reinforcement.id)) {
+        throw new Error(`Duplicate masonry arch reinforcement id: ${reinforcement.id}.`);
+      }
+      reinforcementIds.add(reinforcement.id);
+    }
+    this.reinforcements = reinforcements;
+    const bondedLayers = (input.bondedLayers ?? []).map((layer) =>
+      normalizeBondedLayer(layer, resolver),
+    );
+    for (const layer of bondedLayers) {
+      if (reinforcementIds.has(layer.id)) {
+        throw new Error(`Duplicate masonry arch reinforcement id: ${layer.id}.`);
+      }
+      reinforcementIds.add(layer.id);
+    }
+    this.bondedLayers = bondedLayers;
+    this.metadata = { ...(input.metadata ?? {}) };
+  }
+
+  toJSON(): NormalizedMasonryArchModel {
+    return {
+      schemaVersion: this.schemaVersion,
+      id: this.id,
+      sourceUnits: { ...this.sourceUnits },
+      units: { ...this.units },
+      geometry: this.geometry,
+      masonry: { ...this.masonry },
+      interfaces: { ...this.interfaces },
+      supports: {
+        left: { ...this.supports.left },
+        right: { ...this.supports.right },
+      },
+      loads: [...this.loads],
+      reinforcements: [...this.reinforcements],
+      bondedLayers: [...this.bondedLayers],
+      metadata: { ...this.metadata },
+    };
+  }
+}
+
+export function createMasonryArchModel(input: MasonryArchModelInput): MasonryArchModel {
+  return new MasonryArchModel(input);
+}
+
+export const createMasonryArch = createMasonryArchModel;

@@ -1,20 +1,35 @@
 # structural-checks-ts
 
-`structural-checks-ts` is the planned TypeScript successor to
-[`strutture-js`](https://github.com/claudiopagani/strutture-js), a public, solver-neutral structural
-calculation and verification library.
+`structural-checks-ts` is the canonical public, solver-neutral TypeScript library for structural
+calculation and verification.
 
 ## Current status
 
-Implementation status: **partial**. Canonical cutover status: **planned**.
+Implementation status: **partial**. Canonical authority status: **active**. Package publication
+status: **not yet approved**.
 
-`strutture-js` remains the canonical implementation until the complete migration gates pass and
-maintainers publish an explicit cutover record. This repository currently contains thirty-five
-usable parity slices:
+All new development and engineering validation takes place in this repository under
+[Decision 0004](docs/decisions/0004-typescript-canonical-authority-and-evolving-normative-corpus.md).
+Historical migration records remain provenance evidence only. Implemented capabilities include:
 
 - result status constants and serializable `CalculationResult` and `VerificationResult` DTOs;
 - generic result-check utilities;
 - the generic force/length unit-system resolver;
+- geometrically linear 2D rigid-voussoir masonry-arch state analysis for simplified circular and
+  elliptical geometry, with self-weight, fill, uniform, patch and point loads, general load
+  combinations, selectable Heyman, Coulomb, or finite-compression interface domains, reactions,
+  equilibrium diagnostics, and a representative masonry thrust line, plus collapse multipliers for
+  selected factored load cases with rigid-block kinematics, zero-dilation non-associated sliding,
+  frictional dissipation, explicit crushing diagnostics, assigned curved post-tensioning with
+  independent intrados deviators or convex-extrados contact, and rigid terminal/device demand and
+  assigned-capacity checks, plus tension-only passive-tendon activation on prescribed finite
+  rigid-block configurations and an initial coupled finite-kinematics solver with explicit
+  deformable no-tension interfaces, adaptive load control, augmented displacement control, spherical
+  arc-length control, zero-dilation Coulomb slip, optional irreversible perfectly plastic crushing,
+  passive intrados/extrados tendon activation with unilateral extrados contact release, passive
+  bonded FRCM/FRP/equivalent-SFRM membrane layers with asymmetric section domains and end
+  development, plus typed cross-model comparison with explicit geometry/load comparability
+  diagnostics;
 - rectangular, circular, T, and polygon section geometry;
 - reinforcing bars and generated top/bottom longitudinal layouts;
 - generic composite sections and transformed reinforced-concrete sections;
@@ -93,7 +108,7 @@ usable parity slices:
 
 The section, reinforcement, and material models are usable engineering data models. The ULS uniaxial
 section-resistance and uniaxial/biaxial interaction-domain applications are usable within their
-stated inputs and assumptions and match the pinned JavaScript numerical oracles. The public
+stated inputs and assumptions and retain historical numerical regression evidence. The public
 `rayPolygonCapacity` operation can classify a demand against one of those sampled domains using the
 source-compatible `utilizationRatio <= 1` rule. The service-stress workflow solves section stresses,
 and the local beam verifier applies the inherited NTC stress limits and indirect crack-control
@@ -124,17 +139,16 @@ The axial pile slice calculates single-pile geotechnical compression or tension 
 does not implement pile groups, pile-cap load sharing, settlement or transfer curves, lateral
 response, or structural pile-section verification.
 
-## Recorded baselines
+## Historical provenance baselines
 
 - `strutture-js@0.8.0`:
   [`6f33baead8b88166c4b2cf94af41763412e3c751`](https://github.com/claudiopagani/strutture-js/commit/6f33baead8b88166c4b2cf94af41763412e3c751)
-- `strutture-normative`:
+- initial `strutture-normative` validation snapshot:
   [`41da3faa489600173106935bbcf726119300e48d`](https://github.com/claudiopagani/strutture-normative/commit/41da3faa489600173106935bbcf726119300e48d)
 
-The source baseline and its completed normative audit were clean and committed when migration began.
-The source's complete `npm run check` gate and the corpus's `npm run check:ci` gate passed. See
-[migration status](docs/migration-status.md) and the machine-readable
-[baseline record](migration/baseline.json).
+These revisions record the clean evidence used when migration began. They are not active
+implementation or normative-corpus pins. See [migration status](docs/migration-status.md) and the
+machine-readable [baseline record](migration/baseline.json).
 
 ## Install and verify
 
@@ -146,25 +160,31 @@ npm ci
 npm run check
 ```
 
-The complete check expects clean sibling checkouts at `../strutture-js` and
-`../strutture-normative`, at the revisions recorded above. Override their locations with
-`STRUTTURE_JS_BASELINE_PATH` and `STRUTTURE_NORMATIVE_PATH`.
+The normative-reference check uses a clean, structurally compatible current checkout at
+`../strutture-normative` by default; it does not require an older commit. Override its location with
+`STRUTTURE_NORMATIVE_PATH`.
+
+The default `npm run check` is TypeScript-canonical and does not require the former implementation.
+Historical live-parity files remain outside the default suite and may be run explicitly with
+`npm run test:legacy-parity` while their useful numerical evidence is converted to self-contained
+fixtures. They do not define canonical behavior.
 
 The build emits portable ESM JavaScript and TypeScript declarations under `dist/`.
 
 ## Boundaries
 
 The library contains reusable structural domain primitives, normative checks, deterministic
-applications, and serializable technical results as they are migrated. It does not contain UI,
-storage, authentication, analytics, network orchestration, product logic, or solver-specific
-adapters. Concrete NextFEM and OOFEM integrations belong outside this repository.
+applications, and serializable technical results. It does not contain UI, storage, authentication,
+analytics, network orchestration, product logic, or solver-specific adapters. Concrete NextFEM and
+OOFEM integrations belong outside this repository.
 
 Internally, dependencies follow `applications -> norms -> domain`. The normative corpus is an
 external development and CI input only; it is never shipped at runtime.
 
 See [project boundaries](docs/project-boundaries.md),
 [public API policy](docs/public-api-policy.md), and
-[normative traceability](docs/normative-traceability.md).
+[normative traceability](docs/normative-traceability.md). The implemented masonry-arch scope and
+limits are documented in [masonry-arch analysis](docs/masonry-arch-analysis.md).
 
 ## License and provenance
 

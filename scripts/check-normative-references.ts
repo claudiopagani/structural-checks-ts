@@ -15,10 +15,6 @@ interface NormativeReferenceRecord {
 }
 
 interface NormativeManifest {
-  corpus: {
-    revision: string;
-    status: string;
-  };
   references: NormativeReferenceRecord[];
   outsideCorpusReferences: NormativeReferenceRecord[];
 }
@@ -89,23 +85,16 @@ if (!(await isDirectory(unitsRoot)) || !(await isDirectory(assetsRoot))) {
 }
 
 const revision = await git(corpusPath, ["rev-parse", "HEAD"]);
-if (revision !== manifest.corpus.revision) {
-  errors.push(
-    `Corpus revision ${revision} differs from pinned revision ${manifest.corpus.revision}.`,
-  );
-}
-
 const status = await git(corpusPath, ["status", "--porcelain", "--", "corpus", "schemas"]);
 if (status.length > 0) {
-  errors.push("The canonical corpus or its schemas have uncommitted changes.");
+  errors.push("The selected canonical corpus or its schemas have uncommitted changes.");
 }
 
-const units = new Map<string, { status: string | null }>();
+const units = new Set<string>();
 for (const filePath of await collectJsonFiles(unitsRoot)) {
   const record = JSON.parse(await readFile(filePath, "utf8")) as {
     id?: string;
     recordType?: string;
-    workflow?: { status?: string };
   };
   if (record.recordType !== "canonical-unit" || record.id === undefined) {
     continue;
@@ -113,7 +102,7 @@ for (const filePath of await collectJsonFiles(unitsRoot)) {
   if (units.has(record.id)) {
     errors.push(`Duplicate canonical unit id: ${record.id}.`);
   }
-  units.set(record.id, { status: record.workflow?.status ?? null });
+  units.add(record.id);
 }
 
 const assets = new Map<string, { unitId: string }>();
@@ -149,12 +138,6 @@ for (const reference of references) {
     continue;
   }
 
-  if (units.get(reference.unitId)?.status !== manifest.corpus.status) {
-    errors.push(
-      `${reference.unitId} does not have expected corpus status ${manifest.corpus.status}.`,
-    );
-  }
-
   for (const assetId of reference.assetIds) {
     const asset = assets.get(assetId);
     if (asset === undefined) {
@@ -186,8 +169,8 @@ if (errors.length > 0) {
   ).length;
   const outsideCount = references.length - resolvedCount;
   console.log(
-    `Normative reference check passed (${resolvedCount} migrated resolved references, ` +
-      `${outsideCount} migrated outside-corpus references, ${units.size} canonical units, ` +
+    `Normative reference check passed (${resolvedCount} resolved references, ` +
+      `${outsideCount} outside-corpus references, ${units.size} canonical units, ` +
       `${assets.size} assets, revision ${revision}).`,
   );
 }

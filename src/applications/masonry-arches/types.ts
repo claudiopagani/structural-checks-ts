@@ -1,0 +1,1023 @@
+import type { CalculationResult } from "../../core/results/CalculationResult.js";
+import type { UnitSystem, UnitSystemInput } from "../../domain/units/UnitSystem.js";
+import type {
+  RigidBlock2D,
+  RigidBlockAppliedWrench2D,
+  RigidBlockInterface2D,
+  RigidBlockMotion2D,
+  RigidBlockPoint2D,
+  RigidBlockVector2D,
+} from "../../domain/masonry/rigid-blocks/types.js";
+
+export const MASONRY_ARCH_MODEL_SCHEMA_VERSION = "1.1.0";
+export const MASONRY_ARCH_STATE_RESULT_SCHEMA_VERSION = "1.1.0";
+export const MASONRY_ARCH_COLLAPSE_RESULT_SCHEMA_VERSION = "1.1.0";
+
+export type MasonryArchReferenceCurve = "intrados" | "centerline" | "extrados";
+export type MasonryArchAngleUnits = "deg" | "rad";
+export type MasonryArchDistributionBasis = "horizontal-projection" | "arc-length";
+export type MasonryArchLoadApplicationCurve = MasonryArchReferenceCurve;
+
+export interface CircularMasonryArchProfileInput {
+  readonly type: "circular";
+}
+
+export interface EllipticalMasonryArchProfileInput {
+  readonly type: "elliptical";
+  readonly springingAngle: number;
+  readonly angleUnits: MasonryArchAngleUnits;
+}
+
+export type SimplifiedMasonryArchProfileInput =
+  | CircularMasonryArchProfileInput
+  | EllipticalMasonryArchProfileInput;
+
+export interface MasonryArchKeystoneInput {
+  /** Length measured along the selected reference curve. */
+  readonly arcLength: number;
+}
+
+export interface SimplifiedSymmetricMasonryArchGeometryInput {
+  readonly kind: "simplified-symmetric";
+  readonly referenceCurve: MasonryArchReferenceCurve;
+  readonly profile: SimplifiedMasonryArchProfileInput;
+  readonly span: number;
+  readonly rise: number;
+  readonly thickness: number;
+  readonly outOfPlaneWidth: number;
+  readonly voussoirCount: number;
+  readonly keystone?: MasonryArchKeystoneInput;
+  readonly stationing?: "equal-arc-length";
+}
+
+export type MasonryArchGeometryInput = SimplifiedSymmetricMasonryArchGeometryInput;
+
+export interface MasonryArchLoadCaseReference {
+  readonly id?: string | null;
+}
+
+interface MasonryArchLoadBaseInput {
+  readonly id: string;
+  readonly loadCaseId?: string;
+  readonly loadCase?: MasonryArchLoadCaseReference | null;
+}
+
+export interface MasonryArchSelfWeightLoadInput extends MasonryArchLoadBaseInput {
+  readonly type: "self-weight";
+}
+
+interface MasonryArchDistributedLoadInput extends MasonryArchLoadBaseInput {
+  /** Force-per-length components expressed in the declared model units. */
+  readonly components: RigidBlockVector2D;
+  readonly distributionBasis?: MasonryArchDistributionBasis;
+  /** Curve whose `dx` or `ds` measures the distributed-load intensity. */
+  readonly distributionCurve?: MasonryArchReferenceCurve;
+  readonly applicationCurve?: MasonryArchLoadApplicationCurve;
+}
+
+export interface MasonryArchUniformLoadInput extends MasonryArchDistributedLoadInput {
+  readonly type: "uniform";
+}
+
+export interface MasonryArchPatchLoadInput extends MasonryArchDistributedLoadInput {
+  readonly type: "patch";
+  readonly startStation: number;
+  readonly endStation: number;
+}
+
+export interface MasonryArchFillLoadInput extends MasonryArchLoadBaseInput {
+  readonly type: "fill";
+  /** Fill unit weight in force per volume. */
+  readonly unitWeight: number;
+  readonly crownCoverDepth?: number;
+  readonly startStation?: number;
+  readonly endStation?: number;
+}
+
+export interface MasonryArchPointLoadInput extends MasonryArchLoadBaseInput {
+  readonly type: "point";
+  readonly station: number;
+  readonly force: RigidBlockVector2D;
+  readonly moment?: number;
+  readonly applicationCurve?: MasonryArchLoadApplicationCurve;
+  readonly targetVoussoirId?: string;
+}
+
+export type MasonryArchLoadInput =
+  | MasonryArchSelfWeightLoadInput
+  | MasonryArchUniformLoadInput
+  | MasonryArchPatchLoadInput
+  | MasonryArchFillLoadInput
+  | MasonryArchPointLoadInput;
+
+export interface MasonryArchMasonryInput {
+  /** Masonry unit weight in force per volume. Required when self-weight is present. */
+  readonly unitWeight?: number;
+}
+
+export interface MasonryArchHeymanInterfaceInput {
+  readonly model: "heyman";
+  readonly approachingHingeRatio?: number;
+}
+
+export type MasonryArchFrictionFlowRuleInput =
+  | {
+      readonly type: "non-associated";
+      /** Defaults to zero. */
+      readonly dilationAngle?: number;
+      readonly angleUnits?: MasonryArchAngleUnits;
+    }
+  | {
+      readonly type: "associated";
+    };
+
+export interface MasonryArchCoulombParametersInput {
+  readonly frictionCoefficient: number;
+  /** Cohesion stress. Defaults to zero. */
+  readonly cohesion?: number;
+  readonly flowRule?: MasonryArchFrictionFlowRuleInput;
+}
+
+export interface MasonryArchCoulombInterfaceInput
+  extends Omit<MasonryArchHeymanInterfaceInput, "model">,
+    MasonryArchCoulombParametersInput {
+  readonly model: "coulomb";
+}
+
+export interface MasonryArchFiniteCompressionInterfaceInput
+  extends Omit<MasonryArchHeymanInterfaceInput, "model"> {
+  readonly model: "finite-compression";
+  /** Rigid-plastic compression stress limit. */
+  readonly compressiveStrength: number;
+  /** Safe chord facets per sign of moment. Defaults to 8; refine explicitly for convergence. */
+  readonly compressionFacetCount?: number;
+  readonly friction?: MasonryArchCoulombParametersInput;
+}
+
+export interface MasonryArchDeformableNormalInterfaceInput {
+  readonly elasticModulus: number;
+  /** Explicit strain-regularization length normal to the joint. */
+  readonly characteristicLength: number;
+  readonly compressiveStrength?: number;
+  /** Returned midpoint samples; they also integrate explicitly enabled plastic crushing. Defaults to 16. */
+  readonly integrationPointCount?: number;
+  /** Defaults to stopping the nonlinear path at first crushing. */
+  readonly postCrushingBehavior?: "stop-at-onset" | "perfectly-plastic";
+  /** Safe static-domain chord facets per moment sign. Defaults to 8 when strength is finite. */
+  readonly compressionFacetCount?: number;
+}
+
+export interface MasonryArchDeformableTangentialInterfaceInput
+  extends MasonryArchCoulombParametersInput {
+  readonly shearModulus: number;
+  /** Explicit strain-regularization length for relative tangential motion. */
+  readonly characteristicLength: number;
+}
+
+export interface MasonryArchDeformableNoTensionInterfaceInput
+  extends Omit<MasonryArchHeymanInterfaceInput, "model"> {
+  readonly model: "deformable-no-tension";
+  readonly normal: MasonryArchDeformableNormalInterfaceInput;
+  readonly tangential: MasonryArchDeformableTangentialInterfaceInput;
+}
+
+export type MasonryArchInterfaceInput =
+  | MasonryArchHeymanInterfaceInput
+  | MasonryArchCoulombInterfaceInput
+  | MasonryArchFiniteCompressionInterfaceInput
+  | MasonryArchDeformableNoTensionInterfaceInput;
+
+export interface MasonryArchRigidContactSupportInput {
+  readonly type: "rigid-contact";
+  readonly interface?: MasonryArchInterfaceInput;
+}
+
+export interface MasonryArchSupportsInput {
+  readonly left?: MasonryArchRigidContactSupportInput;
+  readonly right?: MasonryArchRigidContactSupportInput;
+}
+
+export interface ArchAnchorCapacityInput {
+  readonly normalResistance?: number;
+  readonly shearResistance?: number;
+  readonly resultantResistance?: number;
+  readonly interactionRule?: "independent" | "linear" | "elliptical";
+}
+
+export interface ArchRigidDeviatorInteractionInput {
+  readonly type: "rigid-deviators";
+  /** Physical deviators, including the two path-end deviators. Must be odd and at least three. */
+  readonly count: number;
+  /** Shared capacity used when a deviator-specific terminal capacity does not supersede it. */
+  readonly capacity?: ArchAnchorCapacityInput;
+}
+
+export interface ArchExtradosContactInteractionInput {
+  readonly type: "unilateral-contact";
+  /** Numerical straight segments used to integrate cable-to-arch contact. */
+  readonly segmentCount?: number;
+}
+
+export interface ArchContinuousExternalTerminationInput {
+  readonly type: "continuous-external";
+}
+
+export interface ArchDistributedAnchorageTerminationInput {
+  readonly type: "distributed-anchorage";
+  /** Rigid connectors in the transfer zone, including the connector at the path end. */
+  readonly connectorCount: number;
+  /** Constant spacing measured along the selected arch boundary. Required when count is greater than one. */
+  readonly connectorSpacing?: number;
+  /** Optional shares ordered from the model boundary toward the arch interior. Must sum to one. */
+  readonly loadShareWeights?: readonly number[];
+  readonly capacity?: ArchAnchorCapacityInput;
+}
+
+export type ArchReinforcementTerminationInput =
+  | ArchContinuousExternalTerminationInput
+  | ArchDistributedAnchorageTerminationInput;
+
+interface ArchReinforcementBaseInput {
+  readonly id: string;
+  readonly area: number;
+  readonly elasticModulus: number;
+  readonly initialForce: number;
+  readonly yieldStrength?: number;
+  readonly tensileStrength?: number;
+  readonly ultimateStrain?: number;
+  readonly terminations?: {
+    readonly left?: ArchReinforcementTerminationInput;
+    readonly right?: ArchReinforcementTerminationInput;
+  };
+}
+
+export interface IntradosArchReinforcementInput extends ArchReinforcementBaseInput {
+  readonly side: "intrados";
+  readonly interaction: ArchRigidDeviatorInteractionInput;
+}
+
+export interface ExtradosArchReinforcementInput extends ArchReinforcementBaseInput {
+  readonly side: "extrados";
+  readonly interaction?: ArchExtradosContactInteractionInput;
+}
+
+export type ArchReinforcementInput =
+  | IntradosArchReinforcementInput
+  | ExtradosArchReinforcementInput;
+
+export type BondedLayerMaterialFamily = "frcm" | "frp" | "sfrm";
+
+export type BondedLayerTerminationInput =
+  | { readonly type: "anchored" }
+  | {
+      readonly type: "unanchored";
+      /** Length over which the available tensile force increases linearly from zero. */
+      readonly developmentLength: number;
+    };
+
+/** Passive zero-thickness layer bonded to one arch boundary. */
+export interface BondedLayerReinforcementInput {
+  readonly id: string;
+  readonly family: BondedLayerMaterialFamily;
+  readonly side: "intrados" | "extrados";
+  /** Effective tensile area; SFRM is represented by an equivalent membrane area. */
+  readonly area: number;
+  readonly elasticModulus: number;
+  readonly tensileStrength?: number;
+  readonly debondingStrain?: number;
+  readonly ultimateStrain?: number;
+  /** Required only for deformable-interface analysis. */
+  readonly transferLength?: number;
+  /** Normalized reference-curve station. Defaults to zero. */
+  readonly startStation?: number;
+  /** Normalized reference-curve station. Defaults to one. */
+  readonly endStation?: number;
+  readonly terminations?: {
+    readonly left?: BondedLayerTerminationInput;
+    readonly right?: BondedLayerTerminationInput;
+  };
+}
+
+export interface MasonryArchModelInput {
+  readonly id: string;
+  readonly units: UnitSystemInput;
+  readonly geometry: MasonryArchGeometryInput;
+  readonly masonry?: MasonryArchMasonryInput;
+  readonly interfaces?: MasonryArchInterfaceInput;
+  readonly supports?: MasonryArchSupportsInput;
+  readonly loads?: readonly MasonryArchLoadInput[];
+  readonly reinforcements?: readonly ArchReinforcementInput[];
+  readonly bondedLayers?: readonly BondedLayerReinforcementInput[];
+  readonly metadata?: Record<string, unknown>;
+}
+
+export interface NormalizedCircularMasonryArchProfile {
+  readonly type: "circular";
+  readonly radius: number;
+  readonly center: RigidBlockPoint2D;
+  readonly halfAngle: number;
+  readonly springingAngle: number;
+}
+
+export interface NormalizedEllipticalMasonryArchProfile {
+  readonly type: "elliptical";
+  readonly semiAxisX: number;
+  readonly semiAxisY: number;
+  readonly halfParameter: number;
+  readonly springingAngle: number;
+}
+
+export type NormalizedMasonryArchProfile =
+  | NormalizedCircularMasonryArchProfile
+  | NormalizedEllipticalMasonryArchProfile;
+
+export interface MasonryArchCurveSample {
+  readonly station: number;
+  readonly normalizedStation: number;
+  readonly intrados: RigidBlockPoint2D;
+  readonly centerline: RigidBlockPoint2D;
+  readonly extrados: RigidBlockPoint2D;
+  readonly referencePoint: RigidBlockPoint2D;
+  readonly chainTangent: RigidBlockVector2D;
+  readonly outwardNormal: RigidBlockVector2D;
+  /** Arc-length derivative of each offset curve with respect to reference-curve arc length. */
+  readonly arcLengthJacobian: Readonly<Record<MasonryArchReferenceCurve, number>>;
+}
+
+export interface MasonryArchInterfaceGeometry extends RigidBlockInterface2D {
+  readonly station: number;
+  readonly normalizedStation: number;
+  readonly intradosPoint: RigidBlockPoint2D;
+  readonly extradosPoint: RigidBlockPoint2D;
+}
+
+export interface MasonryArchVoussoirGeometry extends RigidBlock2D {
+  readonly startStation: number;
+  readonly endStation: number;
+  readonly referenceArcLength: number;
+  readonly isKeystone: boolean;
+}
+
+export interface NormalizedMasonryArchGeometry {
+  readonly kind: "simplified-symmetric";
+  readonly referenceCurve: MasonryArchReferenceCurve;
+  readonly profile: NormalizedMasonryArchProfile;
+  readonly span: number;
+  readonly rise: number;
+  readonly thickness: number;
+  readonly outOfPlaneWidth: number;
+  readonly totalReferenceArcLength: number;
+  readonly voussoirCount: number;
+  readonly keystone: {
+    readonly present: boolean;
+    readonly arcLength: number | null;
+    readonly voussoirId: string | null;
+  };
+  readonly curveSamples: readonly MasonryArchCurveSample[];
+  readonly interfaces: readonly MasonryArchInterfaceGeometry[];
+  readonly voussoirs: readonly MasonryArchVoussoirGeometry[];
+  readonly approximation: {
+    readonly polygonArea: number;
+    readonly maximumJointLengthDeviation: number;
+  };
+}
+
+interface NormalizedMasonryArchLoadBase {
+  readonly id: string;
+  readonly loadCaseId: string;
+  readonly type: MasonryArchLoadInput["type"];
+}
+
+export interface NormalizedMasonryArchSelfWeightLoad extends NormalizedMasonryArchLoadBase {
+  readonly type: "self-weight";
+}
+
+export interface NormalizedMasonryArchUniformLoad extends NormalizedMasonryArchLoadBase {
+  readonly type: "uniform";
+  readonly components: RigidBlockVector2D;
+  readonly distributionBasis: MasonryArchDistributionBasis;
+  readonly distributionCurve: MasonryArchReferenceCurve;
+  readonly applicationCurve: MasonryArchLoadApplicationCurve;
+}
+
+export interface NormalizedMasonryArchPatchLoad extends NormalizedMasonryArchLoadBase {
+  readonly type: "patch";
+  readonly components: RigidBlockVector2D;
+  readonly distributionBasis: MasonryArchDistributionBasis;
+  readonly distributionCurve: MasonryArchReferenceCurve;
+  readonly applicationCurve: MasonryArchLoadApplicationCurve;
+  readonly startStation: number;
+  readonly endStation: number;
+}
+
+export interface NormalizedMasonryArchFillLoad extends NormalizedMasonryArchLoadBase {
+  readonly type: "fill";
+  readonly unitWeight: number;
+  readonly crownCoverDepth: number;
+  readonly startStation: number;
+  readonly endStation: number;
+}
+
+export interface NormalizedMasonryArchPointLoad extends NormalizedMasonryArchLoadBase {
+  readonly type: "point";
+  readonly station: number;
+  readonly force: RigidBlockVector2D;
+  readonly moment: number;
+  readonly applicationCurve: MasonryArchLoadApplicationCurve;
+  readonly targetVoussoirId: string | null;
+}
+
+export type NormalizedMasonryArchLoad =
+  | NormalizedMasonryArchSelfWeightLoad
+  | NormalizedMasonryArchUniformLoad
+  | NormalizedMasonryArchPatchLoad
+  | NormalizedMasonryArchFillLoad
+  | NormalizedMasonryArchPointLoad;
+
+export interface NormalizedArchAnchorCapacity {
+  readonly normalResistance: number | null;
+  readonly shearResistance: number | null;
+  readonly resultantResistance: number | null;
+  readonly interactionRule: "independent" | "linear" | "elliptical";
+}
+
+export interface NormalizedArchContinuousExternalTermination {
+  readonly type: "continuous-external";
+}
+
+export interface NormalizedArchDistributedAnchorageTermination {
+  readonly type: "distributed-anchorage";
+  readonly connectorCount: number;
+  readonly connectorSpacing: number;
+  readonly loadShareWeights: readonly number[];
+  readonly capacity: NormalizedArchAnchorCapacity;
+}
+
+export type NormalizedArchReinforcementTermination =
+  | NormalizedArchContinuousExternalTermination
+  | NormalizedArchDistributedAnchorageTermination;
+
+interface NormalizedArchReinforcementBase {
+  readonly id: string;
+  readonly side: "intrados" | "extrados";
+  readonly area: number;
+  readonly elasticModulus: number;
+  readonly initialForce: number;
+  readonly yieldStrength: number | null;
+  readonly tensileStrength: number | null;
+  readonly ultimateStrain: number | null;
+  readonly terminations: {
+    readonly left: NormalizedArchReinforcementTermination;
+    readonly right: NormalizedArchReinforcementTermination;
+  };
+}
+
+export interface NormalizedIntradosArchReinforcement extends NormalizedArchReinforcementBase {
+  readonly side: "intrados";
+  readonly interaction: {
+    readonly type: "rigid-deviators";
+    readonly count: number;
+    readonly capacity: NormalizedArchAnchorCapacity;
+  };
+}
+
+export interface NormalizedExtradosArchReinforcement extends NormalizedArchReinforcementBase {
+  readonly side: "extrados";
+  readonly interaction: {
+    readonly type: "unilateral-contact";
+    readonly segmentCount: number;
+  };
+}
+
+export type NormalizedArchReinforcement =
+  | NormalizedIntradosArchReinforcement
+  | NormalizedExtradosArchReinforcement;
+
+export interface NormalizedBondedLayerReinforcement {
+  readonly id: string;
+  readonly family: BondedLayerMaterialFamily;
+  readonly side: "intrados" | "extrados";
+  readonly area: number;
+  readonly elasticModulus: number;
+  readonly tensileStrength: number | null;
+  readonly debondingStrain: number | null;
+  readonly ultimateStrain: number | null;
+  readonly transferLength: number | null;
+  readonly startStation: number;
+  readonly endStation: number;
+  readonly terminations: {
+    readonly left: BondedLayerTerminationInput;
+    readonly right: BondedLayerTerminationInput;
+  };
+  readonly tensileCapacity: number;
+  readonly governingCapacityLimit: "tensile-strength" | "debonding-strain" | "ultimate-strain";
+}
+
+export interface NormalizedMasonryArchModel {
+  readonly schemaVersion: typeof MASONRY_ARCH_MODEL_SCHEMA_VERSION;
+  readonly id: string;
+  readonly sourceUnits: UnitSystem;
+  readonly units: UnitSystem;
+  readonly geometry: NormalizedMasonryArchGeometry;
+  readonly masonry: {
+    readonly unitWeight: number | null;
+  };
+  readonly interfaces: NormalizedMasonryArchInterface;
+  readonly supports: {
+    readonly left: {
+      readonly type: "rigid-contact";
+      readonly interface: NormalizedMasonryArchInterface;
+    };
+    readonly right: {
+      readonly type: "rigid-contact";
+      readonly interface: NormalizedMasonryArchInterface;
+    };
+  };
+  readonly loads: readonly NormalizedMasonryArchLoad[];
+  readonly reinforcements: readonly NormalizedArchReinforcement[];
+  readonly bondedLayers: readonly NormalizedBondedLayerReinforcement[];
+  readonly metadata: Record<string, unknown>;
+}
+
+export interface NormalizedMasonryArchInterface {
+  readonly model: "heyman" | "coulomb" | "finite-compression" | "deformable-no-tension";
+  readonly approachingHingeRatio: number;
+  readonly friction: {
+    readonly frictionCoefficient: number;
+    readonly cohesion: number;
+    readonly flowRule: {
+      readonly type: "non-associated" | "associated";
+      readonly dilationAngle: number;
+    };
+  } | null;
+  readonly compressiveStrength: number | null;
+  readonly compressionFacetCount: number;
+  readonly deformability: {
+    readonly normal: {
+      readonly elasticModulus: number;
+      readonly characteristicLength: number;
+      readonly integrationPointCount: number;
+      readonly postCrushingBehavior: "stop-at-onset" | "perfectly-plastic";
+    };
+    readonly tangential: {
+      readonly shearModulus: number;
+      readonly characteristicLength: number;
+    };
+  } | null;
+}
+
+export interface MasonryArchLoadCombinationFactorLike {
+  readonly loadCase: MasonryArchLoadCaseReference;
+  readonly factor: number;
+}
+
+export interface MasonryArchLoadCombinationLike {
+  readonly id?: string | null;
+  readonly combinationType?: string | null;
+  readonly factors: readonly MasonryArchLoadCombinationFactorLike[];
+}
+
+export interface AnalyzeMasonryArchStateOptions {
+  readonly loadCombination?: MasonryArchLoadCombinationLike | null;
+  readonly loadFactorsByCaseId?: Readonly<Record<string, number>>;
+  readonly geometricNonlinearity?: false;
+  readonly equilibriumTolerance?: number;
+  readonly hingeTolerance?: number;
+}
+
+export interface AnalyzeMasonryArchCollapseOptions {
+  readonly loadCombination?: MasonryArchLoadCombinationLike | null;
+  /** Load cases whose already-factored contribution is multiplied by lambda. */
+  readonly scalableLoadCaseIds: readonly string[];
+  readonly geometricNonlinearity?: false;
+  readonly equilibriumTolerance?: number;
+  readonly hingeTolerance?: number;
+  readonly activeConstraintTolerance?: number;
+  readonly simplexTolerance?: number;
+  readonly maxSimplexIterations?: number;
+  readonly nonAssociatedTolerance?: number;
+  readonly maxNonAssociatedIterations?: number;
+}
+
+export interface MasonryArchBlockDisplacementInput {
+  readonly blockId: string;
+  /** Translation expressed in `MasonryArchPrescribedConfigurationInput.units.length`. */
+  readonly translation: RigidBlockVector2D;
+  /** Finite counter-clockwise rotation in radians. */
+  readonly rotation: number;
+}
+
+export interface MasonryArchPrescribedConfigurationInput {
+  readonly units: UnitSystemInput;
+  /** Blocks omitted from this array retain their reference configuration. */
+  readonly blockDisplacements: readonly MasonryArchBlockDisplacementInput[];
+}
+
+export interface NormalizedMasonryArchBlockDisplacement {
+  readonly blockId: string;
+  readonly translation: RigidBlockVector2D;
+  readonly rotation: number;
+}
+
+export interface MasonryArchAppliedLoadResult {
+  readonly loadId: string;
+  readonly loadCaseId: string;
+  readonly factor: number;
+  readonly resultantForce: RigidBlockVector2D;
+  readonly resultantMomentAboutOrigin: number;
+}
+
+export interface MasonryArchBlockLoadResult extends RigidBlockAppliedWrench2D {
+  readonly sourceLoadIds: readonly string[];
+}
+
+export type ArchReinforcementState =
+  | "slack"
+  | "active-passive"
+  | "active-post-tensioned"
+  | "yielded"
+  | "failed";
+
+export interface ArchReinforcementSegmentResult {
+  readonly index: number;
+  readonly referenceStartPoint: RigidBlockPoint2D;
+  readonly referenceEndPoint: RigidBlockPoint2D;
+  readonly startPoint: RigidBlockPoint2D;
+  readonly endPoint: RigidBlockPoint2D;
+  readonly startStation: number;
+  readonly endStation: number;
+  readonly referenceLength: number;
+  readonly length: number;
+  /** Ratio of segment tension to the reported central reinforcement force. */
+  readonly tensionRatio: number;
+  readonly tension: number;
+}
+
+export interface ArchDeviatorGeometryResult {
+  readonly id: string;
+  readonly index: number;
+  readonly station: number;
+  readonly normalizedSideArcStation: number;
+  readonly referencePoint: RigidBlockPoint2D;
+  readonly point: RigidBlockPoint2D;
+}
+
+export interface ArchReinforcementStateResult {
+  readonly reinforcementId: string;
+  readonly side: "intrados" | "extrados";
+  readonly force: number;
+  readonly trialForce: number;
+  readonly initialForce: number;
+  readonly elasticForceIncrement: number;
+  readonly axialStress: number;
+  readonly elasticStrain: number;
+  readonly geometricStrain: number;
+  readonly state: ArchReinforcementState;
+  readonly compatibilityMode: "anchored-length-compatible" | "externally-force-controlled";
+  readonly referencePathLength: number;
+  readonly currentPathLength: number;
+  readonly pathLength: number;
+  readonly elongation: number;
+  /** Absolute path-length change at or below this numerical tolerance is treated as zero. */
+  readonly elongationTolerance: number;
+  readonly effectiveElasticLength: number | null;
+  readonly elasticTangentStiffness: number;
+  readonly interactionType: "rigid-deviators" | "unilateral-contact";
+  readonly referencePath: readonly RigidBlockPoint2D[];
+  readonly path: readonly RigidBlockPoint2D[];
+  readonly segments: readonly ArchReinforcementSegmentResult[];
+  /** Physical entities; empty for an extrados governed only by unilateral contact. */
+  readonly deviators: readonly ArchDeviatorGeometryResult[];
+  readonly checks: {
+    readonly yielding: {
+      readonly criterion: "reinforcement-yield-stress";
+      readonly demand: number;
+      readonly capacity: number;
+      readonly utilizationRatio: number;
+      readonly status: "pass" | "fail";
+    } | null;
+    readonly tensileFailure: {
+      readonly criterion: "reinforcement-tensile-strength";
+      readonly demand: number;
+      readonly capacity: number;
+      readonly utilizationRatio: number;
+      readonly status: "pass" | "fail";
+    } | null;
+    readonly ultimateStrain: {
+      readonly criterion: "reinforcement-ultimate-strain";
+      readonly demand: number;
+      readonly capacity: number;
+      readonly utilizationRatio: number;
+      readonly status: "pass" | "fail";
+    } | null;
+  };
+}
+
+export interface ArchAnchorForceResult {
+  readonly anchorId: string;
+  readonly reinforcementId: string;
+  readonly kind: "deviator" | "terminal-connector" | "terminal-connector-and-deviator";
+  readonly terminationSide: "left" | "right" | null;
+  readonly index: number;
+  readonly station: number;
+  readonly normalizedSideArcStation: number;
+  readonly referencePoint: RigidBlockPoint2D;
+  readonly point: RigidBlockPoint2D;
+  readonly tensionLeft: number;
+  readonly tensionRight: number;
+  /** Force transmitted by the reinforcement to the rigid anchor/deviator and then to the arch. */
+  readonly resultantForce: RigidBlockVector2D;
+  /** Positive toward the arch interior, opposite the stored outward normal. */
+  readonly normalComponent: number;
+  /** Positive along increasing arch station. */
+  readonly tangentialComponent: number;
+  readonly resultant: number;
+  readonly direction: RigidBlockVector2D | null;
+  readonly demand: {
+    readonly normal: number;
+    readonly shear: number;
+    readonly resultant: number;
+  };
+  readonly capacity: {
+    readonly normal: number | null;
+    readonly shear: number | null;
+    readonly resultant: number | null;
+  };
+  readonly interactionRule: "independent" | "linear" | "elliptical";
+  readonly utilizationRatio: number | null;
+  readonly status: "pass" | "fail" | "not-verifiable";
+}
+
+export interface ArchContactForceResult {
+  readonly contactId: string;
+  readonly reinforcementId: string;
+  readonly index: number;
+  readonly station: number;
+  readonly normalizedSideArcStation: number;
+  readonly referencePoint: RigidBlockPoint2D;
+  readonly point: RigidBlockPoint2D;
+  readonly tensionLeft: number;
+  readonly tensionRight: number;
+  readonly resultantForce: RigidBlockVector2D;
+  readonly normalComponent: number;
+  readonly tangentialComponent: number;
+  readonly state: "in-contact" | "separated" | "contact-cannot-enforce-path";
+}
+
+export interface ArchReinforcementBoundaryForceResult {
+  readonly reinforcementId: string;
+  readonly side: "left" | "right";
+  readonly terminationType: "continuous-external" | "distributed-anchorage";
+  readonly referencePoint: RigidBlockPoint2D;
+  readonly point: RigidBlockPoint2D;
+  readonly tension: number;
+  /** Force transmitted by the modeled tendon to the system outside the arch-model boundary. */
+  readonly forceTransmittedToExternalSystem: RigidBlockVector2D;
+}
+
+export interface BondedLayerInterfaceStateResult {
+  readonly reinforcementId: string;
+  readonly interfaceId: string;
+  readonly interfaceIndex: number;
+  readonly side: "intrados" | "extrados";
+  readonly developmentFactor: number;
+  readonly force: number | null;
+  readonly capacity: number;
+  readonly utilizationRatio: number | null;
+  readonly state: "inactive" | "active" | "at-capacity" | "not-uniquely-determined";
+}
+
+export interface BondedLayerStateResult {
+  readonly reinforcementId: string;
+  readonly family: BondedLayerMaterialFamily;
+  readonly side: "intrados" | "extrados";
+  readonly tensileCapacity: number;
+  readonly governingCapacityLimit: NormalizedBondedLayerReinforcement["governingCapacityLimit"];
+  readonly analysisMeaning:
+    | "minimum-required-static-admissibility"
+    | "deformable-interface-compatibility";
+  readonly maximumForce: number | null;
+  readonly maximumUtilizationRatio: number | null;
+  readonly interfaces: readonly BondedLayerInterfaceStateResult[];
+}
+
+export type MasonryArchInterfaceState =
+  | "compressed"
+  | "approaching-intrados-hinge"
+  | "approaching-extrados-hinge"
+  | "hinge"
+  | "sliding"
+  | "crushing"
+  | "sliding-and-crushing"
+  | "outside-admissible-thickness"
+  | "no-compression";
+
+export interface MasonryArchInterfaceStateResult {
+  readonly interfaceId: string;
+  readonly index: number;
+  readonly normalForce: number;
+  readonly shearForce: number;
+  readonly moment: number;
+  readonly eccentricity: number | null;
+  readonly normalizedEccentricity: number | null;
+  readonly compressedLength: number | null;
+  readonly maxCompression: number | null;
+  readonly frictionUtilization: number | null;
+  readonly compressionUtilization: number | null;
+  readonly state: MasonryArchInterfaceState;
+  readonly hingeSide: "intrados" | "extrados" | null;
+  readonly thrustPoint: RigidBlockPoint2D | null;
+  readonly admissibilityMargins: {
+    readonly compression: number;
+    readonly intrados: number;
+    readonly extrados: number;
+    readonly friction: number | null;
+    readonly compressionStrength: number | null;
+    readonly resultantDomain: number | null;
+  };
+  readonly checks: {
+    readonly friction: {
+      readonly criterion: "coulomb-friction";
+      readonly demand: number;
+      readonly capacity: number;
+      readonly utilizationRatio: number | null;
+      readonly status: "pass" | "fail" | "not-verifiable";
+    } | null;
+    readonly compression: {
+      readonly criterion: "finite-compression-uniform-edge-block";
+      readonly demand: number;
+      readonly capacity: number;
+      readonly utilizationRatio: number | null;
+      readonly status: "pass" | "fail" | "not-verifiable";
+    } | null;
+  };
+}
+
+export interface MasonryArchStateOutputs extends Record<string, unknown> {
+  readonly modelId: string;
+  readonly geometry: NormalizedMasonryArchGeometry;
+  readonly loadFactorsByCaseId: Readonly<Record<string, number>>;
+  readonly appliedLoads: readonly MasonryArchAppliedLoadResult[];
+  readonly blockWrenches: readonly MasonryArchBlockLoadResult[];
+  readonly reinforcementState: readonly ArchReinforcementStateResult[];
+  readonly anchorForces: readonly ArchAnchorForceResult[];
+  readonly contactForces: readonly ArchContactForceResult[];
+  readonly reinforcementBoundaryForces: readonly ArchReinforcementBoundaryForceResult[];
+  readonly bondedLayerState: readonly BondedLayerStateResult[];
+  readonly reactions: {
+    readonly left: {
+      readonly force: RigidBlockVector2D;
+      readonly moment: number;
+      readonly applicationPoint: RigidBlockPoint2D;
+    };
+    readonly right: {
+      readonly force: RigidBlockVector2D;
+      readonly moment: number;
+      readonly applicationPoint: RigidBlockPoint2D;
+    };
+  };
+  readonly interfaces: readonly MasonryArchInterfaceStateResult[];
+  readonly thrustLine: readonly (RigidBlockPoint2D | null)[];
+  readonly hinges: readonly {
+    readonly interfaceId: string;
+    readonly side: "intrados" | "extrados";
+  }[];
+  readonly equilibrium: {
+    readonly feasible: boolean;
+    readonly representativeMargin: number;
+    readonly forceResidual: RigidBlockVector2D;
+    readonly momentResidual: number;
+    readonly normalizedResidual: {
+      readonly forceX: number;
+      readonly forceY: number;
+      readonly moment: number;
+    };
+    readonly tolerance: number;
+  };
+  readonly convergence: {
+    readonly converged: boolean;
+    readonly optimizer: "fixed-dimension-simplex";
+    readonly status: "optimal" | "unbounded" | "iteration-limit";
+    readonly iterations: number;
+  };
+}
+
+export type MasonryArchStateResult = CalculationResult<MasonryArchStateOutputs>;
+
+export type MasonryArchFailureMode =
+  | "mechanism"
+  | "sliding"
+  | "masonry-crushing"
+  | "reinforcement-yield"
+  | "reinforcement-failure"
+  | "anchor-capacity"
+  | "instability"
+  | "mixed"
+  | "fixed-load-infeasible"
+  | "no-collapse-within-model"
+  | "undetermined";
+
+export interface MasonryArchCollapseHingeResult {
+  readonly interfaceId: string;
+  readonly index: number;
+  readonly side: "intrados" | "extrados";
+  readonly point: RigidBlockPoint2D;
+}
+
+export interface MasonryArchCollapseOutputs extends Record<string, unknown> {
+  readonly modelId: string;
+  readonly geometry: NormalizedMasonryArchGeometry;
+  readonly lambdaCritical: number | null;
+  readonly limitMeaning:
+    | "kinematically-verified-collapse"
+    | "maximum-static-admissibility"
+    | "not-determined";
+  readonly failureMode: MasonryArchFailureMode;
+  readonly criticalInterfaces: readonly string[];
+  readonly hinges: readonly MasonryArchCollapseHingeResult[];
+  readonly slidingInterfaces: readonly string[];
+  readonly crushingInterfaces: readonly string[];
+  readonly reinforcementState: readonly ArchReinforcementStateResult[];
+  readonly anchorForces: readonly ArchAnchorForceResult[];
+  readonly contactForces: readonly ArchContactForceResult[];
+  readonly reinforcementBoundaryForces: readonly ArchReinforcementBoundaryForceResult[];
+  readonly bondedLayerState: readonly BondedLayerStateResult[];
+  readonly loadCases: {
+    readonly baseCombinationFactorsByCaseId: Readonly<Record<string, number>>;
+    readonly effectiveFactorsAtCollapseByCaseId: Readonly<Record<string, number | null>>;
+    readonly roleByCaseId: Readonly<Record<string, "fixed" | "scalable">>;
+  };
+  readonly loadFactorCheck: {
+    readonly criterion: "lambda-critical-greater-than-or-equal-to-one";
+    readonly demand: 1;
+    readonly capacity: number | null;
+    readonly utilizationRatio: number | null;
+    readonly status: "pass" | "fail" | "not-verifiable";
+  };
+  readonly loads: {
+    readonly fixed: readonly MasonryArchAppliedLoadResult[];
+    readonly scalableAtUnitLambda: readonly MasonryArchAppliedLoadResult[];
+    readonly totalAtCollapse: readonly MasonryArchAppliedLoadResult[];
+    readonly fixedBlockWrenches: readonly MasonryArchBlockLoadResult[];
+    readonly scalableBlockWrenchesAtUnitLambda: readonly MasonryArchBlockLoadResult[];
+    readonly totalBlockWrenchesAtCollapse: readonly MasonryArchBlockLoadResult[];
+  };
+  readonly reactions: MasonryArchStateOutputs["reactions"];
+  readonly interfaces: readonly MasonryArchInterfaceStateResult[];
+  readonly thrustLine: readonly (RigidBlockPoint2D | null)[];
+  readonly mechanism: {
+    readonly kinematicallyVerified: boolean;
+    readonly degreesOfFreedom: number;
+    readonly rank: number;
+    readonly maximumConstraintResidual: number;
+    readonly blockMotions: readonly RigidBlockMotion2D[];
+    readonly nonAssociatedFlow: {
+      readonly verified: boolean;
+      readonly maximumViolation: number;
+      readonly slidingRates: readonly {
+        readonly interfaceId: string;
+        readonly interfaceIndex: number;
+        readonly tangentialRate: number;
+        readonly normalRate: number;
+        readonly directionVerified: boolean;
+      }[];
+    } | null;
+    readonly virtualWork: {
+      readonly fixed: number | null;
+      readonly scalableAtUnitLambda: number | null;
+      readonly totalAtCollapse: number | null;
+      readonly internalDissipation: number | null;
+      readonly normalizedResidual: number | null;
+    };
+  };
+  readonly equilibrium: {
+    readonly forceResidual: RigidBlockVector2D;
+    readonly momentResidual: number;
+    readonly normalizedResidual: {
+      readonly forceX: number;
+      readonly forceY: number;
+      readonly moment: number;
+    };
+    readonly tolerance: number;
+  };
+  readonly convergenceInfo: {
+    readonly converged: boolean;
+    readonly optimizer: "fixed-dimension-simplex" | "sequential-linear-programming";
+    readonly status:
+      | "optimal"
+      | "unbounded"
+      | "fixed-load-infeasible"
+      | "iteration-limit"
+      | "non-associated-iteration-limit";
+    readonly iterations: number;
+    readonly nonAssociated: {
+      readonly required: boolean;
+      readonly converged: boolean;
+      readonly iterations: number;
+      readonly relativeLambdaChange: number | null;
+      readonly frictionReductionFactor: number | null;
+    };
+  };
+}
+
+export type MasonryArchCollapseResult = CalculationResult<MasonryArchCollapseOutputs>;

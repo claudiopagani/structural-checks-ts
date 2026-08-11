@@ -2,6 +2,10 @@
 
 Last updated on 2026-08-01.
 
+> This document is a historical migration log. Decision 0004 made `structural-checks-ts` the sole
+> canonical implementation on 2026-08-10. Earlier baseline pins and parity statements below retain
+> provenance meaning only; they are not current development authority or normative-corpus pins.
+
 ## Baseline safety
 
 - At initialization, the target repository had no commits and only the pre-existing untracked
@@ -770,10 +774,11 @@ closure audit adds:
 - final repository evidence from `npm run check`: format, lint, strict typecheck, 332 tests,
   architecture, provenance, normative references, package, and browser/Web Worker bundle checks.
 
-The closure slice does not convert this partial parity workspace into the canonical package and does
-not close unrelated repository-wide migration work.
+At the time this closure slice was recorded, it did not convert the workspace into the canonical
+package. Decision 0004 subsequently superseded that authority statement without changing the slice's
+historical evidence.
 
-## Remaining migration
+## Historical remaining-migration snapshot
 
 The package as a whole is **partial**. Remaining work includes:
 
@@ -785,4 +790,5 @@ The package as a whole is **partial**. Remaining work includes:
 4. remaining FEM elements, preprocessing, applications, browser, and Web Worker parity;
 5. complete numerical campaigns and tolerance comparison;
 6. other material systems and remaining low-level domain primitives;
-7. package identity, history, compatibility, freeze, cutover, and rollback decisions.
+7. package identity, history, compatibility, publication, and rollback decisions. Canonical
+   engineering authority was subsequently resolved by Decision 0004.

@@ -24,6 +24,7 @@ import * as geotechnicalShallowFoundations from "structural-checks-ts-migration-
 import * as geotechnicalSlopeStability from "structural-checks-ts-migration-workspace/applications/geotechnical-slope-stability";
 import * as globalFemPostprocessing from "structural-checks-ts-migration-workspace/applications/global-fem-postprocessing";
 import * as masonryOutOfPlane from "structural-checks-ts-migration-workspace/applications/masonry-out-of-plane";
+import * as masonryArches from "structural-checks-ts-migration-workspace/applications/masonry-arches";
 import * as masonryPiers from "structural-checks-ts-migration-workspace/applications/masonry-piers";
 import * as masonryRingBeams from "structural-checks-ts-migration-workspace/applications/masonry-ring-beams";
 import * as masonryWallOpenings from "structural-checks-ts-migration-workspace/applications/masonry-wall-openings";
@@ -69,6 +70,7 @@ const entryPointModules = [
   geotechnicalShallowFoundations,
   geotechnicalSlopeStability,
   globalFemPostprocessing,
+  masonryArches,
   masonryOutOfPlane,
   masonryPiers,
   masonryRingBeams,
@@ -97,4 +99,8 @@ void test("all public package subpaths and wildcard application barrels compile 
   for (const module of entryPointModules) {
     assert.ok(Object.keys(module).length > 0);
   }
+  assert.equal(typeof masonryArches.analyzeMasonryArchCollapse, "function");
+  assert.equal(typeof masonryArches.calculateCollapseMultiplier, "function");
+  assert.equal(typeof masonryArches.compareMasonryArchModels, "function");
+  assert.equal(typeof root.rectangularNoTensionCompressionDomain2D, "function");
 });

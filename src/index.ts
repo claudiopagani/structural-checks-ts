@@ -136,6 +136,16 @@ export {
 } from "./domain/foundations/index.js";
 export { BandedLinearSolver } from "./domain/math/BandedLinearSolver.js";
 export { DenseLinearSolver } from "./domain/math/DenseLinearSolver.js";
+export { rectangularNoTensionCompressionDomain2D } from "./domain/masonry/rigid-blocks/rectangularNoTensionCompressionDomain2D.js";
+export {
+  GeneralBandedLUFactorization,
+  GeneralBandedLinearSolver,
+  addCompactBandedValue,
+  compactBandedMatrixToDense,
+  compactBandedValue,
+  createCompactBandedMatrix,
+  setCompactBandedValue,
+} from "./domain/math/GeneralBandedLinearSolver.js";
 export {
   BeamLinePreprocessor2D,
   CyclicMasonryPierAnalysis2D,
@@ -1641,6 +1651,14 @@ export type {
   DenseLinearSolverOptions,
   DenseResidual,
 } from "./domain/math/DenseLinearSolver.js";
+export type {
+  CompactBandedMatrix,
+  GeneralBandedLinearSolverOptions,
+} from "./domain/math/GeneralBandedLinearSolver.js";
+export type {
+  RectangularNoTensionCompressionDomain2DInput,
+  RectangularNoTensionCompressionDomain2DResult,
+} from "./domain/masonry/rigid-blocks/rectangularNoTensionCompressionDomain2D.js";
 export type {
   BeamAnalysisResult,
   BeamInternalForceSample,

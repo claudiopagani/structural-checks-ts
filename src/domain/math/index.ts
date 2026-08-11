@@ -4,6 +4,15 @@ export {
   detectMatrixSemiBandwidth,
 } from "./BandedLinearSolver.js";
 export { DenseLinearSolver } from "./DenseLinearSolver.js";
+export {
+  GeneralBandedLUFactorization,
+  GeneralBandedLinearSolver,
+  addCompactBandedValue,
+  compactBandedMatrixToDense,
+  compactBandedValue,
+  createCompactBandedMatrix,
+  setCompactBandedValue,
+} from "./GeneralBandedLinearSolver.js";
 export { rayPolygonCapacity } from "./rayPolygonCapacity.js";
 export {
   clamp,
@@ -22,6 +31,10 @@ export type {
   DenseLinearSolverOptions,
   DenseResidual,
 } from "./DenseLinearSolver.js";
+export type {
+  CompactBandedMatrix,
+  GeneralBandedLinearSolverOptions,
+} from "./GeneralBandedLinearSolver.js";
 export type {
   RayPolygonCapacityOptions,
   RayPolygonCapacityResult,
