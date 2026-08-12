@@ -1,5 +1,5 @@
 // Mechanical TypeScript migration from strutture-js 6f33baead8b88166c4b2cf94af41763412e3c751; source path: src/applications/reinforced-concrete-beam-column-joints/ReinforcedConcreteBeamColumnJointModel.js.
-/* eslint-disable @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-return */
+/* eslint-disable @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access */
 import { assertExplicitUnitSystem, createUnitResolver } from "../../domain/units/UnitSystem.js";
 
 const INTERNAL_UNITS = Object.freeze({ force: "N", length: "mm" });
