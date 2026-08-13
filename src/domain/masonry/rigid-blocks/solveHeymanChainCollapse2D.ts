@@ -216,7 +216,7 @@ export function solveRigidBlockChainCollapse2D(
     return {
       status: "fixed-load-infeasible",
       reason: "The fixed factored load state is not interface-admissible at lambda = 0.",
-      lambdaCritical: 0,
+      lambdaLimit: 0,
       scales: { force: forceScale, moment: momentScale },
       leftReaction: fixedEquilibrium.leftReaction,
       rightReaction: fixedEquilibrium.rightReaction,
@@ -325,7 +325,7 @@ export function solveRigidBlockChainCollapse2D(
         : simplex.status === "unbounded"
           ? "No finite collapse multiplier exists for the selected scalable load field within the assigned interface model."
           : "Collapse optimization reached its iteration limit.",
-    lambdaCritical: lambda,
+    lambdaLimit: lambda,
     scales: { force: forceScale, moment: momentScale },
     leftReaction: reactions.leftReaction,
     rightReaction: reactions.rightReaction,

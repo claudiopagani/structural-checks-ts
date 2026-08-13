@@ -12,12 +12,7 @@ import type {
   RigidBlockKinematicMechanism2D,
   RigidBlockMotion2D,
 } from "../../domain/masonry/rigid-blocks/types.js";
-import { asMasonryArchModel, recoverMasonryArchInterfaceState } from "./analyzeMasonryArchState.js";
-import {
-  analyzeMasonryArchNonlinear,
-  type AnalyzeMasonryArchNonlinearOptions,
-  type MasonryArchNonlinearResult,
-} from "./analyzeMasonryArchNonlinear.js";
+import { recoverMasonryArchInterfaceState } from "./analyzeMasonryArchEquilibrium.js";
 import {
   resolveBaseMasonryArchInterfaceLaws,
   resolveMasonryArchInterfaceLaws,
@@ -29,19 +24,19 @@ import {
   effectiveMasonryArchLoadFactors,
   resolveMasonryArchAnalysisLoads,
 } from "./analysisSemantics.js";
-import type { MasonryArchModel } from "./MasonryArchModel.js";
+import { asMasonryArchModel, type MasonryArchModel } from "./MasonryArchModel.js";
 import { resolveMasonryArchLoads } from "./resolveMasonryArchLoads.js";
 import {
   combineMasonryArchBlockWrenches,
   resolveArchReinforcements,
 } from "./resolveArchReinforcements.js";
 import {
-  MASONRY_ARCH_COLLAPSE_RESULT_SCHEMA_VERSION,
-  type AnalyzeMasonryArchCollapseOptions,
+  MASONRY_ARCH_LIMIT_ANALYSIS_RESULT_SCHEMA_VERSION,
+  type AnalyzeMasonryArchLimitOptions,
   type MasonryArchAppliedLoadResult,
-  type MasonryArchCollapseHingeResult,
-  type MasonryArchCollapseOutputs,
-  type MasonryArchCollapseResult,
+  type MasonryArchLimitHingeResult,
+  type MasonryArchLimitOutputs,
+  type MasonryArchLimitResult,
   type MasonryArchFailureMode,
   type MasonryArchInterfaceStateResult,
   type MasonryArchModelInput,
@@ -71,8 +66,8 @@ function collapseHinges(
   }[],
   normalForcesByInterface: ReadonlyMap<string, number>,
   compressionTolerance: number,
-): MasonryArchCollapseHingeResult[] {
-  const hinges: MasonryArchCollapseHingeResult[] = [];
+): MasonryArchLimitHingeResult[] {
+  const hinges: MasonryArchLimitHingeResult[] = [];
   const seen = new Set<string>();
   for (const active of activeConstraints) {
     if (
@@ -189,7 +184,7 @@ function solveCollapseWithInterfaceFlow(
         law.friction.frictionCoefficient - Math.tan(law.friction.flowRule.dilationAngle) > 1e-12
       );
     });
-  if (!required || collapse.status !== "optimal" || collapse.lambdaCritical === null) {
+  if (!required || collapse.status !== "optimal" || collapse.lambdaLimit === null) {
     return {
       collapse,
       convergence: {
@@ -237,10 +232,10 @@ function solveCollapseWithInterfaceFlow(
     collapse = solve(adjustedLaws);
     totalSimplexIterations += collapse.simplex.iterations;
     iterations += 1;
-    if (collapse.status !== "optimal" || collapse.lambdaCritical === null) break;
+    if (collapse.status !== "optimal" || collapse.lambdaLimit === null) break;
     relativeLambdaChange =
-      Math.abs(collapse.lambdaCritical - previous.lambdaCritical!) /
-      Math.max(options.nonAssociatedTolerance, Math.abs(previous.lambdaCritical!));
+      Math.abs(collapse.lambdaLimit - previous.lambdaLimit!) /
+      Math.max(options.nonAssociatedTolerance, Math.abs(previous.lambdaLimit!));
     if (
       reductionFactor <= minimumReductionFactor &&
       relativeLambdaChange <= options.nonAssociatedTolerance
@@ -264,27 +259,10 @@ function solveCollapseWithInterfaceFlow(
 
 type MasonryArchModelLike = MasonryArchModel | NormalizedMasonryArchModel | MasonryArchModelInput;
 
-export function analyzeMasonryArchCollapse(
+export function analyzeMasonryArchLimit(
   modelInput: MasonryArchModelLike,
-  options: AnalyzeMasonryArchNonlinearOptions,
-): MasonryArchNonlinearResult;
-export function analyzeMasonryArchCollapse(
-  modelInput: MasonryArchModelLike,
-  options: AnalyzeMasonryArchCollapseOptions,
-): MasonryArchCollapseResult;
-export function analyzeMasonryArchCollapse(
-  modelInput: MasonryArchModelLike,
-  options: AnalyzeMasonryArchCollapseOptions | AnalyzeMasonryArchNonlinearOptions,
-): MasonryArchCollapseResult | MasonryArchNonlinearResult {
-  if (options.geometricNonlinearity === true) {
-    return analyzeMasonryArchNonlinear(modelInput, {
-      ...options,
-      analysisObjective: options.analysisObjective ?? "capacity",
-    });
-  }
-  if (options.analysisObjective !== undefined && options.analysisObjective !== "capacity") {
-    throw new Error("analyzeMasonryArchCollapse supports only analysisObjective: capacity.");
-  }
+  options: AnalyzeMasonryArchLimitOptions,
+): MasonryArchLimitResult {
   const equilibriumTolerance = finitePositive(
     options.equilibriumTolerance ?? 1e-9,
     "Masonry arch collapse equilibriumTolerance",
@@ -365,7 +343,7 @@ export function analyzeMasonryArchCollapse(
           },
           { feasibilityTolerance: equilibriumTolerance },
         );
-  const lambda = fixedReinforcementFailureMode === null ? collapse.lambdaCritical : 0;
+  const lambda = fixedReinforcementFailureMode === null ? collapse.lambdaLimit : 0;
   const governingInterfaceResultants = fixedEquilibrium?.interfaces ?? collapse.interfaces;
   const governingLeftReaction = fixedEquilibrium?.leftReaction ?? collapse.leftReaction;
   const governingRightReaction = fixedEquilibrium?.rightReaction ?? collapse.rightReaction;
@@ -535,10 +513,10 @@ export function analyzeMasonryArchCollapse(
         model.geometry.interfaces[item.index]!,
         baseInterfaceLaws[item.index]!,
         item.index === 0
-          ? model.supports.left.interface.approachingHingeRatio
+          ? model.supports.left.interfaceLaw.approachingLimitRatio
           : item.index === model.geometry.interfaces.length - 1
-            ? model.supports.right.interface.approachingHingeRatio
-            : model.interfaces.approachingHingeRatio,
+            ? model.supports.right.interfaceLaw.approachingLimitRatio
+            : model.interfaceLaw.approachingLimitRatio,
         hingeTolerance,
         governingInterfaceResultants[item.index]!.normalForce,
       );
@@ -575,7 +553,7 @@ export function analyzeMasonryArchCollapse(
     ...new Set(governingActiveConstraints.map((item) => item.interfaceId)),
   ];
   const loadFactorCheck = {
-    criterion: "lambda-critical-greater-than-or-equal-to-one" as const,
+    criterion: "lambda-limit-greater-than-or-equal-to-one" as const,
     demand: 1 as const,
     capacity: lambda,
     utilizationRatio: lambda !== null && lambda > 0 ? 1 / lambda : null,
@@ -662,8 +640,12 @@ export function analyzeMasonryArchCollapse(
             terminationCategory: "numerical-failure",
             lambdaAtTermination: lambda,
           } as const);
+  const staticLimitStateIdentified =
+    lambda !== null &&
+    (collapse.status === "optimal" ||
+      (fixedReinforcementFailureMode !== null && fixedEquilibrium?.feasible === true));
 
-  const outputs: MasonryArchCollapseOutputs = {
+  const outputs: MasonryArchLimitOutputs = {
     modelId: model.id,
     analysis: createMasonryArchAnalysisDescriptor(model, {
       analysisObjective: "capacity",
@@ -673,8 +655,18 @@ export function analyzeMasonryArchCollapse(
       lambda: createMasonryArchLambdaDefinition(analysisLoads, lambda),
     }),
     analysisOutcome,
+    capacity: {
+      lambdaFirstLimit: lambda,
+      lambdaPeak: staticLimitStateIdentified ? lambda : null,
+      lambdaTermination: staticLimitStateIdentified ? lambda : null,
+      lambdaCollapse: kinematicFailureVerified && collapse.status === "optimal" ? lambda : null,
+      steps: { firstLimit: null, peak: null, termination: null, collapse: null },
+      collapseDefinition:
+        kinematicFailureVerified && collapse.status === "optimal"
+          ? "Kinematically verified rigid-block mechanism satisfying equilibrium and virtual work."
+          : null,
+    },
     geometry: model.geometry,
-    lambdaCritical: lambda,
     limitMeaning,
     failureMode,
     criticalInterfaces,
@@ -688,7 +680,7 @@ export function analyzeMasonryArchCollapse(
     bondedLayerState: bondedRecovery.bondedLayerState,
     loadCases: {
       baseCombinationFactorsByCaseId: baseLoads.loadFactorsByCaseId,
-      effectiveFactorsAtCollapseByCaseId: atCollapseFactors,
+      effectiveFactorsAtLimitByCaseId: atCollapseFactors,
       roleByCaseId: analysisLoads.roleByCaseId,
     },
     loadFactorCheck,
@@ -699,10 +691,10 @@ export function analyzeMasonryArchCollapse(
         analysisLoads.roleByCaseId,
         "scalable",
       ),
-      totalAtCollapse: totalLoads?.appliedLoads ?? [],
+      totalAtLimit: totalLoads?.appliedLoads ?? [],
       fixedBlockWrenches,
       scalableBlockWrenchesAtUnitLambda: scalableLoads.blockWrenches,
-      totalBlockWrenchesAtCollapse: totalBlockWrenches,
+      totalBlockWrenchesAtLimit: totalBlockWrenches,
     },
     reactions: {
       left: governingLeftReaction,
@@ -710,28 +702,31 @@ export function analyzeMasonryArchCollapse(
     },
     interfaces,
     thrustLine: interfaces.map((item) => item.thrustPoint),
-    mechanism: {
-      kinematicallyVerified: kinematicFailureVerified,
-      degreesOfFreedom: mechanism.degreesOfFreedom,
-      rank: mechanism.rank,
-      maximumConstraintResidual: mechanism.maximumConstraintResidual,
-      blockMotions: motions,
-      nonAssociatedFlow:
-        nonAssociatedMechanism === null
-          ? null
-          : {
-              verified: nonAssociatedMechanism.flowRuleVerified,
-              maximumViolation: nonAssociatedMechanism.maximumFlowViolation,
-              slidingRates: nonAssociatedMechanism.slidingRates,
+    collapseMechanism:
+      kinematicFailureVerified && collapse.status === "optimal"
+        ? {
+            kinematicallyVerified: kinematicFailureVerified,
+            degreesOfFreedom: mechanism.degreesOfFreedom,
+            rank: mechanism.rank,
+            maximumConstraintResidual: mechanism.maximumConstraintResidual,
+            blockMotions: motions,
+            nonAssociatedFlow:
+              nonAssociatedMechanism === null
+                ? null
+                : {
+                    verified: nonAssociatedMechanism.flowRuleVerified,
+                    maximumViolation: nonAssociatedMechanism.maximumFlowViolation,
+                    slidingRates: nonAssociatedMechanism.slidingRates,
+                  },
+            virtualWork: {
+              fixed: fixedWork,
+              scalableAtUnitLambda: scalableWork,
+              totalAtLimit: totalWork,
+              internalDissipation,
+              normalizedResidual: normalizedWorkResidual,
             },
-      virtualWork: {
-        fixed: fixedWork,
-        scalableAtUnitLambda: scalableWork,
-        totalAtCollapse: totalWork,
-        internalDissipation,
-        normalizedResidual: normalizedWorkResidual,
-      },
-    },
+          }
+        : null,
     equilibrium: {
       forceResidual: { x: governingResidual.forceX, y: governingResidual.forceY },
       momentResidual: governingResidual.moment,
@@ -766,8 +761,8 @@ export function analyzeMasonryArchCollapse(
     },
   };
 
-  return new CalculationResult<MasonryArchCollapseOutputs>({
-    applicationId: "masonry-arch-collapse",
+  return new CalculationResult<MasonryArchLimitOutputs>({
+    applicationId: "masonry-arch-limit",
     status: successful
       ? RESULT_STATUS.OK
       : collapse.status === "optimal" &&
@@ -796,7 +791,7 @@ export function analyzeMasonryArchCollapse(
       "Static Coulomb capacity with bonded layers conservatively uses the total section normal resultant in the eliminated domain.",
     ],
     metadata: {
-      schemaVersion: MASONRY_ARCH_COLLAPSE_RESULT_SCHEMA_VERSION,
+      schemaVersion: MASONRY_ARCH_LIMIT_ANALYSIS_RESULT_SCHEMA_VERSION,
       modelSchemaVersion: model.schemaVersion,
       sourceUnits: model.sourceUnits,
       units: model.units,
@@ -808,12 +803,9 @@ export function analyzeMasonryArchCollapse(
       numericalMethod: "direct-static-limit",
       control: null,
       lambdaDefinition: outputs.analysis.lambda,
-      geometricNonlinearity: false,
       loadCombinationId: options.loadCombination?.id ?? null,
       loadCombinationType: options.loadCombination?.combinationType ?? null,
       normativeConformityClaimed: false,
     },
   });
 }
-
-export const calculateCollapseMultiplier = analyzeMasonryArchCollapse;

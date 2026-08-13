@@ -1,4 +1,8 @@
 import type { CalculationResult } from "../../core/results/CalculationResult.js";
+import type {
+  MasonryInterfaceLawInput,
+  NormalizedMasonryInterfaceLaw,
+} from "../../domain/masonry/interfaces/types.js";
 import type { UnitSystem, UnitSystemInput } from "../../domain/units/UnitSystem.js";
 import type {
   RigidBlock2D,
@@ -9,9 +13,9 @@ import type {
   RigidBlockVector2D,
 } from "../../domain/masonry/rigid-blocks/types.js";
 
-export const MASONRY_ARCH_MODEL_SCHEMA_VERSION = "1.1.0";
-export const MASONRY_ARCH_STATE_RESULT_SCHEMA_VERSION = "1.2.0";
-export const MASONRY_ARCH_COLLAPSE_RESULT_SCHEMA_VERSION = "1.2.0";
+export const MASONRY_ARCH_MODEL_SCHEMA_VERSION = "2.0.0";
+export const MASONRY_ARCH_EQUILIBRIUM_RESULT_SCHEMA_VERSION = "2.0.0";
+export const MASONRY_ARCH_LIMIT_ANALYSIS_RESULT_SCHEMA_VERSION = "3.0.0";
 
 export type MasonryArchReferenceCurve = "intrados" | "centerline" | "extrados";
 export type MasonryArchAngleUnits = "deg" | "rad";
@@ -69,7 +73,7 @@ export interface MasonryArchAnalysisDescriptor {
   readonly mechanicalModel: {
     readonly blockModel: "rigid-voussoir-chain";
     readonly interfaceResponse: MasonryArchMechanicalResponse;
-    readonly interfaceModel: NormalizedMasonryArchInterface["model"];
+    readonly constitutiveResponse: NormalizedMasonryInterfaceLaw["response"];
     readonly kinematics: "reference-geometry" | "finite-rigid-block";
   };
   readonly numericalStrategy: MasonryArchNumericalStrategy;
@@ -91,6 +95,23 @@ export interface MasonryArchAnalysisOutcome {
     | "numerical-failure"
     | "model-boundary";
   readonly lambdaAtTermination: number | null;
+}
+
+export type MasonryArchEngineeringAssessmentStatus = "PASS" | "FAIL" | "INDETERMINATE";
+
+/** Load-pattern landmarks. Step identifiers are available only for incremental analyses. */
+export interface MasonryArchCapacityLandmarks {
+  readonly lambdaFirstLimit: number | null;
+  readonly lambdaPeak: number | null;
+  readonly lambdaTermination: number | null;
+  readonly lambdaCollapse: number | null;
+  readonly steps: {
+    readonly firstLimit: number | null;
+    readonly peak: number | null;
+    readonly termination: number | null;
+    readonly collapse: number | null;
+  };
+  readonly collapseDefinition: string | null;
 }
 
 export interface CircularMasonryArchProfileInput {
@@ -190,81 +211,9 @@ export interface MasonryArchMasonryInput {
   readonly unitWeight?: number;
 }
 
-export interface MasonryArchHeymanInterfaceInput {
-  readonly model: "heyman";
-  readonly approachingHingeRatio?: number;
-}
-
-export type MasonryArchFrictionFlowRuleInput =
-  | {
-      readonly type: "non-associated";
-      /** Defaults to zero. */
-      readonly dilationAngle?: number;
-      readonly angleUnits?: MasonryArchAngleUnits;
-    }
-  | {
-      readonly type: "associated";
-    };
-
-export interface MasonryArchCoulombParametersInput {
-  readonly frictionCoefficient: number;
-  /** Cohesion stress. Defaults to zero. */
-  readonly cohesion?: number;
-  readonly flowRule?: MasonryArchFrictionFlowRuleInput;
-}
-
-export interface MasonryArchCoulombInterfaceInput
-  extends Omit<MasonryArchHeymanInterfaceInput, "model">,
-    MasonryArchCoulombParametersInput {
-  readonly model: "coulomb";
-}
-
-export interface MasonryArchFiniteCompressionInterfaceInput
-  extends Omit<MasonryArchHeymanInterfaceInput, "model"> {
-  readonly model: "finite-compression";
-  /** Rigid-plastic compression stress limit. */
-  readonly compressiveStrength: number;
-  /** Safe chord facets per sign of moment. Defaults to 8; refine explicitly for convergence. */
-  readonly compressionFacetCount?: number;
-  readonly friction?: MasonryArchCoulombParametersInput;
-}
-
-export interface MasonryArchDeformableNormalInterfaceInput {
-  readonly elasticModulus: number;
-  /** Explicit strain-regularization length normal to the joint. */
-  readonly characteristicLength: number;
-  readonly compressiveStrength?: number;
-  /** Returned midpoint samples; they also integrate explicitly enabled plastic crushing. Defaults to 16. */
-  readonly integrationPointCount?: number;
-  /** Defaults to stopping the nonlinear path at first crushing. */
-  readonly postCrushingBehavior?: "stop-at-onset" | "perfectly-plastic";
-  /** Safe static-domain chord facets per moment sign. Defaults to 8 when strength is finite. */
-  readonly compressionFacetCount?: number;
-}
-
-export interface MasonryArchDeformableTangentialInterfaceInput
-  extends MasonryArchCoulombParametersInput {
-  readonly shearModulus: number;
-  /** Explicit strain-regularization length for relative tangential motion. */
-  readonly characteristicLength: number;
-}
-
-export interface MasonryArchDeformableNoTensionInterfaceInput
-  extends Omit<MasonryArchHeymanInterfaceInput, "model"> {
-  readonly model: "deformable-no-tension";
-  readonly normal: MasonryArchDeformableNormalInterfaceInput;
-  readonly tangential: MasonryArchDeformableTangentialInterfaceInput;
-}
-
-export type MasonryArchInterfaceInput =
-  | MasonryArchHeymanInterfaceInput
-  | MasonryArchCoulombInterfaceInput
-  | MasonryArchFiniteCompressionInterfaceInput
-  | MasonryArchDeformableNoTensionInterfaceInput;
-
 export interface MasonryArchRigidContactSupportInput {
   readonly type: "rigid-contact";
-  readonly interface?: MasonryArchInterfaceInput;
+  readonly interfaceLaw?: MasonryInterfaceLawInput;
 }
 
 export interface MasonryArchSupportsInput {
@@ -378,7 +327,7 @@ export interface MasonryArchModelInput {
   readonly units: UnitSystemInput;
   readonly geometry: MasonryArchGeometryInput;
   readonly masonry?: MasonryArchMasonryInput;
-  readonly interfaces?: MasonryArchInterfaceInput;
+  readonly interfaceLaw: MasonryInterfaceLawInput;
   readonly supports?: MasonryArchSupportsInput;
   readonly loads?: readonly MasonryArchLoadInput[];
   readonly reinforcements?: readonly ArchReinforcementInput[];
@@ -597,48 +546,21 @@ export interface NormalizedMasonryArchModel {
   readonly masonry: {
     readonly unitWeight: number | null;
   };
-  readonly interfaces: NormalizedMasonryArchInterface;
+  readonly interfaceLaw: NormalizedMasonryInterfaceLaw;
   readonly supports: {
     readonly left: {
       readonly type: "rigid-contact";
-      readonly interface: NormalizedMasonryArchInterface;
+      readonly interfaceLaw: NormalizedMasonryInterfaceLaw;
     };
     readonly right: {
       readonly type: "rigid-contact";
-      readonly interface: NormalizedMasonryArchInterface;
+      readonly interfaceLaw: NormalizedMasonryInterfaceLaw;
     };
   };
   readonly loads: readonly NormalizedMasonryArchLoad[];
   readonly reinforcements: readonly NormalizedArchReinforcement[];
   readonly bondedLayers: readonly NormalizedBondedLayerReinforcement[];
   readonly metadata: Record<string, unknown>;
-}
-
-export interface NormalizedMasonryArchInterface {
-  readonly model: "heyman" | "coulomb" | "finite-compression" | "deformable-no-tension";
-  readonly approachingHingeRatio: number;
-  readonly friction: {
-    readonly frictionCoefficient: number;
-    readonly cohesion: number;
-    readonly flowRule: {
-      readonly type: "non-associated" | "associated";
-      readonly dilationAngle: number;
-    };
-  } | null;
-  readonly compressiveStrength: number | null;
-  readonly compressionFacetCount: number;
-  readonly deformability: {
-    readonly normal: {
-      readonly elasticModulus: number;
-      readonly characteristicLength: number;
-      readonly integrationPointCount: number;
-      readonly postCrushingBehavior: "stop-at-onset" | "perfectly-plastic";
-    };
-    readonly tangential: {
-      readonly shearModulus: number;
-      readonly characteristicLength: number;
-    };
-  } | null;
 }
 
 export interface MasonryArchLoadCombinationFactorLike {
@@ -652,23 +574,17 @@ export interface MasonryArchLoadCombinationLike {
   readonly factors: readonly MasonryArchLoadCombinationFactorLike[];
 }
 
-export interface AnalyzeMasonryArchStateOptions {
-  /** Defaults to `design-state-check`; no other objective is accepted by this assigned-state API. */
-  readonly analysisObjective?: "design-state-check";
+export interface AnalyzeMasonryArchEquilibriumOptions {
   readonly loadCombination?: MasonryArchLoadCombinationLike | null;
   readonly loadFactorsByCaseId?: Readonly<Record<string, number>>;
-  readonly geometricNonlinearity?: false;
   readonly equilibriumTolerance?: number;
   readonly hingeTolerance?: number;
 }
 
-export interface AnalyzeMasonryArchCollapseOptions {
-  /** Defaults to `capacity`; the direct static-limit API accepts no other objective. */
-  readonly analysisObjective?: "capacity";
+export interface AnalyzeMasonryArchLimitOptions {
   readonly loadCombination?: MasonryArchLoadCombinationLike | null;
   /** Load cases whose already-factored contribution is multiplied by lambda. */
   readonly scalableLoadCaseIds: readonly string[];
-  readonly geometricNonlinearity?: false;
   readonly equilibriumTolerance?: number;
   readonly hingeTolerance?: number;
   readonly activeConstraintTolerance?: number;
@@ -932,7 +848,7 @@ export interface MasonryArchInterfaceStateResult {
   };
 }
 
-export interface MasonryArchStateOutputs extends Record<string, unknown> {
+export interface MasonryArchEquilibriumOutputs extends Record<string, unknown> {
   readonly modelId: string;
   readonly analysis: MasonryArchAnalysisDescriptor;
   readonly geometry: NormalizedMasonryArchGeometry;
@@ -982,7 +898,7 @@ export interface MasonryArchStateOutputs extends Record<string, unknown> {
   };
 }
 
-export type MasonryArchStateResult = CalculationResult<MasonryArchStateOutputs>;
+export type MasonryArchEquilibriumResult = CalculationResult<MasonryArchEquilibriumOutputs>;
 
 export type MasonryArchFailureMode =
   | "mechanism"
@@ -997,26 +913,52 @@ export type MasonryArchFailureMode =
   | "no-collapse-within-model"
   | "undetermined";
 
-export interface MasonryArchCollapseHingeResult {
+export interface MasonryArchLimitHingeResult {
   readonly interfaceId: string;
   readonly index: number;
   readonly side: "intrados" | "extrados";
   readonly point: RigidBlockPoint2D;
 }
 
-export interface MasonryArchCollapseOutputs extends Record<string, unknown> {
+export interface MasonryArchCollapseMechanism {
+  readonly kinematicallyVerified: boolean;
+  readonly degreesOfFreedom: number;
+  readonly rank: number;
+  readonly maximumConstraintResidual: number;
+  readonly blockMotions: readonly RigidBlockMotion2D[];
+  readonly nonAssociatedFlow: {
+    readonly verified: boolean;
+    readonly maximumViolation: number;
+    readonly slidingRates: readonly {
+      readonly interfaceId: string;
+      readonly interfaceIndex: number;
+      readonly tangentialRate: number;
+      readonly normalRate: number;
+      readonly directionVerified: boolean;
+    }[];
+  } | null;
+  readonly virtualWork: {
+    readonly fixed: number | null;
+    readonly scalableAtUnitLambda: number | null;
+    readonly totalAtLimit: number | null;
+    readonly internalDissipation: number | null;
+    readonly normalizedResidual: number | null;
+  };
+}
+
+export interface MasonryArchLimitOutputs extends Record<string, unknown> {
   readonly modelId: string;
   readonly analysis: MasonryArchAnalysisDescriptor;
   readonly analysisOutcome: MasonryArchAnalysisOutcome;
+  readonly capacity: MasonryArchCapacityLandmarks;
   readonly geometry: NormalizedMasonryArchGeometry;
-  readonly lambdaCritical: number | null;
   readonly limitMeaning:
     | "kinematically-verified-collapse"
     | "maximum-static-admissibility"
     | "not-determined";
   readonly failureMode: MasonryArchFailureMode;
   readonly criticalInterfaces: readonly string[];
-  readonly hinges: readonly MasonryArchCollapseHingeResult[];
+  readonly hinges: readonly MasonryArchLimitHingeResult[];
   readonly slidingInterfaces: readonly string[];
   readonly crushingInterfaces: readonly string[];
   readonly reinforcementState: readonly ArchReinforcementStateResult[];
@@ -1026,11 +968,11 @@ export interface MasonryArchCollapseOutputs extends Record<string, unknown> {
   readonly bondedLayerState: readonly BondedLayerStateResult[];
   readonly loadCases: {
     readonly baseCombinationFactorsByCaseId: Readonly<Record<string, number>>;
-    readonly effectiveFactorsAtCollapseByCaseId: Readonly<Record<string, number | null>>;
+    readonly effectiveFactorsAtLimitByCaseId: Readonly<Record<string, number | null>>;
     readonly roleByCaseId: Readonly<Record<string, "fixed" | "scalable">>;
   };
   readonly loadFactorCheck: {
-    readonly criterion: "lambda-critical-greater-than-or-equal-to-one";
+    readonly criterion: "lambda-limit-greater-than-or-equal-to-one";
     readonly demand: 1;
     readonly capacity: number | null;
     readonly utilizationRatio: number | null;
@@ -1039,39 +981,16 @@ export interface MasonryArchCollapseOutputs extends Record<string, unknown> {
   readonly loads: {
     readonly fixed: readonly MasonryArchAppliedLoadResult[];
     readonly scalableAtUnitLambda: readonly MasonryArchAppliedLoadResult[];
-    readonly totalAtCollapse: readonly MasonryArchAppliedLoadResult[];
+    readonly totalAtLimit: readonly MasonryArchAppliedLoadResult[];
     readonly fixedBlockWrenches: readonly MasonryArchBlockLoadResult[];
     readonly scalableBlockWrenchesAtUnitLambda: readonly MasonryArchBlockLoadResult[];
-    readonly totalBlockWrenchesAtCollapse: readonly MasonryArchBlockLoadResult[];
+    readonly totalBlockWrenchesAtLimit: readonly MasonryArchBlockLoadResult[];
   };
-  readonly reactions: MasonryArchStateOutputs["reactions"];
+  readonly reactions: MasonryArchEquilibriumOutputs["reactions"];
   readonly interfaces: readonly MasonryArchInterfaceStateResult[];
   readonly thrustLine: readonly (RigidBlockPoint2D | null)[];
-  readonly mechanism: {
-    readonly kinematicallyVerified: boolean;
-    readonly degreesOfFreedom: number;
-    readonly rank: number;
-    readonly maximumConstraintResidual: number;
-    readonly blockMotions: readonly RigidBlockMotion2D[];
-    readonly nonAssociatedFlow: {
-      readonly verified: boolean;
-      readonly maximumViolation: number;
-      readonly slidingRates: readonly {
-        readonly interfaceId: string;
-        readonly interfaceIndex: number;
-        readonly tangentialRate: number;
-        readonly normalRate: number;
-        readonly directionVerified: boolean;
-      }[];
-    } | null;
-    readonly virtualWork: {
-      readonly fixed: number | null;
-      readonly scalableAtUnitLambda: number | null;
-      readonly totalAtCollapse: number | null;
-      readonly internalDissipation: number | null;
-      readonly normalizedResidual: number | null;
-    };
-  };
+  /** Normalized kinematic field; its amplitude is arbitrary. Null without verified kinematics. */
+  readonly collapseMechanism: MasonryArchCollapseMechanism | null;
   readonly equilibrium: {
     readonly forceResidual: RigidBlockVector2D;
     readonly momentResidual: number;
@@ -1102,4 +1021,4 @@ export interface MasonryArchCollapseOutputs extends Record<string, unknown> {
   };
 }
 
-export type MasonryArchCollapseResult = CalculationResult<MasonryArchCollapseOutputs>;
+export type MasonryArchLimitResult = CalculationResult<MasonryArchLimitOutputs>;

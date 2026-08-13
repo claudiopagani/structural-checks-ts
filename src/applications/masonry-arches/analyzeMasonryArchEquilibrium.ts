@@ -12,21 +12,20 @@ import {
   createMasonryArchAnalysisDescriptor,
   createMasonryArchAssignedStateLambdaDefinition,
 } from "./analysisSemantics.js";
-import { MasonryArchModel } from "./MasonryArchModel.js";
+import { asMasonryArchModel, type MasonryArchModel } from "./MasonryArchModel.js";
 import { resolveMasonryArchLoads } from "./resolveMasonryArchLoads.js";
 import {
   combineMasonryArchBlockWrenches,
   resolveArchReinforcements,
 } from "./resolveArchReinforcements.js";
 import {
-  MASONRY_ARCH_STATE_RESULT_SCHEMA_VERSION,
-  MASONRY_ARCH_MODEL_SCHEMA_VERSION,
-  type AnalyzeMasonryArchStateOptions,
+  MASONRY_ARCH_EQUILIBRIUM_RESULT_SCHEMA_VERSION,
+  type AnalyzeMasonryArchEquilibriumOptions,
   type MasonryArchInterfaceStateResult,
   type MasonryArchInterfaceGeometry,
   type MasonryArchModelInput,
-  type MasonryArchStateOutputs,
-  type MasonryArchStateResult,
+  type MasonryArchEquilibriumOutputs,
+  type MasonryArchEquilibriumResult,
   type NormalizedMasonryArchModel,
 } from "./types.js";
 
@@ -150,31 +149,10 @@ export function recoverMasonryArchInterfaceState(
   };
 }
 
-export function asMasonryArchModel(
-  model: MasonryArchModel | NormalizedMasonryArchModel | MasonryArchModelInput,
-): NormalizedMasonryArchModel {
-  if (model instanceof MasonryArchModel) return model;
-  if ("schemaVersion" in model && model.schemaVersion === MASONRY_ARCH_MODEL_SCHEMA_VERSION) {
-    return model;
-  }
-  return new MasonryArchModel(model);
-}
-
-export function analyzeMasonryArchState(
+export function analyzeMasonryArchEquilibrium(
   modelInput: MasonryArchModel | NormalizedMasonryArchModel | MasonryArchModelInput,
-  options: AnalyzeMasonryArchStateOptions = {},
-): MasonryArchStateResult {
-  if (
-    options.analysisObjective !== undefined &&
-    options.analysisObjective !== "design-state-check"
-  ) {
-    throw new Error("analyzeMasonryArchState supports only analysisObjective: design-state-check.");
-  }
-  if ((options as { geometricNonlinearity?: boolean }).geometricNonlinearity === true) {
-    throw new Error(
-      "Use analyzeMasonryArchNonlinear with explicit deformable interfaces for geometrically nonlinear state paths.",
-    );
-  }
+  options: AnalyzeMasonryArchEquilibriumOptions = {},
+): MasonryArchEquilibriumResult {
   const equilibriumTolerance = finitePositive(
     options.equilibriumTolerance ?? 1e-9,
     "Masonry arch equilibriumTolerance",
@@ -224,10 +202,10 @@ export function analyzeMasonryArchState(
         model.geometry.interfaces[item.index]!,
         baseInterfaceLaws[item.index]!,
         model.geometry.interfaces[item.index]!.index === 0
-          ? model.supports.left.interface.approachingHingeRatio
+          ? model.supports.left.interfaceLaw.approachingLimitRatio
           : item.index === model.geometry.interfaces.length - 1
-            ? model.supports.right.interface.approachingHingeRatio
-            : model.interfaces.approachingHingeRatio,
+            ? model.supports.right.interfaceLaw.approachingLimitRatio
+            : model.interfaceLaw.approachingLimitRatio,
         hingeTolerance,
         equilibrium.interfaces[item.index]!.normalForce,
       ),
@@ -283,7 +261,7 @@ export function analyzeMasonryArchState(
     );
   }
 
-  const outputs: MasonryArchStateOutputs = {
+  const outputs: MasonryArchEquilibriumOutputs = {
     modelId: model.id,
     analysis: createMasonryArchAnalysisDescriptor(model, {
       analysisObjective: "design-state-check",
@@ -331,8 +309,8 @@ export function analyzeMasonryArchState(
     },
   };
 
-  return new CalculationResult<MasonryArchStateOutputs>({
-    applicationId: "masonry-arch-state",
+  return new CalculationResult<MasonryArchEquilibriumOutputs>({
+    applicationId: "masonry-arch-equilibrium",
     status: successful ? RESULT_STATUS.OK : RESULT_STATUS.FAILED,
     summary: successful
       ? "A representative statically admissible rigid-block equilibrium was found."
@@ -353,7 +331,7 @@ export function analyzeMasonryArchState(
       "Static Coulomb capacity with bonded layers conservatively uses the total section normal resultant in the eliminated domain.",
     ],
     metadata: {
-      schemaVersion: MASONRY_ARCH_STATE_RESULT_SCHEMA_VERSION,
+      schemaVersion: MASONRY_ARCH_EQUILIBRIUM_RESULT_SCHEMA_VERSION,
       modelSchemaVersion: model.schemaVersion,
       sourceUnits: model.sourceUnits,
       units: model.units,
@@ -370,7 +348,6 @@ export function analyzeMasonryArchState(
       numericalMethod: "representative-static-equilibrium",
       control: null,
       lambdaDefinition: outputs.analysis.lambda,
-      geometricNonlinearity: false,
       loadCombinationId: options.loadCombination?.id ?? null,
       loadCombinationType: options.loadCombination?.combinationType ?? null,
       normativeConformityClaimed: false,

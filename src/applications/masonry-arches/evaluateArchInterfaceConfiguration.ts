@@ -1,9 +1,9 @@
 import {
   evaluateRigidBlockDeformableInterface2D,
   type RigidBlockDeformableInterfaceEvaluation2D,
-  type RigidBlockDeformableInterfaceLaw2D,
   type RigidBlockDeformableInterfaceState2D,
 } from "../../domain/masonry/rigid-blocks/evaluateDeformableInterface2D.js";
+import { toRigidBlockDeformableInterfaceLaw2D } from "../../domain/masonry/interfaces/adapters.js";
 import {
   normalizeMasonryArchPrescribedConfiguration,
   type NormalizedMasonryArchConfiguration,
@@ -11,7 +11,6 @@ import {
 import type {
   MasonryArchPrescribedConfigurationInput,
   NormalizedMasonryArchBlockDisplacement,
-  NormalizedMasonryArchInterface,
   NormalizedMasonryArchModel,
 } from "./types.js";
 
@@ -37,37 +36,6 @@ export interface EvaluatedMasonryArchInterfaceConfiguration {
   };
 }
 
-function deformableLaw(
-  source: NormalizedMasonryArchInterface,
-  interfaceId: string,
-  numericalCohesionOffset: number,
-): RigidBlockDeformableInterfaceLaw2D {
-  if (source.model !== "deformable-no-tension" || source.deformability === null) {
-    throw new Error(
-      `Interface ${interfaceId} requires model "deformable-no-tension" for nonlinear configuration evaluation.`,
-    );
-  }
-  if (source.friction === null) {
-    throw new Error(`Deformable interface ${interfaceId} requires explicit tangential parameters.`);
-  }
-  return {
-    normal: {
-      elasticModulus: source.deformability.normal.elasticModulus,
-      characteristicLength: source.deformability.normal.characteristicLength,
-      compressiveStrength: source.compressiveStrength,
-      integrationPointCount: source.deformability.normal.integrationPointCount,
-      postCrushingBehavior: source.deformability.normal.postCrushingBehavior,
-    },
-    tangential: {
-      shearModulus: source.deformability.tangential.shearModulus,
-      characteristicLength: source.deformability.tangential.characteristicLength,
-      frictionCoefficient: source.friction.frictionCoefficient,
-      cohesion: source.friction.cohesion + numericalCohesionOffset,
-      dilationAngle: source.friction.flowRule.dilationAngle,
-    },
-  };
-}
-
 function displacementForBlock(
   configuration: NormalizedMasonryArchConfiguration,
   blockId: string,
@@ -89,10 +57,10 @@ function evaluateConfiguration(
   const interfaces = model.geometry.interfaces.map((geometry, index) => {
     const source =
       index === 0
-        ? model.supports.left.interface
+        ? model.supports.left.interfaceLaw
         : index === lastIndex
-          ? model.supports.right.interface
-          : model.interfaces;
+          ? model.supports.right.interfaceLaw
+          : model.interfaceLaw;
     const leftBlock = index === 0 ? null : model.geometry.voussoirs[index - 1]!;
     const rightBlock = index === lastIndex ? null : model.geometry.voussoirs[index]!;
     return evaluateRigidBlockDeformableInterface2D({
@@ -111,7 +79,11 @@ function evaluateConfiguration(
               block: rightBlock,
               displacement: displacementForBlock(normalized.configuration, rightBlock.id),
             },
-      law: deformableLaw(source, geometry.id, numericalCohesionOffset),
+      law: toRigidBlockDeformableInterfaceLaw2D(
+        source,
+        `Interface ${geometry.id}`,
+        numericalCohesionOffset,
+      ),
       committedState: input.committedStatesByInterfaceId?.[geometry.id] ?? null,
       computeTangent: input.computeTangent ?? true,
     });

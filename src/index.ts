@@ -326,7 +326,14 @@ export {
   TimberBeamSectionProvider,
   XlamBeamSectionProvider,
 } from "./domain/beams/index.js";
-export { IllinoisRootSolver } from "./domain/solvers/index.js";
+export {
+  IllinoisRootSolver,
+  NonlinearEquilibriumContinuationSolver,
+  scaleArcLengthDirection,
+  sphericalArcLengthConstraint,
+  sphericalArcLengthNorm,
+} from "./domain/solvers/index.js";
+export { normalizeMasonryInterfaceLaw } from "./domain/masonry/interfaces/index.js";
 export { ReinforcedConcreteSectionApplication } from "./applications/reinforced-concrete-sections/ReinforcedConcreteSectionApplication.js";
 export {
   ReinforcedConcreteFoundationBeamApplication,
@@ -1728,6 +1735,32 @@ export type {
   IllinoisRootSolverOptions,
   IllinoisSolveOptions,
 } from "./domain/solvers/IllinoisRootSolver.js";
+export type {
+  AdaptiveLoadControl,
+  ArcLengthMetric,
+  ContinuationControl,
+  DisplacementControl,
+  NonlinearArcLengthConstraint,
+  NonlinearDisplacementConstraint,
+  NonlinearEquilibriumConstraint,
+  NonlinearEquilibriumEvaluation,
+  NonlinearEquilibriumScaling,
+  NonlinearEquilibriumSolveInput,
+  NonlinearEquilibriumSolveResult,
+  NonlinearEquilibriumSolverOptions,
+  NonlinearLinearSolverMethod,
+  NonlinearTangentMatrix,
+  SphericalArcLengthControl,
+} from "./domain/solvers/continuation/index.js";
+export type {
+  MasonryCoulombFrictionInput,
+  MasonryDeformableInterfaceLawInput,
+  MasonryFrictionFlowRuleInput,
+  MasonryInterfaceAngleUnit,
+  MasonryInterfaceLawInput,
+  MasonryRigidInterfaceLawInput,
+  NormalizedMasonryInterfaceLaw,
+} from "./domain/masonry/interfaces/index.js";
 export type { ReinforcedConcreteSectionApplicationInput } from "./applications/reinforced-concrete-sections/ReinforcedConcreteSectionApplication.js";
 export type {
   CrackedTransformedProperties,

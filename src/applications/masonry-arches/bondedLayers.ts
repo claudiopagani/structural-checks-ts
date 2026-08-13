@@ -451,10 +451,10 @@ export function evaluateMasonryArchBondedSectionDomain(
   const geometry = model.geometry.interfaces[interfaceIndex]!;
   const source =
     interfaceIndex === 0
-      ? model.supports.left.interface
+      ? model.supports.left.interfaceLaw
       : interfaceIndex === model.geometry.interfaces.length - 1
-        ? model.supports.right.interface
-        : model.interfaces;
+        ? model.supports.right.interfaceLaw
+        : model.interfaceLaw;
   const baseLaw: RigidBlockInterfaceLimitLaw2D = {
     friction:
       source.friction === null

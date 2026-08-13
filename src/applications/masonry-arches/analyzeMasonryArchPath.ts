@@ -9,22 +9,21 @@ import type {
   RigidBlockPoint2D,
   RigidBlockVector2D,
 } from "../../domain/masonry/rigid-blocks/types.js";
-import { DenseLinearSolver } from "../../domain/math/DenseLinearSolver.js";
 import {
-  GeneralBandedLinearSolver,
+  NonlinearEquilibriumContinuationSolver,
+  scaleArcLengthDirection,
+  sphericalArcLengthNorm,
+  type NonlinearTangentMatrix,
+} from "../../domain/solvers/continuation/index.js";
+import {
   addCompactBandedValue,
   compactBandedMatrixToDense,
   compactBandedValue,
   createCompactBandedMatrix,
-  setCompactBandedValue,
   type CompactBandedMatrix,
 } from "../../domain/math/GeneralBandedLinearSolver.js";
-import {
-  assertExplicitUnitSystem,
-  createUnitResolver,
-  type UnitSystemInput,
-} from "../../domain/units/UnitSystem.js";
-import { asMasonryArchModel } from "./analyzeMasonryArchState.js";
+import { assertExplicitUnitSystem, createUnitResolver } from "../../domain/units/UnitSystem.js";
+import { asMasonryArchModel } from "./MasonryArchModel.js";
 import { evaluateMasonryArchInterfaceConfigurationForSolver } from "./evaluateArchInterfaceConfiguration.js";
 import type { MasonryArchModel } from "./MasonryArchModel.js";
 import type {
@@ -34,16 +33,13 @@ import type {
 import { evaluateArchReinforcementConfiguration } from "./resolveArchReinforcements.js";
 import { resolveBondedLayerInterfaceSections } from "./bondedLayers.js";
 import type {
-  ArchAnchorForceResult,
-  ArchContactForceResult,
-  ArchReinforcementStateResult,
-  MasonryArchAnalysisDescriptor,
   MasonryArchAnalysisObjective,
   MasonryArchAnalysisOutcome,
+  MasonryArchCapacityLandmarks,
+  MasonryArchEngineeringAssessmentStatus,
   BondedLayerStateResult,
   MasonryArchBlockDisplacementInput,
   MasonryArchFailureMode,
-  MasonryArchLoadCombinationLike,
   MasonryArchModelInput,
   NormalizedMasonryArchBlockDisplacement,
   NormalizedMasonryArchModel,
@@ -56,194 +52,28 @@ import {
   type ResolvedMasonryArchAnalysisLoads,
 } from "./analysisSemantics.js";
 
-export const MASONRY_ARCH_NONLINEAR_RESULT_SCHEMA_VERSION = "2.0.0";
-
-export interface MasonryArchNonlinearLoadControl {
-  readonly type: "load";
-  readonly targetLambda: number;
-  readonly monitor: {
-    readonly blockId: string;
-    readonly component: "x" | "y" | "rotation";
-  };
-  readonly initialStep?: number;
-  readonly minimumStep?: number;
-  readonly maximumStep?: number;
-}
-
-export interface MasonryArchNonlinearDisplacementControl {
-  readonly type: "displacement";
-  readonly blockId: string;
-  readonly component: "x" | "y" | "rotation";
-  /** Signed increment in model length units, or radians for rotation. */
-  readonly increment: number;
-  /** Signed target relative to the fixed-load equilibrium configuration. */
-  readonly targetDisplacement: number;
-}
-
-export interface MasonryArchNonlinearArcLengthControl {
-  readonly type: "arc-length";
-  readonly monitor: {
-    readonly blockId: string;
-    readonly component: "x" | "y" | "rotation";
-  };
-  /** Requested cumulative dimensionless spherical path length. */
-  readonly targetPathLength: number;
-  readonly initialRadius?: number;
-  readonly minimumRadius?: number;
-  readonly maximumRadius?: number;
-  /** Weight of the load-multiplier increment in the sphere; defaults to one. */
-  readonly loadScale?: number;
-}
-
-export type MasonryArchNonlinearControl =
-  | MasonryArchNonlinearLoadControl
-  | MasonryArchNonlinearDisplacementControl
-  | MasonryArchNonlinearArcLengthControl;
-
-export interface AnalyzeMasonryArchNonlinearOptions {
-  readonly units: UnitSystemInput;
-  readonly geometricNonlinearity: true;
-  /** Defaults to `advanced-path`; legacy calls routed through collapse default to `capacity`. */
-  readonly analysisObjective?: MasonryArchAnalysisObjective;
-  readonly loadCombination?: MasonryArchLoadCombinationLike | null;
-  readonly scalableLoadCaseIds: readonly string[];
-  readonly control: MasonryArchNonlinearControl;
-  readonly equilibriumTolerance?: number;
-  readonly maxIterations?: number;
-  readonly maxSteps?: number;
-  readonly maximumLineSearchIterations?: number;
-  readonly minimumLineSearchFactor?: number;
-  readonly stopAtFirstMaterialLimit?: boolean;
-  /** Defaults to a reported auxiliary-cohesion continuation; `none` disables it. */
-  readonly contactInitialization?: "cohesion-homotopy" | "none";
-  /** `automatic` uses compact band storage unless global reinforcement coupling requires dense LU. */
-  readonly linearSolver?: "automatic" | "dense";
-}
-
-export interface MasonryArchNonlinearInterfaceSummary {
-  readonly interfaceId: string;
-  readonly normalForce: number;
-  readonly shearForce: number;
-  readonly moment: number;
-  readonly eccentricity: number | null;
-  readonly compressedLength: number;
-  readonly maxCompression: number;
-  readonly frictionUtilization: number | null;
-  readonly maximumOpening: number;
-  readonly maximumClosure: number;
-  readonly maximumAbsoluteSlip: number;
-  readonly state: "open" | "compressed" | "sliding" | "crushing" | "sliding-and-crushing";
-}
-
-export interface MasonryArchNonlinearHistoryPoint {
-  readonly step: number;
-  readonly stage: "fixed-preload" | "scalable-loading";
-  readonly fixedLoadFactor: number;
-  readonly lambda: number;
-  /** Effective case factors at this converged step, including fixed-load initialization. */
-  readonly effectiveLoadFactorsByCaseId: Readonly<Record<string, number>>;
-  readonly controlDisplacement: number;
-  readonly iterations: number;
-  readonly blockDisplacements: readonly NormalizedMasonryArchBlockDisplacement[];
-  readonly interfaces: readonly MasonryArchNonlinearInterfaceSummary[];
-  readonly reinforcementForces: Readonly<Record<string, number>>;
-  readonly bondedLayerForces: Readonly<Record<string, number>>;
-  readonly equilibrium: MasonryArchNonlinearEquilibriumResult;
-}
-
-export interface MasonryArchNonlinearEquilibriumResult {
-  readonly forceResidual: RigidBlockVector2D;
-  readonly momentResidual: number;
-  readonly maximumNormalizedBlockResidual: number;
-  readonly normalizedGlobalResidual: {
-    readonly forceX: number;
-    readonly forceY: number;
-    readonly moment: number;
-  };
-  readonly tolerance: number;
-}
-
-export interface MasonryArchNonlinearOutputs extends Record<string, unknown> {
-  readonly modelId: string;
-  readonly analysis: MasonryArchAnalysisDescriptor;
-  readonly analysisOutcome: MasonryArchAnalysisOutcome;
-  readonly lambdaCritical: number | null;
-  readonly limitState: {
-    readonly lambda: number;
-    readonly failureMode: MasonryArchFailureMode;
-  } | null;
-  readonly designStateCheck: {
-    readonly criterion: "factored-load-state-at-lambda-one";
-    readonly demand: 1;
-    readonly reachedLambda: number;
-    readonly status: "pass" | "fail" | "not-verifiable";
-  } | null;
-  readonly failureMode: MasonryArchFailureMode;
-  readonly control: MasonryArchNonlinearControl;
-  readonly history: readonly MasonryArchNonlinearHistoryPoint[];
-  readonly curves: {
-    readonly lambdaDisplacement: readonly {
-      readonly displacement: number;
-      readonly lambda: number;
-    }[];
-    readonly reinforcementForceDisplacement: Readonly<
-      Record<string, readonly { readonly displacement: number; readonly force: number }[]>
-    >;
-  };
-  readonly finalConfiguration: readonly NormalizedMasonryArchBlockDisplacement[];
-  readonly interfaces: readonly RigidBlockDeformableInterfaceEvaluation2D[];
-  readonly reinforcementState: readonly ArchReinforcementStateResult[];
-  readonly anchorForces: readonly ArchAnchorForceResult[];
-  readonly contactForces: readonly ArchContactForceResult[];
-  readonly bondedLayerState: readonly BondedLayerStateResult[];
-  readonly reactions: {
-    readonly left: {
-      readonly force: RigidBlockVector2D;
-      readonly moment: number;
-      readonly applicationPoint: RigidBlockPoint2D;
-    };
-    readonly right: {
-      readonly force: RigidBlockVector2D;
-      readonly moment: number;
-      readonly applicationPoint: RigidBlockPoint2D;
-    };
-  };
-  readonly equilibrium: MasonryArchNonlinearEquilibriumResult;
-  readonly convergenceInfo: {
-    readonly converged: boolean;
-    readonly termination:
-      | "target-reached"
-      | "material-limit"
-      | "minimum-step"
-      | "maximum-steps"
-      | "fixed-preload-failed";
-    readonly completedSteps: number;
-    readonly totalIterations: number;
-    readonly cutbacks: number;
-    readonly nonMonotoneLineSearchAcceptances: number;
-    readonly numericalCohesionHomotopy: {
-      readonly used: boolean;
-      /** Auxiliary initial offset in model force/length^2 units; zero in the physical solution. */
-      readonly initialOffset: number;
-      readonly completedStages: number;
-    };
-    readonly lambdaBracket: {
-      readonly lower: number;
-      readonly upper: number;
-    } | null;
-    readonly tangent: "corotational-interface-plus-numerical-reinforcement";
-    readonly linearSolver:
-      | "compact-banded-gaussian-elimination-partial-pivoting"
-      | "dense-gaussian-elimination-partial-pivoting"
-      | "hybrid-compact-banded-and-dense-gaussian-elimination";
-  };
-}
-
-export type MasonryArchNonlinearResult = CalculationResult<MasonryArchNonlinearOutputs>;
+import {
+  MASONRY_ARCH_PATH_RESULT_SCHEMA_VERSION,
+  type AnalyzeMasonryArchPathOptions,
+  type MasonryArchEvent,
+  type MasonryArchPathControl,
+  type MasonryArchPathOutputs,
+  type MasonryArchPathResult,
+  type MasonryArchPathStep,
+  type MasonryArchEquilibriumResidual,
+} from "./pathTypes.js";
+import {
+  DEFAULT_DESIGN_FAILURE_EVENTS,
+  createMasonryArchEvent as event,
+  detectMasonryArchStepEvents,
+  masonryArchFailureModeFromEvents,
+  shouldStopMasonryArchPathForEvents,
+} from "./pathEvents.js";
+import { createMasonryArchPathState } from "./pathState.js";
 
 type Matrix = number[][];
 type Vector = number[];
-type TangentMatrix = Matrix | CompactBandedMatrix;
+type TangentMatrix = NonlinearTangentMatrix;
 
 interface ExternalSystem {
   readonly vector: Vector;
@@ -271,10 +101,7 @@ interface SolverContext {
   readonly maxIterations: number;
   readonly maximumLineSearchIterations: number;
   readonly minimumLineSearchFactor: number;
-  readonly denseLinearSolver: DenseLinearSolver;
-  readonly bandedLinearSolver: GeneralBandedLinearSolver;
-  readonly linearSolverMethods: Set<"banded" | "dense">;
-  readonly linearSolverPreference: "automatic" | "dense";
+  readonly continuationSolver: NonlinearEquilibriumContinuationSolver<SystemEvaluation>;
 }
 
 interface NewtonResult {
@@ -297,12 +124,6 @@ function zeroMatrix(size: number): Matrix {
 
 function isCompactBandedMatrix(matrix: TangentMatrix): matrix is CompactBandedMatrix {
   return !Array.isArray(matrix);
-}
-
-function tangentValue(matrix: TangentMatrix, row: number, column: number): number {
-  return isCompactBandedMatrix(matrix)
-    ? compactBandedValue(matrix, row, column)
-    : matrix[row]![column]!;
 }
 
 function addTangentDiagonal(
@@ -765,298 +586,12 @@ function evaluateSystem(
   };
 }
 
-function dofRowScale(index: number, forceScale: number, lengthScale: number): number {
-  return index % 3 === 2 ? 1 / (forceScale * lengthScale) : 1 / forceScale;
-}
-
-function dofColumnScale(index: number, lengthScale: number): number {
-  return index % 3 === 2 ? 1 : lengthScale;
-}
-
 function residualMeasure(context: SolverContext, residual: readonly number[]): number {
-  return residual.reduce(
-    (maximum, value, index) =>
-      Math.max(
-        maximum,
-        Math.abs(value) * dofRowScale(index, context.forceScale, context.lengthScale),
-      ),
-    0,
-  );
-}
-
-function tangentColumnScales(context: SolverContext, tangent: TangentMatrix): Vector {
-  const size = isCompactBandedMatrix(tangent) ? tangent.size : tangent.length;
-  return Array.from({ length: size }, (_, column) => {
-    let maximum = 0;
-    const firstRow = isCompactBandedMatrix(tangent)
-      ? Math.max(0, column - tangent.upperBandwidth)
-      : 0;
-    const lastRow = isCompactBandedMatrix(tangent)
-      ? Math.min(size - 1, column + tangent.lowerBandwidth)
-      : size - 1;
-    for (let row = firstRow; row <= lastRow; row += 1) {
-      maximum = Math.max(
-        maximum,
-        Math.abs(
-          dofRowScale(row, context.forceScale, context.lengthScale) *
-            tangentValue(tangent, row, column),
-        ),
-      );
-    }
-    return maximum > 0 ? 1 / maximum : 1;
-  });
-}
-
-function scaledTangent(
-  context: SolverContext,
-  tangent: TangentMatrix,
-  columnScales: readonly number[],
-): TangentMatrix {
-  const size = isCompactBandedMatrix(tangent) ? tangent.size : tangent.length;
-  if (isCompactBandedMatrix(tangent)) {
-    const scaled = createCompactBandedMatrix(size, tangent.lowerBandwidth, tangent.upperBandwidth);
-    for (let row = 0; row < size; row += 1) {
-      const firstColumn = Math.max(0, row - tangent.lowerBandwidth);
-      const lastColumn = Math.min(size - 1, row + tangent.upperBandwidth);
-      const rowScale = dofRowScale(row, context.forceScale, context.lengthScale);
-      for (let column = firstColumn; column <= lastColumn; column += 1) {
-        setCompactBandedValue(
-          scaled,
-          row,
-          column,
-          rowScale * compactBandedValue(tangent, row, column) * columnScales[column]!,
-        );
-      }
-    }
-    return scaled;
-  }
-  const scaled = zeroMatrix(size);
-  for (let row = 0; row < size; row += 1) {
-    const rowScale = dofRowScale(row, context.forceScale, context.lengthScale);
-    for (let column = 0; column < size; column += 1) {
-      scaled[row]![column] = rowScale * tangent[row]![column]! * columnScales[column]!;
-    }
-  }
-  return scaled;
+  return context.continuationSolver.residualMeasure(residual);
 }
 
 function solveLoadCorrection(context: SolverContext, evaluation: SystemEvaluation): Vector {
-  const size = evaluation.residual.length;
-  const tangent =
-    context.linearSolverPreference === "dense" && isCompactBandedMatrix(evaluation.tangent)
-      ? compactBandedMatrixToDense(evaluation.tangent)
-      : evaluation.tangent;
-  const columnScales = tangentColumnScales(context, tangent);
-  const matrix = scaledTangent(context, tangent, columnScales);
-  const rhs = zeroVector(size);
-  for (let row = 0; row < size; row += 1) {
-    const rowScale = dofRowScale(row, context.forceScale, context.lengthScale);
-    rhs[row] = -rowScale * evaluation.residual[row]!;
-  }
-  const scaledCorrection = isCompactBandedMatrix(matrix)
-    ? (() => {
-        context.linearSolverMethods.add("banded");
-        return context.bandedLinearSolver.solve(matrix, rhs);
-      })()
-    : (() => {
-        context.linearSolverMethods.add("dense");
-        return context.denseLinearSolver.solve(matrix, rhs);
-      })();
-  return scaledCorrection.map((value, index) => value * columnScales[index]!);
-}
-
-function solveDisplacementCorrection(
-  context: SolverContext,
-  evaluation: SystemEvaluation,
-  controlDof: number,
-  controlGap: number,
-): { readonly q: Vector; readonly lambda: number } {
-  const size = evaluation.residual.length;
-  const tangent =
-    context.linearSolverPreference === "dense" && isCompactBandedMatrix(evaluation.tangent)
-      ? compactBandedMatrixToDense(evaluation.tangent)
-      : evaluation.tangent;
-  const columnScales = tangentColumnScales(context, tangent);
-  let lambdaColumnMaximum = 0;
-  for (let row = 0; row < size; row += 1) {
-    lambdaColumnMaximum = Math.max(
-      lambdaColumnMaximum,
-      Math.abs(
-        dofRowScale(row, context.forceScale, context.lengthScale) *
-          evaluation.scalableDerivative[row]!,
-      ),
-    );
-  }
-  if (lambdaColumnMaximum === 0) {
-    throw new Error("The selected scalable load cases produce a zero nonlinear load vector.");
-  }
-  const lambdaColumnScale = 1 / lambdaColumnMaximum;
-  if (isCompactBandedMatrix(tangent)) {
-    const scaled = scaledTangent(context, tangent, columnScales);
-    if (!isCompactBandedMatrix(scaled))
-      throw new Error("Internal compact tangent scaling changed the storage type.");
-    const residualRightHandSide = zeroVector(size);
-    const lambdaRightHandSide = zeroVector(size);
-    for (let row = 0; row < size; row += 1) {
-      const rowScale = dofRowScale(row, context.forceScale, context.lengthScale);
-      residualRightHandSide[row] = -rowScale * evaluation.residual[row]!;
-      lambdaRightHandSide[row] = rowScale * evaluation.scalableDerivative[row]! * lambdaColumnScale;
-    }
-    context.linearSolverMethods.add("banded");
-    const factorization = context.bandedLinearSolver.factorize(scaled);
-    const [residualResponse, lambdaResponse] = factorization.solveMany([
-      residualRightHandSide,
-      lambdaRightHandSide,
-    ]);
-    const physicalResidualResponse = residualResponse!.map(
-      (value, index) => value * columnScales[index]!,
-    );
-    const physicalLambdaResponse = lambdaResponse!.map(
-      (value, index) => value * columnScales[index]!,
-    );
-    const controlDenominator = physicalLambdaResponse[controlDof]!;
-    if (Math.abs(controlDenominator) <= 1e-14 * context.lengthScale) {
-      throw new Error(
-        "The selected displacement-control coordinate has zero incremental load response.",
-      );
-    }
-    const scaledLambdaCorrection =
-      (controlGap + physicalResidualResponse[controlDof]!) / controlDenominator;
-    return {
-      q: physicalResidualResponse.map(
-        (value, index) => value - physicalLambdaResponse[index]! * scaledLambdaCorrection,
-      ),
-      lambda: scaledLambdaCorrection * lambdaColumnScale,
-    };
-  }
-
-  const augmented = Array.from({ length: size + 1 }, () => new Array<number>(size + 1).fill(0));
-  const rhs = new Array<number>(size + 1).fill(0);
-  const controlRowScale = 1 / Math.abs(columnScales[controlDof]!);
-  for (let row = 0; row < size; row += 1) {
-    const rowScale = dofRowScale(row, context.forceScale, context.lengthScale);
-    rhs[row] = -rowScale * evaluation.residual[row]!;
-    for (let column = 0; column < size; column += 1) {
-      augmented[row]![column] = rowScale * tangent[row]![column]! * columnScales[column]!;
-    }
-    augmented[row]![size] = rowScale * evaluation.scalableDerivative[row]! * lambdaColumnScale;
-  }
-  augmented[size]![controlDof] = columnScales[controlDof]! * controlRowScale;
-  rhs[size] = -controlGap * controlRowScale;
-  context.linearSolverMethods.add("dense");
-  const correction = context.denseLinearSolver.solve(augmented, rhs);
-  return {
-    q: correction.slice(0, size).map((value, index) => value * columnScales[index]!),
-    lambda: correction[size]! * lambdaColumnScale,
-  };
-}
-
-interface ArcLengthConstraint {
-  readonly type: "arc-length";
-  readonly referenceQ: readonly number[];
-  readonly referenceLambda: number;
-  readonly radius: number;
-  readonly loadScale: number;
-}
-
-interface DisplacementConstraint {
-  readonly type: "displacement";
-  readonly dof: number;
-  readonly target: number;
-  readonly reference: number;
-}
-
-type NewtonConstraint = DisplacementConstraint | ArcLengthConstraint;
-
-function arcLengthConstraintValues(
-  context: SolverContext,
-  q: readonly number[],
-  lambda: number,
-  constraint: ArcLengthConstraint,
-): {
-  readonly gap: number;
-  readonly qGradient: readonly number[];
-  readonly lambdaGradient: number;
-} {
-  const size = q.length;
-  const qGradient = q.map((value, index) => {
-    const scale = dofColumnScale(index, context.lengthScale);
-    return (2 * (value - constraint.referenceQ[index]!)) / (size * scale * scale);
-  });
-  const displacementNormSquared = q.reduce((sum, value, index) => {
-    const scale = dofColumnScale(index, context.lengthScale);
-    const increment = (value - constraint.referenceQ[index]!) / scale;
-    return sum + (increment * increment) / size;
-  }, 0);
-  const lambdaIncrement = lambda - constraint.referenceLambda;
-  return {
-    gap:
-      displacementNormSquared +
-      (constraint.loadScale * lambdaIncrement) ** 2 -
-      constraint.radius ** 2,
-    qGradient,
-    lambdaGradient: 2 * constraint.loadScale * constraint.loadScale * lambdaIncrement,
-  };
-}
-
-function solveArcLengthCorrection(
-  context: SolverContext,
-  evaluation: SystemEvaluation,
-  values: ReturnType<typeof arcLengthConstraintValues>,
-): { readonly q: Vector; readonly lambda: number } {
-  const size = evaluation.residual.length;
-  const tangent = isCompactBandedMatrix(evaluation.tangent)
-    ? compactBandedMatrixToDense(evaluation.tangent)
-    : evaluation.tangent;
-  const columnScales = tangentColumnScales(context, tangent);
-  let lambdaColumnMaximum = 0;
-  for (let row = 0; row < size; row += 1) {
-    lambdaColumnMaximum = Math.max(
-      lambdaColumnMaximum,
-      Math.abs(
-        dofRowScale(row, context.forceScale, context.lengthScale) *
-          evaluation.scalableDerivative[row]!,
-      ),
-    );
-  }
-  if (lambdaColumnMaximum === 0) {
-    throw new Error("The selected scalable load cases produce a zero nonlinear load vector.");
-  }
-  const lambdaColumnScale = 1 / lambdaColumnMaximum;
-  const augmented = Array.from({ length: size + 1 }, () => new Array<number>(size + 1).fill(0));
-  const rhs = new Array<number>(size + 1).fill(0);
-  for (let row = 0; row < size; row += 1) {
-    const rowScale = dofRowScale(row, context.forceScale, context.lengthScale);
-    rhs[row] = -rowScale * evaluation.residual[row]!;
-    for (let column = 0; column < size; column += 1) {
-      augmented[row]![column] = rowScale * tangent[row]![column]! * columnScales[column]!;
-    }
-    augmented[row]![size] = rowScale * evaluation.scalableDerivative[row]! * lambdaColumnScale;
-  }
-  const maximumConstraintCoefficient = Math.max(
-    ...values.qGradient.map((value, index) => Math.abs(value * columnScales[index]!)),
-    Math.abs(values.lambdaGradient * lambdaColumnScale),
-  );
-  if (maximumConstraintCoefficient <= Number.EPSILON) {
-    throw new Error("The arc-length correction was requested at a zero-increment predictor.");
-  }
-  const constraintRowScale = 1 / maximumConstraintCoefficient;
-  for (let column = 0; column < size; column += 1) {
-    augmented[size]![column] =
-      constraintRowScale * values.qGradient[column]! * columnScales[column]!;
-  }
-  augmented[size]![size] = constraintRowScale * values.lambdaGradient * lambdaColumnScale;
-  rhs[size] = -constraintRowScale * values.gap;
-  context.linearSolverMethods.add("dense");
-  const correction = context.denseLinearSolver.solve(augmented, rhs);
-  return {
-    q: correction.slice(0, size).map((value, index) => value * columnScales[index]!),
-    lambda: correction[size]! * lambdaColumnScale,
-  };
-}
-
-function addScaled(base: readonly number[], correction: readonly number[], factor: number): Vector {
-  return base.map((value, index) => value + factor * correction[index]!);
+  return context.continuationSolver.solveLoadCorrection(evaluation);
 }
 
 function solveNewton(
@@ -1065,179 +600,54 @@ function solveNewton(
   initialLambda: number,
   fixedLoadFactor: number,
   committedStates: Readonly<Record<string, RigidBlockDeformableInterfaceState2D>>,
-  constraint: NewtonConstraint | null,
+  constraint:
+    | {
+        readonly type: "displacement";
+        readonly dof: number;
+        readonly target: number;
+        readonly reference: number;
+      }
+    | {
+        readonly type: "arc-length";
+        readonly referenceQ: readonly number[];
+        readonly referenceLambda: number;
+        readonly radius: number;
+        readonly loadScale: number;
+      }
+    | null,
   numericalCohesionOffset = 0,
 ): NewtonResult {
-  let q = [...initialQ];
-  let lambda = initialLambda;
-  let evaluation = evaluateSystem(
-    context,
-    q,
-    lambda,
-    fixedLoadFactor,
-    committedStates,
-    true,
-    numericalCohesionOffset,
+  const resolvedConstraint =
+    constraint === null
+      ? undefined
+      : constraint.type === "arc-length"
+        ? {
+            ...constraint,
+            referenceCoordinates: constraint.referenceQ,
+          }
+        : constraint;
+  const solveInput = {
+    initialCoordinates: initialQ,
+    initialLambda,
+    evaluate: (coordinates: readonly number[], lambda: number, includeTangent: boolean) =>
+      evaluateSystem(
+        context,
+        coordinates,
+        lambda,
+        fixedLoadFactor,
+        committedStates,
+        includeTangent,
+        numericalCohesionOffset,
+      ),
+  } as const;
+  const solved = context.continuationSolver.solve(
+    resolvedConstraint === undefined
+      ? solveInput
+      : { ...solveInput, constraint: resolvedConstraint },
   );
-  let nonMonotoneAcceptances = 0;
-  for (let iteration = 1; iteration <= context.maxIterations; iteration += 1) {
-    const arcValues =
-      constraint?.type === "arc-length"
-        ? arcLengthConstraintValues(context, q, lambda, constraint)
-        : null;
-    const controlGap =
-      constraint === null
-        ? 0
-        : constraint.type === "displacement"
-          ? q[constraint.dof]! - constraint.reference - constraint.target
-          : arcValues!.gap;
-    const normalizedControlGap =
-      constraint === null
-        ? 0
-        : constraint.type === "displacement"
-          ? Math.abs(controlGap) / dofColumnScale(constraint.dof, context.lengthScale)
-          : Math.abs(controlGap) / (constraint.radius * constraint.radius);
-    const measure = Math.max(residualMeasure(context, evaluation.residual), normalizedControlGap);
-    if (measure <= context.tolerance) {
-      return {
-        converged: true,
-        q,
-        lambda,
-        iterations: iteration - 1,
-        evaluation,
-        warning: null,
-        nonMonotoneAcceptances,
-      };
-    }
-
-    let correctionQ: Vector;
-    let correctionLambda = 0;
-    try {
-      if (constraint === null) {
-        correctionQ = solveLoadCorrection(context, evaluation);
-      } else if (constraint.type === "arc-length") {
-        const correction = solveArcLengthCorrection(context, evaluation, arcValues!);
-        correctionQ = correction.q;
-        correctionLambda = correction.lambda;
-      } else {
-        const correction = solveDisplacementCorrection(
-          context,
-          evaluation,
-          constraint.dof,
-          controlGap,
-        );
-        correctionQ = correction.q;
-        correctionLambda = correction.lambda;
-      }
-    } catch (error) {
-      return {
-        converged: false,
-        q,
-        lambda,
-        iterations: iteration,
-        evaluation,
-        warning: `The nonlinear tangent is singular or ill-conditioned: ${String(error)}`,
-        nonMonotoneAcceptances,
-      };
-    }
-
-    let accepted = false;
-    let lineFactor = 1;
-    let bestTrialMeasure = Number.POSITIVE_INFINITY;
-    let bestTrialQ: Vector | null = null;
-    let bestTrialLambda = lambda;
-    for (
-      let lineIteration = 0;
-      lineIteration < context.maximumLineSearchIterations;
-      lineIteration += 1
-    ) {
-      const trialQ = addScaled(q, correctionQ, lineFactor);
-      const trialLambda = lambda + lineFactor * correctionLambda;
-      const trial = evaluateSystem(
-        context,
-        trialQ,
-        trialLambda,
-        fixedLoadFactor,
-        committedStates,
-        false,
-        numericalCohesionOffset,
-      );
-      const trialControlGap =
-        constraint === null
-          ? 0
-          : constraint.type === "displacement"
-            ? trialQ[constraint.dof]! - constraint.reference - constraint.target
-            : arcLengthConstraintValues(context, trialQ, trialLambda, constraint).gap;
-      const trialMeasure = Math.max(
-        residualMeasure(context, trial.residual),
-        constraint === null
-          ? 0
-          : constraint.type === "displacement"
-            ? Math.abs(trialControlGap) / dofColumnScale(constraint.dof, context.lengthScale)
-            : Math.abs(trialControlGap) / (constraint.radius * constraint.radius),
-      );
-      bestTrialMeasure = Math.min(bestTrialMeasure, trialMeasure);
-      if (trialMeasure <= bestTrialMeasure) {
-        bestTrialQ = trialQ;
-        bestTrialLambda = trialLambda;
-      }
-      if (trialMeasure < measure || trialMeasure <= context.tolerance) {
-        q = trialQ;
-        lambda = trialLambda;
-        evaluation = evaluateSystem(
-          context,
-          q,
-          lambda,
-          fixedLoadFactor,
-          committedStates,
-          true,
-          numericalCohesionOffset,
-        );
-        accepted = true;
-        break;
-      }
-      lineFactor /= 2;
-      if (lineFactor < context.minimumLineSearchFactor) break;
-    }
-    if (!accepted && bestTrialQ !== null && bestTrialMeasure <= 5 * measure) {
-      q = bestTrialQ;
-      lambda = bestTrialLambda;
-      evaluation = evaluateSystem(
-        context,
-        q,
-        lambda,
-        fixedLoadFactor,
-        committedStates,
-        true,
-        numericalCohesionOffset,
-      );
-      nonMonotoneAcceptances += 1;
-      accepted = true;
-    }
-    if (!accepted) {
-      return {
-        converged: false,
-        q,
-        lambda,
-        iterations: iteration,
-        evaluation,
-        warning:
-          `The nonlinear backtracking line search could not reduce the normalized residual ` +
-          `(current ${measure}, best trial ${bestTrialMeasure}).`,
-        nonMonotoneAcceptances,
-      };
-    }
-  }
   return {
-    converged: false,
-    q,
-    lambda,
-    iterations: context.maxIterations,
-    evaluation,
-    warning:
-      `The nonlinear iteration did not converge in ${context.maxIterations} iterations; ` +
-      `the final normalized residual was ${residualMeasure(context, evaluation.residual)}.`,
-    nonMonotoneAcceptances,
+    ...solved,
+    q: [...solved.coordinates],
   };
 }
 
@@ -1290,39 +700,10 @@ function solveWithCohesionHomotopy(
   };
 }
 
-function interfaceSummary(
-  item: RigidBlockDeformableInterfaceEvaluation2D,
-): MasonryArchNonlinearInterfaceSummary {
-  const state =
-    item.sliding && item.crushing
-      ? "sliding-and-crushing"
-      : item.crushing
-        ? "crushing"
-        : item.sliding
-          ? "sliding"
-          : item.contactActive
-            ? "compressed"
-            : "open";
-  return {
-    interfaceId: item.interfaceId,
-    normalForce: item.normalForce,
-    shearForce: item.shearForce,
-    moment: item.moment,
-    eccentricity: item.eccentricity,
-    compressedLength: item.compressedLength,
-    maxCompression: item.maxCompression,
-    frictionUtilization: item.frictionUtilization,
-    maximumOpening: item.maximumOpening,
-    maximumClosure: item.maximumClosure,
-    maximumAbsoluteSlip: item.maximumAbsoluteSlip,
-    state,
-  };
-}
-
 function equilibriumResult(
   context: SolverContext,
   evaluation: SystemEvaluation,
-): MasonryArchNonlinearEquilibriumResult {
+): MasonryArchEquilibriumResidual {
   let forceX = 0;
   let forceY = 0;
   let moment = 0;
@@ -1379,52 +760,47 @@ function actionScale(...groups: readonly ResolvedMasonryArchLoads[]): number {
   );
 }
 
-function classifyMaterialLimit(evaluation: SystemEvaluation): MasonryArchFailureMode | null {
-  const crushing = evaluation.interfaces.some((item) => item.crushing);
-  const reinforcementFailure = evaluation.reinforcement.hasReinforcementFailure;
-  const reinforcementYield = evaluation.reinforcement.hasReinforcementYield;
-  const anchor = evaluation.reinforcement.hasAnchorFailure;
-  const bondedLayerFailure = evaluation.bondedLayerState.some((layer) =>
-    layer.interfaces.some((item) => item.state === "at-capacity"),
+function appendHistoryPoint(
+  steps: MasonryArchPathStep[],
+  context: SolverContext,
+  loading: ResolvedMasonryArchAnalysisLoads,
+  previousEvaluation: SystemEvaluation,
+  evaluation: SystemEvaluation,
+  input: {
+    readonly step: number;
+    readonly stage: "fixed-preload" | "scalable-loading";
+    readonly fixedLoadFactor: number;
+    readonly lambda: number;
+    readonly controlDisplacement: number;
+    readonly iterations: number;
+  },
+): readonly MasonryArchEvent[] {
+  const events = detectMasonryArchStepEvents(
+    context.model,
+    previousEvaluation,
+    evaluation,
+    input.step,
+    input.lambda,
   );
-  const count = [
-    crushing,
-    reinforcementFailure || bondedLayerFailure,
-    reinforcementYield,
-    anchor,
-  ].filter(Boolean).length;
-  if (count > 1) return "mixed";
-  if (crushing) return "masonry-crushing";
-  if (reinforcementFailure || bondedLayerFailure) return "reinforcement-failure";
-  if (reinforcementYield) return "reinforcement-yield";
-  if (anchor) return "anchor-capacity";
-  return null;
-}
-
-function classifyNonconvergence(evaluation: SystemEvaluation): MasonryArchFailureMode {
-  const sliding = evaluation.interfaces.some((item) => item.sliding);
-  const openInternal = evaluation.interfaces
-    .slice(1, -1)
-    .filter((item) => !item.contactActive).length;
-  if (sliding && openInternal > 0) return "mixed";
-  if (sliding) return "sliding";
-  if (openInternal >= 4) return "mechanism";
-  return "instability";
-}
-
-function supportReaction(item: RigidBlockDeformableInterfaceEvaluation2D | undefined): {
-  readonly force: RigidBlockVector2D;
-  readonly moment: number;
-  readonly applicationPoint: RigidBlockPoint2D;
-} {
-  const action = item?.actions[0];
-  return action === undefined
-    ? { force: { x: 0, y: 0 }, moment: 0, applicationPoint: { x: 0, y: 0 } }
-    : {
-        force: action.force,
-        moment: action.moment,
-        applicationPoint: item?.currentMidpoint ?? { x: 0, y: 0 },
-      };
+  const state = createMasonryArchPathState(evaluation, {
+    lambda: input.lambda,
+    fixedLoadFactor: input.fixedLoadFactor,
+    effectiveLoadFactorsByCaseId: effectiveStepLoadFactors(
+      loading,
+      input.lambda,
+      input.fixedLoadFactor,
+    ),
+    equilibrium: equilibriumResult(context, evaluation),
+  });
+  steps.push({
+    step: input.step,
+    stage: input.stage,
+    controlDisplacement: input.controlDisplacement,
+    iterations: input.iterations,
+    events,
+    state,
+  });
+  return events;
 }
 
 function firstDisplacementControlSeed(
@@ -1481,9 +857,11 @@ function firstDisplacementControlSeed(
 }
 
 function hasZeroPhysicalCohesion(model: NormalizedMasonryArchModel): boolean {
-  return [model.supports.left.interface, model.interfaces, model.supports.right.interface].some(
-    (item) => item.friction?.cohesion === 0,
-  );
+  return [
+    model.supports.left.interfaceLaw,
+    model.interfaceLaw,
+    model.supports.right.interfaceLaw,
+  ].some((item) => item.friction?.cohesion === 0);
 }
 
 function arcLengthIncrementNorm(
@@ -1492,11 +870,10 @@ function arcLengthIncrementNorm(
   incrementLambda: number,
   loadScale: number,
 ): number {
-  const displacement = incrementQ.reduce((sum, value, index) => {
-    const normalized = value / dofColumnScale(index, context.lengthScale);
-    return sum + (normalized * normalized) / incrementQ.length;
-  }, 0);
-  return Math.sqrt(displacement + (loadScale * incrementLambda) ** 2);
+  return sphericalArcLengthNorm(incrementQ, incrementLambda, {
+    displacementScales: context.continuationSolver.coordinateScales,
+    loadScale,
+  });
 }
 
 function arcLengthPredictor(
@@ -1519,22 +896,21 @@ function arcLengthPredictor(
     });
     directionLambda = 1;
   }
-  const norm = arcLengthIncrementNorm(context, directionQ, directionLambda, loadScale);
-  if (!Number.isFinite(norm) || norm <= Number.EPSILON) {
-    throw new Error("The arc-length predictor has zero scaled norm.");
-  }
-  const factor = radius / norm;
+  const scaled = scaleArcLengthDirection(directionQ, directionLambda, radius, {
+    displacementScales: context.continuationSolver.coordinateScales,
+    loadScale,
+  });
   return {
-    q: directionQ.map((value) => factor * value),
-    lambda: factor * directionLambda,
+    q: scaled.displacement,
+    lambda: scaled.lambda,
   };
 }
 
 function validateNonlinearMechanicalModel(model: NormalizedMasonryArchModel): void {
   const entries = [
-    ["supports.left.interface", model.supports.left.interface],
-    ["interfaces", model.interfaces],
-    ["supports.right.interface", model.supports.right.interface],
+    ["supports.left.interface", model.supports.left.interfaceLaw],
+    ["interfaces", model.interfaceLaw],
+    ["supports.right.interface", model.supports.right.interfaceLaw],
   ] as const;
   const incompatible = entries
     .filter(([, item]) => item.deformability === null)
@@ -1549,9 +925,9 @@ function validateNonlinearMechanicalModel(model: NormalizedMasonryArchModel): vo
 }
 
 function resolveAnalysisObjective(
-  options: AnalyzeMasonryArchNonlinearOptions,
+  options: AnalyzeMasonryArchPathOptions,
 ): MasonryArchAnalysisObjective {
-  const objective = options.analysisObjective ?? "advanced-path";
+  const objective = options.analysisObjective;
   if (
     objective !== "design-state-check" &&
     objective !== "capacity" &&
@@ -1559,19 +935,60 @@ function resolveAnalysisObjective(
   ) {
     throw new Error(`Unsupported masonry-arch analysisObjective: ${String(objective)}.`);
   }
-  if (objective === "design-state-check") {
-    if (options.control.type !== "load" || Math.abs(options.control.targetLambda - 1) > 1e-12) {
+  return objective;
+}
+
+function defaultMonitor(model: NormalizedMasonryArchModel): {
+  readonly blockId: string;
+  readonly component: "y";
+} {
+  return {
+    blockId: model.geometry.voussoirs[Math.floor(model.geometry.voussoirs.length / 2)]!.id,
+    component: "y",
+  };
+}
+
+function resolveControl(
+  model: NormalizedMasonryArchModel,
+  options: AnalyzeMasonryArchPathOptions,
+  objective: MasonryArchAnalysisObjective,
+): MasonryArchPathControl {
+  const assigned = options.control;
+  let control: MasonryArchPathControl;
+  if (assigned === undefined) {
+    if (objective === "advanced-path") {
       throw new Error(
-        "analysisObjective: design-state-check currently requires load control with targetLambda: 1.",
+        "analysisObjective: advanced-path requires an explicit continuation control.",
       );
     }
+    control =
+      objective === "design-state-check"
+        ? {
+            type: "load",
+            targetLambda: 1,
+            monitor: defaultMonitor(model),
+            initialStep: 0.1,
+          }
+        : {
+            type: "arc-length",
+            monitor: defaultMonitor(model),
+            targetPathLength: 1,
+            initialRadius: 0.05,
+          };
+  } else if (assigned.type === "load" || assigned.type === "arc-length") {
+    control = { ...assigned, monitor: assigned.monitor ?? defaultMonitor(model) };
+  } else {
+    control = assigned;
   }
-  if (objective !== "advanced-path" && options.stopAtFirstMaterialLimit === false) {
+  if (
+    objective === "design-state-check" &&
+    (control.type !== "load" || Math.abs(control.targetLambda - 1) > 1e-12)
+  ) {
     throw new Error(
-      `${objective} requires stopAtFirstMaterialLimit to remain enabled so a physical limit is not crossed silently.`,
+      "analysisObjective: design-state-check requires adaptive load control with targetLambda: 1.",
     );
   }
-  return objective;
+  return control;
 }
 
 function effectiveStepLoadFactors(
@@ -1595,7 +1012,7 @@ function effectiveStepLoadFactors(
 
 function nonlinearAnalysisOutcome(
   objective: MasonryArchAnalysisObjective,
-  termination: MasonryArchNonlinearOutputs["convergenceInfo"]["termination"],
+  termination: MasonryArchPathOutputs["convergenceInfo"]["termination"],
   lambda: number,
 ): MasonryArchAnalysisOutcome {
   if (termination === "target-reached") {
@@ -1606,7 +1023,7 @@ function nonlinearAnalysisOutcome(
       lambdaAtTermination: lambda,
     };
   }
-  if (termination === "material-limit") {
+  if (termination === "engineering-limit" || termination === "terminal-physical-event") {
     return {
       objective,
       objectiveStatus:
@@ -1627,36 +1044,34 @@ function nonlinearAnalysisOutcome(
   };
 }
 
-export function analyzeMasonryArchNonlinear(
+export function analyzeMasonryArchPath(
   modelInput: MasonryArchModel | NormalizedMasonryArchModel | MasonryArchModelInput,
-  options: AnalyzeMasonryArchNonlinearOptions,
-): MasonryArchNonlinearResult {
-  if (options.geometricNonlinearity !== true) {
-    throw new Error("Nonlinear masonry-arch analysis requires geometricNonlinearity: true.");
-  }
+  options: AnalyzeMasonryArchPathOptions,
+): MasonryArchPathResult {
   const analysisObjective = resolveAnalysisObjective(options);
   const model = asMasonryArchModel(modelInput);
   validateNonlinearMechanicalModel(model);
+  const assignedControl = resolveControl(model, options, analysisObjective);
   const analysisSourceUnits = assertExplicitUnitSystem(
     options.units,
-    "AnalyzeMasonryArchNonlinearOptions",
+    "AnalyzeMasonryArchPathOptions",
   );
   const analysisUnitResolver = createUnitResolver(analysisSourceUnits, model.units);
-  const normalizedControl: MasonryArchNonlinearControl =
-    options.control.type === "load"
-      ? { ...options.control }
-      : options.control.type === "arc-length"
-        ? { ...options.control }
+  const normalizedControl: MasonryArchPathControl =
+    assignedControl.type === "load"
+      ? { ...assignedControl }
+      : assignedControl.type === "arc-length"
+        ? { ...assignedControl }
         : {
-            ...options.control,
+            ...assignedControl,
             increment:
-              options.control.component === "rotation"
-                ? options.control.increment
-                : analysisUnitResolver.length(options.control.increment),
-            targetDisplacement:
-              options.control.component === "rotation"
-                ? options.control.targetDisplacement
-                : analysisUnitResolver.length(options.control.targetDisplacement),
+              assignedControl.dof.component === "rotation"
+                ? assignedControl.increment
+                : analysisUnitResolver.length(assignedControl.increment),
+            target:
+              assignedControl.dof.component === "rotation"
+                ? assignedControl.target
+                : analysisUnitResolver.length(assignedControl.target),
           };
   const tolerance = finitePositive(
     options.equilibriumTolerance ?? 1e-8,
@@ -1677,22 +1092,37 @@ export function analyzeMasonryArchNonlinear(
   const analysisLoads = resolveMasonryArchAnalysisLoads(model, options);
   const fixedLoads = analysisLoads.fixed;
   const scalableLoads = analysisLoads.scalable;
-  const context: SolverContext = {
-    model,
-    fixedLoads,
-    scalableLoads,
-    forceScale:
-      actionScale(fixedLoads, scalableLoads) +
-      model.reinforcements.reduce((sum, item) => sum + item.initialForce, 0),
-    lengthScale: Math.max(1, model.geometry.span, model.geometry.rise),
+  const forceScale =
+    actionScale(fixedLoads, scalableLoads) +
+    model.reinforcements.reduce((sum, item) => sum + item.initialForce, 0);
+  const lengthScale = Math.max(1, model.geometry.span, model.geometry.rise);
+  const solutionSize = 3 * model.geometry.voussoirs.length;
+  const continuationSolver = new NonlinearEquilibriumContinuationSolver<SystemEvaluation>({
+    scaling: {
+      residualScales: Array.from({ length: solutionSize }, (_, index) =>
+        index % 3 === 2 ? 1 / (forceScale * lengthScale) : 1 / forceScale,
+      ),
+      coordinateScales: Array.from({ length: solutionSize }, (_, index) =>
+        index % 3 === 2 ? 1 : lengthScale,
+      ),
+    },
     tolerance,
     maxIterations,
     maximumLineSearchIterations,
     minimumLineSearchFactor,
-    denseLinearSolver: new DenseLinearSolver(),
-    bandedLinearSolver: new GeneralBandedLinearSolver(),
-    linearSolverMethods: new Set(),
-    linearSolverPreference: options.linearSolver ?? "automatic",
+    ...(options.linearSolver === undefined ? {} : { linearSolver: options.linearSolver }),
+  });
+  const context: SolverContext = {
+    model,
+    fixedLoads,
+    scalableLoads,
+    forceScale,
+    lengthScale,
+    tolerance,
+    maxIterations,
+    maximumLineSearchIterations,
+    minimumLineSearchFactor,
+    continuationSolver,
   };
   const contactInitialization = options.contactInitialization ?? "cohesion-homotopy";
   const minimumInterfaceArea = Math.min(
@@ -1703,11 +1133,11 @@ export function analyzeMasonryArchNonlinear(
       ? (0.01 * context.forceScale) / minimumInterfaceArea
       : 0;
 
-  const size = 3 * model.geometry.voussoirs.length;
+  const size = solutionSize;
   let q = zeroVector(size);
   let lambda = 0;
   let committedStates: Readonly<Record<string, RigidBlockDeformableInterfaceState2D>> = {};
-  const history: MasonryArchNonlinearHistoryPoint[] = [];
+  const steps: MasonryArchPathStep[] = [];
   const warnings: string[] = [];
   let totalIterations = 0;
   let cutbacks = 0;
@@ -1715,14 +1145,31 @@ export function analyzeMasonryArchNonlinear(
   let completedCohesionHomotopyStages = 0;
   let failedLambdaTarget: number | null = null;
   let stepNumber = 0;
-  let termination: MasonryArchNonlinearOutputs["convergenceInfo"]["termination"] = "maximum-steps";
+  let termination: MasonryArchPathOutputs["convergenceInfo"]["termination"] = "maximum-steps";
   let failureMode: MasonryArchFailureMode = "no-collapse-within-model";
-  const stopAtFirstMaterialLimit = options.stopAtFirstMaterialLimit ?? true;
+  const eventLog: MasonryArchEvent[] = [];
+  const designFailureEvents = new Set(options.designFailureEvents ?? DEFAULT_DESIGN_FAILURE_EVENTS);
+  if (
+    options.engineeringLimitPolicy !== undefined &&
+    options.engineeringLimitPolicy !== "objective-default" &&
+    options.engineeringLimitPolicy !== "stop" &&
+    options.engineeringLimitPolicy !== "continue"
+  ) {
+    throw new Error(
+      `Unsupported masonry-arch engineeringLimitPolicy: ${String(options.engineeringLimitPolicy)}.`,
+    );
+  }
+  const engineeringLimitPolicy =
+    options.engineeringLimitPolicy === "stop"
+      ? ("stop" as const)
+      : options.engineeringLimitPolicy === "continue"
+        ? ("continue" as const)
+        : ("continue" as const);
   const selectedControlDof = controlDof(
     model,
     normalizedControl.type === "load" || normalizedControl.type === "arc-length"
-      ? normalizedControl.monitor
-      : normalizedControl,
+      ? normalizedControl.monitor!
+      : normalizedControl.dof,
   );
 
   let preloadFactor = 0;
@@ -1747,45 +1194,56 @@ export function analyzeMasonryArchNonlinear(
       cutbacks += 1;
       if (preloadStep < 1e-5) {
         termination = "fixed-preload-failed";
-        failureMode = "fixed-load-infeasible";
+        failureMode = "undetermined";
         if (solved.warning !== null) warnings.push(solved.warning);
+        eventLog.push(
+          event(
+            "numerical-failure",
+            "convergence-lost",
+            null,
+            0,
+            [],
+            "Fixed-load initialization lost convergence.",
+          ),
+        );
         break;
       }
       continue;
     }
+    const previousEvaluation = finalEvaluation;
     q = solved.q;
     preloadFactor = target;
     committedStates = solved.evaluation.trialStates;
     finalEvaluation = solved.evaluation;
     stepNumber += 1;
-    history.push({
-      step: stepNumber,
-      stage: "fixed-preload",
-      fixedLoadFactor: preloadFactor,
-      lambda: 0,
-      effectiveLoadFactorsByCaseId: effectiveStepLoadFactors(analysisLoads, 0, preloadFactor),
-      controlDisplacement: 0,
-      iterations: solved.iterations,
-      blockDisplacements: solved.evaluation.displacements,
-      interfaces: solved.evaluation.interfaces.map(interfaceSummary),
-      reinforcementForces: Object.fromEntries(
-        solved.evaluation.reinforcement.reinforcementState.map((item) => [
-          item.reinforcementId,
-          item.force,
-        ]),
-      ),
-      bondedLayerForces: Object.fromEntries(
-        solved.evaluation.bondedLayerState.map((item) => [
-          item.reinforcementId,
-          item.maximumForce ?? 0,
-        ]),
-      ),
-      equilibrium: equilibriumResult(context, solved.evaluation),
-    });
-    const preloadMaterialLimit = classifyMaterialLimit(solved.evaluation);
-    if (preloadMaterialLimit !== null && stopAtFirstMaterialLimit) {
-      failureMode = preloadMaterialLimit;
-      termination = "material-limit";
+    const stepEvents = appendHistoryPoint(
+      steps,
+      context,
+      analysisLoads,
+      previousEvaluation,
+      solved.evaluation,
+      {
+        step: stepNumber,
+        stage: "fixed-preload",
+        fixedLoadFactor: preloadFactor,
+        lambda: 0,
+        controlDisplacement: 0,
+        iterations: solved.iterations,
+      },
+    );
+    eventLog.push(...stepEvents);
+    if (
+      shouldStopMasonryArchPathForEvents(
+        analysisObjective,
+        engineeringLimitPolicy,
+        stepEvents,
+        designFailureEvents,
+      )
+    ) {
+      failureMode = masonryArchFailureModeFromEvents(stepEvents);
+      termination = stepEvents.some((item) => item.category === "terminal-physical-event")
+        ? "terminal-physical-event"
+        : "engineering-limit";
       break;
     }
     if (solved.iterations <= 5) preloadStep = Math.min(0.25, preloadStep * 1.5);
@@ -1818,46 +1276,57 @@ export function analyzeMasonryArchNonlinear(
           cutbacks += 1;
           if (loadStep < minimumStep) {
             termination = "minimum-step";
-            failureMode = classifyNonconvergence(solved.evaluation);
+            failureMode = "undetermined";
             if (solved.warning !== null) warnings.push(solved.warning);
             failedLambdaTarget = target;
+            eventLog.push(
+              event(
+                "numerical-failure",
+                "convergence-lost",
+                null,
+                lambda,
+                [],
+                "Adaptive load control exhausted its minimum step.",
+              ),
+            );
             break;
           }
           continue;
         }
+        const previousEvaluation = finalEvaluation;
         q = solved.q;
         lambda = target;
         committedStates = solved.evaluation.trialStates;
         finalEvaluation = solved.evaluation;
         stepNumber += 1;
-        history.push({
-          step: stepNumber,
-          stage: "scalable-loading",
-          fixedLoadFactor: 1,
-          lambda,
-          effectiveLoadFactorsByCaseId: effectiveStepLoadFactors(analysisLoads, lambda, 1),
-          controlDisplacement: q[selectedControlDof]! - referenceQ[selectedControlDof]!,
-          iterations: solved.iterations,
-          blockDisplacements: solved.evaluation.displacements,
-          interfaces: solved.evaluation.interfaces.map(interfaceSummary),
-          reinforcementForces: Object.fromEntries(
-            solved.evaluation.reinforcement.reinforcementState.map((item) => [
-              item.reinforcementId,
-              item.force,
-            ]),
-          ),
-          bondedLayerForces: Object.fromEntries(
-            solved.evaluation.bondedLayerState.map((item) => [
-              item.reinforcementId,
-              item.maximumForce ?? 0,
-            ]),
-          ),
-          equilibrium: equilibriumResult(context, solved.evaluation),
-        });
-        const materialLimit = classifyMaterialLimit(solved.evaluation);
-        if (materialLimit !== null && stopAtFirstMaterialLimit) {
-          failureMode = materialLimit;
-          termination = "material-limit";
+        const stepEvents = appendHistoryPoint(
+          steps,
+          context,
+          analysisLoads,
+          previousEvaluation,
+          solved.evaluation,
+          {
+            step: stepNumber,
+            stage: "scalable-loading",
+            fixedLoadFactor: 1,
+            lambda,
+            controlDisplacement: q[selectedControlDof]! - referenceQ[selectedControlDof]!,
+            iterations: solved.iterations,
+          },
+        );
+        eventLog.push(...stepEvents);
+        if (
+          shouldStopMasonryArchPathForEvents(
+            analysisObjective,
+            engineeringLimitPolicy,
+            stepEvents,
+            designFailureEvents,
+          )
+        ) {
+          failureMode = masonryArchFailureModeFromEvents(stepEvents);
+          termination = stepEvents.some((item) => item.category === "terminal-physical-event")
+            ? "terminal-physical-event"
+            : "engineering-limit";
           break;
         }
         if (solved.iterations <= 5) loadStep = Math.min(maximumStep, loadStep * 1.5);
@@ -1870,10 +1339,7 @@ export function analyzeMasonryArchNonlinear(
         normalizedControl.increment,
         "Nonlinear displacement increment",
       );
-      const targetDisplacement = finiteNonZero(
-        normalizedControl.targetDisplacement,
-        "Nonlinear targetDisplacement",
-      );
+      const targetDisplacement = finiteNonZero(normalizedControl.target, "Nonlinear target");
       if (Math.sign(increment) !== Math.sign(targetDisplacement)) {
         throw new Error(
           "Nonlinear displacement increment and targetDisplacement must have the same sign.",
@@ -1922,47 +1388,58 @@ export function analyzeMasonryArchNonlinear(
         nonMonotoneLineSearchAcceptances += solved.nonMonotoneAcceptances;
         if (!solved.converged) {
           termination = "minimum-step";
-          failureMode = classifyNonconvergence(solved.evaluation);
+          failureMode = "undetermined";
           if (solved.warning !== null) warnings.push(solved.warning);
+          eventLog.push(
+            event(
+              "numerical-failure",
+              "convergence-lost",
+              null,
+              lambda,
+              [],
+              "Displacement control lost convergence.",
+            ),
+          );
           break;
         }
         previousPathQ = [...q];
         previousPathLambda = lambda;
         previousPrescribed = prescribed;
+        const previousEvaluation = finalEvaluation;
         q = solved.q;
         lambda = solved.lambda;
         prescribed = next;
         committedStates = solved.evaluation.trialStates;
         finalEvaluation = solved.evaluation;
         stepNumber += 1;
-        history.push({
-          step: stepNumber,
-          stage: "scalable-loading",
-          fixedLoadFactor: 1,
-          lambda,
-          effectiveLoadFactorsByCaseId: effectiveStepLoadFactors(analysisLoads, lambda, 1),
-          controlDisplacement: controlValue(q, referenceQ, selectedControlDof),
-          iterations: solved.iterations,
-          blockDisplacements: solved.evaluation.displacements,
-          interfaces: solved.evaluation.interfaces.map(interfaceSummary),
-          reinforcementForces: Object.fromEntries(
-            solved.evaluation.reinforcement.reinforcementState.map((item) => [
-              item.reinforcementId,
-              item.force,
-            ]),
-          ),
-          bondedLayerForces: Object.fromEntries(
-            solved.evaluation.bondedLayerState.map((item) => [
-              item.reinforcementId,
-              item.maximumForce ?? 0,
-            ]),
-          ),
-          equilibrium: equilibriumResult(context, solved.evaluation),
-        });
-        const materialLimit = classifyMaterialLimit(solved.evaluation);
-        if (materialLimit !== null && stopAtFirstMaterialLimit) {
-          failureMode = materialLimit;
-          termination = "material-limit";
+        const stepEvents = appendHistoryPoint(
+          steps,
+          context,
+          analysisLoads,
+          previousEvaluation,
+          solved.evaluation,
+          {
+            step: stepNumber,
+            stage: "scalable-loading",
+            fixedLoadFactor: 1,
+            lambda,
+            controlDisplacement: controlValue(q, referenceQ, selectedControlDof),
+            iterations: solved.iterations,
+          },
+        );
+        eventLog.push(...stepEvents);
+        if (
+          shouldStopMasonryArchPathForEvents(
+            analysisObjective,
+            engineeringLimitPolicy,
+            stepEvents,
+            designFailureEvents,
+          )
+        ) {
+          failureMode = masonryArchFailureModeFromEvents(stepEvents);
+          termination = stepEvents.some((item) => item.category === "terminal-physical-event")
+            ? "terminal-physical-event"
+            : "engineering-limit";
           break;
         }
       }
@@ -2014,8 +1491,18 @@ export function analyzeMasonryArchNonlinear(
           );
         } catch (error) {
           termination = "minimum-step";
-          failureMode = "instability";
+          failureMode = "undetermined";
           warnings.push(`Arc-length predictor failed: ${String(error)}`);
+          eventLog.push(
+            event(
+              "numerical-failure",
+              "convergence-lost",
+              null,
+              lambda,
+              [],
+              `Arc-length predictor failed: ${String(error)}`,
+            ),
+          );
           break;
         }
         const referenceStepQ = [...q];
@@ -2036,8 +1523,18 @@ export function analyzeMasonryArchNonlinear(
           cutbacks += 1;
           if (radius < minimumRadius) {
             termination = "minimum-step";
-            failureMode = classifyNonconvergence(solved.evaluation);
+            failureMode = "undetermined";
             if (solved.warning !== null) warnings.push(solved.warning);
+            eventLog.push(
+              event(
+                "numerical-failure",
+                "convergence-lost",
+                null,
+                lambda,
+                [],
+                "Arc-length control exhausted its minimum radius.",
+              ),
+            );
             break;
           }
           continue;
@@ -2050,40 +1547,41 @@ export function analyzeMasonryArchNonlinear(
           previousIncrementLambda,
           loadScale,
         );
+        const previousEvaluation = finalEvaluation;
         q = solved.q;
         lambda = solved.lambda;
         accumulatedPathLength += completedRadius;
         committedStates = solved.evaluation.trialStates;
         finalEvaluation = solved.evaluation;
         stepNumber += 1;
-        history.push({
-          step: stepNumber,
-          stage: "scalable-loading",
-          fixedLoadFactor: 1,
-          lambda,
-          effectiveLoadFactorsByCaseId: effectiveStepLoadFactors(analysisLoads, lambda, 1),
-          controlDisplacement: controlValue(q, referenceQ, selectedControlDof),
-          iterations: solved.iterations,
-          blockDisplacements: solved.evaluation.displacements,
-          interfaces: solved.evaluation.interfaces.map(interfaceSummary),
-          reinforcementForces: Object.fromEntries(
-            solved.evaluation.reinforcement.reinforcementState.map((item) => [
-              item.reinforcementId,
-              item.force,
-            ]),
-          ),
-          bondedLayerForces: Object.fromEntries(
-            solved.evaluation.bondedLayerState.map((item) => [
-              item.reinforcementId,
-              item.maximumForce ?? 0,
-            ]),
-          ),
-          equilibrium: equilibriumResult(context, solved.evaluation),
-        });
-        const materialLimit = classifyMaterialLimit(solved.evaluation);
-        if (materialLimit !== null && stopAtFirstMaterialLimit) {
-          failureMode = materialLimit;
-          termination = "material-limit";
+        const stepEvents = appendHistoryPoint(
+          steps,
+          context,
+          analysisLoads,
+          previousEvaluation,
+          solved.evaluation,
+          {
+            step: stepNumber,
+            stage: "scalable-loading",
+            fixedLoadFactor: 1,
+            lambda,
+            controlDisplacement: controlValue(q, referenceQ, selectedControlDof),
+            iterations: solved.iterations,
+          },
+        );
+        eventLog.push(...stepEvents);
+        if (
+          shouldStopMasonryArchPathForEvents(
+            analysisObjective,
+            engineeringLimitPolicy,
+            stepEvents,
+            designFailureEvents,
+          )
+        ) {
+          failureMode = masonryArchFailureModeFromEvents(stepEvents);
+          termination = stepEvents.some((item) => item.category === "terminal-physical-event")
+            ? "terminal-physical-event"
+            : "engineering-limit";
           break;
         }
         if (solved.iterations <= 5) radius = Math.min(maximumRadius, radius * 1.25);
@@ -2097,45 +1595,109 @@ export function analyzeMasonryArchNonlinear(
 
   if (stepNumber >= maxSteps && termination === "maximum-steps") {
     warnings.push(`The nonlinear analysis reached maxSteps=${maxSteps}.`);
+    eventLog.push(
+      event(
+        "numerical-failure",
+        "convergence-lost",
+        null,
+        lambda,
+        [],
+        `The analysis exhausted maxSteps=${maxSteps}.`,
+      ),
+    );
   }
   const equilibrium = equilibriumResult(context, finalEvaluation);
-  const lastHistory = history.at(-1);
+  const lastHistory = steps.at(-1);
   const finalControlDisplacement = lastHistory?.controlDisplacement ?? 0;
   const reinforcementIds = [
     ...model.reinforcements.map((item) => item.id),
     ...model.bondedLayers.map((item) => item.id),
   ];
-  const physicalLimitReached = termination === "material-limit";
+  const physicalLimitReached =
+    termination === "engineering-limit" || termination === "terminal-physical-event";
   const analysisOutcome = nonlinearAnalysisOutcome(analysisObjective, termination, lambda);
   const numericalConvergence =
     (termination === "target-reached" || physicalLimitReached) &&
     equilibrium.maximumNormalizedBlockResidual <= tolerance;
-  const successful =
-    analysisOutcome.objectiveStatus === "satisfied" &&
-    termination === "target-reached" &&
-    numericalConvergence;
-  const lambdaCritical = analysisObjective === "capacity" && physicalLimitReached ? lambda : null;
-  const designStateCheck =
+  const limitEvents = eventLog.filter(
+    (item) => item.category === "engineering-limit" || item.category === "terminal-physical-event",
+  );
+  const firstLimitEvent = limitEvents.find((item) => item.step !== null) ?? null;
+  const scalableHistory = steps.filter((point) => point.stage === "scalable-loading");
+  const fixedEquilibriumPoint = preloadCompleted
+    ? (steps.findLast((point) => point.stage === "fixed-preload") ?? null)
+    : null;
+  const equilibriumPathHistory =
+    fixedEquilibriumPoint === null ? scalableHistory : [fixedEquilibriumPoint, ...scalableHistory];
+  const peakPoint = equilibriumPathHistory.reduce<MasonryArchPathStep | null>(
+    (peak, point) => (peak === null || point.state.lambda > peak.state.lambda ? point : peak),
+    null,
+  );
+  const terminalEvent = eventLog.find(
+    (item) => item.category === "terminal-physical-event" && item.step === lastHistory?.step,
+  );
+  const lambdaCollapse = terminalEvent?.kind === "reinforcement-rupture" ? lambda : null;
+  const capacity: MasonryArchCapacityLandmarks = {
+    lambdaFirstLimit: firstLimitEvent?.lambda ?? null,
+    lambdaPeak: peakPoint?.state.lambda ?? null,
+    lambdaTermination: lastHistory?.state.lambda ?? null,
+    lambdaCollapse,
+    steps: {
+      firstLimit: firstLimitEvent?.step ?? null,
+      peak: peakPoint?.step ?? null,
+      termination: lastHistory?.step ?? null,
+      collapse: lambdaCollapse === null ? null : (lastHistory?.step ?? null),
+    },
+    collapseDefinition:
+      lambdaCollapse === null
+        ? null
+        : "Terminal reinforcement rupture identified by the assigned tensile or ultimate-strain criterion.",
+  };
+  const designFailedCriteria = eventLog.filter(
+    (item) => item.category === "terminal-physical-event" || designFailureEvents.has(item.kind),
+  );
+  const designAssessmentStatus: MasonryArchEngineeringAssessmentStatus =
+    analysisObjective !== "design-state-check"
+      ? "INDETERMINATE"
+      : designFailedCriteria.length > 0
+        ? "FAIL"
+        : termination === "target-reached" && numericalConvergence && lambda >= 1 - 1e-12
+          ? "PASS"
+          : "INDETERMINATE";
+  const engineeringAssessment =
     analysisObjective === "design-state-check"
       ? {
-          criterion: "factored-load-state-at-lambda-one" as const,
-          demand: 1 as const,
-          reachedLambda: lambda,
-          status:
-            analysisOutcome.objectiveStatus === "satisfied"
-              ? ("pass" as const)
-              : analysisOutcome.objectiveStatus === "not-satisfied"
-                ? ("fail" as const)
-                : ("not-verifiable" as const),
+          question:
+            "can-reach-lambda-one-with-admissible-equilibrium-and-prescribed-criteria" as const,
+          status: designAssessmentStatus,
+          requiredLambda: 1 as const,
+          reachedLambda: lastHistory?.state.lambda ?? null,
+          failedCriteria: designFailedCriteria,
         }
       : null;
+  const resolvedAnalysisOutcome: MasonryArchAnalysisOutcome =
+    analysisObjective !== "design-state-check"
+      ? analysisOutcome
+      : {
+          ...analysisOutcome,
+          objectiveStatus:
+            designAssessmentStatus === "PASS"
+              ? "satisfied"
+              : designAssessmentStatus === "FAIL"
+                ? "not-satisfied"
+                : "not-verifiable",
+        };
+  const successful =
+    resolvedAnalysisOutcome.objectiveStatus === "satisfied" &&
+    termination === "target-reached" &&
+    numericalConvergence;
   const linearSolver =
-    context.linearSolverMethods.size > 1
+    context.continuationSolver.usedLinearSolvers.size > 1
       ? ("hybrid-compact-banded-and-dense-gaussian-elimination" as const)
-      : context.linearSolverMethods.has("dense")
+      : context.continuationSolver.usedLinearSolvers.has("dense")
         ? ("dense-gaussian-elimination-partial-pivoting" as const)
         : ("compact-banded-gaussian-elimination-partial-pivoting" as const);
-  const outputs: MasonryArchNonlinearOutputs = {
+  const outputs: MasonryArchPathOutputs = {
     modelId: model.id,
     analysis: createMasonryArchAnalysisDescriptor(model, {
       analysisObjective,
@@ -2148,43 +1710,46 @@ export function analyzeMasonryArchNonlinear(
         preloadCompleted ? 1 : preloadFactor,
       ),
     }),
-    analysisOutcome,
-    lambdaCritical,
+    analysisOutcome: resolvedAnalysisOutcome,
+    engineeringAssessment,
+    capacity,
+    events: eventLog,
     limitState: physicalLimitReached ? { lambda, failureMode } : null,
-    designStateCheck,
     failureMode,
     control: normalizedControl,
-    history,
+    steps,
+    significantSteps: {
+      designState:
+        analysisObjective === "design-state-check" && designAssessmentStatus === "PASS"
+          ? (lastHistory?.step ?? null)
+          : null,
+      firstLimit: capacity.steps.firstLimit,
+      peak: capacity.steps.peak,
+      lastConverged: capacity.steps.termination,
+    },
     curves: {
-      lambdaDisplacement: history.map((point) => ({
+      lambdaDisplacement: steps.map((point) => ({
         displacement: point.controlDisplacement,
-        lambda: point.lambda,
+        lambda: point.state.lambda,
       })),
       reinforcementForceDisplacement: Object.fromEntries(
         reinforcementIds.map((id) => [
           id,
-          history.map((point) => ({
+          steps.map((point) => ({
             displacement: point.controlDisplacement,
-            force: point.reinforcementForces[id] ?? point.bondedLayerForces[id] ?? 0,
+            force:
+              point.state.reinforcementState.find((item) => item.reinforcementId === id)?.force ??
+              point.state.bondedLayerState.find((item) => item.reinforcementId === id)
+                ?.maximumForce ??
+              0,
           })),
         ]),
       ),
     },
-    finalConfiguration: finalEvaluation.displacements,
-    interfaces: finalEvaluation.interfaces,
-    reinforcementState: finalEvaluation.reinforcement.reinforcementState,
-    anchorForces: finalEvaluation.reinforcement.anchorForces,
-    contactForces: finalEvaluation.reinforcement.contactForces,
-    bondedLayerState: finalEvaluation.bondedLayerState,
-    reactions: {
-      left: supportReaction(finalEvaluation.interfaces[0]),
-      right: supportReaction(finalEvaluation.interfaces.at(-1)),
-    },
-    equilibrium,
     convergenceInfo: {
       converged: numericalConvergence,
       termination,
-      completedSteps: history.length,
+      completedSteps: steps.length,
       totalIterations,
       cutbacks,
       nonMonotoneLineSearchAcceptances,
@@ -2204,16 +1769,19 @@ export function analyzeMasonryArchNonlinear(
       "The final reinforcement configuration contains contact that cannot enforce the prescribed path.",
     );
   }
-  if (context.linearSolverMethods.has("dense") && model.geometry.voussoirCount > 80) {
+  if (
+    context.continuationSolver.usedLinearSolvers.has("dense") &&
+    model.geometry.voussoirCount > 80
+  ) {
     warnings.push(
       "Active reinforcement introduced a dense globally coupled tangent; performance beyond 80 voussoirs must be checked explicitly.",
     );
   }
-  return new CalculationResult<MasonryArchNonlinearOutputs>({
-    applicationId: "masonry-arch-nonlinear",
+  return new CalculationResult<MasonryArchPathOutputs>({
+    applicationId: "masonry-arch-path",
     status: successful
       ? RESULT_STATUS.OK
-      : physicalLimitReached || analysisOutcome.objectiveStatus === "not-reached"
+      : physicalLimitReached || resolvedAnalysisOutcome.objectiveStatus === "not-reached"
         ? RESULT_STATUS.NOT_VERIFIED
         : RESULT_STATUS.FAILED,
     summary: successful
@@ -2241,7 +1809,7 @@ export function analyzeMasonryArchNonlinear(
       "F(lambda) = F_fixed + lambda * F_scalable after combination factors; initial prestress and deformation-dependent response quantities are not scaled by lambda.",
     ],
     metadata: {
-      schemaVersion: MASONRY_ARCH_NONLINEAR_RESULT_SCHEMA_VERSION,
+      schemaVersion: MASONRY_ARCH_PATH_RESULT_SCHEMA_VERSION,
       modelSchemaVersion: model.schemaVersion,
       sourceUnits: model.sourceUnits,
       analysisSourceUnits,
@@ -2253,7 +1821,6 @@ export function analyzeMasonryArchNonlinear(
       numericalMethod: "incremental-continuation",
       control: normalizedControl.type,
       lambdaDefinition: outputs.analysis.lambda,
-      geometricNonlinearity: true,
       loadCombinationId: options.loadCombination?.id ?? null,
       loadCombinationType: options.loadCombination?.combinationType ?? null,
       normativeConformityClaimed: false,

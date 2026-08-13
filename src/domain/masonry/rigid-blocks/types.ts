@@ -173,7 +173,8 @@ export interface RigidBlockCollapseOptions extends RigidBlockEquilibriumOptions 
 export interface RigidBlockCollapse2D {
   readonly status: "optimal" | "unbounded" | "fixed-load-infeasible" | "iteration-limit";
   readonly reason: string | null;
-  readonly lambdaCritical: number | null;
+  /** Maximum scalable-load multiplier established by this limit problem. */
+  readonly lambdaLimit: number | null;
   readonly scales: RigidBlockEquilibriumScales;
   readonly leftReaction: RigidBlockSupportReaction2D;
   readonly rightReaction: RigidBlockSupportReaction2D;

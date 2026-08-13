@@ -8,16 +8,15 @@ This record defines the mechanical and software foundation for a two-dimensional
 based on rigid voussoirs, interfaces, and optional curved tension-only reinforcement. Milestones 1
 through 8 geometry, loads, interface laws, state and collapse equilibrium, assigned post-tensioning,
 curved intrados deviators, curved extrados contact, rigid anchor checks, and passive-tendon response
-on prescribed rigid-block configurations are implemented. Decision 0005 records the implemented
-deformable-interface nonlinear formulation. Decision 0006 records extrados contact release, crushing
-continuation, arc-length control, and passive bonded layers. Typed model comparison, comparability
-diagnostics, and the reviewed literature-evidence register are also implemented. Capabilities
-outside the declared scope remain unavailable unless stated otherwise in the technical
-documentation.
+on prescribed rigid-block configurations are implemented. Decision 0009 records the current
+deformable-interface formulation, contact and crushing continuation, passive bonded layers, and
+final public analysis architecture. Typed model comparison, comparability diagnostics, and the
+reviewed literature-evidence register are also implemented. Capabilities outside the declared scope
+remain unavailable unless stated otherwise in the technical documentation.
 
-Decision 0007 refines the public analysis semantics without changing this mechanical foundation. It
+Decision 0009 refines the public analysis semantics without changing this mechanical foundation. It
 separates mechanical model, engineering objective, and numerical strategy, and makes the complete
-analysis-local definition of `lambda` part of every relevant result.
+analysis-local definition of lambda part of every relevant result.
 
 The record commits Milestones 1 through 8 to the accepted geometry, load, interface,
 representative-state, static limit-analysis, non-associated sliding, finite-compression, and
@@ -234,19 +233,19 @@ thickness, and non-matching endpoints are failures, not silently repaired inputs
 ## Unified arch model
 
 The public model should be one serializable, discriminated contract rather than separate solvers for
-plain, passive, or post-tensioned arches. Conceptually:
+plain, passive, or post-tensioned arches. Decision 0009 defines its final public shape:
 
 ```ts
 interface MasonryArchModelInput {
   id: string;
   units: UnitSystemInput;
   geometry: MasonryArchGeometryInput;
-  discretization: MasonryArchDiscretizationInput;
-  masonry: MasonryArchMasonryInput;
-  interfaces: MasonryArchInterfaceInput | readonly MasonryArchInterfaceInput[];
-  supports: MasonryArchSupportsInput;
-  loads: readonly MasonryArchLoadInput[];
+  masonry?: MasonryArchMasonryInput;
+  interfaceLaw: MasonryInterfaceLawInput;
+  supports?: MasonryArchSupportsInput;
+  loads?: readonly MasonryArchLoadInput[];
   reinforcements?: readonly ArchReinforcementInput[];
+  bondedLayers?: readonly BondedLayerReinforcementInput[];
   metadata?: Record<string, unknown>;
 }
 ```
@@ -573,18 +572,17 @@ status, and provenance, without deriving product-specific ETA/EAD resistance.
 The discrete deviator model must converge to `q_n = T kappa` as the path is refined. This is a
 required benchmark, not merely a documentation statement.
 
-## Geometrically linear and nonlinear analyses
+## Reference-geometry and finite-kinematics analyses
 
-With `geometricNonlinearity: false`, all equilibrium lever arms and tendon directions use the
-reference geometry. This supports the classical unreinforced limit analysis and prescribed
-post-tensioning actions. A passive tendon with `T0 = 0` remains slack unless an externally supplied
-compatible deformation is being evaluated; a linear rigid-block equilibrium analysis cannot invent
-its elongation.
+Assigned equilibrium and direct limit analysis use the reference geometry. This supports classical
+unreinforced limit analysis and prescribed post-tensioning actions. A passive tendon with `T0 = 0`
+remains slack unless a compatible deformation is evaluated; a reference-geometry rigid-block
+equilibrium cannot invent its elongation.
 
-With `geometricNonlinearity: true`, each voussoir has rigid-body translations and rotation, current
-interface gaps/slips are evaluated, and reinforcement length and direction use current anchor
-positions. The coupled sequence is load, block motion, contact state, tendon elongation, tendon
-force, and renewed equilibrium.
+Deformable-path analysis gives each voussoir rigid-body translations and rotation, evaluates current
+interface gaps and slips, and updates reinforcement length and direction from current positions. The
+coupled sequence is load, block motion, contact state, tendon elongation, tendon force, and renewed
+equilibrium.
 
 Milestone 6 implements and tests the passive tendon constitutive/kinematic response under prescribed
 finite rigid-block motion. Its coupled structural benefit is not claimed until Milestone 7
@@ -595,6 +593,8 @@ tangent evaluator. Rigid contact, friction, and tension-only activation are nons
 decided after a one-interface and a short-arch prototype demonstrates convergence; otherwise an
 active-set or semismooth formulation may be required. Arc-length should not be introduced until a
 validated load/displacement-control path shows that a limit point cannot be followed adequately.
+Decision 0009 records the implemented explicit load, displacement, and spherical arc-length
+alternatives.
 
 ## Public analyses and result schemas
 
@@ -602,14 +602,12 @@ The intended public workflow is:
 
 ```ts
 const model = createMasonryArch(input);
-const state = analyzeMasonryArchState(model, {
+const state = analyzeMasonryArchEquilibrium(model, {
   loadFactorsByCaseId,
 });
-const collapse = analyzeMasonryArchCollapse(model, {
-  analysisObjective: "capacity",
+const collapse = analyzeMasonryArchLimit(model, {
   loadCombination,
   scalableLoadCaseIds: ["Q-leading"],
-  geometricNonlinearity: false,
 });
 const comparison = compareMasonryArchModels(cases, {
   referenceCaseId: "heyman",
@@ -632,7 +630,7 @@ The state output should contain:
 
 The collapse output should contain:
 
-- `lambdaCritical` and fixed/scalable load decomposition;
+- distinct capacity landmarks and fixed/scalable load decomposition;
 - failure mode and all simultaneously active modes;
 - critical, hinged, sliding, and crushing interfaces;
 - reinforcement and anchor states;
@@ -641,9 +639,9 @@ The collapse output should contain:
 - optimizer termination, iterations, tolerances, scaling, and warnings.
 
 Comparison must consume complete analysis results and report model identifiers, assumptions,
-`lambdaCritical`, failure mode, maximum compression, maximum tendon force, maximum anchor force, and
-comparable/non-comparable reasons. It must not compare values silently when load patterns, units, or
-geometry differ.
+capacity landmarks, failure mode, maximum compression, maximum tendon force, maximum anchor force,
+and comparable/non-comparable reasons. It must not compare values silently when load patterns,
+units, or geometry differ.
 
 ## Diagnostics and tolerances
 
@@ -787,9 +785,9 @@ The maintainer additionally confirmed on 2026-08-11 that:
 30. adaptive load control, augmented displacement control, and spherical arc-length are explicit
     alternatives with separate convergence diagnostics;
 31. nonlinear extrados contact uses the verified taut-cable release active set recorded by Decision
-    0006;
+    0009;
 32. bonded FRCM/FRP/equivalent-SFRM layers use the distinct tension-only membrane model recorded by
-    Decision 0006.
+    Decision 0009.
 
 ## Decisions that may be deferred to later milestones
 

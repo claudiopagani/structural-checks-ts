@@ -99,8 +99,9 @@ void test("all public package subpaths and wildcard application barrels compile 
   for (const module of entryPointModules) {
     assert.ok(Object.keys(module).length > 0);
   }
-  assert.equal(typeof masonryArches.analyzeMasonryArchCollapse, "function");
-  assert.equal(typeof masonryArches.calculateCollapseMultiplier, "function");
+  assert.equal(typeof masonryArches.analyzeMasonryArchEquilibrium, "function");
+  assert.equal(typeof masonryArches.analyzeMasonryArchLimit, "function");
+  assert.equal(typeof masonryArches.analyzeMasonryArchPath, "function");
   assert.equal(typeof masonryArches.compareMasonryArchModels, "function");
   assert.equal(typeof root.rectangularNoTensionCompressionDomain2D, "function");
 });

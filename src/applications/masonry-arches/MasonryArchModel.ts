@@ -3,6 +3,7 @@ import {
   createUnitResolver,
   type UnitResolver,
 } from "../../domain/units/UnitSystem.js";
+import { normalizeMasonryInterfaceLaw } from "../../domain/masonry/interfaces/normalizeMasonryInterfaceLaw.js";
 import { buildSimplifiedMasonryArchGeometry } from "./geometry.js";
 import {
   MASONRY_ARCH_MODEL_SCHEMA_VERSION,
@@ -12,12 +13,9 @@ import {
   type BondedLayerReinforcementInput,
   type BondedLayerTerminationInput,
   type MasonryArchFillLoadInput,
-  type MasonryArchCoulombParametersInput,
-  type MasonryArchInterfaceInput,
   type MasonryArchLoadInput,
   type MasonryArchModelInput,
   type NormalizedMasonryArchLoad,
-  type NormalizedMasonryArchInterface,
   type NormalizedMasonryArchModel,
   type NormalizedArchAnchorCapacity,
   type NormalizedArchReinforcement,
@@ -151,149 +149,6 @@ function positiveOrZero(value: number, label: string): number {
     throw new Error(`${label} must be non-negative.`);
   }
   return resolved;
-}
-
-function normalizeFriction(
-  input: MasonryArchCoulombParametersInput,
-  resolver: UnitResolver,
-  label: string,
-): NonNullable<NormalizedMasonryArchInterface["friction"]> {
-  const frictionCoefficient = positiveOrZero(
-    input.frictionCoefficient,
-    `${label}.frictionCoefficient`,
-  );
-  const cohesion = positiveOrZero(resolver.stress(input.cohesion ?? 0), `${label}.cohesion`);
-  const frictionAngle = Math.atan(frictionCoefficient);
-  const flowInput = input.flowRule ?? { type: "non-associated" as const };
-  const dilationAngle =
-    flowInput.type === "associated"
-      ? frictionAngle
-      : (() => {
-          const supplied = finite(flowInput.dilationAngle ?? 0, `${label}.dilationAngle`);
-          const radians =
-            (flowInput.angleUnits ?? "rad") === "deg" ? (supplied * Math.PI) / 180 : supplied;
-          if (radians < 0 || radians > frictionAngle + 1e-12) {
-            throw new Error(`${label}.dilationAngle must satisfy 0 <= psi <= atan(mu).`);
-          }
-          return radians;
-        })();
-  return {
-    frictionCoefficient,
-    cohesion,
-    flowRule: { type: flowInput.type, dilationAngle },
-  };
-}
-
-function normalizeInterface(
-  input: MasonryArchInterfaceInput | undefined,
-  resolver: UnitResolver,
-  label: string,
-): NormalizedMasonryArchInterface {
-  const resolved = input ?? { model: "heyman" as const };
-  const approachingHingeRatio = resolved.approachingHingeRatio ?? 0.9;
-  if (
-    !Number.isFinite(approachingHingeRatio) ||
-    approachingHingeRatio <= 0 ||
-    approachingHingeRatio >= 1
-  ) {
-    throw new Error(`${label}.approachingHingeRatio must satisfy 0 < ratio < 1.`);
-  }
-  if (resolved.model === "heyman") {
-    return {
-      model: resolved.model,
-      approachingHingeRatio,
-      friction: null,
-      compressiveStrength: null,
-      compressionFacetCount: 1,
-      deformability: null,
-    };
-  }
-  if (resolved.model === "coulomb") {
-    return {
-      model: resolved.model,
-      approachingHingeRatio,
-      friction: normalizeFriction(resolved, resolver, label),
-      compressiveStrength: null,
-      compressionFacetCount: 1,
-      deformability: null,
-    };
-  }
-  if (resolved.model === "deformable-no-tension") {
-    const integrationPointCount = resolved.normal.integrationPointCount ?? 16;
-    if (!Number.isInteger(integrationPointCount) || integrationPointCount < 2) {
-      throw new Error(
-        `${label}.normal.integrationPointCount must be an integer not smaller than two.`,
-      );
-    }
-    const compressiveStrength =
-      resolved.normal.compressiveStrength === undefined
-        ? null
-        : positive(
-            resolver.stress(resolved.normal.compressiveStrength),
-            `${label}.normal.compressiveStrength`,
-          );
-    const compressionFacetCount = resolved.normal.compressionFacetCount ?? 8;
-    if (!Number.isInteger(compressionFacetCount) || compressionFacetCount < 2) {
-      throw new Error(
-        `${label}.normal.compressionFacetCount must be an integer not smaller than two.`,
-      );
-    }
-    if (
-      resolved.normal.postCrushingBehavior === "perfectly-plastic" &&
-      compressiveStrength === null
-    ) {
-      throw new Error(`${label}.normal perfectly-plastic crushing requires compressiveStrength.`);
-    }
-    return {
-      model: resolved.model,
-      approachingHingeRatio,
-      friction: normalizeFriction(resolved.tangential, resolver, `${label}.tangential`),
-      compressiveStrength,
-      compressionFacetCount,
-      deformability: {
-        normal: {
-          elasticModulus: positive(
-            resolver.stress(resolved.normal.elasticModulus),
-            `${label}.normal.elasticModulus`,
-          ),
-          characteristicLength: positive(
-            resolver.length(resolved.normal.characteristicLength),
-            `${label}.normal.characteristicLength`,
-          ),
-          integrationPointCount,
-          postCrushingBehavior: resolved.normal.postCrushingBehavior ?? "stop-at-onset",
-        },
-        tangential: {
-          shearModulus: positive(
-            resolver.stress(resolved.tangential.shearModulus),
-            `${label}.tangential.shearModulus`,
-          ),
-          characteristicLength: positive(
-            resolver.length(resolved.tangential.characteristicLength),
-            `${label}.tangential.characteristicLength`,
-          ),
-        },
-      },
-    };
-  }
-  const compressionFacetCount = resolved.compressionFacetCount ?? 8;
-  if (!Number.isInteger(compressionFacetCount) || compressionFacetCount < 2) {
-    throw new Error(`${label}.compressionFacetCount must be an integer not smaller than two.`);
-  }
-  return {
-    model: resolved.model,
-    approachingHingeRatio,
-    friction:
-      resolved.friction === undefined
-        ? null
-        : normalizeFriction(resolved.friction, resolver, `${label}.friction`),
-    compressiveStrength: positive(
-      resolver.stress(resolved.compressiveStrength),
-      `${label}.compressiveStrength`,
-    ),
-    compressionFacetCount,
-    deformability: null,
-  };
 }
 
 function normalizeAnchorCapacity(
@@ -556,7 +411,7 @@ export class MasonryArchModel implements NormalizedMasonryArchModel {
   readonly units = INTERNAL_UNITS;
   readonly geometry: NormalizedMasonryArchModel["geometry"];
   readonly masonry: NormalizedMasonryArchModel["masonry"];
-  readonly interfaces: NormalizedMasonryArchModel["interfaces"];
+  readonly interfaceLaw: NormalizedMasonryArchModel["interfaceLaw"];
   readonly supports: NormalizedMasonryArchModel["supports"];
   readonly loads: NormalizedMasonryArchModel["loads"];
   readonly reinforcements: NormalizedMasonryArchModel["reinforcements"];
@@ -582,7 +437,7 @@ export class MasonryArchModel implements NormalizedMasonryArchModel {
           );
     this.masonry = { unitWeight };
 
-    this.interfaces = normalizeInterface(input.interfaces, resolver, "interfaces");
+    this.interfaceLaw = normalizeMasonryInterfaceLaw(input.interfaceLaw, resolver, "interfaceLaw");
 
     for (const [side, support] of [
       ["left", input.supports?.left],
@@ -595,18 +450,18 @@ export class MasonryArchModel implements NormalizedMasonryArchModel {
     this.supports = {
       left: {
         type: "rigid-contact",
-        interface: normalizeInterface(
-          input.supports?.left?.interface ?? input.interfaces,
+        interfaceLaw: normalizeMasonryInterfaceLaw(
+          input.supports?.left?.interfaceLaw ?? input.interfaceLaw,
           resolver,
-          "supports.left.interface",
+          "supports.left.interfaceLaw",
         ),
       },
       right: {
         type: "rigid-contact",
-        interface: normalizeInterface(
-          input.supports?.right?.interface ?? input.interfaces,
+        interfaceLaw: normalizeMasonryInterfaceLaw(
+          input.supports?.right?.interfaceLaw ?? input.interfaceLaw,
           resolver,
-          "supports.right.interface",
+          "supports.right.interfaceLaw",
         ),
       },
     };
@@ -658,7 +513,7 @@ export class MasonryArchModel implements NormalizedMasonryArchModel {
       units: { ...this.units },
       geometry: this.geometry,
       masonry: { ...this.masonry },
-      interfaces: { ...this.interfaces },
+      interfaceLaw: { ...this.interfaceLaw },
       supports: {
         left: { ...this.supports.left },
         right: { ...this.supports.right },
@@ -671,8 +526,16 @@ export class MasonryArchModel implements NormalizedMasonryArchModel {
   }
 }
 
-export function createMasonryArchModel(input: MasonryArchModelInput): MasonryArchModel {
+export function createMasonryArch(input: MasonryArchModelInput): MasonryArchModel {
   return new MasonryArchModel(input);
 }
 
-export const createMasonryArch = createMasonryArchModel;
+export function asMasonryArchModel(
+  model: MasonryArchModel | NormalizedMasonryArchModel | MasonryArchModelInput,
+): NormalizedMasonryArchModel {
+  if (model instanceof MasonryArchModel) return model;
+  if ("schemaVersion" in model && model.schemaVersion === MASONRY_ARCH_MODEL_SCHEMA_VERSION) {
+    return model;
+  }
+  return new MasonryArchModel(model);
+}

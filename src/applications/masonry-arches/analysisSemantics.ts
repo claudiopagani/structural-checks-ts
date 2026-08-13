@@ -176,7 +176,7 @@ export function createMasonryArchAnalysisDescriptor(
     mechanicalModel: {
       blockModel: "rigid-voussoir-chain",
       interfaceResponse: options.interfaceResponse,
-      interfaceModel: model.interfaces.model,
+      constitutiveResponse: model.interfaceLaw.response,
       kinematics: options.kinematics,
     },
     numericalStrategy: options.numericalStrategy,
