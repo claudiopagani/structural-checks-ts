@@ -23,6 +23,12 @@ import {
   resolveMasonryArchInterfaceLaws,
 } from "./interfaceLaws.js";
 import { recoverBondedLayerStaticState } from "./bondedLayers.js";
+import {
+  createMasonryArchAnalysisDescriptor,
+  createMasonryArchLambdaDefinition,
+  effectiveMasonryArchLoadFactors,
+  resolveMasonryArchAnalysisLoads,
+} from "./analysisSemantics.js";
 import type { MasonryArchModel } from "./MasonryArchModel.js";
 import { resolveMasonryArchLoads } from "./resolveMasonryArchLoads.js";
 import {
@@ -54,46 +60,6 @@ function positiveInteger(value: number, label: string): number {
     throw new Error(`${label} must be a positive integer.`);
   }
   return value;
-}
-
-function selectedScalableCases(
-  model: NormalizedMasonryArchModel,
-  ids: readonly string[],
-): ReadonlySet<string> {
-  if (ids.length === 0) {
-    throw new Error("Collapse analysis requires at least one scalable load case id.");
-  }
-  const known = new Set(model.loads.map((load) => load.loadCaseId));
-  const selected = new Set<string>();
-  for (const id of ids) {
-    if (typeof id !== "string" || id.trim().length === 0) {
-      throw new Error("Every scalable load case id must be a non-empty string.");
-    }
-    if (!known.has(id)) throw new Error(`Unknown scalable masonry-arch load case: ${id}.`);
-    if (selected.has(id)) throw new Error(`Duplicate scalable masonry-arch load case: ${id}.`);
-    selected.add(id);
-  }
-  return selected;
-}
-
-function loadFactorPartitions(
-  factors: Readonly<Record<string, number>>,
-  scalable: ReadonlySet<string>,
-): {
-  readonly fixed: Readonly<Record<string, number>>;
-  readonly scalable: Readonly<Record<string, number>>;
-  readonly roles: Readonly<Record<string, "fixed" | "scalable">>;
-} {
-  const fixed: Record<string, number> = {};
-  const scalableFactors: Record<string, number> = {};
-  const roles: Record<string, "fixed" | "scalable"> = {};
-  for (const [id, factor] of Object.entries(factors)) {
-    const isScalable = scalable.has(id);
-    fixed[id] = isScalable ? 0 : factor;
-    scalableFactors[id] = isScalable ? factor : 0;
-    roles[id] = isScalable ? "scalable" : "fixed";
-  }
-  return { fixed, scalable: scalableFactors, roles };
 }
 
 function collapseHinges(
@@ -161,19 +127,6 @@ function scaledMotions(
     },
     rotation: factor * motion.rotation,
   }));
-}
-
-function effectiveFactors(
-  base: Readonly<Record<string, number>>,
-  roles: Readonly<Record<string, "fixed" | "scalable">>,
-  lambda: number | null,
-): Readonly<Record<string, number | null>> {
-  return Object.fromEntries(
-    Object.entries(base).map(([id, factor]) => [
-      id,
-      roles[id] === "scalable" ? (lambda === null ? null : lambda * factor) : factor,
-    ]),
-  );
 }
 
 function filterAppliedLoads(
@@ -324,7 +277,13 @@ export function analyzeMasonryArchCollapse(
   options: AnalyzeMasonryArchCollapseOptions | AnalyzeMasonryArchNonlinearOptions,
 ): MasonryArchCollapseResult | MasonryArchNonlinearResult {
   if (options.geometricNonlinearity === true) {
-    return analyzeMasonryArchNonlinear(modelInput, options);
+    return analyzeMasonryArchNonlinear(modelInput, {
+      ...options,
+      analysisObjective: options.analysisObjective ?? "capacity",
+    });
+  }
+  if (options.analysisObjective !== undefined && options.analysisObjective !== "capacity") {
+    throw new Error("analyzeMasonryArchCollapse supports only analysisObjective: capacity.");
   }
   const equilibriumTolerance = finitePositive(
     options.equilibriumTolerance ?? 1e-9,
@@ -357,15 +316,10 @@ export function analyzeMasonryArchCollapse(
   if (hingeTolerance >= 1) throw new Error("Masonry arch hingeTolerance must be smaller than one.");
 
   const model = asMasonryArchModel(modelInput);
-  const scalableCases = selectedScalableCases(model, options.scalableLoadCaseIds);
-  const baseLoads = resolveMasonryArchLoads(model, {
-    ...(options.loadCombination === undefined ? {} : { loadCombination: options.loadCombination }),
-  });
-  const partitions = loadFactorPartitions(baseLoads.loadFactorsByCaseId, scalableCases);
-  const fixedLoads = resolveMasonryArchLoads(model, { loadFactorsByCaseId: partitions.fixed });
-  const scalableLoads = resolveMasonryArchLoads(model, {
-    loadFactorsByCaseId: partitions.scalable,
-  });
+  const analysisLoads = resolveMasonryArchAnalysisLoads(model, options);
+  const baseLoads = analysisLoads.base;
+  const fixedLoads = analysisLoads.fixed;
+  const scalableLoads = analysisLoads.scalable;
   const resolvedReinforcements = resolveArchReinforcements(model);
   const fixedReinforcementFailureMode: MasonryArchFailureMode | null =
     resolvedReinforcements.hasReinforcementFailure
@@ -416,9 +370,9 @@ export function analyzeMasonryArchCollapse(
   const governingLeftReaction = fixedEquilibrium?.leftReaction ?? collapse.leftReaction;
   const governingRightReaction = fixedEquilibrium?.rightReaction ?? collapse.rightReaction;
   const governingResidual = fixedEquilibrium?.residual ?? collapse.residual;
-  const atCollapseFactors = effectiveFactors(
+  const atCollapseFactors = effectiveMasonryArchLoadFactors(
     baseLoads.loadFactorsByCaseId,
-    partitions.roles,
+    analysisLoads.roleByCaseId,
     lambda,
   );
   const totalLoads =
@@ -684,9 +638,41 @@ export function analyzeMasonryArchCollapse(
       : collapse.status === "optimal"
         ? ("maximum-static-admissibility" as const)
         : ("not-determined" as const);
+  const analysisOutcome =
+    lambda !== null &&
+    (collapse.status === "optimal" ||
+      collapse.status === "fixed-load-infeasible" ||
+      fixedReinforcementFailureMode !== null)
+      ? ({
+          objective: "capacity",
+          objectiveStatus: "satisfied",
+          terminationCategory: "physical-limit",
+          lambdaAtTermination: lambda,
+        } as const)
+      : collapse.status === "unbounded"
+        ? ({
+            objective: "capacity",
+            objectiveStatus: "not-reached",
+            terminationCategory: "model-boundary",
+            lambdaAtTermination: null,
+          } as const)
+        : ({
+            objective: "capacity",
+            objectiveStatus: "not-verifiable",
+            terminationCategory: "numerical-failure",
+            lambdaAtTermination: lambda,
+          } as const);
 
   const outputs: MasonryArchCollapseOutputs = {
     modelId: model.id,
+    analysis: createMasonryArchAnalysisDescriptor(model, {
+      analysisObjective: "capacity",
+      interfaceResponse: "rigid-plastic-resultant-domain",
+      kinematics: "reference-geometry",
+      numericalStrategy: { type: "direct-static-limit", control: null },
+      lambda: createMasonryArchLambdaDefinition(analysisLoads, lambda),
+    }),
+    analysisOutcome,
     geometry: model.geometry,
     lambdaCritical: lambda,
     limitMeaning,
@@ -703,14 +689,14 @@ export function analyzeMasonryArchCollapse(
     loadCases: {
       baseCombinationFactorsByCaseId: baseLoads.loadFactorsByCaseId,
       effectiveFactorsAtCollapseByCaseId: atCollapseFactors,
-      roleByCaseId: partitions.roles,
+      roleByCaseId: analysisLoads.roleByCaseId,
     },
     loadFactorCheck,
     loads: {
-      fixed: filterAppliedLoads(fixedLoads.appliedLoads, partitions.roles, "fixed"),
+      fixed: filterAppliedLoads(fixedLoads.appliedLoads, analysisLoads.roleByCaseId, "fixed"),
       scalableAtUnitLambda: filterAppliedLoads(
         scalableLoads.appliedLoads,
-        partitions.roles,
+        analysisLoads.roleByCaseId,
         "scalable",
       ),
       totalAtCollapse: totalLoads?.appliedLoads ?? [],
@@ -817,6 +803,11 @@ export function analyzeMasonryArchCollapse(
       axes: { x: "right", y: "up", moment: "counter-clockwise" },
       interfaceOrdering: "left-springing-to-right-springing",
       solutionMeaning: limitMeaning,
+      analysisObjective: "capacity",
+      mechanicalModel: "rigid-plastic-resultant-domain",
+      numericalMethod: "direct-static-limit",
+      control: null,
+      lambdaDefinition: outputs.analysis.lambda,
       geometricNonlinearity: false,
       loadCombinationId: options.loadCombination?.id ?? null,
       loadCombinationType: options.loadCombination?.combinationType ?? null,

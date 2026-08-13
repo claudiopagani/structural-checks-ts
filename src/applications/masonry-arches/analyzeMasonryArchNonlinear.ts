@@ -27,10 +27,9 @@ import {
 import { asMasonryArchModel } from "./analyzeMasonryArchState.js";
 import { evaluateMasonryArchInterfaceConfigurationForSolver } from "./evaluateArchInterfaceConfiguration.js";
 import type { MasonryArchModel } from "./MasonryArchModel.js";
-import {
-  resolveMasonryArchLoads,
-  type MasonryArchResolvedLoadAction,
-  type ResolvedMasonryArchLoads,
+import type {
+  MasonryArchResolvedLoadAction,
+  ResolvedMasonryArchLoads,
 } from "./resolveMasonryArchLoads.js";
 import { evaluateArchReinforcementConfiguration } from "./resolveArchReinforcements.js";
 import { resolveBondedLayerInterfaceSections } from "./bondedLayers.js";
@@ -38,6 +37,9 @@ import type {
   ArchAnchorForceResult,
   ArchContactForceResult,
   ArchReinforcementStateResult,
+  MasonryArchAnalysisDescriptor,
+  MasonryArchAnalysisObjective,
+  MasonryArchAnalysisOutcome,
   BondedLayerStateResult,
   MasonryArchBlockDisplacementInput,
   MasonryArchFailureMode,
@@ -46,8 +48,15 @@ import type {
   NormalizedMasonryArchBlockDisplacement,
   NormalizedMasonryArchModel,
 } from "./types.js";
+import {
+  createMasonryArchAnalysisDescriptor,
+  createMasonryArchLambdaDefinition,
+  effectiveMasonryArchLoadFactors,
+  resolveMasonryArchAnalysisLoads,
+  type ResolvedMasonryArchAnalysisLoads,
+} from "./analysisSemantics.js";
 
-export const MASONRY_ARCH_NONLINEAR_RESULT_SCHEMA_VERSION = "1.2.0";
+export const MASONRY_ARCH_NONLINEAR_RESULT_SCHEMA_VERSION = "2.0.0";
 
 export interface MasonryArchNonlinearLoadControl {
   readonly type: "load";
@@ -94,6 +103,8 @@ export type MasonryArchNonlinearControl =
 export interface AnalyzeMasonryArchNonlinearOptions {
   readonly units: UnitSystemInput;
   readonly geometricNonlinearity: true;
+  /** Defaults to `advanced-path`; legacy calls routed through collapse default to `capacity`. */
+  readonly analysisObjective?: MasonryArchAnalysisObjective;
   readonly loadCombination?: MasonryArchLoadCombinationLike | null;
   readonly scalableLoadCaseIds: readonly string[];
   readonly control: MasonryArchNonlinearControl;
@@ -129,6 +140,8 @@ export interface MasonryArchNonlinearHistoryPoint {
   readonly stage: "fixed-preload" | "scalable-loading";
   readonly fixedLoadFactor: number;
   readonly lambda: number;
+  /** Effective case factors at this converged step, including fixed-load initialization. */
+  readonly effectiveLoadFactorsByCaseId: Readonly<Record<string, number>>;
   readonly controlDisplacement: number;
   readonly iterations: number;
   readonly blockDisplacements: readonly NormalizedMasonryArchBlockDisplacement[];
@@ -152,7 +165,19 @@ export interface MasonryArchNonlinearEquilibriumResult {
 
 export interface MasonryArchNonlinearOutputs extends Record<string, unknown> {
   readonly modelId: string;
+  readonly analysis: MasonryArchAnalysisDescriptor;
+  readonly analysisOutcome: MasonryArchAnalysisOutcome;
   readonly lambdaCritical: number | null;
+  readonly limitState: {
+    readonly lambda: number;
+    readonly failureMode: MasonryArchFailureMode;
+  } | null;
+  readonly designStateCheck: {
+    readonly criterion: "factored-load-state-at-lambda-one";
+    readonly demand: 1;
+    readonly reachedLambda: number;
+    readonly status: "pass" | "fail" | "not-verifiable";
+  } | null;
   readonly failureMode: MasonryArchFailureMode;
   readonly control: MasonryArchNonlinearControl;
   readonly history: readonly MasonryArchNonlinearHistoryPoint[];
@@ -1342,38 +1367,6 @@ function controlValue(q: readonly number[], referenceQ: readonly number[], dof: 
   return q[dof]! - referenceQ[dof]!;
 }
 
-function selectedScalableCases(
-  model: NormalizedMasonryArchModel,
-  ids: readonly string[],
-): ReadonlySet<string> {
-  if (ids.length === 0)
-    throw new Error("Nonlinear analysis requires at least one scalable load case id.");
-  const known = new Set(model.loads.map((load) => load.loadCaseId));
-  const selected = new Set<string>();
-  for (const id of ids) {
-    if (!known.has(id)) throw new Error(`Unknown scalable masonry-arch load case: ${id}.`);
-    if (selected.has(id)) throw new Error(`Duplicate scalable masonry-arch load case: ${id}.`);
-    selected.add(id);
-  }
-  return selected;
-}
-
-function loadPartitions(
-  factors: Readonly<Record<string, number>>,
-  scalable: ReadonlySet<string>,
-): {
-  readonly fixed: Readonly<Record<string, number>>;
-  readonly scalable: Readonly<Record<string, number>>;
-} {
-  const fixed: Record<string, number> = {};
-  const scalableFactors: Record<string, number> = {};
-  for (const [id, factor] of Object.entries(factors)) {
-    fixed[id] = scalable.has(id) ? 0 : factor;
-    scalableFactors[id] = scalable.has(id) ? factor : 0;
-  }
-  return { fixed, scalable: scalableFactors };
-}
-
 function actionScale(...groups: readonly ResolvedMasonryArchLoads[]): number {
   return Math.max(
     1,
@@ -1537,6 +1530,103 @@ function arcLengthPredictor(
   };
 }
 
+function validateNonlinearMechanicalModel(model: NormalizedMasonryArchModel): void {
+  const entries = [
+    ["supports.left.interface", model.supports.left.interface],
+    ["interfaces", model.interfaces],
+    ["supports.right.interface", model.supports.right.interface],
+  ] as const;
+  const incompatible = entries
+    .filter(([, item]) => item.deformability === null)
+    .map(([label]) => label);
+  if (incompatible.length > 0) {
+    throw new Error(
+      `The deformable-interface mechanical model requires model "deformable-no-tension" with explicit deformability at: ${incompatible.join(
+        ", ",
+      )}.`,
+    );
+  }
+}
+
+function resolveAnalysisObjective(
+  options: AnalyzeMasonryArchNonlinearOptions,
+): MasonryArchAnalysisObjective {
+  const objective = options.analysisObjective ?? "advanced-path";
+  if (
+    objective !== "design-state-check" &&
+    objective !== "capacity" &&
+    objective !== "advanced-path"
+  ) {
+    throw new Error(`Unsupported masonry-arch analysisObjective: ${String(objective)}.`);
+  }
+  if (objective === "design-state-check") {
+    if (options.control.type !== "load" || Math.abs(options.control.targetLambda - 1) > 1e-12) {
+      throw new Error(
+        "analysisObjective: design-state-check currently requires load control with targetLambda: 1.",
+      );
+    }
+  }
+  if (objective !== "advanced-path" && options.stopAtFirstMaterialLimit === false) {
+    throw new Error(
+      `${objective} requires stopAtFirstMaterialLimit to remain enabled so a physical limit is not crossed silently.`,
+    );
+  }
+  return objective;
+}
+
+function effectiveStepLoadFactors(
+  loading: ResolvedMasonryArchAnalysisLoads,
+  lambda: number,
+  fixedLoadFactor: number,
+): Readonly<Record<string, number>> {
+  const factors = effectiveMasonryArchLoadFactors(
+    loading.base.loadFactorsByCaseId,
+    loading.roleByCaseId,
+    lambda,
+    fixedLoadFactor,
+  );
+  return Object.fromEntries(
+    Object.entries(factors).map(([id, factor]) => {
+      if (factor === null) throw new Error(`Missing effective load factor for ${id}.`);
+      return [id, factor];
+    }),
+  );
+}
+
+function nonlinearAnalysisOutcome(
+  objective: MasonryArchAnalysisObjective,
+  termination: MasonryArchNonlinearOutputs["convergenceInfo"]["termination"],
+  lambda: number,
+): MasonryArchAnalysisOutcome {
+  if (termination === "target-reached") {
+    return {
+      objective,
+      objectiveStatus: objective === "capacity" ? "not-reached" : "satisfied",
+      terminationCategory: "engineering-target",
+      lambdaAtTermination: lambda,
+    };
+  }
+  if (termination === "material-limit") {
+    return {
+      objective,
+      objectiveStatus:
+        objective === "capacity"
+          ? "satisfied"
+          : objective === "design-state-check"
+            ? "not-satisfied"
+            : "not-reached",
+      terminationCategory: "physical-limit",
+      lambdaAtTermination: lambda,
+    };
+  }
+  return {
+    objective,
+    objectiveStatus: "not-verifiable",
+    terminationCategory: "numerical-failure",
+    lambdaAtTermination: Number.isFinite(lambda) ? lambda : null,
+  };
+}
+
 export function analyzeMasonryArchNonlinear(
   modelInput: MasonryArchModel | NormalizedMasonryArchModel | MasonryArchModelInput,
   options: AnalyzeMasonryArchNonlinearOptions,
@@ -1544,7 +1634,9 @@ export function analyzeMasonryArchNonlinear(
   if (options.geometricNonlinearity !== true) {
     throw new Error("Nonlinear masonry-arch analysis requires geometricNonlinearity: true.");
   }
+  const analysisObjective = resolveAnalysisObjective(options);
   const model = asMasonryArchModel(modelInput);
+  validateNonlinearMechanicalModel(model);
   const analysisSourceUnits = assertExplicitUnitSystem(
     options.units,
     "AnalyzeMasonryArchNonlinearOptions",
@@ -1582,15 +1674,9 @@ export function analyzeMasonryArchNonlinear(
   );
   if (minimumLineSearchFactor >= 1)
     throw new Error("Nonlinear minimumLineSearchFactor must be smaller than one.");
-  const scalableCases = selectedScalableCases(model, options.scalableLoadCaseIds);
-  const baseLoads = resolveMasonryArchLoads(model, {
-    ...(options.loadCombination === undefined ? {} : { loadCombination: options.loadCombination }),
-  });
-  const partitions = loadPartitions(baseLoads.loadFactorsByCaseId, scalableCases);
-  const fixedLoads = resolveMasonryArchLoads(model, { loadFactorsByCaseId: partitions.fixed });
-  const scalableLoads = resolveMasonryArchLoads(model, {
-    loadFactorsByCaseId: partitions.scalable,
-  });
+  const analysisLoads = resolveMasonryArchAnalysisLoads(model, options);
+  const fixedLoads = analysisLoads.fixed;
+  const scalableLoads = analysisLoads.scalable;
   const context: SolverContext = {
     model,
     fixedLoads,
@@ -1631,6 +1717,7 @@ export function analyzeMasonryArchNonlinear(
   let stepNumber = 0;
   let termination: MasonryArchNonlinearOutputs["convergenceInfo"]["termination"] = "maximum-steps";
   let failureMode: MasonryArchFailureMode = "no-collapse-within-model";
+  const stopAtFirstMaterialLimit = options.stopAtFirstMaterialLimit ?? true;
   const selectedControlDof = controlDof(
     model,
     normalizedControl.type === "load" || normalizedControl.type === "arc-length"
@@ -1676,6 +1763,7 @@ export function analyzeMasonryArchNonlinear(
       stage: "fixed-preload",
       fixedLoadFactor: preloadFactor,
       lambda: 0,
+      effectiveLoadFactorsByCaseId: effectiveStepLoadFactors(analysisLoads, 0, preloadFactor),
       controlDisplacement: 0,
       iterations: solved.iterations,
       blockDisplacements: solved.evaluation.displacements,
@@ -1695,7 +1783,7 @@ export function analyzeMasonryArchNonlinear(
       equilibrium: equilibriumResult(context, solved.evaluation),
     });
     const preloadMaterialLimit = classifyMaterialLimit(solved.evaluation);
-    if (preloadMaterialLimit !== null && (options.stopAtFirstMaterialLimit ?? true)) {
+    if (preloadMaterialLimit !== null && stopAtFirstMaterialLimit) {
       failureMode = preloadMaterialLimit;
       termination = "material-limit";
       break;
@@ -1747,6 +1835,7 @@ export function analyzeMasonryArchNonlinear(
           stage: "scalable-loading",
           fixedLoadFactor: 1,
           lambda,
+          effectiveLoadFactorsByCaseId: effectiveStepLoadFactors(analysisLoads, lambda, 1),
           controlDisplacement: q[selectedControlDof]! - referenceQ[selectedControlDof]!,
           iterations: solved.iterations,
           blockDisplacements: solved.evaluation.displacements,
@@ -1766,7 +1855,7 @@ export function analyzeMasonryArchNonlinear(
           equilibrium: equilibriumResult(context, solved.evaluation),
         });
         const materialLimit = classifyMaterialLimit(solved.evaluation);
-        if (materialLimit !== null && (options.stopAtFirstMaterialLimit ?? true)) {
+        if (materialLimit !== null && stopAtFirstMaterialLimit) {
           failureMode = materialLimit;
           termination = "material-limit";
           break;
@@ -1851,6 +1940,7 @@ export function analyzeMasonryArchNonlinear(
           stage: "scalable-loading",
           fixedLoadFactor: 1,
           lambda,
+          effectiveLoadFactorsByCaseId: effectiveStepLoadFactors(analysisLoads, lambda, 1),
           controlDisplacement: controlValue(q, referenceQ, selectedControlDof),
           iterations: solved.iterations,
           blockDisplacements: solved.evaluation.displacements,
@@ -1870,7 +1960,7 @@ export function analyzeMasonryArchNonlinear(
           equilibrium: equilibriumResult(context, solved.evaluation),
         });
         const materialLimit = classifyMaterialLimit(solved.evaluation);
-        if (materialLimit !== null && (options.stopAtFirstMaterialLimit ?? true)) {
+        if (materialLimit !== null && stopAtFirstMaterialLimit) {
           failureMode = materialLimit;
           termination = "material-limit";
           break;
@@ -1971,6 +2061,7 @@ export function analyzeMasonryArchNonlinear(
           stage: "scalable-loading",
           fixedLoadFactor: 1,
           lambda,
+          effectiveLoadFactorsByCaseId: effectiveStepLoadFactors(analysisLoads, lambda, 1),
           controlDisplacement: controlValue(q, referenceQ, selectedControlDof),
           iterations: solved.iterations,
           blockDisplacements: solved.evaluation.displacements,
@@ -1990,7 +2081,7 @@ export function analyzeMasonryArchNonlinear(
           equilibrium: equilibriumResult(context, solved.evaluation),
         });
         const materialLimit = classifyMaterialLimit(solved.evaluation);
-        if (materialLimit !== null && (options.stopAtFirstMaterialLimit ?? true)) {
+        if (materialLimit !== null && stopAtFirstMaterialLimit) {
           failureMode = materialLimit;
           termination = "material-limit";
           break;
@@ -2014,11 +2105,30 @@ export function analyzeMasonryArchNonlinear(
     ...model.reinforcements.map((item) => item.id),
     ...model.bondedLayers.map((item) => item.id),
   ];
-  const critical = termination === "material-limit" || termination === "minimum-step";
+  const physicalLimitReached = termination === "material-limit";
+  const analysisOutcome = nonlinearAnalysisOutcome(analysisObjective, termination, lambda);
+  const numericalConvergence =
+    (termination === "target-reached" || physicalLimitReached) &&
+    equilibrium.maximumNormalizedBlockResidual <= tolerance;
   const successful =
+    analysisOutcome.objectiveStatus === "satisfied" &&
     termination === "target-reached" &&
-    equilibrium.maximumNormalizedBlockResidual <= tolerance &&
-    failureMode === "no-collapse-within-model";
+    numericalConvergence;
+  const lambdaCritical = analysisObjective === "capacity" && physicalLimitReached ? lambda : null;
+  const designStateCheck =
+    analysisObjective === "design-state-check"
+      ? {
+          criterion: "factored-load-state-at-lambda-one" as const,
+          demand: 1 as const,
+          reachedLambda: lambda,
+          status:
+            analysisOutcome.objectiveStatus === "satisfied"
+              ? ("pass" as const)
+              : analysisOutcome.objectiveStatus === "not-satisfied"
+                ? ("fail" as const)
+                : ("not-verifiable" as const),
+        }
+      : null;
   const linearSolver =
     context.linearSolverMethods.size > 1
       ? ("hybrid-compact-banded-and-dense-gaussian-elimination" as const)
@@ -2027,7 +2137,21 @@ export function analyzeMasonryArchNonlinear(
         : ("compact-banded-gaussian-elimination-partial-pivoting" as const);
   const outputs: MasonryArchNonlinearOutputs = {
     modelId: model.id,
-    lambdaCritical: critical ? lambda : null,
+    analysis: createMasonryArchAnalysisDescriptor(model, {
+      analysisObjective,
+      interfaceResponse: "deformable-zero-thickness-interfaces",
+      kinematics: "finite-rigid-block",
+      numericalStrategy: { type: "incremental-continuation", control: normalizedControl.type },
+      lambda: createMasonryArchLambdaDefinition(
+        analysisLoads,
+        lambda,
+        preloadCompleted ? 1 : preloadFactor,
+      ),
+    }),
+    analysisOutcome,
+    lambdaCritical,
+    limitState: physicalLimitReached ? { lambda, failureMode } : null,
+    designStateCheck,
     failureMode,
     control: normalizedControl,
     history,
@@ -2058,7 +2182,7 @@ export function analyzeMasonryArchNonlinear(
     },
     equilibrium,
     convergenceInfo: {
-      converged: successful || termination === "material-limit",
+      converged: numericalConvergence,
       termination,
       completedSteps: history.length,
       totalIterations,
@@ -2089,14 +2213,18 @@ export function analyzeMasonryArchNonlinear(
     applicationId: "masonry-arch-nonlinear",
     status: successful
       ? RESULT_STATUS.OK
-      : critical
+      : physicalLimitReached || analysisOutcome.objectiveStatus === "not-reached"
         ? RESULT_STATUS.NOT_VERIFIED
         : RESULT_STATUS.FAILED,
     summary: successful
-      ? `The nonlinear path reached the requested target at displacement ${finalControlDisplacement}.`
-      : critical
+      ? analysisObjective === "design-state-check"
+        ? "The factored design state at lambda = 1 was reached and equilibrated."
+        : `The advanced nonlinear path reached the requested target at displacement ${finalControlDisplacement}.`
+      : physicalLimitReached
         ? `The nonlinear path reached ${failureMode} at lambda ${lambda}.`
-        : "The nonlinear path did not reach the requested target.",
+        : analysisObjective === "capacity" && termination === "target-reached"
+          ? "The requested continuation target was reached before a physical capacity limit was identified."
+          : "The nonlinear path did not satisfy its engineering objective.",
     outputs,
     warnings: [...warnings, ...finalEvaluation.reinforcement.warnings],
     assumptions: [
@@ -2109,6 +2237,8 @@ export function analyzeMasonryArchNonlinear(
       "Intrados reinforcement follows rigid deviators; an extrados tendon uses a compression-only taut-cable contact envelope.",
       "Bonded layers are local tension-only membrane springs with explicit transfer length and assigned tensile/debonding capacity.",
       "Load control uses adaptive cutback; displacement control uses an augmented equilibrium equation.",
+      "The engineering analysis objective is independent from the selected continuation control.",
+      "F(lambda) = F_fixed + lambda * F_scalable after combination factors; initial prestress and deformation-dependent response quantities are not scaled by lambda.",
     ],
     metadata: {
       schemaVersion: MASONRY_ARCH_NONLINEAR_RESULT_SCHEMA_VERSION,
@@ -2118,6 +2248,11 @@ export function analyzeMasonryArchNonlinear(
       units: model.units,
       axes: { x: "right", y: "up", moment: "counter-clockwise" },
       solutionMeaning: "incremental-deformable-interface-equilibrium",
+      analysisObjective,
+      mechanicalModel: "deformable-zero-thickness-interfaces",
+      numericalMethod: "incremental-continuation",
+      control: normalizedControl.type,
+      lambdaDefinition: outputs.analysis.lambda,
       geometricNonlinearity: true,
       loadCombinationId: options.loadCombination?.id ?? null,
       loadCombinationType: options.loadCombination?.combinationType ?? null,

@@ -15,6 +15,10 @@ diagnostics, and the reviewed literature-evidence register are also implemented.
 outside the declared scope remain unavailable unless stated otherwise in the technical
 documentation.
 
+Decision 0007 refines the public analysis semantics without changing this mechanical foundation. It
+separates mechanical model, engineering objective, and numerical strategy, and makes the complete
+analysis-local definition of `lambda` part of every relevant result.
+
 The record commits Milestones 1 through 8 to the accepted geometry, load, interface,
 representative-state, static limit-analysis, non-associated sliding, finite-compression, and
 kinematic active-set choices, together with the reinforcement and comparison decisions below. No
@@ -602,6 +606,7 @@ const state = analyzeMasonryArchState(model, {
   loadFactorsByCaseId,
 });
 const collapse = analyzeMasonryArchCollapse(model, {
+  analysisObjective: "capacity",
   loadCombination,
   scalableLoadCaseIds: ["Q-leading"],
   geometricNonlinearity: false,

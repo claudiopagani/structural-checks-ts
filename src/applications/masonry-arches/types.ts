@@ -10,13 +10,88 @@ import type {
 } from "../../domain/masonry/rigid-blocks/types.js";
 
 export const MASONRY_ARCH_MODEL_SCHEMA_VERSION = "1.1.0";
-export const MASONRY_ARCH_STATE_RESULT_SCHEMA_VERSION = "1.1.0";
-export const MASONRY_ARCH_COLLAPSE_RESULT_SCHEMA_VERSION = "1.1.0";
+export const MASONRY_ARCH_STATE_RESULT_SCHEMA_VERSION = "1.2.0";
+export const MASONRY_ARCH_COLLAPSE_RESULT_SCHEMA_VERSION = "1.2.0";
 
 export type MasonryArchReferenceCurve = "intrados" | "centerline" | "extrados";
 export type MasonryArchAngleUnits = "deg" | "rad";
 export type MasonryArchDistributionBasis = "horizontal-projection" | "arc-length";
 export type MasonryArchLoadApplicationCurve = MasonryArchReferenceCurve;
+
+/** Engineering purpose of an analysis, independent from its mechanical model and solver control. */
+export type MasonryArchAnalysisObjective = "design-state-check" | "capacity" | "advanced-path";
+
+export type MasonryArchContinuationControlType = "load" | "displacement" | "arc-length";
+
+export type MasonryArchMechanicalResponse =
+  | "rigid-plastic-resultant-domain"
+  | "deformable-zero-thickness-interfaces";
+
+export type MasonryArchNumericalStrategy =
+  | {
+      readonly type: "representative-static-equilibrium";
+      readonly control: null;
+    }
+  | {
+      readonly type: "direct-static-limit";
+      readonly control: null;
+    }
+  | {
+      readonly type: "incremental-continuation";
+      readonly control: MasonryArchContinuationControlType;
+    };
+
+export type MasonryArchLambdaExcludedQuantity =
+  | "initial-tendon-force"
+  | "passive-tendon-compatibility-force"
+  | "support-reactions"
+  | "contact-actions"
+  | "deviator-actions"
+  | "other-solved-response-quantities";
+
+/** Complete, analysis-local definition of the load proportionality parameter. */
+export interface MasonryArchLambdaDefinition {
+  readonly active: boolean;
+  readonly expression: "F(lambda) = F_fixed + lambda * F_scalable";
+  readonly combinationFactorsAppliedBeforePartition: true;
+  readonly fixedLoadCaseIds: readonly string[];
+  readonly scalableLoadCaseIds: readonly string[];
+  readonly baseCombinationFactorsByCaseId: Readonly<Record<string, number>>;
+  readonly effectiveLoadFactorsByCaseId: Readonly<Record<string, number | null>>;
+  readonly currentValue: number | null;
+  readonly lambdaEqualsOneMeaning: string;
+  readonly excludedQuantities: readonly MasonryArchLambdaExcludedQuantity[];
+}
+
+/** The three independent semantic levels governing one masonry-arch analysis. */
+export interface MasonryArchAnalysisDescriptor {
+  readonly analysisObjective: MasonryArchAnalysisObjective;
+  readonly mechanicalModel: {
+    readonly blockModel: "rigid-voussoir-chain";
+    readonly interfaceResponse: MasonryArchMechanicalResponse;
+    readonly interfaceModel: NormalizedMasonryArchInterface["model"];
+    readonly kinematics: "reference-geometry" | "finite-rigid-block";
+  };
+  readonly numericalStrategy: MasonryArchNumericalStrategy;
+  readonly lambda: MasonryArchLambdaDefinition;
+}
+
+export type MasonryArchObjectiveStatus =
+  | "satisfied"
+  | "not-satisfied"
+  | "not-reached"
+  | "not-verifiable";
+
+export interface MasonryArchAnalysisOutcome {
+  readonly objective: MasonryArchAnalysisObjective;
+  readonly objectiveStatus: MasonryArchObjectiveStatus;
+  readonly terminationCategory:
+    | "engineering-target"
+    | "physical-limit"
+    | "numerical-failure"
+    | "model-boundary";
+  readonly lambdaAtTermination: number | null;
+}
 
 export interface CircularMasonryArchProfileInput {
   readonly type: "circular";
@@ -578,6 +653,8 @@ export interface MasonryArchLoadCombinationLike {
 }
 
 export interface AnalyzeMasonryArchStateOptions {
+  /** Defaults to `design-state-check`; no other objective is accepted by this assigned-state API. */
+  readonly analysisObjective?: "design-state-check";
   readonly loadCombination?: MasonryArchLoadCombinationLike | null;
   readonly loadFactorsByCaseId?: Readonly<Record<string, number>>;
   readonly geometricNonlinearity?: false;
@@ -586,6 +663,8 @@ export interface AnalyzeMasonryArchStateOptions {
 }
 
 export interface AnalyzeMasonryArchCollapseOptions {
+  /** Defaults to `capacity`; the direct static-limit API accepts no other objective. */
+  readonly analysisObjective?: "capacity";
   readonly loadCombination?: MasonryArchLoadCombinationLike | null;
   /** Load cases whose already-factored contribution is multiplied by lambda. */
   readonly scalableLoadCaseIds: readonly string[];
@@ -855,6 +934,7 @@ export interface MasonryArchInterfaceStateResult {
 
 export interface MasonryArchStateOutputs extends Record<string, unknown> {
   readonly modelId: string;
+  readonly analysis: MasonryArchAnalysisDescriptor;
   readonly geometry: NormalizedMasonryArchGeometry;
   readonly loadFactorsByCaseId: Readonly<Record<string, number>>;
   readonly appliedLoads: readonly MasonryArchAppliedLoadResult[];
@@ -926,6 +1006,8 @@ export interface MasonryArchCollapseHingeResult {
 
 export interface MasonryArchCollapseOutputs extends Record<string, unknown> {
   readonly modelId: string;
+  readonly analysis: MasonryArchAnalysisDescriptor;
+  readonly analysisOutcome: MasonryArchAnalysisOutcome;
   readonly geometry: NormalizedMasonryArchGeometry;
   readonly lambdaCritical: number | null;
   readonly limitMeaning:

@@ -180,6 +180,10 @@ alternative.
 
 ## Consequences for the public API
 
+Decision 0007 subsequently separates the engineering `analysisObjective` from the continuation
+`control`. The control alternatives below remain numerical strategies and no longer imply capacity
+or advanced-path meaning by themselves.
+
 - `geometricNonlinearity: true` requires a deformable interface family and must reject an ideal
   Heyman-only model for load-deformation analysis.
 - Nonlinear options need load-step, minimum-step, residual, iteration, line-search, and control-DOF

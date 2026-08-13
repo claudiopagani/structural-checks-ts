@@ -44,6 +44,37 @@ tendons and bonded layers. The declared simplified single-span scope is `impleme
 application range remains `not-validated`. The implemented mechanisms are tested, but the library
 does not claim universal material calibration or bridge-level validation.
 
+## Analysis semantics
+
+Every analysis now reports three independent semantic levels under `outputs.analysis`:
+
+1. `mechanicalModel` identifies the rigid-voussoir model, interface response, and reference or
+   finite kinematics actually used;
+2. `analysisObjective` identifies the engineering purpose;
+3. `numericalStrategy` identifies the direct solver or continuation control.
+
+The public engineering objectives are:
+
+```ts
+type MasonryArchAnalysisObjective = "design-state-check" | "capacity" | "advanced-path";
+```
+
+They are independent from nonlinear continuation control:
+
+```ts
+type MasonryArchContinuationControlType = "load" | "displacement" | "arc-length";
+```
+
+For example, load control can reach the assigned design state, search toward capacity, or trace a
+requested portion of an advanced path. Selecting load, displacement, or arc-length control does not
+by itself assign an engineering meaning to the result.
+
+`analyzeMasonryArchState` is the assigned `design-state-check` boundary.
+`analyzeMasonryArchCollapse` is retained as the `capacity` boundary and compatibility router. Direct
+`analyzeMasonryArchNonlinear` calls default to `advanced-path`; callers should state the objective
+explicitly in new code. A nonlinear call routed through `analyzeMasonryArchCollapse` defaults to
+`capacity` for compatibility.
+
 ## Public API
 
 The module is available from the declared wildcard application subpath:
@@ -96,6 +127,7 @@ const model = createMasonryArch({
 const state = analyzeMasonryArchState(model);
 
 const collapse = analyzeMasonryArchCollapse(model, {
+  analysisObjective: "capacity",
   scalableLoadCaseIds: ["Q"],
 });
 ```
@@ -215,6 +247,7 @@ Arc-length continuation is selected explicitly:
 
 ```ts
 const path = analyzeMasonryArchNonlinear(model, {
+  analysisObjective: "advanced-path",
   geometricNonlinearity: true,
   scalableLoadCaseIds: ["Q"],
   control: {
@@ -251,6 +284,7 @@ const comparison = compareMasonryArchModels(
       model: passiveTendonModel,
       analysisOptions: {
         units: { force: "kN", length: "m" },
+        analysisObjective: "capacity",
         geometricNonlinearity: true,
         scalableLoadCaseIds: ["Q"],
         control: {
@@ -284,6 +318,7 @@ The deformable model may be followed using load control:
 ```ts
 const path = analyzeMasonryArchNonlinear(deformableModel, {
   units: { force: "kN", length: "mm" },
+  analysisObjective: "advanced-path",
   geometricNonlinearity: true,
   scalableLoadCaseIds: ["Q"],
   linearSolver: "automatic",
@@ -302,6 +337,7 @@ or by one block degree of freedom:
 ```ts
 const path = analyzeMasonryArchCollapse(deformableModel, {
   units: { force: "kN", length: "mm" },
+  analysisObjective: "capacity",
   geometricNonlinearity: true,
   scalableLoadCaseIds: ["Q"],
   control: {
@@ -429,15 +465,18 @@ per-block wrenches and per-load global resultants are public outputs.
 
 ## Collapse multiplier and load-case selection
 
-The fixed/scalable partition belongs to each collapse analysis, not permanently to the physical load
-or model. A UI checkbox can therefore be mapped directly to `scalableLoadCaseIds`. The same load
-case may be fixed in one analysis and scalable in another.
+The fixed/scalable partition belongs to each load-proportional analysis, not permanently to the
+physical load or model. A UI checkbox can therefore be mapped directly to `scalableLoadCaseIds`. The
+same load case may be fixed in one analysis and scalable in another.
 
-For each supplied combination, its existing factors are resolved first. The selected factored load
-cases then share one non-negative multiplier:
+For each supplied combination, its existing factors are resolved first. The analysis then partitions
+the factored load field and the selected cases share one scalar multiplier:
 
 ```text
-F(lambda) = sum(gamma_j F_j,fixed) + lambda sum(gamma_k F_k,scalable)
+F(lambda) = F_fixed + lambda * F_scalable
+
+F_fixed    = sum(gamma_j F_j,fixed)
+F_scalable = sum(gamma_k F_k,scalable)
 ```
 
 For example, with `gamma_G1 = 1.3`, `gamma_Q = 1.5`, and only `Q` selected, the critical load field
@@ -449,6 +488,36 @@ load-factor check with `demand = 1`, `capacity = lambdaCritical`, and
 `utilizationRatio = 1 / lambdaCritical`. Numerical analysis success and this engineering check are
 kept separate: a correctly computed multiplier below one is an analysis result with a failed
 load-factor check.
+
+This supports, without changing the physical load definitions:
+
+```text
+G + lambda Q
+lambda (G + Q)
+G1 + lambda (G2 + Q1)
+```
+
+Any number of load cases may share the same `lambda`. The partition remains local to the individual
+analysis and is never stored as a permanent property of a load or load case.
+
+`lambda` scales external load-case contributions only. It does not scale initial tendon force `T0`,
+the compatible force developed by a passive tendon, support reactions, contact actions, deviator
+actions, anchor demands, bonded-layer response, or any other solved response quantity. Those terms
+are initialized or recomputed from equilibrium and compatibility.
+
+Every collapse and nonlinear result repeats the complete definition under `outputs.analysis.lambda`:
+
+- the literal expression `F(lambda) = F_fixed + lambda * F_scalable`;
+- fixed and scalable load-case identifiers;
+- base combination factors and effective factors at the current result state;
+- the current value of `lambda`;
+- the meaning of `lambda = 1`;
+- quantities explicitly excluded from scaling.
+
+Each converged nonlinear history point also reports `fixedLoadFactor`, `lambda`, and
+`effectiveLoadFactorsByCaseId`. Fixed-load initialization steps can therefore be distinguished from
+the physical scalable-loading path. `lambda` is a load-pattern parameter; it is not generally a
+safety factor.
 
 At least one known load case must be selected. If the selected cases have zero factor in the
 combination, or otherwise produce a zero wrench field, the analysis rejects the input. Selecting all
@@ -851,6 +920,22 @@ Results contain full final fiber/interface and reinforcement states, every conve
 configuration, `lambda-u` and reinforcement-force/displacement curves, residual histories, cutbacks,
 line-search diagnostics, and an optional load-factor bracket at loss of load control.
 
+Termination is reported at two levels. `convergenceInfo.termination` retains the numerical reason,
+while `analysisOutcome` classifies the engineering objective as `satisfied`, `not-satisfied`,
+`not-reached`, or `not-verifiable`. Reaching a continuation target is successful for
+`advanced-path`, but it does not establish capacity. Conversely, reaching a physical material limit
+can satisfy a `capacity` objective even though the result status remains `not-verified` when broader
+mechanism validation is unavailable.
+
+`lambdaCritical` is populated by nonlinear analysis only when the declared objective is `capacity`
+and a physical material limit is reached. A `minimum-step`, iteration limit, or preload convergence
+failure is a numerical termination and never becomes a critical multiplier. `limitState` records a
+physical limit encountered for any objective without changing that objective into a capacity
+analysis. A `design-state-check` currently uses load control with `targetLambda: 1` and returns its
+separate `designStateCheck`. Both `design-state-check` and `capacity` require
+`stopAtFirstMaterialLimit` to remain enabled; continuation across an explicit material limit belongs
+to `advanced-path`.
+
 ## Representative equilibrium and thrust line
 
 Rigid no-tension equilibrium generally admits more than one thrust line. The solver does not label
@@ -1005,7 +1090,7 @@ The versioned Milestone 1 through 8 tests cover:
 - global force and moment residuals;
 - explicit failure for a geometrically insufficient thin arch;
 - fixed/scalable load-case selection after combination factors;
-- the expected multiplier rescaling under different fixed and scalable safety factors;
+- the expected multiplier rescaling under different fixed and scalable combination factors;
 - active intrados/extrados hinges and a one-degree-of-freedom rigid-block mechanism;
 - virtual-work equilibrium at the critical multiplier;
 - admissibility immediately below and inadmissibility immediately above the computed limit;

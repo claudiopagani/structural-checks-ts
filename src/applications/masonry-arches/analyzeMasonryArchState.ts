@@ -8,6 +8,10 @@ import type {
 import { resolveMasonryArchInterfaceLaws } from "./interfaceLaws.js";
 import { resolveBaseMasonryArchInterfaceLaws } from "./interfaceLaws.js";
 import { recoverBondedLayerStaticState } from "./bondedLayers.js";
+import {
+  createMasonryArchAnalysisDescriptor,
+  createMasonryArchAssignedStateLambdaDefinition,
+} from "./analysisSemantics.js";
 import { MasonryArchModel } from "./MasonryArchModel.js";
 import { resolveMasonryArchLoads } from "./resolveMasonryArchLoads.js";
 import {
@@ -160,6 +164,12 @@ export function analyzeMasonryArchState(
   modelInput: MasonryArchModel | NormalizedMasonryArchModel | MasonryArchModelInput,
   options: AnalyzeMasonryArchStateOptions = {},
 ): MasonryArchStateResult {
+  if (
+    options.analysisObjective !== undefined &&
+    options.analysisObjective !== "design-state-check"
+  ) {
+    throw new Error("analyzeMasonryArchState supports only analysisObjective: design-state-check.");
+  }
   if ((options as { geometricNonlinearity?: boolean }).geometricNonlinearity === true) {
     throw new Error(
       "Use analyzeMasonryArchNonlinear with explicit deformable interfaces for geometrically nonlinear state paths.",
@@ -275,6 +285,13 @@ export function analyzeMasonryArchState(
 
   const outputs: MasonryArchStateOutputs = {
     modelId: model.id,
+    analysis: createMasonryArchAnalysisDescriptor(model, {
+      analysisObjective: "design-state-check",
+      interfaceResponse: "rigid-plastic-resultant-domain",
+      kinematics: "reference-geometry",
+      numericalStrategy: { type: "representative-static-equilibrium", control: null },
+      lambda: createMasonryArchAssignedStateLambdaDefinition(resolvedLoads),
+    }),
     geometry: model.geometry,
     loadFactorsByCaseId: resolvedLoads.loadFactorsByCaseId,
     appliedLoads: resolvedLoads.appliedLoads,
@@ -348,6 +365,11 @@ export function analyzeMasonryArchState(
         reinforcementForce: "positive-tension; kept separate from masonry compression",
       },
       solutionMeaning: "representative-statically-admissible",
+      analysisObjective: "design-state-check",
+      mechanicalModel: "rigid-plastic-resultant-domain",
+      numericalMethod: "representative-static-equilibrium",
+      control: null,
+      lambdaDefinition: outputs.analysis.lambda,
       geometricNonlinearity: false,
       loadCombinationId: options.loadCombination?.id ?? null,
       loadCombinationType: options.loadCombination?.combinationType ?? null,

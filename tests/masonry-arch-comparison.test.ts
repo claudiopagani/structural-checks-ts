@@ -286,6 +286,8 @@ void test("model comparison accepts linear and nonlinear analyses without invent
   const nonlinear = result.outputs.cases.find((item) => item.caseId === "nonlinear-path")!;
   assert.equal(nonlinear.analysisApplicationId, "masonry-arch-nonlinear");
   assert.equal(nonlinear.geometricNonlinearity, true);
+  assert.equal(nonlinear.analysisObjective, "capacity");
+  assert.equal(nonlinear.control, "load");
   assert.equal(nonlinear.numericallyConverged, true);
   assert.equal(nonlinear.limitMeaning, "incremental-material-or-path-limit");
   assert.equal(nonlinear.lambdaCritical, null);

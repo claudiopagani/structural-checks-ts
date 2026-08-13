@@ -346,6 +346,12 @@ void test("adaptive load control preserves symmetry and equilibrium at every con
   });
   assert.equal(result.status, "ok");
   assert.equal(result.outputs.convergenceInfo.termination, "target-reached");
+  assert.equal(result.outputs.analysis.analysisObjective, "advanced-path");
+  assert.equal(result.outputs.analysis.numericalStrategy.control, "load");
+  assert.equal(result.outputs.analysis.lambda.currentValue, 0.2);
+  assert.deepEqual(result.outputs.analysis.lambda.fixedLoadCaseIds, ["G"]);
+  assert.deepEqual(result.outputs.analysis.lambda.scalableLoadCaseIds, ["Q"]);
+  assert.equal(result.outputs.analysisOutcome.objectiveStatus, "satisfied");
   assert.equal(
     result.outputs.convergenceInfo.linearSolver,
     "compact-banded-gaussian-elimination-partial-pivoting",
@@ -368,6 +374,118 @@ void test("adaptive load control preserves symmetry and equilibrium at every con
   }
   close(result.outputs.reactions.left.force.y, result.outputs.reactions.right.force.y, 2e-6);
   close(result.outputs.reactions.left.force.x, -result.outputs.reactions.right.force.x, 2e-6);
+  close(result.outputs.history.at(-1)!.effectiveLoadFactorsByCaseId.G!, 1, 1e-14);
+  close(result.outputs.history.at(-1)!.effectiveLoadFactorsByCaseId.Q!, 0.2, 1e-14);
+});
+
+void test("engineering objective is independent from load-control continuation", () => {
+  const common = {
+    units: { force: "kN" as const, length: "m" as const },
+    geometricNonlinearity: true as const,
+    scalableLoadCaseIds: ["Q"],
+    control: {
+      type: "load" as const,
+      targetLambda: 0.05,
+      monitor: { blockId: "V-004", component: "y" as const },
+      initialStep: 0.05,
+    },
+    equilibriumTolerance: 1e-7,
+    maxIterations: 30,
+    maxSteps: 100,
+  };
+  const advancedPath = analyzeMasonryArchNonlinear(nonlinearAnalysisModel(), {
+    ...common,
+    analysisObjective: "advanced-path",
+  });
+  const capacity = analyzeMasonryArchNonlinear(nonlinearAnalysisModel(), {
+    ...common,
+    analysisObjective: "capacity",
+  });
+  assert.throws(
+    () =>
+      analyzeMasonryArchNonlinear(nonlinearAnalysisModel(), {
+        ...common,
+        analysisObjective: "capacity",
+        stopAtFirstMaterialLimit: false,
+      }),
+    /capacity requires stopAtFirstMaterialLimit/,
+  );
+
+  assert.equal(advancedPath.status, "ok");
+  assert.equal(advancedPath.outputs.analysisOutcome.objectiveStatus, "satisfied");
+  assert.equal(capacity.status, "not-verified");
+  assert.equal(capacity.outputs.analysisOutcome.objectiveStatus, "not-reached");
+  assert.equal(capacity.outputs.lambdaCritical, null);
+  close(
+    advancedPath.outputs.history.at(-1)!.controlDisplacement,
+    capacity.outputs.history.at(-1)!.controlDisplacement,
+    2e-10,
+  );
+});
+
+void test("numerical termination never becomes a capacity multiplier", () => {
+  const result = analyzeMasonryArchNonlinear(nonlinearAnalysisModel(), {
+    units: { force: "kN", length: "m" },
+    geometricNonlinearity: true,
+    analysisObjective: "capacity",
+    scalableLoadCaseIds: ["Q"],
+    control: {
+      type: "load",
+      targetLambda: 1,
+      monitor: { blockId: "V-004", component: "y" },
+      initialStep: 0.1,
+    },
+    equilibriumTolerance: 1e-7,
+    maxIterations: 30,
+    maxSteps: 1,
+  });
+
+  assert.equal(result.outputs.convergenceInfo.termination, "maximum-steps");
+  assert.equal(result.outputs.analysisOutcome.terminationCategory, "numerical-failure");
+  assert.equal(result.outputs.analysisOutcome.objectiveStatus, "not-verifiable");
+  assert.equal(result.outputs.lambdaCritical, null);
+  assert.equal(result.outputs.limitState, null);
+});
+
+void test("design-state objective validates and reaches the factored state at lambda one", () => {
+  const arch = nonlinearAnalysisModel({ pointForce: { x: 0, y: -1 } });
+  assert.throws(
+    () =>
+      analyzeMasonryArchNonlinear(arch, {
+        units: { force: "kN", length: "m" },
+        geometricNonlinearity: true,
+        analysisObjective: "design-state-check",
+        scalableLoadCaseIds: ["Q"],
+        control: {
+          type: "displacement",
+          blockId: "V-004",
+          component: "y",
+          increment: -1e-5,
+          targetDisplacement: -1e-4,
+        },
+      }),
+    /requires load control with targetLambda: 1/,
+  );
+
+  const result = analyzeMasonryArchNonlinear(arch, {
+    units: { force: "kN", length: "m" },
+    geometricNonlinearity: true,
+    analysisObjective: "design-state-check",
+    scalableLoadCaseIds: ["Q"],
+    control: {
+      type: "load",
+      targetLambda: 1,
+      monitor: { blockId: "V-004", component: "y" },
+      initialStep: 0.1,
+    },
+    equilibriumTolerance: 1e-7,
+    maxIterations: 40,
+    maxSteps: 100,
+  });
+  assert.equal(result.status, "ok");
+  assert.equal(result.outputs.designStateCheck?.status, "pass");
+  assert.equal(result.outputs.analysisOutcome.objectiveStatus, "satisfied");
+  close(result.outputs.analysis.lambda.currentValue!, 1, 1e-14);
 });
 
 void test("compact banded and forced dense nonlinear solutions agree", () => {
@@ -633,6 +751,7 @@ void test("finite compression terminates the nonlinear path as masonry crushing"
   const result = analyzeMasonryArchNonlinear(nonlinearAnalysisModel({ compressiveStrength: 310 }), {
     units: { force: "kN", length: "m" },
     geometricNonlinearity: true,
+    analysisObjective: "capacity",
     scalableLoadCaseIds: ["Q"],
     control: {
       type: "load",
@@ -649,6 +768,8 @@ void test("finite compression terminates the nonlinear path as masonry crushing"
   assert.equal(result.outputs.failureMode, "masonry-crushing");
   assert.ok(result.outputs.lambdaCritical! > 0);
   assert.ok(result.outputs.lambdaCritical! < 0.5);
+  assert.equal(result.outputs.limitState?.lambda, result.outputs.lambdaCritical);
+  assert.equal(result.outputs.analysisOutcome.objectiveStatus, "satisfied");
   assert.ok(result.outputs.interfaces.some((item) => item.crushing));
 });
 
@@ -669,6 +790,9 @@ void test("collapse API routes geometric nonlinearity to the incremental solver"
   });
   assert.equal(result.applicationId, "masonry-arch-nonlinear");
   assert.equal(result.outputs.convergenceInfo.termination, "target-reached");
+  assert.equal(result.outputs.analysis.analysisObjective, "capacity");
+  assert.equal(result.outputs.analysisOutcome.objectiveStatus, "not-reached");
+  assert.equal(result.outputs.lambdaCritical, null);
 });
 
 void test("combination factors are applied before nonlinear lambda scaling", () => {
@@ -708,6 +832,10 @@ void test("combination factors are applied before nonlinear lambda scaling", () 
   });
   assert.equal(reference.status, "ok");
   assert.equal(factored.status, "ok");
+  close(reference.outputs.analysis.lambda.effectiveLoadFactorsByCaseId.Q!, 0.2, 1e-14);
+  close(factored.outputs.analysis.lambda.baseCombinationFactorsByCaseId.Q!, 2, 1e-14);
+  close(factored.outputs.analysis.lambda.effectiveLoadFactorsByCaseId.G!, 1, 1e-14);
+  close(factored.outputs.analysis.lambda.effectiveLoadFactorsByCaseId.Q!, 0.2, 1e-14);
   for (let index = 0; index < reference.outputs.finalConfiguration.length; index += 1) {
     const left = reference.outputs.finalConfiguration[index]!;
     const right = factored.outputs.finalConfiguration[index]!;

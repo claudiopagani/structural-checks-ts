@@ -394,6 +394,20 @@ void test("collapse analysis applies combination factors before lambda only to c
   });
   assert.equal(factored.status, "ok");
   close(factored.outputs.lambdaCritical!, (unfactored.outputs.lambdaCritical! * 1.3) / 1.5, 2e-10);
+  assert.equal(factored.outputs.analysis.analysisObjective, "capacity");
+  assert.deepEqual(factored.outputs.analysis.lambda.fixedLoadCaseIds, ["G1"]);
+  assert.deepEqual(factored.outputs.analysis.lambda.scalableLoadCaseIds, ["Q"]);
+  assert.equal(
+    factored.outputs.analysis.lambda.expression,
+    "F(lambda) = F_fixed + lambda * F_scalable",
+  );
+  assert.equal(factored.outputs.analysis.lambda.currentValue, factored.outputs.lambdaCritical);
+  assert.ok(factored.outputs.analysis.lambda.excludedQuantities.includes("initial-tendon-force"));
+  assert.ok(
+    factored.outputs.analysis.lambda.excludedQuantities.includes(
+      "passive-tendon-compatibility-force",
+    ),
+  );
   assert.deepEqual(factored.outputs.loadCases.roleByCaseId, {
     G1: "fixed",
     Q: "scalable",
@@ -450,6 +464,80 @@ void test("collapse analysis applies combination factors before lambda only to c
   close(split.outputs.lambdaCritical!, unfactored.outputs.lambdaCritical!, 2e-10);
   assert.equal(split.outputs.loadCases.roleByCaseId.Q1, "scalable");
   assert.equal(split.outputs.loadCases.roleByCaseId.Q2, "scalable");
+});
+
+void test("analysis-local load scaling represents G + lambda Q, lambda(G + Q), and G1 + lambda(G2 + Q1)", () => {
+  const model = createMasonryArch({
+    id: "load-scaling-patterns",
+    units: { force: "kN", length: "m" },
+    geometry: circularGeometry(20, 1),
+    masonry: { unitWeight: 20 },
+    loads: [
+      { id: "G1", type: "self-weight", loadCaseId: "G1" },
+      {
+        id: "G2",
+        type: "uniform",
+        loadCaseId: "G2",
+        components: { x: 0, y: -1 },
+      },
+      {
+        id: "Q1",
+        type: "patch",
+        loadCaseId: "Q1",
+        components: { x: 0, y: -2 },
+        startStation: 0.05,
+        endStation: 0.45,
+      },
+    ],
+  });
+  const loadCombination = {
+    id: "factored-pattern",
+    factors: [
+      { loadCase: { id: "G1" }, factor: 1.2 },
+      { loadCase: { id: "G2" }, factor: 1.3 },
+      { loadCase: { id: "Q1" }, factor: 1.5 },
+    ],
+  } as const;
+
+  const gPlusLambdaQ = analyzeMasonryArchCollapse(model, {
+    loadCombination,
+    scalableLoadCaseIds: ["Q1"],
+  });
+  assert.deepEqual(gPlusLambdaQ.outputs.analysis.lambda.fixedLoadCaseIds, ["G1", "G2"]);
+  assert.deepEqual(gPlusLambdaQ.outputs.analysis.lambda.scalableLoadCaseIds, ["Q1"]);
+
+  const lambdaAll = analyzeMasonryArchCollapse(model, {
+    loadCombination,
+    scalableLoadCaseIds: ["G1", "G2", "Q1"],
+  });
+  assert.deepEqual(lambdaAll.outputs.analysis.lambda.fixedLoadCaseIds, []);
+  assert.deepEqual(lambdaAll.outputs.analysis.lambda.scalableLoadCaseIds, ["G1", "G2", "Q1"]);
+
+  const splitPermanent = analyzeMasonryArchCollapse(model, {
+    loadCombination,
+    scalableLoadCaseIds: ["G2", "Q1"],
+  });
+  assert.deepEqual(splitPermanent.outputs.analysis.lambda.fixedLoadCaseIds, ["G1"]);
+  assert.deepEqual(splitPermanent.outputs.analysis.lambda.scalableLoadCaseIds, ["G2", "Q1"]);
+  assert.deepEqual(splitPermanent.outputs.analysis.lambda.baseCombinationFactorsByCaseId, {
+    G1: 1.2,
+    G2: 1.3,
+    Q1: 1.5,
+  });
+  assert.throws(
+    () =>
+      analyzeMasonryArchCollapse(model, {
+        scalableLoadCaseIds: ["Q1"],
+        loadCombination: {
+          factors: [
+            { loadCase: { id: "G1" }, factor: 1 },
+            { loadCase: { id: "G2" }, factor: 1 },
+            { loadCase: { id: "Q1" }, factor: 0 },
+          ],
+        },
+      }),
+    /zero factored wrench field/,
+  );
 });
 
 void test("finite Heyman multiplier exposes four active hinges and a virtual-work mechanism", () => {

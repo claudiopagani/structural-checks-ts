@@ -115,6 +115,10 @@ The load/displacement scaling, radius adaptation, cutbacks, and path-constraint 
 diagnostics. Arc length is not a substitute for a constitutive post-peak law: validation keeps
 solver path-following and material assumptions separate.
 
+Decision 0007 additionally makes the engineering objective explicit. Load, displacement, and
+arc-length remain continuation controls; none of them independently defines a design-state,
+capacity, or advanced-path analysis.
+
 ## Consequences
 
 - Bonded layers and curved tendons remain different public entities.

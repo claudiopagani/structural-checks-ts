@@ -17,7 +17,7 @@ import type {
   NormalizedMasonryArchModel,
 } from "./types.js";
 
-export const MASONRY_ARCH_MODEL_COMPARISON_RESULT_SCHEMA_VERSION = "1.0.0";
+export const MASONRY_ARCH_MODEL_COMPARISON_RESULT_SCHEMA_VERSION = "1.1.0";
 
 export type MasonryArchComparisonModelLike =
   | MasonryArchModel
@@ -48,7 +48,8 @@ export type MasonryArchComparisonReasonCode =
   | "geometry-mismatch"
   | "load-definition-mismatch"
   | "load-factor-mismatch"
-  | "load-role-mismatch";
+  | "load-role-mismatch"
+  | "analysis-objective-mismatch";
 
 export interface MasonryArchComparisonReason {
   readonly code: MasonryArchComparisonReasonCode;
@@ -68,6 +69,8 @@ export interface MasonryArchModelComparisonSummary {
   readonly analysisApplicationId: "masonry-arch-collapse" | "masonry-arch-nonlinear";
   readonly analysisStatus: ResultStatus;
   readonly numericallyConverged: boolean;
+  readonly analysisObjective: MasonryArchCollapseResult["outputs"]["analysis"]["analysisObjective"];
+  readonly control: "load" | "displacement" | "arc-length" | null;
   readonly geometricNonlinearity: boolean;
   readonly interfaceModel: NormalizedMasonryArchModel["interfaces"]["model"];
   readonly voussoirCount: number;
@@ -109,6 +112,7 @@ interface ComparisonFingerprint {
   readonly loadDefinitions: unknown;
   readonly loadFactors: unknown;
   readonly loadRoles: unknown;
+  readonly analysisObjective: unknown;
 }
 
 interface CompletedComparisonCase {
@@ -179,6 +183,10 @@ function comparisonFingerprint(
       values: sortedRecord(loads.loadFactorsByCaseId),
     },
     loadRoles,
+    analysisObjective:
+      options.geometricNonlinearity === true
+        ? (options.analysisObjective ?? "capacity")
+        : "capacity",
   };
 }
 
@@ -298,6 +306,13 @@ function comparisonReasons(
     candidate.fingerprint.loadRoles,
     "loading.roles",
   );
+  addDifference(
+    "analysis-objective-mismatch",
+    "The engineering analysis objective differs from the reference case.",
+    reference.fingerprint.analysisObjective,
+    candidate.fingerprint.analysisObjective,
+    "analysis.analysisObjective",
+  );
   return reasons;
 }
 
@@ -377,6 +392,8 @@ function caseSummary(
     analysisApplicationId: nonlinear ? "masonry-arch-nonlinear" : "masonry-arch-collapse",
     analysisStatus: result.status,
     numericallyConverged: result.outputs.convergenceInfo.converged,
+    analysisObjective: result.outputs.analysis.analysisObjective,
+    control: result.outputs.analysis.numericalStrategy.control,
     geometricNonlinearity: nonlinear,
     interfaceModel: model.interfaces.model,
     voussoirCount: model.geometry.voussoirCount,
