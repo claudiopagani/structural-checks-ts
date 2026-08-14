@@ -817,6 +817,10 @@ export interface MasonryArchInterfaceStateResult {
   readonly normalizedEccentricity: number | null;
   readonly compressedLength: number | null;
   readonly maxCompression: number | null;
+  /** Compression stress at the intrados edge; null when the assigned law does not define stress. */
+  readonly compressionAtIntrados: number | null;
+  /** Compression stress at the extrados edge; null when the assigned law does not define stress. */
+  readonly compressionAtExtrados: number | null;
   readonly frictionUtilization: number | null;
   readonly compressionUtilization: number | null;
   readonly state: MasonryArchInterfaceState;

@@ -143,6 +143,39 @@ void test("finite compression may identify a critical zone without inventing kin
   assert.ok(result.outputs.crushingInterfaces.length > 0);
   assert.equal(result.outputs.collapseMechanism, null);
   assert.equal(result.outputs.capacity.lambdaCollapse, null);
+  for (const item of result.outputs.interfaces.filter((value) => value.maxCompression !== null)) {
+    assert.ok(item.compressionAtIntrados !== null);
+    assert.ok(item.compressionAtExtrados !== null);
+    assert.equal(
+      Math.max(item.compressionAtIntrados, item.compressionAtExtrados),
+      item.maxCompression,
+    );
+  }
+});
+
+void test("a proportional uniform load reports a model boundary, not a numerical failure", () => {
+  const uniform = createMasonryArch({
+    id: "uniform-unbounded",
+    units: { force: "kN", length: "m" },
+    geometry: geometry(20),
+    masonry: { unitWeight: 20 },
+    interfaceLaw: rigid,
+    loads: [
+      { id: "SW", type: "self-weight", loadCaseId: "G" },
+      {
+        id: "Q",
+        type: "uniform",
+        loadCaseId: "Q",
+        components: { x: 0, y: -1 },
+        distributionBasis: "horizontal-projection",
+      },
+    ],
+  });
+  const result = analyzeMasonryArchLimit(uniform, { scalableLoadCaseIds: ["Q"] });
+  assert.equal(result.outputs.convergenceInfo.status, "unbounded");
+  assert.equal(result.outputs.analysisOutcome.terminationCategory, "model-boundary");
+  assert.equal(result.outputs.analysisOutcome.objectiveStatus, "not-reached");
+  assert.equal(result.outputs.failureMode, "no-collapse-within-model");
 });
 
 void test("Coulomb sliding is distinguished from a rocking mechanism", () => {

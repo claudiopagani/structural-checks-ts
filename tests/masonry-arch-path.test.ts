@@ -193,6 +193,12 @@ void test("every step owns one coherent equilibrium configuration", () => {
   assert.equal(step.state.lambda, result.outputs.capacity.lambdaTermination);
   assert.equal(step.state.deformedConfiguration.length, arch.geometry.voussoirCount);
   assert.equal(step.state.interfaces.length, arch.geometry.interfaces.length);
+  for (const item of step.state.interfaces) {
+    assert.ok(Number.isFinite(item.compressionAtIntrados));
+    assert.ok(Number.isFinite(item.compressionAtExtrados));
+    assert.ok(item.maxCompression >= item.compressionAtIntrados);
+    assert.ok(item.maxCompression >= item.compressionAtExtrados);
+  }
   assert.equal(getMasonryArchPathState(result.outputs, step.step), step.state);
   assert.equal(getMasonryArchSignificantStep(result.outputs, "last-converged"), step);
   assert.equal("deformedConfiguration" in result.outputs, false);

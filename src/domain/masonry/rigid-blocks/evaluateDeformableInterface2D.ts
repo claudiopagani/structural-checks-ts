@@ -83,6 +83,10 @@ export interface RigidBlockDeformableInterfaceEvaluation2D {
   readonly eccentricity: number | null;
   readonly compressedLength: number;
   readonly maxCompression: number;
+  /** Compression stress at the intrados edge of the joint. */
+  readonly compressionAtIntrados: number;
+  /** Compression stress at the extrados edge of the joint. */
+  readonly compressionAtExtrados: number;
   readonly frictionUtilization: number | null;
   readonly maximumOpening: number;
   readonly maximumClosure: number;
@@ -131,6 +135,8 @@ interface ForceEvaluation {
   readonly moment: number;
   readonly compressedLength: number;
   readonly maxCompression: number;
+  readonly compressionAtIntrados: number;
+  readonly compressionAtExtrados: number;
   readonly frictionUtilization: number | null;
   readonly maximumOpening: number;
   readonly maximumClosure: number;
@@ -170,6 +176,8 @@ interface NormalContactIntegral {
   readonly compressedLength: number;
   readonly maximumCompression: number;
   readonly maximumTrialCompression: number;
+  readonly compressionAtIntrados: number;
+  readonly compressionAtExtrados: number;
 }
 
 function finite(value: number, label: string): number {
@@ -369,16 +377,16 @@ function integrateNormalContact(
 
   const trialAtStart = intercept + slope * start;
   const trialAtEnd = intercept + slope * end;
+  const compressionAtIntrados = Math.max(0, clippedStress(trialAtStart, lower, upper));
+  const compressionAtExtrados = Math.max(0, clippedStress(trialAtEnd, lower, upper));
   return {
     stressIntegral,
     stressFirstMoment,
     compressedLength,
-    maximumCompression: Math.max(
-      0,
-      clippedStress(trialAtStart, lower, upper),
-      clippedStress(trialAtEnd, lower, upper),
-    ),
+    maximumCompression: Math.max(compressionAtIntrados, compressionAtExtrados),
     maximumTrialCompression: Math.max(trialAtStart, trialAtEnd),
+    compressionAtIntrados,
+    compressionAtExtrados,
   };
 }
 
@@ -471,6 +479,8 @@ function evaluateForces(
   let compressedLength = 0;
   let maximumCompression = 0;
   let maximumTrialCompression = 0;
+  let compressionAtIntrados: number;
+  let compressionAtExtrados: number;
   let crushing = false;
   let trialPlasticClosures = [...committedState.plasticClosureByIntegrationPoint];
   const usesPlasticCrushingIntegration =
@@ -537,6 +547,20 @@ function evaluateForces(
         });
       }
     }
+    const compressionAtEdge = (coordinate: number, plasticClosure: number) => {
+      const kinematics = pointKinematics(coordinate);
+      return Math.max(
+        0,
+        clippedStress(
+          normalStiffness * (-kinematics.normalGap - plasticClosure),
+          closedContactNormalTangentPredictor ? null : 0,
+          law.normal.compressiveStrength,
+        ),
+      );
+    };
+    compressionAtIntrados = compressionAtEdge(jointStart, trialPlasticClosures[0]!);
+    compressionAtExtrados = compressionAtEdge(jointEnd, trialPlasticClosures.at(-1)!);
+    maximumCompression = Math.max(maximumCompression, compressionAtIntrados, compressionAtExtrados);
   } else {
     const normalIntegral = integrateNormalContact(
       -normalStiffness * center.normalGap,
@@ -550,6 +574,8 @@ function evaluateForces(
     compressedLength = normalIntegral.compressedLength;
     maximumCompression = normalIntegral.maximumCompression;
     maximumTrialCompression = normalIntegral.maximumTrialCompression;
+    compressionAtIntrados = normalIntegral.compressionAtIntrados;
+    compressionAtExtrados = normalIntegral.compressionAtExtrados;
     for (let dof = 0; dof < localSize; dof += 1) {
       generalizedForces[dof] =
         geometry.outOfPlaneWidth *
@@ -641,6 +667,8 @@ function evaluateForces(
     moment,
     compressedLength,
     maxCompression: maximumCompression,
+    compressionAtIntrados,
+    compressionAtExtrados,
     frictionUtilization:
       totalFrictionCapacity > 0 ? Math.abs(shearForce) / totalFrictionCapacity : null,
     maximumOpening,
@@ -750,6 +778,8 @@ export function evaluateRigidBlockDeformableInterface2D(
     eccentricity: baseline.normalForce > 0 ? baseline.moment / baseline.normalForce : null,
     compressedLength: baseline.compressedLength,
     maxCompression: baseline.maxCompression,
+    compressionAtIntrados: baseline.compressionAtIntrados,
+    compressionAtExtrados: baseline.compressionAtExtrados,
     frictionUtilization: baseline.frictionUtilization,
     maximumOpening: baseline.maximumOpening,
     maximumClosure: baseline.maximumClosure,

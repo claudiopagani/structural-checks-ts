@@ -100,6 +100,20 @@ export function recoverMasonryArchInterfaceState(
     maxCompression === null || law.compressiveStrength === null
       ? null
       : maxCompression / law.compressiveStrength;
+  const fullCompression =
+    compressedLength !== null && compressedLength >= geometry.length * (1 - limitTolerance);
+  const compressionAtIntrados =
+    maxCompression === null || item.eccentricity === null
+      ? null
+      : fullCompression || item.eccentricity < 0
+        ? maxCompression
+        : 0;
+  const compressionAtExtrados =
+    maxCompression === null || item.eccentricity === null
+      ? null
+      : fullCompression || item.eccentricity > 0
+        ? maxCompression
+        : 0;
   const classification = classifyInterface(
     item.normalizedEccentricity,
     approachingRatio,
@@ -119,6 +133,8 @@ export function recoverMasonryArchInterfaceState(
     normalizedEccentricity: item.normalizedEccentricity,
     compressedLength,
     maxCompression,
+    compressionAtIntrados,
+    compressionAtExtrados,
     frictionUtilization,
     compressionUtilization,
     ...classification,
