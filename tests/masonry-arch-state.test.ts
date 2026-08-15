@@ -140,6 +140,7 @@ void test("finite compression may identify a critical zone without inventing kin
     scalableLoadCaseIds: ["Q1"],
   });
   assert.equal(result.outputs.failureMode, "masonry-crushing");
+  assert.equal(result.status, "not-verified");
   assert.ok(result.outputs.crushingInterfaces.length > 0);
   assert.equal(result.outputs.collapseMechanism, null);
   assert.equal(result.outputs.capacity.lambdaCollapse, null);
@@ -173,6 +174,8 @@ void test("a proportional uniform load reports a model boundary, not a numerical
   });
   const result = analyzeMasonryArchLimit(uniform, { scalableLoadCaseIds: ["Q"] });
   assert.equal(result.outputs.convergenceInfo.status, "unbounded");
+  // An unbounded limit problem is a determinate model-boundary answer, not a numerical failure.
+  assert.equal(result.status, "ok");
   assert.equal(result.outputs.analysisOutcome.terminationCategory, "model-boundary");
   assert.equal(result.outputs.analysisOutcome.objectiveStatus, "not-reached");
   assert.equal(result.outputs.failureMode, "no-collapse-within-model");
@@ -186,5 +189,6 @@ void test("Coulomb sliding is distinguished from a rocking mechanism", () => {
   const result = analyzeMasonryArchLimit(loadModel(coulomb), { scalableLoadCaseIds: ["Q1"] });
   assert.ok(result.outputs.slidingInterfaces.length > 0);
   assert.ok(result.outputs.failureMode === "sliding" || result.outputs.failureMode === "mixed");
+  assert.equal(result.status, "ok");
   assert.equal(result.outputs.collapseMechanism?.nonAssociatedFlow?.verified, true);
 });

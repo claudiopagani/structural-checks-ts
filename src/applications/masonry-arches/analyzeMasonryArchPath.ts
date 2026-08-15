@@ -36,7 +36,9 @@ import type {
   MasonryArchAnalysisObjective,
   MasonryArchAnalysisOutcome,
   MasonryArchCapacityLandmarks,
+  MasonryArchDesignFailureEventKind,
   MasonryArchEngineeringAssessmentStatus,
+  MasonryArchEngineeringCriterion,
   BondedLayerStateResult,
   MasonryArchBlockDisplacementInput,
   MasonryArchFailureMode,
@@ -44,6 +46,7 @@ import type {
   NormalizedMasonryArchBlockDisplacement,
   NormalizedMasonryArchModel,
 } from "./types.js";
+import { MASONRY_ARCH_PATH_ASSESSMENT_QUESTION } from "./types.js";
 import {
   createMasonryArchAnalysisDescriptor,
   createMasonryArchLambdaDefinition,
@@ -51,7 +54,12 @@ import {
   resolveMasonryArchAnalysisLoads,
   type ResolvedMasonryArchAnalysisLoads,
 } from "./analysisSemantics.js";
-import { masonryArchEngineeringCriterionFromEvent } from "./engineeringAssessment.js";
+import {
+  isMasonryArchPhysicalLimitEventKind,
+  masonryArchFailureModeFromKinds,
+  masonryArchResultStatusFromAssessmentStatus,
+} from "./engineeringAssessment.js";
+import { masonryArchEngineeringCriteriaFromPathEvent } from "./pathCriteria.js";
 
 import {
   MASONRY_ARCH_PATH_RESULT_SCHEMA_VERSION,
@@ -1150,7 +1158,9 @@ export function analyzeMasonryArchPath(
   let termination: MasonryArchPathOutputs["convergenceInfo"]["termination"] = "maximum-steps";
   let failureMode: MasonryArchFailureMode = "no-collapse-within-model";
   const eventLog: MasonryArchEvent[] = [];
-  const designFailureEvents = new Set(options.designFailureEvents ?? DEFAULT_DESIGN_FAILURE_EVENTS);
+  const designFailureEvents = new Set<MasonryArchDesignFailureEventKind>(
+    options.designFailureEvents ?? DEFAULT_DESIGN_FAILURE_EVENTS,
+  );
   if (
     options.engineeringLimitPolicy !== undefined &&
     options.engineeringLimitPolicy !== "objective-default" &&
@@ -1655,26 +1665,49 @@ export function analyzeMasonryArchPath(
         ? null
         : "Terminal reinforcement rupture identified by the assigned tensile or ultimate-strain criterion.",
   };
-  const designFailedCriteria = eventLog.filter(
-    (item) => item.category === "terminal-physical-event" || designFailureEvents.has(item.kind),
+  const designFailedEvents = eventLog.filter(
+    (item) =>
+      item.category === "terminal-physical-event" ||
+      (isMasonryArchPhysicalLimitEventKind(item.kind) && designFailureEvents.has(item.kind)),
   );
   const designAssessmentStatus: MasonryArchEngineeringAssessmentStatus =
     analysisObjective !== "design-state-check"
       ? "INDETERMINATE"
-      : designFailedCriteria.length > 0
+      : designFailedEvents.length > 0
         ? "FAIL"
         : termination === "target-reached" && numericalConvergence && lambda >= 1 - 1e-12
           ? "PASS"
           : "INDETERMINATE";
+  // Every criterion reads its numeric quantities from the event's own converged step. The same
+  // violated condition re-identified at a later step does not duplicate the list: the earliest
+  // identification wins while simultaneously violated distinct conditions are all preserved.
+  const stepByNumber = new Map(steps.map((item) => [item.step, item]));
+  const designFailedCriteria: MasonryArchEngineeringCriterion[] = [];
+  const seenCriterionKeys = new Set<string>();
+  for (const failedEvent of designFailedEvents) {
+    const step = failedEvent.step === null ? null : (stepByNumber.get(failedEvent.step) ?? null);
+    for (const criterion of masonryArchEngineeringCriteriaFromPathEvent(model, failedEvent, step)) {
+      const key = `${criterion.kind}|${criterion.checkId ?? ""}|${[...criterion.entityIds]
+        .sort()
+        .join(",")}`;
+      if (seenCriterionKeys.has(key)) continue;
+      seenCriterionKeys.add(key);
+      designFailedCriteria.push(criterion);
+    }
+  }
+  const assessmentFailureMode =
+    designAssessmentStatus === "FAIL"
+      ? masonryArchFailureModeFromKinds(designFailedCriteria.map((item) => item.kind))
+      : null;
   const engineeringAssessment: MasonryArchPathEngineeringAssessment | null =
     analysisObjective === "design-state-check"
       ? {
-          question: "can-reach-lambda-one-with-admissible-equilibrium-and-prescribed-criteria",
+          question: MASONRY_ARCH_PATH_ASSESSMENT_QUESTION,
           status: designAssessmentStatus,
           requiredLambda: 1,
           lambda: lastHistory?.state.lambda ?? null,
-          failedCriteria: designFailedCriteria.map(masonryArchEngineeringCriterionFromEvent),
-          failureMode,
+          failedCriteria: designFailedCriteria,
+          failureMode: assessmentFailureMode,
         }
       : null;
   const resolvedAnalysisOutcome: MasonryArchAnalysisOutcome =
@@ -1781,20 +1814,30 @@ export function analyzeMasonryArchPath(
   }
   return new CalculationResult<MasonryArchPathOutputs>({
     applicationId: "masonry-arch-path",
-    status: successful
-      ? RESULT_STATUS.OK
-      : physicalLimitReached || resolvedAnalysisOutcome.objectiveStatus === "not-reached"
-        ? RESULT_STATUS.NOT_VERIFIED
-        : RESULT_STATUS.FAILED,
-    summary: successful
-      ? analysisObjective === "design-state-check"
-        ? "The factored design state at lambda = 1 was reached and equilibrated."
-        : `The advanced nonlinear path reached the requested target at displacement ${finalControlDisplacement}.`
-      : physicalLimitReached
-        ? `The nonlinear path reached ${failureMode} at lambda ${lambda}.`
-        : analysisObjective === "capacity" && termination === "target-reached"
-          ? "The requested continuation target was reached before a physical capacity limit was identified."
-          : "The nonlinear path did not satisfy its engineering objective.",
+    status:
+      engineeringAssessment !== null
+        ? masonryArchResultStatusFromAssessmentStatus(engineeringAssessment.status)
+        : successful
+          ? RESULT_STATUS.OK
+          : physicalLimitReached || resolvedAnalysisOutcome.objectiveStatus === "not-reached"
+            ? RESULT_STATUS.NOT_VERIFIED
+            : RESULT_STATUS.FAILED,
+    summary:
+      engineeringAssessment !== null
+        ? engineeringAssessment.status === "PASS"
+          ? "The factored design state at lambda = 1 was reached and equilibrated."
+          : engineeringAssessment.status === "FAIL"
+            ? `The design state failed verification at lambda ${engineeringAssessment.lambda ?? "unknown"} (${engineeringAssessment.failureMode ?? "undetermined"}).`
+            : "The numerical process could not determine whether the design state satisfies the prescribed criteria."
+        : successful
+          ? analysisObjective === "design-state-check"
+            ? "The factored design state at lambda = 1 was reached and equilibrated."
+            : `The advanced nonlinear path reached the requested target at displacement ${finalControlDisplacement}.`
+          : physicalLimitReached
+            ? `The nonlinear path reached ${failureMode} at lambda ${lambda}.`
+            : analysisObjective === "capacity" && termination === "target-reached"
+              ? "The requested continuation target was reached before a physical capacity limit was identified."
+              : "The nonlinear path did not satisfy its engineering objective.",
     outputs,
     warnings: [...warnings, ...finalEvaluation.reinforcement.warnings],
     assumptions: [

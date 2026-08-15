@@ -112,6 +112,28 @@ alter a canonical normative identifier.
   combinations, coverage, and provenance.
 - Do not replace missing solver data with zero or infer unsupported capabilities.
 
+## Pre-production change policy
+
+This repository is a new project still under design and development; it is not in production. During
+this phase, correctness, semantic clarity, API quality, and architectural coherence have priority
+over backward compatibility.
+
+Breaking changes are acceptable and preferred over compatibility layers, deprecated aliases, or
+legacy behavior when they improve the model:
+
+- break a public contract, bump a schema version, change types, statuses, or field names;
+- remove redundant fields, rename properties, and update internal consumer tests and documentation;
+- replace a semantically wrong historical contract with the correct one.
+
+This is not a license for arbitrary refactoring: every breaking change must have a precise technical
+motivation, be recorded (preferably in a decision), and be delivered with updated tests,
+documentation, and schema versions.
+
+Never introduce adapters, compatibility layers, deprecated aliases, or legacy behavior only to
+preserve the past. When two statuses represent the same decision, remove the duplication. When a
+consumer would have to reinterpret mechanics to reconstruct a verdict, move that semantics into the
+library.
+
 ## Engineering change safety
 
 - Treat this repository's versioned tests, benchmarks, decisions, and validation evidence as the

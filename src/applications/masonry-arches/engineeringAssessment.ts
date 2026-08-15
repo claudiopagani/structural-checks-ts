@@ -1,11 +1,16 @@
+import { RESULT_STATUS, type ResultStatus } from "../../core/results/resultStatus.js";
 import type {
+  MasonryArchEngineeringAssessmentStatus,
+  MasonryArchEngineeringCheckId,
   MasonryArchEngineeringCriterion,
   MasonryArchEngineeringCriterionKind,
+  MasonryArchEventKind,
   MasonryArchFailureMode,
+  MasonryArchPhysicalLimitEventKind,
 } from "./types.js";
-import type { MasonryArchEvent } from "./pathTypes.js";
 
 export interface MasonryArchEngineeringCriterionData {
+  readonly checkId?: MasonryArchEngineeringCheckId | null;
   readonly lambda?: number | null;
   readonly demand?: number | null;
   readonly capacity?: number | null;
@@ -23,6 +28,7 @@ export function createMasonryArchEngineeringCriterion(
 ): MasonryArchEngineeringCriterion {
   return {
     kind,
+    checkId: data.checkId ?? null,
     entityIds,
     lambda: data.lambda ?? null,
     demand: data.demand ?? null,
@@ -32,28 +38,49 @@ export function createMasonryArchEngineeringCriterion(
 }
 
 /**
- * Maps one path event onto the shared criterion taxonomy. Every event kind is a valid criterion
- * kind, so the mapping is total; demand, capacity, and utilization are not carried by path events
- * and remain null. The event log stays available for step, category, and message details.
+ * Event kinds that share the failed-criterion taxonomy. Only physical-limit event kinds can be
+ * engineering criteria; observable, warning, and numerical event kinds are never criteria.
  */
-export function masonryArchEngineeringCriterionFromEvent(
-  event: MasonryArchEvent,
-): MasonryArchEngineeringCriterion {
-  return {
-    kind: event.kind,
-    entityIds: event.entityIds,
-    lambda: event.lambda,
-    demand: null,
-    capacity: null,
-    utilizationRatio: null,
-  };
+export const MASONRY_ARCH_PHYSICAL_LIMIT_EVENT_KINDS: readonly MasonryArchPhysicalLimitEventKind[] =
+  [
+    "plastic-sliding",
+    "compression-strength-reached",
+    "crushing",
+    "reinforcement-yielded",
+    "reinforcement-rupture",
+    "anchor-capacity-reached",
+    "bonded-layer-capacity-reached",
+    "extrados-contact-invalid",
+  ];
+
+const PHYSICAL_LIMIT_EVENT_KIND_SET: ReadonlySet<MasonryArchEventKind> = new Set(
+  MASONRY_ARCH_PHYSICAL_LIMIT_EVENT_KINDS,
+);
+
+/** True when the event kind is a physical limit and therefore a candidate failed criterion. */
+export function isMasonryArchPhysicalLimitEventKind(
+  kind: MasonryArchEventKind,
+): kind is MasonryArchPhysicalLimitEventKind {
+  return PHYSICAL_LIMIT_EVENT_KIND_SET.has(kind);
 }
 
 /**
- * Shared mapping from violated criterion kinds to a global mechanism classification. Observable,
- * warning, numerical, and infeasibility kinds do not determine a mechanism and leave the mode
- * undetermined. Used by both the path event interpretation and the equilibrium assessment so that
- * the same physical violation receives the same failure mode regardless of the producing analysis.
+ * Maps one event kind onto the failed-criterion taxonomy. Observable, warning, and numerical
+ * event kinds have no criterion counterpart and return null, so they can never feed a FAIL
+ * verdict or a failure-mode classification.
+ */
+export function masonryArchEngineeringCriterionKindFromEventKind(
+  kind: MasonryArchEventKind,
+): MasonryArchEngineeringCriterionKind | null {
+  return isMasonryArchPhysicalLimitEventKind(kind) ? kind : null;
+}
+
+/**
+ * Shared mapping from violated criterion kinds to a global mechanism classification.
+ * `equilibrium-infeasible` and every kind without a physical mode leave the mode `undetermined`;
+ * simultaneously violated physically distinct criteria produce `mixed`. Used by both the path
+ * event interpretation and the equilibrium assessment so that the same physical violation receives
+ * the same failure mode regardless of the producing analysis.
  */
 export function masonryArchFailureModeFromKinds(
   kinds: readonly MasonryArchEngineeringCriterionKind[],
@@ -69,4 +96,25 @@ export function masonryArchFailureModeFromKinds(
   if (set.has("anchor-capacity-reached")) modes.push("anchor-capacity");
   if (set.has("extrados-contact-invalid")) modes.push("instability");
   return modes.length > 1 ? "mixed" : (modes[0] ?? "undetermined");
+}
+
+/**
+ * The single mapping from a design-state engineering verdict to the serialized result status.
+ * The assessment is the only source of the design verdict:
+ *
+ * - PASS: the numerical process succeeded and the verification is satisfied;
+ * - FAIL: the numerical process succeeded and determined that the verification is NOT satisfied;
+ * - INDETERMINATE: the numerical process produced no determinable engineering judgment.
+ */
+export function masonryArchResultStatusFromAssessmentStatus(
+  status: MasonryArchEngineeringAssessmentStatus,
+): ResultStatus {
+  switch (status) {
+    case "PASS":
+      return RESULT_STATUS.OK;
+    case "FAIL":
+      return RESULT_STATUS.NOT_VERIFIED;
+    case "INDETERMINATE":
+      return RESULT_STATUS.FAILED;
+  }
 }

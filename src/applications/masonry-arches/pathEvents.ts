@@ -5,18 +5,23 @@ import type {
   ArchReinforcementStateResult,
   BondedLayerStateResult,
   MasonryArchAnalysisObjective,
+  MasonryArchDesignFailureEventKind,
   MasonryArchFailureMode,
   MasonryArchPhysicalLimitEventKind,
   NormalizedMasonryArchModel,
 } from "./types.js";
-import { masonryArchFailureModeFromKinds } from "./engineeringAssessment.js";
+import {
+  isMasonryArchPhysicalLimitEventKind,
+  masonryArchEngineeringCriterionKindFromEventKind,
+  masonryArchFailureModeFromKinds,
+} from "./engineeringAssessment.js";
 import type {
   MasonryArchEvent,
   MasonryArchEventCategory,
   MasonryArchEventKind,
 } from "./pathTypes.js";
 
-export const DEFAULT_DESIGN_FAILURE_EVENTS: readonly MasonryArchEventKind[] = [
+export const DEFAULT_DESIGN_FAILURE_EVENTS: readonly MasonryArchDesignFailureEventKind[] = [
   "plastic-sliding",
   "compression-strength-reached",
   "crushing",
@@ -275,19 +280,26 @@ export function detectMasonryArchStepEvents(
 export function masonryArchFailureModeFromEvents(
   events: readonly MasonryArchEvent[],
 ): MasonryArchFailureMode {
-  return masonryArchFailureModeFromKinds(events.map((item) => item.kind));
+  const kinds = events
+    .map((item) => masonryArchEngineeringCriterionKindFromEventKind(item.kind))
+    .filter((kind): kind is Exclude<typeof kind, null> => kind !== null);
+  return masonryArchFailureModeFromKinds(kinds);
 }
 
 export function shouldStopMasonryArchPathForEvents(
   objective: MasonryArchAnalysisObjective,
   policy: "stop" | "continue",
   events: readonly MasonryArchEvent[],
-  designFailureEvents: ReadonlySet<MasonryArchEventKind>,
+  designFailureEvents: ReadonlySet<MasonryArchDesignFailureEventKind>,
 ): boolean {
   if (events.some((item) => item.category === "terminal-physical-event")) return true;
   if (policy === "stop" && events.some((item) => item.category === "engineering-limit"))
     return true;
   return (
-    objective === "design-state-check" && events.some((item) => designFailureEvents.has(item.kind))
+    objective === "design-state-check" &&
+    events.some(
+      (item) =>
+        isMasonryArchPhysicalLimitEventKind(item.kind) && designFailureEvents.has(item.kind),
+    )
   );
 }

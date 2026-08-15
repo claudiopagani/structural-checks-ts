@@ -14,8 +14,8 @@ import type {
 } from "../../domain/masonry/rigid-blocks/types.js";
 
 export const MASONRY_ARCH_MODEL_SCHEMA_VERSION = "2.0.0";
-export const MASONRY_ARCH_EQUILIBRIUM_RESULT_SCHEMA_VERSION = "3.0.0";
-export const MASONRY_ARCH_LIMIT_ANALYSIS_RESULT_SCHEMA_VERSION = "3.0.0";
+export const MASONRY_ARCH_EQUILIBRIUM_RESULT_SCHEMA_VERSION = "4.0.0";
+export const MASONRY_ARCH_LIMIT_ANALYSIS_RESULT_SCHEMA_VERSION = "4.0.0";
 
 export type MasonryArchReferenceCurve = "intrados" | "centerline" | "extrados";
 export type MasonryArchAngleUnits = "deg" | "rad";
@@ -100,6 +100,19 @@ export interface MasonryArchAnalysisOutcome {
 export type MasonryArchEngineeringAssessmentStatus = "PASS" | "FAIL" | "INDETERMINATE";
 
 /**
+ * Machine-readable engineering question answered by an assessment. These literals are part of the
+ * public contract; consumers select on them instead of comparing free-form strings.
+ */
+export type MasonryArchEngineeringAssessmentQuestion =
+  | "does-the-assigned-load-state-admit-a-verified-statically-admissible-equilibrium"
+  | "can-reach-lambda-one-with-admissible-equilibrium-and-prescribed-criteria";
+
+export const MASONRY_ARCH_EQUILIBRIUM_ASSESSMENT_QUESTION =
+  "does-the-assigned-load-state-admit-a-verified-statically-admissible-equilibrium";
+export const MASONRY_ARCH_PATH_ASSESSMENT_QUESTION =
+  "can-reach-lambda-one-with-admissible-equilibrium-and-prescribed-criteria";
+
+/**
  * Shared vocabulary of structural phenomena observed or verified during a masonry-arch analysis.
  * Observable, warning, and numerical kinds never fail an engineering check on their own; the
  * physical-limit subset is what the design-state semantics treats as a failed criterion.
@@ -133,11 +146,35 @@ export type MasonryArchPhysicalLimitEventKind =
   | "extrados-contact-invalid";
 
 /**
- * Taxonomy of failed engineering criteria. Every analysis event kind maps directly onto a
- * criterion kind; `equilibrium-infeasible` exists only as a criterion because it is a global
- * verdict of the assigned-state equilibrium analysis, not an incremental path event.
+ * Event kinds that a design-state path analysis may treat as a failed engineering criterion.
+ * Restricted to the physical-limit taxonomy: observable, warning, and numerical-failure event
+ * kinds can never be configured as design failures, so a numerical event can never produce a
+ * FAIL verdict.
  */
-export type MasonryArchEngineeringCriterionKind = MasonryArchEventKind | "equilibrium-infeasible";
+export type MasonryArchDesignFailureEventKind = MasonryArchPhysicalLimitEventKind;
+
+/**
+ * Named underlying public checks that can produce a failed engineering criterion. Used to
+ * disambiguate criterion kinds that aggregate several checks, for example `reinforcement-rupture`
+ * produced by tensile strength or by ultimate strain. The values match the producing checks'
+ * `criterion` literals.
+ */
+export type MasonryArchEngineeringCheckId =
+  | "coulomb-friction"
+  | "finite-compression-uniform-edge-block"
+  | "reinforcement-yield-stress"
+  | "reinforcement-tensile-strength"
+  | "reinforcement-ultimate-strain";
+
+/**
+ * Taxonomy of failed engineering criteria. Only conditions that can genuinely make a verification
+ * FAIL belong here: the physical-limit event kinds plus the global assigned-state
+ * `equilibrium-infeasible` verdict. Observable, warning, and numerical event kinds are part of
+ * the event taxonomy, never of the failed-criterion taxonomy.
+ */
+export type MasonryArchEngineeringCriterionKind =
+  | MasonryArchPhysicalLimitEventKind
+  | "equilibrium-infeasible";
 
 /**
  * One violated structural criterion. Every quantity is reported only when the producing analysis
@@ -145,6 +182,11 @@ export type MasonryArchEngineeringCriterionKind = MasonryArchEventKind | "equili
  */
 export interface MasonryArchEngineeringCriterion {
   readonly kind: MasonryArchEngineeringCriterionKind;
+  /**
+   * Identifies the specific underlying public check that failed when the kind aggregates several
+   * checks. Null when the producing analysis publishes no named check for the criterion.
+   */
+  readonly checkId: MasonryArchEngineeringCheckId | null;
   /** Physical entities involved, for example interface, reinforcement, anchor, or contact IDs. */
   readonly entityIds: readonly string[];
   /** Load-proportionality parameter at which the criterion was identified; null when not applicable. */
@@ -160,14 +202,17 @@ export interface MasonryArchEngineeringCriterion {
  */
 export interface MasonryArchEngineeringAssessment {
   /** The engineering question answered by this assessment. */
-  readonly question: string;
+  readonly question: MasonryArchEngineeringAssessmentQuestion;
   /** Engineering verdict; a numerical process failure is INDETERMINATE, never FAIL. */
   readonly status: MasonryArchEngineeringAssessmentStatus;
   /** Lambda at which the assessed state was evaluated; 1 for assigned-state analyses. */
   readonly lambda: number | null;
   /** All criteria identified as not satisfied; a FAIL state never selects a single "worst" one. */
   readonly failedCriteria: readonly MasonryArchEngineeringCriterion[];
-  /** Global mechanism classification; null when no failure was identified or it is not determinable. */
+  /**
+   * Global mechanism classification. Describes only a FAIL verdict: null for PASS and
+   * INDETERMINATE, a physical mode or "undetermined" for FAIL.
+   */
   readonly failureMode: MasonryArchFailureMode | null;
 }
 

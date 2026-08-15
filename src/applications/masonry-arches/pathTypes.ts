@@ -19,6 +19,7 @@ import type {
   MasonryArchAnalysisObjective,
   MasonryArchAnalysisOutcome,
   MasonryArchCapacityLandmarks,
+  MasonryArchDesignFailureEventKind,
   MasonryArchEngineeringAssessment,
   MasonryArchEngineeringCriterion,
   MasonryArchEventKind,
@@ -29,7 +30,7 @@ import type {
 
 export type { MasonryArchEventKind } from "./types.js";
 
-export const MASONRY_ARCH_PATH_RESULT_SCHEMA_VERSION = "5.0.0";
+export const MASONRY_ARCH_PATH_RESULT_SCHEMA_VERSION = "6.0.0";
 
 export interface MasonryArchDof {
   readonly blockId: string;
@@ -66,7 +67,12 @@ export interface AnalyzeMasonryArchPathOptions {
   readonly maximumLineSearchIterations?: number;
   readonly minimumLineSearchFactor?: number;
   readonly engineeringLimitPolicy?: "objective-default" | "stop" | "continue";
-  readonly designFailureEvents?: readonly MasonryArchEventKind[];
+  /**
+   * Physical-limit event kinds that fail a design-state check. Restricted to the physical-limit
+   * taxonomy at the type level; observable, warning, and numerical event kinds can never be
+   * configured here, and numerical failures always produce INDETERMINATE, never FAIL.
+   */
+  readonly designFailureEvents?: readonly MasonryArchDesignFailureEventKind[];
   readonly contactInitialization?: "cohesion-homotopy" | "none";
   readonly linearSolver?: "automatic" | "dense";
 }
@@ -126,8 +132,9 @@ export interface MasonryArchPathState {
 /**
  * Engineering assessment of a design-state path analysis. The common assessment fields answer the
  * same structural questions as the equilibrium assessment; `requiredLambda` is path-specific.
- * `failedCriteria` uses the shared criterion taxonomy instead of raw events; the full event log
- * remains available in `outputs.events`.
+ * `failedCriteria` uses the shared criterion taxonomy instead of raw events and carries the demand,
+ * capacity, and utilization of the event's own converged step when those quantities are directly
+ * available there; the full event log remains available in `outputs.events`.
  */
 export interface MasonryArchPathEngineeringAssessment extends MasonryArchEngineeringAssessment {
   readonly question: "can-reach-lambda-one-with-admissible-equilibrium-and-prescribed-criteria";

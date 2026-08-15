@@ -69,4 +69,11 @@ export {
   evaluateMasonryArchBondedSectionDomain,
   type MasonryArchBondedSectionDomainResult,
 } from "./bondedLayers.js";
+export {
+  MASONRY_ARCH_EQUILIBRIUM_ASSESSMENT_QUESTION,
+  MASONRY_ARCH_PATH_ASSESSMENT_QUESTION,
+  MASONRY_ARCH_MODEL_SCHEMA_VERSION,
+  MASONRY_ARCH_EQUILIBRIUM_RESULT_SCHEMA_VERSION,
+  MASONRY_ARCH_LIMIT_ANALYSIS_RESULT_SCHEMA_VERSION,
+} from "./types.js";
 export type * from "./types.js";

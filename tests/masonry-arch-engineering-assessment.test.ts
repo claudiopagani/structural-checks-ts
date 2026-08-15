@@ -150,7 +150,7 @@ void test("A. verified equilibrium: assessment PASS with no failed criteria", ()
     assessment.question,
     "does-the-assigned-load-state-admit-a-verified-statically-admissible-equilibrium",
   );
-  assert.equal(result.metadata.schemaVersion, "3.0.0");
+  assert.equal(result.metadata.schemaVersion, "4.0.0");
 });
 
 void test("B. compression not verified: global infeasibility without fabricated compression criteria", () => {
@@ -167,6 +167,7 @@ void test("B. compression not verified: global infeasibility without fabricated 
   assert.equal(result.outputs.equilibrium.feasible, false);
   assert.equal(result.outputs.convergence.status, "optimal");
   assert.equal(assessment.status, "FAIL");
+  assert.equal(result.status, "not-verified");
   assert.equal(assessment.failureMode, "undetermined");
   assert.equal(assessment.failedCriteria.length, 1);
   const criterion = assessment.failedCriteria[0]!;
@@ -203,6 +204,7 @@ void test("C. friction-boundary model: global infeasibility without fabricated c
   assert.equal(result.outputs.equilibrium.feasible, false);
   assert.equal(result.outputs.convergence.status, "optimal");
   assert.equal(assessment.status, "FAIL");
+  assert.equal(result.status, "not-verified");
   assert.equal(assessment.failureMode, "undetermined");
   assert.equal(assessment.failedCriteria.length, 1);
   const criterion = assessment.failedCriteria[0]!;
@@ -247,10 +249,12 @@ void test("D. reinforcement yield: FAIL with the reinforcement entity and its ch
   );
   const assessment = result.outputs.engineeringAssessment;
   assert.equal(assessment.status, "FAIL");
+  assert.equal(result.status, "not-verified");
   assert.equal(assessment.failureMode, "reinforcement-yield");
   assert.equal(assessment.failedCriteria.length, 1);
   const criterion = assessment.failedCriteria[0]!;
   assert.equal(criterion.kind, "reinforcement-yielded");
+  assert.equal(criterion.checkId, "reinforcement-yield-stress");
   assert.deepEqual(criterion.entityIds, ["PT"]);
   assert.equal(criterion.lambda, 1);
   const yielding = result.outputs.reinforcementState[0]!.checks.yielding!;
@@ -270,7 +274,9 @@ void test("D2. reinforcement rupture: FAIL with reinforcement-rupture from the f
           area: 1e-6,
           elasticModulus: 200_000_000,
           initialForce: 0.25,
-          yieldStrength: 200_000,
+          // No assigned yield strength: this case isolates the tensile sub-check. When
+          // a yield strength is also assigned and fails, the yielding criterion is
+          // reported as well (covered by the simultaneous-criteria test).
           tensileStrength: 200_000,
           interaction: { type: "rigid-deviators", count: 3 },
           terminations: {
@@ -284,9 +290,11 @@ void test("D2. reinforcement rupture: FAIL with reinforcement-rupture from the f
   );
   const assessment = result.outputs.engineeringAssessment;
   assert.equal(assessment.status, "FAIL");
+  assert.equal(result.status, "not-verified");
   assert.equal(assessment.failureMode, "reinforcement-failure");
   assert.deepEqual(kinds(assessment.failedCriteria), ["reinforcement-rupture"]);
   const criterion = assessment.failedCriteria[0]!;
+  assert.equal(criterion.checkId, "reinforcement-tensile-strength");
   assert.deepEqual(criterion.entityIds, ["PT"]);
   const tensile = result.outputs.reinforcementState[0]!.checks.tensileFailure!;
   assert.equal(tensile.status, "fail");
@@ -321,6 +329,7 @@ void test("E. anchor capacity: FAIL with the anchor entity and its check data", 
   );
   const assessment = result.outputs.engineeringAssessment;
   assert.equal(assessment.status, "FAIL");
+  assert.equal(result.status, "not-verified");
   assert.equal(assessment.failureMode, "anchor-capacity");
   assert.deepEqual(kinds(assessment.failedCriteria), ["anchor-capacity-reached"]);
   const criterion = assessment.failedCriteria[0]!;
@@ -333,7 +342,7 @@ void test("E. anchor capacity: FAIL with the anchor entity and its check data", 
   assert.equal(criterion.utilizationRatio, anchor.utilizationRatio);
 });
 
-void test("F. bonded layer capacity: FAIL through the shared criterion while the result status is preserved", () => {
+void test("F. bonded layer capacity: the failed criterion drives the result status to not-verified", () => {
   const result = analyzeMasonryArchEquilibrium(
     equilibriumModel("assess-f", {
       loads: [
@@ -381,9 +390,9 @@ void test("F. bonded layer capacity: FAIL through the shared criterion while the
     assert.equal(criterion.capacity, interfaceState.capacity);
     assert.equal(criterion.utilizationRatio, interfaceState.utilizationRatio);
   }
-  // The pre-existing top-level gate does not include bonded-layer capacity; the assessment now
-  // carries that verdict while the result-level status intentionally preserves prior behavior.
-  assert.equal(result.status, "ok");
+  // The engineering assessment is the single source of the design verdict: a failed criterion
+  // produces a not-verified result status, never an ok status with a contradictory assessment.
+  assert.equal(result.status, "not-verified");
 });
 
 void test("G. equilibrium infeasible: FAIL with the global criterion and no invented interface", () => {
@@ -406,6 +415,7 @@ void test("G. equilibrium infeasible: FAIL with the global criterion and no inve
   assert.equal(result.outputs.equilibrium.feasible, false);
   assert.equal(result.outputs.convergence.status, "optimal");
   assert.equal(assessment.status, "FAIL");
+  assert.equal(result.status, "not-verified");
   assert.equal(assessment.failureMode, "undetermined");
   assert.equal(assessment.failedCriteria.length, 1);
   const criterion = assessment.failedCriteria[0]!;
@@ -432,6 +442,7 @@ void test("H. numerical failure: INDETERMINATE, never FAIL and never equilibrium
   const assessment = result.outputs.engineeringAssessment;
   assert.equal(result.outputs.convergence.status, "iteration-limit");
   assert.equal(assessment.status, "INDETERMINATE");
+  assert.equal(result.status, "failed");
   assert.deepEqual(assessment.failedCriteria, []);
   assert.equal(assessment.failureMode, null);
 });
@@ -666,6 +677,7 @@ void test("non-failure: an active bonded layer carrying force alone does not fai
   assert.ok(layer.interfaces.every((item) => item.state !== "at-capacity"));
   assert.equal(result.outputs.engineeringAssessment.status, "PASS");
   assert.deepEqual(result.outputs.engineeringAssessment.failedCriteria, []);
+  assert.equal(result.status, "ok");
 });
 
 void test("non-failure: joint opening and tendon activation never appear as failed criteria", () => {
@@ -690,8 +702,10 @@ void test("non-failure: joint opening and tendon activation never appear as fail
   );
   const assessment = result.outputs.engineeringAssessment;
   assert.equal(assessment?.status, "PASS");
+  assert.equal(result.status, "ok");
   assert.ok(result.outputs.events.some((event) => event.kind === "joint-opened"));
   assert.deepEqual(assessment.failedCriteria, []);
+  assert.equal(assessment.failureMode, null);
 
   // When sliding fails a stronger uplift state, the activation events are not criteria either.
   const failed = designPath(
@@ -726,21 +740,344 @@ void test("non-failure: joint opening and tendon activation never appear as fail
     }),
   );
   assert.equal(failed.outputs.engineeringAssessment?.status, "FAIL");
+  assert.equal(failed.status, "not-verified");
   assert.ok(failed.outputs.events.some((event) => event.kind === "passive-tendon-activated"));
-  for (const criterion of failed.outputs.engineeringAssessment?.failedCriteria ?? []) {
-    assert.ok(criterion.kind !== "passive-tendon-activated");
-    assert.ok(criterion.kind !== "joint-opened");
-    assert.ok(criterion.kind !== "tendon-slackened");
-  }
+  // Activation, joint opening, and slackening are not criterion kinds at the type level, so the
+  // compiled taxonomy already guarantees they can never appear here.
+  assert.ok(failed.outputs.engineeringAssessment.failedCriteria.length > 0);
+  assert.ok(
+    kinds(failed.outputs.engineeringAssessment.failedCriteria).every(
+      (kind) => kind === "plastic-sliding",
+    ),
+  );
 });
 
 void test("path design assessment reports the shared shape with lambda and requiredLambda", () => {
   const result = designPath(pathModel({ pointForce: { x: 0, y: -1 } }));
   const assessment = result.outputs.engineeringAssessment;
   assert.equal(assessment?.status, "PASS");
+  assert.equal(result.status, "ok");
   assert.equal(assessment.requiredLambda, 1);
   assert.equal(assessment.lambda, 1);
   assert.deepEqual(assessment.failedCriteria, []);
-  assert.equal(assessment.failureMode, "no-collapse-within-model");
-  assert.equal(result.metadata.schemaVersion, "5.0.0");
+  // The design assessment failure mode only ever describes a FAIL; the general path failure
+  // mode keeps its own semantics and remains available on the outputs.
+  assert.equal(assessment.failureMode, null);
+  assert.equal(result.outputs.failureMode, "no-collapse-within-model");
+  assert.equal(result.metadata.schemaVersion, "6.0.0");
+});
+
+void test("D3. reinforcement rupture from both sub-checks preserves one criterion per check", () => {
+  const result = analyzeMasonryArchEquilibrium(
+    equilibriumModel("assess-d3", {
+      reinforcements: [
+        {
+          id: "PT",
+          ...INTRA,
+          area: 1e-6,
+          elasticModulus: 200_000_000,
+          initialForce: 0.25,
+          tensileStrength: 150_000,
+          ultimateStrain: 1e-4,
+          interaction: { type: "rigid-deviators", count: 3 },
+          terminations: {
+            left: { type: "distributed-anchorage", connectorCount: 1 },
+            right: { type: "distributed-anchorage", connectorCount: 1 },
+          },
+        },
+      ],
+    }),
+    { loadFactorsByCaseId: { G1: 1, G2: 1, Q1: 0.2 } },
+  );
+  const assessment = result.outputs.engineeringAssessment;
+  assert.equal(assessment.status, "FAIL");
+  assert.equal(result.status, "not-verified");
+  assert.equal(assessment.failureMode, "reinforcement-failure");
+  assert.deepEqual(kinds(assessment.failedCriteria), [
+    "reinforcement-rupture",
+    "reinforcement-rupture",
+  ]);
+  const byCheck = new Map(assessment.failedCriteria.map((item) => [item.checkId, item] as const));
+  const tensile = byCheck.get("reinforcement-tensile-strength")!;
+  const ultimate = byCheck.get("reinforcement-ultimate-strain")!;
+  assert.equal(tensile.entityIds[0], "PT");
+  assert.equal(ultimate.entityIds[0], "PT");
+  assert.equal(tensile.demand, 250_000);
+  assert.equal(tensile.capacity, 150_000);
+  assert.ok(tensile.utilizationRatio! > 1);
+  assert.equal(ultimate.demand, 0.00125);
+  assert.equal(ultimate.capacity, 1e-4);
+  assert.ok(ultimate.utilizationRatio! > 1);
+});
+
+void test("N. simultaneously violated reinforcement criteria are all preserved", () => {
+  const result = analyzeMasonryArchEquilibrium(
+    equilibriumModel("assess-n", {
+      reinforcements: [
+        {
+          id: "PT",
+          ...INTRA,
+          area: 1e-6,
+          elasticModulus: 200_000_000,
+          initialForce: 0.25,
+          yieldStrength: 100_000,
+          tensileStrength: 150_000,
+          ultimateStrain: 1e-4,
+          interaction: { type: "rigid-deviators", count: 3 },
+          terminations: {
+            left: { type: "distributed-anchorage", connectorCount: 1 },
+            right: { type: "distributed-anchorage", connectorCount: 1 },
+          },
+        },
+      ],
+    }),
+    { loadFactorsByCaseId: { G1: 1, G2: 1, Q1: 0.2 } },
+  );
+  const assessment = result.outputs.engineeringAssessment;
+  assert.equal(assessment.status, "FAIL");
+  assert.equal(result.status, "not-verified");
+  assert.equal(assessment.failureMode, "mixed");
+  assert.deepEqual(kinds(assessment.failedCriteria), [
+    "reinforcement-yielded",
+    "reinforcement-rupture",
+    "reinforcement-rupture",
+  ]);
+  assert.deepEqual(
+    assessment.failedCriteria.map((item) => item.checkId),
+    [
+      "reinforcement-yield-stress",
+      "reinforcement-tensile-strength",
+      "reinforcement-ultimate-strain",
+    ],
+  );
+  for (const criterion of assessment.failedCriteria) {
+    assert.ok(criterion.demand !== null);
+    assert.ok(criterion.capacity !== null);
+    assert.ok(criterion.utilizationRatio !== null);
+  }
+});
+
+void test("J. numerical and observable event kinds cannot be configured as design failures", () => {
+  const model = pathModel();
+  analyzeMasonryArchPath(model, {
+    units: { force: "kN", length: "m" },
+    analysisObjective: "design-state-check",
+    scalableLoadCaseIds: ["Q"],
+    // @ts-expect-error convergence-lost is a numerical-failure event kind and can never be a design failure criterion.
+    designFailureEvents: ["convergence-lost"],
+  });
+  analyzeMasonryArchPath(model, {
+    units: { force: "kN", length: "m" },
+    analysisObjective: "design-state-check",
+    scalableLoadCaseIds: ["Q"],
+    // @ts-expect-error joint-opened is an observable event kind and can never be a design failure criterion.
+    designFailureEvents: ["joint-opened"],
+  });
+  // Physical-limit kinds remain the only valid design failure configuration.
+  const result = analyzeMasonryArchPath(model, {
+    units: { force: "kN", length: "m" },
+    analysisObjective: "design-state-check",
+    scalableLoadCaseIds: ["Q"],
+    designFailureEvents: ["plastic-sliding"],
+  });
+  assert.ok(
+    result.outputs.engineeringAssessment?.status === "PASS" ||
+      result.outputs.engineeringAssessment?.status === "FAIL",
+  );
+});
+
+void test("L. a passive extrados tendon activates during the path and the design still passes at lambda one", () => {
+  const result = designPath(
+    pathModel({
+      pointForce: { x: 0, y: -40 },
+      reinforcements: [
+        {
+          id: "passive-extrados",
+          side: "extrados",
+          area: 0.001,
+          elasticModulus: 200_000_000,
+          initialForce: 0,
+          interaction: { type: "unilateral-contact", segmentCount: 12 },
+          terminations: {
+            left: { type: "distributed-anchorage", connectorCount: 1 },
+            right: { type: "distributed-anchorage", connectorCount: 1 },
+          },
+        },
+      ],
+    }),
+  );
+  const assessment = result.outputs.engineeringAssessment;
+  assert.equal(assessment?.status, "PASS");
+  assert.equal(result.status, "ok");
+  assert.equal(assessment.lambda, 1);
+  assert.equal(assessment.failureMode, null);
+  assert.equal(assessment.failedCriteria.length, 0);
+  const activation = result.outputs.events.find(
+    (event) => event.kind === "passive-tendon-activated",
+  );
+  assert.ok(activation !== undefined, "the passive extrados tendon activates");
+  assert.ok(activation.lambda! < 1, "activation occurs before the design state");
+  // Activation is an observable event kind and is not part of the criterion taxonomy; the
+  // compiled types guarantee it can never appear in failedCriteria.
+  const finalState = result.outputs.steps.at(-1)!.state;
+  const passive = finalState.reinforcementState.find(
+    (item) => item.reinforcementId === "passive-extrados",
+  )!;
+  assert.equal(passive.state, "active-passive");
+  assert.ok(passive.force > 0);
+});
+
+void test("O1. path compression criteria carry the step-coherent demand, capacity, and utilization", () => {
+  const result = designPath(
+    pathModel({
+      interfaceLaw: {
+        ...deformable,
+        normal: {
+          ...deformable.normal,
+          compressiveStrength: 310,
+          postCrushingBehavior: "stop-at-onset",
+        },
+      },
+    }),
+  );
+  const assessment = result.outputs.engineeringAssessment;
+  assert.equal(assessment?.status, "FAIL");
+  const criterion = assessment.failedCriteria.find(
+    (item) => item.kind === "compression-strength-reached",
+  )!;
+  assert.ok(criterion !== undefined);
+  assert.equal(criterion.capacity, 310);
+  assert.ok(criterion.demand !== null);
+  assert.ok(criterion.utilizationRatio !== null);
+  const event = result.outputs.events.find((item) => item.kind === "compression-strength-reached")!;
+  const step = result.outputs.steps.find((item) => item.step === event.step)!;
+  const interfaceState = step.state.interfaces.find(
+    (item) => item.interfaceId === event.entityIds[0],
+  )!;
+  assert.equal(criterion.demand, interfaceState.maxCompression);
+  assert.equal(criterion.utilizationRatio, interfaceState.maxCompression / 310);
+});
+
+void test("O2. path sliding and reinforcement criteria carry step-coherent numeric data", () => {
+  const result = designPath(
+    pathModel({
+      pointForce: { x: 0, y: 100 },
+      reinforcements: [
+        {
+          id: "weak",
+          ...INTRA,
+          area: 0.001,
+          elasticModulus: 200_000_000,
+          initialForce: 0.5,
+          yieldStrength: 100,
+          interaction: { type: "rigid-deviators", count: 3 },
+          terminations: {
+            left: { type: "distributed-anchorage", connectorCount: 1 },
+            right: { type: "distributed-anchorage", connectorCount: 1 },
+          },
+        },
+      ],
+    }),
+  );
+  const assessment = result.outputs.engineeringAssessment;
+  assert.equal(assessment?.status, "FAIL");
+  const sliding = assessment.failedCriteria.find(
+    (item) => item.kind === "plastic-sliding" && item.entityIds[0] === "J-004",
+  )!;
+  const slidingEvent = result.outputs.events.find(
+    (item) => item.kind === "plastic-sliding" && item.entityIds[0] === "J-004",
+  )!;
+  const slidingStep = result.outputs.steps.find((item) => item.step === slidingEvent.step)!;
+  const interfaceState = slidingStep.state.interfaces.find((item) => item.interfaceId === "J-004")!;
+  assert.equal(sliding.demand, Math.abs(interfaceState.shearForce));
+  assert.equal(sliding.utilizationRatio, interfaceState.frictionUtilization);
+  assert.equal(sliding.capacity, 0.5 * interfaceState.normalForce);
+
+  const yielded = assessment.failedCriteria.find((item) => item.kind === "reinforcement-yielded")!;
+  assert.equal(yielded.checkId, "reinforcement-yield-stress");
+  const yieldEvent = result.outputs.events.find((item) => item.kind === "reinforcement-yielded")!;
+  const yieldStep = result.outputs.steps.find((item) => item.step === yieldEvent.step)!;
+  const reinforcementState = yieldStep.state.reinforcementState.find(
+    (item) => item.reinforcementId === "weak",
+  )!;
+  const yieldingCheck = reinforcementState.checks.yielding!;
+  assert.equal(yielded.demand, yieldingCheck.demand);
+  assert.equal(yielded.capacity, yieldingCheck.capacity);
+  assert.equal(yielded.utilizationRatio, yieldingCheck.utilizationRatio);
+});
+
+void test("O3. path anchor and bonded-layer criteria carry step-coherent numeric data", () => {
+  const anchorResult = designPath(
+    pathModel({
+      pointForce: { x: 0, y: 100 },
+      reinforcements: [
+        {
+          id: "PT",
+          ...INTRA,
+          area: 0.001,
+          elasticModulus: 200_000_000,
+          initialForce: 1,
+          interaction: {
+            type: "rigid-deviators",
+            count: 3,
+            capacity: { resultantResistance: 0.1, interactionRule: "independent" },
+          },
+          terminations: {
+            left: { type: "distributed-anchorage", connectorCount: 1 },
+            right: { type: "distributed-anchorage", connectorCount: 1 },
+          },
+        },
+      ],
+    }),
+  );
+  const anchorAssessment = anchorResult.outputs.engineeringAssessment;
+  assert.equal(anchorAssessment?.status, "FAIL");
+  const anchorCriterion = anchorAssessment.failedCriteria.find(
+    (item) => item.kind === "anchor-capacity-reached",
+  )!;
+  const anchorEvent = anchorResult.outputs.events.find(
+    (item) => item.kind === "anchor-capacity-reached",
+  )!;
+  const anchorStep = anchorResult.outputs.steps.find((item) => item.step === anchorEvent.step)!;
+  const anchor = anchorStep.state.anchorForces.find(
+    (item) => item.anchorId === anchorCriterion.entityIds[0],
+  )!;
+  assert.equal(anchorCriterion.demand, anchor.demand.resultant);
+  assert.equal(anchorCriterion.capacity, anchor.capacity.resultant);
+  assert.equal(anchorCriterion.utilizationRatio, anchor.utilizationRatio);
+
+  const layerResult = designPath(
+    pathModel({
+      pointForce: { x: 0, y: 100 },
+      bondedLayers: [
+        {
+          id: "FRCM",
+          family: "frcm",
+          ...INTRA,
+          area: 1e-6,
+          elasticModulus: 100_000_000,
+          tensileStrength: 1000,
+          transferLength: 0.5,
+          startStation: 0,
+          endStation: 1,
+          terminations: { left: { type: "anchored" }, right: { type: "anchored" } },
+        },
+      ],
+    }),
+  );
+  const layerAssessment = layerResult.outputs.engineeringAssessment;
+  assert.equal(layerAssessment?.status, "FAIL");
+  const layerCriterion = layerAssessment.failedCriteria.find(
+    (item) => item.kind === "bonded-layer-capacity-reached",
+  )!;
+  const layerEvent = layerResult.outputs.events.find(
+    (item) => item.kind === "bonded-layer-capacity-reached",
+  )!;
+  const layerStep = layerResult.outputs.steps.find((item) => item.step === layerEvent.step)!;
+  const layerInterface = layerStep.state.bondedLayerState
+    .find((item) => item.reinforcementId === "FRCM")!
+    .interfaces.find((item) => item.interfaceId === layerCriterion.entityIds[1])!;
+  assert.equal(layerCriterion.demand, layerInterface.force);
+  assert.equal(layerCriterion.capacity, layerInterface.capacity);
+  assert.equal(layerCriterion.utilizationRatio, layerInterface.utilizationRatio);
 });

@@ -105,7 +105,7 @@ eccentricities, hinge lists, or utilization numbers:
 
 ```ts
 interface MasonryArchEngineeringAssessment {
-  question: string;
+  question: MasonryArchEngineeringAssessmentQuestion;
   status: "PASS" | "FAIL" | "INDETERMINATE";
   lambda: number | null; // lambda at which the assessed state was evaluated; 1 for assigned state
   failedCriteria: readonly MasonryArchEngineeringCriterion[];
@@ -117,18 +117,59 @@ interface MasonryArchEngineeringAssessment {
   and never a physical failure.
 - `failedCriteria` lists every violated structural condition; a `FAIL` state never selects a single
   "worst" criterion and never drops simultaneous ones.
-- `failureMode` classifies the global mechanism separately from the criteria. It is `null` when no
-  failure was identified and `undetermined` when the mechanism is not rigorously derivable.
+- `failureMode` describes only a `FAIL`: it is `null` for `PASS` and `INDETERMINATE`, and a physical
+  mode or `undetermined` for `FAIL`. The general path `outputs.failureMode` keeps its own broader
+  semantics (`no-collapse-within-model` and friends) and is not part of the design assessment.
 - The solver convergence and the equilibrium feasibility remain separate process-level data in
   `outputs.convergence` and `outputs.equilibrium`.
+- The `question` values are machine-readable string literals typed as
+  `MasonryArchEngineeringAssessmentQuestion`:
 
-Every criterion uses the shared taxonomy
-`MasonryArchEngineeringCriterionKind = MasonryArchEventKind | "equilibrium-infeasible"` and carries
-only quantities the producing analysis actually knows:
+  ```ts
+  type MasonryArchEngineeringAssessmentQuestion =
+    | "does-the-assigned-load-state-admit-a-verified-statically-admissible-equilibrium"
+    | "can-reach-lambda-one-with-admissible-equilibrium-and-prescribed-criteria";
+  ```
+
+The assessment is the single source of the design verdict. `CalculationResult.status` is derived
+from it with one fixed mapping:
+
+```text
+assessment PASS          -> result.status "ok"
+assessment FAIL          -> result.status "not-verified"
+assessment INDETERMINATE -> result.status "failed"
+```
+
+`ok` means the numerical process succeeded and the verification is satisfied; `not-verified` means
+the process succeeded and determined that the verification is not satisfied; `failed` means the
+process produced no determinable engineering judgment. `failed` is never used for a structure that
+is simply not verified.
+
+### Event kinds and criterion kinds
+
+Event kinds and failed-criterion kinds are deliberately not the same taxonomy:
+
+- `MasonryArchEventKind` covers everything that can happen along a path: observable events
+  (`joint-opened`, `joint-closed`, `sliding-started`, `passive-tendon-activated`,
+  `extrados-contact-active-set-changed`), warnings (`tendon-slackened`), engineering limits
+  (`plastic-sliding`, `compression-strength-reached`, ...), terminal physical events, and the
+  numerical failure `convergence-lost`.
+- `MasonryArchEngineeringCriterionKind` contains only conditions that can genuinely make a
+  verification FAIL: the physical-limit event kinds plus the global assigned-state
+  `equilibrium-infeasible` verdict. Observable, warning, and numerical kinds can never be criteria,
+  at the type level.
+
+The path option `designFailureEvents` is restricted to `MasonryArchDesignFailureEventKind`, which is
+exactly the physical-limit event taxonomy. Configuring `convergence-lost` (or any other
+numerical/observable kind) as a design failure is a compile-time error; numerical failure can never
+produce a `FAIL` verdict.
+
+Every criterion carries only quantities the producing analysis actually knows:
 
 ```ts
 interface MasonryArchEngineeringCriterion {
   kind: MasonryArchEngineeringCriterionKind;
+  checkId: MasonryArchEngineeringCheckId | null;
   entityIds: readonly string[];
   lambda: number | null;
   demand: number | null;
@@ -137,25 +178,34 @@ interface MasonryArchEngineeringCriterion {
 }
 ```
 
-Unknown quantities are `null` and are never inferred from unrelated results. The equilibrium
-analysis fills demand, capacity, and utilization from its public interface, reinforcement, anchor,
-and bonded-layer checks; the path analysis maps its events one-to-one and leaves the numeric
-quantities `null` because the event log does not carry them (the numbers remain available in the
-step-coherent states and events).
+`checkId` identifies the specific underlying public check that failed when a kind aggregates several
+checks: `reinforcement-rupture` is reported once per actually failing sub-check with
+`reinforcement-tensile-strength` or `reinforcement-ultimate-strain`, and `reinforcement-yielded`
+carries `reinforcement-yield-stress`. The equilibrium interface criteria carry `coulomb-friction`
+and `finite-compression-uniform-edge-block`. Unknown quantities are `null` and are never inferred
+from unrelated results.
+
+The equilibrium analysis fills demand, capacity, and utilization from its public interface,
+reinforcement, anchor, and bonded-layer checks, and reports one criterion per actually failing
+sub-check regardless of the synthetic reinforcement state. The path analysis maps its design-failure
+events onto the same criterion taxonomy and reads demand, capacity, and utilization from the
+converged state of the event's own step; quantities the step does not carry stay `null`, and the
+same violated condition re-identified at a later step does not duplicate the criterion list.
 
 `equilibrium-infeasible` means: no statically admissible equilibrium was found inside the defined
 mechanical domain. It is a global verdict. It does not identify a single causal interface, and the
 library never promotes `outputs.hinges[0]`, the first out-of-thickness interface, or the maximum
 relaxed representative utilization into such a cause. The same rule protects sliding and compression
 checks: interface checks computed on an infeasible representative state are reported as states, not
-as certified failure causes.
+as certified failure causes. When the solver converges and finds the domain globally infeasible, the
+assessment is `FAIL` with the single `equilibrium-infeasible` criterion, empty `entityIds`, and
+`failureMode: "undetermined"`.
 
 Joint opening, hinge formation, passive tendon activation, tendon slackening, sliding onset, and
 bonded-layer force development are states or events; none of them is a failed criterion by itself. A
-passive tendon may open, activate, and redistribute load while the assessment stays `PASS` at
-`lambda = 1`. Only the physical-limit kinds (plastic sliding, compression strength, crushing,
-reinforcement yield/rupture, anchor capacity, bonded-layer capacity, and invalid extrados contact)
-fail a design check by default.
+passive tendon may activate and redistribute load while the assessment stays `PASS` at `lambda = 1`;
+an extrados passive tendon activating under downward crown load is a regression-test case. Only the
+physical-limit kinds fail a design check by default.
 
 For the path analysis, `engineeringAssessment` adds the path-specific `requiredLambda: 1` field;
 `outputs.events` keeps the complete event log with categories, steps, and messages.

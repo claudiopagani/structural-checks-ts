@@ -763,17 +763,30 @@ export function analyzeMasonryArchLimit(
 
   return new CalculationResult<MasonryArchLimitOutputs>({
     applicationId: "masonry-arch-limit",
-    status: successful
-      ? RESULT_STATUS.OK
-      : collapse.status === "optimal" &&
-          (slidingInterfaces.length > 0 || crushingInterfaces.length > 0)
-        ? RESULT_STATUS.NOT_VERIFIED
-        : RESULT_STATUS.FAILED,
+    // Capacity semantics: OK means the analysis produced a determinate capacity answer
+    // (verified collapse, or an unbounded model with no collapse); NOT_VERIFIED means the
+    // process completed but no fully verified collapse criterion was satisfied (static limit
+    // only, fixed-load infeasibility, or a reinforcement limit already exceeded at fixed
+    // loads); FAILED is reserved for numerical or procedural inability to determine an answer.
+    status:
+      successful || collapse.status === "unbounded"
+        ? RESULT_STATUS.OK
+        : collapse.status === "optimal" ||
+            collapse.status === "fixed-load-infeasible" ||
+            fixedReinforcementFailureMode !== null
+          ? RESULT_STATUS.NOT_VERIFIED
+          : RESULT_STATUS.FAILED,
     summary: successful
       ? "A finite collapse multiplier and compatible rigid-block mechanism were found."
-      : fixedReinforcementFailureMode !== null
-        ? "An assigned reinforcement, contact, or anchor limit is already exceeded before scalable loading."
-        : "No fully verified finite rigid-block collapse mechanism was found.",
+      : collapse.status === "unbounded"
+        ? "The limit problem is unbounded: no collapse occurs within the assigned mechanical model."
+        : fixedReinforcementFailureMode !== null
+          ? "An assigned reinforcement, contact, or anchor limit is already exceeded before scalable loading."
+          : collapse.status === "fixed-load-infeasible"
+            ? "The fixed load state alone admits no statically admissible equilibrium."
+            : collapse.status === "optimal"
+              ? "A finite static limit multiplier was found without fully verified collapse kinematics."
+              : "The numerical process could not determine a finite rigid-block collapse multiplier.",
     outputs,
     warnings,
     assumptions: [

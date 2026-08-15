@@ -86,6 +86,8 @@ void test("design-state check returns PASS at a converged lambda-one state", () 
   });
   assert.equal(result.outputs.control.type, "load");
   assert.equal(result.outputs.engineeringAssessment?.status, "PASS");
+  assert.equal(result.status, "ok");
+  assert.equal(result.outputs.engineeringAssessment?.failureMode, null);
   assert.equal(result.outputs.analysis.lambda.currentValue, 1);
   assert.equal(result.outputs.significantSteps.designState, result.outputs.steps.at(-1)!.step);
 });
@@ -97,6 +99,9 @@ void test("numerical exhaustion returns INDETERMINATE and never collapse", () =>
     maxSteps: 1,
   });
   assert.equal(result.outputs.engineeringAssessment?.status, "INDETERMINATE");
+  assert.equal(result.status, "failed");
+  assert.deepEqual(result.outputs.engineeringAssessment?.failedCriteria, []);
+  assert.equal(result.outputs.engineeringAssessment?.failureMode, null);
   assert.equal(result.outputs.analysisOutcome.terminationCategory, "numerical-failure");
   assert.equal(result.outputs.capacity.lambdaCollapse, null);
 });
@@ -107,6 +112,8 @@ void test("stop-at-onset compression produces a physical FAIL without a mechanis
     { ...numericalOptions, analysisObjective: "design-state-check" },
   );
   assert.equal(result.outputs.engineeringAssessment?.status, "FAIL");
+  assert.equal(result.status, "not-verified");
+  assert.equal(result.outputs.engineeringAssessment?.failureMode, "masonry-crushing");
   assert.equal(result.outputs.convergenceInfo.termination, "terminal-physical-event");
   assert.ok(result.outputs.events.some((event) => event.kind === "compression-strength-reached"));
   assert.equal(result.outputs.capacity.lambdaCollapse, null);

@@ -1,5 +1,4 @@
 import { CalculationResult } from "../../core/results/CalculationResult.js";
-import { RESULT_STATUS } from "../../core/results/resultStatus.js";
 import { solveRigidBlockChainEquilibrium2D } from "../../domain/masonry/rigid-blocks/solveHeymanChainEquilibrium2D.js";
 import type {
   RigidBlockInterfaceLimitLaw2D,
@@ -21,8 +20,10 @@ import {
 import {
   createMasonryArchEngineeringCriterion,
   masonryArchFailureModeFromKinds,
+  masonryArchResultStatusFromAssessmentStatus,
 } from "./engineeringAssessment.js";
 import {
+  MASONRY_ARCH_EQUILIBRIUM_ASSESSMENT_QUESTION,
   MASONRY_ARCH_EQUILIBRIUM_RESULT_SCHEMA_VERSION,
   type AnalyzeMasonryArchEquilibriumOptions,
   type ArchAnchorForceResult,
@@ -53,9 +54,6 @@ function positiveInteger(value: number, label: string): number {
   }
   return value;
 }
-
-const EQUILIBRIUM_ASSESSMENT_QUESTION =
-  "does-the-assigned-load-state-admit-a-verified-statically-admissible-equilibrium";
 
 export function classifyInterface(
   normalizedEccentricity: number | null,
@@ -203,6 +201,7 @@ function equilibriumFailedCriteria(
       criteria.push(
         createMasonryArchEngineeringCriterion("compression-strength-reached", [item.interfaceId], {
           lambda: 1,
+          checkId: "finite-compression-uniform-edge-block",
           demand: item.checks.compression.demand,
           capacity: item.checks.compression.capacity,
           utilizationRatio: item.checks.compression.utilizationRatio,
@@ -213,6 +212,7 @@ function equilibriumFailedCriteria(
       criteria.push(
         createMasonryArchEngineeringCriterion("plastic-sliding", [item.interfaceId], {
           lambda: 1,
+          checkId: "coulomb-friction",
           demand: item.checks.friction.demand,
           capacity: item.checks.friction.capacity,
           utilizationRatio: item.checks.friction.utilizationRatio,
@@ -220,50 +220,57 @@ function equilibriumFailedCriteria(
       );
     }
   }
+  // Every actually failing sub-check produces its own criterion, regardless of the synthetic
+  // reinforcement state: a reinforcement that both yields and ruptures reports every violated
+  // condition, never just the terminal one.
   for (const reinforcement of reinforcementState) {
-    if (reinforcement.state === "yielded" && reinforcement.checks.yielding !== null) {
+    const yielding = reinforcement.checks.yielding;
+    if (yielding !== null && yielding.status === "fail") {
       criteria.push(
         createMasonryArchEngineeringCriterion(
           "reinforcement-yielded",
           [reinforcement.reinforcementId],
           {
             lambda: 1,
-            demand: reinforcement.checks.yielding.demand,
-            capacity: reinforcement.checks.yielding.capacity,
-            utilizationRatio: reinforcement.checks.yielding.utilizationRatio,
+            checkId: "reinforcement-yield-stress",
+            demand: yielding.demand,
+            capacity: yielding.capacity,
+            utilizationRatio: yielding.utilizationRatio,
           },
         ),
       );
     }
-    if (reinforcement.state === "failed") {
-      if (reinforcement.checks.tensileFailure?.status === "fail") {
-        criteria.push(
-          createMasonryArchEngineeringCriterion(
-            "reinforcement-rupture",
-            [reinforcement.reinforcementId],
-            {
-              lambda: 1,
-              demand: reinforcement.checks.tensileFailure.demand,
-              capacity: reinforcement.checks.tensileFailure.capacity,
-              utilizationRatio: reinforcement.checks.tensileFailure.utilizationRatio,
-            },
-          ),
-        );
-      }
-      if (reinforcement.checks.ultimateStrain?.status === "fail") {
-        criteria.push(
-          createMasonryArchEngineeringCriterion(
-            "reinforcement-rupture",
-            [reinforcement.reinforcementId],
-            {
-              lambda: 1,
-              demand: reinforcement.checks.ultimateStrain.demand,
-              capacity: reinforcement.checks.ultimateStrain.capacity,
-              utilizationRatio: reinforcement.checks.ultimateStrain.utilizationRatio,
-            },
-          ),
-        );
-      }
+    const tensile = reinforcement.checks.tensileFailure;
+    if (tensile !== null && tensile.status === "fail") {
+      criteria.push(
+        createMasonryArchEngineeringCriterion(
+          "reinforcement-rupture",
+          [reinforcement.reinforcementId],
+          {
+            lambda: 1,
+            checkId: "reinforcement-tensile-strength",
+            demand: tensile.demand,
+            capacity: tensile.capacity,
+            utilizationRatio: tensile.utilizationRatio,
+          },
+        ),
+      );
+    }
+    const ultimate = reinforcement.checks.ultimateStrain;
+    if (ultimate !== null && ultimate.status === "fail") {
+      criteria.push(
+        createMasonryArchEngineeringCriterion(
+          "reinforcement-rupture",
+          [reinforcement.reinforcementId],
+          {
+            lambda: 1,
+            checkId: "reinforcement-ultimate-strain",
+            demand: ultimate.demand,
+            capacity: ultimate.capacity,
+            utilizationRatio: ultimate.utilizationRatio,
+          },
+        ),
+      );
     }
   }
   for (const anchor of anchorForces) {
@@ -353,7 +360,7 @@ function buildEquilibriumEngineeringAssessment(
       ? masonryArchFailureModeFromKinds(failedCriteria.map((item) => item.kind))
       : null;
   return {
-    question: EQUILIBRIUM_ASSESSMENT_QUESTION,
+    question: MASONRY_ARCH_EQUILIBRIUM_ASSESSMENT_QUESTION,
     status,
     lambda: 1,
     failedCriteria,
@@ -447,12 +454,6 @@ export function analyzeMasonryArchEquilibrium(
     resolvedReinforcements.contactForces,
     bondedRecovery.bondedLayerState,
   );
-  const reinforcementChecksSatisfied =
-    !resolvedReinforcements.hasAnchorFailure &&
-    !resolvedReinforcements.hasReinforcementYield &&
-    !resolvedReinforcements.hasReinforcementFailure &&
-    !resolvedReinforcements.hasInvalidContact;
-  const successful = equilibrium.feasible && residualSatisfied && reinforcementChecksSatisfied;
   const warnings: string[] = [...resolvedReinforcements.warnings];
   if (!equilibrium.feasible && equilibrium.reason !== null) warnings.push(equilibrium.reason);
   if (!residualSatisfied) {
@@ -538,10 +539,17 @@ export function analyzeMasonryArchEquilibrium(
 
   return new CalculationResult<MasonryArchEquilibriumOutputs>({
     applicationId: "masonry-arch-equilibrium",
-    status: successful ? RESULT_STATUS.OK : RESULT_STATUS.FAILED,
-    summary: successful
-      ? "A representative statically admissible rigid-block equilibrium was found."
-      : "No verified rigid-block equilibrium was found for the assigned load state.",
+    status: masonryArchResultStatusFromAssessmentStatus(engineeringAssessment.status),
+    summary:
+      engineeringAssessment.status === "PASS"
+        ? "A representative statically admissible rigid-block equilibrium was found and every assigned verification criterion is satisfied."
+        : engineeringAssessment.status === "FAIL"
+          ? engineeringAssessment.failedCriteria.some(
+              (item) => item.kind === "equilibrium-infeasible",
+            )
+            ? "No statically admissible rigid-block equilibrium exists for the assigned load state."
+            : "The assigned load state admits an equilibrium but violates one or more structural verification criteria."
+          : "The numerical process could not determine whether the assigned load state admits a verified statically admissible equilibrium.",
     outputs,
     warnings,
     assumptions: [
