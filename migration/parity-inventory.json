@@ -58044,7 +58044,7 @@
   "counts": {
     "rootExports": {
       "javascript": 841,
-      "typescript": 854
+      "typescript": 856
     },
     "applicationsExports": {
       "javascript": 309,
@@ -58072,7 +58072,7 @@
     },
     "tests": {
       "javascript": 131,
-      "typescript": 423
+      "typescript": 425
     },
     "validationCampaigns": {
       "javascript": 17,

@@ -138,6 +138,23 @@ export { BandedLinearSolver } from "./domain/math/BandedLinearSolver.js";
 export { DenseLinearSolver } from "./domain/math/DenseLinearSolver.js";
 export { rectangularNoTensionCompressionDomain2D } from "./domain/masonry/rigid-blocks/rectangularNoTensionCompressionDomain2D.js";
 export {
+  createRigidBlockDeformableInterfaceState2D,
+  evaluateRigidBlockDeformableInterface2D,
+} from "./domain/masonry/rigid-blocks/evaluateDeformableInterface2D.js";
+export type {
+  EvaluateRigidBlockDeformableInterface2DInput,
+  RigidBlockDeformableInterfaceAction2D,
+  RigidBlockDeformableInterfaceChecks2D,
+  RigidBlockDeformableInterfaceEvaluation2D,
+  RigidBlockDeformableInterfaceFiberResponse2D,
+  RigidBlockDeformableInterfaceLaw2D,
+  RigidBlockDeformableInterfaceMechanicalCheck2D,
+  RigidBlockDeformableInterfaceMechanicalCheckId2D,
+  RigidBlockDeformableInterfaceMechanicalCheckStatus2D,
+  RigidBlockDeformableInterfaceState2D,
+  RigidBlockFiniteDisplacement2D,
+} from "./domain/masonry/rigid-blocks/evaluateDeformableInterface2D.js";
+export {
   GeneralBandedLUFactorization,
   GeneralBandedLinearSolver,
   addCompactBandedValue,

@@ -764,7 +764,7 @@ void test("path design assessment reports the shared shape with lambda and requi
   // mode keeps its own semantics and remains available on the outputs.
   assert.equal(assessment.failureMode, null);
   assert.equal(result.outputs.failureMode, "no-collapse-within-model");
-  assert.equal(result.metadata.schemaVersion, "6.0.0");
+  assert.equal(result.metadata.schemaVersion, "7.0.0");
 });
 
 void test("D3. reinforcement rupture from both sub-checks preserves one criterion per check", () => {
@@ -836,7 +836,9 @@ void test("N. simultaneously violated reinforcement criteria are all preserved",
   const assessment = result.outputs.engineeringAssessment;
   assert.equal(assessment.status, "FAIL");
   assert.equal(result.status, "not-verified");
-  assert.equal(assessment.failureMode, "mixed");
+  // Yielding and tensile/ultimate-strain rupture belong to the same reinforcement family: the
+  // family resolves to its most advanced mode instead of counting criteria and reporting mixed.
+  assert.equal(assessment.failureMode, "reinforcement-failure");
   assert.deepEqual(kinds(assessment.failedCriteria), [
     "reinforcement-yielded",
     "reinforcement-rupture",
@@ -927,7 +929,7 @@ void test("L. a passive extrados tendon activates during the path and the design
   assert.ok(passive.force > 0);
 });
 
-void test("O1. path compression criteria carry the step-coherent demand, capacity, and utilization", () => {
+void test("O1. path compression criteria copy the step's deformable-interface check", () => {
   const result = designPath(
     pathModel({
       interfaceLaw: {
@@ -946,16 +948,23 @@ void test("O1. path compression criteria carry the step-coherent demand, capacit
     (item) => item.kind === "compression-strength-reached",
   )!;
   assert.ok(criterion !== undefined);
-  assert.equal(criterion.capacity, 310);
-  assert.ok(criterion.demand !== null);
-  assert.ok(criterion.utilizationRatio !== null);
   const event = result.outputs.events.find((item) => item.kind === "compression-strength-reached")!;
   const step = result.outputs.steps.find((item) => item.step === event.step)!;
   const interfaceState = step.state.interfaces.find(
     (item) => item.interfaceId === event.entityIds[0],
   )!;
-  assert.equal(criterion.demand, interfaceState.maxCompression);
-  assert.equal(criterion.utilizationRatio, interfaceState.maxCompression / 310);
+  // The criterion is the exact copy of the check the deformable-interface law published.
+  const check = interfaceState.checks.compression!;
+  assert.ok(check !== null);
+  assert.equal(criterion.checkId, check.criterion);
+  assert.equal(criterion.checkId, "deformable-interface-compression-strength");
+  assert.equal(criterion.demand, check.demand);
+  assert.equal(criterion.capacity, check.capacity);
+  assert.equal(criterion.utilizationRatio, check.utilizationRatio);
+  assert.equal(check.capacity, 310);
+  // The demand is the unclipped trial compression the crushing-onset test compares with the
+  // strength, not the clipped published stress.
+  assert.ok(check.demand >= 310 * (1 - 1e-9));
 });
 
 void test("O2. path sliding and reinforcement criteria carry step-coherent numeric data", () => {
@@ -989,9 +998,17 @@ void test("O2. path sliding and reinforcement criteria carry step-coherent numer
   )!;
   const slidingStep = result.outputs.steps.find((item) => item.step === slidingEvent.step)!;
   const interfaceState = slidingStep.state.interfaces.find((item) => item.interfaceId === "J-004")!;
-  assert.equal(sliding.demand, Math.abs(interfaceState.shearForce));
-  assert.equal(sliding.utilizationRatio, interfaceState.frictionUtilization);
-  assert.equal(sliding.capacity, 0.5 * interfaceState.normalForce);
+  // The criterion is the exact copy of the Coulomb check the deformable-interface law published;
+  // no consumer recomputes the capacity.
+  const frictionCheck = interfaceState.checks.friction!;
+  assert.ok(frictionCheck !== null);
+  assert.equal(sliding.checkId, frictionCheck.criterion);
+  assert.equal(sliding.checkId, "coulomb-friction");
+  assert.equal(sliding.demand, frictionCheck.demand);
+  assert.equal(sliding.capacity, frictionCheck.capacity);
+  assert.equal(sliding.utilizationRatio, frictionCheck.utilizationRatio);
+  assert.equal(frictionCheck.demand, Math.abs(interfaceState.shearForce));
+  assert.equal(frictionCheck.capacity, 0.5 * interfaceState.normalForce);
 
   const yielded = assessment.failedCriteria.find((item) => item.kind === "reinforcement-yielded")!;
   assert.equal(yielded.checkId, "reinforcement-yield-stress");

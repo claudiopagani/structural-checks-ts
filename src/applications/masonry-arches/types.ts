@@ -162,6 +162,7 @@ export type MasonryArchDesignFailureEventKind = MasonryArchPhysicalLimitEventKin
 export type MasonryArchEngineeringCheckId =
   | "coulomb-friction"
   | "finite-compression-uniform-edge-block"
+  | "deformable-interface-compression-strength"
   | "reinforcement-yield-stress"
   | "reinforcement-tensile-strength"
   | "reinforcement-ultimate-strain";

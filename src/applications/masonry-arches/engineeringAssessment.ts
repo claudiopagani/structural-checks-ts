@@ -76,26 +76,84 @@ export function masonryArchEngineeringCriterionKindFromEventKind(
 }
 
 /**
- * Shared mapping from violated criterion kinds to a global mechanism classification.
- * `equilibrium-infeasible` and every kind without a physical mode leave the mode `undetermined`;
- * simultaneously violated physically distinct criteria produce `mixed`. Used by both the path
- * event interpretation and the equilibrium assessment so that the same physical violation receives
- * the same failure mode regardless of the producing analysis.
+ * Physical mechanism family of one violated criterion kind. Several criterion kinds can describe
+ * stages of the same family (for example yielding and tensile rupture of one reinforcement
+ * system); the family, not the number of failed criteria, is what the global failure mode
+ * classifies. `equilibrium-infeasible` and every kind without a physical family map to null.
+ */
+type MasonryArchMechanismFamily =
+  | "masonry-compression"
+  | "sliding"
+  | "reinforcement"
+  | "anchor"
+  | "instability";
+
+function masonryArchMechanismFamily(
+  kind: MasonryArchEngineeringCriterionKind,
+): MasonryArchMechanismFamily | null {
+  switch (kind) {
+    case "compression-strength-reached":
+    case "crushing":
+      return "masonry-compression";
+    case "plastic-sliding":
+      return "sliding";
+    case "reinforcement-yielded":
+    case "reinforcement-rupture":
+    case "bonded-layer-capacity-reached":
+      return "reinforcement";
+    case "anchor-capacity-reached":
+      return "anchor";
+    case "extrados-contact-invalid":
+      return "instability";
+    case "equilibrium-infeasible":
+      return null;
+  }
+}
+
+/**
+ * Shared mapping from violated criterion kinds to a global mechanism classification. Criteria are
+ * first grouped by physical mechanism family: a single family resolves to the family's failure
+ * mode (within the reinforcement family, rupture or bonded-layer capacity prevails over bare
+ * yielding), and several distinct families resolve to `mixed`. `mixed` therefore means multiple
+ * distinct physical mechanism families, never merely multiple failed criteria of one family.
+ * `equilibrium-infeasible` and every kind without a physical family leave the mode `undetermined`.
+ * Used by both the path event interpretation and the equilibrium assessment so that the same
+ * physical violation receives the same failure mode regardless of the producing analysis.
  */
 export function masonryArchFailureModeFromKinds(
   kinds: readonly MasonryArchEngineeringCriterionKind[],
 ): MasonryArchFailureMode {
-  const set = new Set(kinds);
-  const modes: MasonryArchFailureMode[] = [];
-  if (set.has("crushing") || set.has("compression-strength-reached"))
-    modes.push("masonry-crushing");
-  if (set.has("plastic-sliding")) modes.push("sliding");
-  if (set.has("reinforcement-yielded")) modes.push("reinforcement-yield");
-  if (set.has("reinforcement-rupture") || set.has("bonded-layer-capacity-reached"))
-    modes.push("reinforcement-failure");
-  if (set.has("anchor-capacity-reached")) modes.push("anchor-capacity");
-  if (set.has("extrados-contact-invalid")) modes.push("instability");
-  return modes.length > 1 ? "mixed" : (modes[0] ?? "undetermined");
+  const families = new Set<MasonryArchMechanismFamily>();
+  let reinforcementYielded = false;
+  let reinforcementFailed = false;
+  for (const kind of kinds) {
+    const family = masonryArchMechanismFamily(kind);
+    if (family === "reinforcement") {
+      if (kind === "reinforcement-yielded") reinforcementYielded = true;
+      else reinforcementFailed = true;
+    }
+    if (family !== null) families.add(family);
+  }
+  const uniqueFamilies = [...families];
+  if (uniqueFamilies.length > 1) return "mixed";
+  const family = uniqueFamilies[0];
+  if (family === undefined) return "undetermined";
+  switch (family) {
+    case "masonry-compression":
+      return "masonry-crushing";
+    case "sliding":
+      return "sliding";
+    case "reinforcement":
+      return reinforcementFailed
+        ? "reinforcement-failure"
+        : reinforcementYielded
+          ? "reinforcement-yield"
+          : "undetermined";
+    case "anchor":
+      return "anchor-capacity";
+    case "instability":
+      return "instability";
+  }
 }
 
 /**

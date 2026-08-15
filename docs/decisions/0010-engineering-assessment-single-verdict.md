@@ -2,6 +2,11 @@
 
 Status: accepted
 
+> Refined by [Decision 0011](0011-domain-published-deformable-interface-checks.md): path interface
+> criteria now copy the checks published by the deformable interface law, the deformable compression
+> check uses its own `deformable-interface-compression-strength` identifier, and the failure mode
+> classifies physical mechanism families instead of counting criterion strings.
+
 ## Context
 
 The masonry-arch `engineeringAssessment` contract published a structured `PASS` / `FAIL` /

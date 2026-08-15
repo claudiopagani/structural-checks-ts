@@ -6,6 +6,23 @@ const sourceRoot = path.join(repositoryRoot, "src");
 const importPattern = /\b(?:from\s+|import\s*\(\s*)["']([^"']+)["']/gu;
 const forbiddenSolverPattern = /\b(?:NextFEM|OOFEM)\b/gu;
 
+/**
+ * `pathCriteria.ts` is a mapping layer: it must copy the mechanical checks published by the
+ * domain layer and must never re-derive a mechanical formula. These patterns target the exact
+ * duplication the layer is forbidden to contain (Coulomb capacity, compression utilization, and
+ * strength-based reconstruction).
+ */
+const pathCriteriaPath = path.join(sourceRoot, "applications", "masonry-arches", "pathCriteria.ts");
+const forbiddenPathCriteriaPatterns: readonly {
+  readonly name: string;
+  readonly pattern: RegExp;
+}[] = [
+  { name: "cohesion-times", pattern: /\bcohesion\s*\*/u },
+  { name: "friction-coefficient-times", pattern: /\bfrictionCoefficient\s*\*/u },
+  { name: "demand-over-capacity", pattern: /\bdemand\s*\/\s*capacity\b/u },
+  { name: "compressive-strength-reference", pattern: /\bcompressiveStrength\b/u },
+];
+
 async function collectTypeScriptFiles(directory: string): Promise<string[]> {
   const entries = await readdir(directory, { withFileTypes: true });
   const files: string[] = [];
@@ -54,6 +71,16 @@ function importedLayer(filePath: string, specifier: string): ReturnType<typeof s
 const files = await collectTypeScriptFiles(sourceRoot);
 const errors: string[] = [];
 let relativeDependencyCount = 0;
+
+const pathCriteriaSource = await readFile(pathCriteriaPath, "utf8");
+for (const guard of forbiddenPathCriteriaPatterns) {
+  if (guard.pattern.test(pathCriteriaSource)) {
+    errors.push(
+      `${path.relative(repositoryRoot, pathCriteriaPath)} must not contain a mechanical ` +
+        `formula (guard ${guard.name}); path criteria copy domain-produced checks.`,
+    );
+  }
+}
 
 for (const filePath of files) {
   const source = await readFile(filePath, "utf8");

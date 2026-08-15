@@ -1,6 +1,16 @@
 # Masonry-arch engineering assessment refinement
 
-Status: implemented | Scope: `applications/masonry-arches`
+Status: implemented (superseded in part by
+[Decision 0011](decisions/0011-domain-published-deformable-interface-checks.md) and
+[masonry-arch-deformable-interface-checks.md](masonry-arch-deformable-interface-checks.md)) | Scope:
+`applications/masonry-arches`
+
+Later iterations changed two statements below: path interface criteria now copy the checks published
+by the deformable interface law (`coulomb-friction` and the new
+`deformable-interface-compression-strength`) instead of reading law constants, and a reinforcement
+that yields and ruptures now classifies `failureMode: "reinforcement-failure"` because the failure
+mode classifies physical mechanism families, not the number of failed criteria. This record remains
+as the historical report of the Decision 0010 iteration.
 
 This document records the refinement of the `engineeringAssessment` contract performed on top of
 HEAD `ea2ce0b` (`archi: documentazione modi fail`), auditing everything introduced after the base

@@ -65,6 +65,44 @@ export interface RigidBlockDeformableInterfaceAction2D {
   readonly moment: number;
 }
 
+/**
+ * Named checks published by the deformable interface law. The literals identify the producing
+ * mechanical check; application layers map them onto their own check identifier taxonomy and
+ * must never re-derive the quantities.
+ */
+export type RigidBlockDeformableInterfaceMechanicalCheckId2D =
+  | "coulomb-friction"
+  | "deformable-interface-compression-strength";
+
+export type RigidBlockDeformableInterfaceMechanicalCheckStatus2D =
+  | "pass"
+  | "fail"
+  | "not-verifiable";
+
+export interface RigidBlockDeformableInterfaceMechanicalCheck2D {
+  readonly criterion: RigidBlockDeformableInterfaceMechanicalCheckId2D;
+  readonly demand: number;
+  readonly capacity: number;
+  readonly utilizationRatio: number | null;
+  readonly status: RigidBlockDeformableInterfaceMechanicalCheckStatus2D;
+}
+
+export interface RigidBlockDeformableInterfaceChecks2D {
+  /**
+   * Coulomb shear check of the tangential law. The deformable law always assigns a tangential
+   * Coulomb law, so this check is always produced; the status is `not-verifiable` only when the
+   * friction capacity is zero and no utilization can be formed.
+   */
+  readonly friction: RigidBlockDeformableInterfaceMechanicalCheck2D | null;
+  /**
+   * Finite-compression-strength check of the normal law. Null when no finite compression
+   * strength is assigned. The demand is the maximum unclipped trial compression that the
+   * crushing-onset test compares with the assigned strength, so the check reflects the actual
+   * implemented law rather than the clipped stress distribution.
+   */
+  readonly compression: RigidBlockDeformableInterfaceMechanicalCheck2D | null;
+}
+
 export interface RigidBlockDeformableInterfaceEvaluation2D {
   readonly interfaceId: string;
   /** Local ordering is three degrees of freedom for the left block, then the right block. */
@@ -83,6 +121,13 @@ export interface RigidBlockDeformableInterfaceEvaluation2D {
   readonly eccentricity: number | null;
   readonly compressedLength: number;
   readonly maxCompression: number;
+  /**
+   * Maximum unclipped trial compression: the quantity the crushing-onset test compares with the
+   * assigned compressive strength. For the analytic integration it is the exact edge maximum of
+   * the trial distribution; for the perfectly-plastic integration it is the maximum over the
+   * returned fiber midpoints, matching the fiber-wise crushing-onset test.
+   */
+  readonly maximumTrialCompression: number;
   /** Compression stress at the intrados edge of the joint. */
   readonly compressionAtIntrados: number;
   /** Compression stress at the extrados edge of the joint. */
@@ -94,6 +139,8 @@ export interface RigidBlockDeformableInterfaceEvaluation2D {
   readonly contactActive: boolean;
   readonly sliding: boolean;
   readonly crushing: boolean;
+  /** Mechanical checks produced where the law is evaluated; consumers copy, never recompute. */
+  readonly checks: RigidBlockDeformableInterfaceChecks2D;
   /** Closed-normal/closed-stick derivative selection at the nonsmooth N = V = 0 vertex. */
   readonly coincidentClosedStickPredictor: boolean;
   readonly tangentMethod:
@@ -135,6 +182,7 @@ interface ForceEvaluation {
   readonly moment: number;
   readonly compressedLength: number;
   readonly maxCompression: number;
+  readonly maximumTrialCompression: number;
   readonly compressionAtIntrados: number;
   readonly compressionAtExtrados: number;
   readonly frictionUtilization: number | null;
@@ -144,6 +192,7 @@ interface ForceEvaluation {
   readonly contactActive: boolean;
   readonly sliding: boolean;
   readonly crushing: boolean;
+  readonly checks: RigidBlockDeformableInterfaceChecks2D;
 }
 
 interface NormalFiberEvaluation {
@@ -652,6 +701,26 @@ function evaluateForces(
     sliding,
   }));
 
+  const frictionUtilization =
+    totalFrictionCapacity > 0 ? Math.abs(shearForce) / totalFrictionCapacity : null;
+  // The compression check is produced here, where the strength limit is actually applied:
+  // the demand is the unclipped trial that the crushing-onset test compares with the assigned
+  // strength, and the status reflects reaching the limit in the current state. Developed
+  // plastic crushing (perfectly-plastic) below the current limit keeps the check at pass; the
+  // `crushing` flag remains the historical/developed-plasticity state.
+  const compressionCheck: RigidBlockDeformableInterfaceMechanicalCheck2D | null =
+    law.normal.compressiveStrength === null
+      ? null
+      : {
+          criterion: "deformable-interface-compression-strength",
+          demand: maximumTrialCompression,
+          capacity: law.normal.compressiveStrength,
+          utilizationRatio: maximumTrialCompression / law.normal.compressiveStrength,
+          status:
+            maximumTrialCompression >= law.normal.compressiveStrength * (1 - 1e-12)
+              ? "fail"
+              : "pass",
+        };
   return {
     generalizedForces,
     trialState: {
@@ -667,16 +736,26 @@ function evaluateForces(
     moment,
     compressedLength,
     maxCompression: maximumCompression,
+    maximumTrialCompression,
     compressionAtIntrados,
     compressionAtExtrados,
-    frictionUtilization:
-      totalFrictionCapacity > 0 ? Math.abs(shearForce) / totalFrictionCapacity : null,
+    frictionUtilization,
     maximumOpening,
     maximumClosure,
     maximumAbsoluteSlip,
     contactActive: normalForce > 0,
     sliding,
     crushing,
+    checks: {
+      friction: {
+        criterion: "coulomb-friction",
+        demand: Math.abs(shearForce),
+        capacity: totalFrictionCapacity,
+        utilizationRatio: frictionUtilization,
+        status: frictionUtilization === null ? "not-verifiable" : sliding ? "fail" : "pass",
+      },
+      compression: compressionCheck,
+    },
   };
 }
 
@@ -778,6 +857,7 @@ export function evaluateRigidBlockDeformableInterface2D(
     eccentricity: baseline.normalForce > 0 ? baseline.moment / baseline.normalForce : null,
     compressedLength: baseline.compressedLength,
     maxCompression: baseline.maxCompression,
+    maximumTrialCompression: baseline.maximumTrialCompression,
     compressionAtIntrados: baseline.compressionAtIntrados,
     compressionAtExtrados: baseline.compressionAtExtrados,
     frictionUtilization: baseline.frictionUtilization,
@@ -787,6 +867,7 @@ export function evaluateRigidBlockDeformableInterface2D(
     contactActive: baseline.contactActive,
     sliding: baseline.sliding,
     crushing: baseline.crushing,
+    checks: baseline.checks,
     coincidentClosedStickPredictor,
     tangentMethod:
       input.law.normal.postCrushingBehavior === "perfectly-plastic" &&

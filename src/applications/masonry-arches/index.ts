@@ -76,4 +76,5 @@ export {
   MASONRY_ARCH_EQUILIBRIUM_RESULT_SCHEMA_VERSION,
   MASONRY_ARCH_LIMIT_ANALYSIS_RESULT_SCHEMA_VERSION,
 } from "./types.js";
+export { masonryArchFailureModeFromKinds } from "./engineeringAssessment.js";
 export type * from "./types.js";

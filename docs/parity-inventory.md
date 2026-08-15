@@ -13,19 +13,23 @@ The link to the previous implementation is severed and it is never consulted at 
 - Record updates: 2026-08-15 — TypeScript-side counts synchronized to the current HEAD (root exports
   854, source files 532, tests 423) after the masonry-arch engineering-assessment refinement; the
   JavaScript side remains the original snapshot.
+- Record updates: 2026-08-15 — Decision 0011 (domain-published deformable-interface checks) extended
+  the public surface by two root exports (`evaluateRigidBlockDeformableInterface2D`,
+  `createRigidBlockDeformableInterfaceState2D`) and added two test files: TypeScript-side root
+  exports moved 854 -> 856 and tests 423 -> 425. The JavaScript side remains the original snapshot.
 
 ## Surface counts
 
 | Surface                           | Pinned JavaScript | Current TypeScript |
 | --------------------------------- | ----------------: | -----------------: |
-| Root exports                      |               841 |                854 |
+| Root exports                      |               841 |                856 |
 | Applications exports              |               309 |                309 |
 | Package entry points              |                14 |                 14 |
 | ApplicationRegistry entries       |                30 |                 30 |
 | Application catalog entries       |                30 |                 30 |
 | Serialized schema/version symbols |                49 |                 49 |
 | Source files                      |               480 |                532 |
-| Tests                             |               131 |                423 |
+| Tests                             |               131 |                425 |
 | Validation campaigns              |                17 |                  0 |
 | Validation files                  |                27 |                  0 |
 | Examples                          |                32 |                  0 |

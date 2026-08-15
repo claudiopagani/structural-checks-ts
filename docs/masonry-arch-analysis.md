@@ -182,15 +182,58 @@ interface MasonryArchEngineeringCriterion {
 checks: `reinforcement-rupture` is reported once per actually failing sub-check with
 `reinforcement-tensile-strength` or `reinforcement-ultimate-strain`, and `reinforcement-yielded`
 carries `reinforcement-yield-stress`. The equilibrium interface criteria carry `coulomb-friction`
-and `finite-compression-uniform-edge-block`. Unknown quantities are `null` and are never inferred
-from unrelated results.
+and `finite-compression-uniform-edge-block`; the path interface criteria carry `coulomb-friction`
+and `deformable-interface-compression-strength`. The two compression identifiers are deliberately
+different: the rigid-plastic equilibrium check is the uniform-edge-block resultant check, while the
+deformable path check is the zero-thickness interface compression-strength check of the actual
+implemented law. Unknown quantities are `null` and are never inferred from unrelated results.
+
+Mechanics produces checks; assessment identifies which check failed. The deformable interface law
+publishes its checks directly in the evaluation result
+
+```ts
+interface RigidBlockDeformableInterfaceChecks2D {
+  friction: {
+    criterion: "coulomb-friction";
+    demand: number; // |shearForce|
+    capacity: number; // cohesion * area + frictionCoefficient * normalForce
+    utilizationRatio: number | null;
+    status: "pass" | "fail" | "not-verifiable";
+  } | null;
+  compression: {
+    criterion: "deformable-interface-compression-strength";
+    demand: number; // maximum unclipped trial compression
+    capacity: number; // assigned compressive strength
+    utilizationRatio: number | null;
+    status: "pass" | "fail" | "not-verifiable";
+  } | null;
+}
+```
+
+The compression demand is the maximum unclipped trial compression that the crushing-onset test
+compares with the assigned strength, not the clipped published stress: reaching the limit fails the
+current-state check, while developed perfectly-plastic crushing below the current limit keeps the
+check at `pass` (the `crushing` flag remains the developed-plasticity state). The compression check
+is `null` when no finite compression strength is assigned.
 
 The equilibrium analysis fills demand, capacity, and utilization from its public interface,
 reinforcement, anchor, and bonded-layer checks, and reports one criterion per actually failing
 sub-check regardless of the synthetic reinforcement state. The path analysis maps its design-failure
-events onto the same criterion taxonomy and reads demand, capacity, and utilization from the
-converged state of the event's own step; quantities the step does not carry stay `null`, and the
-same violated condition re-identified at a later step does not duplicate the criterion list.
+events onto the same criterion taxonomy and copies each criterion's demand, capacity, utilization,
+and `checkId` from the mechanical check published by the converged state of the event's own step:
+`plastic-sliding` copies the step's friction check, `compression-strength-reached` and `crushing`
+copy the step's compression check, and the reinforcement, anchor, and bonded-layer criteria copy
+their own evaluations' checks. Path criteria never recompute a mechanical formula; quantities the
+step does not carry stay `null`, and the same violated condition re-identified at a later step does
+not duplicate the criterion list.
+
+`failureMode` classifies physical mechanism families, not the number of failed criteria. All
+criteria of one family resolve to the family's mode: within the reinforcement family, rupture or
+bonded-layer capacity prevails over bare yielding (`reinforcement-yielded` alone gives
+`reinforcement-yield`; `reinforcement-rupture` or `bonded-layer-capacity-reached` present gives
+`reinforcement-failure`), and `compression-strength-reached` together with `crushing` gives
+`masonry-crushing`. `mixed` means several distinct mechanism families were violated simultaneously
+(for example sliding plus crushing, or reinforcement failure plus masonry crushing).
 
 `equilibrium-infeasible` means: no statically admissible equilibrium was found inside the defined
 mechanical domain. It is a global verdict. It does not identify a single causal interface, and the

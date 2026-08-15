@@ -119,5 +119,5 @@ for (const packedPath of packedFiles) {
 
 console.log(
   `Package check passed (${packageJson.name}@${packageJson.version}, ` +
-  `${packedFiles.size} packed files, publication disabled).`,
+    `${packedFiles.size} packed files, publication disabled).`,
 );

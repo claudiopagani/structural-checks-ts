@@ -1,4 +1,4 @@
-import type { MasonryArchEngineeringCriterion, NormalizedMasonryArchModel } from "./types.js";
+import type { MasonryArchEngineeringCriterion } from "./types.js";
 import type { MasonryArchEvent, MasonryArchPathState, MasonryArchPathStep } from "./pathTypes.js";
 import {
   createMasonryArchEngineeringCriterion,
@@ -6,59 +6,30 @@ import {
 } from "./engineeringAssessment.js";
 
 /**
- * Path-criterion numeric recovery. A failed design criterion produced by a path event reads its
- * demand, capacity, and utilization exclusively from the converged state of the event's own step.
- * Quantities that the step does not carry stay null; no formula is re-derived and no earlier or
- * later step is consulted.
+ * Path-criterion mapping. A failed design criterion produced by a path event is the exact copy of
+ * the mechanical check that the event's own converged step already published. The mechanical layer
+ * owns every formula: demand, capacity, and utilization are read from the step state and never
+ * re-derived here. Quantities that the step does not carry stay null; no earlier or later step is
+ * consulted.
  */
 
-function normalizedInterfaceLaw(
-  model: NormalizedMasonryArchModel,
-  index: number,
-): NormalizedMasonryArchModel["interfaceLaw"] {
-  if (index === 0) return model.supports.left.interfaceLaw;
-  if (index === model.geometry.interfaces.length - 1) return model.supports.right.interfaceLaw;
-  return model.interfaceLaw;
-}
-
 function interfaceCriterionFromState(
-  model: NormalizedMasonryArchModel,
   state: MasonryArchPathState,
   interfaceId: string,
   kind: "plastic-sliding" | "compression-strength-reached" | "crushing",
   lambda: number | null,
 ): MasonryArchEngineeringCriterion {
-  const index = model.geometry.interfaces.findIndex((item) => item.id === interfaceId);
-  const geometry = index < 0 ? undefined : model.geometry.interfaces[index];
-  const item = index < 0 ? undefined : state.interfaces[index];
-  if (item === undefined || geometry === undefined) {
-    return createMasonryArchEngineeringCriterion(kind, [interfaceId], { lambda });
-  }
-  if (kind === "plastic-sliding") {
-    const law = normalizedInterfaceLaw(model, index);
-    const area = geometry.length * geometry.outOfPlaneWidth;
-    const capacity =
-      law.friction === null
-        ? null
-        : law.friction.cohesion * area +
-          law.friction.frictionCoefficient * Math.max(0, item.normalForce);
-    return createMasonryArchEngineeringCriterion(kind, [interfaceId], {
-      lambda,
-      demand: Math.abs(item.shearForce),
-      capacity,
-      utilizationRatio: item.frictionUtilization,
-    });
-  }
-  const capacity = normalizedInterfaceLaw(model, index).compressiveStrength;
-  const demand = item.maxCompression;
-  const utilizationRatio =
-    capacity !== null && capacity > 0 && Number.isFinite(demand) ? demand / capacity : null;
-  return createMasonryArchEngineeringCriterion(kind, [interfaceId], {
-    lambda,
-    demand,
-    capacity,
-    utilizationRatio,
-  });
+  const item = state.interfaces.find((entry) => entry.interfaceId === interfaceId);
+  const check = kind === "plastic-sliding" ? item?.checks.friction : item?.checks.compression;
+  return check === undefined || check === null
+    ? createMasonryArchEngineeringCriterion(kind, [interfaceId], { lambda })
+    : createMasonryArchEngineeringCriterion(kind, [interfaceId], {
+        lambda,
+        checkId: check.criterion,
+        demand: check.demand,
+        capacity: check.capacity,
+        utilizationRatio: check.utilizationRatio,
+      });
 }
 
 function reinforcementCriteriaFromState(
@@ -114,14 +85,15 @@ function reinforcementCriteriaFromState(
 }
 
 /**
- * Builds every failed engineering criterion certified by one design-failure path event, reading
- * the numeric quantities from the converged state of the event's own step when they are directly
- * available there. A `reinforcement-rupture` event can yield several criteria, one per actually
- * failing tensile or ultimate-strain sub-check. Returns an empty array when the event kind is not
- * a physical-limit kind or the event references no known entity.
+ * Builds every failed engineering criterion certified by one design-failure path event by copying
+ * the checks published by the converged state of the event's own step. Interface criteria are the
+ * exact copy of the step's deformable-interface mechanical checks; reinforcement, anchor, and
+ * bonded-layer criteria copy the checks the corresponding evaluation already carries. A
+ * `reinforcement-rupture` event can yield several criteria, one per actually failing tensile or
+ * ultimate-strain sub-check. Returns an empty array when the event kind is not a physical-limit
+ * kind or the event references no known entity.
  */
 export function masonryArchEngineeringCriteriaFromPathEvent(
-  model: NormalizedMasonryArchModel,
   event: MasonryArchEvent,
   step: MasonryArchPathStep | null,
 ): MasonryArchEngineeringCriterion[] {
@@ -138,7 +110,7 @@ export function masonryArchEngineeringCriteriaFromPathEvent(
       const interfaceId = event.entityIds[0];
       return interfaceId === undefined
         ? []
-        : [interfaceCriterionFromState(model, state, interfaceId, event.kind, lambda)];
+        : [interfaceCriterionFromState(state, interfaceId, event.kind, lambda)];
     }
     case "reinforcement-yielded":
     case "reinforcement-rupture": {

@@ -1686,7 +1686,7 @@ export function analyzeMasonryArchPath(
   const seenCriterionKeys = new Set<string>();
   for (const failedEvent of designFailedEvents) {
     const step = failedEvent.step === null ? null : (stepByNumber.get(failedEvent.step) ?? null);
-    for (const criterion of masonryArchEngineeringCriteriaFromPathEvent(model, failedEvent, step)) {
+    for (const criterion of masonryArchEngineeringCriteriaFromPathEvent(failedEvent, step)) {
       const key = `${criterion.kind}|${criterion.checkId ?? ""}|${[...criterion.entityIds]
         .sort()
         .join(",")}`;

@@ -4,4 +4,6 @@ coverage/
 LICENSE
 package-lock.json
 tmp/
+# Frozen historical migration records are provenance evidence and are never reformatted.
+migration/parity-inventory.json
 src/applications/reinforced-concrete-plates/README.md
