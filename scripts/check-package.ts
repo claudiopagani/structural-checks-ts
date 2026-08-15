@@ -8,7 +8,6 @@ import { promisify } from "node:util";
 const execFileAsync = promisify(execFile);
 const repositoryRoot = path.resolve(import.meta.dirname, "..");
 const officialLgpl21Sha256 = "20e50fe7aae3e56378ebf0417d9de904f55a0e61e4df315333e632a4d3555d95";
-const sourceRevision = "6f33baead8b88166c4b2cf94af41763412e3c751";
 
 const packageJson = JSON.parse(
   await readFile(path.join(repositoryRoot, "package.json"), "utf8"),
@@ -65,8 +64,21 @@ assert.equal(
 
 const notice = await readFile(path.join(repositoryRoot, "NOTICE"), "utf8");
 assert.ok(notice.includes("Copyright (C) 2026 Claudio Pagani"));
-assert.ok(notice.includes(sourceRevision));
-assert.ok(notice.includes("strutture-js"));
+// The frozen migration record is the only source of the historical revision; the previous
+// implementation is never consulted.
+const baseline = JSON.parse(
+  await readFile(path.join(repositoryRoot, "migration", "baseline.json"), "utf8"),
+) as { source?: { revision?: string } };
+const recordedSourceRevision =
+  typeof baseline.source?.revision === "string" ? baseline.source.revision : "";
+assert.ok(
+  recordedSourceRevision.length > 0,
+  "migration/baseline.json must record the frozen source revision.",
+);
+assert.ok(
+  notice.includes(recordedSourceRevision),
+  "NOTICE must record the frozen migration source revision.",
+);
 
 const npmCliPath = process.env.npm_execpath;
 assert.ok(npmCliPath !== undefined, "npm_execpath is required for the package check.");
@@ -107,5 +119,5 @@ for (const packedPath of packedFiles) {
 
 console.log(
   `Package check passed (${packageJson.name}@${packageJson.version}, ` +
-    `${packedFiles.size} packed files, publication disabled).`,
+  `${packedFiles.size} packed files, publication disabled).`,
 );

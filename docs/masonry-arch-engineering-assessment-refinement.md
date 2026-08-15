@@ -183,16 +183,21 @@ check, and encoding check all pass.
 
 - Intrados passive activation followed by PASS at λ = 1 has no physically clean benchmark in this
   model family (see above); the extrados case covers the intended semantics.
-- **Deferred: sever the `strutture-js` live link.** Decided to postpone by repository owner. The
-  following artifacts still require the external `strutture-js` checkout and must be converted to
-  frozen-evidence validation in a later work item:
-  - `scripts/check-provenance.ts` (live revision/status/blob verification);
-  - `scripts/parity-inventory.ts` `buildParityInventory` and `scripts/check-parity-inventory.ts`
-    (live source tree walk);
-  - `scripts/generate-parity-inventory.ts` and the `inventory:generate` npm script;
-  - the `strutture-js` name assertion in `scripts/check-package.ts` (NOTICE check);
-  - `CONTRIBUTING.md` step 2 ("confirm the recorded `strutture-js` baseline is clean").
-  - Because of this, `npm run check:provenance` and `npm run check:parity-inventory` currently fail
-    when the checkout is absent; they are not part of `npm run check`.
-  - `migration/*.json`, the NOTICE attribution, and the README provenance notes remain frozen
-    historical evidence and are not live dependencies.
+- **Done: sever the `strutture-js` live link.** The repository no longer requires a live checkout of
+  the previous JavaScript implementation:
+  - `scripts/check-provenance.ts` validates the frozen baseline and slice manifests (recorded
+    revision consistency and migrated target existence); live revision/status/blob verification is
+    removed.
+  - `scripts/parity-inventory.ts` is now a frozen-record reader with TypeScript-side surface
+    counting; `scripts/check-parity-inventory.ts` validates the frozen record and detects drift of
+    the current TypeScript surface against the recorded counts.
+  - `scripts/generate-parity-inventory.ts` and the `inventory:generate` npm script are removed.
+  - `scripts/check-package.ts` reads the frozen revision from `migration/baseline.json` instead of a
+    hardcoded pin and no longer asserts the previous project name.
+  - `CONTRIBUTING.md` no longer instructs to confirm a live baseline checkout.
+  - `check:provenance` and `check:parity-inventory` are part of `npm run check` again.
+  - `migration/*.json`, `docs/parity-inventory.md`, the NOTICE attribution, and the README
+    provenance notes remain frozen historical evidence and are not live dependencies.
+  - The optional `legacy-parity` test suite still references the historical checkout and remains
+    excluded from the canonical suite; it is historical verification material, not a dependency of
+    the default workflow.

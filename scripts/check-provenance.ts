@@ -1,146 +1,155 @@
-import { execFile } from "node:child_process";
 import { access, readdir, readFile } from "node:fs/promises";
 import path from "node:path";
-import { promisify } from "node:util";
 
-const execFileAsync = promisify(execFile);
+/**
+ * Provenance check for the frozen migration evidence.
+ *
+ * The repository no longer depends on a live checkout of the previous JavaScript implementation:
+ * that link is severed by design. This check validates the recorded evidence itself: the baseline
+ * manifest, every migration slice manifest, the recorded source revision consistency, and the
+ * existence of every migrated target file. Git blob verification against the historical checkout
+ * is intentionally not performed.
+ */
+
 const repositoryRoot = path.resolve(import.meta.dirname, "..");
-const defaultSourcePath = path.resolve(repositoryRoot, "..", "strutture-js");
 
 interface SourceFileRecord {
-  path: string;
-  gitBlobSha1: string;
-  targetPath?: string;
+    path: string;
+    gitBlobSha1: string;
+    targetPath?: string;
 }
 
 interface SliceManifest {
-  sliceId: string;
-  source: {
-    revision: string;
-  };
-  sourceFiles: SourceFileRecord[];
-  sourceOracles: SourceFileRecord[];
-  sourcePublicExport: SourceFileRecord;
+    sliceId: string;
+    source: {
+        revision: string;
+    };
+    sourceFiles: SourceFileRecord[];
+    sourceOracles: SourceFileRecord[];
+    sourcePublicExport: SourceFileRecord;
 }
 
 interface BaselineManifest {
-  source: {
-    revision: string;
-    packageName: string;
-    packageVersion: string;
-    license: string;
-  };
+    source: {
+        revision: string;
+        packageName: string;
+        packageVersion: string;
+        license: string;
+    };
 }
 
-function parseSourcePath(argv: string[]): string {
-  let sourcePath = process.env.STRUTTURE_JS_BASELINE_PATH
-    ? path.resolve(process.env.STRUTTURE_JS_BASELINE_PATH)
-    : defaultSourcePath;
+function isRecord(value: unknown): value is Record<string, unknown> {
+    return typeof value === "object" && value !== null && !Array.isArray(value);
+}
 
-  for (let index = 0; index < argv.length; index += 1) {
-    const argument = argv[index];
-    if (argument !== "--source") {
-      throw new Error(`Unsupported argument: ${argument}`);
+function isSourceFileRecord(value: unknown): value is SourceFileRecord {
+    return (
+        isRecord(value) &&
+        typeof value.path === "string" &&
+        value.path.length > 0 &&
+        typeof value.gitBlobSha1 === "string" &&
+        value.gitBlobSha1.length > 0 &&
+        (value.targetPath === undefined || typeof value.targetPath === "string")
+    );
+}
+
+function parseSlice(value: unknown): SliceManifest | null {
+    if (!isRecord(value) || typeof value.sliceId !== "string" || !isRecord(value.source)) {
+        return null;
     }
-
-    const value = argv[index + 1];
-    if (value === undefined) {
-      throw new Error("--source requires a directory path.");
+    if (
+        typeof value.source.revision !== "string" ||
+        !Array.isArray(value.sourceFiles) ||
+        !Array.isArray(value.sourceOracles) ||
+        !isSourceFileRecord(value.sourcePublicExport)
+    ) {
+        return null;
     }
-    sourcePath = path.resolve(value);
-    index += 1;
-  }
-
-  return sourcePath;
+    return {
+        sliceId: value.sliceId,
+        source: { revision: value.source.revision },
+        sourceFiles: value.sourceFiles.filter(isSourceFileRecord),
+        sourceOracles: value.sourceOracles.filter(isSourceFileRecord),
+        sourcePublicExport: value.sourcePublicExport,
+    };
 }
 
-async function git(sourcePath: string, args: string[]): Promise<string> {
-  const { stdout } = await execFileAsync("git", ["-C", sourcePath, ...args], {
-    maxBuffer: 10 * 1024 * 1024,
-  });
-  return stdout.trim();
+async function readJson(filePath: string): Promise<unknown> {
+    return JSON.parse(await readFile(filePath, "utf8")) as unknown;
 }
 
-const sourcePath = parseSourcePath(process.argv.slice(2));
-const baseline = JSON.parse(
-  await readFile(path.join(repositoryRoot, "migration", "baseline.json"), "utf8"),
-) as BaselineManifest;
-const slicesDirectory = path.join(repositoryRoot, "migration", "slices");
-const sliceFiles = (await readdir(slicesDirectory))
-  .filter((fileName) => fileName.endsWith(".json"))
-  .sort();
-const slices = await Promise.all(
-  sliceFiles.map(
-    async (fileName) =>
-      JSON.parse(await readFile(path.join(slicesDirectory, fileName), "utf8")) as SliceManifest,
-  ),
-);
+const baseline = (await readJson(
+    path.join(repositoryRoot, "migration", "baseline.json"),
+)) as Partial<BaselineManifest> | null;
 const errors: string[] = [];
 
-const revision = await git(sourcePath, ["rev-parse", "HEAD"]);
-if (revision !== baseline.source.revision) {
-  errors.push(
-    `Source revision ${revision} differs from recorded revision ${baseline.source.revision}.`,
-  );
-}
-for (const slice of slices) {
-  if (revision !== slice.source.revision) {
-    errors.push(
-      `Source revision ${revision} differs from ${slice.sliceId} revision ${slice.source.revision}.`,
-    );
-  }
-}
-
-const status = await git(sourcePath, ["status", "--porcelain"]);
-if (status.length > 0) {
-  errors.push("The strutture-js baseline worktree is dirty.");
+if (
+    baseline === null ||
+    baseline === undefined ||
+    !isRecord(baseline.source) ||
+    typeof baseline.source.revision !== "string" ||
+    baseline.source.revision.length === 0 ||
+    typeof baseline.source.packageName !== "string" ||
+    typeof baseline.source.packageVersion !== "string" ||
+    typeof baseline.source.license !== "string"
+) {
+    errors.push("migration/baseline.json does not record a complete source manifest.");
 }
 
-const sourcePackage = JSON.parse(
-  await readFile(path.join(sourcePath, "package.json"), "utf8"),
-) as Record<string, unknown>;
-for (const [field, expected] of [
-  ["name", baseline.source.packageName],
-  ["version", baseline.source.packageVersion],
-  ["license", baseline.source.license],
-] as const) {
-  if (sourcePackage[field] !== expected) {
-    errors.push(
-      `Source package ${field} is ${String(sourcePackage[field])}, expected ${expected}.`,
-    );
-  }
+const recordedRevision =
+    baseline !== null &&
+        baseline !== undefined &&
+        isRecord(baseline.source) &&
+        typeof baseline.source.revision === "string"
+        ? baseline.source.revision
+        : "";
+
+const slicesDirectory = path.join(repositoryRoot, "migration", "slices");
+const sliceFileNames = (await readdir(slicesDirectory))
+    .filter((fileName) => fileName.endsWith(".json"))
+    .sort();
+const slices: SliceManifest[] = [];
+const sliceIds = new Set<string>();
+for (const fileName of sliceFileNames) {
+    const parsed = parseSlice(await readJson(path.join(slicesDirectory, fileName)));
+    if (parsed === null) {
+        errors.push(`migration/slices/${fileName} is not a valid slice manifest.`);
+        continue;
+    }
+    if (sliceIds.has(parsed.sliceId)) {
+        errors.push(`${parsed.sliceId}: duplicate slice id.`);
+    }
+    sliceIds.add(parsed.sliceId);
+    slices.push(parsed);
 }
 
 let recordCount = 0;
 for (const slice of slices) {
-  const records = [...slice.sourceFiles, ...slice.sourceOracles, slice.sourcePublicExport];
-  recordCount += records.length;
-
-  for (const record of records) {
-    const blob = await git(sourcePath, ["rev-parse", `${slice.source.revision}:${record.path}`]);
-    if (blob !== record.gitBlobSha1) {
-      errors.push(
-        `${slice.sliceId}: ${record.path} has blob ${blob}, expected ${record.gitBlobSha1}.`,
-      );
+    if (recordedRevision.length > 0 && slice.source.revision !== recordedRevision) {
+        errors.push(
+            `${slice.sliceId}: recorded revision ${slice.source.revision} differs from baseline revision ${recordedRevision}.`,
+        );
     }
-
-    if (record.targetPath !== undefined) {
-      try {
-        await access(path.join(repositoryRoot, record.targetPath));
-      } catch {
-        errors.push(`${slice.sliceId}: migrated target is missing: ${record.targetPath}.`);
-      }
+    const records = [...slice.sourceFiles, ...slice.sourceOracles, slice.sourcePublicExport];
+    recordCount += records.length;
+    for (const record of records) {
+        if (record.targetPath !== undefined) {
+            try {
+                await access(path.join(repositoryRoot, record.targetPath));
+            } catch {
+                errors.push(`${slice.sliceId}: migrated target is missing: ${record.targetPath}.`);
+            }
+        }
     }
-  }
 }
 
 if (errors.length > 0) {
-  for (const error of errors) {
-    console.error(`Provenance error: ${error}`);
-  }
-  process.exitCode = 1;
+    for (const error of errors) {
+        console.error(`Provenance error: ${error}`);
+    }
+    process.exitCode = 1;
 } else {
-  console.log(
-    `Provenance check passed (${slices.length} slices, ${recordCount} source artifacts at ${revision}).`,
-  );
+    console.log(
+        `Provenance check passed (${slices.length} slices, ${recordCount} recorded source artifacts at recorded revision ${recordedRevision}; live source verification is severed by design).`,
+    );
 }

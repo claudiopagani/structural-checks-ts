@@ -1,27 +1,31 @@
 # Phase A1 parity inventory
 
-This is a generated, source-pinned inventory. It is not a claim that matching filenames or exports
-establish behavioral parity.
+This is a frozen historical inventory of the JavaScript origin, recorded at migration time. It is no
+longer generated and is not a claim that matching filenames or exports establish behavioral parity.
+The link to the previous implementation is severed and it is never consulted at runtime.
 
-- JavaScript baseline: strutture-js 0.8.0 at `6f33baead8b88166c4b2cf94af41763412e3c751` (clean
-  worktree).
-- Normative corpus: `41da3faa489600173106935bbcf726119300e48d` (clean worktree, development-only
-  reference).
-- Drift check: `npm run check:parity-inventory`.
+- JavaScript baseline (historical record): `strutture-js 0.8.0` at
+  `6f33baead8b88166c4b2cf94af41763412e3c751`.
+- Normative corpus (historical record): `41da3faa489600173106935bbcf726119300e48d`.
+- Drift check: `npm run check:parity-inventory` validates the frozen record and the current
+  TypeScript surface counts.
 - Machine-readable inventory: [migration/parity-inventory.json](../migration/parity-inventory.json).
+- Record updates: 2026-08-15 — TypeScript-side counts synchronized to the current HEAD (root exports
+  854, source files 532, tests 423) after the masonry-arch engineering-assessment refinement; the
+  JavaScript side remains the original snapshot.
 
 ## Surface counts
 
 | Surface                           | Pinned JavaScript | Current TypeScript |
 | --------------------------------- | ----------------: | -----------------: |
-| Root exports                      |               841 |                841 |
+| Root exports                      |               841 |                854 |
 | Applications exports              |               309 |                309 |
 | Package entry points              |                14 |                 14 |
 | ApplicationRegistry entries       |                30 |                 30 |
 | Application catalog entries       |                30 |                 30 |
 | Serialized schema/version symbols |                49 |                 49 |
-| Source files                      |               480 |                494 |
-| Tests                             |               131 |                415 |
+| Source files                      |               480 |                532 |
+| Tests                             |               131 |                423 |
 | Validation campaigns              |                17 |                  0 |
 | Validation files                  |                27 |                  0 |
 | Examples                          |                32 |                  0 |

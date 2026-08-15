@@ -114,9 +114,8 @@
     "check:provenance": "node --experimental-strip-types scripts/check-provenance.ts",
     "check:worker-bundle": "node --experimental-strip-types scripts/check-worker-bundle.ts",
     "check:encoding": "node --experimental-strip-types scripts/check-encoding.ts",
-    "inventory:generate": "node --experimental-strip-types scripts/generate-parity-inventory.ts",
     "check:parity-inventory": "node --experimental-strip-types scripts/check-parity-inventory.ts",
-    "check": "npm run build && npm run format:check && npm run lint && npm run typecheck && npm run test:run && npm run check:architecture && npm run check:normative-references && npm run check:package && npm run check:packed-consumer && npm run check:worker-bundle && npm run check:encoding"
+    "check": "npm run build && npm run format:check && npm run lint && npm run typecheck && npm run test:run && npm run check:architecture && npm run check:normative-references && npm run check:provenance && npm run check:parity-inventory && npm run check:package && npm run check:packed-consumer && npm run check:worker-bundle && npm run check:encoding"
   },
   "devDependencies": {
     "@eslint/js": "10.0.1",
