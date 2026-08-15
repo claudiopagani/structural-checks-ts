@@ -97,6 +97,69 @@ equilibrium path while satisfying the prescribed criteria?
 Loss of convergence is never interpreted as failure or collapse. The default strategy is adaptive
 load control with `targetLambda: 1`.
 
+## Engineering assessment
+
+Both the assigned equilibrium analysis and the design-state path analysis publish a structured
+`engineeringAssessment` so that consumers render the engineering verdict instead of deducing it from
+eccentricities, hinge lists, or utilization numbers:
+
+```ts
+interface MasonryArchEngineeringAssessment {
+  question: string;
+  status: "PASS" | "FAIL" | "INDETERMINATE";
+  lambda: number | null; // lambda at which the assessed state was evaluated; 1 for assigned state
+  failedCriteria: readonly MasonryArchEngineeringCriterion[];
+  failureMode: MasonryArchFailureMode | null;
+}
+```
+
+- `status` is the engineering verdict. A numerical process failure is `INDETERMINATE`, never `FAIL`
+  and never a physical failure.
+- `failedCriteria` lists every violated structural condition; a `FAIL` state never selects a single
+  "worst" criterion and never drops simultaneous ones.
+- `failureMode` classifies the global mechanism separately from the criteria. It is `null` when no
+  failure was identified and `undetermined` when the mechanism is not rigorously derivable.
+- The solver convergence and the equilibrium feasibility remain separate process-level data in
+  `outputs.convergence` and `outputs.equilibrium`.
+
+Every criterion uses the shared taxonomy
+`MasonryArchEngineeringCriterionKind = MasonryArchEventKind | "equilibrium-infeasible"` and carries
+only quantities the producing analysis actually knows:
+
+```ts
+interface MasonryArchEngineeringCriterion {
+  kind: MasonryArchEngineeringCriterionKind;
+  entityIds: readonly string[];
+  lambda: number | null;
+  demand: number | null;
+  capacity: number | null;
+  utilizationRatio: number | null;
+}
+```
+
+Unknown quantities are `null` and are never inferred from unrelated results. The equilibrium
+analysis fills demand, capacity, and utilization from its public interface, reinforcement, anchor,
+and bonded-layer checks; the path analysis maps its events one-to-one and leaves the numeric
+quantities `null` because the event log does not carry them (the numbers remain available in the
+step-coherent states and events).
+
+`equilibrium-infeasible` means: no statically admissible equilibrium was found inside the defined
+mechanical domain. It is a global verdict. It does not identify a single causal interface, and the
+library never promotes `outputs.hinges[0]`, the first out-of-thickness interface, or the maximum
+relaxed representative utilization into such a cause. The same rule protects sliding and compression
+checks: interface checks computed on an infeasible representative state are reported as states, not
+as certified failure causes.
+
+Joint opening, hinge formation, passive tendon activation, tendon slackening, sliding onset, and
+bonded-layer force development are states or events; none of them is a failed criterion by itself. A
+passive tendon may open, activate, and redistribute load while the assessment stays `PASS` at
+`lambda = 1`. Only the physical-limit kinds (plastic sliding, compression strength, crushing,
+reinforcement yield/rupture, anchor capacity, bonded-layer capacity, and invalid extrados contact)
+fail a design check by default.
+
+For the path analysis, `engineeringAssessment` adds the path-specific `requiredLambda: 1` field;
+`outputs.events` keeps the complete event log with categories, steps, and messages.
+
 ### Capacity and advanced path
 
 `capacity` defaults to spherical arc length. `advanced-path` requires the caller to choose an

@@ -19,13 +19,17 @@ import type {
   MasonryArchAnalysisObjective,
   MasonryArchAnalysisOutcome,
   MasonryArchCapacityLandmarks,
-  MasonryArchEngineeringAssessmentStatus,
+  MasonryArchEngineeringAssessment,
+  MasonryArchEngineeringCriterion,
+  MasonryArchEventKind,
   MasonryArchFailureMode,
   MasonryArchLoadCombinationLike,
   NormalizedMasonryArchBlockDisplacement,
 } from "./types.js";
 
-export const MASONRY_ARCH_PATH_RESULT_SCHEMA_VERSION = "4.0.0";
+export type { MasonryArchEventKind } from "./types.js";
+
+export const MASONRY_ARCH_PATH_RESULT_SCHEMA_VERSION = "5.0.0";
 
 export interface MasonryArchDof {
   readonly blockId: string;
@@ -74,23 +78,6 @@ export type MasonryArchEventCategory =
   | "terminal-physical-event"
   | "numerical-failure";
 
-export type MasonryArchEventKind =
-  | "joint-opened"
-  | "joint-closed"
-  | "sliding-started"
-  | "plastic-sliding"
-  | "compression-strength-reached"
-  | "crushing"
-  | "passive-tendon-activated"
-  | "tendon-slackened"
-  | "reinforcement-yielded"
-  | "reinforcement-rupture"
-  | "anchor-capacity-reached"
-  | "bonded-layer-capacity-reached"
-  | "extrados-contact-active-set-changed"
-  | "extrados-contact-invalid"
-  | "convergence-lost";
-
 export interface MasonryArchEvent {
   readonly category: MasonryArchEventCategory;
   readonly kind: MasonryArchEventKind;
@@ -136,6 +123,18 @@ export interface MasonryArchPathState {
   readonly equilibrium: MasonryArchEquilibriumResidual;
 }
 
+/**
+ * Engineering assessment of a design-state path analysis. The common assessment fields answer the
+ * same structural questions as the equilibrium assessment; `requiredLambda` is path-specific.
+ * `failedCriteria` uses the shared criterion taxonomy instead of raw events; the full event log
+ * remains available in `outputs.events`.
+ */
+export interface MasonryArchPathEngineeringAssessment extends MasonryArchEngineeringAssessment {
+  readonly question: "can-reach-lambda-one-with-admissible-equilibrium-and-prescribed-criteria";
+  readonly requiredLambda: 1;
+  readonly failedCriteria: readonly MasonryArchEngineeringCriterion[];
+}
+
 export interface MasonryArchPathStep {
   readonly step: number;
   readonly stage: "fixed-preload" | "scalable-loading";
@@ -150,13 +149,7 @@ export interface MasonryArchPathOutputs extends Record<string, unknown> {
   readonly modelId: string;
   readonly analysis: MasonryArchAnalysisDescriptor;
   readonly analysisOutcome: MasonryArchAnalysisOutcome;
-  readonly engineeringAssessment: {
-    readonly question: "can-reach-lambda-one-with-admissible-equilibrium-and-prescribed-criteria";
-    readonly status: MasonryArchEngineeringAssessmentStatus;
-    readonly requiredLambda: 1;
-    readonly reachedLambda: number | null;
-    readonly failedCriteria: readonly MasonryArchEvent[];
-  } | null;
+  readonly engineeringAssessment: MasonryArchPathEngineeringAssessment | null;
   readonly capacity: MasonryArchCapacityLandmarks;
   readonly events: readonly MasonryArchEvent[];
   readonly limitState: {

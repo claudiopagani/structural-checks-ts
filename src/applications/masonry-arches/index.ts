@@ -12,6 +12,7 @@ export {
   type MasonryArchEventKind,
   type MasonryArchLoadControl,
   type MasonryArchPathControl,
+  type MasonryArchPathEngineeringAssessment,
   type MasonryArchPathOutputs,
   type MasonryArchPathResult,
   type MasonryArchPathState,

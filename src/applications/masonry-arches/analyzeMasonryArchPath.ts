@@ -51,12 +51,14 @@ import {
   resolveMasonryArchAnalysisLoads,
   type ResolvedMasonryArchAnalysisLoads,
 } from "./analysisSemantics.js";
+import { masonryArchEngineeringCriterionFromEvent } from "./engineeringAssessment.js";
 
 import {
   MASONRY_ARCH_PATH_RESULT_SCHEMA_VERSION,
   type AnalyzeMasonryArchPathOptions,
   type MasonryArchEvent,
   type MasonryArchPathControl,
+  type MasonryArchPathEngineeringAssessment,
   type MasonryArchPathOutputs,
   type MasonryArchPathResult,
   type MasonryArchPathStep,
@@ -1664,15 +1666,15 @@ export function analyzeMasonryArchPath(
         : termination === "target-reached" && numericalConvergence && lambda >= 1 - 1e-12
           ? "PASS"
           : "INDETERMINATE";
-  const engineeringAssessment =
+  const engineeringAssessment: MasonryArchPathEngineeringAssessment | null =
     analysisObjective === "design-state-check"
       ? {
-          question:
-            "can-reach-lambda-one-with-admissible-equilibrium-and-prescribed-criteria" as const,
+          question: "can-reach-lambda-one-with-admissible-equilibrium-and-prescribed-criteria",
           status: designAssessmentStatus,
-          requiredLambda: 1 as const,
-          reachedLambda: lastHistory?.state.lambda ?? null,
-          failedCriteria: designFailedCriteria,
+          requiredLambda: 1,
+          lambda: lastHistory?.state.lambda ?? null,
+          failedCriteria: designFailedCriteria.map(masonryArchEngineeringCriterionFromEvent),
+          failureMode,
         }
       : null;
   const resolvedAnalysisOutcome: MasonryArchAnalysisOutcome =

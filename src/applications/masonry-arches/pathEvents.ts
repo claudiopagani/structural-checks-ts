@@ -6,8 +6,10 @@ import type {
   BondedLayerStateResult,
   MasonryArchAnalysisObjective,
   MasonryArchFailureMode,
+  MasonryArchPhysicalLimitEventKind,
   NormalizedMasonryArchModel,
 } from "./types.js";
+import { masonryArchFailureModeFromKinds } from "./engineeringAssessment.js";
 import type {
   MasonryArchEvent,
   MasonryArchEventCategory,
@@ -23,7 +25,7 @@ export const DEFAULT_DESIGN_FAILURE_EVENTS: readonly MasonryArchEventKind[] = [
   "anchor-capacity-reached",
   "bonded-layer-capacity-reached",
   "extrados-contact-invalid",
-];
+] satisfies readonly MasonryArchPhysicalLimitEventKind[];
 
 interface MasonryArchEventEvaluation {
   readonly interfaces: readonly RigidBlockDeformableInterfaceEvaluation2D[];
@@ -273,17 +275,7 @@ export function detectMasonryArchStepEvents(
 export function masonryArchFailureModeFromEvents(
   events: readonly MasonryArchEvent[],
 ): MasonryArchFailureMode {
-  const kinds = new Set(events.map((item) => item.kind));
-  const modes: MasonryArchFailureMode[] = [];
-  if (kinds.has("crushing") || kinds.has("compression-strength-reached"))
-    modes.push("masonry-crushing");
-  if (kinds.has("plastic-sliding")) modes.push("sliding");
-  if (kinds.has("reinforcement-yielded")) modes.push("reinforcement-yield");
-  if (kinds.has("reinforcement-rupture") || kinds.has("bonded-layer-capacity-reached"))
-    modes.push("reinforcement-failure");
-  if (kinds.has("anchor-capacity-reached")) modes.push("anchor-capacity");
-  if (kinds.has("extrados-contact-invalid")) modes.push("instability");
-  return modes.length > 1 ? "mixed" : (modes[0] ?? "undetermined");
+  return masonryArchFailureModeFromKinds(events.map((item) => item.kind));
 }
 
 export function shouldStopMasonryArchPathForEvents(

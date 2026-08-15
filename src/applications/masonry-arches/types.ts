@@ -14,7 +14,7 @@ import type {
 } from "../../domain/masonry/rigid-blocks/types.js";
 
 export const MASONRY_ARCH_MODEL_SCHEMA_VERSION = "2.0.0";
-export const MASONRY_ARCH_EQUILIBRIUM_RESULT_SCHEMA_VERSION = "2.0.0";
+export const MASONRY_ARCH_EQUILIBRIUM_RESULT_SCHEMA_VERSION = "3.0.0";
 export const MASONRY_ARCH_LIMIT_ANALYSIS_RESULT_SCHEMA_VERSION = "3.0.0";
 
 export type MasonryArchReferenceCurve = "intrados" | "centerline" | "extrados";
@@ -98,6 +98,78 @@ export interface MasonryArchAnalysisOutcome {
 }
 
 export type MasonryArchEngineeringAssessmentStatus = "PASS" | "FAIL" | "INDETERMINATE";
+
+/**
+ * Shared vocabulary of structural phenomena observed or verified during a masonry-arch analysis.
+ * Observable, warning, and numerical kinds never fail an engineering check on their own; the
+ * physical-limit subset is what the design-state semantics treats as a failed criterion.
+ */
+export type MasonryArchEventKind =
+  | "joint-opened"
+  | "joint-closed"
+  | "sliding-started"
+  | "plastic-sliding"
+  | "compression-strength-reached"
+  | "crushing"
+  | "passive-tendon-activated"
+  | "tendon-slackened"
+  | "reinforcement-yielded"
+  | "reinforcement-rupture"
+  | "anchor-capacity-reached"
+  | "bonded-layer-capacity-reached"
+  | "extrados-contact-active-set-changed"
+  | "extrados-contact-invalid"
+  | "convergence-lost";
+
+/** Event kinds that describe a violated physical or mechanical limit of the assigned model. */
+export type MasonryArchPhysicalLimitEventKind =
+  | "plastic-sliding"
+  | "compression-strength-reached"
+  | "crushing"
+  | "reinforcement-yielded"
+  | "reinforcement-rupture"
+  | "anchor-capacity-reached"
+  | "bonded-layer-capacity-reached"
+  | "extrados-contact-invalid";
+
+/**
+ * Taxonomy of failed engineering criteria. Every analysis event kind maps directly onto a
+ * criterion kind; `equilibrium-infeasible` exists only as a criterion because it is a global
+ * verdict of the assigned-state equilibrium analysis, not an incremental path event.
+ */
+export type MasonryArchEngineeringCriterionKind = MasonryArchEventKind | "equilibrium-infeasible";
+
+/**
+ * One violated structural criterion. Every quantity is reported only when the producing analysis
+ * actually knows it; unknown quantities are null and are never inferred from unrelated results.
+ */
+export interface MasonryArchEngineeringCriterion {
+  readonly kind: MasonryArchEngineeringCriterionKind;
+  /** Physical entities involved, for example interface, reinforcement, anchor, or contact IDs. */
+  readonly entityIds: readonly string[];
+  /** Load-proportionality parameter at which the criterion was identified; null when not applicable. */
+  readonly lambda: number | null;
+  readonly demand: number | null;
+  readonly capacity: number | null;
+  readonly utilizationRatio: number | null;
+}
+
+/**
+ * Structured engineering verdict shared by the equilibrium and path analyses. The failed criteria
+ * identify the violated conditions; the failure mode classifies the global mechanism separately.
+ */
+export interface MasonryArchEngineeringAssessment {
+  /** The engineering question answered by this assessment. */
+  readonly question: string;
+  /** Engineering verdict; a numerical process failure is INDETERMINATE, never FAIL. */
+  readonly status: MasonryArchEngineeringAssessmentStatus;
+  /** Lambda at which the assessed state was evaluated; 1 for assigned-state analyses. */
+  readonly lambda: number | null;
+  /** All criteria identified as not satisfied; a FAIL state never selects a single "worst" one. */
+  readonly failedCriteria: readonly MasonryArchEngineeringCriterion[];
+  /** Global mechanism classification; null when no failure was identified or it is not determinable. */
+  readonly failureMode: MasonryArchFailureMode | null;
+}
 
 /** Load-pattern landmarks. Step identifiers are available only for incremental analyses. */
 export interface MasonryArchCapacityLandmarks {
@@ -579,6 +651,8 @@ export interface AnalyzeMasonryArchEquilibriumOptions {
   readonly loadFactorsByCaseId?: Readonly<Record<string, number>>;
   readonly equilibriumTolerance?: number;
   readonly hingeTolerance?: number;
+  /** Simplex iteration budget for the representative-equilibrium optimization. */
+  readonly maxSimplexIterations?: number;
 }
 
 export interface AnalyzeMasonryArchLimitOptions {
@@ -882,6 +956,7 @@ export interface MasonryArchEquilibriumOutputs extends Record<string, unknown> {
     readonly interfaceId: string;
     readonly side: "intrados" | "extrados";
   }[];
+  readonly engineeringAssessment: MasonryArchEngineeringAssessment;
   readonly equilibrium: {
     readonly feasible: boolean;
     readonly representativeMargin: number;

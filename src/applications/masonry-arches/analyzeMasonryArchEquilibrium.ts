@@ -19,8 +19,19 @@ import {
   resolveArchReinforcements,
 } from "./resolveArchReinforcements.js";
 import {
+  createMasonryArchEngineeringCriterion,
+  masonryArchFailureModeFromKinds,
+} from "./engineeringAssessment.js";
+import {
   MASONRY_ARCH_EQUILIBRIUM_RESULT_SCHEMA_VERSION,
   type AnalyzeMasonryArchEquilibriumOptions,
+  type ArchAnchorForceResult,
+  type ArchContactForceResult,
+  type ArchReinforcementStateResult,
+  type BondedLayerStateResult,
+  type MasonryArchEngineeringAssessment,
+  type MasonryArchEngineeringAssessmentStatus,
+  type MasonryArchEngineeringCriterion,
   type MasonryArchInterfaceStateResult,
   type MasonryArchInterfaceGeometry,
   type MasonryArchModelInput,
@@ -35,6 +46,16 @@ function finitePositive(value: number, label: string): number {
   }
   return value;
 }
+
+function positiveInteger(value: number, label: string): number {
+  if (!Number.isInteger(value) || value <= 0) {
+    throw new Error(`${label} must be a positive integer.`);
+  }
+  return value;
+}
+
+const EQUILIBRIUM_ASSESSMENT_QUESTION =
+  "does-the-assigned-load-state-admit-a-verified-statically-admissible-equilibrium";
 
 export function classifyInterface(
   normalizedEccentricity: number | null,
@@ -165,6 +186,181 @@ export function recoverMasonryArchInterfaceState(
   };
 }
 
+/**
+ * Collects every failed criterion directly from the public check data produced by this analysis.
+ * Demand, capacity, and utilization are copied from the producing check and never recomputed.
+ */
+function equilibriumFailedCriteria(
+  interfaces: readonly MasonryArchInterfaceStateResult[],
+  reinforcementState: readonly ArchReinforcementStateResult[],
+  anchorForces: readonly ArchAnchorForceResult[],
+  contactForces: readonly ArchContactForceResult[],
+  bondedLayerState: readonly BondedLayerStateResult[],
+): MasonryArchEngineeringCriterion[] {
+  const criteria: MasonryArchEngineeringCriterion[] = [];
+  for (const item of interfaces) {
+    if (item.checks.compression?.status === "fail") {
+      criteria.push(
+        createMasonryArchEngineeringCriterion("compression-strength-reached", [item.interfaceId], {
+          lambda: 1,
+          demand: item.checks.compression.demand,
+          capacity: item.checks.compression.capacity,
+          utilizationRatio: item.checks.compression.utilizationRatio,
+        }),
+      );
+    }
+    if (item.checks.friction?.status === "fail") {
+      criteria.push(
+        createMasonryArchEngineeringCriterion("plastic-sliding", [item.interfaceId], {
+          lambda: 1,
+          demand: item.checks.friction.demand,
+          capacity: item.checks.friction.capacity,
+          utilizationRatio: item.checks.friction.utilizationRatio,
+        }),
+      );
+    }
+  }
+  for (const reinforcement of reinforcementState) {
+    if (reinforcement.state === "yielded" && reinforcement.checks.yielding !== null) {
+      criteria.push(
+        createMasonryArchEngineeringCriterion(
+          "reinforcement-yielded",
+          [reinforcement.reinforcementId],
+          {
+            lambda: 1,
+            demand: reinforcement.checks.yielding.demand,
+            capacity: reinforcement.checks.yielding.capacity,
+            utilizationRatio: reinforcement.checks.yielding.utilizationRatio,
+          },
+        ),
+      );
+    }
+    if (reinforcement.state === "failed") {
+      if (reinforcement.checks.tensileFailure?.status === "fail") {
+        criteria.push(
+          createMasonryArchEngineeringCriterion(
+            "reinforcement-rupture",
+            [reinforcement.reinforcementId],
+            {
+              lambda: 1,
+              demand: reinforcement.checks.tensileFailure.demand,
+              capacity: reinforcement.checks.tensileFailure.capacity,
+              utilizationRatio: reinforcement.checks.tensileFailure.utilizationRatio,
+            },
+          ),
+        );
+      }
+      if (reinforcement.checks.ultimateStrain?.status === "fail") {
+        criteria.push(
+          createMasonryArchEngineeringCriterion(
+            "reinforcement-rupture",
+            [reinforcement.reinforcementId],
+            {
+              lambda: 1,
+              demand: reinforcement.checks.ultimateStrain.demand,
+              capacity: reinforcement.checks.ultimateStrain.capacity,
+              utilizationRatio: reinforcement.checks.ultimateStrain.utilizationRatio,
+            },
+          ),
+        );
+      }
+    }
+  }
+  for (const anchor of anchorForces) {
+    if (anchor.status === "fail") {
+      criteria.push(
+        createMasonryArchEngineeringCriterion("anchor-capacity-reached", [anchor.anchorId], {
+          lambda: 1,
+          demand: anchor.demand.resultant,
+          capacity: anchor.capacity.resultant,
+          utilizationRatio: anchor.utilizationRatio,
+        }),
+      );
+    }
+  }
+  for (const contact of contactForces) {
+    if (contact.state === "contact-cannot-enforce-path") {
+      criteria.push(
+        createMasonryArchEngineeringCriterion("extrados-contact-invalid", [contact.contactId], {
+          lambda: 1,
+        }),
+      );
+    }
+  }
+  for (const layer of bondedLayerState) {
+    for (const item of layer.interfaces) {
+      if (item.state === "at-capacity") {
+        criteria.push(
+          createMasonryArchEngineeringCriterion(
+            "bonded-layer-capacity-reached",
+            [item.reinforcementId, item.interfaceId],
+            {
+              lambda: 1,
+              demand: item.force,
+              capacity: item.capacity,
+              utilizationRatio: item.utilizationRatio,
+            },
+          ),
+        );
+      }
+    }
+  }
+  return criteria;
+}
+
+/**
+ * Builds the engineering verdict for the assigned-state equilibrium analysis. Solver status,
+ * global feasibility, and local physical checks remain three distinct levels: a numerical failure
+ * is INDETERMINATE, an optimal-but-infeasible solve is a FAIL with the global
+ * `equilibrium-infeasible` criterion and no fabricated causal interface, and local check failures
+ * are FAIL with one criterion per violated limit.
+ */
+function buildEquilibriumEngineeringAssessment(
+  feasible: boolean,
+  optimizerStatus: "optimal" | "unbounded" | "iteration-limit",
+  residualSatisfied: boolean,
+  interfaces: readonly MasonryArchInterfaceStateResult[],
+  reinforcementState: readonly ArchReinforcementStateResult[],
+  anchorForces: readonly ArchAnchorForceResult[],
+  contactForces: readonly ArchContactForceResult[],
+  bondedLayerState: readonly BondedLayerStateResult[],
+): MasonryArchEngineeringAssessment {
+  let status: MasonryArchEngineeringAssessmentStatus;
+  let failedCriteria: readonly MasonryArchEngineeringCriterion[];
+  if (optimizerStatus !== "optimal") {
+    status = "INDETERMINATE";
+    failedCriteria = [];
+  } else if (!feasible) {
+    status = "FAIL";
+    failedCriteria = [
+      createMasonryArchEngineeringCriterion("equilibrium-infeasible", [], { lambda: 1 }),
+    ];
+  } else if (!residualSatisfied) {
+    status = "INDETERMINATE";
+    failedCriteria = [];
+  } else {
+    failedCriteria = equilibriumFailedCriteria(
+      interfaces,
+      reinforcementState,
+      anchorForces,
+      contactForces,
+      bondedLayerState,
+    );
+    status = failedCriteria.length > 0 ? "FAIL" : "PASS";
+  }
+  const failureMode =
+    status === "FAIL"
+      ? masonryArchFailureModeFromKinds(failedCriteria.map((item) => item.kind))
+      : null;
+  return {
+    question: EQUILIBRIUM_ASSESSMENT_QUESTION,
+    status,
+    lambda: 1,
+    failedCriteria,
+    failureMode,
+  };
+}
+
 export function analyzeMasonryArchEquilibrium(
   modelInput: MasonryArchModel | NormalizedMasonryArchModel | MasonryArchModelInput,
   options: AnalyzeMasonryArchEquilibriumOptions = {},
@@ -176,6 +372,10 @@ export function analyzeMasonryArchEquilibrium(
   const hingeTolerance = finitePositive(
     options.hingeTolerance ?? 1e-6,
     "Masonry arch hingeTolerance",
+  );
+  const maxSimplexIterations = positiveInteger(
+    options.maxSimplexIterations ?? 20_000,
+    "Masonry arch maxSimplexIterations",
   );
   if (hingeTolerance >= 1) {
     throw new Error("Masonry arch hingeTolerance must be smaller than one.");
@@ -203,7 +403,7 @@ export function analyzeMasonryArchEquilibrium(
       wrenches: blockWrenches,
       interfaceLaws,
     },
-    { feasibilityTolerance: equilibriumTolerance },
+    { feasibilityTolerance: equilibriumTolerance, maxSimplexIterations },
   );
   const bondedRecovery = recoverBondedLayerStaticState(
     model,
@@ -237,6 +437,16 @@ export function analyzeMasonryArchEquilibrium(
     Math.abs(equilibrium.residual.normalizedMoment),
   );
   const residualSatisfied = maximumNormalizedResidual <= equilibriumTolerance;
+  const engineeringAssessment = buildEquilibriumEngineeringAssessment(
+    equilibrium.feasible,
+    equilibrium.simplex.status,
+    residualSatisfied,
+    interfaces,
+    resolvedReinforcements.reinforcementState,
+    resolvedReinforcements.anchorForces,
+    resolvedReinforcements.contactForces,
+    bondedRecovery.bondedLayerState,
+  );
   const reinforcementChecksSatisfied =
     !resolvedReinforcements.hasAnchorFailure &&
     !resolvedReinforcements.hasReinforcementYield &&
@@ -295,6 +505,7 @@ export function analyzeMasonryArchEquilibrium(
     contactForces: resolvedReinforcements.contactForces,
     reinforcementBoundaryForces: resolvedReinforcements.boundaryForces,
     bondedLayerState: bondedRecovery.bondedLayerState,
+    engineeringAssessment,
     reactions: {
       left: equilibrium.leftReaction,
       right: equilibrium.rightReaction,
