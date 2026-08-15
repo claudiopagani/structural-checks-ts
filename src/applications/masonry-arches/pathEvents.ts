@@ -38,7 +38,8 @@ import type {
  *
  * Callers can always opt into a stricter policy by configuring `designFailureEvents`, for
  * example `designFailureEvents: ["plastic-sliding"]` to treat the first plastic sliding as a
- * design failure.
+ * design failure. The configured kinds are added to this default set: the option can only make
+ * the policy stricter, never remove a default failure.
  */
 export const DEFAULT_DESIGN_FAILURE_EVENTS: readonly MasonryArchDesignFailureEventKind[] = [
   "reinforcement-yielded",

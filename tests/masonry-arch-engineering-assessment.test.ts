@@ -134,6 +134,27 @@ function designPath(
   });
 }
 
+/** Path model whose weak bonded layer reaches capacity during the fixed preload. */
+function bondedLayerCapacityPathModel() {
+  return pathModel({
+    pointForce: { x: 0, y: 100 },
+    bondedLayers: [
+      {
+        id: "FRCM",
+        family: "frcm",
+        ...INTRA,
+        area: 1e-6,
+        elasticModulus: 100_000_000,
+        tensileStrength: 1000,
+        transferLength: 0.5,
+        startStation: 0,
+        endStation: 1,
+        terminations: { left: { type: "anchored" }, right: { type: "anchored" } },
+      },
+    ],
+  });
+}
+
 /** Uplift state that slides locally at J-004/J-005 before lambda one and redistributes. */
 function stabilizedUpliftModel() {
   return pathModel({
@@ -1173,4 +1194,76 @@ void test("O3. path anchor and bonded-layer criteria carry step-coherent numeric
   assert.equal(layerCriterion.demand, layerInterface.force);
   assert.equal(layerCriterion.capacity, layerInterface.capacity);
   assert.equal(layerCriterion.utilizationRatio, layerInterface.utilizationRatio);
+});
+
+void test("R1. strict sliding policy preserves the default design-failure set", () => {
+  // The configured kinds ADD to the always-active default set. This model reaches the bonded
+  // layer capacity during the fixed preload and never slides: under a replace semantics the
+  // strict sliding configuration would have removed every default failure, the path would have
+  // continued past the bonded-layer limit, and the design would have PASSed at lambda one.
+  const result = designPath(bondedLayerCapacityPathModel(), {
+    designFailureEvents: ["plastic-sliding"],
+  });
+  const assessment = result.outputs.engineeringAssessment;
+  assert.equal(assessment?.status, "FAIL");
+  assert.equal(result.status, "not-verified");
+  assert.ok(
+    kinds(assessment.failedCriteria).includes("bonded-layer-capacity-reached"),
+    "the preserved default failure drives the verdict",
+  );
+  assert.ok(
+    result.outputs.events.every((event) => event.kind !== "plastic-sliding"),
+    "no plastic sliding occurs, so the FAIL can only come from the preserved default set",
+  );
+});
+
+void test("R2. bonded layer capacity reached remains a failure under the strict sliding policy", () => {
+  const result = designPath(bondedLayerCapacityPathModel(), {
+    designFailureEvents: ["plastic-sliding"],
+  });
+  const assessment = result.outputs.engineeringAssessment;
+  assert.equal(assessment?.status, "FAIL");
+  assert.equal(result.status, "not-verified");
+  assert.ok(kinds(assessment.failedCriteria).includes("bonded-layer-capacity-reached"));
+  assert.equal(assessment.failureMode, "reinforcement-failure");
+  assert.equal(
+    result.outputs.convergenceInfo.termination,
+    "engineering-limit",
+    "the default bonded-layer failure still terminates the path",
+  );
+});
+
+void test("R3. an empty designFailureEvents array keeps every default failure active", () => {
+  // An empty configuration is a no-op addition, not a request to disable the default set.
+  const result = designPath(bondedLayerCapacityPathModel(), {
+    designFailureEvents: [],
+  });
+  const assessment = result.outputs.engineeringAssessment;
+  assert.equal(assessment?.status, "FAIL");
+  assert.equal(result.status, "not-verified");
+  assert.ok(kinds(assessment.failedCriteria).includes("bonded-layer-capacity-reached"));
+});
+
+void test("R4. terminal physical events remain failures regardless of designFailureEvents", () => {
+  // Terminal events fail on their own, independent of the configured set: even an empty
+  // configuration cannot disable them.
+  const result = designPath(
+    pathModel({
+      interfaceLaw: {
+        ...deformable,
+        normal: {
+          ...deformable.normal,
+          compressiveStrength: 310,
+          postCrushingBehavior: "stop-at-onset",
+        },
+      },
+    }),
+    { designFailureEvents: [] },
+  );
+  const assessment = result.outputs.engineeringAssessment;
+  assert.equal(assessment?.status, "FAIL");
+  assert.equal(result.status, "not-verified");
+  assert.ok(kinds(assessment.failedCriteria).includes("crushing"));
+  assert.ok(kinds(assessment.failedCriteria).includes("compression-strength-reached"));
+  assert.equal(result.outputs.convergenceInfo.termination, "terminal-physical-event");
 });

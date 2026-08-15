@@ -1158,9 +1158,14 @@ export function analyzeMasonryArchPath(
   let termination: MasonryArchPathOutputs["convergenceInfo"]["termination"] = "maximum-steps";
   let failureMode: MasonryArchFailureMode = "no-collapse-within-model";
   const eventLog: MasonryArchEvent[] = [];
-  const designFailureEvents = new Set<MasonryArchDesignFailureEventKind>(
-    options.designFailureEvents ?? DEFAULT_DESIGN_FAILURE_EVENTS,
-  );
+  // `designFailureEvents` is additive: the configured kinds extend the always-active default
+  // design-failure set. A stricter policy can therefore only add failures (for example
+  // `["plastic-sliding"]`) and can never disable a default failure such as
+  // `bonded-layer-capacity-reached`.
+  const designFailureEvents = new Set<MasonryArchDesignFailureEventKind>([
+    ...DEFAULT_DESIGN_FAILURE_EVENTS,
+    ...(options.designFailureEvents ?? []),
+  ]);
   if (
     options.engineeringLimitPolicy !== undefined &&
     options.engineeringLimitPolicy !== "objective-default" &&

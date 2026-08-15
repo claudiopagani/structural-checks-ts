@@ -68,12 +68,16 @@ export interface AnalyzeMasonryArchPathOptions {
   readonly minimumLineSearchFactor?: number;
   readonly engineeringLimitPolicy?: "objective-default" | "stop" | "continue";
   /**
-   * Physical-limit event kinds that fail a design-state check. Restricted to the physical-limit
-   * taxonomy at the type level; observable, warning, and numerical event kinds can never be
-   * configured here, and numerical failures always produce INDETERMINATE, never FAIL. The
-   * default follows the constitutive law: local sliding and perfectly-plastic crushing continue
-   * by default, while terminal-physical events and the remaining default kinds fail. Callers
-   * can opt into a stricter policy, for example `["plastic-sliding"]`.
+   * Additional physical-limit event kinds that fail a design-state check, on top of the
+   * always-active default set. Restricted to the physical-limit taxonomy at the type level;
+   * observable, warning, and numerical event kinds can never be configured here, and numerical
+   * failures always produce INDETERMINATE, never FAIL. The default set follows the constitutive
+   * law and is always in force: local sliding and perfectly-plastic crushing continue by
+   * default, while terminal-physical events and the remaining default kinds fail.
+   * `designFailureEvents` only makes the policy stricter by adding kinds — for example
+   * `["plastic-sliding"]` treats the first plastic sliding as a design failure while every
+   * default failure stays active. It can never be used to remove a default failure; omitting
+   * the option or passing an empty array keeps the default policy unchanged.
    */
   readonly designFailureEvents?: readonly MasonryArchDesignFailureEventKind[];
   readonly contactInitialization?: "cohesion-homotopy" | "none";
