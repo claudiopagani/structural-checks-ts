@@ -17,6 +17,9 @@ The link to the previous implementation is severed and it is never consulted at 
   the public surface by two root exports (`evaluateRigidBlockDeformableInterface2D`,
   `createRigidBlockDeformableInterfaceState2D`) and added two test files: TypeScript-side root
   exports moved 854 -> 856 and tests 423 -> 425. The JavaScript side remains the original snapshot.
+- Record updates: 2026-08-15 — the passive intrados tendon validation campaign added
+  `tests/masonry-arch-passive-intrados-benchmark.test.ts`: TypeScript-side tests moved 425 -> 426.
+  The JavaScript side remains the original snapshot.
 
 ## Surface counts
 
@@ -29,7 +32,7 @@ The link to the previous implementation is severed and it is never consulted at 
 | Application catalog entries       |                30 |                 30 |
 | Serialized schema/version symbols |                49 |                 49 |
 | Source files                      |               480 |                532 |
-| Tests                             |               131 |                425 |
+| Tests                             |               131 |                426 |
 | Validation campaigns              |                17 |                  0 |
 | Validation files                  |                27 |                  0 |
 | Examples                          |                32 |                  0 |

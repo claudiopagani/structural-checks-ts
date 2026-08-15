@@ -1665,10 +1665,23 @@ export function analyzeMasonryArchPath(
         ? null
         : "Terminal reinforcement rupture identified by the assigned tensile or ultimate-strain criterion.",
   };
+  // A terminal physical event fails the design check, and so do events of the user-configured
+  // design-failure set. When a step terminates through a physical event, every physical-limit
+  // event identified by that same converged step is reported as a failed criterion too: the
+  // terminal step's limits are the certified causes of termination, and a `stop-at-onset` step
+  // keeps its `compression-strength-reached` criterion next to the terminal `crushing` one.
+  const terminalStepNumbers = new Set(
+    eventLog
+      .filter((item) => item.category === "terminal-physical-event" && item.step !== null)
+      .map((item) => item.step),
+  );
   const designFailedEvents = eventLog.filter(
     (item) =>
       item.category === "terminal-physical-event" ||
-      (isMasonryArchPhysicalLimitEventKind(item.kind) && designFailureEvents.has(item.kind)),
+      (isMasonryArchPhysicalLimitEventKind(item.kind) && designFailureEvents.has(item.kind)) ||
+      (isMasonryArchPhysicalLimitEventKind(item.kind) &&
+        item.step !== null &&
+        terminalStepNumbers.has(item.step)),
   );
   const designAssessmentStatus: MasonryArchEngineeringAssessmentStatus =
     analysisObjective !== "design-state-check"

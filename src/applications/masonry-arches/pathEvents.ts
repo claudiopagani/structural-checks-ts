@@ -21,10 +21,26 @@ import type {
   MasonryArchEventKind,
 } from "./pathTypes.js";
 
+/**
+ * Default design-failure events. The default policy follows the assigned constitutive law:
+ * reaching a local plastic surface is not automatically a global design failure. Local sliding
+ * and perfectly-plastic crushing continue the path by default (the system may redistribute and
+ * reach the design state), while limits without an assigned post-limit law terminate. The
+ * remaining physical-limit kinds keep their default status:
+ *
+ * - `plastic-sliding` — local plastic slip can redistribute; NOT a default failure;
+ * - `compression-strength-reached` / `crushing` — default failures only through the law's own
+ *   terminal semantics: `stop-at-onset` emits a terminal event and fails automatically, while
+ *   `perfectly-plastic` continues by default;
+ * - `reinforcement-yielded` — terminal because no post-yield law is assigned;
+ * - `reinforcement-rupture`, `anchor-capacity-reached`, `extrados-contact-invalid` — terminal;
+ * - `bonded-layer-capacity-reached` — the assigned law defines no post-capacity behavior.
+ *
+ * Callers can always opt into a stricter policy by configuring `designFailureEvents`, for
+ * example `designFailureEvents: ["plastic-sliding"]` to treat the first plastic sliding as a
+ * design failure.
+ */
 export const DEFAULT_DESIGN_FAILURE_EVENTS: readonly MasonryArchDesignFailureEventKind[] = [
-  "plastic-sliding",
-  "compression-strength-reached",
-  "crushing",
   "reinforcement-yielded",
   "reinforcement-rupture",
   "anchor-capacity-reached",

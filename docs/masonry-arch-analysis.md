@@ -162,7 +162,15 @@ Event kinds and failed-criterion kinds are deliberately not the same taxonomy:
 The path option `designFailureEvents` is restricted to `MasonryArchDesignFailureEventKind`, which is
 exactly the physical-limit event taxonomy. Configuring `convergence-lost` (or any other
 numerical/observable kind) as a design failure is a compile-time error; numerical failure can never
-produce a `FAIL` verdict.
+produce a `FAIL` verdict. The default set follows the constitutive law: local plastic limits do not
+automatically fail the design state. `plastic-sliding` and the perfectly-plastic
+`compression-strength-reached`/`crushing` events continue the path by default, so the system may
+redistribute and still reach `lambda = 1` with `PASS`. Terminal limits without an assigned
+post-limit law remain default failures (`reinforcement-yielded` because no post-yield law is
+assigned, `reinforcement-rupture`, `anchor-capacity-reached`, `bonded-layer-capacity-reached`,
+`extrados-contact-invalid`), and every `terminal-physical-event` always fails the design check. A
+caller can opt into a stricter policy, for example `designFailureEvents: ["plastic-sliding"]` to
+treat the first plastic sliding as a design failure.
 
 Every criterion carries only quantities the producing analysis actually knows:
 
@@ -188,33 +196,37 @@ different: the rigid-plastic equilibrium check is the uniform-edge-block resulta
 deformable path check is the zero-thickness interface compression-strength check of the actual
 implemented law. Unknown quantities are `null` and are never inferred from unrelated results.
 
-Mechanics produces checks; assessment identifies which check failed. The deformable interface law
-publishes its checks directly in the evaluation result
+Mechanics produces checks; assessment identifies which check failed. A mechanical check is not an
+engineering verdict: the deformable interface law publishes constitutive quantities only, and
+reaching a local plastic surface (`sliding`, `crushing`) is a constitutive state, never a global
+`PASS`/`FAIL` judgment. The checks published in the evaluation result are
 
 ```ts
+interface RigidBlockDeformableInterfaceMechanicalCheck2D<TCriterion> {
+  criterion: TCriterion;
+  demand: number; // demand mobilized by the returned response (never above the capacity)
+  trialDemand: number; // constitutive trial predictor; may exceed the capacity
+  capacity: number;
+  utilizationRatio: number | null; // mobilized demand / capacity; null when not definable
+}
+
 interface RigidBlockDeformableInterfaceChecks2D {
-  friction: {
-    criterion: "coulomb-friction";
-    demand: number; // |shearForce|
-    capacity: number; // cohesion * area + frictionCoefficient * normalForce
-    utilizationRatio: number | null;
-    status: "pass" | "fail" | "not-verifiable";
-  } | null;
-  compression: {
-    criterion: "deformable-interface-compression-strength";
-    demand: number; // maximum unclipped trial compression
-    capacity: number; // assigned compressive strength
-    utilizationRatio: number | null;
-    status: "pass" | "fail" | "not-verifiable";
-  } | null;
+  friction: RigidBlockDeformableInterfaceMechanicalCheck2D<"coulomb-friction">;
+  compression: RigidBlockDeformableInterfaceMechanicalCheck2D<"deformable-interface-compression-strength"> | null;
 }
 ```
 
-The compression demand is the maximum unclipped trial compression that the crushing-onset test
-compares with the assigned strength, not the clipped published stress: reaching the limit fails the
-current-state check, while developed perfectly-plastic crushing below the current limit keeps the
-check at `pass` (the `crushing` flag remains the developed-plasticity state). The compression check
-is `null` when no finite compression strength is assigned.
+The friction check always exists because the deformable law always assigns a Coulomb tangential law:
+`demand = |shearForce|`, `trialDemand = |shearTrial|`,
+`capacity = cohesion * area + frictionCoefficient * normalForce`. With zero capacity the mobilized
+demand is zero and the utilization stays `null` (no invented 0/0) while the evaluation's `sliding`
+flag keeps the constitutive state. The compression check is `null` when no finite compression
+strength is assigned; otherwise `demand` is the clipped published compression stress
+(`maxCompression`), `trialDemand` is the maximum unclipped trial compression the crushing-onset test
+compares with the strength, and `capacity` is the assigned strength. `utilizationRatio` always
+refers to the mobilized demand, so a correctly returned elastoplastic response stays at or below
+one; how far the predictor crossed the surface is reported by `trialDemand`, never by the main
+utilization.
 
 The equilibrium analysis fills demand, capacity, and utilization from its public interface,
 reinforcement, anchor, and bonded-layer checks, and reports one criterion per actually failing
@@ -223,7 +235,11 @@ events onto the same criterion taxonomy and copies each criterion's demand, capa
 and `checkId` from the mechanical check published by the converged state of the event's own step:
 `plastic-sliding` copies the step's friction check, `compression-strength-reached` and `crushing`
 copy the step's compression check, and the reinforcement, anchor, and bonded-layer criteria copy
-their own evaluations' checks. Path criteria never recompute a mechanical formula; quantities the
+their own evaluations' checks. The copied demand is the mobilized demand; `trialDemand` stays a
+constitutive diagnostic and is never used as the criterion demand. When a step terminates through a
+physical event, every physical-limit event identified by that same converged step is reported as a
+failed criterion, so a `stop-at-onset` step keeps its `compression-strength-reached` criterion next
+to the terminal `crushing` one. Path criteria never recompute a mechanical formula; quantities the
 step does not carry stay `null`, and the same violated condition re-identified at a later step does
 not duplicate the criterion list.
 
@@ -245,10 +261,12 @@ assessment is `FAIL` with the single `equilibrium-infeasible` criterion, empty `
 `failureMode: "undetermined"`.
 
 Joint opening, hinge formation, passive tendon activation, tendon slackening, sliding onset, and
-bonded-layer force development are states or events; none of them is a failed criterion by itself. A
-passive tendon may activate and redistribute load while the assessment stays `PASS` at `lambda = 1`;
-an extrados passive tendon activating under downward crown load is a regression-test case. Only the
-physical-limit kinds fail a design check by default.
+bonded-layer force development are states or events; none of them is a failed criterion by itself.
+Local plastic sliding and perfectly-plastic crushing may redistribute the response and the design
+can still pass at `lambda = 1` (regression benchmarks cover both). A passive tendon may activate and
+redistribute load while the assessment stays `PASS` at `lambda = 1`; an extrados passive tendon
+activating under downward crown load is a regression-test case. Only the physical-limit kinds fail a
+design check by default.
 
 For the path analysis, `engineeringAssessment` adds the path-specific `requiredLambda: 1` field;
 `outputs.events` keeps the complete event log with categories, steps, and messages.

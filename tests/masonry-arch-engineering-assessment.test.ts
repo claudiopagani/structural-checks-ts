@@ -119,7 +119,10 @@ function pathModel(
   });
 }
 
-function designPath(model: ReturnType<typeof pathModel>) {
+function designPath(
+  model: ReturnType<typeof pathModel>,
+  options: Partial<Parameters<typeof analyzeMasonryArchPath>[1]> = {},
+) {
   return analyzeMasonryArchPath(model, {
     units: { force: "kN", length: "m" },
     analysisObjective: "design-state-check",
@@ -127,6 +130,40 @@ function designPath(model: ReturnType<typeof pathModel>) {
     equilibriumTolerance: 1e-7,
     maxIterations: 50,
     maxSteps: 200,
+    ...options,
+  });
+}
+
+/** Uplift state that slides locally at J-004/J-005 before lambda one and redistributes. */
+function stabilizedUpliftModel() {
+  return pathModel({
+    pointForce: { x: 0, y: 90 },
+    reinforcements: [
+      {
+        id: "stabilizing",
+        ...INTRA,
+        area: 0.001,
+        elasticModulus: 200_000_000,
+        initialForce: 20,
+        interaction: { type: "rigid-deviators", count: 3 },
+        terminations: {
+          left: { type: "distributed-anchorage", connectorCount: 1 },
+          right: { type: "distributed-anchorage", connectorCount: 1 },
+        },
+      },
+      {
+        id: "passive",
+        ...INTRA,
+        area: 0.001,
+        elasticModulus: 200_000_000,
+        initialForce: 0,
+        interaction: { type: "rigid-deviators", count: 3 },
+        terminations: {
+          left: { type: "distributed-anchorage", connectorCount: 1 },
+          right: { type: "distributed-anchorage", connectorCount: 1 },
+        },
+      },
+    ],
   });
 }
 
@@ -708,40 +745,14 @@ void test("non-failure: joint opening and tendon activation never appear as fail
   assert.equal(assessment.failureMode, null);
 
   // When sliding fails a stronger uplift state, the activation events are not criteria either.
-  const failed = designPath(
-    pathModel({
-      pointForce: { x: 0, y: 90 },
-      reinforcements: [
-        {
-          id: "stabilizing",
-          ...INTRA,
-          area: 0.001,
-          elasticModulus: 200_000_000,
-          initialForce: 20,
-          interaction: { type: "rigid-deviators", count: 3 },
-          terminations: {
-            left: { type: "distributed-anchorage", connectorCount: 1 },
-            right: { type: "distributed-anchorage", connectorCount: 1 },
-          },
-        },
-        {
-          id: "passive",
-          ...INTRA,
-          area: 0.001,
-          elasticModulus: 200_000_000,
-          initialForce: 0,
-          interaction: { type: "rigid-deviators", count: 3 },
-          terminations: {
-            left: { type: "distributed-anchorage", connectorCount: 1 },
-            right: { type: "distributed-anchorage", connectorCount: 1 },
-          },
-        },
-      ],
-    }),
-  );
+  // Under the default policy local plastic sliding is not a global failure: the explicit
+  // stricter policy below is what turns it into failed criteria, and activation still never
+  // becomes one.
+  const failed = designPath(stabilizedUpliftModel(), {
+    designFailureEvents: ["plastic-sliding"],
+  });
   assert.equal(failed.outputs.engineeringAssessment?.status, "FAIL");
   assert.equal(failed.status, "not-verified");
-  assert.ok(failed.outputs.events.some((event) => event.kind === "passive-tendon-activated"));
   // Activation, joint opening, and slackening are not criterion kinds at the type level, so the
   // compiled taxonomy already guarantees they can never appear here.
   assert.ok(failed.outputs.engineeringAssessment.failedCriteria.length > 0);
@@ -750,6 +761,47 @@ void test("non-failure: joint opening and tendon activation never appear as fail
       (kind) => kind === "plastic-sliding",
     ),
   );
+});
+
+void test("P. local plastic sliding redistributes and the design still passes at lambda one", () => {
+  const result = designPath(stabilizedUpliftModel());
+  const assessment = result.outputs.engineeringAssessment;
+  assert.equal(assessment?.status, "PASS");
+  assert.equal(result.status, "ok");
+  const slidingEvents = result.outputs.events.filter((event) => event.kind === "plastic-sliding");
+  assert.ok(slidingEvents.length > 0, "local sliding occurs");
+  for (const event of slidingEvents) {
+    assert.ok(event.lambda !== null && event.lambda < 1, "sliding occurs before the design state");
+  }
+  assert.equal(assessment.lambda, 1);
+  assert.deepEqual(assessment.failedCriteria, []);
+  assert.equal(assessment.failureMode, null);
+  assert.ok(
+    result.outputs.events.some((event) => event.kind === "passive-tendon-activated"),
+    "the passive tendon activates after redistribution",
+  );
+});
+
+void test("P2. perfectly-plastic crushing continues and the design still passes at lambda one", () => {
+  const result = designPath(
+    pathModel({
+      interfaceLaw: {
+        ...deformable,
+        normal: {
+          ...deformable.normal,
+          compressiveStrength: 310,
+          postCrushingBehavior: "perfectly-plastic",
+        },
+      },
+    }),
+  );
+  const assessment = result.outputs.engineeringAssessment;
+  assert.equal(assessment?.status, "PASS");
+  assert.equal(result.status, "ok");
+  assert.ok(result.outputs.events.some((event) => event.kind === "crushing"));
+  assert.ok(result.outputs.events.some((event) => event.kind === "compression-strength-reached"));
+  assert.deepEqual(assessment.failedCriteria, []);
+  assert.equal(assessment.failureMode, null);
 });
 
 void test("path design assessment reports the shared shape with lambda and requiredLambda", () => {
@@ -764,7 +816,7 @@ void test("path design assessment reports the shared shape with lambda and requi
   // mode keeps its own semantics and remains available on the outputs.
   assert.equal(assessment.failureMode, null);
   assert.equal(result.outputs.failureMode, "no-collapse-within-model");
-  assert.equal(result.metadata.schemaVersion, "7.0.0");
+  assert.equal(result.metadata.schemaVersion, "8.0.0");
 });
 
 void test("D3. reinforcement rupture from both sub-checks preserves one criterion per check", () => {
@@ -929,7 +981,7 @@ void test("L. a passive extrados tendon activates during the path and the design
   assert.ok(passive.force > 0);
 });
 
-void test("O1. path compression criteria copy the step's deformable-interface check", () => {
+void test("O1. stop-at-onset path criteria copy the step's deformable-interface check", () => {
   const result = designPath(
     pathModel({
       interfaceLaw: {
@@ -944,6 +996,12 @@ void test("O1. path compression criteria copy the step's deformable-interface ch
   );
   const assessment = result.outputs.engineeringAssessment;
   assert.equal(assessment?.status, "FAIL");
+  assert.equal(result.status, "not-verified");
+  // The terminal stop-at-onset step keeps both identified limits: the terminal crushing event
+  // and the compression-strength-reached event of the same step.
+  assert.ok(kinds(assessment.failedCriteria).includes("compression-strength-reached"));
+  assert.ok(kinds(assessment.failedCriteria).includes("crushing"));
+  assert.equal(assessment.failureMode, "masonry-crushing");
   const criterion = assessment.failedCriteria.find(
     (item) => item.kind === "compression-strength-reached",
   )!;
@@ -962,12 +1020,46 @@ void test("O1. path compression criteria copy the step's deformable-interface ch
   assert.equal(criterion.capacity, check.capacity);
   assert.equal(criterion.utilizationRatio, check.utilizationRatio);
   assert.equal(check.capacity, 310);
-  // The demand is the unclipped trial compression the crushing-onset test compares with the
-  // strength, not the clipped published stress.
-  assert.ok(check.demand >= 310 * (1 - 1e-9));
+  // The criterion reports the mobilized demand (clipped stress), never the trial predictor:
+  // the trial crossed the limit while the mobilized demand stays at or below the capacity.
+  assert.ok(check.trialDemand >= 310 * (1 - 1e-9));
+  assert.ok(check.demand <= check.capacity);
+  assert.ok(check.utilizationRatio! <= 1 + 1e-12);
 });
 
-void test("O2. path sliding and reinforcement criteria carry step-coherent numeric data", () => {
+void test("O2a. under an explicit stricter policy the path sliding criteria copy the step's Coulomb check", () => {
+  const result = designPath(stabilizedUpliftModel(), {
+    designFailureEvents: ["plastic-sliding"],
+  });
+  const assessment = result.outputs.engineeringAssessment;
+  assert.equal(assessment?.status, "FAIL");
+  assert.equal(result.status, "not-verified");
+  const slidingCriteria = assessment.failedCriteria.filter(
+    (item) => item.kind === "plastic-sliding",
+  );
+  assert.ok(slidingCriteria.length > 0);
+  for (const criterion of slidingCriteria) {
+    // The criterion is the exact copy of the Coulomb check the deformable-interface law
+    // published at the event's own converged step; no consumer recomputes the capacity.
+    assert.equal(criterion.checkId, "coulomb-friction");
+    const event = result.outputs.events.find(
+      (item) => item.kind === "plastic-sliding" && item.entityIds[0] === criterion.entityIds[0],
+    )!;
+    const step = result.outputs.steps.find((item) => item.step === event.step)!;
+    const interfaceState = step.state.interfaces.find(
+      (item) => item.interfaceId === criterion.entityIds[0],
+    )!;
+    const frictionCheck = interfaceState.checks.friction;
+    assert.equal(criterion.demand, frictionCheck.demand);
+    assert.equal(criterion.capacity, frictionCheck.capacity);
+    assert.equal(criterion.utilizationRatio, frictionCheck.utilizationRatio);
+    assert.equal(frictionCheck.demand, Math.abs(interfaceState.shearForce));
+    assert.equal(frictionCheck.capacity, 0.5 * interfaceState.normalForce);
+    assert.ok(frictionCheck.demand <= frictionCheck.capacity);
+  }
+});
+
+void test("O2b. path reinforcement criteria copy the step's check data", () => {
   const result = designPath(
     pathModel({
       pointForce: { x: 0, y: 100 },
@@ -990,26 +1082,6 @@ void test("O2. path sliding and reinforcement criteria carry step-coherent numer
   );
   const assessment = result.outputs.engineeringAssessment;
   assert.equal(assessment?.status, "FAIL");
-  const sliding = assessment.failedCriteria.find(
-    (item) => item.kind === "plastic-sliding" && item.entityIds[0] === "J-004",
-  )!;
-  const slidingEvent = result.outputs.events.find(
-    (item) => item.kind === "plastic-sliding" && item.entityIds[0] === "J-004",
-  )!;
-  const slidingStep = result.outputs.steps.find((item) => item.step === slidingEvent.step)!;
-  const interfaceState = slidingStep.state.interfaces.find((item) => item.interfaceId === "J-004")!;
-  // The criterion is the exact copy of the Coulomb check the deformable-interface law published;
-  // no consumer recomputes the capacity.
-  const frictionCheck = interfaceState.checks.friction!;
-  assert.ok(frictionCheck !== null);
-  assert.equal(sliding.checkId, frictionCheck.criterion);
-  assert.equal(sliding.checkId, "coulomb-friction");
-  assert.equal(sliding.demand, frictionCheck.demand);
-  assert.equal(sliding.capacity, frictionCheck.capacity);
-  assert.equal(sliding.utilizationRatio, frictionCheck.utilizationRatio);
-  assert.equal(frictionCheck.demand, Math.abs(interfaceState.shearForce));
-  assert.equal(frictionCheck.capacity, 0.5 * interfaceState.normalForce);
-
   const yielded = assessment.failedCriteria.find((item) => item.kind === "reinforcement-yielded")!;
   assert.equal(yielded.checkId, "reinforcement-yield-stress");
   const yieldEvent = result.outputs.events.find((item) => item.kind === "reinforcement-yielded")!;
@@ -1021,6 +1093,10 @@ void test("O2. path sliding and reinforcement criteria carry step-coherent numer
   assert.equal(yielded.demand, yieldingCheck.demand);
   assert.equal(yielded.capacity, yieldingCheck.capacity);
   assert.equal(yielded.utilizationRatio, yieldingCheck.utilizationRatio);
+  // The terminal yield step also identifies plastic sliding at the same step: both physical
+  // families are reported as criteria and the global mode mixes the two distinct families.
+  assert.ok(kinds(assessment.failedCriteria).includes("plastic-sliding"));
+  assert.equal(assessment.failureMode, "mixed");
 });
 
 void test("O3. path anchor and bonded-layer criteria carry step-coherent numeric data", () => {

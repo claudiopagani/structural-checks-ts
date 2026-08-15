@@ -68,39 +68,49 @@ export interface RigidBlockDeformableInterfaceAction2D {
 /**
  * Named checks published by the deformable interface law. The literals identify the producing
  * mechanical check; application layers map them onto their own check identifier taxonomy and
- * must never re-derive the quantities.
+ * must never re-derive the quantities. A mechanical check reports constitutive quantities only:
+ * reaching a local plastic surface is a constitutive state, never a global structural verdict.
  */
 export type RigidBlockDeformableInterfaceMechanicalCheckId2D =
   | "coulomb-friction"
   | "deformable-interface-compression-strength";
 
-export type RigidBlockDeformableInterfaceMechanicalCheckStatus2D =
-  | "pass"
-  | "fail"
-  | "not-verifiable";
-
-export interface RigidBlockDeformableInterfaceMechanicalCheck2D {
-  readonly criterion: RigidBlockDeformableInterfaceMechanicalCheckId2D;
+/**
+ * Mechanical quantities of one deformable-interface limit check. `demand` is the demand
+ * mobilized by the returned response and never exceeds the capacity for the returned
+ * elastoplastic law; `trialDemand` is the constitutive trial predictor that detects crossing of
+ * the yield surface and may exceed the capacity; `utilizationRatio` refers to the mobilized
+ * demand. The check carries no pass/fail verdict on the structure.
+ */
+export interface RigidBlockDeformableInterfaceMechanicalCheck2D<
+  TCriterion extends
+    RigidBlockDeformableInterfaceMechanicalCheckId2D = RigidBlockDeformableInterfaceMechanicalCheckId2D,
+> {
+  readonly criterion: TCriterion;
+  /** Demand mobilized by the returned response. */
   readonly demand: number;
+  /** Trial predictor used by the law's onset test; may exceed the capacity. */
+  readonly trialDemand: number;
   readonly capacity: number;
+  /** Mobilized demand over capacity; null when the ratio is not definable (zero capacity). */
   readonly utilizationRatio: number | null;
-  readonly status: RigidBlockDeformableInterfaceMechanicalCheckStatus2D;
 }
 
 export interface RigidBlockDeformableInterfaceChecks2D {
   /**
    * Coulomb shear check of the tangential law. The deformable law always assigns a tangential
-   * Coulomb law, so this check is always produced; the status is `not-verifiable` only when the
-   * friction capacity is zero and no utilization can be formed.
+   * Coulomb law, so this check is always present. With zero friction capacity the mobilized
+   * demand is zero and the utilization stays null while the evaluation's `sliding` flag keeps
+   * the constitutive state.
    */
-  readonly friction: RigidBlockDeformableInterfaceMechanicalCheck2D | null;
+  readonly friction: RigidBlockDeformableInterfaceMechanicalCheck2D<"coulomb-friction">;
   /**
    * Finite-compression-strength check of the normal law. Null when no finite compression
-   * strength is assigned. The demand is the maximum unclipped trial compression that the
-   * crushing-onset test compares with the assigned strength, so the check reflects the actual
-   * implemented law rather than the clipped stress distribution.
+   * strength is assigned. The demand is the clipped published stress and the trial demand is
+   * the maximum unclipped trial compression the crushing-onset test compares with the assigned
+   * strength.
    */
-  readonly compression: RigidBlockDeformableInterfaceMechanicalCheck2D | null;
+  readonly compression: RigidBlockDeformableInterfaceMechanicalCheck2D<"deformable-interface-compression-strength"> | null;
 }
 
 export interface RigidBlockDeformableInterfaceEvaluation2D {
@@ -139,7 +149,10 @@ export interface RigidBlockDeformableInterfaceEvaluation2D {
   readonly contactActive: boolean;
   readonly sliding: boolean;
   readonly crushing: boolean;
-  /** Mechanical checks produced where the law is evaluated; consumers copy, never recompute. */
+  /**
+   * Mechanical checks produced where the law is evaluated; consumers copy, never recompute.
+   * The checks carry constitutive quantities only and never a structural verdict.
+   */
   readonly checks: RigidBlockDeformableInterfaceChecks2D;
   /** Closed-normal/closed-stick derivative selection at the nonsmooth N = V = 0 vertex. */
   readonly coincidentClosedStickPredictor: boolean;
@@ -703,23 +716,19 @@ function evaluateForces(
 
   const frictionUtilization =
     totalFrictionCapacity > 0 ? Math.abs(shearForce) / totalFrictionCapacity : null;
-  // The compression check is produced here, where the strength limit is actually applied:
-  // the demand is the unclipped trial that the crushing-onset test compares with the assigned
-  // strength, and the status reflects reaching the limit in the current state. Developed
-  // plastic crushing (perfectly-plastic) below the current limit keeps the check at pass; the
-  // `crushing` flag remains the historical/developed-plasticity state.
-  const compressionCheck: RigidBlockDeformableInterfaceMechanicalCheck2D | null =
+  // The checks publish constitutive quantities only: the demand mobilized by the returned
+  // response, the trial predictor that detected the surface crossing, and the mobilized
+  // utilization. Reaching the plastic surface is recorded by the evaluation's own `sliding`
+  // and `crushing` state flags and never turns into a structural verdict here.
+  const compressionCheck: RigidBlockDeformableInterfaceMechanicalCheck2D<"deformable-interface-compression-strength"> | null =
     law.normal.compressiveStrength === null
       ? null
       : {
           criterion: "deformable-interface-compression-strength",
-          demand: maximumTrialCompression,
+          demand: maximumCompression,
+          trialDemand: maximumTrialCompression,
           capacity: law.normal.compressiveStrength,
-          utilizationRatio: maximumTrialCompression / law.normal.compressiveStrength,
-          status:
-            maximumTrialCompression >= law.normal.compressiveStrength * (1 - 1e-12)
-              ? "fail"
-              : "pass",
+          utilizationRatio: maximumCompression / law.normal.compressiveStrength,
         };
   return {
     generalizedForces,
@@ -750,9 +759,9 @@ function evaluateForces(
       friction: {
         criterion: "coulomb-friction",
         demand: Math.abs(shearForce),
+        trialDemand: Math.abs(shearTrial),
         capacity: totalFrictionCapacity,
         utilizationRatio: frictionUtilization,
-        status: frictionUtilization === null ? "not-verifiable" : sliding ? "fail" : "pass",
       },
       compression: compressionCheck,
     },

@@ -1,6 +1,15 @@
 # Deformable-interface published checks: path criteria become a mapping layer
 
-Status: implemented | Scope: `domain/masonry/rigid-blocks`, `applications/masonry-arches`
+Status: implemented (superseded in part by
+[Decision 0012](decisions/0012-local-plastic-limits-are-not-global-failures.md)) | Scope:
+`domain/masonry/rigid-blocks`, `applications/masonry-arches`
+
+Later refinement changed the check contract described below: the `status` field was removed, the
+check now publishes `demand` (mobilized), `trialDemand` (constitutive predictor), `capacity`, and
+`utilizationRatio` (mobilized), the friction check is non-nullable and criterion-locked, and the
+default design-failure policy follows the assigned constitutive law. This record remains as the
+historical report of the Decision 0011 iteration; the current semantics are documented in Decision
+0012 and `docs/masonry-arch-analysis.md`.
 
 This report records the iteration that removed the mechanical-formula duplication from
 `pathCriteria.ts` and made the deformable interface law publish its own structural checks. It is the

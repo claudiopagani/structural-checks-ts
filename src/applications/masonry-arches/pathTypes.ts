@@ -30,7 +30,7 @@ import type {
 
 export type { MasonryArchEventKind } from "./types.js";
 
-export const MASONRY_ARCH_PATH_RESULT_SCHEMA_VERSION = "7.0.0";
+export const MASONRY_ARCH_PATH_RESULT_SCHEMA_VERSION = "8.0.0";
 
 export interface MasonryArchDof {
   readonly blockId: string;
@@ -70,7 +70,10 @@ export interface AnalyzeMasonryArchPathOptions {
   /**
    * Physical-limit event kinds that fail a design-state check. Restricted to the physical-limit
    * taxonomy at the type level; observable, warning, and numerical event kinds can never be
-   * configured here, and numerical failures always produce INDETERMINATE, never FAIL.
+   * configured here, and numerical failures always produce INDETERMINATE, never FAIL. The
+   * default follows the constitutive law: local sliding and perfectly-plastic crushing continue
+   * by default, while terminal-physical events and the remaining default kinds fail. Callers
+   * can opt into a stricter policy, for example `["plastic-sliding"]`.
    */
   readonly designFailureEvents?: readonly MasonryArchDesignFailureEventKind[];
   readonly contactInitialization?: "cohesion-homotopy" | "none";

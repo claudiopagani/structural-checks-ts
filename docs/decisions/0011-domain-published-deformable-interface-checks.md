@@ -2,6 +2,13 @@
 
 Status: accepted
 
+> Refined by [Decision 0012](0012-local-plastic-limits-are-not-global-failures.md): the mechanical
+> checks no longer carry a `pass/fail/not-verifiable` status, `demand` became the mobilized demand
+> with `trialDemand` as the separate constitutive predictor, the friction check became non-nullable
+> and criterion-locked, and the default design-failure policy follows the assigned constitutive law
+> (local sliding and perfectly-plastic crushing continue by default). The mapping-layer and
+> failure-mode-family decisions below remain in force.
+
 ## Context
 
 Decision 0010 established the masonry-arch `engineeringAssessment` as the single design verdict and

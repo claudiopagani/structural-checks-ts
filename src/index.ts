@@ -150,7 +150,6 @@ export type {
   RigidBlockDeformableInterfaceLaw2D,
   RigidBlockDeformableInterfaceMechanicalCheck2D,
   RigidBlockDeformableInterfaceMechanicalCheckId2D,
-  RigidBlockDeformableInterfaceMechanicalCheckStatus2D,
   RigidBlockDeformableInterfaceState2D,
   RigidBlockFiniteDisplacement2D,
 } from "./domain/masonry/rigid-blocks/evaluateDeformableInterface2D.js";
