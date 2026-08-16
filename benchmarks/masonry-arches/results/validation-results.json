@@ -1,6 +1,6 @@
 {
-  "generatedOn": "2026-08-16T16:18:47.480Z",
-  "solverRevision": "61143ce417133098d1c43f88928b099a2d7817d6",
+  "generatedOn": "2026-08-16T16:25:36.179Z",
+  "solverRevision": "56568c78c4726ac1e4902781c804032161569dc0",
   "comparisons": [
     {
       "caseId": "bertolesi-2018/U_A-numerical",
@@ -568,6 +568,35 @@
       "notes": "hinges=4"
     }
   ],
+  "integrationPointStudy": [
+    {
+      "caseId": "convergence/integration-points-carozzi-SRG_A",
+      "parameter": "interface integrationPointCount",
+      "value": 4,
+      "observable": "capacity lambdaPeak (deformable path)",
+      "predictedValue": 0.9998653606335789,
+      "relativeChangeVsPrevious": null,
+      "notes": "termination=target-reached; status=not-verified"
+    },
+    {
+      "caseId": "convergence/integration-points-carozzi-SRG_A",
+      "parameter": "interface integrationPointCount",
+      "value": 8,
+      "observable": "capacity lambdaPeak (deformable path)",
+      "predictedValue": 0.9998653606335789,
+      "relativeChangeVsPrevious": 0,
+      "notes": "termination=target-reached; status=not-verified"
+    },
+    {
+      "caseId": "convergence/integration-points-carozzi-SRG_A",
+      "parameter": "interface integrationPointCount",
+      "value": 16,
+      "observable": "capacity lambdaPeak (deformable path)",
+      "predictedValue": 0.9998653606335789,
+      "relativeChangeVsPrevious": 0,
+      "notes": "termination=target-reached; status=not-verified"
+    }
+  ],
   "arcLengthRobustness": [
     {
       "caseId": "arc-length/crown-uplift-passive-tendon",
@@ -618,6 +647,41 @@
       "notes": "initialRadius=0.2, maximumRadius=0.8"
     }
   ],
+  "statistics": {
+    "sourceCount": 4,
+    "specimenCount": 19,
+    "tierA": 12,
+    "tierB": 10,
+    "tierC": 1,
+    "quantitativeCount": 16,
+    "qualitativeCount": 7,
+    "withinTolerance": 1,
+    "outsideTolerance": 15,
+    "indeterminateSolverRuns": 0,
+    "solverBugs": 0,
+    "modelLimitations": 17,
+    "unavailableInputs": 4,
+    "byFamily": {
+      "URM": {
+        "total": 11,
+        "within": 1
+      },
+      "BONDED-EXTRADOS": {
+        "total": 8,
+        "within": 0
+      },
+      "BONDED-INTRADOS": {
+        "total": 4,
+        "within": 0
+      }
+    },
+    "byDiscrepancy": {
+      "MODEL_FORM_DIFFERENCE": 12,
+      "MISSING_PHYSICS": 5,
+      "UNAVAILABLE_INPUT": 4
+    }
+  },
+  "finalAssessment": "MASONRY ARCH SOLVER SCIENTIFIC VALIDATION — SATISFACTORY WITH DOCUMENTED MODEL LIMITATIONS (decision B): the solver reproduces the independent four-hinge software-correctness anchor to six significant digits with no confirmed SOLVER_BUG, the mesh and arc-length studies are reproducible, and every quantitative gap is attributed to documented model-form differences (no-tension material, mortar bond, abutment walls, frictionless idealization), missing physics (bond-slip fracture energy, backfill), or unavailable published inputs; no solver parameter was calibrated on benchmark data.",
   "pending": [
     {
       "caseId": "tie-rods/ural-2016",

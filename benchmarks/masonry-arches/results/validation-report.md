@@ -1,6 +1,6 @@
 # Masonry-arches scientific validation report
 
-Generated: 2026-08-16T16:18:47.480Z | Solver revision: 61143ce417133098d1c43f88928b099a2d7817d6
+Generated: 2026-08-16T16:25:36.179Z | Solver revision: 56568c78c4726ac1e4902781c804032161569dc0
 
 This report validates the masonry-arches module of `structural-checks-ts` against independent
 literature benchmarks. The suite proves the solver: no solver parameter was calibrated on the

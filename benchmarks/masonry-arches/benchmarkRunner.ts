@@ -100,7 +100,10 @@ export interface BenchmarkRunResult {
   readonly solverRevision: string;
   readonly comparisons: readonly BenchmarkComparison[];
   readonly convergenceStudy: readonly ConvergenceStudyRow[];
+  readonly integrationPointStudy: readonly ConvergenceStudyRow[];
   readonly arcLengthRobustness: readonly ArcLengthRobustnessRow[];
+  readonly statistics: ReportStatistics;
+  readonly finalAssessment: string;
   readonly pending: readonly {
     readonly caseId: string;
     readonly reason: string;
