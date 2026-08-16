@@ -7,3 +7,6 @@ tmp/
 # Frozen historical migration records are provenance evidence and are never reformatted.
 migration/parity-inventory.json
 src/applications/reinforced-concrete-plates/README.md
+
+# Generated validation artifacts are never reformatted by hand.
+benchmarks/masonry-arches/results/

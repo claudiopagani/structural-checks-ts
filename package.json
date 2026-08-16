@@ -115,6 +115,7 @@
     "check:worker-bundle": "node --experimental-strip-types scripts/check-worker-bundle.ts",
     "check:encoding": "node --experimental-strip-types scripts/check-encoding.ts",
     "check:parity-inventory": "node --experimental-strip-types scripts/check-parity-inventory.ts",
+    "benchmark:masonry-arches": "npm run build && node --experimental-strip-types scripts/benchmark-masonry-arches.ts",
     "check": "npm run build && npm run format:check && npm run lint && npm run typecheck && npm run test:run && npm run check:architecture && npm run check:normative-references && npm run check:provenance && npm run check:parity-inventory && npm run check:package && npm run check:packed-consumer && npm run check:worker-bundle && npm run check:encoding"
   },
   "devDependencies": {

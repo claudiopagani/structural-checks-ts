@@ -34,4 +34,12 @@ records under `specimens[].curves` with their exact figure references, for examp
 | `simoncello-2020/prestwood-URM`       | Simoncello et al. 2020, Figure 9  |
 
 Digitization of the priority-set curves is the enabling work for the nonlinear load-displacement
-benchmark slot and is planned for the next iteration step; it must precede any solver change.
+benchmark slot and must precede any solver change.
+
+**Access verification (2026-08-16, iteration step 3):** the Simoncello et al. 2020 figures are
+verified openly accessible under the article's CC BY 4.0 license (Frontiers image store, article
+504332): Figure 5 (Borri URM calibration curves with the experimental peak marker), Figure 6 (Borri
+FRP experimental discrete approximation plus numerical curves), and Figure 9 (Prestwood
+load-displacement with the experimental maximum marker). No pixel-reading tooling is available in
+the validation environment, so no points were read and no curve was fabricated. The digitization
+slot remains `PENDING_DIGITIZATION`; the figure URLs are recorded in the validation report.

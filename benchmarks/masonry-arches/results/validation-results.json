@@ -1,0 +1,659 @@
+{
+  "generatedOn": "2026-08-16T16:18:47.480Z",
+  "solverRevision": "61143ce417133098d1c43f88928b099a2d7817d6",
+  "comparisons": [
+    {
+      "caseId": "bertolesi-2018/U_A-numerical",
+      "sourceId": "bertolesi-2018",
+      "specimenId": "bertolesi-2018/U_A-numerical",
+      "tier": "A",
+      "family": "URM",
+      "observable": "NTM lower-bound collapse load",
+      "referenceValue": 1725,
+      "predictedValue": 852.2003875317836,
+      "units": "N",
+      "relativeError": -0.5059707898366472,
+      "acceptanceTolerance": 0.05,
+      "quantitativeStatus": "outside-tolerance",
+      "mechanismAgreement": "not-assessed",
+      "discrepancyClassification": "MODEL_FORM_DIFFERENCE",
+      "provenance": {
+        "kind": "exact",
+        "location": "Section 3.1 (NTM collapse load 1.725 kN, infinite compressive strength)",
+        "unit": "N",
+        "notes": null
+      },
+      "notes": "our mesh-converged kinematic multiplier for the arch ring alone is lower than the reference FE lower bound at every load position, which is impossible for the same structure: the reference LB model includes the masonry lateral abutment walls of the test rig; the arch-only value is reported with this model-form gap"
+    },
+    {
+      "caseId": "internal/independent-mechanism-carozzi-U_A",
+      "sourceId": "bertolesi-2018",
+      "specimenId": "bertolesi-2018/U_A-numerical",
+      "tier": "A",
+      "family": "URM",
+      "observable": "kinematic multiplier vs independent four-hinge enumeration",
+      "referenceValue": 1.0931393315212365,
+      "predictedValue": 1.0931393315212345,
+      "units": "kN",
+      "relativeError": 1.828130583815209e-15,
+      "acceptanceTolerance": 0.001,
+      "quantitativeStatus": "within-tolerance",
+      "mechanismAgreement": "pass",
+      "discrepancyClassification": "NONE",
+      "provenance": {
+        "kind": "derived",
+        "location": "Independent four-hinge enumeration (benchmark-internal code) over the library-published block wrenches",
+        "unit": "kN"
+      },
+      "notes": "independent enumeration lambda=1.093139; library lambda=1.093139; relative agreement=0.000000%; this is the software-correctness anchor, not a literature comparison"
+    },
+    {
+      "caseId": "bertolesi-2018/U_V-numerical",
+      "sourceId": "bertolesi-2018",
+      "specimenId": "bertolesi-2018/U_V-numerical",
+      "tier": "A",
+      "family": "URM",
+      "observable": "NTM lower-bound collapse load",
+      "referenceValue": 261,
+      "predictedValue": 223.3406542193725,
+      "units": "N",
+      "relativeError": -0.14428868115182947,
+      "acceptanceTolerance": 0.05,
+      "quantitativeStatus": "outside-tolerance",
+      "mechanismAgreement": "not-assessed",
+      "discrepancyClassification": "MODEL_FORM_DIFFERENCE",
+      "provenance": {
+        "kind": "exact",
+        "location": "Section 3.2 (ft=0.001 MPa)",
+        "unit": "N",
+        "notes": null
+      },
+      "notes": "60 mm single-leaf vault, frictionless no-tension limit analysis, mesh-converged discretization; agreement with the FE lower bound is close but outside the 5% numerical tolerance"
+    },
+    {
+      "caseId": "bertolesi-2018/U_V-numerical-ft0.1",
+      "sourceId": "bertolesi-2018",
+      "specimenId": "bertolesi-2018/U_V-numerical",
+      "tier": "A",
+      "family": "URM",
+      "observable": "collapse load at ft = 0.1 MPa (finite tensile strength)",
+      "referenceValue": 919,
+      "predictedValue": 223.3406542193725,
+      "units": "N",
+      "relativeError": -0.7569742609147199,
+      "acceptanceTolerance": null,
+      "quantitativeStatus": "qualitative-only",
+      "mechanismAgreement": "not-assessed",
+      "discrepancyClassification": "MODEL_FORM_DIFFERENCE",
+      "provenance": {
+        "kind": "exact",
+        "location": "Section 3.2 (ft=0.1 MPa)",
+        "unit": "N",
+        "notes": null
+      },
+      "notes": "our no-tension model has no tensile strength: the NTM prediction is a lower bound of the ft=0.1 MPa reference; qualitative comparison documents the model-form gap"
+    },
+    {
+      "caseId": "carozzi-2018/U_A",
+      "sourceId": "carozzi-2018",
+      "specimenId": "carozzi-2018/U_A",
+      "tier": "A",
+      "family": "URM",
+      "observable": "experimental peak load",
+      "referenceValue": 2.08,
+      "predictedValue": 0.8522003875317836,
+      "units": "kN",
+      "relativeError": -0.5902882752251041,
+      "acceptanceTolerance": 0.25,
+      "quantitativeStatus": "outside-tolerance",
+      "mechanismAgreement": "pass",
+      "discrepancyClassification": "MODEL_FORM_DIFFERENCE",
+      "provenance": {
+        "kind": "exact",
+        "location": "Table 6 (collapse load Fmax, structure U_A)",
+        "unit": "kN",
+        "notes": null
+      },
+      "notes": "mesh-converged NTM kinematic multiplier at the exact load position; the gap to the experiment is the no-tension model form (the reference FE reproduces the test only with a fitted masonry tensile strength of 0.0077 MPa and with the lateral walls included) plus the unpublished unit weight"
+    },
+    {
+      "caseId": "carozzi-2018/U_A-hinge-sequence",
+      "sourceId": "carozzi-2018",
+      "specimenId": "carozzi-2018/U_A",
+      "tier": "C",
+      "family": "URM",
+      "observable": "four-hinge mechanism with an extrados hinge",
+      "referenceValue": null,
+      "predictedValue": null,
+      "units": null,
+      "relativeError": null,
+      "acceptanceTolerance": null,
+      "quantitativeStatus": "qualitative-only",
+      "mechanismAgreement": "pass",
+      "discrepancyClassification": "NONE",
+      "provenance": {
+        "kind": "exact",
+        "location": "Carozzi et al. 2018, Table 6 and failure description (first hinge extrados under the load)",
+        "unit": null
+      },
+      "notes": "library hinges: J-000:intrados, J-013:extrados, J-040:intrados, J-061:extrados; sliding interfaces: 0"
+    },
+    {
+      "caseId": "carozzi-2018/U_V",
+      "sourceId": "carozzi-2018",
+      "specimenId": "carozzi-2018/U_V",
+      "tier": "A",
+      "family": "URM",
+      "observable": "experimental peak load",
+      "referenceValue": 0.39,
+      "predictedValue": 0.22334065421937252,
+      "units": "kN",
+      "relativeError": -0.4273316558477628,
+      "acceptanceTolerance": 0.25,
+      "quantitativeStatus": "outside-tolerance",
+      "mechanismAgreement": "not-assessed",
+      "discrepancyClassification": "MODEL_FORM_DIFFERENCE",
+      "provenance": {
+        "kind": "exact",
+        "location": "Table 6 (collapse load Fmax, structure U_V)",
+        "unit": "kN",
+        "notes": null
+      },
+      "notes": "mesh-converged NTM kinematic multiplier; the reference NTM FE lower bound (0.261 kN) is 10% below our value and the experiment needs ft = 0.02 MPa in the reference model"
+    },
+    {
+      "caseId": "oliveira-2010/US-1",
+      "sourceId": "oliveira-2010",
+      "specimenId": "oliveira-2010/US-1",
+      "tier": "A",
+      "family": "URM",
+      "observable": "experimental peak load",
+      "referenceValue": 1.43,
+      "predictedValue": 0.020993168300677757,
+      "units": "kN",
+      "relativeError": -0.9853194627267988,
+      "acceptanceTolerance": 0.2,
+      "quantitativeStatus": "outside-tolerance",
+      "mechanismAgreement": "pass",
+      "discrepancyClassification": "MODEL_FORM_DIFFERENCE",
+      "provenance": {
+        "kind": "exact",
+        "location": "Basilio 2007 PhD thesis, Table 6.5 (specimen US-1); paper reports average values only",
+        "unit": "kN",
+        "notes": null
+      },
+      "notes": "the no-tension kinematic model finds this slender mortar-bonded arch (t/R ~ 0.065 over 156 deg) nearly unstable under self-weight alone (lambda ~ 0.02): the real capacity comes from the mortar bond, which the NTM model deliberately excludes; the authors' own numerical model gives 1.53 kN; a documented negative model-form result, not a solver defect"
+    },
+    {
+      "caseId": "oliveira-2010/US-2",
+      "sourceId": "oliveira-2010",
+      "specimenId": "oliveira-2010/US-2",
+      "tier": "A",
+      "family": "URM",
+      "observable": "experimental peak load",
+      "referenceValue": 1.92,
+      "predictedValue": 0.020993168300677757,
+      "units": "kN",
+      "relativeError": -0.9890660581767304,
+      "acceptanceTolerance": 0.2,
+      "quantitativeStatus": "outside-tolerance",
+      "mechanismAgreement": "pass",
+      "discrepancyClassification": "MODEL_FORM_DIFFERENCE",
+      "provenance": {
+        "kind": "exact",
+        "location": "Basilio 2007 PhD thesis, Table 6.5 (specimen US-2)",
+        "unit": "kN",
+        "notes": null
+      },
+      "notes": "same no-tension model-form gap as US-1; replicate scatter of the campaign is 1.43/1.92 kN"
+    },
+    {
+      "caseId": "simoncello-2020/borri-2011-arch-URM",
+      "sourceId": "simoncello-2020",
+      "specimenId": "simoncello-2020/borri-2011-arch-URM",
+      "tier": "B",
+      "family": "URM",
+      "observable": "experimental peak load (quoted)",
+      "referenceValue": 0.7,
+      "predictedValue": 0.13353918870023018,
+      "units": "kN",
+      "relativeError": -0.8092297304282425,
+      "acceptanceTolerance": 0.25,
+      "quantitativeStatus": "outside-tolerance",
+      "mechanismAgreement": "not-assessed",
+      "discrepancyClassification": "MODEL_FORM_DIFFERENCE",
+      "provenance": {
+        "kind": "quoted",
+        "location": "Simoncello et al. 2020, Unstrengthened Masonry Arch section (Fmax=0.70 kN recorded experimentally by Borri et al. 2011)",
+        "unit": "kN",
+        "notes": null
+      },
+      "notes": "semicircular arch, mid-span point load; the NTM kinematic multiplier is far below the experiment because the reference numerical model needs a calibrated masonry tensile strength (fctm 0.03-0.08 MPa) to reproduce Fmax = 0.70 kN; quoted secondary data (Tier B)"
+    },
+    {
+      "caseId": "simoncello-2020/prestwood-URM",
+      "sourceId": "simoncello-2020",
+      "specimenId": "simoncello-2020/prestwood-URM",
+      "tier": "B",
+      "family": "URM",
+      "observable": "in-situ maximum applied load (quoted)",
+      "referenceValue": 228,
+      "predictedValue": 40.58422634517883,
+      "units": "kN",
+      "relativeError": -0.8219990072579876,
+      "acceptanceTolerance": null,
+      "quantitativeStatus": "qualitative-only",
+      "mechanismAgreement": "not-assessed",
+      "discrepancyClassification": "MISSING_PHYSICS",
+      "provenance": {
+        "kind": "quoted",
+        "location": "Simoncello et al. 2020, Unstrengthened Bridge section (maximum applied load measured on site, quoting Page 1987)",
+        "unit": "kN",
+        "notes": null
+      },
+      "notes": "bare arch ring modeled without the 300 mm patch distribution detail is replaced by a unit point load at quarter span; backfill weight, passive fill pressure, and abutment flexibility are deliberately out of scope, so this comparison is qualitative-only"
+    },
+    {
+      "caseId": "oliveira-2010/CSE-1",
+      "sourceId": "oliveira-2010",
+      "specimenId": "oliveira-2010/CSE-1",
+      "tier": "A",
+      "family": "BONDED-EXTRADOS",
+      "observable": "experimental peak load (sliding-governed)",
+      "referenceValue": 2.51,
+      "predictedValue": 0.6758631313402389,
+      "units": "kN",
+      "relativeError": -0.7307318201831717,
+      "acceptanceTolerance": 0.25,
+      "quantitativeStatus": "outside-tolerance",
+      "mechanismAgreement": "pass",
+      "discrepancyClassification": "UNAVAILABLE_INPUT",
+      "provenance": {
+        "kind": "exact",
+        "location": "Basilio 2007 PhD thesis, Table 6.5 (specimen CSE-1)",
+        "unit": "kN",
+        "notes": null
+      },
+      "notes": "joint friction is not characterized in the campaign; mu = 0.5 assumed with a sensitivity study; sliding interfaces in solver: 3; unit weight assumed 18 kN/m3"
+    },
+    {
+      "caseId": "oliveira-2010/CSE-2",
+      "sourceId": "oliveira-2010",
+      "specimenId": "oliveira-2010/CSE-2",
+      "tier": "A",
+      "family": "BONDED-EXTRADOS",
+      "observable": "experimental peak load (sliding-governed)",
+      "referenceValue": 3.82,
+      "predictedValue": 0.6758631313402389,
+      "units": "kN",
+      "relativeError": -0.8230724787067437,
+      "acceptanceTolerance": 0.25,
+      "quantitativeStatus": "outside-tolerance",
+      "mechanismAgreement": "pass",
+      "discrepancyClassification": "UNAVAILABLE_INPUT",
+      "provenance": {
+        "kind": "exact",
+        "location": "Basilio 2007 PhD thesis, Table 6.5 (specimen CSE-2)",
+        "unit": "kN",
+        "notes": null
+      },
+      "notes": "joint friction is not characterized in the campaign; mu = 0.5 assumed with a sensitivity study; sliding interfaces in solver: 3; unit weight assumed 18 kN/m3"
+    },
+    {
+      "caseId": "oliveira-2010/CSE-3",
+      "sourceId": "oliveira-2010",
+      "specimenId": "oliveira-2010/CSE-3",
+      "tier": "A",
+      "family": "BONDED-EXTRADOS",
+      "observable": "experimental peak load (sliding-governed)",
+      "referenceValue": 3.62,
+      "predictedValue": 0.6758631313402389,
+      "units": "kN",
+      "relativeError": -0.8132974775303208,
+      "acceptanceTolerance": 0.25,
+      "quantitativeStatus": "outside-tolerance",
+      "mechanismAgreement": "pass",
+      "discrepancyClassification": "UNAVAILABLE_INPUT",
+      "provenance": {
+        "kind": "exact",
+        "location": "Basilio 2007 PhD thesis, Table 6.5 (specimen CSE-3)",
+        "unit": "kN",
+        "notes": null
+      },
+      "notes": "joint friction is not characterized in the campaign; mu = 0.5 assumed with a sensitivity study; sliding interfaces in solver: 3; unit weight assumed 18 kN/m3"
+    },
+    {
+      "caseId": "oliveira-2010/CSE-4",
+      "sourceId": "oliveira-2010",
+      "specimenId": "oliveira-2010/CSE-4",
+      "tier": "A",
+      "family": "BONDED-EXTRADOS",
+      "observable": "experimental peak load (sliding-governed)",
+      "referenceValue": 3.26,
+      "predictedValue": 0.6758631313402389,
+      "units": "kN",
+      "relativeError": -0.7926800210612764,
+      "acceptanceTolerance": 0.25,
+      "quantitativeStatus": "outside-tolerance",
+      "mechanismAgreement": "pass",
+      "discrepancyClassification": "UNAVAILABLE_INPUT",
+      "provenance": {
+        "kind": "exact",
+        "location": "Basilio 2007 PhD thesis, Table 6.5 (specimen CSE-4)",
+        "unit": "kN",
+        "notes": null
+      },
+      "notes": "joint friction is not characterized in the campaign; mu = 0.5 assumed with a sensitivity study; sliding interfaces in solver: 3; unit weight assumed 18 kN/m3"
+    },
+    {
+      "caseId": "oliveira-2010/CSI-1",
+      "sourceId": "oliveira-2010",
+      "specimenId": "oliveira-2010/CSI-1",
+      "tier": "B",
+      "family": "BONDED-INTRADOS",
+      "observable": "experimental peak load (debonding-governed)",
+      "referenceValue": 4.26,
+      "predictedValue": 0.6758631313402391,
+      "units": "kN",
+      "relativeError": -0.8413466827839814,
+      "acceptanceTolerance": null,
+      "quantitativeStatus": "qualitative-only",
+      "mechanismAgreement": "not-assessed",
+      "discrepancyClassification": "MISSING_PHYSICS",
+      "provenance": {
+        "kind": "exact",
+        "location": "Basilio 2007 PhD thesis, Table 6.5 (specimen CSI-1)",
+        "unit": "kN",
+        "notes": null
+      },
+      "notes": "full fiber strength assumed (no debonding cap): prediction is an upper bound; failure is governed by FRP detachment with brick ripping, which requires a bond-slip law that the model deliberately does not contain; predicted lambda=0.676"
+    },
+    {
+      "caseId": "oliveira-2010/CSI-2",
+      "sourceId": "oliveira-2010",
+      "specimenId": "oliveira-2010/CSI-2",
+      "tier": "B",
+      "family": "BONDED-INTRADOS",
+      "observable": "experimental peak load (debonding-governed)",
+      "referenceValue": 4.63,
+      "predictedValue": 0.6758631313402391,
+      "units": "kN",
+      "relativeError": -0.8540252416111794,
+      "acceptanceTolerance": null,
+      "quantitativeStatus": "qualitative-only",
+      "mechanismAgreement": "not-assessed",
+      "discrepancyClassification": "MISSING_PHYSICS",
+      "provenance": {
+        "kind": "exact",
+        "location": "Basilio 2007 PhD thesis, Table 6.5 (specimen CSI-2)",
+        "unit": "kN",
+        "notes": null
+      },
+      "notes": "full fiber strength assumed (no debonding cap): prediction is an upper bound; failure is governed by FRP detachment with brick ripping, which requires a bond-slip law that the model deliberately does not contain; predicted lambda=0.676"
+    },
+    {
+      "caseId": "oliveira-2010/CSI-3",
+      "sourceId": "oliveira-2010",
+      "specimenId": "oliveira-2010/CSI-3",
+      "tier": "B",
+      "family": "BONDED-INTRADOS",
+      "observable": "experimental peak load (debonding-governed)",
+      "referenceValue": 5.41,
+      "predictedValue": 0.6758631313402391,
+      "units": "kN",
+      "relativeError": -0.875071509918625,
+      "acceptanceTolerance": null,
+      "quantitativeStatus": "qualitative-only",
+      "mechanismAgreement": "not-assessed",
+      "discrepancyClassification": "MISSING_PHYSICS",
+      "provenance": {
+        "kind": "exact",
+        "location": "Basilio 2007 PhD thesis, Table 6.5 (specimen CSI-3)",
+        "unit": "kN",
+        "notes": null
+      },
+      "notes": "full fiber strength assumed (no debonding cap): prediction is an upper bound; failure is governed by FRP detachment with brick ripping, which requires a bond-slip law that the model deliberately does not contain; predicted lambda=0.676"
+    },
+    {
+      "caseId": "oliveira-2010/CSI-4",
+      "sourceId": "oliveira-2010",
+      "specimenId": "oliveira-2010/CSI-4",
+      "tier": "B",
+      "family": "BONDED-INTRADOS",
+      "observable": "experimental peak load (debonding-governed)",
+      "referenceValue": 3.81,
+      "predictedValue": 0.6758631313402391,
+      "units": "kN",
+      "relativeError": -0.8226081020104359,
+      "acceptanceTolerance": null,
+      "quantitativeStatus": "qualitative-only",
+      "mechanismAgreement": "not-assessed",
+      "discrepancyClassification": "MISSING_PHYSICS",
+      "provenance": {
+        "kind": "exact",
+        "location": "Basilio 2007 PhD thesis, Table 6.5 (specimen CSI-4)",
+        "unit": "kN",
+        "notes": null
+      },
+      "notes": "full fiber strength assumed (no debonding cap): prediction is an upper bound; failure is governed by FRP detachment with brick ripping, which requires a bond-slip law that the model deliberately does not contain; predicted lambda=0.676"
+    },
+    {
+      "caseId": "carozzi-2018/SRG_A",
+      "sourceId": "carozzi-2018",
+      "specimenId": "carozzi-2018/SRG_A",
+      "tier": "B",
+      "family": "BONDED-EXTRADOS",
+      "observable": "experimental peak load (crushing-governed)",
+      "referenceValue": 8.83,
+      "predictedValue": 4.449440205176661,
+      "units": "kN",
+      "relativeError": -0.4960996370128357,
+      "acceptanceTolerance": 0.25,
+      "quantitativeStatus": "outside-tolerance",
+      "mechanismAgreement": "pass",
+      "discrepancyClassification": "MODEL_FORM_DIFFERENCE",
+      "provenance": {
+        "kind": "exact",
+        "location": "Table 6 (collapse load Fmax, structure SRG_A)",
+        "unit": "kN",
+        "notes": null
+      },
+      "notes": "masonry compressive strength 3.5 MPa with compression facets; full SRG strength 1276 MPa; mu = 0.5; experimental collapse involves abutment-wall detachment which the rigid-support model cannot represent; crushing interfaces: 1"
+    },
+    {
+      "caseId": "carozzi-2018/FRP_V",
+      "sourceId": "carozzi-2018",
+      "specimenId": "carozzi-2018/FRP_V",
+      "tier": "B",
+      "family": "BONDED-EXTRADOS",
+      "observable": "experimental peak load (premature debonding)",
+      "referenceValue": 1.54,
+      "predictedValue": 1.0877392933264032,
+      "units": "kN",
+      "relativeError": -0.29367578355428364,
+      "acceptanceTolerance": 0.25,
+      "quantitativeStatus": "outside-tolerance",
+      "mechanismAgreement": "not-assessed",
+      "discrepancyClassification": "MODEL_FORM_DIFFERENCE",
+      "provenance": {
+        "kind": "exact",
+        "location": "Table 6 (collapse load Fmax, structure FRP_V)",
+        "unit": "kN",
+        "notes": null
+      },
+      "notes": "CALIBRATION input: reinforcement strength = 187 MPa, the equivalent strength fitted by Bertolesi et al. 2018 on this very specimen; this case is therefore a calibration-set reproduction, not an independent validation"
+    },
+    {
+      "caseId": "carozzi-2018/TRM_V",
+      "sourceId": "carozzi-2018",
+      "specimenId": "carozzi-2018/TRM_V",
+      "tier": "B",
+      "family": "BONDED-EXTRADOS",
+      "observable": "experimental peak load (four-hinge with TRM)",
+      "referenceValue": 2.17,
+      "predictedValue": 1.5111093293799458,
+      "units": "kN",
+      "relativeError": -0.30363625374196046,
+      "acceptanceTolerance": 0.25,
+      "quantitativeStatus": "outside-tolerance",
+      "mechanismAgreement": "not-assessed",
+      "discrepancyClassification": "MODEL_FORM_DIFFERENCE",
+      "provenance": {
+        "kind": "exact",
+        "location": "Table 6 (collapse load Fmax, structure TRM_V)",
+        "unit": "kN",
+        "notes": null
+      },
+      "notes": "CALIBRATION input: reinforcement strength = 386 MPa (sigma-T1 equivalent fitted by Bertolesi et al. 2018 on this very specimen); tension stiffening is not modeled"
+    },
+    {
+      "caseId": "bertolesi-2018/SRG_A-numerical",
+      "sourceId": "carozzi-2018",
+      "specimenId": "carozzi-2018/SRG_A",
+      "tier": "B",
+      "family": "BONDED-EXTRADOS",
+      "observable": "collapse load reproduced by the fitted equivalent strength (172 MPa)",
+      "referenceValue": 8.83,
+      "predictedValue": 3.4719848797319033,
+      "units": "kN",
+      "relativeError": -0.6067967293621853,
+      "acceptanceTolerance": 0.25,
+      "quantitativeStatus": "outside-tolerance",
+      "mechanismAgreement": "not-assessed",
+      "discrepancyClassification": "MODEL_FORM_DIFFERENCE",
+      "provenance": {
+        "kind": "exact",
+        "location": "Table 6 (collapse load Fmax, structure SRG_A)",
+        "unit": "kN",
+        "notes": null
+      },
+      "notes": "CALIBRATION reproduction: sigma-reinf = 172 MPa is the equivalent strength fitted by Bertolesi et al. 2018 on this specimen; our rigid-plastic model differs from their FE LB formulation, so this row is a reproduction check, not an independent validation"
+    }
+  ],
+  "convergenceStudy": [
+    {
+      "caseId": "convergence/voussoir-count-carozzi-U_A",
+      "parameter": "voussoirCount",
+      "value": 15,
+      "observable": "limit multiplier lambda (unit Q = 1 kN)",
+      "predictedValue": 1.0931393315212345,
+      "relativeChangeVsPrevious": null,
+      "notes": "hinges=4"
+    },
+    {
+      "caseId": "convergence/voussoir-count-carozzi-U_A",
+      "parameter": "voussoirCount",
+      "value": 31,
+      "observable": "limit multiplier lambda (unit Q = 1 kN)",
+      "predictedValue": 0.859882657200437,
+      "relativeChangeVsPrevious": -0.21338238191118136,
+      "notes": "hinges=4"
+    },
+    {
+      "caseId": "convergence/voussoir-count-carozzi-U_A",
+      "parameter": "voussoirCount",
+      "value": 61,
+      "observable": "limit multiplier lambda (unit Q = 1 kN)",
+      "predictedValue": 0.8522003875317836,
+      "relativeChangeVsPrevious": -0.008934090720779187,
+      "notes": "hinges=4"
+    },
+    {
+      "caseId": "convergence/voussoir-count-carozzi-U_A",
+      "parameter": "voussoirCount",
+      "value": 121,
+      "observable": "limit multiplier lambda (unit Q = 1 kN)",
+      "predictedValue": 0.8487237788565329,
+      "relativeChangeVsPrevious": -0.004079567113692515,
+      "notes": "hinges=4"
+    }
+  ],
+  "arcLengthRobustness": [
+    {
+      "caseId": "arc-length/crown-uplift-passive-tendon",
+      "parameter": "initialRadius / maximumRadius",
+      "value": 0.02,
+      "termination": "minimum-step",
+      "status": "INDETERMINATE",
+      "lambdaVerificationLimit": null,
+      "verifiedLimitPoint": null,
+      "maximumObservedLambda": 0.24681621215368685,
+      "cutbacks": 11,
+      "notes": "initialRadius=0.02, maximumRadius=0.1"
+    },
+    {
+      "caseId": "arc-length/crown-uplift-passive-tendon",
+      "parameter": "initialRadius / maximumRadius",
+      "value": 0.05,
+      "termination": "global-limit-point",
+      "status": "FAIL",
+      "lambdaVerificationLimit": 0.9053949099578837,
+      "verifiedLimitPoint": 0.9053949099578837,
+      "maximumObservedLambda": 0.9053949099578837,
+      "cutbacks": 29,
+      "notes": "initialRadius=0.05, maximumRadius=0.2"
+    },
+    {
+      "caseId": "arc-length/crown-uplift-passive-tendon",
+      "parameter": "initialRadius / maximumRadius",
+      "value": 0.1,
+      "termination": "minimum-step",
+      "status": "INDETERMINATE",
+      "lambdaVerificationLimit": null,
+      "verifiedLimitPoint": null,
+      "maximumObservedLambda": 0.905401455090974,
+      "cutbacks": 31,
+      "notes": "initialRadius=0.1, maximumRadius=0.4"
+    },
+    {
+      "caseId": "arc-length/crown-uplift-passive-tendon",
+      "parameter": "initialRadius / maximumRadius",
+      "value": 0.2,
+      "termination": "minimum-step",
+      "status": "INDETERMINATE",
+      "lambdaVerificationLimit": null,
+      "verifiedLimitPoint": null,
+      "maximumObservedLambda": 0.9053726226476299,
+      "cutbacks": 30,
+      "notes": "initialRadius=0.2, maximumRadius=0.8"
+    }
+  ],
+  "pending": [
+    {
+      "caseId": "tie-rods/ural-2016",
+      "reason": "PENDING_FULL_TEXT: no legal open copy of Ural et al. 2016 (Eng. Struct. 110) was found on 2026-08-16 (Crossref redirect, ScienceDirect 403, no OA copy via Google Scholar); no data invented"
+    },
+    {
+      "caseId": "tie-rods/tie-rod-connection-2022",
+      "reason": "PENDING_FULL_TEXT: Firat and Sancar Kayabasi 2022 (Structures 45) publisher page blocked (HTTP 403); no OA copy located; no data invented"
+    },
+    {
+      "caseId": "tie-rods/persian-brick-arches-2023",
+      "reason": "PENDING_FULL_TEXT: Fazeli et al. 2023 (Structures 48) publisher page blocked; no OA copy located via Google Scholar; no data invented"
+    },
+    {
+      "caseId": "curves/carozzi-oliveira-simoncello",
+      "reason": "PENDING_DIGITIZATION: the open-access Simoncello figures (Fig. 5, 6, 9; CC BY 4.0, Frontiers image URLs verified accessible) are ready for digitization, but this environment has no pixel-reading tooling; no curve points were fabricated"
+    },
+    {
+      "caseId": "oliveira-2010/CSI-bond-parameters",
+      "reason": "INSUFFICIENT_INPUT: the Basilio 2007 thesis Chapter 3 bond characterization is not yet transcribed into the corpus; the CSI comparisons stay qualitative upper bounds"
+    },
+    {
+      "caseId": "oliveira-2010/LS-1..2",
+      "reason": "NOT_DIRECTLY_COMPARABLE: the locally strengthened specimens were pre-damaged to near-collapse before strengthening; a fresh-model comparison would be misleading"
+    },
+    {
+      "caseId": "analytical/caporale-2006-2012-caporale-luciano-2012",
+      "reason": "PENDING_FULL_TEXT: closed access; no OA copy located"
+    },
+    {
+      "caseId": "borri-2011/page-1987-primary",
+      "reason": "PENDING_FULL_TEXT: the quoted values from the Simoncello article await re-verification against the primary sources"
+    },
+    {
+      "caseId": "alecci-2016-2017/dambrisi-2015/cancelliere-2010/marfia-2008",
+      "reason": "PENDING_FULL_TEXT: closed access; no OA copy located"
+    }
+  ]
+}
