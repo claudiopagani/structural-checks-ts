@@ -19,7 +19,7 @@ import type {
   MasonryArchVerifiedLimitPoint,
 } from "./pathTypes.js";
 
-export const MASONRY_ARCH_VERIFICATION_RESULT_SCHEMA_VERSION = "1.0.0";
+export const MASONRY_ARCH_VERIFICATION_RESULT_SCHEMA_VERSION = "2.0.0";
 
 export type MasonryArchVerificationRoute = "rigid-plastic-static" | "arc-length-continuation";
 
@@ -114,6 +114,12 @@ export interface MasonryArchVerificationOutputs extends Record<string, unknown> 
   /**
    * Overall engineering verdict. The design state is the exact lambda = 1 state (assigned
    * equilibrium for the static route, fixed-lambda corrector for the arc-length route).
+   * `engineeringAssessment.lambda` is always the lambda of the load state the verdict refers to:
+   * 1 on PASS, the state where the verdict was decided on FAIL (0 when the fixed state fails,
+   * 1 when the assigned design state fails, the first blocking state on the path route), and the
+   * last verified state when available on INDETERMINATE. It is never a capacity: a design FAIL
+   * with a limit-analysis lambda of 0.72 still reports lambda 1 here, while
+   * `lambdaVerificationLimit` reports 0.72.
    */
   readonly engineeringAssessment: MasonryArchPathEngineeringAssessment;
   /**
@@ -125,7 +131,14 @@ export interface MasonryArchVerificationOutputs extends Record<string, unknown> 
    * the first local limit.
    */
   readonly lambdaVerificationLimit: number | null;
-  readonly failureMode: MasonryArchFailureMode;
+  /**
+   * Global mechanism classification of the FAIL verdict, always identical to
+   * `engineeringAssessment.failureMode`: null on PASS and INDETERMINATE, a physical mode or
+   * "undetermined" on FAIL. The path primitive's own termination classification (for example
+   * `no-collapse-within-model`) is NOT copied here; it remains available, semantically named,
+   * inside `subAnalyses.path.outputs.failureMode` and `subAnalyses.path.outputs.convergenceInfo`.
+   */
+  readonly failureMode: MasonryArchFailureMode | null;
   readonly capacity: MasonryArchCapacityLandmarks;
   readonly significantStates: MasonryArchVerificationSignificantStates;
   readonly diagnostics: MasonryArchVerificationDiagnostics;

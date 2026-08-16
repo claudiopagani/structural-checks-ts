@@ -1,37 +1,46 @@
 # Solver coverage and priority benchmark set
 
 This document answers two questions: which phenomena of the masonry-arch module are exercised by
-this corpus (and which are not), and which benchmarks should be implemented first in step 2. The
-canonical machine-readable versions live in `catalog.json` (`coverage` and `priorityBenchmarkSet`).
-The solver capabilities referenced here are the current public behavior documented in
-`docs/masonry-arch-analysis.md`; this step does not change them.
+this corpus (and which are not), and which benchmarks should be implemented first in the
+quantitative validation step. The canonical machine-readable versions live in `catalog.json`
+(`coverage` and `priorityBenchmarkSet`). The solver capabilities referenced here are the current
+public behavior documented in `docs/masonry-arch-analysis.md` as of HEAD (standard verification with
+arc-length continuation, Decisions 0013 and 0014).
 
 ## Solver coverage
 
-| Corpus phenomenon                                  | Solver capability                                                                                                                                                | State                            |
-| -------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------- |
-| Four-hinge mechanism, rocking collapse             | Limit analysis and path analysis publish joint opening and hinge events; equilibrium analysis reports hinge positions                                            | covered                          |
-| Joint sliding (Coulomb)                            | Friction coefficient and cohesion per interface; `plastic-sliding` events; friction checks                                                                       | covered                          |
-| Finite compressive strength, crushing              | Finite `compressiveStrength`; uniform-edge-block check (equilibrium) and deformable-interface compression check (path); optional perfectly-plastic post-crushing | covered                          |
-| FRP bonded layers, intrados/extrados               | `bondedLayers` family `frp` with area, modulus, tensile strength, `debondingStrain`, `ultimateStrain`, anchored/unanchored terminations                          | covered                          |
-| FRCM / SRG / TRM composites                        | `bondedLayers` families `frcm` and `sfrm` (SFRM via equivalent membrane); no matrix cracking or tension-stiffening branch                                        | partial                          |
-| Passive tie-rods, initial prestress                | Intrados/extrados reinforcement (tendon) with rigid deviators or unilateral contact, `initialForce`, yield/rupture limits, distributed anchorage                 | representable with approximation |
-| Spike anchors / distributed anchorage              | `anchored` terminations and `distributed-anchorage` terminations with connector capacities                                                                       | representable with approximation |
-| Backfill interaction (passive pressure, haunching) | Fill available only as load (`fill` load type); no passive interaction                                                                                           | not covered                      |
-| Deformable piers / abutment flexibility            | `rigid-contact` supports; no pier deformability                                                                                                                  | not covered                      |
-| Post-peak softening branch                         | Path analysis is load-controlled; loss of convergence is `INDETERMINATE`, never a physical failure                                                               | not covered                      |
-| Displacement-controlled tests                      | Load control only; pre-peak comparison meaningful, post-peak not                                                                                                 | partial                          |
-| Bond-slip law (slip, fracture energy)              | Threshold `debondingStrain`; no slip-based bond law                                                                                                              | partial                          |
+| Corpus phenomenon                                  | Solver capability                                                                                                                                                                                                                        | State                            |
+| -------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------- |
+| Four-hinge mechanism, rocking collapse             | Limit analysis and path analysis publish joint opening and hinge events; equilibrium analysis reports hinge positions                                                                                                                    | covered                          |
+| Joint sliding (Coulomb)                            | Friction coefficient and cohesion per interface; `plastic-sliding` events; friction checks                                                                                                                                               | covered                          |
+| Finite compressive strength, crushing              | Finite `compressiveStrength`; uniform-edge-block check (equilibrium) and deformable-interface compression check (path); optional perfectly-plastic post-crushing                                                                         | covered                          |
+| FRP bonded layers, intrados/extrados               | `bondedLayers` family `frp` with area, modulus, tensile strength, `debondingStrain`, `ultimateStrain`, anchored/unanchored terminations                                                                                                  | covered                          |
+| FRCM / SRG / TRM composites                        | `bondedLayers` families `frcm` and `sfrm` (SFRM via equivalent membrane); no matrix cracking or tension-stiffening branch                                                                                                                | partial                          |
+| Passive tie-rods, initial prestress                | Intrados/extrados reinforcement (tendon) with rigid deviators or unilateral contact, `initialForce`, yield/rupture limits, distributed anchorage                                                                                         | representable with approximation |
+| Spike anchors / distributed anchorage              | `anchored` terminations and `distributed-anchorage` terminations with connector capacities                                                                                                                                               | representable with approximation |
+| Backfill interaction (passive pressure, haunching) | Fill available only as load (`fill` load type); no passive interaction                                                                                                                                                                   | not covered                      |
+| Deformable piers / abutment flexibility            | `rigid-contact` supports; no pier deformability                                                                                                                                                                                          | not covered                      |
+| Standard design verification                       | `analyzeMasonryArchVerification`: fixed state verified first; deformable models follow the primary branch with adaptive arc length; the exact `lambda = 1` state is certified by a fixed-lambda corrector                                | covered                          |
+| Global limit point / branch turning                | Certified only by positive branch-turning evidence between converged states (`equilibrium-limit-point`, `lambdaVerificationLimit`); a nearly vertical continuation tangent or a lost convergence is `INDETERMINATE`, never a limit point | covered (verification)           |
+| Capacity vs verification distinction               | `lambdaFirstLimit` (first local limit), `lambdaVerificationLimit` (first event blocking the design check), `lambdaPeak`, `lambdaCollapse` are distinct landmarks                                                                         | covered                          |
+| Post-peak softening branch                         | Deformable path analysis is arc-length governed with certified branch-turning detection; material post-peak softening branches remain not covered; loss of convergence is `INDETERMINATE`, never a physical failure                      | not covered                      |
+| Displacement-controlled tests                      | Expert displacement control remains available on `analyzeMasonryArchPath`; the standard verification is arc-length governed and never selects load or displacement control; post-peak comparison stays outside the standard verification | partial                          |
+| Bond-slip law (slip, fracture energy)              | Threshold `debondingStrain`; no slip-based bond law                                                                                                                                                                                      | partial                          |
 
 Consequences for the corpus:
 
 - Tier A/B peak-load, hinge, sliding, and crushing comparisons can start immediately.
+- Peak comparisons run against the verification landmarks: for deformable models the peak is a
+  certified branch turning on the primary branch (or the maximum verified lambda), while loss of
+  convergence without turning evidence is `INDETERMINATE` and must be recorded as such, never as a
+  capacity.
 - The Prestwood bridge test (Tier B) can only be compared with the fill treated as load; the known
   passive-fill contribution must be reported as a modeling difference, never absorbed into a
   calibrated coefficient without an explicit decision.
-- Curve comparisons use the pre-peak branch only until displacement control or a softening model is
-  implemented; digitized post-peak branches are retained in `datasets/` as reference material, not
-  as pass/fail criteria.
+- Curve comparisons use the pre-peak branch only; the exact `lambda = 1` design state is available
+  from the fixed-lambda corrector for verification comparisons. Digitized post-peak branches are
+  retained in `datasets/` as reference material, not as pass/fail criteria, until post-peak
+  softening or displacement-controlled post-peak analysis exists.
 - SRG/TRM quantitative comparisons carry the known absence of tension stiffening; the Bertolesi
   fitted equivalent strengths (172/187/386 MPa) are recorded precisely so the later comparison is
   against the same conventional quantity.
@@ -107,7 +116,7 @@ documented.
 Digitization rules: see `datasets/README.md` and `schema/dataset-sidecar.schema.json` (marking,
 tolerance, provenance).
 
-## Ordering recommendation for step 2
+## Ordering recommendation for the quantitative validation step
 
 1. Digitize the priority curves (nonlinear slot enablement).
 2. Implement the four Tier A URM benchmarks and the CSE sliding set against the current solver;

@@ -300,7 +300,8 @@ The load model does not retain a scalable role. This supports `G + lambda Q`, `l
 
 ## Standard verification
 
-Status: implemented | Design: Decision 0013 | Scope: `applications/masonry-arches`
+Status: implemented | Design: Decision 0013, hardened by Decision 0014 | Scope:
+`applications/masonry-arches`
 
 The standard design verification is the façade `analyzeMasonryArchVerification`. It is the single
 authority on the fixed-state result, the `PASS`/`FAIL`/`INDETERMINATE` verdict, the exact
@@ -324,11 +325,13 @@ available for expert and capacity analyses.
 `F_fixed` at `lambda = 0` is verified before any scalable load is applied. This is not a
 construction stage and is not exposed as one: it is only the necessary check of the fixed state.
 
-- `PASS`: the scalable phase starts.
-- `FAIL`: the verification stops; no scalable lambda is defined; the failed criteria and failure
-  mode explain the problem when available.
-- `INDETERMINATE`: the verification stops without inventing a failure; numerical diagnostics are
-  preserved.
+- `PASS`: the scalable phase starts;
+- `FAIL`: the verification stops; zero scalable-loading steps are produced even when the blocking
+  event is identified exactly on the step that completes the fixed load (`fixedLoadFactor = 1`); no
+  scalable lambda is defined; the failed criteria and failure mode explain the problem when
+  available;
+- `INDETERMINATE`: the verification stops without inventing a failure; zero scalable-loading steps;
+  numerical diagnostics are preserved.
 
 Consumers can therefore report "not verified under permanent loads alone" or "the permanent-load
 state could not be determined numerically", and never a percentage of the permanent loads.
@@ -353,23 +356,60 @@ verification never selects it.
 An arc step that merely overshoots (`lambda = 1.03`) is never accepted as the design state. When two
 consecutive states bracket the crossing, the analysis builds an interpolated seed (falling back to a
 tangent-based predictor), runs a Newton corrector with `lambda` fixed at exactly one, and verifies
-convergence and the equilibrium residual. Only that state can certify `PASS` at `lambda = 1`. A
-failed corrector is retried with smaller arc radii; if it remains uncertifiable the result is
-`INDETERMINATE` with the diagnostic termination `design-state-not-certified`.
+convergence and the equilibrium residual. Only that state can certify `PASS` at `lambda = 1`. The
+corrector is exception-safe: when the tangent load-correction solve throws, the fallback seed cannot
+be constructed and the failure is recorded as a numerical diagnostic. A failed corrector is retried
+with smaller arc radii; if it remains uncertifiable the result is `INDETERMINATE` with the
+diagnostic termination `design-state-not-certified` — never a throw and never a physical `FAIL`.
 
 ### Certified global limit point
 
-A turning point of the primary branch is certified only when:
+A turning point of the primary branch (the locus where `d(lambda)/ds = 0`) is certified **only**
+through positive branch-turning evidence:
 
-- two consecutive converged states show tangent load components of opposite sign above the numerical
-  noise threshold and the rising side is refined with halved arc increments, or
-- the continuation tangent at the last converged state is singular or nearly vertical (the classical
-  turning-point condition) and no further arc step can traverse it.
+- two consecutive **converged** states whose arc-length load increments have tangent load components
+  of opposite sign above the numerical noise threshold (`1e-6`), so the turn lies between the
+  rising-side state and the descending-side state in arc-length coordinate;
+- the rising side is then refined with halved arc increments (at most six refinement steps,
+  approaching the turning point from below), so the certified `lambda` is the maximum lambda
+  verified on the primary branch and always satisfies `lambda <= lambda_turning`.
 
-A discrete local plastic event is never a certified limit point, and `max(steps.lambda)` is never
-capacity by itself. A certified limit point below one is reported as an `equilibrium-limit-point`
-event, the criterion `equilibrium-limit-point` (`checkId: "equilibrium-limit-point"`, demand `1`,
-capacity `lambda_limit`, utilization `1 / lambda_limit`), and `failureMode: "instability"`.
+The published `verifiedLimitPoint` carries the two side steps and lambdas
+(`detection: "branch-turning"`, `risingSideStep`, `descendingSideStep`, `risingSideLambda`,
+`descendingSideLambda`, `refinementSteps`, `certified: true`). No zero-width "certified bracket" and
+no lambda-interval bracket is published for a turning point: the two converged sides bracket the
+turn in arc-length coordinate, not a lambda interval.
+
+A singular or nearly vertical continuation tangent at the last converged state is only a
+`suspected-critical-point` diagnostic, and a tangent-solve exception is only a numerical `warning`:
+neither one can certify a limit point, and a run that stalls on them stays `INDETERMINATE`. A
+discrete local plastic event is never a certified limit point, and `max(steps.lambda)` is never
+capacity by itself.
+
+A certified limit point below one is reported as an `equilibrium-limit-point` event, the criterion
+`equilibrium-limit-point` (`checkId: "equilibrium-limit-point"`, demand `1`, capacity
+`lambda_limit`, utilization `1 / lambda_limit`), and `failureMode: "instability"`.
+
+### Verdict, failure mode, and the two lambda meanings
+
+`engineeringAssessment.lambda` is always the lambda of the load state the verdict refers to: `1` on
+`PASS` and for the assigned-state question, the state where the verdict was decided on `FAIL` (`0`
+when the fixed state itself fails, `1` when the assigned design state fails, the first blocking
+state on the path route), and the last verified state when available on `INDETERMINATE`; `null` when
+no such state exists. It is never a capacity.
+
+`lambdaVerificationLimit` is a capacity of the scalable pattern: the lambda of the first event that
+makes satisfying the design verification at `lambda = 1` impossible (certified limit point below
+one, terminal crushing, reinforcement/anchor/bonded-layer failure, …). It is `null` on `PASS`, on
+fixed-state failure, and when no blocking event could be certified. On the static route, a design
+`FAIL` reports `assessment.lambda = 1` together with `lambdaVerificationLimit` from direct limit
+analysis (for example `0.72`): the two meanings never overload each other.
+
+`MasonryArchVerificationOutputs.failureMode` is always identical to
+`engineeringAssessment.failureMode`: `null` on `PASS` and `INDETERMINATE`, a physical mode or
+`"undetermined"` on `FAIL`. The path primitive's own termination classification (for example
+`no-collapse-within-model`) stays semantically named inside `subAnalyses.path.outputs.failureMode`
+and is never copied into the façade's `failureMode`.
 
 ### New public fields
 
@@ -383,12 +423,14 @@ Path outputs add:
 
 - `fixedState`: status, step, lambda (always 0), failed criteria, failure mode of phase A;
 - `convergenceInfo.terminationReason`, `lastConvergedLambda`, `maximumObservedLambda`,
-  `lastConvergedStep`, `designStateCorrectorAttempts`, `tangentLambdaComponentAtTermination`,
-  `verifiedLimitPoint`, and a certified `lambdaBracket`;
+  `lastConvergedStep`, `designStateCorrectorAttempts`, `tangentLambdaComponentAtTermination` (null
+  when the tangent solve threw), `verifiedLimitPoint` (two-sided branch-turning contract), and the
+  raw load-control `lambdaBracket` (never certified);
 - `significantSteps.fixedState`, `verificationLimit`, and `termination` next to the existing
   entries.
 
-Diagnostics are observables, never capacity, never failure, never the engineering verdict.
+Diagnostics are observables, never capacity, never failure, never the engineering verdict. Schema
+versions: masonry-arch path `10.0.0`, standard verification `2.0.0` (Decision 0014).
 
 ### Active and passive reinforcement
 

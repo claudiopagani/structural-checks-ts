@@ -65,7 +65,6 @@ import {
   MASONRY_ARCH_PATH_RESULT_SCHEMA_VERSION,
   type AnalyzeMasonryArchPathOptions,
   type MasonryArchEvent,
-  type MasonryArchLambdaBracket,
   type MasonryArchPathControl,
   type MasonryArchPathEngineeringAssessment,
   type MasonryArchPathFixedStateResult,
@@ -103,6 +102,8 @@ interface SystemEvaluation {
   readonly bondedLayerState: readonly BondedLayerStateResult[];
   readonly displacements: readonly NormalizedMasonryArchBlockDisplacement[];
 }
+
+export type { SystemEvaluation, SolverContext };
 
 interface SolverContext {
   readonly model: NormalizedMasonryArchModel;
@@ -938,12 +939,42 @@ function validateNonlinearMechanicalModel(model: NormalizedMasonryArchModel): vo
 }
 
 /**
+ * Tangent-seeded design-state coordinates at the requested lambda, built from the linearized
+ * load correction direction. Numerical exception safety: a failed tangent load-correction solve
+ * only produces a diagnostic (null seed plus error text); it is never interpreted as a structural
+ * property, never as a limit point, and never promoted to a failure.
+ */
+export function masonryArchTangentSeedAtLambda(
+  context: SolverContext,
+  previousQ: readonly number[],
+  previousLambda: number,
+  previousEvaluation: SystemEvaluation,
+  target: number,
+): { readonly seed: readonly number[] | null; readonly error: string | null } {
+  try {
+    const loadDirection = solveLoadCorrection(context, {
+      ...previousEvaluation,
+      residual: previousEvaluation.scalableDerivative,
+    });
+    return {
+      seed: previousQ.map(
+        (value, index) => value + loadDirection[index]! * (target - previousLambda),
+      ),
+      error: null,
+    };
+  } catch (error) {
+    return { seed: null, error: String(error) };
+  }
+}
+
+/**
  * Fixed-lambda corrector that certifies the exact design state at lambda = 1. When two
  * consecutive arc-length states bracket the crossing of lambda = 1, the corrector seeds a Newton
  * solve with the interpolated state and enforces lambda = 1 exactly. Certification requires both
  * Newton convergence and a satisfied equilibrium residual: a step that merely overshoots
- * lambda = 1 is never accepted as the design state. A failed corrector is a numerical
- * diagnostic, never a physical failure.
+ * lambda = 1 is never accepted as the design state. A failed corrector — including a tangent
+ * seed that cannot even be constructed because the load-correction solve threw — is a numerical
+ * diagnostic, never a physical failure and never a throw.
  */
 function certifyDesignStateAtLambdaOne(
   context: SolverContext,
@@ -957,6 +988,7 @@ function certifyDesignStateAtLambdaOne(
   readonly certified: boolean;
   readonly solved: NewtonResult | null;
   readonly attempts: number;
+  readonly tangentSeedError: string | null;
 } {
   const target = 1;
   const attempts: NewtonResult[] = [];
@@ -971,26 +1003,52 @@ function certifyDesignStateAtLambdaOne(
       equilibriumResult(context, interpolated.evaluation).maximumNormalizedBlockResidual <=
         context.tolerance
     ) {
-      return { certified: true, solved: interpolated, attempts: attempts.length };
+      return {
+        certified: true,
+        solved: interpolated,
+        attempts: attempts.length,
+        tangentSeedError: null,
+      };
     }
   }
-  const loadDirection = solveLoadCorrection(context, {
-    ...previousEvaluation,
-    residual: previousEvaluation.scalableDerivative,
-  });
-  const seedQ = previousQ.map(
-    (value, index) => value + loadDirection[index]! * (target - previousLambda),
+  const tangentSeed = masonryArchTangentSeedAtLambda(
+    context,
+    previousQ,
+    previousLambda,
+    previousEvaluation,
+    target,
   );
-  const tangentSeeded = solveNewton(context, seedQ, target, 1, committedStates, null);
+  if (tangentSeed.seed === null) {
+    // The tangent load-correction solve threw: the fallback seed cannot even be constructed. This
+    // is a numerical diagnostic only; the caller retries with a smaller radius and, if the design
+    // state stays uncertifiable, reports INDETERMINATE / design-state-not-certified.
+    return {
+      certified: false,
+      solved: null,
+      attempts: attempts.length,
+      tangentSeedError: tangentSeed.error,
+    };
+  }
+  const tangentSeeded = solveNewton(context, tangentSeed.seed, target, 1, committedStates, null);
   attempts.push(tangentSeeded);
   if (
     tangentSeeded.converged &&
     equilibriumResult(context, tangentSeeded.evaluation).maximumNormalizedBlockResidual <=
       context.tolerance
   ) {
-    return { certified: true, solved: tangentSeeded, attempts: attempts.length };
+    return {
+      certified: true,
+      solved: tangentSeeded,
+      attempts: attempts.length,
+      tangentSeedError: null,
+    };
   }
-  return { certified: false, solved: null, attempts: attempts.length };
+  return {
+    certified: false,
+    solved: null,
+    attempts: attempts.length,
+    tangentSeedError: null,
+  };
 }
 
 function resolveAnalysisObjective(
@@ -1241,12 +1299,13 @@ export function analyzeMasonryArchPath(
   const eventLog: MasonryArchEvent[] = [];
   let designStateCorrectorAttempts = 0;
   let verifiedLimitPoint: MasonryArchVerifiedLimitPoint | null = null;
-  let lambdaBracket: MasonryArchLambdaBracket | null = null;
   // Classical limit-point condition: the lambda component of the unit continuation tangent at
   // the last converged state; it vanishes (or the tangent matrix becomes singular) exactly at a
-  // turning point of the branch. Recorded as a diagnostic; used for certification only when the
-  // forward traversal then fails.
+  // turning point of the branch. Recorded as a diagnostic only: a tangent-solve exception sets it
+  // to null and never certifies anything; certification requires positive branch-turning evidence
+  // between converged states.
   let tangentLambdaComponent: number | null = null;
+  let tangentSolveFailureReported = false;
   // `designFailureEvents` is additive: the configured kinds extend the always-active default
   // design-failure set. A stricter policy can therefore only add failures (for example
   // `["plastic-sliding"]`) and can never disable a default failure such as
@@ -1357,7 +1416,12 @@ export function analyzeMasonryArchPath(
     if (solved.iterations <= 5) preloadStep = Math.min(0.25, preloadStep * 1.5);
   }
 
-  const preloadCompleted = preloadFactor >= 1 - 1e-14;
+  // The scalable phase may start only when the fixed-load state is PASS AND the fixed load
+  // factor reached one. A blocking event identified exactly on the final preload step
+  // (fixedLoadFactor = 1) stops the analysis here: zero scalable-loading steps, no scalable
+  // lambda. `termination === "maximum-steps"` means the preload loop ended by completing the
+  // load, not by a design/terminal event and not by a numerical failure.
+  const preloadCompleted = preloadFactor >= 1 - 1e-14 && termination === "maximum-steps";
   const referenceQ = [...q];
   if (preloadCompleted) {
     if (normalizedControl.type === "load") {
@@ -1598,6 +1662,8 @@ export function analyzeMasonryArchPath(
       while (accumulatedPathLength < targetPathLength - 1e-14 && stepNumber < maxSteps) {
         const stepRadius = Math.min(radius, targetPathLength - accumulatedPathLength);
         {
+          // Tangent load-correction solve: a numerical exception is only a diagnostic. It is
+          // never equated to a vanishing lambda component and can never certify a limit point.
           try {
             const tangentDirection = solveLoadCorrection(context, {
               ...finalEvaluation,
@@ -1605,8 +1671,16 @@ export function analyzeMasonryArchPath(
             });
             const tangentNorm = arcLengthIncrementNorm(context, tangentDirection, 1, loadScale);
             tangentLambdaComponent = tangentNorm > 0 ? 1 / tangentNorm : 1;
-          } catch {
-            tangentLambdaComponent = 0;
+          } catch (error) {
+            tangentLambdaComponent = null;
+            if (!tangentSolveFailureReported) {
+              tangentSolveFailureReported = true;
+              warnings.push(
+                `Tangent load-correction solve failed near lambda ${lambda}: ${String(
+                  error,
+                )} (numerical diagnostic only, never a limit point).`,
+              );
+            }
           }
         }
         let predictor: { readonly q: Vector; readonly lambda: number };
@@ -1653,53 +1727,30 @@ export function analyzeMasonryArchPath(
           radius /= 2;
           cutbacks += 1;
           if (radius < minimumRadius) {
-            // Tangent-based limit-point certification: the last converged state has a singular
-            // or nearly vertical continuation tangent (the classical turning-point condition)
-            // and the forward traversal could not proceed beyond it. The limit point is
-            // certified at that state; a discrete local plastic event alone never qualifies.
-            if (tangentLambdaComponent !== null && tangentLambdaComponent < 1e-4) {
-              verifiedLimitPoint = {
-                lambda,
-                bracket: { lower: lambda, upper: lambda },
-                refinementSteps: 0,
-                certified: true,
-              };
-              lambdaBracket = {
-                lower: lambda,
-                upper: lambda,
-                certified: true,
-                meaning: "equilibrium-limit-point-bracket",
-              };
-              termination = "global-limit-point";
-              terminationReason =
-                `The continuation tangent at the last converged state is singular or nearly ` +
-                `vertical (lambda component ${tangentLambdaComponent}), the classical global ` +
-                `limit-point condition, and no further arc step could traverse it.`;
-              failureMode = "instability";
-              eventLog.push(
-                event(
-                  "engineering-limit",
-                  "equilibrium-limit-point",
-                  steps.at(-1)?.step ?? stepNumber,
-                  lambda,
-                  [],
-                  terminationReason,
-                ),
-              );
-              break;
-            }
+            // Suspected-critical-point diagnostic only: a singular or nearly vertical
+            // continuation tangent at the last converged state, with a failed forward
+            // traversal, is the classical turning-point condition but is NOT positive
+            // evidence. Without branch-turning evidence between converged states no global
+            // limit point is certified, and the run stays INDETERMINATE.
             termination = "minimum-step";
-            terminationReason = "Arc-length control exhausted its minimum radius.";
             failureMode = "undetermined";
+            if (tangentLambdaComponent !== null && tangentLambdaComponent < 1e-4) {
+              terminationReason =
+                `Arc-length control exhausted its minimum radius in front of a nearly vertical ` +
+                `continuation tangent (lambda component ${tangentLambdaComponent}). This is a ` +
+                `suspected critical point diagnostic, not a certified limit point.`;
+            } else {
+              terminationReason = "Arc-length control exhausted its minimum radius.";
+            }
             if (solved.warning !== null) warnings.push(solved.warning);
             eventLog.push(
               event(
                 "numerical-failure",
                 "convergence-lost",
-                null,
+                steps.at(-1)?.step ?? null,
                 lambda,
                 [],
-                "Arc-length control exhausted its minimum radius.",
+                terminationReason,
               ),
             );
             break;
@@ -1770,6 +1821,13 @@ export function analyzeMasonryArchPath(
           );
           if (corrector.solved !== null) totalIterations += corrector.solved.iterations;
           designStateCorrectorAttempts += corrector.attempts;
+          if (corrector.tangentSeedError !== null) {
+            warnings.push(
+              `Tangent load-correction solve failed while constructing the fixed-lambda ` +
+                `corrector seed near lambda = 1: ${corrector.tangentSeedError} (numerical ` +
+                `diagnostic only, never a physical failure).`,
+            );
+          }
           if (corrector.certified) {
             const previousEvaluation = finalEvaluation;
             q = corrector.solved!.q;
@@ -1883,11 +1941,14 @@ export function analyzeMasonryArchPath(
           break;
         }
 
-        // Global limit-point certification. A turning point of the primary branch is certified
-        // only when two consecutive converged states show tangent load components of opposite
-        // sign above the numerical noise threshold; a discrete local plastic event is never a
-        // certified limit point. The rising side is then refined with halved arc increments so
-        // the reported lambda is the maximum lambda verified on the primary branch.
+        // Global limit-point certification. A turning point of the primary branch (the locus
+        // where d(lambda)/ds = 0) is certified only by positive branch-turning evidence: two
+        // consecutive converged states whose load increments have tangent load components of
+        // opposite sign above the numerical noise threshold. The turn therefore lies between the
+        // rising-side state and the descending-side state in arc-length coordinate. The rising
+        // side is then refined with halved arc increments so the reported lambda is the maximum
+        // lambda verified on the primary branch (always <= the turning-point lambda). A tangent
+        // exception, a discrete local plastic event, or max(steps.lambda) alone never qualifies.
         const deltaLambda = lambda - referenceStepLambda;
         if (
           previousStepLambdaIncrement !== null &&
@@ -1895,6 +1956,12 @@ export function analyzeMasonryArchPath(
           Math.abs(deltaLambda) >= 1e-6 &&
           previousStepLambdaIncrement * deltaLambda < 0
         ) {
+          // Both sides of the turn are converged states already in the step history: the
+          // reference rising state committed on the previous loop iteration and the descending
+          // state committed immediately above.
+          const descendingLambda = lambda;
+          const descendingSideStep = steps.at(-1)?.step ?? null;
+          const risingSideStep = steps.at(-2)?.step ?? null;
           let risingQ = [...referenceStepQ];
           let risingLambda = referenceStepLambda;
           let risingEval = previousEvaluation;
@@ -1903,6 +1970,8 @@ export function analyzeMasonryArchPath(
           let refined = risingLambda;
           let refinementSteps = 0;
           let refinementRadius = Math.max(minimumRadius, completedRadius / 2);
+          // Rising-side refinement with halved arc increments. This is NOT a two-sided
+          // bisection: only the rising side advances, approaching the turning point from below.
           while (refinementSteps < 6) {
             let refinementPredictor: { readonly q: Vector; readonly lambda: number };
             try {
@@ -1921,7 +1990,7 @@ export function analyzeMasonryArchPath(
               (value, index) => value + refinementPredictor.q[index]!,
             );
             const refinementSeedLambda = risingLambda + refinementPredictor.lambda;
-            const bisection = solveNewton(
+            const refinementSolve = solveNewton(
               context,
               refinementSeedQ,
               refinementSeedLambda,
@@ -1935,18 +2004,18 @@ export function analyzeMasonryArchPath(
                 loadScale,
               },
             );
-            totalIterations += bisection.iterations;
-            nonMonotoneLineSearchAcceptances += bisection.nonMonotoneAcceptances;
-            if (!bisection.converged) break;
-            const bisectionDelta = bisection.lambda - risingLambda;
-            if (bisectionDelta < 1e-6) break;
+            totalIterations += refinementSolve.iterations;
+            nonMonotoneLineSearchAcceptances += refinementSolve.nonMonotoneAcceptances;
+            if (!refinementSolve.converged) break;
+            const refinementDelta = refinementSolve.lambda - risingLambda;
+            if (refinementDelta < 1e-6) break;
             const priorRefinementEval = risingEval;
             const priorRisingQ = risingQ;
-            risingQ = [...bisection.q];
-            risingLambda = bisection.lambda;
-            risingEval = bisection.evaluation;
-            directionQ = bisection.q.map((value, index) => value - priorRisingQ[index]!);
-            directionLambda = bisectionDelta;
+            risingQ = [...refinementSolve.q];
+            risingLambda = refinementSolve.lambda;
+            risingEval = refinementSolve.evaluation;
+            directionQ = refinementSolve.q.map((value, index) => value - priorRisingQ[index]!);
+            directionLambda = refinementDelta;
             refined = risingLambda;
             stepNumber += 1;
             const refinementEvents = appendHistoryPoint(
@@ -1954,46 +2023,74 @@ export function analyzeMasonryArchPath(
               context,
               analysisLoads,
               priorRefinementEval,
-              bisection.evaluation,
+              refinementSolve.evaluation,
               {
                 step: stepNumber,
                 stage: "scalable-loading",
                 fixedLoadFactor: 1,
                 lambda: risingLambda,
                 controlDisplacement: controlValue(risingQ, referenceQ, selectedControlDof),
-                iterations: bisection.iterations,
+                iterations: refinementSolve.iterations,
               },
             );
             eventLog.push(...refinementEvents);
             refinementSteps += 1;
             refinementRadius = Math.max(minimumRadius, refinementRadius / 2);
           }
+          // The certified limit-point state becomes the single final internal state: when no
+          // refinement step advanced, the rising-side state (already in history) is re-appended
+          // as the termination step so that q, lambda, the final evaluation, and the last
+          // history step always describe one and the same equilibrium state. The identical
+          // previous/current evaluations produce no spurious transition events.
+          if (refinementSteps === 0) {
+            stepNumber += 1;
+            const certifiedEvents = appendHistoryPoint(
+              steps,
+              context,
+              analysisLoads,
+              risingEval,
+              risingEval,
+              {
+                step: stepNumber,
+                stage: "scalable-loading",
+                fixedLoadFactor: 1,
+                lambda: refined,
+                controlDisplacement: controlValue(risingQ, referenceQ, selectedControlDof),
+                iterations: 0,
+              },
+            );
+            eventLog.push(...certifiedEvents);
+          }
+          const certifiedStateStep = steps.at(-1)?.step ?? null;
+          // `finalEvaluation` becomes the certified rising-side evaluation; the last history step
+          // was appended from the same evaluation above, so the published state is coherent.
           lambda = refined;
           finalEvaluation = risingEval;
-          const lower = Math.min(lambda, referenceStepLambda);
           verifiedLimitPoint = {
             lambda: refined,
-            bracket: { lower, upper: refined },
+            detection: "branch-turning",
+            risingSideStep: risingSideStep ?? certifiedStateStep ?? stepNumber,
+            descendingSideStep: descendingSideStep ?? certifiedStateStep ?? stepNumber,
+            risingSideLambda: referenceStepLambda,
+            descendingSideLambda: descendingLambda,
             refinementSteps,
             certified: true,
           };
-          lambdaBracket = {
-            lower,
-            upper: refined,
-            certified: true,
-            meaning: "equilibrium-limit-point-bracket",
-          };
           termination = "global-limit-point";
           terminationReason =
-            `The primary equilibrium branch turns at a certified global limit point: the maximum ` +
-            `verified lambda is ${refined}, bracketed along the continuation between two converged ` +
-            `states (refinement steps: ${refinementSteps}).`;
+            `The primary equilibrium branch turns at a certified global limit point: two ` +
+            `consecutive converged states with opposite-signed load increments (steps ` +
+            `${String(verifiedLimitPoint.risingSideStep)} and ` +
+            `${String(verifiedLimitPoint.descendingSideStep)}) bracket the turn in arc-length ` +
+            `coordinate, and the rising side was refined with halved arc increments ` +
+            `(${refinementSteps} refinement steps). The certified maximum verified lambda is ` +
+            `${refined}.`;
           failureMode = "instability";
           eventLog.push(
             event(
               "engineering-limit",
               "equilibrium-limit-point",
-              steps.at(-1)?.step ?? stepNumber,
+              certifiedStateStep ?? stepNumber,
               refined,
               [],
               terminationReason,
@@ -2301,15 +2398,14 @@ export function analyzeMasonryArchPath(
         completedStages: completedCohesionHomotopyStages,
       },
       lambdaBracket:
-        lambdaBracket ??
-        (failedLambdaTarget === null
+        failedLambdaTarget === null
           ? null
           : {
               lower: lambda,
               upper: failedLambdaTarget,
               certified: false,
               meaning: "load-control-failure-bracket",
-            }),
+            },
       verifiedLimitPoint,
       designStateCorrectorAttempts,
       tangentLambdaComponentAtTermination: tangentLambdaComponent,
@@ -2363,13 +2459,13 @@ export function analyzeMasonryArchPath(
       "Normal contact is no-tension and integrated analytically over the global joint; reported fibers are sampling points only, and assigned stiffness uses the explicit characteristic length.",
       "Tangential response uses one joint-resultant elastic-perfectly-plastic Coulomb slip variable with zero dilation.",
       "When used, fixed-load contact initialization applies the reported auxiliary-cohesion homotopy and commits only its zero-offset physical stage.",
-      "The fixed-load state F_fixed at lambda = 0 is verified first; no scalable lambda is defined when that state fails or cannot be certified.",
+      "The fixed-load state F_fixed at lambda = 0 is verified first; when that state fails or cannot be certified, the scalable phase never starts and no scalable lambda is defined (zero scalable-loading steps).",
       "Fixed loads and initial reinforcement actions are proportionally initialized before scalable loading; active reinforcement uses its assigned T0 as part of the fixed state and passive reinforcement has T0 = 0.",
       "External dead-load forces retain their global direction while their material application points follow the block motion.",
       "Intrados reinforcement follows rigid deviators; an extrados tendon uses a compression-only taut-cable contact envelope.",
       "Bonded layers are local tension-only membrane springs with explicit transfer length and assigned tensile/debonding capacity.",
       "The design-state verification follows the primary equilibrium branch with adaptive arc length and certifies the exact lambda = 1 state with a fixed-lambda Newton corrector; an overshooting arc step is never accepted as the design state.",
-      "A certified global limit point requires two consecutive converged states with tangent load components of opposite sign above the numerical noise threshold, plus bracketing refinement; a discrete local plastic event is never a certified limit point and max(steps.lambda) is never capacity by itself.",
+      "A certified global limit point requires positive branch-turning evidence between two consecutive converged states with opposite-signed load increments above the numerical noise threshold, plus rising-side refinement with halved arc increments; the certified lambda is the maximum lambda verified on the primary branch. A singular or nearly vertical continuation tangent is only a suspected-critical-point diagnostic, a tangent-solve exception is only a numerical diagnostic, and a discrete local plastic event or max(steps.lambda) is never a certified limit point.",
       "Diagnostics such as lastConvergedLambda, maximumObservedLambda, and lambdaBracket are numerical observables, never capacity, never failure, and never the engineering verdict.",
       "Load control uses adaptive cutback; displacement control uses an augmented equilibrium equation.",
       "The engineering analysis objective is independent from the selected continuation control.",

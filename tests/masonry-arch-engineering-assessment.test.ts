@@ -852,7 +852,7 @@ void test("path design assessment reports the shared shape with lambda and requi
   // mode keeps its own semantics and remains available on the outputs.
   assert.equal(assessment.failureMode, null);
   assert.equal(result.outputs.failureMode, "no-collapse-within-model");
-  assert.equal(result.metadata.schemaVersion, "9.0.0");
+  assert.equal(result.metadata.schemaVersion, "10.0.0");
 });
 
 void test("D3. reinforcement rupture from both sub-checks preserves one criterion per check", () => {

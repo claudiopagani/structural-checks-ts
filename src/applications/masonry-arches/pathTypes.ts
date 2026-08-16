@@ -31,7 +31,7 @@ import type {
 
 export type { MasonryArchEventKind } from "./types.js";
 
-export const MASONRY_ARCH_PATH_RESULT_SCHEMA_VERSION = "9.0.0";
+export const MASONRY_ARCH_PATH_RESULT_SCHEMA_VERSION = "10.0.0";
 
 export interface MasonryArchDof {
   readonly blockId: string;
@@ -180,24 +180,43 @@ export interface MasonryArchPathFixedStateResult {
 }
 
 /**
- * Certified global equilibrium limit point of the primary branch. Produced only when the
- * continuation tangent's load component reverses sign between two consecutive converged states
- * and the bracketing refinement converged on both sides. A discrete local plastic event is never
- * a certified limit point.
+ * Certified global equilibrium limit point of the primary branch, detected exclusively by
+ * positive branch-turning evidence: two consecutive converged states whose arc-length load
+ * increments have tangent load components of opposite sign above the numerical noise threshold.
+ * The turning point of lambda(s) (where d(lambda)/ds = 0) therefore lies between the rising-side
+ * state and the descending-side state in arc-length coordinate; both sides are reported as step
+ * identifiers and lambdas. `lambda` is the maximum lambda verified on the primary branch: the
+ * rising-side lambda refined with halved arc increments, which approaches the turning point from
+ * below, so `lambda <= lambda_turning` always. A numerical exception (tangent solve, linear
+ * solve, corrector, predictor, continuation) is never evidence for this result, and a discrete
+ * local plastic event is never a certified limit point.
  */
 export interface MasonryArchVerifiedLimitPoint {
+  /** Maximum lambda verified on the primary branch, refined from the rising side. */
   readonly lambda: number;
-  /** Converged states on both sides of the turning point bracket the limit. */
-  readonly bracket: { readonly lower: number; readonly upper: number };
+  /** How the turning point was certified; only positive converged evidence qualifies. */
+  readonly detection: "branch-turning";
+  /** Last converged state with a positive load increment (rising side, before the turn). */
+  readonly risingSideStep: number;
+  /** First converged state with a negative load increment (descending side, after the turn). */
+  readonly descendingSideStep: number;
+  readonly risingSideLambda: number;
+  readonly descendingSideLambda: number;
+  /** Number of halved-arc refinement steps advanced from the rising side. */
   readonly refinementSteps: number;
   readonly certified: true;
 }
 
+/**
+ * Raw diagnostic lambda interval. `certified` is false for every meaning published here; a
+ * certified turning point is described by `MasonryArchVerifiedLimitPoint` instead, because its
+ * two converged sides bracket the turn in arc-length coordinate, not a lambda interval.
+ */
 export interface MasonryArchLambdaBracket {
   readonly lower: number;
   readonly upper: number;
-  readonly certified: boolean;
-  readonly meaning: "load-control-failure-bracket" | "equilibrium-limit-point-bracket";
+  readonly certified: false;
+  readonly meaning: "load-control-failure-bracket";
 }
 
 export interface MasonryArchPathOutputs extends Record<string, unknown> {
@@ -264,18 +283,23 @@ export interface MasonryArchPathOutputs extends Record<string, unknown> {
       readonly completedStages: number;
     };
     /**
-     * Diagnostic bracket. `certified` is true only for the limit-point bracket, which is backed
-     * by converged states on both sides plus refinement; all other brackets are raw numerical
-     * diagnostics and must never be read as capacity.
+     * Raw numerical diagnostic interval (load-control failure only, never certified). A certified
+     * turning point is described by `verifiedLimitPoint` and never by a lambda interval.
      */
     readonly lambdaBracket: MasonryArchLambdaBracket | null;
-    /** Certified global limit point, present only for termination "global-limit-point". */
+    /**
+     * Certified global limit point of the primary branch, present only for termination
+     * "global-limit-point" and produced exclusively by positive branch-turning evidence between
+     * converged states.
+     */
     readonly verifiedLimitPoint: MasonryArchVerifiedLimitPoint | null;
     /** Number of fixed-lambda corrector attempts used to certify the design state. */
     readonly designStateCorrectorAttempts: number;
     /**
-     * Lambda component of the unit continuation tangent at the last converged state (diagnostic
-     * for limit-point certification; the classical turning-point condition is a vanishing value).
+     * Lambda component of the unit continuation tangent at the last converged state, when the
+     * tangent load-correction solve succeeded. A vanishing value is the classical turning-point
+     * condition but is only a suspected-critical-point diagnostic here: it never certifies a
+     * limit point by itself. Null when the tangent solve failed (numerical diagnostic only).
      */
     readonly tangentLambdaComponentAtTermination: number | null;
     readonly tangent: "corotational-interface-plus-numerical-reinforcement";

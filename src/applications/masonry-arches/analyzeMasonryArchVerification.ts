@@ -149,9 +149,12 @@ function staticRoute(
       });
       const limit = limitResult.outputs.capacity.lambdaFirstLimit;
       lambdaVerificationLimit = limit;
+      // The assessed load state remains the assigned lambda = 1 state: the verdict answers
+      // "can the design state at lambda = 1 be reached?". The limit-analysis lambda is a
+      // capacity of the scalable pattern and is reported ONLY through lambdaVerificationLimit.
       assessment = verificationAssessmentFromEquilibrium(
         "FAIL",
-        limit,
+        1,
         designAssessment.failedCriteria,
         designAssessment.failureMode,
       );
@@ -180,7 +183,7 @@ function staticRoute(
     fixedState,
     engineeringAssessment: assessment,
     lambdaVerificationLimit,
-    failureMode: assessment.failureMode ?? "no-collapse-within-model",
+    failureMode: assessment.failureMode,
     capacity: {
       lambdaFirstLimit: limitResult?.outputs.capacity.lambdaFirstLimit ?? null,
       lambdaPeak: limitResult?.outputs.capacity.lambdaPeak ?? null,
@@ -311,7 +314,7 @@ function arcLengthRoute(
     fixedState,
     engineeringAssessment: assessment,
     lambdaVerificationLimit: pathOutputs.capacity.lambdaVerificationLimit,
-    failureMode: assessment.failureMode ?? pathOutputs.failureMode,
+    failureMode: assessment.failureMode,
     capacity: pathOutputs.capacity,
     significantStates,
     diagnostics: {

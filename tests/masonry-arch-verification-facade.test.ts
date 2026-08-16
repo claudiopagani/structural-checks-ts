@@ -184,6 +184,9 @@ void test("1. fixed loads PASS -> the scalable phase starts and lambda one passe
   assert.equal(result.outputs.engineeringAssessment.lambda, 1);
   assert.equal(result.outputs.lambdaVerificationLimit, null);
   assert.equal(result.outputs.significantStates.designState?.source, "path-step");
+  // F: on PASS the failure mode is null everywhere.
+  assert.equal(result.outputs.failureMode, null);
+  assert.equal(result.outputs.engineeringAssessment.failureMode, null);
   assert.equal(result.status, "ok");
 });
 
@@ -224,7 +227,60 @@ void test("2. fixed loads physical FAIL -> no scalable lambda is defined", () =>
   assert.equal(result.outputs.engineeringAssessment.lambda, 0);
   assert.equal(result.outputs.lambdaVerificationLimit, null);
   assert.equal(result.outputs.significantStates.designState, null);
+  // H: on FAIL the façade failure mode is always the assessment failure mode.
+  assert.equal(result.outputs.failureMode, result.outputs.engineeringAssessment.failureMode);
+  assert.ok(result.outputs.failureMode !== null);
+  // No scalable-loading step exists: the fixed state really stopped the analysis.
+  const pathOutputs = result.outputs.subAnalyses.path!.outputs;
+  assert.equal(pathOutputs.steps.filter((step) => step.stage === "scalable-loading").length, 0);
   assert.equal(result.status, "not-verified");
+});
+
+// A: a design-blocking event exactly on the step that completes the fixed load must stop the
+// analysis with zero scalable-loading steps, no scalable lambda, no verification limit.
+void test("blocking event exactly at fixedLoadFactor = 1 -> zero scalable steps", () => {
+  // The bonded-layer tensile capacity (19.5 kN = 19500 kN/m2 * 1e-3 m2) is crossed exactly
+  // inside the final fixed-preload step: the uncapped layer force is ~19.42 kN at factor 0.975
+  // and ~19.92 kN at factor 1, so the first capacity event fires on the completing step.
+  const model = deformableArch({
+    bondedLayers: [
+      {
+        id: "FRCM",
+        family: "frcm",
+        ...INTRA,
+        area: 1e-3,
+        elasticModulus: 200_000_000,
+        tensileStrength: 19_500,
+        transferLength: 0.5,
+        startStation: 0,
+        endStation: 1,
+        terminations: { left: { type: "anchored" }, right: { type: "anchored" } },
+      },
+    ],
+  });
+  const result = analyzeMasonryArchVerification(model, {
+    units: { force: "kN", length: "m" },
+    scalableLoadCaseIds: ["Q"],
+    equilibriumTolerance: 1e-7,
+    maxIterations: 50,
+    maxSteps: 200,
+  });
+  assert.equal(result.outputs.fixedState.status, "FAIL");
+  const pathOutputs = result.outputs.subAnalyses.path!.outputs;
+  const fixedSteps = pathOutputs.steps.filter((step) => step.stage === "fixed-preload");
+  assert.ok(fixedSteps.length > 0, "the fixed preload converged at least one step");
+  assert.equal(fixedSteps.at(-1)!.state.fixedLoadFactor, 1);
+  assert.ok(
+    fixedSteps.at(-1)!.events.some((event) => event.kind === "bonded-layer-capacity-reached"),
+    "the design-blocking event fires exactly on the step that completes the fixed load",
+  );
+  // The scalable phase must never start.
+  assert.equal(pathOutputs.steps.filter((step) => step.stage === "scalable-loading").length, 0);
+  assert.equal(result.outputs.engineeringAssessment.status, "FAIL");
+  assert.equal(result.outputs.engineeringAssessment.lambda, 0);
+  assert.equal(result.outputs.lambdaVerificationLimit, null);
+  assert.equal(pathOutputs.capacity.lambdaVerificationLimit, null);
+  assert.equal(result.outputs.failureMode, result.outputs.engineeringAssessment.failureMode);
 });
 
 void test("3. fixed loads numerical failure -> INDETERMINATE, never a fake FAIL", () => {
@@ -239,6 +295,9 @@ void test("3. fixed loads numerical failure -> INDETERMINATE, never a fake FAIL"
   assert.equal(result.outputs.engineeringAssessment.status, "INDETERMINATE");
   assert.deepEqual(result.outputs.engineeringAssessment.failedCriteria, []);
   assert.equal(result.outputs.lambdaVerificationLimit, null);
+  // G: on INDETERMINATE the failure mode is null everywhere.
+  assert.equal(result.outputs.failureMode, null);
+  assert.equal(result.outputs.engineeringAssessment.failureMode, null);
   assert.equal(result.status, "failed");
 });
 
@@ -320,6 +379,8 @@ void test("7. stop-at-onset crushing before lambda one -> FAIL with a verificati
   assert.ok(result.outputs.lambdaVerificationLimit !== null);
   assert.ok(result.outputs.lambdaVerificationLimit < 1);
   assert.equal(result.outputs.significantStates.verificationLimit?.source, "path-step");
+  // H: on FAIL the façade failure mode is always the assessment failure mode.
+  assert.equal(result.outputs.failureMode, result.outputs.engineeringAssessment.failureMode);
 });
 
 void test("11. certified global limit point below lambda one -> instability FAIL", () => {
@@ -352,6 +413,8 @@ void test("11. certified global limit point below lambda one -> instability FAIL
   assert.equal(result.outputs.engineeringAssessment.failureMode, "instability");
   assert.ok(result.outputs.lambdaVerificationLimit !== null);
   assert.ok(result.outputs.lambdaVerificationLimit < 1);
+  // H: on FAIL the façade failure mode is always the assessment failure mode.
+  assert.equal(result.outputs.failureMode, result.outputs.engineeringAssessment.failureMode);
   assert.equal(result.outputs.diagnostics.verifiedLimitPoint?.certified, true);
   assert.equal(
     result.outputs.diagnostics.verifiedLimitPoint.lambda,
@@ -446,6 +509,14 @@ void test("URM design FAIL at lambda one -> limit analysis supplies a meaningful
   assert.equal(result.outputs.engineeringAssessment.status, "FAIL");
   assert.ok(result.outputs.lambdaVerificationLimit !== null);
   assert.ok(result.outputs.lambdaVerificationLimit < 1);
+  // I: the assessed load state is the assigned lambda = 1 state, while the verification limit
+  // is the separately quantified capacity of the scalable pattern; the two lambdas never
+  // overload each other.
+  assert.equal(result.outputs.engineeringAssessment.lambda, 1);
+  assert.notEqual(
+    result.outputs.engineeringAssessment.lambda,
+    result.outputs.lambdaVerificationLimit,
+  );
   assert.equal(
     result.outputs.lambdaVerificationLimit,
     result.outputs.subAnalyses.limitAnalysis!.outputs.capacity.lambdaFirstLimit,

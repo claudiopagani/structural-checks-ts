@@ -220,7 +220,13 @@ export interface MasonryArchEngineeringAssessment {
   readonly question: MasonryArchEngineeringAssessmentQuestion;
   /** Engineering verdict; a numerical process failure is INDETERMINATE, never FAIL. */
   readonly status: MasonryArchEngineeringAssessmentStatus;
-  /** Lambda at which the assessed state was evaluated; 1 for assigned-state analyses. */
+  /**
+   * Lambda of the load state the verdict refers to: 1 for assigned-state analyses and PASS
+   * verdicts, the state where the verdict was decided on FAIL (0 when the fixed state itself
+   * fails), and the last verified state when available on INDETERMINATE; null when no such
+   * state exists. This is the assessed load state, never a capacity: a design failure whose
+   * limit analysis returns lambda = 0.72 still reports 1 here.
+   */
   readonly lambda: number | null;
   /** All criteria identified as not satisfied; a FAIL state never selects a single "worst" one. */
   readonly failedCriteria: readonly MasonryArchEngineeringCriterion[];

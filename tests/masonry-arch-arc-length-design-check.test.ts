@@ -10,6 +10,14 @@ import {
   type BondedLayerReinforcementInput,
   type MasonryDeformableInterfaceLawInput,
 } from "structural-checks-ts-migration-workspace/applications/masonry-arches";
+// Internal numerical-safety seam (not part of the public package exports): the tangent-seed
+// helper used by the fixed-lambda corrector, tested directly for exception safety.
+import {
+  masonryArchTangentSeedAtLambda,
+  type SolverContext,
+  type SystemEvaluation,
+} from "../dist/applications/masonry-arches/analyzeMasonryArchPath.js";
+import { NonlinearEquilibriumContinuationSolver } from "../dist/domain/solvers/continuation/index.js";
 
 function deformable(
   overrides: {
@@ -322,16 +330,49 @@ void test("11. certified global limit point below lambda one -> instability FAIL
   assert.equal(result.outputs.convergenceInfo.termination, "global-limit-point");
   assert.equal(result.outputs.engineeringAssessment?.status, "FAIL");
   assert.equal(result.outputs.engineeringAssessment?.failureMode, "instability");
-  assert.ok(result.outputs.convergenceInfo.verifiedLimitPoint?.certified === true);
+  const limitPoint = result.outputs.convergenceInfo.verifiedLimitPoint;
+  assert.ok(limitPoint !== null);
+  assert.equal(limitPoint.certified, true);
+  // Positive branch-turning evidence only: two distinct converged states, opposite-signed
+  // load increments, and the certified lambda is the refined rising-side maximum.
+  assert.equal(limitPoint.detection, "branch-turning");
+  assert.ok(limitPoint.risingSideStep !== limitPoint.descendingSideStep);
+  const risingStep = result.outputs.steps.find((step) => step.step === limitPoint.risingSideStep);
+  const descendingStep = result.outputs.steps.find(
+    (step) => step.step === limitPoint.descendingSideStep,
+  );
+  assert.ok(risingStep !== undefined && descendingStep !== undefined);
+  assert.ok(risingStep.stage === "scalable-loading");
+  assert.ok(descendingStep.stage === "scalable-loading");
+  assert.ok(Math.abs(risingStep.state.lambda - limitPoint.risingSideLambda) <= 1e-12);
+  assert.ok(Math.abs(descendingStep.state.lambda - limitPoint.descendingSideLambda) <= 1e-12);
+  assert.ok(limitPoint.descendingSideLambda < limitPoint.risingSideLambda);
+  assert.ok(limitPoint.lambda >= limitPoint.risingSideLambda - 1e-12);
+  // No fake lambda-interval bracket is published for a certified turning point.
+  assert.equal(result.outputs.convergenceInfo.lambdaBracket, null);
   assert.ok(result.outputs.capacity.lambdaVerificationLimit !== null);
   assert.ok(result.outputs.capacity.lambdaVerificationLimit < 1);
+  assert.equal(result.outputs.capacity.lambdaVerificationLimit, limitPoint.lambda);
   assert.equal(result.outputs.failureMode, "instability");
   assert.ok(result.outputs.events.some((event) => event.kind === "equilibrium-limit-point"));
-  assert.equal(result.outputs.convergenceInfo.lambdaBracket?.certified, true);
-  assert.equal(
-    result.outputs.convergenceInfo.lambdaBracket?.meaning,
-    "equilibrium-limit-point-bracket",
+  // J: internal final-state coherence: q, lambda, final evaluation, the last history step, and
+  // the reported limit-point state describe one and the same equilibrium state.
+  const lastStep = result.outputs.steps.find(
+    (step) => step.step === result.outputs.convergenceInfo.lastConvergedStep,
   );
+  assert.ok(lastStep !== undefined);
+  assert.ok(Math.abs(lastStep.state.lambda - limitPoint.lambda) <= 1e-12);
+  assert.equal(result.outputs.capacity.lambdaTermination, limitPoint.lambda);
+  assert.equal(
+    result.outputs.significantSteps.termination,
+    result.outputs.convergenceInfo.lastConvergedStep,
+  );
+  assert.equal(
+    result.outputs.significantSteps.peak,
+    result.outputs.convergenceInfo.lastConvergedStep,
+  );
+  const lastHistoryLambda = lastStep.state.lambda;
+  assert.ok(Math.abs(lastHistoryLambda - limitPoint.lambda) <= 1e-12);
 });
 
 void test("12. numerical termination before limit certification -> INDETERMINATE with diagnostics", () => {
@@ -348,6 +389,14 @@ void test("12. numerical termination before limit certification -> INDETERMINATE
   assert.equal(result.outputs.convergenceInfo.verifiedLimitPoint, null);
   assert.equal(result.outputs.capacity.lambdaVerificationLimit, null);
   assert.equal(result.status, "failed");
+  // A numerical termination can never produce a limit point, instability, or a physical FAIL,
+  // even when the stall happens in front of a nearly vertical continuation tangent.
+  assert.ok(
+    !result.outputs.events.some((event) => event.kind === "equilibrium-limit-point"),
+    "no equilibrium-limit-point event may come from a numerical termination",
+  );
+  assert.notEqual(result.outputs.failureMode, "instability");
+  assert.equal(result.outputs.engineeringAssessment?.failureMode, null);
   // Diagnostics are published and must never be read as capacity.
   assert.ok(result.outputs.convergenceInfo.lastConvergedLambda !== null);
   assert.ok(result.outputs.convergenceInfo.maximumObservedLambda !== null);
@@ -387,4 +436,54 @@ void test("15. the passive intrados activation benchmark remains valid on the fa
   assert.equal(state.initialForce, 0);
   assert.equal(state.state, "active-passive");
   assert.ok(state.force > 0);
+});
+
+// B/E numerical-safety seam: a tangent load-correction solve that throws (singular matrix) must
+// only produce a diagnostic from the corrector seed helper. It must never throw out of the
+// standard verification, never become a limit point, and never become a physical failure.
+void test("tangent-seed construction exception is a diagnostic, never a throw", () => {
+  const solver = new NonlinearEquilibriumContinuationSolver({
+    scaling: {
+      residualScales: [1, 1, 1],
+      coordinateScales: [1, 1, 1],
+    },
+    tolerance: 1e-8,
+    maxIterations: 10,
+    maximumLineSearchIterations: 5,
+    minimumLineSearchFactor: 0.01,
+  });
+  const context = { continuationSolver: solver } as unknown as SolverContext;
+  const singularEvaluation = {
+    residual: [0, 0, 0],
+    tangent: [
+      [0, 0, 0],
+      [0, 0, 0],
+      [0, 0, 0],
+    ],
+    scalableDerivative: [1, 0, 0],
+    interfaces: [],
+    trialStates: {},
+    reinforcement: null,
+    bondedLayerState: [],
+    displacements: [],
+  } as unknown as SystemEvaluation;
+  const seed = masonryArchTangentSeedAtLambda(context, [0, 0, 0], 0.9, singularEvaluation, 1);
+  // No throw; the unavailable tangent solve is reported as a diagnostic.
+  assert.equal(seed.seed, null);
+  assert.ok(seed.error !== null && seed.error.length > 0);
+
+  // The same seam with a healthy tangent returns a finite seed along the load-correction
+  // direction, so the failure above is specifically the exception path.
+  const healthyEvaluation = {
+    ...singularEvaluation,
+    tangent: [
+      [10, 0, 0],
+      [0, 10, 0],
+      [0, 0, 10],
+    ],
+  } as unknown as SystemEvaluation;
+  const healthy = masonryArchTangentSeedAtLambda(context, [0, 0, 0], 0.9, healthyEvaluation, 1);
+  assert.notEqual(healthy.seed, null);
+  assert.equal(healthy.error, null);
+  assert.ok(healthy.seed!.every((value) => Number.isFinite(value)));
 });
