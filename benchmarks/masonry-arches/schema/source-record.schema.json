@@ -1,0 +1,253 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://structural-checks-ts.invalid/benchmarks/masonry-arches/schema/source-record.schema.json",
+  "title": "Masonry-arches benchmark source record",
+  "description": "One file per literature source. Every quantitative value is a ProvenanceValue carrying value, unit, reading kind, and the exact location in the paper it was read from. A value that could not be established is recorded as null with kind 'unknown'. No number may be inferred from qualitative text.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "sourceId",
+    "recordStatus",
+    "citation",
+    "document",
+    "specimens",
+    "extractionNotes"
+  ],
+  "properties": {
+    "schemaVersion": {
+      "const": "1.0.0"
+    },
+    "sourceId": {
+      "type": "string"
+    },
+    "recordStatus": {
+      "enum": ["data-extracted", "metadata-only", "requires-full-text"],
+      "description": "metadata-only and requires-full-text records contain no specimen data by policy."
+    },
+    "citation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["authors", "year", "title"],
+      "properties": {
+        "authors": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "year": {
+          "type": "integer"
+        },
+        "title": {
+          "type": "string"
+        },
+        "container": {
+          "type": "string"
+        },
+        "volume": {
+          "type": ["string", "null"]
+        },
+        "pages": {
+          "type": ["string", "null"]
+        },
+        "doi": {
+          "type": ["string", "null"]
+        },
+        "publisher": {
+          "type": "string"
+        },
+        "language": {
+          "type": "string"
+        }
+      }
+    },
+    "document": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "kind": {
+          "enum": ["experimental", "numerical", "analytical", "experimental+numerical", "review"]
+        },
+        "fullTextAccess": {
+          "enum": [
+            "open-gold",
+            "open-repository-manuscript",
+            "open-repository-final",
+            "open-bronze-publisher-blocked",
+            "closed"
+          ]
+        },
+        "fullTextUrl": {
+          "type": ["string", "null"]
+        },
+        "fullTextVersion": {
+          "type": ["string", "null"],
+          "description": "accepted-manuscript, version-of-record, etc."
+        },
+        "accessNote": {
+          "type": "string"
+        },
+        "license": {
+          "type": ["string", "null"]
+        }
+      }
+    },
+    "abstract": {
+      "type": ["string", "null"],
+      "description": "Quoted from the openly accessible record. Never paraphrased into data."
+    },
+    "specimens": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/specimenRecord"
+      }
+    },
+    "extractionNotes": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "What was extracted, from where, and which parts could not be extracted."
+    }
+  },
+  "definitions": {
+    "provenanceValue": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["value", "unit", "kind", "location"],
+      "properties": {
+        "value": {
+          "oneOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "null means UNKNOWN; the record must explain why in notes."
+        },
+        "unit": {
+          "type": ["string", "null"]
+        },
+        "kind": {
+          "enum": [
+            "exact",
+            "digitized",
+            "approximate-digitized",
+            "derived",
+            "quoted",
+            "stated-range",
+            "unknown"
+          ],
+          "description": "approximate-digitized marks values read from a figure; digitized marks values read from a curve with measured tolerance."
+        },
+        "location": {
+          "type": "string",
+          "description": "Paper section, table, figure, or page the value was read from. For quoted values, names the quoting source and its location."
+        },
+        "tolerance": {
+          "type": ["string", "null"],
+          "description": "Estimated tolerance for digitized values."
+        },
+        "notes": {
+          "type": "string"
+        }
+      }
+    },
+    "specimenRecord": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "label",
+        "kind",
+        "tier",
+        "tierRationale",
+        "geometry",
+        "masonry",
+        "loading",
+        "reinforcement",
+        "observables",
+        "curves"
+      ],
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "label": {
+          "type": "string"
+        },
+        "kind": {
+          "enum": ["experimental", "numerical", "analytical"]
+        },
+        "tier": {
+          "enum": ["A", "B", "C", "pending-access"]
+        },
+        "tierRationale": {
+          "type": "string"
+        },
+        "phenomena": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "geometry": {
+          "type": "object",
+          "additionalProperties": true,
+          "description": "Keys such as span, rise, thickness, outOfPlaneWidth, radius, subtendedAngleDeg, brickSize, jointThickness, voussoirCount; every key is a provenanceValue."
+        },
+        "masonry": {
+          "type": "object",
+          "additionalProperties": true,
+          "description": "unitWeight, compressiveStrength, elasticModulus, tensileStrength, shearModulus, frictionCoefficient, cohesion, mortarStrength, mortarElasticModulus; every key is a provenanceValue."
+        },
+        "loading": {
+          "type": "object",
+          "additionalProperties": true,
+          "description": "location, distribution, control, rate, history, loadPoint; narrative keys are plain strings, quantitative keys are provenanceValues."
+        },
+        "reinforcement": {
+          "type": ["object", "null"],
+          "additionalProperties": true,
+          "description": "type, side, area, elasticModulus, tensileStrength, strainLimit, anchorage, bondAssumptions, prestress; every quantitative key is a provenanceValue."
+        },
+        "observables": {
+          "type": "object",
+          "additionalProperties": true,
+          "description": "peakLoad, displacementAtPeak, stiffness, ductilityFactor, failureMode, hingeSequence, reinforcementForce; every quantitative key is a provenanceValue."
+        },
+        "curves": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["id", "figure", "content", "digitizationStatus"],
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+              "figure": {
+                "type": "string",
+                "description": "Exact figure reference in the paper."
+              },
+              "content": {
+                "type": "string",
+                "description": "What the curve contains."
+              },
+              "digitizationStatus": {
+                "enum": ["not-digitized", "planned", "digitized"],
+                "description": "not-digitized means the curve exists in the paper and may be digitized later with tolerance recorded in a dataset sidecar."
+              },
+              "datasetPath": {
+                "type": ["string", "null"]
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

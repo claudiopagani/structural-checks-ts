@@ -1,0 +1,777 @@
+{
+  "schemaVersion": "1.0.0",
+  "sourceId": "oliveira-2010",
+  "recordStatus": "data-extracted",
+  "citation": {
+    "authors": ["Daniel V. Oliveira", "Ismael Basilio", "Paulo B. Lourenço"],
+    "year": 2010,
+    "title": "Experimental behavior of FRP strengthened masonry arches",
+    "container": "Journal of Composites for Construction",
+    "volume": "14",
+    "pages": "312-322",
+    "doi": "10.1061/(ASCE)CC.1943-5614.0000086",
+    "publisher": "American Society of Civil Engineers (ASCE)",
+    "language": "English"
+  },
+  "document": {
+    "kind": "experimental",
+    "fullTextAccess": "open-repository-final",
+    "fullTextUrl": "https://hdl.handle.net/1822/17430",
+    "fullTextVersion": "repository copy of the published paper (ASCE)",
+    "accessNote": "Full text retrieved from the University of Minho repository on 2026-08-16. Tables 1 and 2 of the paper are not readable from the retrieved copy; the per-specimen peak loads are therefore taken from the authors' PhD thesis record basilio-2007-thesis, which is the same campaign's primary dataset.",
+    "license": "repository open access; paper copyright ASCE"
+  },
+  "abstract": "This paper deals with the experimental behavior of solid clay brick masonry arches strengthened with glass fiber reinforced polymer composites. Twelve half-scaled segmental masonry arches subjected to a load applied at the quarter span were tested under displacement control up to failure. (...) only continuous strengthening strategies are able to prevent typical local failure mechanisms of unreinforced arches; (2) strengthening at the intrados is the most effective option to increase strength; (3) strengthening applied at the extrados provides the higher deformation capacity prior to failure.",
+  "specimens": [
+    {
+      "id": "oliveira-2010/US-1",
+      "label": "Unstrengthened arch US-1",
+      "kind": "experimental",
+      "tier": "A",
+      "tierRationale": "Geometry, load position, displacement control, and materials are fully specified; rigid concrete supports. Direct quantitative comparison of peak load, hinge mechanism, and failure mode.",
+      "phenomena": ["hinging", "loss-of-equilibrium", "nonlinear-load-displacement"],
+      "geometry": {
+        "profile": {
+          "value": null,
+          "unit": null,
+          "kind": "unknown",
+          "location": "n/a",
+          "notes": "Segmental circular arc; recorded as internal radius plus subtended angle."
+        },
+        "internalRadius": {
+          "value": 750,
+          "unit": "mm",
+          "kind": "exact",
+          "location": "Oliveira et al. 2010, Tests on arches section"
+        },
+        "span": {
+          "value": 1467,
+          "unit": "mm",
+          "kind": "exact",
+          "location": "Oliveira et al. 2010, Tests on arches section (effective internal span)"
+        },
+        "spanAlt": {
+          "value": 1462,
+          "unit": "mm",
+          "kind": "exact",
+          "location": "Basilio 2007 thesis, Section 4.5.1",
+          "notes": "Slightly different span stated in the thesis; keep both and use the paper value as primary."
+        },
+        "rise": {
+          "value": 593,
+          "unit": "mm",
+          "kind": "exact",
+          "location": "Oliveira et al. 2010, Tests on arches section (effective internal rise; rise/span = 0.40)"
+        },
+        "subtendedAngleDeg": {
+          "value": 156,
+          "unit": "deg",
+          "kind": "exact",
+          "location": "Oliveira et al. 2010, Tests on arches section (segmental arches of 156 deg)"
+        },
+        "thickness": {
+          "value": 50,
+          "unit": "mm",
+          "kind": "exact",
+          "location": "Oliveira et al. 2010, Tests on arches section; single ring equal to brick height"
+        },
+        "outOfPlaneWidth": {
+          "value": 450,
+          "unit": "mm",
+          "kind": "exact",
+          "location": "Oliveira et al. 2010, Tests on arches section"
+        },
+        "brickSize": {
+          "value": null,
+          "unit": "mm",
+          "kind": "exact",
+          "location": "Oliveira et al. 2010, Experimental study section",
+          "notes": "100 x 50 x 25 mm handmade solid clay bricks (recorded as three dimensions)."
+        },
+        "jointThickness": {
+          "value": 10,
+          "unit": "mm",
+          "kind": "exact",
+          "location": "Oliveira et al. 2010, Tests on arches section (constant intrados joint thickness, approximately)"
+        },
+        "voussoirCount": {
+          "value": 59,
+          "unit": "brick courses",
+          "kind": "exact",
+          "location": "Oliveira et al. 2010, Tests on arches section"
+        }
+      },
+      "masonry": {
+        "compressiveStrength": {
+          "value": 9.1,
+          "unit": "MPa",
+          "kind": "exact",
+          "location": "Oliveira et al. 2010, Characterization of materials section (average of ten masonry prisms 163x100x50 mm, COV 16%)"
+        },
+        "elasticModulus": {
+          "value": 2040,
+          "unit": "MPa",
+          "kind": "exact",
+          "location": "Oliveira et al. 2010, Characterization of materials section (average, COV 34%)"
+        },
+        "mortarCompressiveStrength": {
+          "value": 7.3,
+          "unit": "MPa",
+          "kind": "exact",
+          "location": "Oliveira et al. 2010, Characterization of materials section (eight cylinders dia 50 x 110 mm, COV 8%)"
+        },
+        "unitWeight": {
+          "value": null,
+          "unit": null,
+          "kind": "unknown",
+          "location": "n/a",
+          "notes": "Not found in the retrieved full text; needed for self-weight modeling."
+        },
+        "tensileStrength": {
+          "value": null,
+          "unit": null,
+          "kind": "unknown",
+          "location": "n/a",
+          "notes": "Not characterized in the paper."
+        },
+        "frictionCoefficient": {
+          "value": null,
+          "unit": null,
+          "kind": "unknown",
+          "location": "n/a",
+          "notes": "Not characterized; extrados-strengthened arches failed by joint sliding, so this parameter matters."
+        },
+        "cohesion": {
+          "value": null,
+          "unit": null,
+          "kind": "unknown",
+          "location": "n/a"
+        }
+      },
+      "loading": {
+        "description": "Monotonically increasing vertical displacement applied at the quarter span through a rigid steel beam; load cell 25 kN; control rate 3 micrometers/s; test stopped after failure-mode formation.",
+        "loadPoint": "quarter span",
+        "control": "displacement",
+        "rate": {
+          "value": 3,
+          "unit": "micrometer/s",
+          "kind": "exact",
+          "location": "Oliveira et al. 2010, Tests on arches section"
+        },
+        "history": "monotonic, no cycles"
+      },
+      "reinforcement": null,
+      "observables": {
+        "peakLoad": {
+          "value": 1.43,
+          "unit": "kN",
+          "kind": "exact",
+          "location": "Basilio 2007 PhD thesis, Table 6.5 (specimen US-1); paper reports average values only"
+        },
+        "peakLoadAverage": {
+          "value": 1.68,
+          "unit": "kN",
+          "kind": "exact",
+          "location": "Basilio 2007 PhD thesis, Table 6.5 (average of US-1 and US-2)"
+        },
+        "numericalPeakLoad": {
+          "value": 1.53,
+          "unit": "kN",
+          "kind": "exact",
+          "location": "Basilio 2007 PhD thesis, Table 6.5 (authors' numerical model)"
+        },
+        "failureMode": "classic four-hinge mechanism; failure sudden just after peak load; no ductility",
+        "hingeSequence": "Hinges numbered H1-H4 in Figure 5a of the paper; H1 under the load. Exact angular positions are readable only from the figure (digitize from Figure 5a).",
+        "displacementAtPeak": {
+          "value": null,
+          "unit": "mm",
+          "kind": "unknown",
+          "location": "n/a",
+          "notes": "Readable only from the load-displacement curve, Figure 6a of the paper."
+        }
+      },
+      "curves": [
+        {
+          "id": "US-1-load-displacement",
+          "figure": "Oliveira et al. 2010, Figure 6a (vertical load vs vertical displacement beneath the load)",
+          "content": "Pre-peak and post-peak load-displacement path of arch US-1",
+          "digitizationStatus": "not-digitized",
+          "datasetPath": null
+        }
+      ]
+    },
+    {
+      "id": "oliveira-2010/US-2",
+      "label": "Unstrengthened arch US-2",
+      "kind": "experimental",
+      "tier": "A",
+      "tierRationale": "Same as US-1; replicate specimen for scatter assessment.",
+      "phenomena": ["hinging", "loss-of-equilibrium", "nonlinear-load-displacement"],
+      "geometry": {},
+      "masonry": {},
+      "loading": {
+        "description": "Identical to US-1."
+      },
+      "reinforcement": null,
+      "observables": {
+        "peakLoad": {
+          "value": 1.92,
+          "unit": "kN",
+          "kind": "exact",
+          "location": "Basilio 2007 PhD thesis, Table 6.5 (specimen US-2)"
+        },
+        "failureMode": "classic four-hinge mechanism; failure sudden just after peak load",
+        "displacementAtPeak": {
+          "value": null,
+          "unit": "mm",
+          "kind": "unknown",
+          "location": "n/a",
+          "notes": "Readable only from Figure 6a of the paper."
+        }
+      },
+      "curves": [
+        {
+          "id": "US-2-load-displacement",
+          "figure": "Oliveira et al. 2010, Figure 6a",
+          "content": "Pre-peak and post-peak load-displacement path of arch US-2",
+          "digitizationStatus": "not-digitized",
+          "datasetPath": null
+        }
+      ]
+    },
+    {
+      "id": "oliveira-2010/LS-1",
+      "label": "Pre-damaged arch US-1 retrofitted with localized GFRP strips (LS-1)",
+      "kind": "experimental",
+      "tier": "B",
+      "tierRationale": "Specimen was first tested to near-collapse as US-1 and then strengthened; the pre-damage history is a known difference for a fresh-model comparison.",
+      "phenomena": ["hinging", "pre-damaged-strengthening", "nonlinear-load-displacement"],
+      "geometry": {},
+      "masonry": {},
+      "loading": {
+        "description": "Identical setup; load at quarter span, displacement control."
+      },
+      "reinforcement": {
+        "type": "GFRP localized strips (2 strips, 80 mm wide each, 530 mm long) bonded over hinges H1, H3, H4 at both intrados and extrados",
+        "stripThickness": {
+          "value": 0.149,
+          "unit": "mm",
+          "kind": "exact",
+          "location": "Oliveira et al. 2010, Tests on arches section (single layer of fibers)"
+        },
+        "fiberTensileStrength": {
+          "value": 1473,
+          "unit": "MPa",
+          "kind": "exact",
+          "location": "Oliveira et al. 2010, Characterization of materials section (average of five specimens, COV 15%)"
+        },
+        "fiberElasticModulus": {
+          "value": 80160,
+          "unit": "MPa",
+          "kind": "exact",
+          "location": "Oliveira et al. 2010, Characterization of materials section (average, COV 4%)"
+        },
+        "epoxyTensileStrength": {
+          "value": 48.6,
+          "unit": "MPa",
+          "kind": "exact",
+          "location": "Oliveira et al. 2010, Characterization of materials section (COV 9%)"
+        },
+        "epoxyElasticModulus": {
+          "value": 3670,
+          "unit": "MPa",
+          "kind": "exact",
+          "location": "Oliveira et al. 2010, Characterization of materials section (COV 8%)"
+        },
+        "totalFiberArea": {
+          "value": 23.84,
+          "unit": "mm2",
+          "kind": "derived",
+          "location": "Derived from 2 strips x 80 mm x 0.149 mm as stated in the paper",
+          "notes": "Derivation by simple multiplication of exact stated values."
+        }
+      },
+      "observables": {
+        "peakLoad": {
+          "value": 3.18,
+          "unit": "kN",
+          "kind": "exact",
+          "location": "Basilio 2007 PhD thesis, Table 6.5 (specimen LS-1)"
+        },
+        "failureMode": "New four-hinge mechanism with hinges moved beyond the strip ends; strips prevented re-opening of existing cracks.",
+        "averageIncrease": {
+          "value": 76,
+          "unit": "%",
+          "kind": "exact",
+          "location": "Oliveira et al. 2010, Localized strengthening section (average increase over unstrengthened arches)"
+        }
+      },
+      "curves": [
+        {
+          "id": "LS-1-load-displacement",
+          "figure": "Oliveira et al. 2010, Figure 6b and Figure 8a",
+          "content": "Load-displacement path of LS-1 compared with US-1",
+          "digitizationStatus": "not-digitized",
+          "datasetPath": null
+        }
+      ]
+    },
+    {
+      "id": "oliveira-2010/LS-2",
+      "label": "Pre-damaged arch US-2 retrofitted with localized GFRP strips (LS-2)",
+      "kind": "experimental",
+      "tier": "B",
+      "tierRationale": "Same pre-damage history issue as LS-1.",
+      "phenomena": ["hinging", "pre-damaged-strengthening", "nonlinear-load-displacement"],
+      "geometry": {},
+      "masonry": {},
+      "loading": {
+        "description": "Identical setup."
+      },
+      "reinforcement": {
+        "type": "GFRP localized strips, same layout as LS-1",
+        "totalFiberArea": {
+          "value": 23.84,
+          "unit": "mm2",
+          "kind": "derived",
+          "location": "Derived from 2 strips x 80 mm x 0.149 mm"
+        }
+      },
+      "observables": {
+        "peakLoad": {
+          "value": 2.73,
+          "unit": "kN",
+          "kind": "exact",
+          "location": "Basilio 2007 PhD thesis, Table 6.5 (specimen LS-2)"
+        },
+        "failureMode": "New four-hinge mechanism beyond the strip ends."
+      },
+      "curves": [
+        {
+          "id": "LS-2-load-displacement",
+          "figure": "Oliveira et al. 2010, Figure 6b and Figure 8b",
+          "content": "Load-displacement path of LS-2 compared with US-2",
+          "digitizationStatus": "not-digitized",
+          "datasetPath": null
+        }
+      ]
+    },
+    {
+      "id": "oliveira-2010/CSI-1",
+      "label": "Continuous intrados GFRP strengthening, 2 x 50 mm strips, without spike anchors (CSI-1)",
+      "kind": "experimental",
+      "tier": "B",
+      "tierRationale": "Geometry and loads are direct; failure is governed by FRP-masonry debonding with brick ripping, which our bonded-layer model approximates through a debonding strain threshold. Known difference: single debonding strain versus mixed-mode detachment.",
+      "phenomena": [
+        "hinging",
+        "debonding",
+        "reinforcement-activation",
+        "nonlinear-load-displacement"
+      ],
+      "geometry": {},
+      "masonry": {},
+      "loading": {
+        "description": "Identical setup; quarter-span load, displacement control."
+      },
+      "reinforcement": {
+        "type": "Continuous GFRP strips at the intrados, 2 strips x 50 mm wide, wet layup, single layer",
+        "stripThickness": {
+          "value": 0.149,
+          "unit": "mm",
+          "kind": "exact",
+          "location": "Oliveira et al. 2010, Tests on arches section"
+        },
+        "totalFiberArea": {
+          "value": 14.9,
+          "unit": "mm2",
+          "kind": "derived",
+          "location": "Derived from 2 strips x 50 mm x 0.149 mm"
+        },
+        "anchorage": "none",
+        "bondAssumptions": "Debonding with ripping of a thin brick layer observed; bond data in Basilio 2007 thesis, Chapter 3 (bond tests)."
+      },
+      "observables": {
+        "peakLoad": {
+          "value": 4.26,
+          "unit": "kN",
+          "kind": "exact",
+          "location": "Basilio 2007 PhD thesis, Table 6.5 (specimen CSI-1)"
+        },
+        "averageIncrease": {
+          "value": 165,
+          "unit": "%",
+          "kind": "exact",
+          "location": "Oliveira et al. 2010, Continuous intrados strengthening section (CSI-1 and CSI-2 average)"
+        },
+        "failureMode": "Two hinges at supports, third hinge on the right half; failure by successive detachment of the two strips with ripping of a thin brick layer close to the load point.",
+        "displacementRatio": {
+          "value": 35,
+          "unit": "times unstrengthened displacement",
+          "kind": "exact",
+          "location": "Oliveira et al. 2010, Continuous intrados strengthening section (about thirty five times)"
+        }
+      },
+      "curves": [
+        {
+          "id": "CSI-1-load-displacement",
+          "figure": "Oliveira et al. 2010, Figure 10a",
+          "content": "Load-displacement path of CSI-1 with abrupt drops at strip detachment",
+          "digitizationStatus": "not-digitized",
+          "datasetPath": null
+        }
+      ]
+    },
+    {
+      "id": "oliveira-2010/CSI-2",
+      "label": "Continuous intrados GFRP strengthening, 2 x 50 mm strips, without spike anchors (CSI-2)",
+      "kind": "experimental",
+      "tier": "B",
+      "tierRationale": "Same as CSI-1.",
+      "phenomena": [
+        "hinging",
+        "debonding",
+        "reinforcement-activation",
+        "nonlinear-load-displacement"
+      ],
+      "geometry": {},
+      "masonry": {},
+      "loading": {
+        "description": "Identical setup."
+      },
+      "reinforcement": {
+        "type": "Continuous GFRP strips at the intrados, 2 strips x 50 mm, no anchors",
+        "totalFiberArea": {
+          "value": 14.9,
+          "unit": "mm2",
+          "kind": "derived",
+          "location": "Derived from 2 strips x 50 mm x 0.149 mm"
+        }
+      },
+      "observables": {
+        "peakLoad": {
+          "value": 4.63,
+          "unit": "kN",
+          "kind": "exact",
+          "location": "Basilio 2007 PhD thesis, Table 6.5 (specimen CSI-2)"
+        },
+        "failureMode": "Same as CSI-1: supports hinges, third hinge, strip detachment with brick ripping."
+      },
+      "curves": [
+        {
+          "id": "CSI-2-load-displacement",
+          "figure": "Oliveira et al. 2010, Figure 10a",
+          "content": "Load-displacement path of CSI-2",
+          "digitizationStatus": "not-digitized",
+          "datasetPath": null
+        }
+      ]
+    },
+    {
+      "id": "oliveira-2010/CSI-3",
+      "label": "Continuous intrados GFRP strengthening, 2 x 50 mm strips, with 4 spike anchors per strip (CSI-3)",
+      "kind": "experimental",
+      "tier": "B",
+      "tierRationale": "Spike anchors are hand-made dry-fiber anchors; our anchored terminations approximate them. Known difference: distributed spike action versus terminal anchorage.",
+      "phenomena": [
+        "hinging",
+        "debonding",
+        "reinforcement-activation",
+        "nonlinear-load-displacement"
+      ],
+      "geometry": {},
+      "masonry": {},
+      "loading": {
+        "description": "Identical setup."
+      },
+      "reinforcement": {
+        "type": "Continuous GFRP strips at the intrados, 2 strips x 50 mm, plus 4 aligned spike anchors per strip (dry glass fibers, 6 mm holes through the full thickness, epoxy filled)",
+        "totalFiberArea": {
+          "value": 14.9,
+          "unit": "mm2",
+          "kind": "derived",
+          "location": "Derived from 2 strips x 50 mm x 0.149 mm"
+        },
+        "anchorPerimeter": {
+          "value": 415,
+          "unit": "mm",
+          "kind": "exact",
+          "location": "Oliveira et al. 2010, Continuous intrados strengthening section (internal perimeter covered by the four anchors)"
+        }
+      },
+      "observables": {
+        "peakLoad": {
+          "value": 5.41,
+          "unit": "kN",
+          "kind": "exact",
+          "location": "Basilio 2007 PhD thesis, Table 6.5 (specimen CSI-3)"
+        },
+        "averageIncreaseWithAnchors": {
+          "value": 174,
+          "unit": "%",
+          "kind": "exact",
+          "location": "Oliveira et al. 2010, Continuous intrados strengthening section (CSI-3 and CSI-4 average)"
+        },
+        "failureMode": "Same detachment-driven mode but delayed; displacement at collapse roughly doubles versus the unanchored specimens."
+      },
+      "curves": [
+        {
+          "id": "CSI-3-load-displacement",
+          "figure": "Oliveira et al. 2010, Figure 10b",
+          "content": "Load-displacement path of CSI-3",
+          "digitizationStatus": "not-digitized",
+          "datasetPath": null
+        }
+      ]
+    },
+    {
+      "id": "oliveira-2010/CSI-4",
+      "label": "Continuous intrados GFRP strengthening, 2 x 50 mm strips, with 4 spike anchors per strip (CSI-4)",
+      "kind": "experimental",
+      "tier": "B",
+      "tierRationale": "Same as CSI-3.",
+      "phenomena": [
+        "hinging",
+        "debonding",
+        "reinforcement-activation",
+        "nonlinear-load-displacement"
+      ],
+      "geometry": {},
+      "masonry": {},
+      "loading": {
+        "description": "Identical setup."
+      },
+      "reinforcement": {
+        "type": "Continuous GFRP strips at the intrados, 2 strips x 50 mm, 4 spike anchors per strip",
+        "totalFiberArea": {
+          "value": 14.9,
+          "unit": "mm2",
+          "kind": "derived",
+          "location": "Derived from 2 strips x 50 mm x 0.149 mm"
+        }
+      },
+      "observables": {
+        "peakLoad": {
+          "value": 3.81,
+          "unit": "kN",
+          "kind": "exact",
+          "location": "Basilio 2007 PhD thesis, Table 6.5 (specimen CSI-4)"
+        },
+        "failureMode": "Same as CSI-3."
+      },
+      "curves": [
+        {
+          "id": "CSI-4-load-displacement",
+          "figure": "Oliveira et al. 2010, Figure 10b",
+          "content": "Load-displacement path of CSI-4",
+          "digitizationStatus": "not-digitized",
+          "datasetPath": null
+        }
+      ]
+    },
+    {
+      "id": "oliveira-2010/CSE-1",
+      "label": "Continuous extrados GFRP strengthening, 2 x 50 mm strips (CSE-1)",
+      "kind": "experimental",
+      "tier": "A",
+      "tierRationale": "Direct representation: continuous extrados FRP, failure by sliding along a mortar joint near the right support, which the Coulomb interface law can reproduce quantitatively.",
+      "phenomena": [
+        "hinging",
+        "sliding",
+        "reinforcement-activation",
+        "nonlinear-load-displacement"
+      ],
+      "geometry": {},
+      "masonry": {},
+      "loading": {
+        "description": "Identical setup."
+      },
+      "reinforcement": {
+        "type": "Continuous GFRP strips at the extrados, 2 strips x 50 mm",
+        "totalFiberArea": {
+          "value": 14.9,
+          "unit": "mm2",
+          "kind": "derived",
+          "location": "Derived from 2 strips x 50 mm x 0.149 mm"
+        }
+      },
+      "observables": {
+        "peakLoad": {
+          "value": 2.51,
+          "unit": "kN",
+          "kind": "exact",
+          "location": "Basilio 2007 PhD thesis, Table 6.5 (specimen CSE-1)"
+        },
+        "averageIncrease": {
+          "value": 89,
+          "unit": "%",
+          "kind": "exact",
+          "location": "Oliveira et al. 2010, Continuous extrados strengthening section (CSE-1 and CSE-2 average)"
+        },
+        "failureMode": "First hinge beneath the load, then hinges at supports; failure by sliding of one part of the arch along a mortar joint close to the right support (insufficient shear resistance).",
+        "displacementRatio": {
+          "value": 25,
+          "unit": "times unstrengthened displacement",
+          "kind": "exact",
+          "location": "Oliveira et al. 2010, Continuous extrados strengthening section (approximately twenty five times)"
+        }
+      },
+      "curves": [
+        {
+          "id": "CSE-1-load-displacement",
+          "figure": "Oliveira et al. 2010, Figure 12a",
+          "content": "Load-displacement path of CSE-1 with long post-peak branch",
+          "digitizationStatus": "not-digitized",
+          "datasetPath": null
+        }
+      ]
+    },
+    {
+      "id": "oliveira-2010/CSE-2",
+      "label": "Continuous extrados GFRP strengthening, 2 x 50 mm strips (CSE-2)",
+      "kind": "experimental",
+      "tier": "A",
+      "tierRationale": "Same as CSE-1.",
+      "phenomena": [
+        "hinging",
+        "sliding",
+        "reinforcement-activation",
+        "nonlinear-load-displacement"
+      ],
+      "geometry": {},
+      "masonry": {},
+      "loading": {
+        "description": "Identical setup."
+      },
+      "reinforcement": {
+        "type": "Continuous GFRP strips at the extrados, 2 strips x 50 mm",
+        "totalFiberArea": {
+          "value": 14.9,
+          "unit": "mm2",
+          "kind": "derived",
+          "location": "Derived from 2 strips x 50 mm x 0.149 mm"
+        }
+      },
+      "observables": {
+        "peakLoad": {
+          "value": 3.82,
+          "unit": "kN",
+          "kind": "exact",
+          "location": "Basilio 2007 PhD thesis, Table 6.5 (specimen CSE-2)"
+        },
+        "failureMode": "Same sliding-governed mode as CSE-1."
+      },
+      "curves": [
+        {
+          "id": "CSE-2-load-displacement",
+          "figure": "Oliveira et al. 2010, Figure 12a",
+          "content": "Load-displacement path of CSE-2",
+          "digitizationStatus": "not-digitized",
+          "datasetPath": null
+        }
+      ]
+    },
+    {
+      "id": "oliveira-2010/CSE-3",
+      "label": "Continuous extrados GFRP strengthening, 2 x 80 mm strips (CSE-3)",
+      "kind": "experimental",
+      "tier": "A",
+      "tierRationale": "Same as CSE-1; wider strips.",
+      "phenomena": [
+        "hinging",
+        "sliding",
+        "reinforcement-activation",
+        "nonlinear-load-displacement"
+      ],
+      "geometry": {},
+      "masonry": {},
+      "loading": {
+        "description": "Identical setup."
+      },
+      "reinforcement": {
+        "type": "Continuous GFRP strips at the extrados, 2 strips x 80 mm",
+        "totalFiberArea": {
+          "value": 23.84,
+          "unit": "mm2",
+          "kind": "derived",
+          "location": "Derived from 2 strips x 80 mm x 0.149 mm"
+        }
+      },
+      "observables": {
+        "peakLoad": {
+          "value": 3.62,
+          "unit": "kN",
+          "kind": "exact",
+          "location": "Basilio 2007 PhD thesis, Table 6.5 (specimen CSE-3)"
+        },
+        "averageIncrease": {
+          "value": 105,
+          "unit": "%",
+          "kind": "exact",
+          "location": "Oliveira et al. 2010, Continuous extrados strengthening section (CSE-3 and CSE-4 average)"
+        },
+        "failureMode": "Same sliding-governed mode; 60% more FRP area gives only moderate strength increase."
+      },
+      "curves": [
+        {
+          "id": "CSE-3-load-displacement",
+          "figure": "Oliveira et al. 2010, Figure 12b",
+          "content": "Load-displacement path of CSE-3",
+          "digitizationStatus": "not-digitized",
+          "datasetPath": null
+        }
+      ]
+    },
+    {
+      "id": "oliveira-2010/CSE-4",
+      "label": "Continuous extrados GFRP strengthening, 2 x 80 mm strips (CSE-4)",
+      "kind": "experimental",
+      "tier": "A",
+      "tierRationale": "Same as CSE-1.",
+      "phenomena": [
+        "hinging",
+        "sliding",
+        "reinforcement-activation",
+        "nonlinear-load-displacement"
+      ],
+      "geometry": {},
+      "masonry": {},
+      "loading": {
+        "description": "Identical setup."
+      },
+      "reinforcement": {
+        "type": "Continuous GFRP strips at the extrados, 2 strips x 80 mm",
+        "totalFiberArea": {
+          "value": 23.84,
+          "unit": "mm2",
+          "kind": "derived",
+          "location": "Derived from 2 strips x 80 mm x 0.149 mm"
+        }
+      },
+      "observables": {
+        "peakLoad": {
+          "value": 3.26,
+          "unit": "kN",
+          "kind": "exact",
+          "location": "Basilio 2007 PhD thesis, Table 6.5 (specimen CSE-4)"
+        },
+        "failureMode": "Same sliding-governed mode."
+      },
+      "curves": [
+        {
+          "id": "CSE-4-load-displacement",
+          "figure": "Oliveira et al. 2010, Figure 12b",
+          "content": "Load-displacement path of CSE-4",
+          "digitizationStatus": "not-digitized",
+          "datasetPath": null
+        }
+      ]
+    }
+  ],
+  "extractionNotes": [
+    "Full text of the published paper retrieved from the University of Minho repository (hdl.handle.net/1822/17430) on 2026-08-16.",
+    "Paper Tables 1 and 2 are not readable in the repository copy; per-specimen peak loads are taken from the authors' PhD thesis (Basilio 2007, hdl.handle.net/1822/8124, Table 6.5), which is the primary dataset of the same campaign. Every such value is marked with its thesis location.",
+    "Unit weight, friction angle, and cohesion were not found in the extracted text and are recorded as UNKNOWN.",
+    "Displacements at peak load are available only through the published load-displacement figures; digitization is planned and must be marked approximate-digitized with stated tolerance.",
+    "Hinge angular positions are available only from Figure 5a of the paper."
+  ]
+}

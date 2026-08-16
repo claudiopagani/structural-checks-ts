@@ -1,0 +1,37 @@
+{
+  "schemaVersion": "1.0.0",
+  "sourceId": "alecci-2016",
+  "recordStatus": "requires-full-text",
+  "citation": {
+    "authors": [
+      "Valerio Alecci",
+      "Francesco Focacci",
+      "Luisa Rovero",
+      "Gianfranco Stipo",
+      "Mario De Stefano"
+    ],
+    "year": 2016,
+    "title": "Extrados strengthening of brick masonry arches with PBO-FRCM composites: Experimental and analytical investigations",
+    "container": "Composite Structures",
+    "volume": "149",
+    "pages": "184-196",
+    "doi": "10.1016/j.compstruct.2016.04.030",
+    "publisher": "Elsevier",
+    "language": "English"
+  },
+  "document": {
+    "kind": "experimental+analytical",
+    "fullTextAccess": "open-bronze-publisher-blocked",
+    "fullTextUrl": "https://www.sciencedirect.com/science/article/pii/S0263822316302859",
+    "fullTextVersion": "version of record (free on publisher site)",
+    "accessNote": "Green OA on the publisher site, but automated retrieval from ScienceDirect is blocked (HTTP 403). Repository records (UniFi IRIS, uniecampus IRIS) carry no file. Full text must be obtained through the publisher page or the authors.",
+    "license": null
+  },
+  "abstract": "In the paper, the structural behavior of masonry arches strengthened at the extrados with a poliparafenilenbenzobisoxazole (PBO) fabric reinforced cementitious mortar composite is investigated through an experimental and analytical approach. The experimental tests were performed both on unstrengthened and strengthened masonry arches in order to evaluate the contribution of the strengthening material in terms of maximum load and post-peak behavior. The failure mechanisms were also analyzed and discussed. Beam tests were carried out in order to evaluate the bond capacity of the FRCM-masonry interface. The tested arches were analyzed using the approach of the limit analysis of the collapse mechanisms, which was able to accurately estimate the experimental collapse loads.",
+  "specimens": [],
+  "extractionNotes": [
+    "Abstract retrieved from the institutional repository record (IRIS uniecampus, hdl.handle.net/11389/19951) on 2026-08-16.",
+    "Full text required for: arch geometry (span/rise/thickness/width), masonry properties, PBO-FRCM textile and mortar properties, bond data, per-specimen collapse loads and post-peak curves.",
+    "Seed slot: extrados bonded (FRCM). Provisional tier: A/B (pending access)."
+  ]
+}

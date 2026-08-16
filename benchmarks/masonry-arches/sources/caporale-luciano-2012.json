@@ -1,0 +1,31 @@
+{
+  "schemaVersion": "1.0.0",
+  "sourceId": "caporale-luciano-2012",
+  "recordStatus": "requires-full-text",
+  "citation": {
+    "authors": ["A. Caporale", "R. Luciano"],
+    "year": 2012,
+    "title": "Limit analysis of masonry arches with finite compressive strength and externally bonded reinforcement",
+    "container": "Composites Part B: Engineering",
+    "volume": "43",
+    "pages": "3131-3145",
+    "doi": "10.1016/j.compositesb.2012.04.015",
+    "publisher": "Elsevier",
+    "language": "English"
+  },
+  "document": {
+    "kind": "analytical",
+    "fullTextAccess": "closed",
+    "fullTextUrl": null,
+    "fullTextVersion": null,
+    "accessNote": "No open-access copy found (2026-08-16).",
+    "license": null
+  },
+  "abstract": null,
+  "specimens": [],
+  "extractionNotes": [
+    "Full text required. Analytical limit-analysis benchmarks with finite masonry compressive strength and externally bonded reinforcement are the intended use.",
+    "Relevant for the compression-governed benchmark slot once geometry and parameters are extracted.",
+    "Provisional tier: A (analytical/numerical, geometry self-contained in the paper)."
+  ]
+}

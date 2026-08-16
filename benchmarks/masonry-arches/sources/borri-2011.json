@@ -1,0 +1,31 @@
+{
+  "schemaVersion": "1.0.0",
+  "sourceId": "borri-2011",
+  "recordStatus": "requires-full-text",
+  "citation": {
+    "authors": ["Antonio Borri", "Giulio Castori", "Marco Corradi"],
+    "year": 2011,
+    "title": "Intrados strengthening of brick masonry arches with composite materials",
+    "container": "Composites Part B: Engineering",
+    "volume": "42",
+    "pages": "1164-1172",
+    "doi": "10.1016/j.compositesb.2011.03.005",
+    "publisher": "Elsevier",
+    "language": "English"
+  },
+  "document": {
+    "kind": "experimental",
+    "fullTextAccess": "closed",
+    "fullTextUrl": null,
+    "fullTextVersion": null,
+    "accessNote": "No open-access copy found (2026-08-16). Key data (geometry, materials, Fmax, dFmax, and the strengthened curve) are quoted by simoncello-2020 and recorded there with kind 'quoted'.",
+    "license": null
+  },
+  "abstract": null,
+  "specimens": [],
+  "extractionNotes": [
+    "Primary source of the 2.0 m x 1.0 m brick arch tests with intrados FRP and spike anchors used in simoncello-2020.",
+    "Full text required to verify the quoted values and to extract the complete strengthened-curve dataset and loading details.",
+    "Provisional tier: B."
+  ]
+}

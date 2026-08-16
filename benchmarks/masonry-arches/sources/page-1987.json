@@ -1,0 +1,31 @@
+{
+  "schemaVersion": "1.0.0",
+  "sourceId": "page-1987",
+  "recordStatus": "requires-full-text",
+  "citation": {
+    "authors": ["J. Page"],
+    "year": 1987,
+    "title": "Load Tests to Collapse on Two Arch Bridges at Preston, Shropshire and Prestwood",
+    "container": "Research Report, Transport and Road Research Laboratory (TRRL)",
+    "volume": null,
+    "pages": null,
+    "doi": null,
+    "publisher": "Transport and Road Research Laboratory",
+    "language": "English"
+  },
+  "document": {
+    "kind": "experimental",
+    "fullTextAccess": "closed",
+    "fullTextUrl": null,
+    "fullTextVersion": null,
+    "accessNote": "Primary report of the Prestwood bridge collapse test. Key quoted values (geometry, 228 kN collapse load, load patch) are recorded in simoncello-2020 with kind 'quoted'.",
+    "license": null
+  },
+  "abstract": null,
+  "specimens": [],
+  "extractionNotes": [
+    "Primary source of the Prestwood full-scale bridge test.",
+    "Full text required to verify the quoted values and to recover the measured load-displacement record.",
+    "Provisional tier: B (backfill interaction)."
+  ]
+}

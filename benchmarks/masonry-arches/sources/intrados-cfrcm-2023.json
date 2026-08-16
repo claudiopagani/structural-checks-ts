@@ -1,0 +1,43 @@
+{
+  "schemaVersion": "1.0.0",
+  "sourceId": "intrados-cfrcm-2023",
+  "recordStatus": "requires-full-text",
+  "citation": {
+    "authors": [
+      "Paolo Zampieri",
+      "Davide Santinon",
+      "Riccardo Piazzon",
+      "Lorenzo Hofer",
+      "Klajdi Toska",
+      "Flora Faleschini",
+      "Carlo Pellegrino",
+      "Domenico Ricci",
+      "Francesco Iodice",
+      "Andrea Vecchi",
+      "Franco Iacobini"
+    ],
+    "year": 2023,
+    "title": "Intrados CFRCM strengthening of masonry arches",
+    "container": "Procedia Structural Integrity",
+    "volume": "44",
+    "pages": "926-933",
+    "doi": "10.1016/j.prostr.2023.01.120",
+    "publisher": "Elsevier",
+    "language": "English"
+  },
+  "document": {
+    "kind": "experimental",
+    "fullTextAccess": "open-bronze-publisher-blocked",
+    "fullTextUrl": "https://www.sciencedirect.com/science/article/pii/S2452321623001270",
+    "fullTextVersion": "version of record (gold open access)",
+    "accessNote": "Gold open access on ScienceDirect, but automated retrieval is blocked (HTTP 403). Full text must be obtained through the publisher page.",
+    "license": null
+  },
+  "abstract": null,
+  "specimens": [],
+  "extractionNotes": [
+    "Full text required. Short conference paper; expected to summarize CFRCM intrados arch tests of the Padua group.",
+    "Related extended version: intrados-frcm-bridge-2025 (Engineering Structures 323).",
+    "Provisional tier: B (pending access)."
+  ]
+}

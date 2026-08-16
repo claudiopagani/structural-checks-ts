@@ -1,0 +1,571 @@
+{
+  "schemaVersion": "1.0.0",
+  "sourceId": "carozzi-2018",
+  "recordStatus": "data-extracted",
+  "citation": {
+    "authors": ["Francesca Giulia Carozzi", "Carlo Poggi", "Elisa Bertolesi", "Gabriele Milani"],
+    "year": 2018,
+    "title": "Ancient masonry arches and vaults strengthened with TRM, SRG and FRP composites: Experimental evaluation",
+    "container": "Composite Structures",
+    "volume": "187",
+    "pages": "466-480",
+    "doi": "10.1016/j.compstruct.2017.12.075",
+    "publisher": "Elsevier",
+    "language": "English"
+  },
+  "document": {
+    "kind": "experimental",
+    "fullTextAccess": "open-repository-manuscript",
+    "fullTextUrl": "https://riunet.upv.es/handle/10251/121748",
+    "fullTextVersion": "accepted manuscript (author copy, 28 pages)",
+    "accessNote": "Author accepted manuscript retrieved from the Riunet repository on 2026-08-16. The published version is bronze open access on ScienceDirect but the publisher site blocks automated retrieval.",
+    "license": "BY-NC-ND 3.0 (repository copy)"
+  },
+  "abstract": "In particular, three barrel vaults and two arches either unreinforced or reinforced with Steel Reinforced Grout (SRG), Textile Reinforced Mortar (TRM) and Fiber Reinforced Polymer (FRP) were tested. The arches had a span equal to 3.30 m, a rise equal to 0.83 m and were built with common Italian bricks regularly spacing out two bricks laid edge on (thickness of the arch 12 cm) with two bricks (one over the other) disposed in single leaf. Barrel vaults had the same geometry of the arches but were made with a single leaf. In all cases, an eccentric vertical load was applied at 1/4 of the span and was increased up to failure.",
+  "specimens": [
+    {
+      "id": "carozzi-2018/U_A",
+      "label": "Unreinforced arch U_A",
+      "kind": "experimental",
+      "tier": "A",
+      "tierRationale": "Geometry, load position, and material characterization are fully specified; classic four-hinge collapse with documented hinge sequence. Direct quantitative comparison.",
+      "phenomena": ["hinging", "loss-of-equilibrium", "nonlinear-load-displacement"],
+      "geometry": {
+        "span": {
+          "value": 3300,
+          "unit": "mm",
+          "kind": "exact",
+          "location": "Section 2.1 (Geometry of the tested elements)"
+        },
+        "rise": {
+          "value": 830,
+          "unit": "mm",
+          "kind": "exact",
+          "location": "Section 2.1"
+        },
+        "thickness": {
+          "value": 120,
+          "unit": "mm",
+          "kind": "exact",
+          "location": "Section 2.1 (two bricks laid edge on)"
+        },
+        "outOfPlaneWidth": {
+          "value": 250,
+          "unit": "mm",
+          "kind": "exact",
+          "location": "Section 2.1"
+        },
+        "radius": {
+          "value": 1995,
+          "unit": "mm",
+          "kind": "exact",
+          "location": "Section 2.3 (arches represented as an arc of circumference with radius 1995 mm, used for LVDT angle positions)"
+        },
+        "brickSize": {
+          "value": null,
+          "unit": "mm",
+          "kind": "exact",
+          "location": "Section 2.1",
+          "notes": "Common Italian bricks 250 x 120 x 55 mm (three dimensions)."
+        },
+        "jointThickness": {
+          "value": 10,
+          "unit": "mm",
+          "kind": "exact",
+          "location": "Section 2.1 (10 mm thick mortar joints)"
+        },
+        "vaultThickness": {
+          "value": 60,
+          "unit": "mm",
+          "kind": "exact",
+          "location": "Section 2.1 (vault thickness; arch thickness is 120 mm)"
+        },
+        "vaultWidth": {
+          "value": 300,
+          "unit": "mm",
+          "kind": "exact",
+          "location": "Section 2.1"
+        }
+      },
+      "masonry": {
+        "brickCompressiveStrength": {
+          "value": 10.7,
+          "unit": "MPa",
+          "kind": "exact",
+          "location": "Section 2.2.1 (average of eight compressive tests)"
+        },
+        "brickElasticModulus": {
+          "value": 2016,
+          "unit": "MPa",
+          "kind": "exact",
+          "location": "Section 2.2.1"
+        },
+        "brickTensileStrength": {
+          "value": 0.8,
+          "unit": "MPa",
+          "kind": "exact",
+          "location": "Section 2.2.1 (Brazilian test)"
+        },
+        "masonryCompressionStressAtCollapse": {
+          "value": 3.5,
+          "unit": "MPa",
+          "kind": "exact",
+          "location": "Section 2.2.1 (collapse load of the masonry sample corresponds to about 3.5 MPa; note 'about')"
+        },
+        "mortarElasticModulus": {
+          "value": null,
+          "unit": "MPa",
+          "kind": "stated-range",
+          "location": "Section 2.2.1 (between 306 and 337 MPa)"
+        },
+        "mortarStrength": {
+          "value": null,
+          "unit": null,
+          "kind": "unknown",
+          "location": "n/a",
+          "notes": "Original lime mortar could not be characterized."
+        },
+        "unitWeight": {
+          "value": null,
+          "unit": null,
+          "kind": "unknown",
+          "location": "n/a",
+          "notes": "Not reported in the manuscript."
+        },
+        "frictionCoefficient": {
+          "value": null,
+          "unit": null,
+          "kind": "unknown",
+          "location": "n/a",
+          "notes": "Not characterized experimentally; see bertolesi-2018 for the friction-angle sensitivity that reproduces the tests."
+        },
+        "cohesion": {
+          "value": null,
+          "unit": null,
+          "kind": "unknown",
+          "location": "n/a"
+        }
+      },
+      "loading": {
+        "description": "Concentrated vertical load applied at 556 mm from the left abutment (approximately one quarter of the span) through a hydraulic manual jack with 100 kN load cell, contrast beam, and an extrados contrast element; two or three load-unload cycles before collapse.",
+        "loadPoint": "quarter span (556 mm from left abutment)",
+        "control": "force (manual jack, monotonic with load-unload cycles)"
+      },
+      "reinforcement": null,
+      "observables": {
+        "peakLoad": {
+          "value": 2.08,
+          "unit": "kN",
+          "kind": "exact",
+          "location": "Table 6 (collapse load Fmax, structure U_A)"
+        },
+        "displacementAtCollapse": {
+          "value": null,
+          "unit": "mm",
+          "kind": "exact",
+          "location": "Table 6 (four LVDT channels d1=2.36, d2=2.16, d3=-3.89, d4=-3.58 mm; negative downward)"
+        },
+        "stiffness": {
+          "value": 1281.74,
+          "unit": "N/mm",
+          "kind": "exact",
+          "location": "Table 6 (linear part of the load-displacement curve at the loaded point)"
+        },
+        "ductilityFactor": {
+          "value": 3.25,
+          "unit": "-",
+          "kind": "exact",
+          "location": "Table 6"
+        },
+        "failureMode": "Classic four-hinge mechanism: first hinge at extrados under the load at about 1.9 kN, second hinge at extrados near the right abutment, third at intrados at about 98 deg from the horizontal, fourth at the left abutment with complete detachment from the left springing.",
+        "hingeSequence": "First extrados under load (~1.9 kN); second extrados right abutment; third intrados alpha=98 deg; fourth left abutment/springing."
+      },
+      "curves": [
+        {
+          "id": "U_A-load-displacement",
+          "figure": "Carozzi et al. 2018, Figure 11 (experimental curves with four LVDT channels)",
+          "content": "Load vs vertical displacement at four instrumented locations",
+          "digitizationStatus": "not-digitized",
+          "datasetPath": null
+        }
+      ]
+    },
+    {
+      "id": "carozzi-2018/SRG_A",
+      "label": "Arch strengthened at the extrados with SRG (SRG_A)",
+      "kind": "experimental",
+      "tier": "B",
+      "tierRationale": "Direct geometry and load; SRG is represented through the sfrm bonded-layer family. Known differences: mortar cracking/tension stiffening is not modeled and the observed collapse involves concentrated masonry crushing at the loaded section plus abutment-wall detachment, i.e. support interaction beyond rigid supports.",
+      "phenomena": [
+        "compression-crushing",
+        "debonding",
+        "reinforcement-activation",
+        "nonlinear-load-displacement"
+      ],
+      "geometry": {},
+      "masonry": {},
+      "loading": {
+        "description": "Same setup as U_A; five loading-unloading cycles in the elastic phase with maximum residual displacement 0.35 mm."
+      },
+      "reinforcement": {
+        "type": "SRG (Steel Reinforced Grout) at the extrados: one layer of uniaxial steel textile between two 5+5 mm layers of inorganic lime mortar",
+        "textileArea": {
+          "value": 25.5,
+          "unit": "mm2",
+          "kind": "exact",
+          "location": "Section 2.1 (total cross section of the steel textile on the 250 mm wide arch)"
+        },
+        "cordArea": {
+          "value": 0.607,
+          "unit": "mm2",
+          "kind": "exact",
+          "location": "Section 2.1 (per cord: 19 twisted wires, about 6 mm spacing)"
+        },
+        "textileTensileStrength": {
+          "value": 1379.2,
+          "unit": "MPa",
+          "kind": "exact",
+          "location": "Table 2 (steel textile, COV 5.08%)"
+        },
+        "textileElasticModulus": {
+          "value": 152.91,
+          "unit": "GPa",
+          "kind": "exact",
+          "location": "Table 2 (steel textile, COV 2.13%)"
+        },
+        "limeMortarCompressiveStrength": {
+          "value": 7.48,
+          "unit": "MPa",
+          "kind": "exact",
+          "location": "Table 3"
+        },
+        "limeMortarElasticModulus": {
+          "value": 6.08,
+          "unit": "GPa",
+          "kind": "exact",
+          "location": "Table 3"
+        },
+        "systemFailureStress": {
+          "value": 1276,
+          "unit": "MPa",
+          "kind": "exact",
+          "location": "Section 2.2.3 (maximum stress reached in SRG tensile tests, slightly lower than dry textile strength)"
+        }
+      },
+      "observables": {
+        "peakLoad": {
+          "value": 8.83,
+          "unit": "kN",
+          "kind": "exact",
+          "location": "Table 6 (collapse load Fmax, structure SRG_A)"
+        },
+        "displacementAtCollapse": {
+          "value": null,
+          "unit": "mm",
+          "kind": "exact",
+          "location": "Table 6 (d1=0.71, d2=0.49, d3=-3.53, d4=-3.32 mm)"
+        },
+        "stiffness": {
+          "value": 4187.61,
+          "unit": "N/mm",
+          "kind": "exact",
+          "location": "Table 6"
+        },
+        "ductilityFactor": {
+          "value": 1.85,
+          "unit": "-",
+          "kind": "exact",
+          "location": "Table 6"
+        },
+        "failureMode": "First hinge at the loaded section at maximum load; second hinge at the left abutment; collapse by complete detachment of the abutment element from the lateral wall with concentrated masonry crushing at the loaded section; local reinforcement debonding near the right abutment only at collapse."
+      },
+      "curves": [
+        {
+          "id": "SRG_A-load-displacement",
+          "figure": "Carozzi et al. 2018, Figure 12",
+          "content": "Load vs vertical displacement at four instrumented locations including load-unload cycles",
+          "digitizationStatus": "not-digitized",
+          "datasetPath": null
+        }
+      ]
+    },
+    {
+      "id": "carozzi-2018/U_V",
+      "label": "Unreinforced barrel vault U_V",
+      "kind": "experimental",
+      "tier": "A",
+      "tierRationale": "Single-leaf vault, geometry fully specified; loaded with discrete masses. Direct quantitative comparison.",
+      "phenomena": ["hinging", "loss-of-equilibrium", "nonlinear-load-displacement"],
+      "geometry": {
+        "thickness": {
+          "value": 60,
+          "unit": "mm",
+          "kind": "exact",
+          "location": "Section 2.1"
+        },
+        "outOfPlaneWidth": {
+          "value": 300,
+          "unit": "mm",
+          "kind": "exact",
+          "location": "Section 2.1"
+        }
+      },
+      "masonry": {},
+      "loading": {
+        "description": "Not loaded with the hydraulic jack (very low expected capacity): masses of 0.07 kN and 0.04 kN manually added on a plate at one quarter of the span.",
+        "massIncrements": {
+          "value": null,
+          "unit": "kN",
+          "kind": "exact",
+          "location": "Section 2.3",
+          "notes": "Two mass sizes: 0.07 kN and 0.04 kN."
+        }
+      },
+      "reinforcement": null,
+      "observables": {
+        "peakLoad": {
+          "value": 0.39,
+          "unit": "kN",
+          "kind": "exact",
+          "location": "Table 6 (collapse load Fmax, structure U_V)"
+        },
+        "stiffness": {
+          "value": 324.24,
+          "unit": "N/mm",
+          "kind": "exact",
+          "location": "Table 6"
+        },
+        "displacementNote": "Collapse happened immediately after applying the last mass; Table 6 displacements are referred to a load of 0.35 kN, not to the maximum load."
+      },
+      "curves": [
+        {
+          "id": "U_V-load-displacement",
+          "figure": "Carozzi et al. 2018, Figure 16 (load-displacement curves)",
+          "content": "Load vs displacement for the unreinforced vault",
+          "digitizationStatus": "not-digitized",
+          "datasetPath": null
+        }
+      ]
+    },
+    {
+      "id": "carozzi-2018/FRP_V",
+      "label": "Vault strengthened at the extrados with CFRP (FRP_V)",
+      "kind": "experimental",
+      "tier": "B",
+      "tierRationale": "Failure occurs far below the CNR DT-200 debonding prediction; reproducing the premature failure requires the bond behavior of the aged lime-mortar substrate, which our single debonding-strain threshold can only approximate.",
+      "phenomena": [
+        "hinging",
+        "debonding",
+        "reinforcement-activation",
+        "nonlinear-load-displacement"
+      ],
+      "geometry": {
+        "thickness": {
+          "value": 60,
+          "unit": "mm",
+          "kind": "exact",
+          "location": "Section 2.1"
+        },
+        "outOfPlaneWidth": {
+          "value": 300,
+          "unit": "mm",
+          "kind": "exact",
+          "location": "Section 2.1"
+        }
+      },
+      "masonry": {},
+      "loading": {
+        "description": "Hydraulic jack setup, quarter-span load, monotonic with load-unload cycles."
+      },
+      "reinforcement": {
+        "type": "Unidirectional carbon FRP at the extrados, 100 mm wide, epoxy resin",
+        "textileEquivalentThickness": {
+          "value": 0.165,
+          "unit": "mm",
+          "kind": "exact",
+          "location": "Section 2.1"
+        },
+        "textileArea": {
+          "value": 16.5,
+          "unit": "mm2",
+          "kind": "exact",
+          "location": "Table 1 and Section 2.1"
+        },
+        "carbonTensileStrength": {
+          "value": 5580,
+          "unit": "MPa",
+          "kind": "exact",
+          "location": "Table 2 (data sheet value)"
+        },
+        "carbonElasticModulus": {
+          "value": 252,
+          "unit": "GPa",
+          "kind": "exact",
+          "location": "Table 2 (data sheet value)"
+        },
+        "couponTensileStrength": {
+          "value": 4174.31,
+          "unit": "MPa",
+          "kind": "exact",
+          "location": "Section 2.2.4 and Table 4 (average of 8 coupons, COV 5.6%)"
+        },
+        "couponElasticModulus": {
+          "value": 258.8,
+          "unit": "GPa",
+          "kind": "exact",
+          "location": "Section 2.2.4 and Table 4 (COV 2.5%)"
+        },
+        "analyticalDebondingStress": {
+          "value": 378.8,
+          "unit": "MPa",
+          "kind": "exact",
+          "location": "Section 2.2.4 (bond strength model, maximum transferable load 6.25 kN)"
+        }
+      },
+      "observables": {
+        "peakLoad": {
+          "value": 1.54,
+          "unit": "kN",
+          "kind": "exact",
+          "location": "Table 6 (collapse load Fmax, structure FRP_V)"
+        },
+        "stiffness": {
+          "value": 344.72,
+          "unit": "N/mm",
+          "kind": "exact",
+          "location": "Table 6"
+        },
+        "ductilityFactor": {
+          "value": 1.6,
+          "unit": "-",
+          "kind": "exact",
+          "location": "Table 6"
+        },
+        "failureMode": "Four-hinge mechanism; premature failure attributed to the weak ancient substrate (see bertolesi-2018 for the fitted equivalent reinforcement strength 187 MPa)."
+      },
+      "curves": [
+        {
+          "id": "FRP_V-load-displacement",
+          "figure": "Carozzi et al. 2018, Figure 16",
+          "content": "Load vs displacement for FRP_V",
+          "digitizationStatus": "not-digitized",
+          "datasetPath": null
+        }
+      ]
+    },
+    {
+      "id": "carozzi-2018/TRM_V",
+      "label": "Vault strengthened at the extrados with glass TRM (TRM_V)",
+      "kind": "experimental",
+      "tier": "B",
+      "tierRationale": "TRM shows trilinear tension stiffening (mortar cracking) that the bonded-layer model does not reproduce; quantitative comparison possible with the cracked-stiffness (E3) assumption, with the tension-stiffening branch as a known difference.",
+      "phenomena": ["hinging", "reinforcement-activation", "nonlinear-load-displacement"],
+      "geometry": {
+        "thickness": {
+          "value": 60,
+          "unit": "mm",
+          "kind": "exact",
+          "location": "Section 2.1"
+        },
+        "outOfPlaneWidth": {
+          "value": 300,
+          "unit": "mm",
+          "kind": "exact",
+          "location": "Section 2.1"
+        }
+      },
+      "masonry": {},
+      "loading": {
+        "description": "Hydraulic jack setup, quarter-span load."
+      },
+      "reinforcement": {
+        "type": "TRM at the extrados: balanced glass grid (20 mm spacing) embedded in lime mortar, 15 longitudinal yarns",
+        "glassEquivalentThickness": {
+          "value": 0.048,
+          "unit": "mm",
+          "kind": "exact",
+          "location": "Section 2.1 (in both directions)"
+        },
+        "textileArea": {
+          "value": 12.0,
+          "unit": "mm2",
+          "kind": "exact",
+          "location": "Table 1 and Section 2.1"
+        },
+        "glassTensileStrength": {
+          "value": 1442.49,
+          "unit": "MPa",
+          "kind": "exact",
+          "location": "Table 2 (COV 11.42%)"
+        },
+        "glassElasticModulus": {
+          "value": 75.43,
+          "unit": "GPa",
+          "kind": "exact",
+          "location": "Table 2 (COV 6.21%)"
+        },
+        "systemCrackedStiffnessE3": {
+          "value": 78.9,
+          "unit": "GPa",
+          "kind": "exact",
+          "location": "Section 2.2.3 (third phase stiffness, comparable to the textile modulus)"
+        },
+        "systemPhase1Stiffness": {
+          "value": 6.5,
+          "unit": "GPa",
+          "kind": "exact",
+          "location": "Section 2.2.3 (first phase, comparable to mortar)"
+        },
+        "systemPeakStress": {
+          "value": 414.71,
+          "unit": "MPa",
+          "kind": "exact",
+          "location": "Table 4 (sigma-T1, COV 9.8%)"
+        },
+        "shearBondPeakStress": {
+          "value": 335,
+          "unit": "MPa",
+          "kind": "exact",
+          "location": "Section 2.2.3 (average peak stress in shear tests, range 314-350 MPa, average slip 0.64 mm)"
+        }
+      },
+      "observables": {
+        "peakLoad": {
+          "value": 2.17,
+          "unit": "kN",
+          "kind": "exact",
+          "location": "Table 6 (collapse load Fmax, structure TRM_V)"
+        },
+        "stiffness": {
+          "value": 1181.82,
+          "unit": "N/mm",
+          "kind": "exact",
+          "location": "Table 6"
+        },
+        "ductilityFactor": {
+          "value": 3.19,
+          "unit": "-",
+          "kind": "exact",
+          "location": "Table 6"
+        },
+        "failureMode": "Four-hinge mechanism; reinforcement with progressive mortar cracking and textile slippage."
+      },
+      "curves": [
+        {
+          "id": "TRM_V-load-displacement",
+          "figure": "Carozzi et al. 2018, Figure 16",
+          "content": "Load vs displacement for TRM_V",
+          "digitizationStatus": "not-digitized",
+          "datasetPath": null
+        }
+      ]
+    }
+  ],
+  "extractionNotes": [
+    "Author accepted manuscript retrieved from Riunet on 2026-08-16; all locations refer to that manuscript's sections, tables, and figures.",
+    "The published version is bronze open access on ScienceDirect but automated retrieval is blocked; the manuscript was cross-checked against the repository abstract.",
+    "Masonry unit weight and joint friction are not reported and are recorded as UNKNOWN.",
+    "Brick dimensions, load eccentricity, radius, and LVDT positions are exact values from the manuscript.",
+    "Load-displacement curves (Figures 11, 12, 16) are digitizable; digitization is not performed in this step."
+  ]
+}

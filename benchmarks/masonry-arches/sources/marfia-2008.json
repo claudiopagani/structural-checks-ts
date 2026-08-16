@@ -1,0 +1,30 @@
+{
+  "schemaVersion": "1.0.0",
+  "sourceId": "marfia-2008",
+  "recordStatus": "requires-full-text",
+  "citation": {
+    "authors": ["Sonia Marfia", "Maria Ricamato", "Elio Sacco"],
+    "year": 2008,
+    "title": "Stress Analysis of Reinforced Masonry Arches",
+    "container": "International Journal for Computational Methods in Engineering Science and Mechanics",
+    "volume": "9",
+    "pages": "77-90",
+    "doi": "10.1080/15502280701752676",
+    "publisher": "Taylor & Francis",
+    "language": "English"
+  },
+  "document": {
+    "kind": "numerical",
+    "fullTextAccess": "closed",
+    "fullTextUrl": null,
+    "fullTextVersion": null,
+    "accessNote": "No open-access copy found (2026-08-16).",
+    "license": null
+  },
+  "abstract": null,
+  "specimens": [],
+  "extractionNotes": [
+    "Full text required. Numerical stress analysis of reinforced masonry arches; companion of the same group as cancelliere-2010.",
+    "Provisional tier: A (numerical benchmark)."
+  ]
+}

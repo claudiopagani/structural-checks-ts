@@ -1,0 +1,30 @@
+{
+  "schemaVersion": "1.0.0",
+  "sourceId": "persian-brick-arches-2023",
+  "recordStatus": "requires-full-text",
+  "citation": {
+    "authors": ["Houman Fazeli", "Esmaeel Izadi Zaman Abadi", "Seyed Jalil Hoseini"],
+    "year": 2023,
+    "title": "Experimental and numerical study of the effect of steel Tie-rods on load-bearing capacity of Persian brick arches",
+    "container": "Structures",
+    "volume": "48",
+    "pages": "64-78",
+    "doi": "10.1016/j.istruc.2022.12.038",
+    "publisher": "Elsevier",
+    "language": "English"
+  },
+  "document": {
+    "kind": "experimental+numerical",
+    "fullTextAccess": "closed",
+    "fullTextUrl": null,
+    "fullTextVersion": null,
+    "accessNote": "No open-access copy found (2026-08-16).",
+    "license": null
+  },
+  "abstract": null,
+  "specimens": [],
+  "extractionNotes": [
+    "Full text required. Seed source for the tie-rod slot on traditional Persian (brick) arches.",
+    "Provisional tier: B."
+  ]
+}

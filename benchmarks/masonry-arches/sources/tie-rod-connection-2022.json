@@ -1,0 +1,30 @@
+{
+  "schemaVersion": "1.0.0",
+  "sourceId": "tie-rod-connection-2022",
+  "recordStatus": "requires-full-text",
+  "citation": {
+    "authors": ["Fatih Kursat Firat", "Mehtap Sancar Kayabasi"],
+    "year": 2022,
+    "title": "Investigation of tie-rod connection types on stone masonry arches",
+    "container": "Structures",
+    "volume": "45",
+    "pages": "2185-2197",
+    "doi": "10.1016/j.istruc.2022.10.044",
+    "publisher": "Elsevier",
+    "language": "English"
+  },
+  "document": {
+    "kind": "experimental",
+    "fullTextAccess": "closed",
+    "fullTextUrl": null,
+    "fullTextVersion": null,
+    "accessNote": "No open-access copy found (2026-08-16).",
+    "license": null
+  },
+  "abstract": null,
+  "specimens": [],
+  "extractionNotes": [
+    "Full text required. Seed source for the tie-rod slot; focuses on connection-type effects on stone arches.",
+    "Provisional tier: B (anchor/connection detail dependent)."
+  ]
+}

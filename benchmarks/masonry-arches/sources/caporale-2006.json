@@ -1,0 +1,30 @@
+{
+  "schemaVersion": "1.0.0",
+  "sourceId": "caporale-2006",
+  "recordStatus": "requires-full-text",
+  "citation": {
+    "authors": ["A. Caporale", "R. Luciano", "L. Rosati"],
+    "year": 2006,
+    "title": "Limit analysis of masonry arches with externally bonded FRP reinforcements",
+    "container": "Computer Methods in Applied Mechanics and Engineering",
+    "volume": "196",
+    "pages": "247-260",
+    "doi": "10.1016/j.cma.2006.03.003",
+    "publisher": "Elsevier",
+    "language": "English"
+  },
+  "document": {
+    "kind": "analytical",
+    "fullTextAccess": "closed",
+    "fullTextUrl": null,
+    "fullTextVersion": null,
+    "accessNote": "No open-access copy found (2026-08-16).",
+    "license": null
+  },
+  "abstract": null,
+  "specimens": [],
+  "extractionNotes": [
+    "Full text required. Classic analytical benchmark for FRP-bonded arches; widely referenced in the later literature.",
+    "Provisional tier: A (analytical, self-contained geometry)."
+  ]
+}

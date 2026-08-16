@@ -1,0 +1,114 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://structural-checks-ts.invalid/benchmarks/masonry-arches/schema/dataset-sidecar.schema.json",
+  "title": "Masonry-arches digitized dataset sidecar",
+  "description": "Sidecar for a digitized curve dataset. Digitization is manual or semi-automatic reading of a published figure; every dataset must carry provenance, estimated tolerance, axis units, and the exact figure it was read from. Data files themselves are plain CSV with a header row.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "datasetId",
+    "csvPath",
+    "sourceId",
+    "specimenId",
+    "figure",
+    "axes",
+    "digitization",
+    "provenance"
+  ],
+  "properties": {
+    "schemaVersion": {
+      "const": "1.0.0"
+    },
+    "datasetId": {
+      "type": "string"
+    },
+    "csvPath": {
+      "type": "string",
+      "description": "CSV path relative to datasets/."
+    },
+    "sourceId": {
+      "type": "string"
+    },
+    "specimenId": {
+      "type": "string"
+    },
+    "figure": {
+      "type": "string",
+      "description": "Exact figure reference in the paper."
+    },
+    "axes": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["x", "y"],
+      "properties": {
+        "x": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["quantity", "unit"],
+          "properties": {
+            "quantity": {
+              "type": "string"
+            },
+            "unit": {
+              "type": "string"
+            }
+          }
+        },
+        "y": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["quantity", "unit"],
+          "properties": {
+            "quantity": {
+              "type": "string"
+            },
+            "unit": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "digitization": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["method", "pointCount", "estimatedTolerance", "status"],
+      "properties": {
+        "method": {
+          "type": "string",
+          "description": "Tool and approach used to read the figure."
+        },
+        "pointCount": {
+          "type": "integer"
+        },
+        "estimatedTolerance": {
+          "type": "string",
+          "description": "Estimated reading error, e.g. '+/-3% of axis span'. Must be stated, not assumed zero."
+        },
+        "status": {
+          "enum": ["approximate-digitized"]
+        },
+        "notes": {
+          "type": "string"
+        }
+      }
+    },
+    "provenance": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["kind", "location"],
+      "properties": {
+        "kind": {
+          "enum": ["approximate-digitized"]
+        },
+        "location": {
+          "type": "string"
+        },
+        "sourceAccess": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}

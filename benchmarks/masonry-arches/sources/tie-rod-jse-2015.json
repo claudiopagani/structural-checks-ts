@@ -1,0 +1,31 @@
+{
+  "schemaVersion": "1.0.0",
+  "sourceId": "tie-rod-jse-2015",
+  "recordStatus": "requires-full-text",
+  "citation": {
+    "authors": ["Authors per publisher record"],
+    "year": 2015,
+    "title": "Seismic Response of Masonry Arches Reinforced by Tie-Rods: Static Tests on a Scale Model",
+    "container": "Journal of Structural Engineering",
+    "volume": null,
+    "pages": null,
+    "doi": "10.1061/(ASCE)ST.1943-541X.0001079",
+    "publisher": "ASCE",
+    "language": "English"
+  },
+  "document": {
+    "kind": "experimental",
+    "fullTextAccess": "closed",
+    "fullTextUrl": null,
+    "fullTextVersion": null,
+    "accessNote": "Identified through a bibliographic search as an additional tie-rod candidate (2026-08-16). No open-access copy found.",
+    "license": null
+  },
+  "abstract": null,
+  "specimens": [],
+  "extractionNotes": [
+    "Additional candidate beyond the seed list for the tie-rod benchmark slot.",
+    "Full text required; author metadata to be completed from the publisher record when accessed.",
+    "Provisional tier: B."
+  ]
+}

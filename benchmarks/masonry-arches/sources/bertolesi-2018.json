@@ -1,0 +1,196 @@
+{
+  "schemaVersion": "1.0.0",
+  "sourceId": "bertolesi-2018",
+  "recordStatus": "data-extracted",
+  "citation": {
+    "authors": ["Elisa Bertolesi", "Gabriele Milani", "Francesca Giulia Carozzi", "Carlo Poggi"],
+    "year": 2018,
+    "title": "Ancient masonry arches and vaults strengthened with TRM, SRG and FRP composites: Numerical analyses",
+    "container": "Composite Structures",
+    "volume": "187",
+    "pages": "385-402",
+    "doi": "10.1016/j.compstruct.2017.12.021",
+    "publisher": "Elsevier",
+    "language": "English"
+  },
+  "document": {
+    "kind": "numerical",
+    "fullTextAccess": "open-repository-manuscript",
+    "fullTextUrl": "https://riunet.upv.es/handle/10251/143788",
+    "fullTextVersion": "accepted manuscript (author copy, 36 pages)",
+    "accessNote": "Author accepted manuscript retrieved from Riunet on 2026-08-16.",
+    "license": "repository copy of the accepted manuscript"
+  },
+  "abstract": "The two arches and the three vaults experimentally described in Carozzi et al. (2017) are here analyzed with a novel robust FE lower bound limit analysis code, suitable to predict active failure mechanisms, lines of thrust and collapse loads in absence and presence of TRM, SRG and FRP reinforcement. (...) Debonding and delamination of the reinforcement are considered in a conventional way, assuming trusses with a limited tensile strength (...) 2D FE static analyses with non-linearity and softening concentrated exclusively on hinges are carried out, to simply extend the knowledge beyond collapse loads estimation towards a prediction of initial stiffness and ultimate displacements.",
+  "specimens": [
+    {
+      "id": "bertolesi-2018/U_A-numerical",
+      "label": "Lower-bound limit analysis of the unreinforced arch U_A",
+      "kind": "numerical",
+      "tier": "A",
+      "tierRationale": "Independent numerical benchmark for the same arch as carozzi-2018/U_A. Our rigid-plastic limit analysis can be compared directly against their lower-bound collapse load and thrust line.",
+      "phenomena": ["hinging", "loss-of-equilibrium"],
+      "geometry": {},
+      "masonry": {
+        "model": "Rigid-infinitely resistant quadrilateral elements with segmental interfaces; NTM model plus sensitivity on tensile strength ft from 0.001 to 0.1 MPa and finite compressive strength fc from 0.5 to 5 MPa."
+      },
+      "loading": {
+        "description": "Same quarter-span concentrated load as the companion experiment carozzi-2018."
+      },
+      "reinforcement": null,
+      "observables": {
+        "collapseLoadNTM": {
+          "value": 1725,
+          "unit": "N",
+          "kind": "exact",
+          "location": "Section 3.1 (NTM collapse load 1.725 kN, infinite compressive strength)"
+        },
+        "fittedTensileStrength": {
+          "value": 0.0077,
+          "unit": "MPa",
+          "kind": "exact",
+          "location": "Section 3.1 (masonry tensile strength reproducing the experimental collapse load)"
+        },
+        "fittedCollapseLoad": {
+          "value": 2300,
+          "unit": "N",
+          "kind": "exact",
+          "location": "Section 3.1 (collapse load at ft=0.0077 MPa; note the slight difference from the experimental 2.08 kN in Table 6 of carozzi-2018)"
+        },
+        "sensitivityNote": "Compressive strength below 2 MPa is required to deviate perceivably from the infinite-strength result (Figure 8b).",
+        "hingePositions": "Four hinges; positions unchanged by ft; identifiable in Figures 6 and 7 (digitize for exact angles)."
+      },
+      "curves": []
+    },
+    {
+      "id": "bertolesi-2018/U_V-numerical",
+      "label": "Lower-bound limit analysis of the unreinforced vault U_V",
+      "kind": "numerical",
+      "tier": "A",
+      "tierRationale": "Numerical benchmark for the unreinforced 60 mm vault.",
+      "phenomena": ["hinging", "loss-of-equilibrium"],
+      "geometry": {},
+      "masonry": {
+        "model": "Same LB FE approach as U_A."
+      },
+      "loading": {
+        "description": "Quarter-span concentrated load as in carozzi-2018."
+      },
+      "reinforcement": null,
+      "observables": {
+        "collapseLoadNTM": {
+          "value": 261,
+          "unit": "N",
+          "kind": "exact",
+          "location": "Section 3.2 (ft=0.001 MPa)"
+        },
+        "collapseLoadHighTension": {
+          "value": 919,
+          "unit": "N",
+          "kind": "exact",
+          "location": "Section 3.2 (ft=0.1 MPa)"
+        },
+        "fittedTensileStrength": {
+          "value": 0.02,
+          "unit": "MPa",
+          "kind": "exact",
+          "location": "Section 3.2 (about 0.02 MPa reproduces the experimental 0.39 kN)"
+        },
+        "hingePositions": "Two at the abutments, one under the concentrated load, one at 97 deg from the left abutment (Section 3.2)."
+      },
+      "curves": []
+    },
+    {
+      "id": "bertolesi-2018/SRG_A-numerical",
+      "label": "Lower-bound limit analysis of the SRG-reinforced arch SRG_A",
+      "kind": "numerical",
+      "tier": "B",
+      "tierRationale": "Reinforcement as perfectly-bonded rigid-plastic trusses with a conventional equivalent strength; our bonded layer is comparable but not identical.",
+      "phenomena": ["hinging", "sliding", "reinforcement-activation"],
+      "geometry": {},
+      "masonry": {
+        "model": "LB FE with masonry ft=0.077 MPa (fitted on U_A), sensitivity on fc and on joint friction angle with cohesion set equal to ft."
+      },
+      "loading": {
+        "description": "Quarter-span concentrated load as in the experiment."
+      },
+      "reinforcement": {
+        "model": "Rigid-plastic trusses perfectly bonded, equivalent ultimate tensile strength sigma-reinf varied; ultimate force per unit depth Freinf = sigma-reinf * ad."
+      },
+      "observables": {
+        "fittedEquivalentStrength": {
+          "value": 172,
+          "unit": "MPa",
+          "kind": "exact",
+          "location": "Section 3.3 (sigma-reinf reproducing the experimental collapse load with infinite fc)"
+        },
+        "slidingNote": "For low/medium friction angles the collapse becomes sliding-governed, concentrated at abutments or under the point load, with a collapse-load plateau independent of reinforcement strength.",
+        "fittedFrictionAngle": {
+          "value": null,
+          "unit": "deg",
+          "kind": "stated-range",
+          "location": "Section 3.3 (perfect agreement with experiments for friction angles between 20 and 22.5 deg)"
+        }
+      },
+      "curves": []
+    },
+    {
+      "id": "bertolesi-2018/FRP_V-numerical",
+      "label": "Lower-bound limit analysis of the CFRP-reinforced vault FRP_V",
+      "kind": "numerical",
+      "tier": "B",
+      "tierRationale": "Same truss-reinforcement approximation; FRP collapses experimentally far before the CNR DT-200 debonding strength, reproduced numerically only by allowing sliding.",
+      "phenomena": ["hinging", "sliding", "debonding", "reinforcement-activation"],
+      "geometry": {},
+      "masonry": {},
+      "loading": {
+        "description": "Quarter-span concentrated load."
+      },
+      "reinforcement": {
+        "model": "Rigid-plastic trusses with equivalent strength; CNR DT-200 debonding strength indicated as reference."
+      },
+      "observables": {
+        "fittedEquivalentStrength": {
+          "value": 187,
+          "unit": "MPa",
+          "kind": "exact",
+          "location": "Section 3.4 (sigma-r reproducing the experimental collapse load)"
+        },
+        "frictionNote": "With sliding allowed, experimental collapse load reproduced with friction angle between 17.5 and 20 deg and the CNR DT-200 debonding strength (Section 3.4)."
+      },
+      "curves": []
+    },
+    {
+      "id": "bertolesi-2018/TRM_V-numerical",
+      "label": "Lower-bound limit analysis of the glass-TRM-reinforced vault TRM_V",
+      "kind": "numerical",
+      "tier": "B",
+      "tierRationale": "Same truss approximation; TRM matches well even without sliding.",
+      "phenomena": ["hinging", "reinforcement-activation"],
+      "geometry": {},
+      "masonry": {},
+      "loading": {
+        "description": "Quarter-span concentrated load."
+      },
+      "reinforcement": {
+        "model": "Rigid-plastic trusses with equivalent strength sigma-reinf; sigma-T1 (debonding between masonry and reinforcement) and sigma-u (textile failure) taken from the companion paper."
+      },
+      "observables": {
+        "fittedEquivalentStrength": {
+          "value": 386,
+          "unit": "MPa",
+          "kind": "exact",
+          "location": "Section 3.4 (sigma-r reproducing the experimental collapse load, almost perfect match for sigma-reinf = sigma-T1)"
+        },
+        "frictionNote": "TRM case reproduced well even with a model disregarding shear failure; with sliding, friction angles 17.5-20 deg."
+      },
+      "curves": []
+    }
+  ],
+  "extractionNotes": [
+    "Author accepted manuscript retrieved from Riunet on 2026-08-16.",
+    "Numerical results are exact values read from the text of Sections 3.1-3.4.",
+    "Figures contain the full sensitivity curves (collapse load vs ft, fc, sigma-reinf, friction); digitizable if quantitative comparison on the whole sensitivity range is desired.",
+    "The manuscript cites the experimental companion as 'Carozzi et al. 2017' (published 2018)."
+  ]
+}

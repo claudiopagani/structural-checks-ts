@@ -1,0 +1,30 @@
+{
+  "schemaVersion": "1.0.0",
+  "sourceId": "caporale-2012",
+  "recordStatus": "requires-full-text",
+  "citation": {
+    "authors": ["A. Caporale", "L. Feo", "R. Luciano"],
+    "year": 2012,
+    "title": "Limit analysis of FRP strengthened masonry arches via nonlinear and linear programming",
+    "container": "Composites Part B: Engineering",
+    "volume": "43",
+    "pages": "439-446",
+    "doi": "10.1016/j.compositesb.2011.05.019",
+    "publisher": "Elsevier",
+    "language": "English"
+  },
+  "document": {
+    "kind": "analytical",
+    "fullTextAccess": "closed",
+    "fullTextUrl": null,
+    "fullTextVersion": null,
+    "accessNote": "No open-access copy found (2026-08-16).",
+    "license": null
+  },
+  "abstract": null,
+  "specimens": [],
+  "extractionNotes": [
+    "Full text required. Numerical limit-analysis (NLP/LP) benchmarks for FRP-strengthened arches.",
+    "Provisional tier: A (numerical, self-contained geometry)."
+  ]
+}

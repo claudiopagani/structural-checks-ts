@@ -1,0 +1,762 @@
+{
+  "schemaVersion": "1.0.0",
+  "corpusId": "masonry-arches-benchmark-corpus",
+  "title": "Scientific benchmark corpus for masonry arches",
+  "status": "draft",
+  "generatedOn": "2026-08-16",
+  "provenancePolicy": {
+    "rule": "Every quantitative value carries its own provenance: source, location (table/figure/section/page), reading kind, and unit. Missing values are recorded as null with kind 'unknown', never guessed.",
+    "readingKinds": {
+      "exact": "read directly from the full text (body text or table).",
+      "digitized": "read from a figure by digitization with a measured tolerance recorded in a dataset sidecar.",
+      "approximate-digitized": "read from a figure without measured tolerance; a stated estimated tolerance is mandatory.",
+      "derived": "computed by this corpus from exact values; the formula is stated in the value notes.",
+      "quoted": "taken from a secondary source that quotes the primary paper; both the primary and the quoting location are recorded and re-verification against the primary is required before acceptance use.",
+      "stated-range": "the paper states a range; endpoints are recorded where available.",
+      "unknown": "the datum was not found in the accessible record; value is null with an explanatory note."
+    },
+    "prohibitions": [
+      "No value may be inferred from qualitative text.",
+      "No value may be taken from a secondary paper without recording both the secondary and primary provenance.",
+      "No copyrighted figures, page scans, or full paper copies are stored in this repository; only extracted numerical data, metadata, bibliographic references, and this corpus' own elaborations.",
+      "Digitized datasets must ship with a dataset sidecar carrying provenance and estimated tolerance."
+    ]
+  },
+  "tierDefinitions": {
+    "A": {
+      "label": "Direct quantitative",
+      "meaning": "The structural-checks-ts masonry-arch model can directly represent geometry, loading, materials, and reinforcement of the test; direct quantitative comparison of capacity, mechanism, and failure mode."
+    },
+    "B": {
+      "label": "Partial quantitative",
+      "meaning": "Quantitative comparison is possible but known differences exist: deformable piers, backfill interaction, anchorage details, complex bond behavior, pre-damage, secondary-quoted data, etc."
+    },
+    "C": {
+      "label": "Qualitative / mechanism",
+      "meaning": "The model cannot represent the test closely enough for a direct load comparison; useful for mechanism, hinge position, reinforcement activation, URM-vs-strengthened variation, and failure mode."
+    }
+  },
+  "sources": [
+    {
+      "sourceId": "oliveira-2010",
+      "recordPath": "sources/oliveira-2010.json",
+      "shortCitation": "Oliveira, Basilio, Lourenco (2010), J. Compos. Constr. 14(3) 312-322",
+      "doi": "10.1061/(ASCE)CC.1943-5614.0000086",
+      "kind": "experimental",
+      "recordStatus": "data-extracted",
+      "fullTextAccess": "open-repository-final",
+      "specimens": [
+        "oliveira-2010/US-1",
+        "oliveira-2010/US-2",
+        "oliveira-2010/LS-1",
+        "oliveira-2010/LS-2",
+        "oliveira-2010/CSI-1",
+        "oliveira-2010/CSI-2",
+        "oliveira-2010/CSI-3",
+        "oliveira-2010/CSI-4",
+        "oliveira-2010/CSE-1",
+        "oliveira-2010/CSE-2",
+        "oliveira-2010/CSE-3",
+        "oliveira-2010/CSE-4"
+      ]
+    },
+    {
+      "sourceId": "basilio-2007-thesis",
+      "recordPath": "sources/basilio-2007-thesis.json",
+      "shortCitation": "Basilio (2007), PhD thesis, University of Minho",
+      "doi": null,
+      "kind": "experimental+numerical",
+      "recordStatus": "data-extracted",
+      "fullTextAccess": "open-repository-final",
+      "specimens": []
+    },
+    {
+      "sourceId": "carozzi-2018",
+      "recordPath": "sources/carozzi-2018.json",
+      "shortCitation": "Carozzi, Poggi, Bertolesi, Milani (2018), Compos. Struct. 187 466-480",
+      "doi": "10.1016/j.compstruct.2017.12.075",
+      "kind": "experimental",
+      "recordStatus": "data-extracted",
+      "fullTextAccess": "open-repository-manuscript",
+      "specimens": [
+        "carozzi-2018/U_A",
+        "carozzi-2018/SRG_A",
+        "carozzi-2018/U_V",
+        "carozzi-2018/FRP_V",
+        "carozzi-2018/TRM_V"
+      ]
+    },
+    {
+      "sourceId": "bertolesi-2018",
+      "recordPath": "sources/bertolesi-2018.json",
+      "shortCitation": "Bertolesi, Milani, Carozzi, Poggi (2018), Compos. Struct. 187 385-402",
+      "doi": "10.1016/j.compstruct.2017.12.021",
+      "kind": "numerical",
+      "recordStatus": "data-extracted",
+      "fullTextAccess": "open-repository-manuscript",
+      "specimens": [
+        "bertolesi-2018/U_A-numerical",
+        "bertolesi-2018/U_V-numerical",
+        "bertolesi-2018/SRG_A-numerical",
+        "bertolesi-2018/FRP_V-numerical",
+        "bertolesi-2018/TRM_V-numerical"
+      ]
+    },
+    {
+      "sourceId": "simoncello-2020",
+      "recordPath": "sources/simoncello-2020.json",
+      "shortCitation": "Simoncello, Zampieri, Gonzalez-Libreros, Perboni, Pellegrino (2020), Front. Built Environ. 6:7",
+      "doi": "10.3389/fbuil.2020.00007",
+      "kind": "experimental+numerical",
+      "recordStatus": "data-extracted",
+      "fullTextAccess": "open-gold",
+      "specimens": [
+        "simoncello-2020/borri-2011-arch-URM",
+        "simoncello-2020/borri-2011-arch-FRP",
+        "simoncello-2020/prestwood-URM",
+        "simoncello-2020/prestwood-FRP-numerical"
+      ]
+    },
+    {
+      "sourceId": "borri-2011",
+      "recordPath": "sources/borri-2011.json",
+      "shortCitation": "Borri, Castori, Corradi (2011), Compos. Part B 42(5) 1164-1172",
+      "doi": "10.1016/j.compositesb.2011.03.005",
+      "kind": "experimental",
+      "recordStatus": "requires-full-text",
+      "fullTextAccess": "closed",
+      "specimens": []
+    },
+    {
+      "sourceId": "page-1987",
+      "recordPath": "sources/page-1987.json",
+      "shortCitation": "Page (1987), TRRL Research Report, Prestwood bridge load test",
+      "doi": null,
+      "kind": "experimental",
+      "recordStatus": "requires-full-text",
+      "fullTextAccess": "closed",
+      "specimens": []
+    },
+    {
+      "sourceId": "cancelliere-2010",
+      "recordPath": "sources/cancelliere-2010.json",
+      "shortCitation": "Cancelliere, Imbimbo, Sacco (2010), Eng. Struct. 32(3) 776-792",
+      "doi": "10.1016/j.engstruct.2009.12.005",
+      "kind": "experimental+numerical",
+      "recordStatus": "requires-full-text",
+      "fullTextAccess": "closed",
+      "specimens": []
+    },
+    {
+      "sourceId": "ural-2016",
+      "recordPath": "sources/ural-2016.json",
+      "shortCitation": "Ural, Firat, Tugrulelci, Kara (2016), Eng. Struct. 110 209-221",
+      "doi": "10.1016/j.engstruct.2015.11.038",
+      "kind": "experimental+numerical",
+      "recordStatus": "requires-full-text",
+      "fullTextAccess": "closed",
+      "specimens": []
+    },
+    {
+      "sourceId": "alecci-2016",
+      "recordPath": "sources/alecci-2016.json",
+      "shortCitation": "Alecci, Focacci, Rovero, Stipo, De Stefano (2016), Compos. Struct. 149 184-196",
+      "doi": "10.1016/j.compstruct.2016.04.030",
+      "kind": "experimental+analytical",
+      "recordStatus": "requires-full-text",
+      "fullTextAccess": "open-bronze-publisher-blocked",
+      "specimens": []
+    },
+    {
+      "sourceId": "alecci-2017",
+      "recordPath": "sources/alecci-2017.json",
+      "shortCitation": "Alecci, Focacci, Rovero, Stipo, De Stefano (2017), Compos. Struct. 176 898-909",
+      "doi": "10.1016/j.compstruct.2017.06.023",
+      "kind": "experimental+analytical",
+      "recordStatus": "requires-full-text",
+      "fullTextAccess": "closed",
+      "specimens": []
+    },
+    {
+      "sourceId": "dambrisi-2015",
+      "recordPath": "sources/dambrisi-2015.json",
+      "shortCitation": "D'Ambrisi, Focacci, Luciano, Alecci, De Stefano (2015), Compos. Part B 75 355-366",
+      "doi": "10.1016/j.compositesb.2015.01.024",
+      "kind": "analytical",
+      "recordStatus": "requires-full-text",
+      "fullTextAccess": "closed",
+      "specimens": []
+    },
+    {
+      "sourceId": "caporale-2006",
+      "recordPath": "sources/caporale-2006.json",
+      "shortCitation": "Caporale, Luciano, Rosati (2006), CMAME 196(1-3) 247-260",
+      "doi": "10.1016/j.cma.2006.03.003",
+      "kind": "analytical",
+      "recordStatus": "requires-full-text",
+      "fullTextAccess": "closed",
+      "specimens": []
+    },
+    {
+      "sourceId": "marfia-2008",
+      "recordPath": "sources/marfia-2008.json",
+      "shortCitation": "Marfia, Ricamato, Sacco (2008), Int. J. Comput. Methods Eng. Sci. Mech. 9(2) 77-90",
+      "doi": "10.1080/15502280701752676",
+      "kind": "numerical",
+      "recordStatus": "requires-full-text",
+      "fullTextAccess": "closed",
+      "specimens": []
+    },
+    {
+      "sourceId": "caporale-2012",
+      "recordPath": "sources/caporale-2012.json",
+      "shortCitation": "Caporale, Feo, Luciano (2012), Compos. Part B 43(2) 439-446",
+      "doi": "10.1016/j.compositesb.2011.05.019",
+      "kind": "analytical",
+      "recordStatus": "requires-full-text",
+      "fullTextAccess": "closed",
+      "specimens": []
+    },
+    {
+      "sourceId": "caporale-luciano-2012",
+      "recordPath": "sources/caporale-luciano-2012.json",
+      "shortCitation": "Caporale, Luciano (2012), Compos. Part B 43(8) 3131-3145",
+      "doi": "10.1016/j.compositesb.2012.04.015",
+      "kind": "analytical",
+      "recordStatus": "requires-full-text",
+      "fullTextAccess": "closed",
+      "specimens": []
+    },
+    {
+      "sourceId": "tie-rod-connection-2022",
+      "recordPath": "sources/tie-rod-connection-2022.json",
+      "shortCitation": "Firat, Sancar Kayabasi (2022), Structures 45 2185-2197",
+      "doi": "10.1016/j.istruc.2022.10.044",
+      "kind": "experimental",
+      "recordStatus": "requires-full-text",
+      "fullTextAccess": "closed",
+      "specimens": []
+    },
+    {
+      "sourceId": "persian-brick-arches-2023",
+      "recordPath": "sources/persian-brick-arches-2023.json",
+      "shortCitation": "Fazeli, Izadi Zaman Abadi, Hoseini (2023), Structures 48 64-78",
+      "doi": "10.1016/j.istruc.2022.12.038",
+      "kind": "experimental+numerical",
+      "recordStatus": "requires-full-text",
+      "fullTextAccess": "closed",
+      "specimens": []
+    },
+    {
+      "sourceId": "intrados-cfrcm-2023",
+      "recordPath": "sources/intrados-cfrcm-2023.json",
+      "shortCitation": "Zampieri et al. (2023), Procedia Struct. Integr. 44 926-933",
+      "doi": "10.1016/j.prostr.2023.01.120",
+      "kind": "experimental",
+      "recordStatus": "requires-full-text",
+      "fullTextAccess": "open-bronze-publisher-blocked",
+      "specimens": []
+    },
+    {
+      "sourceId": "intrados-frcm-bridge-2025",
+      "recordPath": "sources/intrados-frcm-bridge-2025.json",
+      "shortCitation": "Zampieri et al. (2025), Eng. Struct. 323 119215",
+      "doi": "10.1016/j.engstruct.2024.119215",
+      "kind": "experimental+analytical",
+      "recordStatus": "requires-full-text",
+      "fullTextAccess": "open-bronze-publisher-blocked",
+      "specimens": []
+    },
+    {
+      "sourceId": "tie-rod-jse-2015",
+      "recordPath": "sources/tie-rod-jse-2015.json",
+      "shortCitation": "J. Struct. Eng. (2015), seismic response of tie-rod reinforced masonry arches, scale-model static tests",
+      "doi": "10.1061/(ASCE)ST.1943-541X.0001079",
+      "kind": "experimental",
+      "recordStatus": "requires-full-text",
+      "fullTextAccess": "closed",
+      "specimens": []
+    }
+  ],
+  "specimens": [
+    {
+      "id": "oliveira-2010/US-1",
+      "sourceId": "oliveira-2010",
+      "label": "US-1: unreinforced half-scale arch, peak 1.43 kN",
+      "tier": "A",
+      "kind": "experimental",
+      "phenomena": ["hinging", "loss-of-equilibrium", "nonlinear-load-displacement"],
+      "dataStatus": "quantitative-core-with-digitizable-curves",
+      "implementability": "immediate"
+    },
+    {
+      "id": "oliveira-2010/US-2",
+      "sourceId": "oliveira-2010",
+      "label": "US-2: unreinforced half-scale arch replicate, peak 1.92 kN",
+      "tier": "A",
+      "kind": "experimental",
+      "phenomena": ["hinging", "loss-of-equilibrium", "nonlinear-load-displacement"],
+      "dataStatus": "quantitative-core-with-digitizable-curves",
+      "implementability": "immediate"
+    },
+    {
+      "id": "oliveira-2010/LS-1",
+      "sourceId": "oliveira-2010",
+      "label": "LS-1: locally strengthened pre-damaged arch, peak 3.18 kN",
+      "tier": "B",
+      "kind": "experimental",
+      "phenomena": ["hinging", "pre-damaged-strengthening", "nonlinear-load-displacement"],
+      "dataStatus": "quantitative-core-with-digitizable-curves",
+      "implementability": "immediate"
+    },
+    {
+      "id": "oliveira-2010/LS-2",
+      "sourceId": "oliveira-2010",
+      "label": "LS-2: locally strengthened pre-damaged arch, peak 2.73 kN",
+      "tier": "B",
+      "kind": "experimental",
+      "phenomena": ["hinging", "pre-damaged-strengthening", "nonlinear-load-displacement"],
+      "dataStatus": "quantitative-core-with-digitizable-curves",
+      "implementability": "immediate"
+    },
+    {
+      "id": "oliveira-2010/CSI-1",
+      "sourceId": "oliveira-2010",
+      "label": "CSI-1: continuous intrados GFRP (2x50 mm), peak 4.26 kN",
+      "tier": "B",
+      "kind": "experimental",
+      "phenomena": [
+        "hinging",
+        "debonding",
+        "reinforcement-activation",
+        "nonlinear-load-displacement"
+      ],
+      "dataStatus": "quantitative-core-with-digitizable-curves",
+      "implementability": "immediate"
+    },
+    {
+      "id": "oliveira-2010/CSI-2",
+      "sourceId": "oliveira-2010",
+      "label": "CSI-2: continuous intrados GFRP (2x50 mm), peak 4.63 kN",
+      "tier": "B",
+      "kind": "experimental",
+      "phenomena": [
+        "hinging",
+        "debonding",
+        "reinforcement-activation",
+        "nonlinear-load-displacement"
+      ],
+      "dataStatus": "quantitative-core-with-digitizable-curves",
+      "implementability": "immediate"
+    },
+    {
+      "id": "oliveira-2010/CSI-3",
+      "sourceId": "oliveira-2010",
+      "label": "CSI-3: intrados GFRP with spike anchors, peak 5.41 kN",
+      "tier": "B",
+      "kind": "experimental",
+      "phenomena": [
+        "hinging",
+        "debonding",
+        "reinforcement-activation",
+        "nonlinear-load-displacement"
+      ],
+      "dataStatus": "quantitative-core-with-digitizable-curves",
+      "implementability": "immediate"
+    },
+    {
+      "id": "oliveira-2010/CSI-4",
+      "sourceId": "oliveira-2010",
+      "label": "CSI-4: intrados GFRP with spike anchors, peak 3.81 kN",
+      "tier": "B",
+      "kind": "experimental",
+      "phenomena": [
+        "hinging",
+        "debonding",
+        "reinforcement-activation",
+        "nonlinear-load-displacement"
+      ],
+      "dataStatus": "quantitative-core-with-digitizable-curves",
+      "implementability": "immediate"
+    },
+    {
+      "id": "oliveira-2010/CSE-1",
+      "sourceId": "oliveira-2010",
+      "label": "CSE-1: continuous extrados GFRP (2x50 mm), peak 2.51 kN, sliding failure",
+      "tier": "A",
+      "kind": "experimental",
+      "phenomena": [
+        "hinging",
+        "sliding",
+        "reinforcement-activation",
+        "nonlinear-load-displacement"
+      ],
+      "dataStatus": "quantitative-core-with-digitizable-curves",
+      "implementability": "immediate"
+    },
+    {
+      "id": "oliveira-2010/CSE-2",
+      "sourceId": "oliveira-2010",
+      "label": "CSE-2: continuous extrados GFRP (2x50 mm), peak 3.82 kN, sliding failure",
+      "tier": "A",
+      "kind": "experimental",
+      "phenomena": [
+        "hinging",
+        "sliding",
+        "reinforcement-activation",
+        "nonlinear-load-displacement"
+      ],
+      "dataStatus": "quantitative-core-with-digitizable-curves",
+      "implementability": "immediate"
+    },
+    {
+      "id": "oliveira-2010/CSE-3",
+      "sourceId": "oliveira-2010",
+      "label": "CSE-3: continuous extrados GFRP (2x80 mm), peak 3.62 kN, sliding failure",
+      "tier": "A",
+      "kind": "experimental",
+      "phenomena": [
+        "hinging",
+        "sliding",
+        "reinforcement-activation",
+        "nonlinear-load-displacement"
+      ],
+      "dataStatus": "quantitative-core-with-digitizable-curves",
+      "implementability": "immediate"
+    },
+    {
+      "id": "oliveira-2010/CSE-4",
+      "sourceId": "oliveira-2010",
+      "label": "CSE-4: continuous extrados GFRP (2x80 mm), peak 3.26 kN, sliding failure",
+      "tier": "A",
+      "kind": "experimental",
+      "phenomena": [
+        "hinging",
+        "sliding",
+        "reinforcement-activation",
+        "nonlinear-load-displacement"
+      ],
+      "dataStatus": "quantitative-core-with-digitizable-curves",
+      "implementability": "immediate"
+    },
+    {
+      "id": "carozzi-2018/U_A",
+      "sourceId": "carozzi-2018",
+      "label": "U_A: unreinforced 3.3 m span arch, peak 2.08 kN",
+      "tier": "A",
+      "kind": "experimental",
+      "phenomena": ["hinging", "loss-of-equilibrium", "nonlinear-load-displacement"],
+      "dataStatus": "quantitative-core-with-digitizable-curves",
+      "implementability": "immediate"
+    },
+    {
+      "id": "carozzi-2018/SRG_A",
+      "sourceId": "carozzi-2018",
+      "label": "SRG_A: extrados SRG-reinforced arch, peak 8.83 kN, crushing at loaded section",
+      "tier": "B",
+      "kind": "experimental",
+      "phenomena": [
+        "hinging",
+        "compression-crushing",
+        "debonding",
+        "reinforcement-activation",
+        "nonlinear-load-displacement"
+      ],
+      "dataStatus": "quantitative-core-with-digitizable-curves",
+      "implementability": "immediate"
+    },
+    {
+      "id": "carozzi-2018/U_V",
+      "sourceId": "carozzi-2018",
+      "label": "U_V: unreinforced 60 mm barrel vault, peak 0.39 kN",
+      "tier": "A",
+      "kind": "experimental",
+      "phenomena": ["hinging", "loss-of-equilibrium", "nonlinear-load-displacement"],
+      "dataStatus": "quantitative-core-with-digitizable-curves",
+      "implementability": "immediate"
+    },
+    {
+      "id": "carozzi-2018/FRP_V",
+      "sourceId": "carozzi-2018",
+      "label": "FRP_V: extrados CFRP vault, peak 1.54 kN, premature failure",
+      "tier": "B",
+      "kind": "experimental",
+      "phenomena": [
+        "hinging",
+        "debonding",
+        "reinforcement-activation",
+        "nonlinear-load-displacement"
+      ],
+      "dataStatus": "quantitative-core-with-digitizable-curves",
+      "implementability": "immediate"
+    },
+    {
+      "id": "carozzi-2018/TRM_V",
+      "sourceId": "carozzi-2018",
+      "label": "TRM_V: extrados glass-TRM vault, peak 2.17 kN",
+      "tier": "B",
+      "kind": "experimental",
+      "phenomena": ["hinging", "reinforcement-activation", "nonlinear-load-displacement"],
+      "dataStatus": "quantitative-core-with-digitizable-curves",
+      "implementability": "immediate"
+    },
+    {
+      "id": "bertolesi-2018/U_A-numerical",
+      "sourceId": "bertolesi-2018",
+      "label": "LB limit analysis of U_A: NTM collapse load 1.725 kN",
+      "tier": "A",
+      "kind": "numerical",
+      "phenomena": ["hinging", "loss-of-equilibrium"],
+      "dataStatus": "complete-quantitative",
+      "implementability": "immediate"
+    },
+    {
+      "id": "bertolesi-2018/U_V-numerical",
+      "sourceId": "bertolesi-2018",
+      "label": "LB limit analysis of U_V: NTM collapse load 0.261 kN",
+      "tier": "A",
+      "kind": "numerical",
+      "phenomena": ["hinging", "loss-of-equilibrium"],
+      "dataStatus": "complete-quantitative",
+      "implementability": "immediate"
+    },
+    {
+      "id": "bertolesi-2018/SRG_A-numerical",
+      "sourceId": "bertolesi-2018",
+      "label": "LB limit analysis of SRG_A: fitted equivalent strength 172 MPa, sliding friction 20-22.5 deg",
+      "tier": "B",
+      "kind": "numerical",
+      "phenomena": ["hinging", "sliding", "reinforcement-activation"],
+      "dataStatus": "complete-quantitative",
+      "implementability": "immediate"
+    },
+    {
+      "id": "bertolesi-2018/FRP_V-numerical",
+      "sourceId": "bertolesi-2018",
+      "label": "LB limit analysis of FRP_V: fitted equivalent strength 187 MPa, friction 17.5-20 deg",
+      "tier": "B",
+      "kind": "numerical",
+      "phenomena": ["hinging", "sliding", "debonding", "reinforcement-activation"],
+      "dataStatus": "complete-quantitative",
+      "implementability": "immediate"
+    },
+    {
+      "id": "bertolesi-2018/TRM_V-numerical",
+      "sourceId": "bertolesi-2018",
+      "label": "LB limit analysis of TRM_V: fitted equivalent strength 386 MPa",
+      "tier": "B",
+      "kind": "numerical",
+      "phenomena": ["hinging", "reinforcement-activation"],
+      "dataStatus": "complete-quantitative",
+      "implementability": "immediate"
+    },
+    {
+      "id": "simoncello-2020/borri-2011-arch-URM",
+      "sourceId": "simoncello-2020",
+      "label": "Borri et al. 2011 unreinforced arch (2 m span), Fmax 0.70 kN quoted in Simoncello 2020",
+      "tier": "B",
+      "kind": "experimental",
+      "phenomena": ["hinging", "loss-of-equilibrium", "nonlinear-load-displacement"],
+      "dataStatus": "quantitative-core-with-digitizable-curves",
+      "implementability": "after-curve-digitization"
+    },
+    {
+      "id": "simoncello-2020/borri-2011-arch-FRP",
+      "sourceId": "simoncello-2020",
+      "label": "Borri et al. 2011 intrados FRP arch with spike anchors, curve in Figure 6 of Simoncello 2020",
+      "tier": "B",
+      "kind": "experimental",
+      "phenomena": [
+        "hinging",
+        "debonding",
+        "reinforcement-activation",
+        "nonlinear-load-displacement"
+      ],
+      "dataStatus": "quantitative-core-with-digitizable-curves",
+      "implementability": "after-curve-digitization"
+    },
+    {
+      "id": "simoncello-2020/prestwood-URM",
+      "sourceId": "simoncello-2020",
+      "label": "Prestwood bridge collapse test (Page 1987), 228 kN, fill interaction",
+      "tier": "B",
+      "kind": "experimental",
+      "phenomena": ["hinging", "backfill-interaction", "nonlinear-load-displacement"],
+      "dataStatus": "quantitative-core-with-digitizable-curves",
+      "implementability": "after-curve-digitization"
+    },
+    {
+      "id": "simoncello-2020/prestwood-FRP-numerical",
+      "sourceId": "simoncello-2020",
+      "label": "Prestwood bridge with hypothetical full-intrados FRP (numerical prediction)",
+      "tier": "C",
+      "kind": "numerical",
+      "phenomena": [
+        "hinging",
+        "compression-crushing",
+        "reinforcement-activation",
+        "backfill-interaction",
+        "nonlinear-load-displacement"
+      ],
+      "dataStatus": "complete-quantitative",
+      "implementability": "limited"
+    }
+  ],
+  "priorityBenchmarkSet": [
+    {
+      "slot": "URM (min 3)",
+      "specimenIds": [
+        "oliveira-2010/US-1",
+        "oliveira-2010/US-2",
+        "carozzi-2018/U_A",
+        "simoncello-2020/prestwood-URM"
+      ],
+      "rationale": "Three Tier A four-hinge benchmarks with exact peak loads (1.43, 1.92, 2.08 kN) plus the full-scale Prestwood Tier B bridge test (228 kN) covering backfill interaction.",
+      "prerequisite": null
+    },
+    {
+      "slot": "Tie-rod (min 2)",
+      "specimenIds": [],
+      "pendingSourceIds": [
+        "ural-2016",
+        "tie-rod-connection-2022",
+        "persian-brick-arches-2023",
+        "tie-rod-jse-2015"
+      ],
+      "rationale": "No open-access tie-rod dataset could be retrieved in this step; the four candidate campaigns are catalogued with pending full-text access. The two strongest candidates (Ural et al. 2016 and Firat & Sancar Kayabasi 2022) are nominated for the slot.",
+      "prerequisite": "full text of at least two tie-rod papers (geometry, tie geometry/steel, loads, capacities)."
+    },
+    {
+      "slot": "Intrados bonded (min 2)",
+      "specimenIds": [
+        "oliveira-2010/CSI-1",
+        "oliveira-2010/CSI-2",
+        "oliveira-2010/CSI-3",
+        "oliveira-2010/CSI-4",
+        "simoncello-2020/borri-2011-arch-FRP"
+      ],
+      "pendingSourceIds": ["alecci-2017"],
+      "rationale": "Continuous intrados GFRP arches with and without spike anchors (exact peak loads 3.81-5.41 kN) plus the Borri et al. 2011 quoted curve and the Alecci et al. 2017 intrados FRCM campaign once accessed.",
+      "prerequisite": "bond parameters from basilio-2007-thesis Chapter 3 for debonding-strain calibration."
+    },
+    {
+      "slot": "Extrados bonded (min 2)",
+      "specimenIds": ["oliveira-2010/CSE-1", "oliveira-2010/CSE-2", "carozzi-2018/SRG_A"],
+      "pendingSourceIds": ["alecci-2016"],
+      "rationale": "Extrados FRP arches failing by joint sliding (exact loads 2.51/3.82 kN) plus the extrados SRG arch with crushing-governed failure (8.83 kN); Alecci et al. 2016 extrados PBO-FRCM joins once accessed.",
+      "prerequisite": null
+    },
+    {
+      "slot": "Compression / sliding governed (min 2)",
+      "specimenIds": [
+        "oliveira-2010/CSE-1",
+        "oliveira-2010/CSE-2",
+        "carozzi-2018/SRG_A",
+        "bertolesi-2018/SRG_A-numerical"
+      ],
+      "pendingSourceIds": ["caporale-luciano-2012"],
+      "rationale": "CSE set: sliding along a mortar joint near the support (shear-governed). SRG_A: concentrated masonry crushing at the loaded section (compression-governed), with the Bertolesi friction-angle sensitivity (20-22.5 deg) as the numerical companion. Caporale & Luciano 2012 covers finite compressive strength analytically once accessed.",
+      "prerequisite": null
+    },
+    {
+      "slot": "Nonlinear load-displacement (min 2)",
+      "specimenIds": [
+        "carozzi-2018/U_A",
+        "carozzi-2018/SRG_A",
+        "oliveira-2010/US-1",
+        "oliveira-2010/CSI-1",
+        "oliveira-2010/CSE-1",
+        "simoncello-2020/borri-2011-arch-FRP"
+      ],
+      "rationale": "Published load-displacement figures exist for all of these (Carozzi Figs 11/12; Oliveira Figs 6/10/12; Simoncello Fig 6). Digitization with tolerance sidecars is the enabling step for curve-level comparison.",
+      "prerequisite": "figure digitization into datasets/ with approximate-digitized marking and stated tolerance."
+    }
+  ],
+  "coverage": [
+    {
+      "phenomenon": "Four-hinge mechanism / rocking collapse",
+      "solverCapability": "rigid-plastic limit analysis and deformable path analysis publish hinge opening/closing and mechanism events",
+      "state": "covered",
+      "benchmarkSpecimens": [
+        "oliveira-2010/US-1",
+        "carozzi-2018/U_A",
+        "bertolesi-2018/U_A-numerical",
+        "simoncello-2020/prestwood-URM"
+      ]
+    },
+    {
+      "phenomenon": "Joint sliding (Coulomb)",
+      "solverCapability": "friction coefficient and cohesion on every interface; plastic-sliding events and friction checks",
+      "state": "covered",
+      "benchmarkSpecimens": [
+        "oliveira-2010/CSE-1",
+        "oliveira-2010/CSE-2",
+        "bertolesi-2018/SRG_A-numerical"
+      ]
+    },
+    {
+      "phenomenon": "Finite compressive strength / crushing",
+      "solverCapability": "finite compressive strength with uniform-edge-block check (equilibrium) and deformable-interface compression check (path); post-crushing perfectly-plastic option",
+      "state": "covered",
+      "benchmarkSpecimens": ["carozzi-2018/SRG_A", "simoncello-2020/prestwood-FRP-numerical"]
+    },
+    {
+      "phenomenon": "FRP bonded layers, intrados and extrados",
+      "solverCapability": "bondedLayers family 'frp' with area, modulus, tensile strength, debonding strain, ultimate strain, anchored/unanchored terminations",
+      "state": "covered",
+      "benchmarkSpecimens": [
+        "oliveira-2010/CSI-1",
+        "oliveira-2010/CSE-1",
+        "simoncello-2020/borri-2011-arch-FRP"
+      ]
+    },
+    {
+      "phenomenon": "FRCM / SRG / TRM mortar-matrix composites",
+      "solverCapability": "bondedLayers families 'frcm' and 'sfrm'; no matrix cracking/tension-stiffening branch",
+      "state": "partial",
+      "benchmarkSpecimens": ["carozzi-2018/SRG_A", "carozzi-2018/TRM_V"]
+    },
+    {
+      "phenomenon": "Passive tie-rods and prestressing",
+      "solverCapability": "intrados/extrados reinforcement (tendon) with deviators or unilateral contact, initial force, yield/rupture limits, distributed anchorage",
+      "state": "representable-with-approximation",
+      "benchmarkSpecimens": []
+    },
+    {
+      "phenomenon": "Spike anchors / distributed anchorage",
+      "solverCapability": "anchored terminations and distributed-anchorage termination with connector capacities",
+      "state": "representable-with-approximation",
+      "benchmarkSpecimens": ["oliveira-2010/CSI-3", "simoncello-2020/borri-2011-arch-FRP"]
+    },
+    {
+      "phenomenon": "Backfill interaction (passive pressure, haunching)",
+      "solverCapability": "fill represented as load (unit weight, cover depth, patch limits); passive interaction not modeled",
+      "state": "not-covered",
+      "benchmarkSpecimens": ["simoncello-2020/prestwood-URM"]
+    },
+    {
+      "phenomenon": "Deformable piers / abutment flexibility",
+      "solverCapability": "rigid-contact supports with optional interface law; no pier deformability",
+      "state": "not-covered",
+      "benchmarkSpecimens": ["carozzi-2018/SRG_A"]
+    },
+    {
+      "phenomenon": "Post-peak softening branch",
+      "solverCapability": "path analysis is load-controlled; convergence loss is reported as INDETERMINATE and is never a physical failure",
+      "state": "not-covered",
+      "benchmarkSpecimens": ["oliveira-2010/CSE-1", "carozzi-2018/U_A"]
+    },
+    {
+      "phenomenon": "Displacement-controlled tests",
+      "solverCapability": "load control only; pre-peak comparison is meaningful, post-peak is not",
+      "state": "partial",
+      "benchmarkSpecimens": ["oliveira-2010/US-1"]
+    },
+    {
+      "phenomenon": "Bond-slip law (interface slip, fracture energy)",
+      "solverCapability": "threshold-based debonding strain; no slip-based bond law",
+      "state": "partial",
+      "benchmarkSpecimens": ["simoncello-2020/borri-2011-arch-FRP"]
+    }
+  ]
+}

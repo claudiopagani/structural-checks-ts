@@ -1,0 +1,37 @@
+{
+  "schemaVersion": "1.0.0",
+  "sourceId": "alecci-2017",
+  "recordStatus": "requires-full-text",
+  "citation": {
+    "authors": [
+      "Valerio Alecci",
+      "Francesco Focacci",
+      "Luisa Rovero",
+      "Gianfranco Stipo",
+      "Mario De Stefano"
+    ],
+    "year": 2017,
+    "title": "Intrados strengthening of brick masonry arches with different FRCM composites: Experimental and analytical investigations",
+    "container": "Composite Structures",
+    "volume": "176",
+    "pages": "898-909",
+    "doi": "10.1016/j.compstruct.2017.06.023",
+    "publisher": "Elsevier",
+    "language": "English"
+  },
+  "document": {
+    "kind": "experimental+analytical",
+    "fullTextAccess": "closed",
+    "fullTextUrl": null,
+    "fullTextVersion": null,
+    "accessNote": "UniFi Flore record (hdl.handle.net/2158/1091581) holds the published PDF under restricted access. Full text must be obtained from the publisher or the authors.",
+    "license": null
+  },
+  "abstract": "This paper examines the structural behavior of masonry arches strengthened at the intrados with fabric reinforced cementitious matrix (FRCM) composites. Textiles made of poliparafenilenbenzobisoxazole (PBO) and carbon fibers are considered. The experimental results are compared with those obtained on unstrengthened arches and arches strengthened with a carbon fiber reinforced polymer (CFRP) composite. The arches tested are analyzed with the approach of the limit analysis of the collapse mechanisms.",
+  "specimens": [],
+  "extractionNotes": [
+    "Abstract retrieved from the UniFi Flore record on 2026-08-16.",
+    "Full text required for all quantitative data.",
+    "Seed slot: intrados bonded (FRCM PBO/carbon + CFRP control). Provisional tier: A/B (pending access)."
+  ]
+}

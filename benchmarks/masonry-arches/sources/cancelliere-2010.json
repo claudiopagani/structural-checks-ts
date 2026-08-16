@@ -1,0 +1,31 @@
+{
+  "schemaVersion": "1.0.0",
+  "sourceId": "cancelliere-2010",
+  "recordStatus": "requires-full-text",
+  "citation": {
+    "authors": ["Ilaria Cancelliere", "Maura Imbimbo", "Elio Sacco"],
+    "year": 2010,
+    "title": "Experimental tests and numerical modeling of reinforced masonry arches",
+    "container": "Engineering Structures",
+    "volume": "32",
+    "pages": "776-792",
+    "doi": "10.1016/j.engstruct.2009.12.005",
+    "publisher": "Elsevier",
+    "language": "English"
+  },
+  "document": {
+    "kind": "experimental+numerical",
+    "fullTextAccess": "closed",
+    "fullTextUrl": null,
+    "fullTextVersion": null,
+    "accessNote": "No open-access or repository copy found (Crossref, Unpaywall, OpenAlex checked on 2026-08-16). Experimental tests plus numerical modeling of reinforced (steel/FRP) masonry arches.",
+    "license": null
+  },
+  "abstract": null,
+  "specimens": [],
+  "extractionNotes": [
+    "Full text required before any number is recorded.",
+    "Expected value: experimental and numerical reference for reinforced masonry arches with steel and composite reinforcement; useful for reinforcement-activation and hinge-mechanism comparisons.",
+    "Provisional tier: B (pending access)."
+  ]
+}

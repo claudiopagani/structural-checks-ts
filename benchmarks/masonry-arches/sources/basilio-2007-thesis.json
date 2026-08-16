@@ -1,0 +1,32 @@
+{
+  "schemaVersion": "1.0.0",
+  "sourceId": "basilio-2007-thesis",
+  "recordStatus": "data-extracted",
+  "citation": {
+    "authors": ["Ismael Basilio"],
+    "year": 2007,
+    "title": "Strengthening of arched masonry structures with composite materials",
+    "container": "PhD thesis, School of Engineering, University of Minho",
+    "volume": null,
+    "pages": null,
+    "doi": null,
+    "publisher": "University of Minho",
+    "language": "English"
+  },
+  "document": {
+    "kind": "experimental+numerical",
+    "fullTextAccess": "open-repository-final",
+    "fullTextUrl": "https://hdl.handle.net/1822/8124",
+    "fullTextVersion": "final thesis",
+    "accessNote": "Full thesis PDF retrieved from the University of Minho repository on 2026-08-16.",
+    "license": "repository open access"
+  },
+  "abstract": null,
+  "specimens": [],
+  "extractionNotes": [
+    "Primary dataset of the twelve half-scaled arch tests published in Oliveira et al. 2010.",
+    "Table 6.5 of the thesis gives the per-specimen experimental peak loads and the authors' numerical peak loads; these exact values are recorded in sources/oliveira-2010.json with their thesis locations.",
+    "Chapter 3 of the thesis contains the FRP-masonry bond characterization (single-lap shear and pull-off tests); bond data not yet transcribed in this iteration and must be extracted before Tier A/B bond-parameter choices are finalized.",
+    "Masonry type 2 characterization (Table 4.2): compressive strength 9.1 MPa average (COV 15.7%), elastic modulus 2.04 GPa average (COV 33.9%)."
+  ]
+}

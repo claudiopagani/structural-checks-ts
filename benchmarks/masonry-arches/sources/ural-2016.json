@@ -1,0 +1,30 @@
+{
+  "schemaVersion": "1.0.0",
+  "sourceId": "ural-2016",
+  "recordStatus": "requires-full-text",
+  "citation": {
+    "authors": ["A. Ural", "F. K. Firat", "S. Tugrulelci", "M. E. Kara"],
+    "year": 2016,
+    "title": "Experimental and numerical study on effectiveness of various tie-rod systems in brick arches",
+    "container": "Engineering Structures",
+    "volume": "110",
+    "pages": "209-221",
+    "doi": "10.1016/j.engstruct.2015.11.038",
+    "publisher": "Elsevier",
+    "language": "English"
+  },
+  "document": {
+    "kind": "experimental+numerical",
+    "fullTextAccess": "closed",
+    "fullTextUrl": null,
+    "fullTextVersion": null,
+    "accessNote": "No open-access or repository copy found (2026-08-16). Core seed source for the tie-rod benchmark slot.",
+    "license": null
+  },
+  "abstract": null,
+  "specimens": [],
+  "extractionNotes": [
+    "Full text required before any number is recorded: arch geometry, masonry characterization, tie-rod diameter/steel grade/position, applied load, and measured capacities.",
+    "Provisional tier: B (tie systems; pier/anchor detail dependent)."
+  ]
+}

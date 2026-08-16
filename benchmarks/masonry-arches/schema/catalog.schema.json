@@ -1,0 +1,264 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://structural-checks-ts.invalid/benchmarks/masonry-arches/schema/catalog.schema.json",
+  "title": "Masonry-arches benchmark corpus catalog",
+  "description": "Index of the scientific benchmark corpus for masonry arches: sources, specimens, tier classification, and the priority benchmark set. Every quantitative value lives in a source record or a dataset sidecar with per-value provenance; the catalog contains no bare numbers.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "corpusId",
+    "title",
+    "status",
+    "generatedOn",
+    "provenancePolicy",
+    "tierDefinitions",
+    "sources",
+    "specimens",
+    "priorityBenchmarkSet"
+  ],
+  "properties": {
+    "schemaVersion": {
+      "const": "1.0.0",
+      "description": "Version of this catalog schema. Breaking changes to the data model bump this number."
+    },
+    "corpusId": {
+      "const": "masonry-arches-benchmark-corpus"
+    },
+    "title": {
+      "type": "string"
+    },
+    "status": {
+      "enum": ["draft", "implemented", "validated"],
+      "description": "Implementation state per AGENTS.md conventions. 'validated' requires versioned evidence."
+    },
+    "generatedOn": {
+      "type": "string",
+      "format": "date"
+    },
+    "provenancePolicy": {
+      "type": "object",
+      "description": "Rules binding every recorded number, see README.md.",
+      "additionalProperties": true
+    },
+    "tierDefinitions": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["A", "B", "C"],
+      "properties": {
+        "A": {
+          "$ref": "#/definitions/tierDefinition"
+        },
+        "B": {
+          "$ref": "#/definitions/tierDefinition"
+        },
+        "C": {
+          "$ref": "#/definitions/tierDefinition"
+        }
+      }
+    },
+    "sources": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/sourceIndexEntry"
+      }
+    },
+    "specimens": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/specimenIndexEntry"
+      }
+    },
+    "priorityBenchmarkSet": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/priorityEntry"
+      }
+    },
+    "coverage": {
+      "type": "array",
+      "description": "Solver-phenomenon coverage matrix; narrative in coverage-and-priorities.md.",
+      "items": {
+        "$ref": "#/definitions/coverageEntry"
+      }
+    }
+  },
+  "definitions": {
+    "tierDefinition": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["label", "meaning"],
+      "properties": {
+        "label": {
+          "type": "string"
+        },
+        "meaning": {
+          "type": "string"
+        }
+      }
+    },
+    "sourceIndexEntry": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "sourceId",
+        "recordPath",
+        "shortCitation",
+        "doi",
+        "kind",
+        "recordStatus",
+        "fullTextAccess"
+      ],
+      "properties": {
+        "sourceId": {
+          "type": "string"
+        },
+        "recordPath": {
+          "type": "string",
+          "description": "Relative path of the source record under sources/."
+        },
+        "shortCitation": {
+          "type": "string"
+        },
+        "doi": {
+          "type": ["string", "null"]
+        },
+        "kind": {
+          "type": "string",
+          "enum": ["experimental", "numerical", "analytical", "experimental+numerical", "review"]
+        },
+        "recordStatus": {
+          "type": "string",
+          "enum": ["data-extracted", "metadata-only", "requires-full-text"]
+        },
+        "fullTextAccess": {
+          "type": "string",
+          "enum": [
+            "open-gold",
+            "open-repository-manuscript",
+            "open-repository-final",
+            "open-bronze-publisher-blocked",
+            "closed"
+          ]
+        },
+        "specimens": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "specimenIndexEntry": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "sourceId", "tier", "kind", "phenomena", "dataStatus"],
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Globally unique specimen id."
+        },
+        "sourceId": {
+          "type": "string"
+        },
+        "label": {
+          "type": "string"
+        },
+        "tier": {
+          "enum": ["A", "B", "C", "pending-access"]
+        },
+        "kind": {
+          "enum": [
+            "experimental",
+            "numerical",
+            "analytical",
+            "experimental",
+            "experimental+numerical"
+          ]
+        },
+        "phenomena": {
+          "type": "array",
+          "items": {
+            "enum": [
+              "hinging",
+              "rocking",
+              "sliding",
+              "compression-crushing",
+              "debonding",
+              "reinforcement-activation",
+              "loss-of-equilibrium",
+              "nonlinear-load-displacement",
+              "prestressing",
+              "backfill-interaction",
+              "pre-damaged-strengthening"
+            ]
+          }
+        },
+        "dataStatus": {
+          "enum": [
+            "complete-quantitative",
+            "quantitative-core-with-digitizable-curves",
+            "pending-full-text",
+            "partial-quantitative"
+          ]
+        },
+        "implementability": {
+          "enum": ["immediate", "after-curve-digitization", "after-full-text", "limited"]
+        }
+      }
+    },
+    "priorityEntry": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["slot", "specimenIds", "rationale"],
+      "properties": {
+        "slot": {
+          "type": "string",
+          "description": "Requirement slot from the iteration brief."
+        },
+        "specimenIds": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Specimen ids already in the corpus; may be empty for slots gated on access."
+        },
+        "pendingSourceIds": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Source ids whose full text is required before the slot can be populated."
+        },
+        "rationale": {
+          "type": "string"
+        },
+        "prerequisite": {
+          "type": ["string", "null"]
+        }
+      }
+    },
+    "coverageEntry": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["phenomenon", "solverCapability", "state"],
+      "properties": {
+        "phenomenon": {
+          "type": "string"
+        },
+        "solverCapability": {
+          "type": "string"
+        },
+        "state": {
+          "enum": ["covered", "partial", "not-covered", "representable-with-approximation"]
+        },
+        "benchmarkSpecimens": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,42 @@
+{
+  "schemaVersion": "1.0.0",
+  "sourceId": "intrados-frcm-bridge-2025",
+  "recordStatus": "requires-full-text",
+  "citation": {
+    "authors": [
+      "Paolo Zampieri",
+      "Riccardo Piazzon",
+      "Davide Santinon",
+      "Lorenzo Hofer",
+      "Klajdi Toska",
+      "Flora Faleschini",
+      "Carlo Pellegrino",
+      "Franco Iacobini",
+      "Andrea Vecchi",
+      "Francesco Iodice",
+      "Domenico Ricci"
+    ],
+    "year": 2025,
+    "title": "Intrados FRCM-strengthening of a masonry bridge: Experimental and analytical investigations",
+    "container": "Engineering Structures",
+    "volume": "323",
+    "pages": "119215",
+    "doi": "10.1016/j.engstruct.2024.119215",
+    "publisher": "Elsevier",
+    "language": "English"
+  },
+  "document": {
+    "kind": "experimental+analytical",
+    "fullTextAccess": "open-bronze-publisher-blocked",
+    "fullTextUrl": "https://www.sciencedirect.com/science/article/pii/S0141029624017772",
+    "fullTextVersion": "version of record (hybrid open access)",
+    "accessNote": "Hybrid open access on ScienceDirect, but automated retrieval is blocked (HTTP 403).",
+    "license": null
+  },
+  "abstract": null,
+  "specimens": [],
+  "extractionNotes": [
+    "Full text required. Likely the extended dataset of the CFRCM/FRCM intrados campaign of the Padua group (full-scale arch/bridge specimens).",
+    "Provisional tier: B (bridge scale; backfill/pier effects possible)."
+  ]
+}

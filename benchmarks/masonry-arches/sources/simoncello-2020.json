@@ -1,0 +1,472 @@
+{
+  "schemaVersion": "1.0.0",
+  "sourceId": "simoncello-2020",
+  "recordStatus": "data-extracted",
+  "citation": {
+    "authors": [
+      "Nicolò Simoncello",
+      "Paolo Zampieri",
+      "Jaime Gonzalez-Libreros",
+      "Simone Perboni",
+      "Carlo Pellegrino"
+    ],
+    "year": 2020,
+    "title": "Numerical Analysis of an FRP-Strengthened Masonry Arch Bridge",
+    "container": "Frontiers in Built Environment",
+    "volume": "6",
+    "pages": "7",
+    "doi": "10.3389/fbuil.2020.00007",
+    "publisher": "Frontiers Media",
+    "language": "English"
+  },
+  "document": {
+    "kind": "experimental+numerical",
+    "fullTextAccess": "open-gold",
+    "fullTextUrl": "https://www.frontiersin.org/articles/10.3389/fbuil.2020.00007/full",
+    "fullTextVersion": "published version",
+    "accessNote": "Open-access article (CC BY 4.0); full text retrieved on 2026-08-16. It contains quoted data from Borri et al. 2011 (arch tests) and Page 1987 (Prestwood bridge test); those quoted values are recorded with kind 'quoted' and carry both locations.",
+    "license": "CC BY 4.0"
+  },
+  "abstract": "In this paper, the results of an experimental campaign carried out on masonry arches strengthened with one FRP layer applied at the structure intrados are used to calibrate a numerical analysis model. Then, the model is used to predict the contribution that this type of strengthening would have had on the well-known Prestwood Bridge. The numerical results show that the hypothetical intervention of the Prestwood Bridge would imply an increase in the ultimate load of the structure, although it would be significantly lower than that usually obtained for the case of arches tested in laboratory.",
+  "specimens": [
+    {
+      "id": "simoncello-2020/borri-2011-arch-URM",
+      "label": "Borri et al. 2011 unstrengthened arch (as reported by Simoncello et al. 2020)",
+      "kind": "experimental",
+      "tier": "B",
+      "tierRationale": "Direct geometry and load (mid-span concentrated load on a 2 m span arch), but the data are quoted from a secondary open source (Simoncello et al. 2020) because the primary paper (Borri et al. 2011, Composites Part B) is closed access. Values are marked 'quoted' and should be re-verified against the primary full text before use as acceptance criteria.",
+      "phenomena": ["hinging", "loss-of-equilibrium", "nonlinear-load-displacement"],
+      "geometry": {
+        "span": {
+          "value": 2000,
+          "unit": "mm",
+          "kind": "quoted",
+          "location": "Simoncello et al. 2020, Model Calibration section, quoting Borri et al. 2011 (single row of clay bricks, span L)"
+        },
+        "rise": {
+          "value": 1000,
+          "unit": "mm",
+          "kind": "quoted",
+          "location": "Simoncello et al. 2020, Model Calibration section, quoting Borri et al. 2011 (rise f)"
+        },
+        "thickness": {
+          "value": 125,
+          "unit": "mm",
+          "kind": "quoted",
+          "location": "Simoncello et al. 2020, Model Calibration section, quoting Borri et al. 2011"
+        },
+        "outOfPlaneWidth": {
+          "value": 250,
+          "unit": "mm",
+          "kind": "quoted",
+          "location": "Simoncello et al. 2020, Model Calibration section, quoting Borri et al. 2011 (depth)"
+        }
+      },
+      "masonry": {
+        "brickDensity": {
+          "value": 1807,
+          "unit": "kg/m3",
+          "kind": "quoted",
+          "location": "Simoncello et al. 2020, Table 1, quoting Borri et al. 2011"
+        },
+        "brickCompressiveStrength": {
+          "value": 20.99,
+          "unit": "MPa",
+          "kind": "quoted",
+          "location": "Simoncello et al. 2020, Table 1 and Model Calibration section (fb), quoting Borri et al. 2011"
+        },
+        "mortarCompressiveStrength": {
+          "value": 6.95,
+          "unit": "MPa",
+          "kind": "quoted",
+          "location": "Simoncello et al. 2020, Table 1 and Model Calibration section (fm), quoting Borri et al. 2011"
+        },
+        "masonryCompressiveStrength": {
+          "value": 6.63,
+          "unit": "MPa",
+          "kind": "derived",
+          "location": "Simoncello et al. 2020, Model Calibration section and Table 3 (fk computed with Eurocode 6, K=0.44, fb=20.99 MPa, fm=6.95 MPa)"
+        },
+        "masonryElasticModulus": {
+          "value": 6630,
+          "unit": "MPa",
+          "kind": "derived",
+          "location": "Simoncello et al. 2020, Table 3 (Em = 1000 x fk per Eurocode 6)"
+        },
+        "masonryDensity": {
+          "value": 1807,
+          "unit": "kg/m3",
+          "kind": "quoted",
+          "location": "Simoncello et al. 2020, Table 3"
+        },
+        "tensileStrength": {
+          "value": null,
+          "unit": "MPa",
+          "kind": "unknown",
+          "location": "n/a",
+          "notes": "Not available; the paper calibrates fctm in the range 0.03-0.08 MPa."
+        },
+        "frictionCoefficient": {
+          "value": null,
+          "unit": null,
+          "kind": "unknown",
+          "location": "n/a"
+        }
+      },
+      "loading": {
+        "description": "Specimens subjected to a mid-span concentrated load (text of Simoncello et al. 2020); load application details of the original test require the Borri et al. 2011 full text.",
+        "loadPoint": "mid-span",
+        "control": "unknown"
+      },
+      "reinforcement": null,
+      "observables": {
+        "peakLoad": {
+          "value": 0.7,
+          "unit": "kN",
+          "kind": "quoted",
+          "location": "Simoncello et al. 2020, Unstrengthened Masonry Arch section (Fmax=0.70 kN recorded experimentally by Borri et al. 2011)"
+        },
+        "displacementAtPeak": {
+          "value": 1.5,
+          "unit": "mm",
+          "kind": "quoted",
+          "location": "Simoncello et al. 2020, Unstrengthened Masonry Arch section (dFmax=1.50 mm)"
+        },
+        "calibrationNote": "Numerical analyses with fctm=0.03 MPa agree best on Fmax but predict dFmax=0.24 mm (about six times lower than experimental)."
+      },
+      "curves": [
+        {
+          "id": "borri-URM-load-displacement",
+          "figure": "Simoncello et al. 2020, Figure 5 (numerical curves; experimental Fmax and dFmax markers)",
+          "content": "Numerical load-crown displacement curves for four fctm values with experimental peak marker",
+          "digitizationStatus": "not-digitized",
+          "datasetPath": null
+        }
+      ]
+    },
+    {
+      "id": "simoncello-2020/borri-2011-arch-FRP",
+      "label": "Borri et al. 2011 intrados FRP-strengthened arch with spike anchors (as reported by Simoncello et al. 2020)",
+      "kind": "experimental",
+      "tier": "B",
+      "tierRationale": "Quoted secondary data plus spike anchors whose action our anchored terminations only approximate; nonlinear curves are available as a discrete approximation of the experimental curve in Figure 6A.",
+      "phenomena": [
+        "hinging",
+        "debonding",
+        "reinforcement-activation",
+        "nonlinear-load-displacement"
+      ],
+      "geometry": {
+        "span": {
+          "value": 2000,
+          "unit": "mm",
+          "kind": "quoted",
+          "location": "Simoncello et al. 2020, Model Calibration section, quoting Borri et al. 2011"
+        },
+        "rise": {
+          "value": 1000,
+          "unit": "mm",
+          "kind": "quoted",
+          "location": "Simoncello et al. 2020, Model Calibration section"
+        },
+        "thickness": {
+          "value": 125,
+          "unit": "mm",
+          "kind": "quoted",
+          "location": "Simoncello et al. 2020, Model Calibration section"
+        },
+        "outOfPlaneWidth": {
+          "value": 250,
+          "unit": "mm",
+          "kind": "quoted",
+          "location": "Simoncello et al. 2020, Model Calibration section (depth)"
+        }
+      },
+      "masonry": {
+        "sameAs": "simoncello-2020/borri-2011-arch-URM"
+      },
+      "loading": {
+        "description": "Mid-span concentrated load; displacement control with 50 load steps in the numerical model.",
+        "loadPoint": "mid-span"
+      },
+      "reinforcement": {
+        "type": "One FRP layer, 100 mm wide, applied at the arch intrados, with spike anchors to prevent Mode-I detachment",
+        "frpWidth": {
+          "value": 100,
+          "unit": "mm",
+          "kind": "quoted",
+          "location": "Simoncello et al. 2020, Model Calibration section"
+        },
+        "frpThickness": {
+          "value": 1.4,
+          "unit": "mm",
+          "kind": "exact",
+          "location": "Simoncello et al. 2020, Tables 2 and 3"
+        },
+        "frpElasticModulus": {
+          "value": 205000,
+          "unit": "MPa",
+          "kind": "exact",
+          "location": "Simoncello et al. 2020, Tables 2 and 3 (20,5000 in the published table; text uses 205,000 MPa in Table 4 for the same material)"
+        },
+        "frpTensileStrength": {
+          "value": 3252,
+          "unit": "MPa",
+          "kind": "exact",
+          "location": "Simoncello et al. 2020, Tables 2 and 3"
+        },
+        "bondModel": "Bilinear CNR-DT 200 R1/2013 bond-slip law; tau-b = 2.9 MPa, ultimate slip su = 0.4 mm (clay brick masonry); perfect-bond alternative limited to an effective bonded length of 100 mm (i.e. 207 MPa).",
+        "debondingStress": {
+          "value": 2.9,
+          "unit": "MPa",
+          "kind": "exact",
+          "location": "Simoncello et al. 2020, Material Behavior Definition section (maximum tangential bond stress) and Table 3"
+        },
+        "ultimateSlip": {
+          "value": 0.4,
+          "unit": "mm",
+          "kind": "exact",
+          "location": "Simoncello et al. 2020, Material Behavior Definition section (clay brick masonry per CNR-DT 200 R1/2013)"
+        }
+      },
+      "observables": {
+        "peakLoad": {
+          "value": null,
+          "unit": "kN",
+          "kind": "unknown",
+          "location": "n/a",
+          "notes": "The experimental strengthened curve is shown as a discrete approximation in Figure 6A; the peak must be digitized from that figure or read in Borri et al. 2011."
+        },
+        "numericalNote": "Numerical model with fctm=0.06-0.08 MPa closest to the experiment; perfect-bond and bond-slip models give practically the same curves, both underestimating the experimental Fmax."
+      },
+      "curves": [
+        {
+          "id": "borri-FRP-load-displacement",
+          "figure": "Simoncello et al. 2020, Figure 6 (discrete approximation of the Borri et al. 2011 experimental curve plus numerical curves)",
+          "content": "Load vs crown displacement, strengthened arch",
+          "digitizationStatus": "not-digitized",
+          "datasetPath": null
+        }
+      ]
+    },
+    {
+      "id": "simoncello-2020/prestwood-URM",
+      "label": "Prestwood bridge destructive test (Page 1987), as modeled by Simoncello et al. 2020",
+      "kind": "experimental",
+      "tier": "B",
+      "tierRationale": "Full-scale bridge with fill. Our model can represent the arch ring, the fill as load, and the patch load, but not the passive backfill interaction or the deformable abutments, which are known contributions.",
+      "phenomena": ["hinging", "backfill-interaction", "nonlinear-load-displacement"],
+      "geometry": {
+        "span": {
+          "value": 6550,
+          "unit": "mm",
+          "kind": "exact",
+          "location": "Simoncello et al. 2020, Masonry Arch Bridge section and Figure 7B (span L)"
+        },
+        "rise": {
+          "value": 1428,
+          "unit": "mm",
+          "kind": "exact",
+          "location": "Simoncello et al. 2020, Figure 7B (rise f)"
+        },
+        "outOfPlaneWidth": {
+          "value": 3800,
+          "unit": "mm",
+          "kind": "exact",
+          "location": "Simoncello et al. 2020, Figure 7B (width s)"
+        },
+        "thickness": {
+          "value": 220,
+          "unit": "mm",
+          "kind": "exact",
+          "location": "Simoncello et al. 2020, Figure 7B (thickness t)"
+        }
+      },
+      "masonry": {
+        "density": {
+          "value": 1800,
+          "unit": "kg/m3",
+          "kind": "exact",
+          "location": "Simoncello et al. 2020, Table 4"
+        },
+        "compressiveStrength": {
+          "value": 4.5,
+          "unit": "MPa",
+          "kind": "exact",
+          "location": "Simoncello et al. 2020, Table 4"
+        },
+        "elasticModulus": {
+          "value": 4130,
+          "unit": "MPa",
+          "kind": "exact",
+          "location": "Simoncello et al. 2020, Table 4"
+        },
+        "tensileStrength": {
+          "value": null,
+          "unit": "MPa",
+          "kind": "unknown",
+          "location": "n/a",
+          "notes": "Table 4 lists an additional masonry column value (0.001); column header mapping is ambiguous in the retrieved text and is therefore not transcribed."
+        },
+        "frictionCoefficient": {
+          "value": null,
+          "unit": null,
+          "kind": "unknown",
+          "location": "n/a"
+        }
+      },
+      "loading": {
+        "description": "In-situ test (Page 1987): distributed load over a 300 mm long section along the span over the entire arch width at one quarter of the span; modeled through a 300 x 3800 mm rigid zone.",
+        "loadPatchLength": {
+          "value": 300,
+          "unit": "mm",
+          "kind": "exact",
+          "location": "Simoncello et al. 2020, Masonry Arch Bridge section"
+        },
+        "loadPoint": "quarter span"
+      },
+      "reinforcement": null,
+      "observables": {
+        "peakLoad": {
+          "value": 228,
+          "unit": "kN",
+          "kind": "quoted",
+          "location": "Simoncello et al. 2020, Unstrengthened Bridge section (maximum applied load measured on site, quoting Page 1987)"
+        },
+        "numericalPeakLoad": {
+          "value": 245,
+          "unit": "kN",
+          "kind": "exact",
+          "location": "Simoncello et al. 2020, Unstrengthened Bridge section (numerical analysis, good agreement with the experimental one)"
+        },
+        "numericalDisplacementAtPeak": {
+          "value": 3.44,
+          "unit": "mm",
+          "kind": "exact",
+          "location": "Simoncello et al. 2020, Strengthened Bridge section (unstrengthened model)"
+        },
+        "failureMode": "Collapse mechanism with plastic hinge locations in good agreement with the experimental cracking (Figures 7A, 8B-D); fill provides strength in addition to its weight."
+      },
+      "curves": [
+        {
+          "id": "prestwood-URM-load-displacement",
+          "figure": "Simoncello et al. 2020, Figure 9 (numerical curve with experimental maximum marker)",
+          "content": "Load vs arch control-point displacement, unstrengthened",
+          "digitizationStatus": "not-digitized",
+          "datasetPath": null
+        }
+      ]
+    },
+    {
+      "id": "simoncello-2020/prestwood-FRP-numerical",
+      "label": "Prestwood bridge with hypothetical full-intrados FRP strengthening (numerical)",
+      "kind": "numerical",
+      "tier": "C",
+      "tierRationale": "Pure numerical prediction with no experimental strengthened counterpart; useful for mechanism and effectiveness comparison, not for direct load validation.",
+      "phenomena": [
+        "hinging",
+        "compression-crushing",
+        "reinforcement-activation",
+        "backfill-interaction",
+        "nonlinear-load-displacement"
+      ],
+      "geometry": {},
+      "masonry": {
+        "sameAs": "simoncello-2020/prestwood-URM",
+        "fillDensity": {
+          "value": 2040,
+          "unit": "kg/m3",
+          "kind": "exact",
+          "location": "Simoncello et al. 2020, Table 4 (Mohr-Coulomb filling)"
+        },
+        "fillFrictionAngle": {
+          "value": 30,
+          "unit": "deg",
+          "kind": "exact",
+          "location": "Simoncello et al. 2020, Table 4"
+        },
+        "fillCohesion": {
+          "value": 5,
+          "unit": "kPa",
+          "kind": "exact",
+          "location": "Simoncello et al. 2020, Table 4"
+        }
+      },
+      "loading": {
+        "description": "Same patch load as the unstrengthened case."
+      },
+      "reinforcement": {
+        "type": "One FRP layer applied to the entire intrados surface with spike anchors",
+        "frpElasticModulus": {
+          "value": 205000,
+          "unit": "MPa",
+          "kind": "exact",
+          "location": "Simoncello et al. 2020, Table 4"
+        },
+        "frpTensileStrength": {
+          "value": 3252,
+          "unit": "MPa",
+          "kind": "exact",
+          "location": "Simoncello et al. 2020, Table 4"
+        },
+        "frpThickness": {
+          "value": 1.4,
+          "unit": "mm",
+          "kind": "exact",
+          "location": "Simoncello et al. 2020, Table 4"
+        },
+        "bondModel": "Bilinear bond-slip law, tau-f = 1.1 MPa, su = 0.4 mm (Table 5).",
+        "debondingStress": {
+          "value": 1.1,
+          "unit": "MPa",
+          "kind": "exact",
+          "location": "Simoncello et al. 2020, Table 5"
+        }
+      },
+      "observables": {
+        "strengthIncreaseVsExperimental": {
+          "value": 43,
+          "unit": "%",
+          "kind": "exact",
+          "location": "Simoncello et al. 2020, Strengthened Bridge section (increase in peak load with respect to the unstrengthened experimental peak)"
+        },
+        "strengthIncreaseVsNumerical": {
+          "value": 33,
+          "unit": "%",
+          "kind": "exact",
+          "location": "Simoncello et al. 2020, Strengthened Bridge section (with respect to the unstrengthened numerical peak)"
+        },
+        "derivedStrengthenedPeak": {
+          "value": 326,
+          "unit": "kN",
+          "kind": "derived",
+          "location": "Derived as 228 kN x 1.43 from the quoted experimental peak and the stated 43% increase",
+          "notes": "Only approximate: the 43% applies to the numerical peak-load definition."
+        },
+        "displacementAtPeakStrengthened": {
+          "value": 2.42,
+          "unit": "mm",
+          "kind": "exact",
+          "location": "Simoncello et al. 2020, Strengthened Bridge section"
+        },
+        "failureMode": "Peak defined by masonry crushing; FRP not fully exploited (about 60% of the debonding capacity tau-f=1.1 MPa)."
+      },
+      "curves": [
+        {
+          "id": "prestwood-FRP-load-displacement",
+          "figure": "Simoncello et al. 2020, Figure 9",
+          "content": "Load vs control-point displacement, strengthened",
+          "digitizationStatus": "not-digitized",
+          "datasetPath": null
+        }
+      ]
+    }
+  ],
+  "extractionNotes": [
+    "Full text retrieved from the Frontiers open-access page on 2026-08-16.",
+    "Values that originate from Borri et al. 2011 or Page 1987 are marked 'quoted' and record the quoting location in this paper; they must be re-verified against the primary sources before being used as acceptance criteria.",
+    "Tables 1-5 are partially image-based; column headers are reconstructed from the surrounding text. Where the column mapping is ambiguous the value is not transcribed and is noted as UNKNOWN.",
+    "The published Table 3 lists the FRP modulus as '20,5000'; the same material appears as 205,000 MPa in Table 4. Both are recorded as stated.",
+    "Load-displacement figures (Figures 5, 6, 9) are digitizable; not digitized in this step."
+  ]
+}
