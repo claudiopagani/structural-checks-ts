@@ -85,18 +85,42 @@ function reinforcementCriteriaFromState(
 }
 
 /**
+ * Builds the failed engineering criterion for a certified global equilibrium limit point.
+ * The demand is the required design lambda (one), the capacity is the certified limit lambda of
+ * the primary branch, and the utilization ratio is their ratio. These quantities are the global
+ * branch property itself; they are never read from a single interface.
+ */
+function equilibriumLimitPointCriterion(lambda: number | null): MasonryArchEngineeringCriterion[] {
+  const limit = lambda ?? null;
+  return [
+    createMasonryArchEngineeringCriterion("equilibrium-limit-point", [], {
+      lambda: limit,
+      checkId: "equilibrium-limit-point",
+      demand: 1,
+      capacity: limit,
+      utilizationRatio: limit === null || limit <= 0 ? null : 1 / limit,
+    }),
+  ];
+}
+
+/**
  * Builds every failed engineering criterion certified by one design-failure path event by copying
  * the checks published by the converged state of the event's own step. Interface criteria are the
  * exact copy of the step's deformable-interface mechanical checks; reinforcement, anchor, and
  * bonded-layer criteria copy the checks the corresponding evaluation already carries. A
  * `reinforcement-rupture` event can yield several criteria, one per actually failing tensile or
- * ultimate-strain sub-check. Returns an empty array when the event kind is not a physical-limit
- * kind or the event references no known entity.
+ * ultimate-strain sub-check. A certified `equilibrium-limit-point` event yields one global
+ * criterion whose quantities are the branch property. Returns an empty array when the event kind
+ * is neither a physical-limit kind nor the global limit point, or the event references no known
+ * entity.
  */
 export function masonryArchEngineeringCriteriaFromPathEvent(
   event: MasonryArchEvent,
   step: MasonryArchPathStep | null,
 ): MasonryArchEngineeringCriterion[] {
+  if (event.kind === "equilibrium-limit-point") {
+    return equilibriumLimitPointCriterion(event.lambda);
+  }
   if (!isMasonryArchPhysicalLimitEventKind(event.kind)) return [];
   const lambda = event.lambda;
   if (step === null) {

@@ -125,7 +125,7 @@ void test("A. a passive intrados tendon activates by compatibility before lambda
   assert.ok(activation.lambda < 1, "activation must occur before the design state");
   assert.equal(activation.category, "observable-event");
   assert.deepEqual(activation.entityIds, ["passive-intrados"]);
-  assert.equal(activation.step, 11);
+  assert.equal(activation.step, 14);
   assert.equal(
     result.outputs.events.filter((event) => event.kind === "passive-tendon-activated").length,
     1,
@@ -172,8 +172,9 @@ void test("B. the path continues with converged steps after activation", () => {
 
 void test("C. the design state reaches lambda one with PASS", () => {
   const result = analyzeMasonryArchPath(benchmarkArch(true), designOptions);
-  assert.equal(result.outputs.convergenceInfo.termination, "target-reached");
+  assert.equal(result.outputs.convergenceInfo.termination, "design-state-reached");
   assert.equal(result.outputs.convergenceInfo.converged, true);
+  assert.equal(result.outputs.control.type, "arc-length");
   assert.equal(result.outputs.analysis.lambda.currentValue, 1);
   assert.equal(result.outputs.engineeringAssessment?.status, "PASS");
   assert.equal(result.status, "ok");

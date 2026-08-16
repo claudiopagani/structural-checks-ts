@@ -21,6 +21,12 @@ export interface SphericalArcLengthControl {
   readonly maximumRadius?: number;
   /** Weight of the dimensionless load coordinate relative to normalized displacements. */
   readonly loadScale?: number;
+  /**
+   * Optional load-coordinate target. When set, the continuation terminates as soon as the
+   * primary branch crosses this lambda value and the caller certifies the exact target state
+   * with a fixed-lambda corrector. `targetPathLength` then acts only as a safety cap.
+   */
+  readonly targetLambda?: number;
 }
 
 export type ContinuationControl<TDof> =

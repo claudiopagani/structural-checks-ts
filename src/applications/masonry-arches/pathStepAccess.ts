@@ -4,7 +4,14 @@ import type {
   MasonryArchPathStep,
 } from "./pathTypes.js";
 
-export type MasonryArchSignificantStep = "design-state" | "first-limit" | "peak" | "last-converged";
+export type MasonryArchSignificantStep =
+  | "fixed-state"
+  | "design-state"
+  | "first-limit"
+  | "verification-limit"
+  | "peak"
+  | "last-converged"
+  | "termination";
 
 export function getMasonryArchPathStep(
   outputs: MasonryArchPathOutputs,
@@ -25,12 +32,18 @@ export function getMasonryArchSignificantStep(
   name: MasonryArchSignificantStep,
 ): MasonryArchPathStep | null {
   const step =
-    name === "design-state"
-      ? outputs.significantSteps.designState
-      : name === "first-limit"
-        ? outputs.significantSteps.firstLimit
-        : name === "peak"
-          ? outputs.significantSteps.peak
-          : outputs.significantSteps.lastConverged;
+    name === "fixed-state"
+      ? outputs.significantSteps.fixedState
+      : name === "design-state"
+        ? outputs.significantSteps.designState
+        : name === "first-limit"
+          ? outputs.significantSteps.firstLimit
+          : name === "verification-limit"
+            ? outputs.significantSteps.verificationLimit
+            : name === "peak"
+              ? outputs.significantSteps.peak
+              : name === "last-converged"
+                ? outputs.significantSteps.lastConverged
+                : outputs.significantSteps.termination;
   return step === null ? null : getMasonryArchPathStep(outputs, step);
 }

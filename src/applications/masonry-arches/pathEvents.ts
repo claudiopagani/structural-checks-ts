@@ -309,6 +309,9 @@ export function shouldStopMasonryArchPathForEvents(
   events: readonly MasonryArchEvent[],
   designFailureEvents: ReadonlySet<MasonryArchDesignFailureEventKind>,
 ): boolean {
+  // A certified global limit point of the primary branch is always continuation-blocking: no
+  // lambda target can be reached on this branch and no local policy can re-enable it.
+  if (events.some((item) => item.kind === "equilibrium-limit-point")) return true;
   if (events.some((item) => item.category === "terminal-physical-event")) return true;
   if (policy === "stop" && events.some((item) => item.category === "engineering-limit"))
     return true;

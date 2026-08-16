@@ -84,11 +84,15 @@ void test("design-state check returns PASS at a converged lambda-one state", () 
     ...numericalOptions,
     analysisObjective: "design-state-check",
   });
-  assert.equal(result.outputs.control.type, "load");
+  assert.equal(result.outputs.control.type, "arc-length");
+  assert.equal(result.outputs.convergenceInfo.termination, "design-state-reached");
   assert.equal(result.outputs.engineeringAssessment?.status, "PASS");
   assert.equal(result.status, "ok");
   assert.equal(result.outputs.engineeringAssessment?.failureMode, null);
   assert.equal(result.outputs.analysis.lambda.currentValue, 1);
+  // The stored design state is the exact lambda = 1 state certified by the fixed-lambda
+  // corrector: the overshooting arc step is never accepted as the design state.
+  assert.equal(result.outputs.steps.at(-1)!.state.lambda, 1);
   assert.equal(result.outputs.significantSteps.designState, result.outputs.steps.at(-1)!.step);
 });
 

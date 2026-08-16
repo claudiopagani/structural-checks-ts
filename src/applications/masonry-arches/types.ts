@@ -132,7 +132,18 @@ export type MasonryArchEventKind =
   | "bonded-layer-capacity-reached"
   | "extrados-contact-active-set-changed"
   | "extrados-contact-invalid"
+  | "equilibrium-limit-point"
   | "convergence-lost";
+
+/**
+ * A certified global limit point of the primary equilibrium branch: the continuation tangent's
+ * load component reverses sign between two consecutive converged states. It is a global branch
+ * property, never a local plastic event, and it is always verification-blocking: it prevents
+ * reaching the design state on the followed branch. It is deliberately NOT part of
+ * `MasonryArchPhysicalLimitEventKind`, so it cannot be enabled or disabled through
+ * `designFailureEvents` and is never a local-limit criterion.
+ */
+export type MasonryArchGlobalBranchEventKind = "equilibrium-limit-point";
 
 /** Event kinds that describe a violated physical or mechanical limit of the assigned model. */
 export type MasonryArchPhysicalLimitEventKind =
@@ -165,16 +176,19 @@ export type MasonryArchEngineeringCheckId =
   | "deformable-interface-compression-strength"
   | "reinforcement-yield-stress"
   | "reinforcement-tensile-strength"
-  | "reinforcement-ultimate-strain";
+  | "reinforcement-ultimate-strain"
+  | "equilibrium-limit-point";
 
 /**
  * Taxonomy of failed engineering criteria. Only conditions that can genuinely make a verification
  * FAIL belong here: the physical-limit event kinds plus the global assigned-state
- * `equilibrium-infeasible` verdict. Observable, warning, and numerical event kinds are part of
- * the event taxonomy, never of the failed-criterion taxonomy.
+ * `equilibrium-infeasible` verdict and the certified global `equilibrium-limit-point`.
+ * Observable, warning, and numerical event kinds are part of the event taxonomy, never of the
+ * failed-criterion taxonomy.
  */
 export type MasonryArchEngineeringCriterionKind =
   | MasonryArchPhysicalLimitEventKind
+  | "equilibrium-limit-point"
   | "equilibrium-infeasible";
 
 /**
@@ -223,11 +237,23 @@ export interface MasonryArchCapacityLandmarks {
   readonly lambdaPeak: number | null;
   readonly lambdaTermination: number | null;
   readonly lambdaCollapse: number | null;
+  /**
+   * Lambda of the first event that makes satisfying the design verification at lambda = 1
+   * impossible on the followed primary branch: a certified global equilibrium limit point below
+   * one, terminal crushing, reinforcement or anchor or bonded-layer failure, or another genuinely
+   * design-blocking criterion. It is deliberately distinct from `lambdaFirstLimit`: a first local
+   * plastic sliding that redistributes does not move this value. Null when the design state
+   * passed, when the verification stopped at the fixed state, or when the process could not
+   * certify any blocking event (INDETERMINATE). For capacity-only analyses the design semantics
+   * do not apply and the value is null.
+   */
+  readonly lambdaVerificationLimit: number | null;
   readonly steps: {
     readonly firstLimit: number | null;
     readonly peak: number | null;
     readonly termination: number | null;
     readonly collapse: number | null;
+    readonly verificationLimit: number | null;
   };
   readonly collapseDefinition: string | null;
 }

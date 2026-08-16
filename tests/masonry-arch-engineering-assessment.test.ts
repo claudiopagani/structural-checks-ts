@@ -134,6 +134,21 @@ function designPath(
   });
 }
 
+/**
+ * Expert load-controlled design path. Used only where the test's purpose is the criterion
+ * taxonomy or the step-coherent check data: the standard verification is arc-length governed,
+ * and the load-controlled path is the explicit expert alternative.
+ */
+function loadControlledDesignPath(
+  model: ReturnType<typeof pathModel>,
+  options: Partial<Parameters<typeof analyzeMasonryArchPath>[1]> = {},
+) {
+  return designPath(model, {
+    control: { type: "load", targetLambda: 1, initialStep: 0.05 },
+    ...options,
+  });
+}
+
 /** Path model whose weak bonded layer reaches capacity during the fixed preload. */
 function bondedLayerCapacityPathModel() {
   return pathModel({
@@ -558,7 +573,7 @@ void test("coherence: equilibrium and path use the same reinforcement criterion 
     }),
     { loadFactorsByCaseId: { G1: 1, G2: 1, Q1: 0.2 } },
   );
-  const path = designPath(
+  const path = loadControlledDesignPath(
     pathModel({
       pointForce: { x: 0, y: 100 },
       reinforcements: [
@@ -616,7 +631,7 @@ void test("coherence: equilibrium and path use the same anchor criterion kind", 
     }),
     { loadFactorsByCaseId: { G1: 1, G2: 1, Q1: 0.2 } },
   );
-  const path = designPath(
+  const path = loadControlledDesignPath(
     pathModel({
       pointForce: { x: 0, y: 100 },
       reinforcements: [
@@ -837,7 +852,7 @@ void test("path design assessment reports the shared shape with lambda and requi
   // mode keeps its own semantics and remains available on the outputs.
   assert.equal(assessment.failureMode, null);
   assert.equal(result.outputs.failureMode, "no-collapse-within-model");
-  assert.equal(result.metadata.schemaVersion, "8.0.0");
+  assert.equal(result.metadata.schemaVersion, "9.0.0");
 });
 
 void test("D3. reinforcement rupture from both sub-checks preserves one criterion per check", () => {
@@ -1081,7 +1096,7 @@ void test("O2a. under an explicit stricter policy the path sliding criteria copy
 });
 
 void test("O2b. path reinforcement criteria copy the step's check data", () => {
-  const result = designPath(
+  const result = loadControlledDesignPath(
     pathModel({
       pointForce: { x: 0, y: 100 },
       reinforcements: [
@@ -1121,7 +1136,7 @@ void test("O2b. path reinforcement criteria copy the step's check data", () => {
 });
 
 void test("O3. path anchor and bonded-layer criteria carry step-coherent numeric data", () => {
-  const anchorResult = designPath(
+  const anchorResult = loadControlledDesignPath(
     pathModel({
       pointForce: { x: 0, y: 100 },
       reinforcements: [
@@ -1160,7 +1175,7 @@ void test("O3. path anchor and bonded-layer criteria carry step-coherent numeric
   assert.equal(anchorCriterion.capacity, anchor.capacity.resultant);
   assert.equal(anchorCriterion.utilizationRatio, anchor.utilizationRatio);
 
-  const layerResult = designPath(
+  const layerResult = loadControlledDesignPath(
     pathModel({
       pointForce: { x: 0, y: 100 },
       bondedLayers: [

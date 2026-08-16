@@ -65,12 +65,15 @@ import {
   MASONRY_ARCH_PATH_RESULT_SCHEMA_VERSION,
   type AnalyzeMasonryArchPathOptions,
   type MasonryArchEvent,
+  type MasonryArchLambdaBracket,
   type MasonryArchPathControl,
   type MasonryArchPathEngineeringAssessment,
+  type MasonryArchPathFixedStateResult,
   type MasonryArchPathOutputs,
   type MasonryArchPathResult,
   type MasonryArchPathStep,
   type MasonryArchEquilibriumResidual,
+  type MasonryArchVerifiedLimitPoint,
 } from "./pathTypes.js";
 import {
   DEFAULT_DESIGN_FAILURE_EVENTS,
@@ -934,6 +937,62 @@ function validateNonlinearMechanicalModel(model: NormalizedMasonryArchModel): vo
   }
 }
 
+/**
+ * Fixed-lambda corrector that certifies the exact design state at lambda = 1. When two
+ * consecutive arc-length states bracket the crossing of lambda = 1, the corrector seeds a Newton
+ * solve with the interpolated state and enforces lambda = 1 exactly. Certification requires both
+ * Newton convergence and a satisfied equilibrium residual: a step that merely overshoots
+ * lambda = 1 is never accepted as the design state. A failed corrector is a numerical
+ * diagnostic, never a physical failure.
+ */
+function certifyDesignStateAtLambdaOne(
+  context: SolverContext,
+  previousQ: readonly number[],
+  previousLambda: number,
+  previousEvaluation: SystemEvaluation,
+  crossingQ: readonly number[],
+  crossingLambda: number,
+  committedStates: Readonly<Record<string, RigidBlockDeformableInterfaceState2D>>,
+): {
+  readonly certified: boolean;
+  readonly solved: NewtonResult | null;
+  readonly attempts: number;
+} {
+  const target = 1;
+  const attempts: NewtonResult[] = [];
+  const denominator = crossingLambda - previousLambda;
+  if (Math.abs(denominator) > 1e-14) {
+    const ratio = (target - previousLambda) / denominator;
+    const seedQ = previousQ.map((value, index) => value + ratio * (crossingQ[index]! - value));
+    const interpolated = solveNewton(context, seedQ, target, 1, committedStates, null);
+    attempts.push(interpolated);
+    if (
+      interpolated.converged &&
+      equilibriumResult(context, interpolated.evaluation).maximumNormalizedBlockResidual <=
+        context.tolerance
+    ) {
+      return { certified: true, solved: interpolated, attempts: attempts.length };
+    }
+  }
+  const loadDirection = solveLoadCorrection(context, {
+    ...previousEvaluation,
+    residual: previousEvaluation.scalableDerivative,
+  });
+  const seedQ = previousQ.map(
+    (value, index) => value + loadDirection[index]! * (target - previousLambda),
+  );
+  const tangentSeeded = solveNewton(context, seedQ, target, 1, committedStates, null);
+  attempts.push(tangentSeeded);
+  if (
+    tangentSeeded.converged &&
+    equilibriumResult(context, tangentSeeded.evaluation).maximumNormalizedBlockResidual <=
+      context.tolerance
+  ) {
+    return { certified: true, solved: tangentSeeded, attempts: attempts.length };
+  }
+  return { certified: false, solved: null, attempts: attempts.length };
+}
+
 function resolveAnalysisObjective(
   options: AnalyzeMasonryArchPathOptions,
 ): MasonryArchAnalysisObjective {
@@ -971,13 +1030,18 @@ function resolveControl(
         "analysisObjective: advanced-path requires an explicit continuation control.",
       );
     }
+    // The standard design-state verification is arc-length governed: the continuation follows
+    // the primary branch and the design state is certified by a fixed-lambda corrector at the
+    // crossing of lambda = 1. `targetPathLength` is only the safety cap. Adaptive load control
+    // remains available as an explicit expert choice.
     control =
       objective === "design-state-check"
         ? {
-            type: "load",
+            type: "arc-length",
             targetLambda: 1,
+            targetPathLength: 10,
             monitor: defaultMonitor(model),
-            initialStep: 0.1,
+            initialRadius: 0.05,
           }
         : {
             type: "arc-length",
@@ -990,13 +1054,25 @@ function resolveControl(
   } else {
     control = assigned;
   }
-  if (
-    objective === "design-state-check" &&
-    (control.type !== "load" || Math.abs(control.targetLambda - 1) > 1e-12)
-  ) {
-    throw new Error(
-      "analysisObjective: design-state-check requires adaptive load control with targetLambda: 1.",
-    );
+  if (objective === "design-state-check") {
+    if (control.type === "load" && Math.abs(control.targetLambda - 1) > 1e-12) {
+      throw new Error(
+        "analysisObjective: design-state-check requires adaptive load control with targetLambda: 1.",
+      );
+    }
+    if (control.type === "displacement") {
+      throw new Error(
+        "analysisObjective: design-state-check cannot be certified with displacement control: the design state is defined at lambda = 1.",
+      );
+    }
+    if (
+      control.type === "arc-length" &&
+      (control.targetLambda === undefined || Math.abs(control.targetLambda - 1) > 1e-12)
+    ) {
+      throw new Error(
+        "analysisObjective: design-state-check with arc-length control requires targetLambda: 1; the exact design state is certified by a fixed-lambda corrector at the crossing.",
+      );
+    }
   }
   return control;
 }
@@ -1025,7 +1101,7 @@ function nonlinearAnalysisOutcome(
   termination: MasonryArchPathOutputs["convergenceInfo"]["termination"],
   lambda: number,
 ): MasonryArchAnalysisOutcome {
-  if (termination === "target-reached") {
+  if (termination === "target-reached" || termination === "design-state-reached") {
     return {
       objective,
       objectiveStatus: objective === "capacity" ? "not-reached" : "satisfied",
@@ -1033,7 +1109,11 @@ function nonlinearAnalysisOutcome(
       lambdaAtTermination: lambda,
     };
   }
-  if (termination === "engineering-limit" || termination === "terminal-physical-event") {
+  if (
+    termination === "engineering-limit" ||
+    termination === "terminal-physical-event" ||
+    termination === "global-limit-point"
+  ) {
     return {
       objective,
       objectiveStatus:
@@ -1156,8 +1236,17 @@ export function analyzeMasonryArchPath(
   let failedLambdaTarget: number | null = null;
   let stepNumber = 0;
   let termination: MasonryArchPathOutputs["convergenceInfo"]["termination"] = "maximum-steps";
+  let terminationReason: string | null = null;
   let failureMode: MasonryArchFailureMode = "no-collapse-within-model";
   const eventLog: MasonryArchEvent[] = [];
+  let designStateCorrectorAttempts = 0;
+  let verifiedLimitPoint: MasonryArchVerifiedLimitPoint | null = null;
+  let lambdaBracket: MasonryArchLambdaBracket | null = null;
+  // Classical limit-point condition: the lambda component of the unit continuation tangent at
+  // the last converged state; it vanishes (or the tangent matrix becomes singular) exactly at a
+  // turning point of the branch. Recorded as a diagnostic; used for certification only when the
+  // forward traversal then fails.
+  let tangentLambdaComponent: number | null = null;
   // `designFailureEvents` is additive: the configured kinds extend the always-active default
   // design-failure set. A stricter policy can therefore only add failures (for example
   // `["plastic-sliding"]`) and can never disable a default failure such as
@@ -1211,6 +1300,8 @@ export function analyzeMasonryArchPath(
       cutbacks += 1;
       if (preloadStep < 1e-5) {
         termination = "fixed-preload-failed";
+        terminationReason =
+          "The fixed-load initialization could not converge: the fixed state is numerically undeterminable.";
         failureMode = "undetermined";
         if (solved.warning !== null) warnings.push(solved.warning);
         eventLog.push(
@@ -1293,6 +1384,7 @@ export function analyzeMasonryArchPath(
           cutbacks += 1;
           if (loadStep < minimumStep) {
             termination = "minimum-step";
+            terminationReason = "Adaptive load control exhausted its minimum step.";
             failureMode = "undetermined";
             if (solved.warning !== null) warnings.push(solved.warning);
             failedLambdaTarget = target;
@@ -1405,6 +1497,7 @@ export function analyzeMasonryArchPath(
         nonMonotoneLineSearchAcceptances += solved.nonMonotoneAcceptances;
         if (!solved.converged) {
           termination = "minimum-step";
+          terminationReason = "Displacement control lost convergence.";
           failureMode = "undetermined";
           if (solved.warning !== null) warnings.push(solved.warning);
           eventLog.push(
@@ -1471,6 +1564,10 @@ export function analyzeMasonryArchPath(
         normalizedControl.targetPathLength,
         "Nonlinear arc-length targetPathLength",
       );
+      const arcTarget = normalizedControl.targetLambda ?? null;
+      if (arcTarget !== null) {
+        finitePositive(arcTarget, "Nonlinear arc-length targetLambda");
+      }
       let radius = finitePositive(
         normalizedControl.initialRadius ?? 0.05,
         "Nonlinear arc-length initialRadius",
@@ -1491,11 +1588,27 @@ export function analyzeMasonryArchPath(
         throw new Error("Nonlinear arc-length minimumRadius cannot exceed maximumRadius.");
       }
       radius = Math.min(radius, maximumRadius);
+      const initialRadiusForLeaps = radius;
+      const leapRadiusThreshold = Math.max(minimumRadius, initialRadiusForLeaps / 16);
       let accumulatedPathLength = 0;
       let previousIncrementQ: Vector | null = null;
       let previousIncrementLambda: number | null = null;
+      let previousStepLambdaIncrement: number | null = null;
+      let leapAttempted = false;
       while (accumulatedPathLength < targetPathLength - 1e-14 && stepNumber < maxSteps) {
         const stepRadius = Math.min(radius, targetPathLength - accumulatedPathLength);
+        {
+          try {
+            const tangentDirection = solveLoadCorrection(context, {
+              ...finalEvaluation,
+              residual: finalEvaluation.scalableDerivative,
+            });
+            const tangentNorm = arcLengthIncrementNorm(context, tangentDirection, 1, loadScale);
+            tangentLambdaComponent = tangentNorm > 0 ? 1 / tangentNorm : 1;
+          } catch {
+            tangentLambdaComponent = 0;
+          }
+        }
         let predictor: { readonly q: Vector; readonly lambda: number };
         try {
           predictor = arcLengthPredictor(
@@ -1508,6 +1621,7 @@ export function analyzeMasonryArchPath(
           );
         } catch (error) {
           termination = "minimum-step";
+          terminationReason = `Arc-length predictor failed: ${String(error)}`;
           failureMode = "undetermined";
           warnings.push(`Arc-length predictor failed: ${String(error)}`);
           eventLog.push(
@@ -1526,7 +1640,7 @@ export function analyzeMasonryArchPath(
         const referenceStepLambda = lambda;
         const seedQ = q.map((value, index) => value + predictor.q[index]!);
         const seedLambda = lambda + predictor.lambda;
-        const solved = solveNewton(context, seedQ, seedLambda, 1, committedStates, {
+        let solved = solveNewton(context, seedQ, seedLambda, 1, committedStates, {
           type: "arc-length",
           referenceQ: referenceStepQ,
           referenceLambda: referenceStepLambda,
@@ -1539,7 +1653,43 @@ export function analyzeMasonryArchPath(
           radius /= 2;
           cutbacks += 1;
           if (radius < minimumRadius) {
+            // Tangent-based limit-point certification: the last converged state has a singular
+            // or nearly vertical continuation tangent (the classical turning-point condition)
+            // and the forward traversal could not proceed beyond it. The limit point is
+            // certified at that state; a discrete local plastic event alone never qualifies.
+            if (tangentLambdaComponent !== null && tangentLambdaComponent < 1e-4) {
+              verifiedLimitPoint = {
+                lambda,
+                bracket: { lower: lambda, upper: lambda },
+                refinementSteps: 0,
+                certified: true,
+              };
+              lambdaBracket = {
+                lower: lambda,
+                upper: lambda,
+                certified: true,
+                meaning: "equilibrium-limit-point-bracket",
+              };
+              termination = "global-limit-point";
+              terminationReason =
+                `The continuation tangent at the last converged state is singular or nearly ` +
+                `vertical (lambda component ${tangentLambdaComponent}), the classical global ` +
+                `limit-point condition, and no further arc step could traverse it.`;
+              failureMode = "instability";
+              eventLog.push(
+                event(
+                  "engineering-limit",
+                  "equilibrium-limit-point",
+                  steps.at(-1)?.step ?? stepNumber,
+                  lambda,
+                  [],
+                  terminationReason,
+                ),
+              );
+              break;
+            }
             termination = "minimum-step";
+            terminationReason = "Arc-length control exhausted its minimum radius.";
             failureMode = "undetermined";
             if (solved.warning !== null) warnings.push(solved.warning);
             eventLog.push(
@@ -1554,10 +1704,139 @@ export function analyzeMasonryArchPath(
             );
             break;
           }
+          // Turning-point traversal attempt: when repeated cutbacks stall in front of a
+          // possible turning point, one maximum-radius arc step in the same tangent direction
+          // may traverse it. The two converged sides then certify the limit point with
+          // bracketing refinement; a failed leap is an ordinary cutback.
+          if (radius <= leapRadiusThreshold && !leapAttempted) {
+            leapAttempted = true;
+            const leapRadius = maximumRadius;
+            let leapPredictor: { readonly q: Vector; readonly lambda: number };
+            try {
+              leapPredictor = arcLengthPredictor(
+                context,
+                finalEvaluation,
+                previousIncrementQ,
+                previousIncrementLambda,
+                leapRadius,
+                loadScale,
+              );
+            } catch {
+              continue;
+            }
+            const leapSeedQ = q.map((value, index) => value + leapPredictor.q[index]!);
+            const leapSeedLambda = lambda + leapPredictor.lambda;
+            const leap = solveNewton(context, leapSeedQ, leapSeedLambda, 1, committedStates, {
+              type: "arc-length",
+              referenceQ: referenceStepQ,
+              referenceLambda: referenceStepLambda,
+              radius: leapRadius,
+              loadScale,
+            });
+            totalIterations += leap.iterations;
+            nonMonotoneLineSearchAcceptances += leap.nonMonotoneAcceptances;
+            if (leap.converged) {
+              cutbacks += 1;
+              solved = leap;
+            } else {
+              continue;
+            }
+          } else {
+            continue;
+          }
+        }
+
+        // The direction the tangent predicted for this step, before it is overwritten below.
+        const riseDirectionQ = previousIncrementQ;
+        const riseDirectionLambda = previousIncrementLambda;
+
+        // Crossing of the design target: the exact lambda = 1 state is certified by a
+        // fixed-lambda corrector. The overshooting arc step is never accepted as the design
+        // state, and a failed corrector is retried with a smaller radius, never promoted to a
+        // capacity or a failure.
+        if (
+          arcTarget !== null &&
+          referenceStepLambda < arcTarget - 1e-12 &&
+          solved.lambda >= arcTarget - 1e-12
+        ) {
+          const corrector = certifyDesignStateAtLambdaOne(
+            context,
+            referenceStepQ,
+            referenceStepLambda,
+            finalEvaluation,
+            solved.q,
+            solved.lambda,
+            committedStates,
+          );
+          if (corrector.solved !== null) totalIterations += corrector.solved.iterations;
+          designStateCorrectorAttempts += corrector.attempts;
+          if (corrector.certified) {
+            const previousEvaluation = finalEvaluation;
+            q = corrector.solved!.q;
+            lambda = arcTarget;
+            finalEvaluation = corrector.solved!.evaluation;
+            stepNumber += 1;
+            const stepEvents = appendHistoryPoint(
+              steps,
+              context,
+              analysisLoads,
+              previousEvaluation,
+              finalEvaluation,
+              {
+                step: stepNumber,
+                stage: "scalable-loading",
+                fixedLoadFactor: 1,
+                lambda: arcTarget,
+                controlDisplacement: controlValue(q, referenceQ, selectedControlDof),
+                iterations: corrector.solved!.iterations,
+              },
+            );
+            eventLog.push(...stepEvents);
+            if (
+              shouldStopMasonryArchPathForEvents(
+                analysisObjective,
+                engineeringLimitPolicy,
+                stepEvents,
+                designFailureEvents,
+              )
+            ) {
+              failureMode = masonryArchFailureModeFromEvents(stepEvents);
+              termination = stepEvents.some((item) => item.category === "terminal-physical-event")
+                ? "terminal-physical-event"
+                : "engineering-limit";
+              terminationReason =
+                "The exact lambda = 1 design state was reached and equilibrated but violates the prescribed criteria.";
+            } else {
+              termination = "design-state-reached";
+              terminationReason =
+                "The primary branch crossed lambda = 1 and the fixed-lambda corrector certified the exact design state.";
+            }
+            break;
+          }
+          radius = Math.max(minimumRadius, radius / 4);
+          if (radius <= minimumRadius * (1 + 1e-12)) {
+            termination = "design-state-not-certified";
+            terminationReason =
+              "The fixed-lambda corrector could not certify the design state at lambda = 1.";
+            failureMode = "undetermined";
+            eventLog.push(
+              event(
+                "numerical-failure",
+                "convergence-lost",
+                null,
+                lambda,
+                [],
+                "The fixed-lambda corrector could not certify the design state at lambda = 1.",
+              ),
+            );
+            break;
+          }
           continue;
         }
+
         previousIncrementQ = solved.q.map((value, index) => value - referenceStepQ[index]!);
         previousIncrementLambda = solved.lambda - referenceStepLambda;
+        leapAttempted = false;
         const completedRadius = arcLengthIncrementNorm(
           context,
           previousIncrementQ,
@@ -1599,18 +1878,146 @@ export function analyzeMasonryArchPath(
           termination = stepEvents.some((item) => item.category === "terminal-physical-event")
             ? "terminal-physical-event"
             : "engineering-limit";
+          terminationReason =
+            "A physical or engineering limit terminated the primary branch before the continuation target.";
           break;
         }
+
+        // Global limit-point certification. A turning point of the primary branch is certified
+        // only when two consecutive converged states show tangent load components of opposite
+        // sign above the numerical noise threshold; a discrete local plastic event is never a
+        // certified limit point. The rising side is then refined with halved arc increments so
+        // the reported lambda is the maximum lambda verified on the primary branch.
+        const deltaLambda = lambda - referenceStepLambda;
+        if (
+          previousStepLambdaIncrement !== null &&
+          Math.abs(previousStepLambdaIncrement) >= 1e-6 &&
+          Math.abs(deltaLambda) >= 1e-6 &&
+          previousStepLambdaIncrement * deltaLambda < 0
+        ) {
+          let risingQ = [...referenceStepQ];
+          let risingLambda = referenceStepLambda;
+          let risingEval = previousEvaluation;
+          let directionQ: Vector | null = riseDirectionQ;
+          let directionLambda: number | null = riseDirectionLambda;
+          let refined = risingLambda;
+          let refinementSteps = 0;
+          let refinementRadius = Math.max(minimumRadius, completedRadius / 2);
+          while (refinementSteps < 6) {
+            let refinementPredictor: { readonly q: Vector; readonly lambda: number };
+            try {
+              refinementPredictor = arcLengthPredictor(
+                context,
+                risingEval,
+                directionQ,
+                directionLambda,
+                refinementRadius,
+                loadScale,
+              );
+            } catch {
+              break;
+            }
+            const refinementSeedQ = risingQ.map(
+              (value, index) => value + refinementPredictor.q[index]!,
+            );
+            const refinementSeedLambda = risingLambda + refinementPredictor.lambda;
+            const bisection = solveNewton(
+              context,
+              refinementSeedQ,
+              refinementSeedLambda,
+              1,
+              risingEval.trialStates,
+              {
+                type: "arc-length",
+                referenceQ: risingQ,
+                referenceLambda: risingLambda,
+                radius: refinementRadius,
+                loadScale,
+              },
+            );
+            totalIterations += bisection.iterations;
+            nonMonotoneLineSearchAcceptances += bisection.nonMonotoneAcceptances;
+            if (!bisection.converged) break;
+            const bisectionDelta = bisection.lambda - risingLambda;
+            if (bisectionDelta < 1e-6) break;
+            const priorRefinementEval = risingEval;
+            const priorRisingQ = risingQ;
+            risingQ = [...bisection.q];
+            risingLambda = bisection.lambda;
+            risingEval = bisection.evaluation;
+            directionQ = bisection.q.map((value, index) => value - priorRisingQ[index]!);
+            directionLambda = bisectionDelta;
+            refined = risingLambda;
+            stepNumber += 1;
+            const refinementEvents = appendHistoryPoint(
+              steps,
+              context,
+              analysisLoads,
+              priorRefinementEval,
+              bisection.evaluation,
+              {
+                step: stepNumber,
+                stage: "scalable-loading",
+                fixedLoadFactor: 1,
+                lambda: risingLambda,
+                controlDisplacement: controlValue(risingQ, referenceQ, selectedControlDof),
+                iterations: bisection.iterations,
+              },
+            );
+            eventLog.push(...refinementEvents);
+            refinementSteps += 1;
+            refinementRadius = Math.max(minimumRadius, refinementRadius / 2);
+          }
+          lambda = refined;
+          finalEvaluation = risingEval;
+          const lower = Math.min(lambda, referenceStepLambda);
+          verifiedLimitPoint = {
+            lambda: refined,
+            bracket: { lower, upper: refined },
+            refinementSteps,
+            certified: true,
+          };
+          lambdaBracket = {
+            lower,
+            upper: refined,
+            certified: true,
+            meaning: "equilibrium-limit-point-bracket",
+          };
+          termination = "global-limit-point";
+          terminationReason =
+            `The primary equilibrium branch turns at a certified global limit point: the maximum ` +
+            `verified lambda is ${refined}, bracketed along the continuation between two converged ` +
+            `states (refinement steps: ${refinementSteps}).`;
+          failureMode = "instability";
+          eventLog.push(
+            event(
+              "engineering-limit",
+              "equilibrium-limit-point",
+              steps.at(-1)?.step ?? stepNumber,
+              refined,
+              [],
+              terminationReason,
+            ),
+          );
+          break;
+        }
+        previousStepLambdaIncrement = deltaLambda;
         if (solved.iterations <= 5) radius = Math.min(maximumRadius, radius * 1.25);
         else if (solved.iterations >= 12) radius = Math.max(minimumRadius, radius / 2);
       }
-      if (accumulatedPathLength >= targetPathLength - 1e-14 && termination === "maximum-steps") {
+      if (
+        arcTarget === null &&
+        accumulatedPathLength >= targetPathLength - 1e-14 &&
+        termination === "maximum-steps"
+      ) {
         termination = "target-reached";
+        terminationReason = "The requested arc-length continuation target was reached.";
       }
     }
   }
 
   if (stepNumber >= maxSteps && termination === "maximum-steps") {
+    terminationReason = `The analysis exhausted maxSteps=${maxSteps}.`;
     warnings.push(`The nonlinear analysis reached maxSteps=${maxSteps}.`);
     eventLog.push(
       event(
@@ -1631,10 +2038,14 @@ export function analyzeMasonryArchPath(
     ...model.bondedLayers.map((item) => item.id),
   ];
   const physicalLimitReached =
-    termination === "engineering-limit" || termination === "terminal-physical-event";
+    termination === "engineering-limit" ||
+    termination === "terminal-physical-event" ||
+    termination === "global-limit-point";
   const analysisOutcome = nonlinearAnalysisOutcome(analysisObjective, termination, lambda);
   const numericalConvergence =
-    (termination === "target-reached" || physicalLimitReached) &&
+    (termination === "target-reached" ||
+      termination === "design-state-reached" ||
+      physicalLimitReached) &&
     equilibrium.maximumNormalizedBlockResidual <= tolerance;
   const limitEvents = eventLog.filter(
     (item) => item.category === "engineering-limit" || item.category === "terminal-physical-event",
@@ -1654,52 +2065,45 @@ export function analyzeMasonryArchPath(
     (item) => item.category === "terminal-physical-event" && item.step === lastHistory?.step,
   );
   const lambdaCollapse = terminalEvent?.kind === "reinforcement-rupture" ? lambda : null;
-  const capacity: MasonryArchCapacityLandmarks = {
-    lambdaFirstLimit: firstLimitEvent?.lambda ?? null,
-    lambdaPeak: peakPoint?.state.lambda ?? null,
-    lambdaTermination: lastHistory?.state.lambda ?? null,
-    lambdaCollapse,
-    steps: {
-      firstLimit: firstLimitEvent?.step ?? null,
-      peak: peakPoint?.step ?? null,
-      termination: lastHistory?.step ?? null,
-      collapse: lambdaCollapse === null ? null : (lastHistory?.step ?? null),
-    },
-    collapseDefinition:
-      lambdaCollapse === null
-        ? null
-        : "Terminal reinforcement rupture identified by the assigned tensile or ultimate-strain criterion.",
-  };
+  const stepByNumber = new Map(steps.map((item) => [item.step, item]));
   // A terminal physical event fails the design check, and so do events of the user-configured
-  // design-failure set. When a step terminates through a physical event, every physical-limit
-  // event identified by that same converged step is reported as a failed criterion too: the
-  // terminal step's limits are the certified causes of termination, and a `stop-at-onset` step
-  // keeps its `compression-strength-reached` criterion next to the terminal `crushing` one.
+  // design-failure set, and so does a certified global limit point of the primary branch. When a
+  // step terminates through a physical event, every physical-limit event identified by that same
+  // converged step is reported as a failed criterion too: the terminal step's limits are the
+  // certified causes of termination, and a `stop-at-onset` step keeps its
+  // `compression-strength-reached` criterion next to the terminal `crushing` one.
   const terminalStepNumbers = new Set(
     eventLog
       .filter((item) => item.category === "terminal-physical-event" && item.step !== null)
       .map((item) => item.step),
   );
-  const designFailedEvents = eventLog.filter(
-    (item) =>
-      item.category === "terminal-physical-event" ||
-      (isMasonryArchPhysicalLimitEventKind(item.kind) && designFailureEvents.has(item.kind)) ||
-      (isMasonryArchPhysicalLimitEventKind(item.kind) &&
-        item.step !== null &&
-        terminalStepNumbers.has(item.step)),
-  );
+  const designFailedEvents = eventLog
+    .filter(
+      (item) =>
+        item.category === "terminal-physical-event" ||
+        item.kind === "equilibrium-limit-point" ||
+        (isMasonryArchPhysicalLimitEventKind(item.kind) && designFailureEvents.has(item.kind)) ||
+        (isMasonryArchPhysicalLimitEventKind(item.kind) &&
+          item.step !== null &&
+          terminalStepNumbers.has(item.step)),
+    )
+    .sort(
+      (left, right) =>
+        (left.step ?? Number.POSITIVE_INFINITY) - (right.step ?? Number.POSITIVE_INFINITY),
+    );
   const designAssessmentStatus: MasonryArchEngineeringAssessmentStatus =
     analysisObjective !== "design-state-check"
       ? "INDETERMINATE"
       : designFailedEvents.length > 0
         ? "FAIL"
-        : termination === "target-reached" && numericalConvergence && lambda >= 1 - 1e-12
+        : (termination === "target-reached" || termination === "design-state-reached") &&
+            numericalConvergence &&
+            lambda >= 1 - 1e-12
           ? "PASS"
           : "INDETERMINATE";
   // Every criterion reads its numeric quantities from the event's own converged step. The same
   // violated condition re-identified at a later step does not duplicate the list: the earliest
   // identification wins while simultaneously violated distinct conditions are all preserved.
-  const stepByNumber = new Map(steps.map((item) => [item.step, item]));
   const designFailedCriteria: MasonryArchEngineeringCriterion[] = [];
   const seenCriterionKeys = new Set<string>();
   for (const failedEvent of designFailedEvents) {
@@ -1723,11 +2127,83 @@ export function analyzeMasonryArchPath(
           question: MASONRY_ARCH_PATH_ASSESSMENT_QUESTION,
           status: designAssessmentStatus,
           requiredLambda: 1,
-          lambda: lastHistory?.state.lambda ?? null,
+          lambda:
+            designAssessmentStatus === "PASS"
+              ? 1
+              : designAssessmentStatus === "FAIL"
+                ? (designFailedEvents[0]?.lambda ?? lastHistory?.state.lambda ?? null)
+                : (lastHistory?.state.lambda ?? null),
           failedCriteria: designFailedCriteria,
           failureMode: assessmentFailureMode,
         }
       : null;
+  // Logical phase A: the fixed-load state at lambda = 0. This is the necessary verification of
+  // F_fixed before any scalable load is applied, not a construction stage.
+  const fixedStateStep = steps.findLast((point) => point.stage === "fixed-preload") ?? null;
+  const fixedStateBlockingEvents = designFailedEvents.filter(
+    (item) => item.step !== null && stepByNumber.get(item.step)?.stage === "fixed-preload",
+  );
+  const fixedStateCriteria: MasonryArchEngineeringCriterion[] = [];
+  const seenFixedCriterionKeys = new Set<string>();
+  for (const failedEvent of fixedStateBlockingEvents) {
+    const step = failedEvent.step === null ? null : (stepByNumber.get(failedEvent.step) ?? null);
+    for (const criterion of masonryArchEngineeringCriteriaFromPathEvent(failedEvent, step)) {
+      const key = `${criterion.kind}|${criterion.checkId ?? ""}|${[...criterion.entityIds]
+        .sort()
+        .join(",")}`;
+      if (seenFixedCriterionKeys.has(key)) continue;
+      seenFixedCriterionKeys.add(key);
+      fixedStateCriteria.push(criterion);
+    }
+  }
+  const fixedState: MasonryArchPathFixedStateResult = {
+    status:
+      fixedStateBlockingEvents.length > 0 ? "FAIL" : preloadCompleted ? "PASS" : "INDETERMINATE",
+    lambda: 0,
+    step: fixedStateStep?.step ?? null,
+    failedCriteria: fixedStateCriteria,
+    failureMode:
+      fixedStateCriteria.length > 0
+        ? masonryArchFailureModeFromKinds(fixedStateCriteria.map((item) => item.kind))
+        : null,
+  };
+  // Lambda of the first event that makes satisfying the design verification at lambda = 1
+  // impossible on the primary branch. Deliberately distinct from lambdaFirstLimit: a local
+  // plastic sliding that redistributes never moves this value. When the fixed state itself
+  // failed, no scalable lambda is defined and the verification limit stays null.
+  let verificationLimit: number | null = null;
+  let verificationStep: number | null = null;
+  if (
+    analysisObjective === "design-state-check" &&
+    designAssessmentStatus === "FAIL" &&
+    fixedState.status === "PASS"
+  ) {
+    const firstBlocking = designFailedEvents[0] ?? null;
+    verificationLimit =
+      firstBlocking?.kind === "equilibrium-limit-point"
+        ? (verifiedLimitPoint?.lambda ?? firstBlocking.lambda)
+        : (firstBlocking?.lambda ?? null);
+    verificationStep = firstBlocking?.step ?? null;
+  }
+  const capacity: MasonryArchCapacityLandmarks = {
+    lambdaFirstLimit: firstLimitEvent?.lambda ?? null,
+    lambdaPeak:
+      verifiedLimitPoint !== null ? verifiedLimitPoint.lambda : (peakPoint?.state.lambda ?? null),
+    lambdaTermination: lastHistory?.state.lambda ?? null,
+    lambdaCollapse,
+    lambdaVerificationLimit: verificationLimit,
+    steps: {
+      firstLimit: firstLimitEvent?.step ?? null,
+      peak: verifiedLimitPoint !== null ? (lastHistory?.step ?? null) : (peakPoint?.step ?? null),
+      termination: lastHistory?.step ?? null,
+      collapse: lambdaCollapse === null ? null : (lastHistory?.step ?? null),
+      verificationLimit: verificationStep,
+    },
+    collapseDefinition:
+      lambdaCollapse === null
+        ? null
+        : "Terminal reinforcement rupture identified by the assigned tensile or ultimate-strain criterion.",
+  };
   const resolvedAnalysisOutcome: MasonryArchAnalysisOutcome =
     analysisObjective !== "design-state-check"
       ? analysisOutcome
@@ -1742,7 +2218,7 @@ export function analyzeMasonryArchPath(
         };
   const successful =
     resolvedAnalysisOutcome.objectiveStatus === "satisfied" &&
-    termination === "target-reached" &&
+    (termination === "target-reached" || termination === "design-state-reached") &&
     numericalConvergence;
   const linearSolver =
     context.continuationSolver.usedLinearSolvers.size > 1
@@ -1771,14 +2247,18 @@ export function analyzeMasonryArchPath(
     failureMode,
     control: normalizedControl,
     steps,
+    fixedState,
     significantSteps: {
+      fixedState: fixedState.step,
       designState:
         analysisObjective === "design-state-check" && designAssessmentStatus === "PASS"
           ? (lastHistory?.step ?? null)
           : null,
       firstLimit: capacity.steps.firstLimit,
+      verificationLimit: capacity.steps.verificationLimit,
       peak: capacity.steps.peak,
       lastConverged: capacity.steps.termination,
+      termination: capacity.steps.termination,
     },
     curves: {
       lambdaDisplacement: steps.map((point) => ({
@@ -1802,6 +2282,15 @@ export function analyzeMasonryArchPath(
     convergenceInfo: {
       converged: numericalConvergence,
       termination,
+      terminationReason,
+      lastConvergedLambda: lastHistory?.state.lambda ?? null,
+      maximumObservedLambda:
+        equilibriumPathHistory.reduce<number | null>(
+          (maximum, point) =>
+            maximum === null || point.state.lambda > maximum ? point.state.lambda : maximum,
+          null,
+        ) ?? null,
+      lastConvergedStep: lastHistory?.step ?? null,
       completedSteps: steps.length,
       totalIterations,
       cutbacks,
@@ -1812,7 +2301,18 @@ export function analyzeMasonryArchPath(
         completedStages: completedCohesionHomotopyStages,
       },
       lambdaBracket:
-        failedLambdaTarget === null ? null : { lower: lambda, upper: failedLambdaTarget },
+        lambdaBracket ??
+        (failedLambdaTarget === null
+          ? null
+          : {
+              lower: lambda,
+              upper: failedLambdaTarget,
+              certified: false,
+              meaning: "load-control-failure-bracket",
+            }),
+      verifiedLimitPoint,
+      designStateCorrectorAttempts,
+      tangentLambdaComponentAtTermination: tangentLambdaComponent,
       tangent: "corotational-interface-plus-numerical-reinforcement",
       linearSolver,
     },
@@ -1863,10 +2363,14 @@ export function analyzeMasonryArchPath(
       "Normal contact is no-tension and integrated analytically over the global joint; reported fibers are sampling points only, and assigned stiffness uses the explicit characteristic length.",
       "Tangential response uses one joint-resultant elastic-perfectly-plastic Coulomb slip variable with zero dilation.",
       "When used, fixed-load contact initialization applies the reported auxiliary-cohesion homotopy and commits only its zero-offset physical stage.",
-      "Fixed loads and initial reinforcement actions are proportionally initialized before scalable loading.",
+      "The fixed-load state F_fixed at lambda = 0 is verified first; no scalable lambda is defined when that state fails or cannot be certified.",
+      "Fixed loads and initial reinforcement actions are proportionally initialized before scalable loading; active reinforcement uses its assigned T0 as part of the fixed state and passive reinforcement has T0 = 0.",
       "External dead-load forces retain their global direction while their material application points follow the block motion.",
       "Intrados reinforcement follows rigid deviators; an extrados tendon uses a compression-only taut-cable contact envelope.",
       "Bonded layers are local tension-only membrane springs with explicit transfer length and assigned tensile/debonding capacity.",
+      "The design-state verification follows the primary equilibrium branch with adaptive arc length and certifies the exact lambda = 1 state with a fixed-lambda Newton corrector; an overshooting arc step is never accepted as the design state.",
+      "A certified global limit point requires two consecutive converged states with tangent load components of opposite sign above the numerical noise threshold, plus bracketing refinement; a discrete local plastic event is never a certified limit point and max(steps.lambda) is never capacity by itself.",
+      "Diagnostics such as lastConvergedLambda, maximumObservedLambda, and lambdaBracket are numerical observables, never capacity, never failure, and never the engineering verdict.",
       "Load control uses adaptive cutback; displacement control uses an augmented equilibrium equation.",
       "The engineering analysis objective is independent from the selected continuation control.",
       "F(lambda) = F_fixed + lambda * F_scalable after combination factors; initial prestress and deformation-dependent response quantities are not scaled by lambda.",

@@ -1,6 +1,17 @@
 export { analyzeMasonryArchEquilibrium } from "./analyzeMasonryArchEquilibrium.js";
 export { analyzeMasonryArchLimit } from "./analyzeMasonryArchLimit.js";
 export { analyzeMasonryArchPath } from "./analyzeMasonryArchPath.js";
+export { analyzeMasonryArchVerification } from "./analyzeMasonryArchVerification.js";
+export {
+  MASONRY_ARCH_VERIFICATION_RESULT_SCHEMA_VERSION,
+  type AnalyzeMasonryArchVerificationOptions,
+  type MasonryArchVerificationDiagnostics,
+  type MasonryArchVerificationFixedState,
+  type MasonryArchVerificationOutputs,
+  type MasonryArchVerificationResult,
+  type MasonryArchVerificationRoute,
+  type MasonryArchVerificationSignificantStates,
+} from "./verificationTypes.js";
 export {
   MASONRY_ARCH_PATH_RESULT_SCHEMA_VERSION,
   type AnalyzeMasonryArchPathOptions,
@@ -10,13 +21,16 @@ export {
   type MasonryArchEvent,
   type MasonryArchEventCategory,
   type MasonryArchEventKind,
+  type MasonryArchLambdaBracket,
   type MasonryArchLoadControl,
   type MasonryArchPathControl,
   type MasonryArchPathEngineeringAssessment,
+  type MasonryArchPathFixedStateResult,
   type MasonryArchPathOutputs,
   type MasonryArchPathResult,
   type MasonryArchPathState,
   type MasonryArchPathStep,
+  type MasonryArchVerifiedLimitPoint,
 } from "./pathTypes.js";
 export {
   compareMasonryArchModels,

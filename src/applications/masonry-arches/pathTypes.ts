@@ -21,6 +21,7 @@ import type {
   MasonryArchCapacityLandmarks,
   MasonryArchDesignFailureEventKind,
   MasonryArchEngineeringAssessment,
+  MasonryArchEngineeringAssessmentStatus,
   MasonryArchEngineeringCriterion,
   MasonryArchEventKind,
   MasonryArchFailureMode,
@@ -30,7 +31,7 @@ import type {
 
 export type { MasonryArchEventKind } from "./types.js";
 
-export const MASONRY_ARCH_PATH_RESULT_SCHEMA_VERSION = "8.0.0";
+export const MASONRY_ARCH_PATH_RESULT_SCHEMA_VERSION = "9.0.0";
 
 export interface MasonryArchDof {
   readonly blockId: string;
@@ -59,7 +60,12 @@ export interface AnalyzeMasonryArchPathOptions {
   readonly analysisObjective: MasonryArchAnalysisObjective;
   readonly loadCombination?: MasonryArchLoadCombinationLike | null;
   readonly scalableLoadCaseIds: readonly string[];
-  /** Design checks default to load control; capacity defaults to spherical arc length. */
+  /**
+   * Continuation control. Design-state checks default to adaptive arc length with
+   * `targetLambda: 1` (crossing plus fixed-lambda corrector); capacity defaults to spherical
+   * arc length without a lambda target. Adaptive load control remains available as an explicit
+   * expert choice: the standard verification façade never selects it.
+   */
   readonly control?: MasonryArchPathControl;
   readonly equilibriumTolerance?: number;
   readonly maxIterations?: number;
@@ -159,6 +165,41 @@ export interface MasonryArchPathStep {
   readonly state: MasonryArchPathState;
 }
 
+/**
+ * Verification result of the fixed-load state F_fixed at lambda = 0. This is the logical phase A
+ * of the standard verification, not a construction stage: it is only the necessary check that
+ * the fixed state is admissible before any scalable load is applied.
+ */
+export interface MasonryArchPathFixedStateResult {
+  readonly status: MasonryArchEngineeringAssessmentStatus;
+  /** Last converged fixed-preload step; null when no fixed-preload step converged. */
+  readonly lambda: 0;
+  readonly step: number | null;
+  readonly failedCriteria: readonly MasonryArchEngineeringCriterion[];
+  readonly failureMode: MasonryArchFailureMode | null;
+}
+
+/**
+ * Certified global equilibrium limit point of the primary branch. Produced only when the
+ * continuation tangent's load component reverses sign between two consecutive converged states
+ * and the bracketing refinement converged on both sides. A discrete local plastic event is never
+ * a certified limit point.
+ */
+export interface MasonryArchVerifiedLimitPoint {
+  readonly lambda: number;
+  /** Converged states on both sides of the turning point bracket the limit. */
+  readonly bracket: { readonly lower: number; readonly upper: number };
+  readonly refinementSteps: number;
+  readonly certified: true;
+}
+
+export interface MasonryArchLambdaBracket {
+  readonly lower: number;
+  readonly upper: number;
+  readonly certified: boolean;
+  readonly meaning: "load-control-failure-bracket" | "equilibrium-limit-point-bracket";
+}
+
 export interface MasonryArchPathOutputs extends Record<string, unknown> {
   readonly modelId: string;
   readonly analysis: MasonryArchAnalysisDescriptor;
@@ -173,11 +214,16 @@ export interface MasonryArchPathOutputs extends Record<string, unknown> {
   readonly failureMode: MasonryArchFailureMode;
   readonly control: MasonryArchPathControl;
   readonly steps: readonly MasonryArchPathStep[];
+  /** Logical phase A of the standard verification: the fixed-load state at lambda = 0. */
+  readonly fixedState: MasonryArchPathFixedStateResult;
   readonly significantSteps: {
+    readonly fixedState: number | null;
     readonly designState: number | null;
     readonly firstLimit: number | null;
+    readonly verificationLimit: number | null;
     readonly peak: number | null;
     readonly lastConverged: number | null;
+    readonly termination: number | null;
   };
   readonly curves: {
     readonly lambdaDisplacement: readonly {
@@ -192,11 +238,22 @@ export interface MasonryArchPathOutputs extends Record<string, unknown> {
     readonly converged: boolean;
     readonly termination:
       | "target-reached"
+      | "design-state-reached"
       | "engineering-limit"
       | "terminal-physical-event"
+      | "global-limit-point"
+      | "design-state-not-certified"
       | "minimum-step"
       | "maximum-steps"
       | "fixed-preload-failed";
+    /** Human- and machine-readable reason the continuation terminated. */
+    readonly terminationReason: string | null;
+    /** Diagnostics only, never capacity: lambda of the last converged step. */
+    readonly lastConvergedLambda: number | null;
+    /** Diagnostics only, never capacity: maximum lambda observed over the converged history. */
+    readonly maximumObservedLambda: number | null;
+    /** Diagnostics only: index of the last converged step. */
+    readonly lastConvergedStep: number | null;
     readonly completedSteps: number;
     readonly totalIterations: number;
     readonly cutbacks: number;
@@ -206,7 +263,21 @@ export interface MasonryArchPathOutputs extends Record<string, unknown> {
       readonly initialOffset: number;
       readonly completedStages: number;
     };
-    readonly lambdaBracket: { readonly lower: number; readonly upper: number } | null;
+    /**
+     * Diagnostic bracket. `certified` is true only for the limit-point bracket, which is backed
+     * by converged states on both sides plus refinement; all other brackets are raw numerical
+     * diagnostics and must never be read as capacity.
+     */
+    readonly lambdaBracket: MasonryArchLambdaBracket | null;
+    /** Certified global limit point, present only for termination "global-limit-point". */
+    readonly verifiedLimitPoint: MasonryArchVerifiedLimitPoint | null;
+    /** Number of fixed-lambda corrector attempts used to certify the design state. */
+    readonly designStateCorrectorAttempts: number;
+    /**
+     * Lambda component of the unit continuation tangent at the last converged state (diagnostic
+     * for limit-point certification; the classical turning-point condition is a vanishing value).
+     */
+    readonly tangentLambdaComponentAtTermination: number | null;
     readonly tangent: "corotational-interface-plus-numerical-reinforcement";
     readonly linearSolver:
       | "compact-banded-gaussian-elimination-partial-pivoting"

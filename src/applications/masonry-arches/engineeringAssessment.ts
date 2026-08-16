@@ -6,6 +6,7 @@ import type {
   MasonryArchEngineeringCriterionKind,
   MasonryArchEventKind,
   MasonryArchFailureMode,
+  MasonryArchGlobalBranchEventKind,
   MasonryArchPhysicalLimitEventKind,
 } from "./types.js";
 
@@ -72,7 +73,19 @@ export function isMasonryArchPhysicalLimitEventKind(
 export function masonryArchEngineeringCriterionKindFromEventKind(
   kind: MasonryArchEventKind,
 ): MasonryArchEngineeringCriterionKind | null {
-  return isMasonryArchPhysicalLimitEventKind(kind) ? kind : null;
+  if (isMasonryArchPhysicalLimitEventKind(kind)) return kind;
+  return kind === "equilibrium-limit-point" ? "equilibrium-limit-point" : null;
+}
+
+/**
+ * True for the certified global branch limit point. It is a criterion candidate but is never
+ * part of the configurable physical-limit taxonomy: it is always design-blocking and can never
+ * be enabled or disabled through `designFailureEvents`.
+ */
+export function isMasonryArchGlobalBranchEventKind(
+  kind: MasonryArchEventKind,
+): kind is MasonryArchGlobalBranchEventKind {
+  return kind === "equilibrium-limit-point";
 }
 
 /**
@@ -104,6 +117,8 @@ function masonryArchMechanismFamily(
     case "anchor-capacity-reached":
       return "anchor";
     case "extrados-contact-invalid":
+      return "instability";
+    case "equilibrium-limit-point":
       return "instability";
     case "equilibrium-infeasible":
       return null;

@@ -660,7 +660,14 @@ export function analyzeMasonryArchLimit(
       lambdaPeak: staticLimitStateIdentified ? lambda : null,
       lambdaTermination: staticLimitStateIdentified ? lambda : null,
       lambdaCollapse: kinematicFailureVerified && collapse.status === "optimal" ? lambda : null,
-      steps: { firstLimit: null, peak: null, termination: null, collapse: null },
+      lambdaVerificationLimit: null,
+      steps: {
+        firstLimit: null,
+        peak: null,
+        termination: null,
+        collapse: null,
+        verificationLimit: null,
+      },
       collapseDefinition:
         kinematicFailureVerified && collapse.status === "optimal"
           ? "Kinematically verified rigid-block mechanism satisfying equilibrium and virtual work."

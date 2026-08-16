@@ -297,6 +297,107 @@ F(lambda) = F_fixed + lambda * F_scalable
 ```
 
 The load model does not retain a scalable role. This supports `G + lambda Q`, `lambda (G + Q)`,
+
+## Standard verification
+
+Status: implemented | Design: Decision 0013 | Scope: `applications/masonry-arches`
+
+The standard design verification is the façade `analyzeMasonryArchVerification`. It is the single
+authority on the fixed-state result, the `PASS`/`FAIL`/`INDETERMINATE` verdict, the exact
+`lambda = 1` design state, the verification limit, the failure mode, the failed criteria, the
+significant states, and the numerical diagnostics. The low-level primitives
+(`analyzeMasonryArchEquilibrium`, `analyzeMasonryArchLimit`, `analyzeMasonryArchPath`) remain
+available for expert and capacity analyses.
+
+### Route selection
+
+- `rigid-plastic-static`: models whose interface response is `rigid-plastic`. The fixed state is
+  verified by assigned equilibrium, then the assigned `lambda = 1` state; when `lambda = 1` is not
+  statically admissible while the fixed state passed, direct limit analysis of the scalable pattern
+  supplies the verification limit.
+- `arc-length-continuation`: models whose interface response is `deformable` (including all
+  reinforced and bonded-layer models). The verification follows the primary equilibrium branch with
+  adaptive arc length.
+
+### Logical phase A: the fixed state
+
+`F_fixed` at `lambda = 0` is verified before any scalable load is applied. This is not a
+construction stage and is not exposed as one: it is only the necessary check of the fixed state.
+
+- `PASS`: the scalable phase starts.
+- `FAIL`: the verification stops; no scalable lambda is defined; the failed criteria and failure
+  mode explain the problem when available.
+- `INDETERMINATE`: the verification stops without inventing a failure; numerical diagnostics are
+  preserved.
+
+Consumers can therefore report "not verified under permanent loads alone" or "the permanent-load
+state could not be determined numerically", and never a percentage of the permanent loads.
+
+### Arc-length design check
+
+The design-state path follows the primary branch of equilibrium from the verified fixed state. The
+continuation terminates on:
+
+1. crossing of `lambda = 1` — the exact design state is certified by a fixed-lambda corrector;
+2. a physical terminal event;
+3. a certified global limit point of the primary branch;
+4. numerical failure — `INDETERMINATE` with diagnostics, never a capacity and never a physical
+   failure;
+5. an explicit expert termination (maximum steps, path length cap).
+
+Adaptive load control remains available on the primitive as an explicit expert choice; the standard
+verification never selects it.
+
+### Exact `lambda = 1` corrector
+
+An arc step that merely overshoots (`lambda = 1.03`) is never accepted as the design state. When two
+consecutive states bracket the crossing, the analysis builds an interpolated seed (falling back to a
+tangent-based predictor), runs a Newton corrector with `lambda` fixed at exactly one, and verifies
+convergence and the equilibrium residual. Only that state can certify `PASS` at `lambda = 1`. A
+failed corrector is retried with smaller arc radii; if it remains uncertifiable the result is
+`INDETERMINATE` with the diagnostic termination `design-state-not-certified`.
+
+### Certified global limit point
+
+A turning point of the primary branch is certified only when:
+
+- two consecutive converged states show tangent load components of opposite sign above the numerical
+  noise threshold and the rising side is refined with halved arc increments, or
+- the continuation tangent at the last converged state is singular or nearly vertical (the classical
+  turning-point condition) and no further arc step can traverse it.
+
+A discrete local plastic event is never a certified limit point, and `max(steps.lambda)` is never
+capacity by itself. A certified limit point below one is reported as an `equilibrium-limit-point`
+event, the criterion `equilibrium-limit-point` (`checkId: "equilibrium-limit-point"`, demand `1`,
+capacity `lambda_limit`, utilization `1 / lambda_limit`), and `failureMode: "instability"`.
+
+### New public fields
+
+`MasonryArchCapacityLandmarks` adds `lambdaVerificationLimit` (and `steps.verificationLimit`): the
+lambda of the first event that makes satisfying the design verification at `lambda = 1` impossible
+on the primary branch. It is deliberately distinct from `lambdaFirstLimit`: a first plastic sliding
+that redistributes never moves it. It is `null` on `PASS`, on fixed-state failure (no scalable
+lambda is defined), and when no blocking event could be certified.
+
+Path outputs add:
+
+- `fixedState`: status, step, lambda (always 0), failed criteria, failure mode of phase A;
+- `convergenceInfo.terminationReason`, `lastConvergedLambda`, `maximumObservedLambda`,
+  `lastConvergedStep`, `designStateCorrectorAttempts`, `tangentLambdaComponentAtTermination`,
+  `verifiedLimitPoint`, and a certified `lambdaBracket`;
+- `significantSteps.fixedState`, `verificationLimit`, and `termination` next to the existing
+  entries.
+
+Diagnostics are observables, never capacity, never failure, never the engineering verdict.
+
+### Active and passive reinforcement
+
+Active reinforcement keeps its assigned `T0` as part of the fixed state; passive reinforcement has
+`T0 = 0`. The same code path reports both the improving and the worsening outcomes: an assigned `T0`
+may improve or worsen the fixed state or the capacity, and no special-case code exists. When the
+system with permanent loads plus `T0` is not verifiable, the verification stops at the fixed state
+and the scalable loads are never applied.
+
 `G1 + lambda (G2 + Q1)`, and any explicit set of simultaneous scalable load cases.
 
 `lambda = 1` means the complete base factored combination. Lambda is a load coordinate, not a safety
