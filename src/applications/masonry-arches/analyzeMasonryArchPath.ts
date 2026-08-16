@@ -2062,8 +2062,17 @@ export function analyzeMasonryArchPath(
             eventLog.push(...certifiedEvents);
           }
           const certifiedStateStep = steps.at(-1)?.step ?? null;
-          // `finalEvaluation` becomes the certified rising-side evaluation; the last history step
-          // was appended from the same evaluation above, so the published state is coherent.
+          // Single final internal state: q, lambda, committedStates, and finalEvaluation must
+          // all describe the certified rising-side equilibrium state. The last history step was
+          // appended from the same evaluation above. q and committedStates are not read after
+          // this loop today, but the invariant is deliberate: the certification block is the
+          // last writer of the state, and no variable may keep describing the descending state.
+          /* eslint-disable no-useless-assignment -- the certified state is the single final
+           * internal state; q and committedStates must not keep referring to the descending
+           * state, so every future reader of the final state sees one coherent equilibrium. */
+          q = [...risingQ];
+          committedStates = risingEval.trialStates;
+          /* eslint-enable no-useless-assignment */
           lambda = refined;
           finalEvaluation = risingEval;
           verifiedLimitPoint = {

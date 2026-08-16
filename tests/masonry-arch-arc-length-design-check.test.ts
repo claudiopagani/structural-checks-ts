@@ -355,14 +355,45 @@ void test("11. certified global limit point below lambda one -> instability FAIL
   assert.equal(result.outputs.capacity.lambdaVerificationLimit, limitPoint.lambda);
   assert.equal(result.outputs.failureMode, "instability");
   assert.ok(result.outputs.events.some((event) => event.kind === "equilibrium-limit-point"));
-  // J: internal final-state coherence: q, lambda, final evaluation, the last history step, and
-  // the reported limit-point state describe one and the same equilibrium state.
+  // J: internal final-state coherence: q, lambda, committedStates, finalEvaluation, the last
+  // history step, and the significant termination/peak state all describe one and the same
+  // certified equilibrium state. Each assertion below checks a different projection of the
+  // final internal state, not just the lambda scalar.
   const lastStep = result.outputs.steps.find(
     (step) => step.step === result.outputs.convergenceInfo.lastConvergedStep,
   );
   assert.ok(lastStep !== undefined);
   assert.ok(Math.abs(lastStep.state.lambda - limitPoint.lambda) <= 1e-12);
+  // The final state is the certified rising-side state, never the descending-side state.
+  assert.notEqual(limitPoint.descendingSideStep, result.outputs.convergenceInfo.lastConvergedStep);
+  assert.ok(limitPoint.descendingSideLambda < lastStep.state.lambda - 1e-12);
+  // The final evaluation is a genuinely converged equilibrium state.
+  assert.equal(result.outputs.convergenceInfo.converged, true);
+  assert.ok(
+    lastStep.state.equilibrium.maximumNormalizedBlockResidual <=
+      lastStep.state.equilibrium.tolerance,
+    "the certified state is a converged equilibrium state",
+  );
+  // The `lambda` variable (published through the analysis descriptor), the certified state
+  // stored in the last history step, and the limit-point report agree exactly.
+  assert.equal(result.outputs.analysis.lambda.currentValue, limitPoint.lambda);
+  assert.equal(result.outputs.analysis.lambda.currentValue, lastStep.state.lambda);
+  // The `q` projection: the control displacement stored in the last history step (computed from
+  // the certified q at commit time) and the last lambda-displacement curve point agree, and the
+  // deformed configuration is complete and finite for every block.
+  const curveTail = result.outputs.curves.lambdaDisplacement.at(-1);
+  assert.ok(curveTail !== undefined);
+  assert.equal(curveTail.displacement, lastStep.controlDisplacement);
+  assert.equal(curveTail.lambda, lastStep.state.lambda);
+  assert.equal(lastStep.state.deformedConfiguration.length, 9);
+  for (const block of lastStep.state.deformedConfiguration) {
+    assert.ok(Number.isFinite(block.translation.x));
+    assert.ok(Number.isFinite(block.translation.y));
+    assert.ok(Number.isFinite(block.rotation));
+  }
+  // Capacity landmarks and significant steps point at the same certified state.
   assert.equal(result.outputs.capacity.lambdaTermination, limitPoint.lambda);
+  assert.equal(result.outputs.capacity.lambdaPeak, limitPoint.lambda);
   assert.equal(
     result.outputs.significantSteps.termination,
     result.outputs.convergenceInfo.lastConvergedStep,
@@ -370,6 +401,20 @@ void test("11. certified global limit point below lambda one -> instability FAIL
   assert.equal(
     result.outputs.significantSteps.peak,
     result.outputs.convergenceInfo.lastConvergedStep,
+  );
+  // The certified event and its failed criterion carry the same state identity.
+  const limitEvent = result.outputs.events.find(
+    (event) => event.kind === "equilibrium-limit-point",
+  );
+  assert.ok(limitEvent !== undefined);
+  assert.equal(limitEvent.step, result.outputs.convergenceInfo.lastConvergedStep);
+  assert.ok(limitEvent.lambda !== null && Math.abs(limitEvent.lambda - limitPoint.lambda) <= 1e-12);
+  const limitCriterion = result.outputs.engineeringAssessment?.failedCriteria.find(
+    (item) => item.kind === "equilibrium-limit-point",
+  );
+  assert.ok(limitCriterion !== undefined);
+  assert.ok(
+    limitCriterion.lambda !== null && Math.abs(limitCriterion.lambda - limitPoint.lambda) <= 1e-12,
   );
   const lastHistoryLambda = lastStep.state.lambda;
   assert.ok(Math.abs(lastHistoryLambda - limitPoint.lambda) <= 1e-12);
