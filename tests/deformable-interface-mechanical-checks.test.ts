@@ -68,6 +68,7 @@ function law(overrides: LawOverrides = {}): RigidBlockDeformableInterfaceLaw2D {
       postCrushingBehavior: overrides.postCrushingBehavior ?? "stop-at-onset",
     },
     tangential: {
+      type: "elastic-coulomb",
       shearModulus: 1_000,
       characteristicLength: 1,
       frictionCoefficient: overrides.frictionCoefficient ?? 0.5,
@@ -102,7 +103,8 @@ void test("A. friction stick state publishes trial and mobilized demand below th
   assert.equal(result.normalForce, 200);
   assert.equal(result.shearForce, 50);
   assert.equal(result.sliding, false);
-  const check = result.checks.friction;
+  const check = result.checks.friction!;
+  assert.ok(check !== null, "the Coulomb law always produces the friction check");
   assert.equal(check.criterion, "coulomb-friction");
   assert.equal(check.trialDemand, 50);
   assert.equal(check.demand, Math.abs(result.shearForce));
@@ -118,7 +120,8 @@ void test("B. friction at the limit returns the mobilized demand on the yield su
   // Shear trial 250 exceeds capacity 100: sliding clamps the force to the capacity.
   assert.equal(result.sliding, true);
   assert.equal(result.shearForce, 100);
-  const check = result.checks.friction;
+  const check = result.checks.friction!;
+  assert.ok(check !== null);
   assert.equal(check.criterion, "coulomb-friction");
   assert.equal(check.trialDemand, 250);
   assert.equal(check.demand, Math.abs(result.shearForce));
@@ -131,7 +134,8 @@ void test("B. friction at the limit returns the mobilized demand on the yield su
 void test("C. zero friction capacity with zero shear trial has no invented utilization", () => {
   const result = evaluate({ frictionCoefficient: 0, cohesion: 0 }, { x: -0.1, y: 0 });
   assert.equal(result.sliding, false);
-  const check = result.checks.friction;
+  const check = result.checks.friction!;
+  assert.ok(check !== null);
   assert.equal(check.criterion, "coulomb-friction");
   assert.equal(check.trialDemand, 0);
   assert.equal(check.demand, 0);
@@ -142,7 +146,8 @@ void test("C. zero friction capacity with zero shear trial has no invented utili
 void test("D. zero friction capacity with a shear trial slides without a 0/0 utilization", () => {
   const result = evaluate({ frictionCoefficient: 0, cohesion: 0 }, { x: -0.1, y: -0.01 });
   assert.equal(result.sliding, true);
-  const check = result.checks.friction;
+  const check = result.checks.friction!;
+  assert.ok(check !== null);
   assert.equal(check.criterion, "coulomb-friction");
   assert.equal(check.trialDemand, 10);
   assert.equal(check.demand, 0);
@@ -153,7 +158,8 @@ void test("D. zero friction capacity with a shear trial slides without a 0/0 uti
 void test("E. friction capacity includes the assigned cohesion term", () => {
   const result = evaluate({ frictionCoefficient: 0, cohesion: 10 }, { x: -0.1, y: -0.005 });
   assert.equal(result.sliding, false);
-  const check = result.checks.friction;
+  const check = result.checks.friction!;
+  assert.ok(check !== null);
   assert.equal(check.demand, 5);
   assert.equal(check.capacity, 10);
   assert.equal(check.utilizationRatio, 0.5);
@@ -240,12 +246,13 @@ void test("J. unload below the limit keeps the plastic history without re-crossi
   assert.ok(Math.abs(check.utilizationRatio! - 2 / 3) < 1e-12);
 });
 
-void test("type contract: friction check is non-nullable and criterion-locked", () => {
+void test("type contract: friction check is nullable and criterion-locked", () => {
   const result = evaluate({}, { x: -0.1, y: -0.05 });
-  // The Coulomb check is always produced by the deformable law: assigning the field to a
-  // non-nullable, criterion-locked type compiles only if the field is not nullable.
-  const friction: RigidBlockDeformableInterfaceMechanicalCheck2D<"coulomb-friction"> =
+  // The elastic-Coulomb law always produces the Coulomb check; the elastic-unbounded law
+  // produces none. Both are representable only when the field is nullable.
+  const friction: RigidBlockDeformableInterfaceMechanicalCheck2D<"coulomb-friction"> | null =
     result.checks.friction;
+  assert.ok(friction !== null);
   assert.equal(friction.criterion, "coulomb-friction");
   // The compression criterion cannot be assigned to the friction check.
   const wrongFriction: RigidBlockDeformableInterfaceMechanicalCheck2D<"coulomb-friction"> = {

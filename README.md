@@ -26,10 +26,12 @@ Historical migration records remain provenance evidence only. Implemented capabi
   rigid-block configurations and an initial coupled finite-kinematics solver with explicit
   deformable no-tension interfaces, adaptive load control, augmented displacement control, spherical
   arc-length control, zero-dilation Coulomb slip, optional irreversible perfectly plastic crushing,
-  passive intrados/extrados tendon activation with unilateral extrados contact release, passive
-  bonded FRCM/FRP/equivalent-SFRM membrane layers with asymmetric section domains and end
-  development, plus typed cross-model comparison with explicit geometry/load comparability
-  diagnostics;
+  a regularized Heyman-type interface variant (no tension, unbounded compression strength,
+  elastic-unbounded finite-G tangential response without any Coulomb surface, stresses as response
+  quantities with null resistance utilizations), passive intrados/extrados tendon activation with
+  unilateral extrados contact release, passive bonded FRCM/FRP/equivalent-SFRM membrane layers with
+  asymmetric section domains and end development, plus typed cross-model comparison with explicit
+  geometry/load comparability diagnostics;
 - rectangular, circular, T, and polygon section geometry;
 - reinforcing bars and generated top/bottom longitudinal layouts;
 - generic composite sections and transformed reinforced-concrete sections;

@@ -39,6 +39,7 @@ export interface MasonryDeformableInterfaceLawInput {
     readonly type: "elastic-no-tension";
     readonly elasticModulus: number;
     readonly characteristicLength: number;
+    /** Omit for unbounded compression strength (regularized Heyman-type masonry). */
     readonly compressiveStrength?: number;
     /** Returned midpoint samples; defaults to 16. */
     readonly integrationPointCount?: number;
@@ -46,11 +47,23 @@ export interface MasonryDeformableInterfaceLawInput {
     /** Static safe-domain facets per moment sign when strength is finite. */
     readonly compressionFacetCount?: number;
   };
-  readonly tangential: {
-    readonly type: "elastic-coulomb";
-    readonly shearModulus: number;
-    readonly characteristicLength: number;
-  } & MasonryCoulombFrictionInput;
+  readonly tangential:
+    | ({
+        readonly type: "elastic-coulomb";
+        readonly shearModulus: number;
+        readonly characteristicLength: number;
+      } & MasonryCoulombFrictionInput)
+    | {
+        /**
+         * Elastic tangential response without any Coulomb sliding surface: tau = Kt * delta_t
+         * with finite G. There is no tangential capacity, no plastic slip, no dilation, and no
+         * friction utilization. This is the regularized Heyman-type tangential response; it is
+         * NOT frictionless (tau is not forced to zero).
+         */
+        readonly type: "elastic-unbounded";
+        readonly shearModulus: number;
+        readonly characteristicLength: number;
+      };
   readonly reporting?: {
     readonly approachingLimitRatio?: number;
   };
@@ -64,6 +77,11 @@ export type MasonryInterfaceLawInput =
 export interface NormalizedMasonryInterfaceLaw {
   readonly response: "rigid-plastic" | "deformable";
   readonly approachingLimitRatio: number;
+  /**
+   * Tangential resistance law. Null means no Coulomb sliding surface: for rigid-plastic laws
+   * the tangential response is frictionless, for deformable laws it is the elastic-unbounded
+   * response (finite-G elastic tangential regularization without any resistance limit).
+   */
   readonly friction: {
     readonly frictionCoefficient: number;
     readonly cohesion: number;

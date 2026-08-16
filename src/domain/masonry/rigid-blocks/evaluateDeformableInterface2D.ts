@@ -12,6 +12,31 @@ export interface RigidBlockFiniteDisplacement2D {
   readonly rotation: number;
 }
 
+export interface RigidBlockDeformableElasticCoulombTangentialLaw2D {
+  readonly type: "elastic-coulomb";
+  readonly shearModulus: number;
+  readonly characteristicLength: number;
+  readonly frictionCoefficient: number;
+  readonly cohesion: number;
+  /** Zero-dilation non-associated flow is the only supported flow at this level. */
+  readonly dilationAngle: number;
+}
+
+export interface RigidBlockDeformableElasticUnboundedTangentialLaw2D {
+  /**
+   * Elastic tangential response without any Coulomb sliding surface: tau = Kt * delta_t with
+   * finite G. No tangential capacity, plastic slip, dilation, or utilization exists. The
+   * regularized Heyman-type tangential response; NOT frictionless.
+   */
+  readonly type: "elastic-unbounded";
+  readonly shearModulus: number;
+  readonly characteristicLength: number;
+}
+
+export type RigidBlockDeformableTangentialLaw2D =
+  | RigidBlockDeformableElasticCoulombTangentialLaw2D
+  | RigidBlockDeformableElasticUnboundedTangentialLaw2D;
+
 export interface RigidBlockDeformableInterfaceLaw2D {
   readonly normal: {
     readonly elasticModulus: number;
@@ -21,13 +46,7 @@ export interface RigidBlockDeformableInterfaceLaw2D {
     readonly integrationPointCount: number;
     readonly postCrushingBehavior: "stop-at-onset" | "perfectly-plastic";
   };
-  readonly tangential: {
-    readonly shearModulus: number;
-    readonly characteristicLength: number;
-    readonly frictionCoefficient: number;
-    readonly cohesion: number;
-    readonly dilationAngle: number;
-  };
+  readonly tangential: RigidBlockDeformableTangentialLaw2D;
 }
 
 export interface RigidBlockDeformableInterfaceState2D {
@@ -50,7 +69,8 @@ export interface RigidBlockDeformableInterfaceFiberResponse2D {
   readonly compressionStress: number;
   /** Traction on the right-side body, positive toward the extrados joint axis. */
   readonly shearStress: number;
-  readonly frictionCapacity: number;
+  /** Uniform Coulomb capacity stress; null when the tangential law has no resistance limit. */
+  readonly frictionCapacity: number | null;
   readonly plasticSlip: number;
   readonly plasticClosure: number;
   readonly contactActive: boolean;
@@ -98,12 +118,12 @@ export interface RigidBlockDeformableInterfaceMechanicalCheck2D<
 
 export interface RigidBlockDeformableInterfaceChecks2D {
   /**
-   * Coulomb shear check of the tangential law. The deformable law always assigns a tangential
-   * Coulomb law, so this check is always present. With zero friction capacity the mobilized
-   * demand is zero and the utilization stays null while the evaluation's `sliding` flag keeps
-   * the constitutive state.
+   * Coulomb shear check of the tangential law. Present for the elastic-Coulomb tangential law;
+   * null for the elastic-unbounded tangential law, which has no tangential capacity at all.
+   * With zero friction capacity the mobilized demand is zero and the utilization stays null
+   * while the evaluation's `sliding` flag keeps the constitutive state.
    */
-  readonly friction: RigidBlockDeformableInterfaceMechanicalCheck2D<"coulomb-friction">;
+  readonly friction: RigidBlockDeformableInterfaceMechanicalCheck2D<"coulomb-friction"> | null;
   /**
    * Finite-compression-strength check of the normal law. Null when no finite compression
    * strength is assigned. The demand is the clipped published stress and the trial demand is
@@ -127,6 +147,8 @@ export interface RigidBlockDeformableInterfaceEvaluation2D {
   readonly currentJointAxis: RigidBlockVector2D;
   readonly normalForce: number;
   readonly shearForce: number;
+  /** Uniform tangential traction on the joint: shearForce over the interface area. */
+  readonly shearStress: number;
   readonly moment: number;
   readonly eccentricity: number | null;
   readonly compressedLength: number;
@@ -192,6 +214,7 @@ interface ForceEvaluation {
   readonly currentJointAxis: RigidBlockVector2D;
   readonly normalForce: number;
   readonly shearForce: number;
+  readonly shearStress: number;
   readonly moment: number;
   readonly compressedLength: number;
   readonly maxCompression: number;
@@ -363,21 +386,26 @@ function validateLaw(
       `${geometry.id}.normal perfectly-plastic crushing requires compressiveStrength.`,
     );
   }
-  if (
-    !Number.isFinite(law.tangential.frictionCoefficient) ||
-    law.tangential.frictionCoefficient < 0
-  ) {
-    throw new Error(
-      `${geometry.id}.tangential.frictionCoefficient must be finite and non-negative.`,
-    );
+  if (law.tangential.type !== "elastic-coulomb" && law.tangential.type !== "elastic-unbounded") {
+    throw new Error(`${geometry.id}.tangential.type is not supported.`);
   }
-  if (!Number.isFinite(law.tangential.cohesion) || law.tangential.cohesion < 0) {
-    throw new Error(`${geometry.id}.tangential.cohesion must be finite and non-negative.`);
-  }
-  if (Math.abs(law.tangential.dilationAngle) > 1e-14) {
-    throw new Error(
-      `${geometry.id} nonlinear interface currently supports only non-associated Coulomb flow with zero dilation.`,
-    );
+  if (law.tangential.type === "elastic-coulomb") {
+    if (
+      !Number.isFinite(law.tangential.frictionCoefficient) ||
+      law.tangential.frictionCoefficient < 0
+    ) {
+      throw new Error(
+        `${geometry.id}.tangential.frictionCoefficient must be finite and non-negative.`,
+      );
+    }
+    if (!Number.isFinite(law.tangential.cohesion) || law.tangential.cohesion < 0) {
+      throw new Error(`${geometry.id}.tangential.cohesion must be finite and non-negative.`);
+    }
+    if (Math.abs(law.tangential.dilationAngle) > 1e-14) {
+      throw new Error(
+        `${geometry.id} nonlinear interface currently supports only non-associated Coulomb flow with zero dilation.`,
+      );
+    }
   }
 }
 
@@ -650,20 +678,29 @@ function evaluateForces(
       maximumTrialCompression >= law.normal.compressiveStrength * (1 - 1e-12);
   }
 
-  const totalFrictionCapacity = Math.max(
-    0,
-    law.tangential.cohesion * interfaceArea + law.tangential.frictionCoefficient * normalForce,
-  );
+  // Tangential response. The elastic-unbounded branch is the same elastic tangential
+  // regularization without the Coulomb cap: the trial elastic response is the returned
+  // response, no yield surface exists, no return mapping or plastic-slip update is performed,
+  // and no tangential capacity or utilization is definable.
+  const unboundedTangential = law.tangential.type === "elastic-unbounded";
+  const totalFrictionCapacity = unboundedTangential
+    ? null
+    : Math.max(
+        0,
+        law.tangential.cohesion * interfaceArea + law.tangential.frictionCoefficient * normalForce,
+      );
   const shearTrial =
     -resultantShearStiffness * (center.tangentialSlip - committedState.plasticSlip);
   const sliding =
-    Math.abs(shearTrial) > totalFrictionCapacity + 1e-12 * Math.max(1, totalFrictionCapacity);
-  const shearForce = sliding ? Math.sign(shearTrial) * totalFrictionCapacity : shearTrial;
+    !unboundedTangential &&
+    Math.abs(shearTrial) > totalFrictionCapacity! + 1e-12 * Math.max(1, totalFrictionCapacity!);
+  const shearForce = sliding ? Math.sign(shearTrial) * totalFrictionCapacity! : shearTrial;
   const trialPlasticSlip = sliding
     ? center.tangentialSlip + shearForce / resultantShearStiffness
     : committedState.plasticSlip;
   const uniformShearStress = shearForce / interfaceArea;
-  const uniformFrictionCapacity = totalFrictionCapacity / interfaceArea;
+  const uniformFrictionCapacity =
+    totalFrictionCapacity === null ? null : totalFrictionCapacity / interfaceArea;
 
   for (let dof = 0; dof < localSize; dof += 1) {
     generalizedForces[dof] = generalizedForces[dof]! + shearForce * center.tangentialB[dof]!;
@@ -715,11 +752,23 @@ function evaluateForces(
   }));
 
   const frictionUtilization =
-    totalFrictionCapacity > 0 ? Math.abs(shearForce) / totalFrictionCapacity : null;
+    totalFrictionCapacity !== null && totalFrictionCapacity > 0
+      ? Math.abs(shearForce) / totalFrictionCapacity
+      : null;
   // The checks publish constitutive quantities only: the demand mobilized by the returned
   // response, the trial predictor that detected the surface crossing, and the mobilized
   // utilization. Reaching the plastic surface is recorded by the evaluation's own `sliding`
   // and `crushing` state flags and never turns into a structural verdict here.
+  const frictionCheck: RigidBlockDeformableInterfaceMechanicalCheck2D<"coulomb-friction"> | null =
+    unboundedTangential
+      ? null
+      : {
+          criterion: "coulomb-friction",
+          demand: Math.abs(shearForce),
+          trialDemand: Math.abs(shearTrial),
+          capacity: totalFrictionCapacity!,
+          utilizationRatio: frictionUtilization,
+        };
   const compressionCheck: RigidBlockDeformableInterfaceMechanicalCheck2D<"deformable-interface-compression-strength"> | null =
     law.normal.compressiveStrength === null
       ? null
@@ -742,6 +791,7 @@ function evaluateForces(
     currentJointAxis: jointAxis,
     normalForce,
     shearForce,
+    shearStress: uniformShearStress,
     moment,
     compressedLength,
     maxCompression: maximumCompression,
@@ -756,13 +806,7 @@ function evaluateForces(
     sliding,
     crushing,
     checks: {
-      friction: {
-        criterion: "coulomb-friction",
-        demand: Math.abs(shearForce),
-        trialDemand: Math.abs(shearTrial),
-        capacity: totalFrictionCapacity,
-        utilizationRatio: frictionUtilization,
-      },
+      friction: frictionCheck,
       compression: compressionCheck,
     },
   };
@@ -796,26 +840,32 @@ export function evaluateRigidBlockDeformableInterface2D(
     input.finiteDifferenceStep ?? 1e-7,
     `${input.geometry.id}.finiteDifferenceStep`,
   );
+  // The closed-stick predictor selects the stick branch of the nonsmooth Coulomb response at
+  // the N = V = 0 vertex through a temporary numerical cohesion. The elastic-unbounded response
+  // has no nonsmooth vertex and never needs the predictor.
   const coincidentClosedStickPredictor =
+    input.law.tangential.type === "elastic-coulomb" &&
     !baseline.contactActive &&
     baseline.maximumOpening <= 1e-12 * Math.max(1, input.geometry.length) &&
     baseline.maximumClosure <= 1e-12 * Math.max(1, input.geometry.length);
-  const tangentInput = coincidentClosedStickPredictor
-    ? {
-        ...input,
-        law: {
-          ...input.law,
-          tangential: {
-            ...input.law.tangential,
-            cohesion:
-              100 *
-              (input.law.tangential.shearModulus / input.law.tangential.characteristicLength) *
-              relativeStep *
-              Math.max(1, input.geometry.length),
-          },
+  const tangentInput: EvaluateRigidBlockDeformableInterface2DInput = (() => {
+    if (!coincidentClosedStickPredictor) return input;
+    if (input.law.tangential.type !== "elastic-coulomb") return input;
+    return {
+      ...input,
+      law: {
+        ...input.law,
+        tangential: {
+          ...input.law.tangential,
+          cohesion:
+            100 *
+            (input.law.tangential.shearModulus / input.law.tangential.characteristicLength) *
+            relativeStep *
+            Math.max(1, input.geometry.length),
         },
-      }
-    : input;
+      },
+    };
+  })();
   for (let column = 0; column < (input.computeTangent === false ? 0 : localSize); column += 1) {
     const component = column % 3;
     const step = component === 2 ? relativeStep : relativeStep * Math.max(1, input.geometry.length);
@@ -862,6 +912,7 @@ export function evaluateRigidBlockDeformableInterface2D(
     currentJointAxis: baseline.currentJointAxis,
     normalForce: baseline.normalForce,
     shearForce: baseline.shearForce,
+    shearStress: baseline.shearStress,
     moment: baseline.moment,
     eccentricity: baseline.normalForce > 0 ? baseline.moment / baseline.normalForce : null,
     compressedLength: baseline.compressedLength,

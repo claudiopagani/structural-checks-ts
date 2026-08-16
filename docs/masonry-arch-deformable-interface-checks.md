@@ -6,10 +6,11 @@ Status: implemented (superseded in part by
 
 Later refinement changed the check contract described below: the `status` field was removed, the
 check now publishes `demand` (mobilized), `trialDemand` (constitutive predictor), `capacity`, and
-`utilizationRatio` (mobilized), the friction check is non-nullable and criterion-locked, and the
-default design-failure policy follows the assigned constitutive law. This record remains as the
-historical report of the Decision 0011 iteration; the current semantics are documented in Decision
-0012 and `docs/masonry-arch-analysis.md`.
+`utilizationRatio` (mobilized), the friction check is criterion-locked but nullable (it is `null`
+for the `elastic-unbounded` tangential law, which has no Coulomb surface at all), and the default
+design-failure policy follows the assigned constitutive law. This record remains as the historical
+report of the Decision 0011 iteration; the current semantics are documented in Decision 0012 and
+`docs/masonry-arch-analysis.md`.
 
 This report records the iteration that removed the mechanical-formula duplication from
 `pathCriteria.ts` and made the deformable interface law publish its own structural checks. It is the

@@ -2465,8 +2465,8 @@ export function analyzeMasonryArchPath(
     warnings: [...warnings, ...finalEvaluation.reinforcement.warnings],
     assumptions: [
       "Two-dimensional finite rigid-voussoir kinematics with deformable zero-thickness interfaces.",
-      "Normal contact is no-tension and integrated analytically over the global joint; reported fibers are sampling points only, and assigned stiffness uses the explicit characteristic length.",
-      "Tangential response uses one joint-resultant elastic-perfectly-plastic Coulomb slip variable with zero dilation.",
+      "Normal contact is no-tension and integrated analytically over the global joint; reported fibers are sampling points only, and assigned stiffness uses the explicit characteristic length. With no assigned compressive strength the compression response is unbounded (regularized Heyman-type): compressive stresses stay response quantities, never resistance utilization.",
+      "Tangential response is elastic in the tangential relative displacement: elastic-Coulomb adds one joint-resultant elastic-perfectly-plastic Coulomb slip cap with zero dilation, while elastic-unbounded applies no Coulomb surface, no tangential capacity, no plastic slip, and no friction utilization.",
       "When used, fixed-load contact initialization applies the reported auxiliary-cohesion homotopy and commits only its zero-offset physical stage.",
       "The fixed-load state F_fixed at lambda = 0 is verified first; when that state fails or cannot be certified, the scalable phase never starts and no scalable lambda is defined (zero scalable-loading steps).",
       "Fixed loads and initial reinforcement actions are proportionally initialized before scalable loading; active reinforcement uses its assigned T0 as part of the fixed state and passive reinforcement has T0 = 0.",

@@ -852,7 +852,7 @@ void test("path design assessment reports the shared shape with lambda and requi
   // mode keeps its own semantics and remains available on the outputs.
   assert.equal(assessment.failureMode, null);
   assert.equal(result.outputs.failureMode, "no-collapse-within-model");
-  assert.equal(result.metadata.schemaVersion, "10.0.0");
+  assert.equal(result.metadata.schemaVersion, "11.0.0");
 });
 
 void test("D3. reinforcement rupture from both sub-checks preserves one criterion per check", () => {
@@ -1085,7 +1085,8 @@ void test("O2a. under an explicit stricter policy the path sliding criteria copy
     const interfaceState = step.state.interfaces.find(
       (item) => item.interfaceId === criterion.entityIds[0],
     )!;
-    const frictionCheck = interfaceState.checks.friction;
+    const frictionCheck = interfaceState.checks.friction!;
+    assert.ok(frictionCheck !== null, "the elastic-Coulomb law publishes its friction check");
     assert.equal(criterion.demand, frictionCheck.demand);
     assert.equal(criterion.capacity, frictionCheck.capacity);
     assert.equal(criterion.utilizationRatio, frictionCheck.utilizationRatio);

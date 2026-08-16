@@ -95,6 +95,8 @@ export function normalizeMasonryInterfaceLaw(
   if (!Number.isInteger(integrationPointCount) || integrationPointCount < 2) {
     throw new Error(`${label}.normal.integrationPointCount must be at least two.`);
   }
+  // Omitting `compressiveStrength` already means unbounded compression strength: the
+  // regularized Heyman-type normal response. Never represent it through a huge finite number.
   const compressiveStrength =
     input.normal.compressiveStrength === undefined
       ? null
@@ -110,10 +112,16 @@ export function normalizeMasonryInterfaceLaw(
   if (!Number.isInteger(compressionFacetCount) || compressionFacetCount < 2) {
     throw new Error(`${label}.normal.compressionFacetCount must be at least two.`);
   }
+  // A null friction for a deformable law is the normalized representation of the
+  // elastic-unbounded tangential response: no Coulomb surface, no mu, no cohesion, no capacity.
+  const friction =
+    input.tangential.type === "elastic-unbounded"
+      ? null
+      : normalizeFriction(input.tangential, resolver, `${label}.tangential`);
   return {
     response: "deformable",
     approachingLimitRatio,
-    friction: normalizeFriction(input.tangential, resolver, `${label}.tangential`),
+    friction,
     compressiveStrength,
     compressionFacetCount,
     deformability: {

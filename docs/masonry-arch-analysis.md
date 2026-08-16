@@ -69,8 +69,15 @@ const arch = createMasonryArch({
 
 Rigid-plastic laws use `response: "rigid-plastic"`, a no-tension normal component with optional
 finite compression strength, and either a frictionless or Coulomb tangential component. Deformable
-laws require explicit normal and shear stiffness data. `stop-at-onset` makes compression-strength
-onset terminal; `perfectly-plastic` permits continued path following.
+laws require explicit normal and shear stiffness data. The tangential component is either
+`elastic-coulomb` (finite shear stiffness plus a Coulomb sliding surface) or `elastic-unbounded`
+(finite shear stiffness with no sliding surface at all: `tau = Kt * delta_t`, no tangential
+capacity, no plastic slip). Omitting `compressiveStrength` from the normal component means unbounded
+compression strength; together with `elastic-unbounded` this selects the regularized Heyman-type
+model described in
+[masonry-arch-heyman-regularized-interface.md](masonry-arch-heyman-regularized-interface.md).
+`stop-at-onset` makes compression-strength onset terminal; `perfectly-plastic` permits continued
+path following.
 
 Support interfaces may override the interior law through `supports.left.interfaceLaw` and
 `supports.right.interfaceLaw`.
@@ -213,22 +220,23 @@ interface RigidBlockDeformableInterfaceMechanicalCheck2D<TCriterion> {
 }
 
 interface RigidBlockDeformableInterfaceChecks2D {
-  friction: RigidBlockDeformableInterfaceMechanicalCheck2D<"coulomb-friction">;
+  friction: RigidBlockDeformableInterfaceMechanicalCheck2D<"coulomb-friction"> | null;
   compression: RigidBlockDeformableInterfaceMechanicalCheck2D<"deformable-interface-compression-strength"> | null;
 }
 ```
 
-The friction check always exists because the deformable law always assigns a Coulomb tangential law:
-`demand = |shearForce|`, `trialDemand = |shearTrial|`,
-`capacity = cohesion * area + frictionCoefficient * normalForce`. With zero capacity the mobilized
-demand is zero and the utilization stays `null` (no invented 0/0) while the evaluation's `sliding`
-flag keeps the constitutive state. The compression check is `null` when no finite compression
-strength is assigned; otherwise `demand` is the clipped published compression stress
-(`maxCompression`), `trialDemand` is the maximum unclipped trial compression the crushing-onset test
-compares with the strength, and `capacity` is the assigned strength. `utilizationRatio` always
-refers to the mobilized demand, so a correctly returned elastoplastic response stays at or below
-one; how far the predictor crossed the surface is reported by `trialDemand`, never by the main
-utilization.
+The friction check exists for the `elastic-coulomb` tangential law: `demand = |shearForce|`,
+`trialDemand = |shearTrial|`, `capacity = cohesion * area + frictionCoefficient * normalForce`. With
+zero capacity the mobilized demand is zero and the utilization stays `null` (no invented 0/0) while
+the evaluation's `sliding` flag keeps the constitutive state. For the `elastic-unbounded` tangential
+law the friction check is `null`: no tangential capacity exists, and no friction or sliding
+utilization is defined (never `0`, `1`, or an invented pseudo-capacity). The compression check is
+`null` when no finite compression strength is assigned; otherwise `demand` is the clipped published
+compression stress (`maxCompression`), `trialDemand` is the maximum unclipped trial compression the
+crushing-onset test compares with the strength, and `capacity` is the assigned strength.
+`utilizationRatio` always refers to the mobilized demand, so a correctly returned elastoplastic
+response stays at or below one; how far the predictor crossed the surface is reported by
+`trialDemand`, never by the main utilization.
 
 The equilibrium analysis fills demand, capacity, and utilization from its public interface,
 reinforcement, anchor, and bonded-layer checks, and reports one criterion per actually failing

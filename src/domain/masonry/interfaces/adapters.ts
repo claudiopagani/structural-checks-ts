@@ -27,9 +27,6 @@ export function toRigidBlockDeformableInterfaceLaw2D(
   if (source.response !== "deformable" || source.deformability === null) {
     throw new Error(`${label} requires a deformable masonry-interface law.`);
   }
-  if (source.friction === null) {
-    throw new Error(`${label} requires explicit tangential parameters.`);
-  }
   if (!Number.isFinite(cohesionOffset) || cohesionOffset < 0) {
     throw new Error(`${label} cohesionOffset must be finite and non-negative.`);
   }
@@ -41,12 +38,20 @@ export function toRigidBlockDeformableInterfaceLaw2D(
       integrationPointCount: source.deformability.normal.integrationPointCount,
       postCrushingBehavior: source.deformability.normal.postCrushingBehavior,
     },
-    tangential: {
-      shearModulus: source.deformability.tangential.shearModulus,
-      characteristicLength: source.deformability.tangential.characteristicLength,
-      frictionCoefficient: source.friction.frictionCoefficient,
-      cohesion: source.friction.cohesion + cohesionOffset,
-      dilationAngle: source.friction.flowRule.dilationAngle,
-    },
+    tangential:
+      source.friction === null
+        ? {
+            type: "elastic-unbounded",
+            shearModulus: source.deformability.tangential.shearModulus,
+            characteristicLength: source.deformability.tangential.characteristicLength,
+          }
+        : {
+            type: "elastic-coulomb",
+            shearModulus: source.deformability.tangential.shearModulus,
+            characteristicLength: source.deformability.tangential.characteristicLength,
+            frictionCoefficient: source.friction.frictionCoefficient,
+            cohesion: source.friction.cohesion + cohesionOffset,
+            dilationAngle: source.friction.flowRule.dilationAngle,
+          },
   };
 }
