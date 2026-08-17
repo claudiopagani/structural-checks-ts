@@ -1,4 +1,9 @@
 export interface IllinoisRootSolverOptions {
+  /**
+   * Convergence tolerance on the function residual |f(x) - target|. The bracket width never
+   * declares convergence by itself: for a steep function a narrow bracket does not imply a
+   * small residual.
+   */
   tolerance?: number;
   maxIterations?: number;
 }
@@ -36,7 +41,7 @@ export class IllinoisRootSolver {
 
   constructor({ tolerance = 1e-6, maxIterations = 100 }: IllinoisRootSolverOptions = {}) {
     if (!Number.isFinite(tolerance) || tolerance <= 0) {
-      throw new Error("IllinoisRootSolver requires a positive tolerance.");
+      throw new Error("IllinoisRootSolver requires a positive residual tolerance.");
     }
 
     if (!Number.isInteger(maxIterations) || maxIterations <= 0) {
@@ -126,7 +131,9 @@ export class IllinoisRootSolver {
       fx = evaluate(x);
       history?.push({ x, value: fx + target, residual: fx });
 
-      if (Math.abs(fx) <= this.tolerance || Math.abs(b - a) <= this.tolerance) {
+      // Convergence is earned on the function residual alone. A narrow bracket locates the
+      // crossing in x but, for a steep function, says nothing about |f(x) - target|.
+      if (Math.abs(fx) <= this.tolerance) {
         return {
           converged: true,
           iterations: iteration,

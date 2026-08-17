@@ -46,7 +46,7 @@ export const IDEAL_HEYMAN_INTERFACE_LAW_2D: RigidBlockInterfaceLimitLaw2D = Obje
   compressionFacetCount: 1,
 });
 
-function resolveInterfaceLaws(
+export function resolveRigidBlockInterfaceLaws2D(
   interfaces: readonly RigidBlockInterface2D[],
   laws: readonly RigidBlockInterfaceLimitLaw2D[] | undefined,
 ): readonly RigidBlockInterfaceLimitLaw2D[] {
@@ -56,8 +56,19 @@ function resolveInterfaceLaws(
   }
   for (let index = 0; index < resolved.length; index += 1) {
     const law = resolved[index]!;
-    if (!Number.isInteger(law.compressionFacetCount) || law.compressionFacetCount <= 0) {
-      throw new Error(`Interface ${interfaces[index]!.id} compressionFacetCount must be positive.`);
+    // The faceted M-N discretization needs at least two chord facets per half domain; a single
+    // facet would degenerate to a zero-momentum chord. compressionFacetCount = 1 is only the
+    // normalized marker for unbounded compression strength (compressiveStrength === null).
+    const minimumFacetCount = law.compressiveStrength === null ? 1 : 2;
+    if (
+      !Number.isInteger(law.compressionFacetCount) ||
+      law.compressionFacetCount < minimumFacetCount
+    ) {
+      throw new Error(
+        minimumFacetCount === 2
+          ? `Interface ${interfaces[index]!.id} compressionFacetCount must be at least two for a finite compressive strength.`
+          : `Interface ${interfaces[index]!.id} compressionFacetCount must be positive.`,
+      );
     }
     if (
       law.compressiveStrength !== null &&
@@ -602,7 +613,7 @@ export function solveRigidBlockChainEquilibrium2D(
   }
   finitePositive(feasibilityTolerance, "Equilibrium feasibility tolerance");
   finitePositive(simplexTolerance, "Equilibrium simplex tolerance");
-  const resolvedLaws = resolveInterfaceLaws(interfaces, interfaceLaws);
+  const resolvedLaws = resolveRigidBlockInterfaceLaws2D(interfaces, interfaceLaws);
 
   const lengthScale = characteristicLength(interfaces);
   const totalForceMagnitude = wrenches.reduce((total, wrench) => total + norm2d(wrench.force), 0);

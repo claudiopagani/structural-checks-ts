@@ -204,11 +204,12 @@ export function runLimitAnalysis(
     hinges: outputs.hinges.map((hinge) => ({ interfaceId: hinge.interfaceId, side: hinge.side })),
     slidingCount: outputs.slidingInterfaces.length,
     crushingCount: outputs.crushingInterfaces.length,
-    bondedAtCapacity: outputs.bondedLayerState.some((layer) =>
-      layer.interfaces.some(
-        (item) => item.utilizationRatio !== null && item.utilizationRatio >= 1 - 1e-9,
-      ),
-    ),
+    bondedAtCapacity:
+      outputs.bondedLayerState?.some((layer) =>
+        layer.interfaces.some(
+          (item) => item.utilizationRatio !== null && item.utilizationRatio >= 1 - 1e-9,
+        ),
+      ) ?? false,
     independentLambda: independent?.lambda ?? null,
     independentHinges:
       independent?.hinges.map((hinge) => ({

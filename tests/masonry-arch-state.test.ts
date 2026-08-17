@@ -144,6 +144,7 @@ void test("finite compression may identify a critical zone without inventing kin
   assert.ok(result.outputs.crushingInterfaces.length > 0);
   assert.equal(result.outputs.collapseMechanism, null);
   assert.equal(result.outputs.capacity.lambdaCollapse, null);
+  assert.ok(result.outputs.interfaces !== null);
   for (const item of result.outputs.interfaces.filter((value) => value.maxCompression !== null)) {
     assert.ok(item.compressionAtIntrados !== null);
     assert.ok(item.compressionAtExtrados !== null);

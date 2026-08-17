@@ -1,4 +1,5 @@
 import type { NumericMatrix, NumericVector } from "./arrayLinearAlgebra.js";
+import { SingularMatrixError } from "./SingularMatrixError.js";
 
 export interface DenseLinearSolverOptions {
   singularityTolerance?: number;
@@ -192,7 +193,9 @@ function eliminateAndSolve({
     }
 
     if (pivotMagnitude <= singularityTolerance * scale) {
-      throw new Error(`DenseLinearSolver detected a singular matrix near pivot ${pivot + 1}.`);
+      throw new SingularMatrixError(
+        `DenseLinearSolver detected a singular matrix near pivot ${pivot + 1}.`,
+      );
     }
 
     if (pivotRow !== pivot) {
@@ -292,7 +295,9 @@ function factorizeDenseMatrix(
   const rowPermutation = Array.from({ length: size }, (_, index) => index);
 
   if (scale === 0) {
-    throw new Error("DenseLinearSolver detected a singular matrix with zero stiffness scale.");
+    throw new SingularMatrixError(
+      "DenseLinearSolver detected a singular matrix with zero stiffness scale.",
+    );
   }
 
   for (let pivot = 0; pivot < size; pivot += 1) {
@@ -309,7 +314,9 @@ function factorizeDenseMatrix(
     }
 
     if (pivotMagnitude <= singularityTolerance * scale) {
-      throw new Error(`DenseLinearSolver detected a singular matrix near pivot ${pivot + 1}.`);
+      throw new SingularMatrixError(
+        `DenseLinearSolver detected a singular matrix near pivot ${pivot + 1}.`,
+      );
     }
 
     if (pivotRow !== pivot) {
@@ -376,7 +383,9 @@ export class DenseLinearSolver {
     const scale = matrixScale(upperMatrix);
 
     if (scale === 0) {
-      throw new Error("DenseLinearSolver detected a singular matrix with zero stiffness scale.");
+      throw new SingularMatrixError(
+        "DenseLinearSolver detected a singular matrix with zero stiffness scale.",
+      );
     }
 
     return eliminateAndSolve({
@@ -400,7 +409,9 @@ export class DenseLinearSolver {
     const scale = matrixScale(upperMatrix);
 
     if (scale === 0) {
-      throw new Error("DenseLinearSolver detected a singular matrix with zero stiffness scale.");
+      throw new SingularMatrixError(
+        "DenseLinearSolver detected a singular matrix with zero stiffness scale.",
+      );
     }
 
     const elimination = eliminateAndSolve({

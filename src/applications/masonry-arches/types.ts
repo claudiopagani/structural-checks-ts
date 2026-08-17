@@ -15,7 +15,7 @@ import type {
 
 export const MASONRY_ARCH_MODEL_SCHEMA_VERSION = "2.0.0";
 export const MASONRY_ARCH_EQUILIBRIUM_RESULT_SCHEMA_VERSION = "4.0.0";
-export const MASONRY_ARCH_LIMIT_ANALYSIS_RESULT_SCHEMA_VERSION = "4.0.0";
+export const MASONRY_ARCH_LIMIT_ANALYSIS_RESULT_SCHEMA_VERSION = "5.0.0";
 
 export type MasonryArchReferenceCurve = "intrados" | "centerline" | "extrados";
 export type MasonryArchAngleUnits = "deg" | "rad";
@@ -1122,7 +1122,8 @@ export interface MasonryArchLimitOutputs extends Record<string, unknown> {
   readonly anchorForces: readonly ArchAnchorForceResult[];
   readonly contactForces: readonly ArchContactForceResult[];
   readonly reinforcementBoundaryForces: readonly ArchReinforcementBoundaryForceResult[];
-  readonly bondedLayerState: readonly BondedLayerStateResult[];
+  /** Null when no certified limit state exists (numerical iteration limit). */
+  readonly bondedLayerState: readonly BondedLayerStateResult[] | null;
   readonly loadCases: {
     readonly baseCombinationFactorsByCaseId: Readonly<Record<string, number>>;
     readonly effectiveFactorsAtLimitByCaseId: Readonly<Record<string, number | null>>;
@@ -1143,11 +1144,15 @@ export interface MasonryArchLimitOutputs extends Record<string, unknown> {
     readonly scalableBlockWrenchesAtUnitLambda: readonly MasonryArchBlockLoadResult[];
     readonly totalBlockWrenchesAtLimit: readonly MasonryArchBlockLoadResult[];
   };
-  readonly reactions: MasonryArchEquilibriumOutputs["reactions"];
-  readonly interfaces: readonly MasonryArchInterfaceStateResult[];
-  readonly thrustLine: readonly (RigidBlockPoint2D | null)[];
+  /** Null when no certified limit state exists (numerical iteration limit). */
+  readonly reactions: MasonryArchEquilibriumOutputs["reactions"] | null;
+  /** Null when no certified limit state exists (numerical iteration limit). */
+  readonly interfaces: readonly MasonryArchInterfaceStateResult[] | null;
+  /** Null when no certified limit state exists (numerical iteration limit). */
+  readonly thrustLine: readonly (RigidBlockPoint2D | null)[] | null;
   /** Normalized kinematic field; its amplitude is arbitrary. Null without verified kinematics. */
   readonly collapseMechanism: MasonryArchCollapseMechanism | null;
+  /** Null when no certified limit state exists (numerical iteration limit). */
   readonly equilibrium: {
     readonly forceResidual: RigidBlockVector2D;
     readonly momentResidual: number;
@@ -1157,7 +1162,7 @@ export interface MasonryArchLimitOutputs extends Record<string, unknown> {
       readonly moment: number;
     };
     readonly tolerance: number;
-  };
+  } | null;
   readonly convergenceInfo: {
     readonly converged: boolean;
     readonly optimizer: "fixed-dimension-simplex" | "sequential-linear-programming";

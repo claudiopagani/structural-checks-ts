@@ -1,4 +1,5 @@
 import { DenseLinearSolver } from "../../math/DenseLinearSolver.js";
+import { SingularMatrixError } from "../../math/SingularMatrixError.js";
 import {
   GeneralBandedLinearSolver,
   compactBandedMatrixToDense,
@@ -252,6 +253,10 @@ export class NonlinearEquilibriumContinuationSolver<
                 )
               : this.#solveArcLengthCorrection(evaluation, constraintValues.arcLength!);
       } catch (error) {
+        // Only an expected numerical failure of the tangent solve (a singular or degenerate
+        // system) becomes a non-convergence diagnostic. Any other error is a programming or
+        // contract error and must propagate instead of being relabeled as a singular tangent.
+        if (!(error instanceof SingularMatrixError)) throw error;
         return {
           converged: false,
           coordinates,
@@ -455,7 +460,9 @@ export class NonlinearEquilibriumContinuationSolver<
       );
     }
     if (maximum === 0) {
-      throw new Error("The continued load coordinate has a zero residual derivative.");
+      throw new SingularMatrixError(
+        "The continued load coordinate has a zero residual derivative.",
+      );
     }
     return 1 / maximum;
   }
@@ -498,7 +505,7 @@ export class NonlinearEquilibriumContinuationSolver<
       );
       const controlDenominator = physicalLambdaResponse[controlDof]!;
       if (Math.abs(controlDenominator) <= 1e-14 * this.coordinateScales[controlDof]!) {
-        throw new Error(
+        throw new SingularMatrixError(
           "The selected displacement-control coordinate has zero incremental load response.",
         );
       }
@@ -564,7 +571,9 @@ export class NonlinearEquilibriumContinuationSolver<
       Math.abs(values.lambdaGradient * lambdaColumnScale),
     );
     if (maximumConstraintCoefficient <= Number.EPSILON) {
-      throw new Error("The arc-length correction was requested at a zero-increment predictor.");
+      throw new SingularMatrixError(
+        "The arc-length correction was requested at a zero-increment predictor.",
+      );
     }
     const constraintRowScale = 1 / maximumConstraintCoefficient;
     for (let column = 0; column < size; column += 1) {

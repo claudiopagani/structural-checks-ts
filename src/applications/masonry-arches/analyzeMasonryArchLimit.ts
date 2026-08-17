@@ -211,7 +211,7 @@ function solveCollapseWithInterfaceFlow(
       const targetSlope = Math.tan(law.friction.flowRule.dilationAngle);
       const originalSlope = law.friction.frictionCoefficient;
       const adjustedSlope = targetSlope + reductionFactor * (originalSlope - targetSlope);
-      const currentNormal = Math.max(0, previous.interfaces[index]?.normalForce ?? 0);
+      const currentNormal = Math.max(0, previous.interfaces?.[index]?.normalForce ?? 0);
       const area =
         model.geometry.interfaces[index]!.length *
         model.geometry.interfaces[index]!.outOfPlaneWidth;
@@ -371,7 +371,7 @@ export function analyzeMasonryArchLimit(
         );
   const compressionTolerance = equilibriumTolerance * collapse.scales.force;
   const normalForcesByInterface = new Map(
-    governingInterfaceResultants.map((item) => [item.interfaceId, item.normalForce]),
+    (governingInterfaceResultants ?? []).map((item) => [item.interfaceId, item.normalForce]),
   );
   const governingActiveConstraints =
     fixedReinforcementFailureMode === null ? collapse.activeConstraints : [];
@@ -453,7 +453,7 @@ export function analyzeMasonryArchLimit(
         ? 0
         : nonAssociatedMechanism.slidingRates.reduce((total, rate) => {
             const shearForce =
-              collapse.interfaces.find((item) => item.interfaceId === rate.interfaceId)
+              collapse.interfaces?.find((item) => item.interfaceId === rate.interfaceId)
                 ?.shearForce ?? 0;
             return total + Math.abs(shearForce * rate.tangentialRate);
           }, 0);
@@ -477,15 +477,21 @@ export function analyzeMasonryArchLimit(
         .map((item) => item.interfaceId),
     ),
   ];
-  const bondedRecovery = recoverBondedLayerStaticState(
-    model,
-    baseInterfaceLaws,
-    governingInterfaceResultants,
-    hingeTolerance,
-  );
-  const bondedLayerAtCapacity = bondedRecovery.bondedLayerState.some((layer) =>
-    layer.interfaces.some((item) => item.state === "at-capacity"),
-  );
+  // A null governing resultant set means the collapse simplex did not certify a solution
+  // (iteration limit): no static state is recovered and no derived quantity is published.
+  const bondedRecovery =
+    governingInterfaceResultants === null
+      ? null
+      : recoverBondedLayerStaticState(
+          model,
+          baseInterfaceLaws,
+          governingInterfaceResultants,
+          hingeTolerance,
+        );
+  const bondedLayerAtCapacity =
+    bondedRecovery?.bondedLayerState.some((layer) =>
+      layer.interfaces.some((item) => item.state === "at-capacity"),
+    ) ?? false;
   let failureMode: MasonryArchFailureMode;
   if (fixedReinforcementFailureMode !== null) failureMode = fixedReinforcementFailureMode;
   else if (collapse.status === "fixed-load-infeasible") failureMode = "fixed-load-infeasible";
@@ -506,36 +512,41 @@ export function analyzeMasonryArchLimit(
   else if (mechanism.verified && workVerified) failureMode = "mechanism";
   else failureMode = "undetermined";
 
-  const interfaces: MasonryArchInterfaceStateResult[] = bondedRecovery.masonryResultants.map(
-    (item) => {
-      const recovered = recoverMasonryArchInterfaceState(
-        item,
-        model.geometry.interfaces[item.index]!,
-        baseInterfaceLaws[item.index]!,
-        item.index === 0
-          ? model.supports.left.interfaceLaw.approachingLimitRatio
-          : item.index === model.geometry.interfaces.length - 1
-            ? model.supports.right.interfaceLaw.approachingLimitRatio
-            : model.interfaceLaw.approachingLimitRatio,
-        hingeTolerance,
-        governingInterfaceResultants[item.index]!.normalForce,
-      );
-      const sliding = slidingInterfaces.includes(item.interfaceId);
-      const crushing = crushingInterfaces.includes(item.interfaceId);
-      if (!crushing) return recovered;
-      return {
-        ...recovered,
-        state: sliding ? "sliding-and-crushing" : "crushing",
-        hingeSide: null,
-      };
-    },
-  );
-  const maximumEquilibriumResidual = Math.max(
-    Math.abs(governingResidual.normalizedForceX),
-    Math.abs(governingResidual.normalizedForceY),
-    Math.abs(governingResidual.normalizedMoment),
-  );
-  const equilibriumVerified = maximumEquilibriumResidual <= equilibriumTolerance;
+  const interfaces: MasonryArchInterfaceStateResult[] | null =
+    bondedRecovery === null || governingInterfaceResultants === null
+      ? null
+      : bondedRecovery.masonryResultants.map((item) => {
+          const recovered = recoverMasonryArchInterfaceState(
+            item,
+            model.geometry.interfaces[item.index]!,
+            baseInterfaceLaws[item.index]!,
+            item.index === 0
+              ? model.supports.left.interfaceLaw.approachingLimitRatio
+              : item.index === model.geometry.interfaces.length - 1
+                ? model.supports.right.interfaceLaw.approachingLimitRatio
+                : model.interfaceLaw.approachingLimitRatio,
+            hingeTolerance,
+            governingInterfaceResultants[item.index]!.normalForce,
+          );
+          const sliding = slidingInterfaces.includes(item.interfaceId);
+          const crushing = crushingInterfaces.includes(item.interfaceId);
+          if (!crushing) return recovered;
+          return {
+            ...recovered,
+            state: sliding ? "sliding-and-crushing" : "crushing",
+            hingeSide: null,
+          };
+        });
+  const maximumEquilibriumResidual =
+    governingResidual === null
+      ? null
+      : Math.max(
+          Math.abs(governingResidual.normalizedForceX),
+          Math.abs(governingResidual.normalizedForceY),
+          Math.abs(governingResidual.normalizedMoment),
+        );
+  const equilibriumVerified =
+    maximumEquilibriumResidual !== null && maximumEquilibriumResidual <= equilibriumTolerance;
   const kinematicFailureVerified =
     fixedReinforcementFailureMode === null &&
     mechanism.verified &&
@@ -575,7 +586,7 @@ export function analyzeMasonryArchLimit(
       `Non-associated sequential linear programming did not converge in ${solved.convergence.iterations} iteration(s).`,
     );
   }
-  if (!equilibriumVerified) {
+  if (maximumEquilibriumResidual !== null && !equilibriumVerified) {
     warnings.push(
       `Global equilibrium residual ${maximumEquilibriumResidual} exceeds tolerance ${equilibriumTolerance}.`,
     );
@@ -684,7 +695,7 @@ export function analyzeMasonryArchLimit(
     anchorForces: resolvedReinforcements.anchorForces,
     contactForces: resolvedReinforcements.contactForces,
     reinforcementBoundaryForces: resolvedReinforcements.boundaryForces,
-    bondedLayerState: bondedRecovery.bondedLayerState,
+    bondedLayerState: bondedRecovery === null ? null : bondedRecovery.bondedLayerState,
     loadCases: {
       baseCombinationFactorsByCaseId: baseLoads.loadFactorsByCaseId,
       effectiveFactorsAtLimitByCaseId: atCollapseFactors,
@@ -703,12 +714,15 @@ export function analyzeMasonryArchLimit(
       scalableBlockWrenchesAtUnitLambda: scalableLoads.blockWrenches,
       totalBlockWrenchesAtLimit: totalBlockWrenches,
     },
-    reactions: {
-      left: governingLeftReaction,
-      right: governingRightReaction,
-    },
+    reactions:
+      governingLeftReaction === null || governingRightReaction === null
+        ? null
+        : {
+            left: governingLeftReaction,
+            right: governingRightReaction,
+          },
     interfaces,
-    thrustLine: interfaces.map((item) => item.thrustPoint),
+    thrustLine: interfaces === null ? null : interfaces.map((item) => item.thrustPoint),
     collapseMechanism:
       kinematicFailureVerified && collapse.status === "optimal"
         ? {
@@ -734,16 +748,19 @@ export function analyzeMasonryArchLimit(
             },
           }
         : null,
-    equilibrium: {
-      forceResidual: { x: governingResidual.forceX, y: governingResidual.forceY },
-      momentResidual: governingResidual.moment,
-      normalizedResidual: {
-        forceX: governingResidual.normalizedForceX,
-        forceY: governingResidual.normalizedForceY,
-        moment: governingResidual.normalizedMoment,
-      },
-      tolerance: equilibriumTolerance,
-    },
+    equilibrium:
+      governingResidual === null
+        ? null
+        : {
+            forceResidual: { x: governingResidual.forceX, y: governingResidual.forceY },
+            momentResidual: governingResidual.moment,
+            normalizedResidual: {
+              forceX: governingResidual.normalizedForceX,
+              forceY: governingResidual.normalizedForceY,
+              moment: governingResidual.normalizedMoment,
+            },
+            tolerance: equilibriumTolerance,
+          },
     convergenceInfo: {
       converged:
         collapse.status === "optimal" &&

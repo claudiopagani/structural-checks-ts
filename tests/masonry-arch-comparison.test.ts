@@ -92,6 +92,66 @@ void test("comparison rejects semantically different analysis types", () => {
   );
 });
 
+void test("comparison treats different explicit loadFactorsByCaseId as not comparable", () => {
+  const reference = archModel({ id: "factor-reference" });
+  const candidate = archModel({ id: "factor-candidate" });
+  const result = compareMasonryArchModels([
+    {
+      caseId: "reference",
+      model: reference,
+      analysis: { type: "equilibrium", options: { loadFactorsByCaseId: { G: 1, Q: 1 } } },
+    },
+    {
+      caseId: "candidate",
+      model: candidate,
+      analysis: { type: "equilibrium", options: { loadFactorsByCaseId: { G: 1, Q: 1.5 } } },
+    },
+  ]);
+  assert.equal(result.outputs.cases[0]!.comparableToReference, true);
+  assert.equal(result.outputs.cases[1]!.comparableToReference, false);
+  const factorReason = result.outputs.cases[1]!.nonComparableReasons.find(
+    (reason) => reason.code === "load-factor-mismatch",
+  );
+  assert.ok(factorReason !== undefined);
+  assert.ok(factorReason.differingPaths.some((path) => path.includes("loadFactors")));
+});
+
+void test("comparison matches explicit factors producing the same effective loads", () => {
+  const reference = archModel({ id: "effective-reference" });
+  const candidate = archModel({ id: "effective-candidate" });
+  const result = compareMasonryArchModels([
+    {
+      caseId: "reference",
+      model: reference,
+      analysis: {
+        type: "equilibrium",
+        options: {
+          loadCombination: {
+            factors: [
+              { loadCase: { id: "G" }, factor: 1 },
+              { loadCase: { id: "Q" }, factor: 1.5 },
+            ],
+          },
+        },
+      },
+    },
+    {
+      caseId: "candidate",
+      model: candidate,
+      analysis: { type: "equilibrium", options: { loadFactorsByCaseId: { G: 1, Q: 1.5 } } },
+    },
+  ]);
+  // The explicit per-case factors take precedence over the combination in the canonical load
+  // resolver, so the two cases carry identical effective loads and must stay comparable.
+  assert.equal(result.outputs.cases[1]!.comparableToReference, true);
+  assert.equal(
+    result.outputs.cases[1]!.nonComparableReasons.some(
+      (reason) => reason.code === "load-factor-mismatch",
+    ),
+    false,
+  );
+});
+
 void test("comparison validates case identifiers", () => {
   const model = archModel({ id: "duplicate" });
   assert.throws(

@@ -3,8 +3,8 @@ import {
   buildAffineInterfaceStates,
   buildInterfaceLimitHalfSpaces,
   characteristicLength,
-  IDEAL_HEYMAN_INTERFACE_LAW_2D,
   interfaceResultant,
+  resolveRigidBlockInterfaceLaws2D,
   solveRigidBlockChainEquilibrium2D,
   sumMomentAboutOrigin,
 } from "./solveHeymanChainEquilibrium2D.js";
@@ -178,10 +178,7 @@ export function solveRigidBlockChainCollapse2D(
   finitePositive(feasibilityTolerance, "Collapse feasibility tolerance");
   finitePositive(simplexTolerance, "Collapse simplex tolerance");
   finitePositive(activeConstraintTolerance, "Collapse active-constraint tolerance");
-  const resolvedLaws = interfaceLaws ?? interfaces.map(() => IDEAL_HEYMAN_INTERFACE_LAW_2D);
-  if (resolvedLaws.length !== interfaces.length) {
-    throw new Error("Every rigid-block interface requires exactly one limit law.");
-  }
+  const resolvedLaws = resolveRigidBlockInterfaceLaws2D(interfaces, interfaceLaws);
 
   const lengthScale = characteristicLength(interfaces);
   const fixedMagnitude = wrenchMagnitude(fixedWrenches, lengthScale);
@@ -271,6 +268,23 @@ export function solveRigidBlockChainCollapse2D(
     { tolerance: simplexTolerance, maxIterations: maxSimplexIterations },
   );
   const lambda = simplex.status === "optimal" ? Math.max(0, simplex.solution[6] ?? 0) : null;
+  if (simplex.status === "iteration-limit") {
+    // A numerical iteration limit is not a certified collapse state: the current tableau may be
+    // neither interface-admissible nor optimal, so no tableau-derived reactions, interface
+    // resultants, or residuals are published as structural results.
+    return {
+      status: simplex.status,
+      reason: "Collapse optimization reached its iteration limit.",
+      lambdaLimit: null,
+      scales: { force: forceScale, moment: momentScale },
+      leftReaction: null,
+      rightReaction: null,
+      interfaces: null,
+      activeConstraints: [],
+      residual: null,
+      simplex: { status: simplex.status, iterations: simplex.iterations },
+    };
+  }
   const deltaReaction: ReactionVector = [
     ((simplex.solution[0] ?? 0) - (simplex.solution[3] ?? 0)) * forceScale,
     ((simplex.solution[1] ?? 0) - (simplex.solution[4] ?? 0)) * forceScale,
@@ -322,9 +336,7 @@ export function solveRigidBlockChainCollapse2D(
     reason:
       simplex.status === "optimal"
         ? null
-        : simplex.status === "unbounded"
-          ? "No finite collapse multiplier exists for the selected scalable load field within the assigned interface model."
-          : "Collapse optimization reached its iteration limit.",
+        : "No finite collapse multiplier exists for the selected scalable load field within the assigned interface model.",
     lambdaLimit: lambda,
     scales: { force: forceScale, moment: momentScale },
     leftReaction: reactions.leftReaction,

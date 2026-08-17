@@ -331,6 +331,48 @@ void test("Illinois iteration preserves convergence and optional diagnostic hist
 
   assert.equal(withHistory.converged, true);
   approximatelyEqual(withHistory.root, Math.sqrt(2), 1e-8);
+  assert.ok(Math.abs(withHistory.residual) <= 1e-10);
   assert.ok(Array.isArray(withHistory.history));
   assert.equal("history" in withoutHistory, false);
+});
+
+void test("Illinois never declares convergence from bracket width alone on a steep function", () => {
+  // The bracket is already narrower than the x tolerance, but the function is so steep that
+  // the first iterates still carry a residual six orders of magnitude above the function
+  // tolerance: convergence must be earned on the residual, never on the bracket width.
+  const solver = new IllinoisRootSolver({
+    tolerance: 1e-6,
+    maxIterations: 10,
+  });
+  const root = 0.5;
+  const fn = (x: number): number => 1e12 * (x - root) + 1e18 * (x - root) ** 2;
+  const result = solver.solve({
+    fn,
+    min: root - 5e-7,
+    max: root + 5e-7,
+    includeHistory: false,
+  });
+  assert.ok(
+    !result.converged || Math.abs(result.residual) <= 1e-6,
+    `converged=${result.converged} with residual ${result.residual} above the function tolerance.`,
+  );
+  if (result.converged) {
+    approximatelyEqual(result.root, root, 1e-12);
+  }
+});
+
+void test("Illinois still converges on a regular well-scaled root", () => {
+  const solver = new IllinoisRootSolver({
+    tolerance: 1e-9,
+    maxIterations: 100,
+  });
+  const result = solver.solve({
+    fn: (x) => x ** 3 - x - 2,
+    min: 1,
+    max: 2,
+    includeHistory: false,
+  });
+  assert.equal(result.converged, true);
+  assert.ok(Math.abs(result.residual) <= 1e-9);
+  approximatelyEqual(result.root, 1.5213797068045676, 1e-9);
 });

@@ -77,7 +77,11 @@ compression strength; together with `elastic-unbounded` this selects the regular
 model described in
 [masonry-arch-heyman-regularized-interface.md](masonry-arch-heyman-regularized-interface.md).
 `stop-at-onset` makes compression-strength onset terminal; `perfectly-plastic` permits continued
-path following.
+path following. When a finite `compressiveStrength` is assigned, `compressionFacetCount` must be at
+least two (`2`, `8`, `16`, ...): the discretized M-N resultant domain needs at least two chord
+facets per half domain, and `compressionFacetCount = 1` is rejected by the interface-law
+normalization and by the low-level rigid-block solvers alike. `compressionFacetCount = 1` is
+reserved as the unbounded-compression marker (`compressiveStrength` omitted).
 
 Support interfaces may override the interior law through `supports.left.interfaceLaw` and
 `supports.right.interfaceLaw`.
@@ -295,6 +299,14 @@ explicit control. The result uses four distinct landmarks:
 The associated step numbers are in `capacity.steps`. Numerical failure never populates
 `lambdaCollapse`.
 
+In direct rigid-plastic limit analysis, a simplex `iteration-limit` is numerical inability, never a
+certified collapse state:
+`capacity.lambdaFirstLimit`/`lambdaPeak`/`lambdaTermination`/`lambdaCollapse` are all `null`,
+`loadFactorCheck.status` is `not-verifiable`, `collapseMechanism` is `null`, and the tableau-derived
+`reactions`, `interfaces`, `thrustLine`, `equilibrium`, and `bondedLayerState` are all `null`. The
+result status is `failed` and `convergenceInfo.status` is `iteration-limit`; the façade keeps this
+an `INDETERMINATE`/`not-verifiable` numerical outcome, never a physical `FAIL`.
+
 ## Load proportionality
 
 For every limit or path analysis, combination factors are applied first. The analysis then creates
@@ -389,10 +401,13 @@ no lambda-interval bracket is published for a turning point: the two converged s
 turn in arc-length coordinate, not a lambda interval.
 
 A singular or nearly vertical continuation tangent at the last converged state is only a
-`suspected-critical-point` diagnostic, and a tangent-solve exception is only a numerical `warning`:
-neither one can certify a limit point, and a run that stalls on them stays `INDETERMINATE`. A
-discrete local plastic event is never a certified limit point, and `max(steps.lambda)` is never
-capacity by itself.
+`suspected-critical-point` diagnostic, and an expected tangent-solve failure (a singular or
+degenerate linear system, marked with `SingularMatrixError`) is only a numerical `warning`: neither
+one can certify a limit point, and a run that stalls on them stays `INDETERMINATE`. Only that
+specific numerical condition is converted into a non-convergence diagnostic inside the continuation
+kernel; any other error escaping a tangent solve is a programming or contract error and propagates
+instead of being relabeled as a singular tangent. A discrete local plastic event is never a
+certified limit point, and `max(steps.lambda)` is never capacity by itself.
 
 A certified limit point below one is reported as an `equilibrium-limit-point` event, the criterion
 `equilibrium-limit-point` (`checkId: "equilibrium-limit-point"`, demand `1`, capacity

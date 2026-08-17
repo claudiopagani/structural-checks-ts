@@ -18,7 +18,7 @@ import type {
   NormalizedMasonryArchModel,
 } from "./types.js";
 
-export const MASONRY_ARCH_MODEL_COMPARISON_RESULT_SCHEMA_VERSION = "2.0.0";
+export const MASONRY_ARCH_MODEL_COMPARISON_RESULT_SCHEMA_VERSION = "3.0.0";
 
 export type MasonryArchComparisonModelLike =
   | MasonryArchModel
@@ -95,7 +95,8 @@ export interface MasonryArchModelComparisonSummary {
   readonly maximumReinforcementForce: MasonryArchComparisonMaximum;
   readonly maximumAnchorForce: MasonryArchComparisonMaximum;
   readonly maximumContactForce: MasonryArchComparisonMaximum;
-  readonly maximumNormalizedEquilibriumResidual: number;
+  /** Null when the case analysis did not certify an equilibrium state (numerical iteration limit). */
+  readonly maximumNormalizedEquilibriumResidual: number | null;
   readonly comparableToReference: boolean;
   readonly nonComparableReasons: readonly MasonryArchComparisonReason[];
   readonly warnings: readonly unknown[];
@@ -158,8 +159,13 @@ function fingerprint(
   analysis: MasonryArchComparisonAnalysis,
 ): ComparisonFingerprint {
   const options = optionsOf(analysis);
+  // Resolve the effective factors through the same canonical resolver used by the analyses,
+  // honoring the explicit loadFactorsByCaseId precedence over the assigned combination.
   const loads = resolveMasonryArchLoads(model, {
     ...(options.loadCombination === undefined ? {} : { loadCombination: options.loadCombination }),
+    ...("loadFactorsByCaseId" in options && options.loadFactorsByCaseId !== undefined
+      ? { loadFactorsByCaseId: options.loadFactorsByCaseId }
+      : {}),
   });
   const scalableIds = "scalableLoadCaseIds" in options ? options.scalableLoadCaseIds : [];
   const scalable = new Set(scalableIds);
@@ -357,7 +363,8 @@ function caseSummary(
   }[] =
     state?.interfaces ??
     (result as ReturnType<typeof analyzeMasonryArchEquilibrium> | MasonryArchLimitResult).outputs
-      .interfaces;
+      .interfaces ??
+    [];
   const reinforcementState =
     state?.reinforcementState ??
     (result as ReturnType<typeof analyzeMasonryArchEquilibrium> | MasonryArchLimitResult).outputs
@@ -365,7 +372,8 @@ function caseSummary(
   const bondedLayerState =
     state?.bondedLayerState ??
     (result as ReturnType<typeof analyzeMasonryArchEquilibrium> | MasonryArchLimitResult).outputs
-      .bondedLayerState;
+      .bondedLayerState ??
+    [];
   const capacityRelativeToReference =
     reasons.length === 0 && capacity !== null && referenceCapacity !== null
       ? {
@@ -384,11 +392,14 @@ function caseSummary(
   const equilibrium =
     state?.equilibrium ??
     (result as ReturnType<typeof analyzeMasonryArchEquilibrium> | MasonryArchLimitResult).outputs
-      .equilibrium;
+      .equilibrium ??
+    null;
   const maximumNormalizedEquilibriumResidual =
-    "maximumNormalizedBlockResidual" in equilibrium
-      ? equilibrium.maximumNormalizedBlockResidual
-      : Math.max(...Object.values(equilibrium.normalizedResidual).map(Math.abs));
+    equilibrium === null
+      ? null
+      : "maximumNormalizedBlockResidual" in equilibrium
+        ? equilibrium.maximumNormalizedBlockResidual
+        : Math.max(...Object.values(equilibrium.normalizedResidual).map(Math.abs));
   const anchorForces =
     state?.anchorForces ??
     (result as ReturnType<typeof analyzeMasonryArchEquilibrium> | MasonryArchLimitResult).outputs

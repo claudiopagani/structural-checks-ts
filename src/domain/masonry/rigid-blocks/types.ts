@@ -176,11 +176,16 @@ export interface RigidBlockCollapse2D {
   /** Maximum scalable-load multiplier established by this limit problem. */
   readonly lambdaLimit: number | null;
   readonly scales: RigidBlockEquilibriumScales;
-  readonly leftReaction: RigidBlockSupportReaction2D;
-  readonly rightReaction: RigidBlockSupportReaction2D;
-  readonly interfaces: readonly RigidBlockInterfaceResultant2D[];
+  /**
+   * Support reactions of the established limit state. Null when the simplex stopped at its
+   * iteration limit: an unconverged tableau is not a certified collapse state, so no
+   * tableau-derived reactions, interface resultants, or residuals are published.
+   */
+  readonly leftReaction: RigidBlockSupportReaction2D | null;
+  readonly rightReaction: RigidBlockSupportReaction2D | null;
+  readonly interfaces: readonly RigidBlockInterfaceResultant2D[] | null;
   readonly activeConstraints: readonly RigidBlockHeymanActiveConstraint2D[];
-  readonly residual: RigidBlockEquilibriumResidual2D;
+  readonly residual: RigidBlockEquilibriumResidual2D | null;
   readonly simplex: {
     readonly status: "optimal" | "unbounded" | "iteration-limit";
     readonly iterations: number;

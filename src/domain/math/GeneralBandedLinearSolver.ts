@@ -1,4 +1,5 @@
 import type { NumericMatrix, NumericVector } from "./arrayLinearAlgebra.js";
+import { SingularMatrixError } from "./SingularMatrixError.js";
 
 export interface CompactBandedMatrix {
   readonly size: number;
@@ -194,7 +195,7 @@ export class GeneralBandedLinearSolver {
     });
     const scale = matrix.values.reduce((maximum, value) => Math.max(maximum, Math.abs(value)), 0);
     if (scale === 0) {
-      throw new Error(
+      throw new SingularMatrixError(
         "GeneralBandedLinearSolver detected a singular matrix with zero stiffness scale.",
       );
     }
@@ -211,7 +212,7 @@ export class GeneralBandedLinearSolver {
         }
       }
       if (bestValue <= this.singularityTolerance * scale) {
-        throw new Error(
+        throw new SingularMatrixError(
           `GeneralBandedLinearSolver detected a singular matrix near pivot ${pivot + 1}.`,
         );
       }
