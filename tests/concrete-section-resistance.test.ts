@@ -376,3 +376,96 @@ void test("Illinois still converges on a regular well-scaled root", () => {
   assert.ok(Math.abs(result.residual) <= 1e-9);
   approximatelyEqual(result.root, 1.5213797068045676, 1e-9);
 });
+
+void test("Illinois measures convergence against the target, not against the raw function value", () => {
+  const solver = new IllinoisRootSolver({
+    tolerance: 1e-6,
+    maxIterations: 100,
+  });
+  // The raw function value at the root is 3, six orders of magnitude above the
+  // tolerance: convergence must come from |f(x) - target| alone.
+  const result = solver.solve({
+    fn: (x) => x + 3,
+    min: -1,
+    max: 1,
+    target: 3,
+    includeHistory: false,
+  });
+  assert.equal(result.converged, true);
+  assert.ok(Math.abs(result.root) <= 1e-9);
+  assert.ok(Math.abs(result.value - 3) <= 1e-6);
+  assert.ok(Math.abs(result.residual) <= 1e-6);
+});
+
+void test("Illinois accepts an exact root at a bracket endpoint immediately", () => {
+  const solver = new IllinoisRootSolver({
+    tolerance: 1e-6,
+    maxIterations: 100,
+  });
+  const result = solver.solve({
+    fn: (x) => x ** 2 - 4,
+    min: 2,
+    max: 5,
+    includeHistory: false,
+  });
+  assert.equal(result.converged, true);
+  assert.equal(result.iterations, 0);
+  assert.equal(result.root, 2);
+  assert.ok(Math.abs(result.residual) <= 1e-6);
+});
+
+void test("Illinois rejects a bracket without a sign change", () => {
+  const solver = new IllinoisRootSolver();
+  assert.throws(
+    () =>
+      solver.solve({
+        fn: (x) => x ** 2 + 1,
+        min: 0,
+        max: 1,
+        includeHistory: false,
+      }),
+    /change sign/,
+  );
+});
+
+void test("Illinois rejects non-finite function values", () => {
+  const solver = new IllinoisRootSolver();
+  assert.throws(
+    () =>
+      solver.solve({
+        fn: () => Number.NaN,
+        min: 0,
+        max: 1,
+        includeHistory: false,
+      }),
+    /non-finite/,
+  );
+  assert.throws(
+    () =>
+      solver.solve({
+        fn: (x) => (x === 0 ? 1 : Number.POSITIVE_INFINITY),
+        min: 0,
+        max: 1,
+        includeHistory: false,
+      }),
+    /non-finite/,
+  );
+});
+
+void test("Illinois reports converged=false when the residual cannot reach the tolerance", () => {
+  const solver = new IllinoisRootSolver({
+    tolerance: 1e-12,
+    maxIterations: 8,
+  });
+  // Discontinuous step: the secant lands on the jump, where the residual is
+  // permanently 1 no matter how narrow the bracket becomes.
+  const result = solver.solve({
+    fn: (x) => (x < 0.5 ? -1 : 1),
+    min: 0,
+    max: 1,
+    includeHistory: false,
+  });
+  assert.equal(result.converged, false);
+  assert.equal(result.iterations, 8);
+  assert.ok(Math.abs(result.residual) > 1e-12);
+});
