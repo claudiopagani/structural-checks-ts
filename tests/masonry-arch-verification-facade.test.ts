@@ -139,10 +139,11 @@ function passiveTendonArch() {
         initialForce: 0,
         yieldStrength: 450_000,
         tensileStrength: 550_000,
-        interaction: { type: "rigid-deviators", count: 3 },
-        terminations: {
-          left: { type: "distributed-anchorage", connectorCount: 1 },
-          right: { type: "distributed-anchorage", connectorCount: 1 },
+        topology: {
+          type: "open",
+          left: { type: "arch-anchor", station: 0 },
+          right: { type: "arch-anchor", station: 1 },
+          deviators: { type: "uniform-count", count: 1 },
         },
       },
     ],
@@ -191,21 +192,27 @@ void test("1. fixed loads PASS -> the scalable phase starts and lambda one passe
 });
 
 void test("2. fixed loads physical FAIL -> no scalable lambda is defined", () => {
-  // A bonded layer whose tensile capacity is already exceeded by the fixed-load state fails
-  // phase A; the verification stops there and never defines a scalable lambda.
+  // An active tendon whose crown-deviator capacity is already exceeded by the fixed-load state
+  // fails phase A; the verification stops there and never defines a scalable lambda. T0 = 20 kN
+  // keeps the tendon active through the self-weight closure of the preload.
   const model = deformableArch({
-    bondedLayers: [
+    reinforcements: [
       {
-        id: "FRCM",
-        family: "frcm",
+        id: "P",
         ...INTRA,
-        area: 1e-3,
+        area: 0.001,
         elasticModulus: 200_000_000,
-        tensileStrength: 5,
-        transferLength: 0.5,
-        startStation: 0,
-        endStation: 1,
-        terminations: { left: { type: "anchored" }, right: { type: "anchored" } },
+        initialForce: 20,
+        topology: {
+          type: "open",
+          left: { type: "arch-anchor", station: 0 },
+          right: { type: "arch-anchor", station: 1 },
+          deviators: {
+            type: "uniform-count",
+            count: 1,
+            connectors: { capacity: { resultantResistance: 5 } },
+          },
+        },
       },
     ],
   });
@@ -219,7 +226,7 @@ void test("2. fixed loads physical FAIL -> no scalable lambda is defined", () =>
   assert.equal(result.outputs.fixedState.status, "FAIL");
   assert.ok(
     result.outputs.fixedState.failedCriteria.some(
-      (item) => item.kind === "bonded-layer-capacity-reached",
+      (item) => item.kind === "anchor-capacity-reached",
     ),
     "the fixed-state failure criteria explain the problem",
   );
@@ -239,22 +246,46 @@ void test("2. fixed loads physical FAIL -> no scalable lambda is defined", () =>
 // A: a design-blocking event exactly on the step that completes the fixed load must stop the
 // analysis with zero scalable-loading steps, no scalable lambda, no verification limit.
 void test("blocking event exactly at fixedLoadFactor = 1 -> zero scalable steps", () => {
-  // The bonded-layer tensile capacity (19.5 kN = 19500 kN/m2 * 1e-3 m2) is crossed exactly
-  // inside the final fixed-preload step: the uncapped layer force is ~19.42 kN at factor 0.975
-  // and ~19.92 kN at factor 1, so the first capacity event fires on the completing step.
+  // The crown-deviator capacity (74.2 kN) is crossed exactly inside the final fixed-preload
+  // step: with the stiff-joint law below the reference deviator resultant scales with the
+  // preload factor (T0 = 60 kN, ~60 kN * sqrt(2) at factor one), the device passes at factor
+  // 0.925 (~71.5 kN) and fails at factor 1 (~76.8 kN), and the first capacity event fires on
+  // the completing step.
   const model = deformableArch({
-    bondedLayers: [
+    interfaceLaw: {
+      response: "deformable",
+      normal: {
+        type: "elastic-no-tension",
+        elasticModulus: 10_000_000,
+        characteristicLength: 0.5,
+        integrationPointCount: 8,
+      },
+      tangential: {
+        type: "elastic-coulomb",
+        shearModulus: 4_000_000,
+        characteristicLength: 0.5,
+        frictionCoefficient: 0.5,
+        cohesion: 0,
+        flowRule: { type: "non-associated", dilationAngle: 0 },
+      },
+    },
+    reinforcements: [
       {
-        id: "FRCM",
-        family: "frcm",
+        id: "P",
         ...INTRA,
-        area: 1e-3,
+        area: 0.001,
         elasticModulus: 200_000_000,
-        tensileStrength: 19_500,
-        transferLength: 0.5,
-        startStation: 0,
-        endStation: 1,
-        terminations: { left: { type: "anchored" }, right: { type: "anchored" } },
+        initialForce: 60,
+        topology: {
+          type: "open",
+          left: { type: "arch-anchor", station: 0 },
+          right: { type: "arch-anchor", station: 1 },
+          deviators: {
+            type: "uniform-count",
+            count: 1,
+            connectors: { capacity: { resultantResistance: 74.2 } },
+          },
+        },
       },
     ],
   });
@@ -271,7 +302,7 @@ void test("blocking event exactly at fixedLoadFactor = 1 -> zero scalable steps"
   assert.ok(fixedSteps.length > 0, "the fixed preload converged at least one step");
   assert.equal(fixedSteps.at(-1)!.state.fixedLoadFactor, 1);
   assert.ok(
-    fixedSteps.at(-1)!.events.some((event) => event.kind === "bonded-layer-capacity-reached"),
+    fixedSteps.at(-1)!.events.some((event) => event.kind === "anchor-capacity-reached"),
     "the design-blocking event fires exactly on the step that completes the fixed load",
   );
   // The scalable phase must never start.
@@ -394,10 +425,11 @@ void test("11. certified global limit point below lambda one -> instability FAIL
         area: 0.001,
         elasticModulus: 200_000_000,
         initialForce: 0,
-        interaction: { type: "rigid-deviators", count: 3 },
-        terminations: {
-          left: { type: "distributed-anchorage", connectorCount: 1 },
-          right: { type: "distributed-anchorage", connectorCount: 1 },
+        topology: {
+          type: "open",
+          left: { type: "arch-anchor", station: 0 },
+          right: { type: "arch-anchor", station: 1 },
+          deviators: { type: "uniform-count", count: 1 },
         },
       },
     ],
@@ -462,10 +494,11 @@ void test("14. active T0 improves or worsens the outcome without special-case co
         elasticModulus: 200_000_000,
         initialForce: 20,
         yieldStrength: 10_000,
-        interaction: { type: "rigid-deviators", count: 3 },
-        terminations: {
-          left: { type: "distributed-anchorage", connectorCount: 1 },
-          right: { type: "distributed-anchorage", connectorCount: 1 },
+        topology: {
+          type: "open",
+          left: { type: "arch-anchor", station: 0 },
+          right: { type: "arch-anchor", station: 1 },
+          deviators: { type: "uniform-count", count: 1 },
         },
       },
     ],

@@ -13,9 +13,9 @@ import type {
   RigidBlockVector2D,
 } from "../../domain/masonry/rigid-blocks/types.js";
 
-export const MASONRY_ARCH_MODEL_SCHEMA_VERSION = "2.0.0";
-export const MASONRY_ARCH_EQUILIBRIUM_RESULT_SCHEMA_VERSION = "4.0.0";
-export const MASONRY_ARCH_LIMIT_ANALYSIS_RESULT_SCHEMA_VERSION = "5.0.0";
+export const MASONRY_ARCH_MODEL_SCHEMA_VERSION = "3.0.0";
+export const MASONRY_ARCH_EQUILIBRIUM_RESULT_SCHEMA_VERSION = "5.0.0";
+export const MASONRY_ARCH_LIMIT_ANALYSIS_RESULT_SCHEMA_VERSION = "6.0.0";
 
 export type MasonryArchReferenceCurve = "intrados" | "centerline" | "extrados";
 export type MasonryArchAngleUnits = "deg" | "rad";
@@ -371,68 +371,151 @@ export interface MasonryArchSupportsInput {
   readonly right?: MasonryArchRigidContactSupportInput;
 }
 
-export interface ArchAnchorCapacityInput {
+/**
+ * Assigned resistance of one physical reinforcement device (terminal anchor, deviator, return
+ * deviator, or one connector of a connector group). Every component is optional: a device without
+ * any assigned resistance is reported with `not-verifiable` status and never produces a failure.
+ */
+export interface ArchDeviceCapacityInput {
   readonly normalResistance?: number;
   readonly shearResistance?: number;
   readonly resultantResistance?: number;
   readonly interactionRule?: "independent" | "linear" | "elliptical";
 }
 
-export interface ArchRigidDeviatorInteractionInput {
-  readonly type: "rigid-deviators";
-  /** Physical deviators, including the two path-end deviators. Must be odd and at least three. */
-  readonly count: number;
-  /** Shared capacity used when a deviator-specific terminal capacity does not supersede it. */
-  readonly capacity?: ArchAnchorCapacityInput;
-}
-
-export interface ArchExtradosContactInteractionInput {
-  readonly type: "unilateral-contact";
-  /** Numerical straight segments used to integrate cable-to-arch contact. */
-  readonly segmentCount?: number;
-}
-
-export interface ArchContinuousExternalTerminationInput {
-  readonly type: "continuous-external";
-}
-
-export interface ArchDistributedAnchorageTerminationInput {
-  readonly type: "distributed-anchorage";
-  /** Rigid connectors in the transfer zone, including the connector at the path end. */
-  readonly connectorCount: number;
-  /** Constant spacing measured along the selected arch boundary. Required when count is greater than one. */
-  readonly connectorSpacing?: number;
-  /** Optional shares ordered from the model boundary toward the arch interior. Must sum to one. */
+/**
+ * Optional group of rigid connectors through which one arch-side device (terminal arch anchor,
+ * deviator, or return deviator) transfers its resultant into the masonry. The group is a pure
+ * load-sharing model: every connector acts at the device location and takes the user-assigned
+ * share of the device demand. The assigned capacity applies to each connector individually.
+ * When no group is defined the device itself is a single connector without assigned capacity.
+ */
+export interface ArchDeviceConnectorGroupInput {
+  /** Number of rigid connectors sharing the device load. Defaults to one. */
+  readonly connectorCount?: number;
+  /** Ordered load shares, one per connector, summing to one. Defaults to equal shares. */
   readonly loadShareWeights?: readonly number[];
-  readonly capacity?: ArchAnchorCapacityInput;
+  /** Resistance assigned to each connector of the group. */
+  readonly capacity?: ArchDeviceCapacityInput;
+}
+
+/**
+ * Terminal arch anchor: the tendon ends at a geometrically assigned point of the arch side
+ * boundary. The anchor belongs to the voussoir at that station and moves with it; the terminal
+ * force is applied to the arch at the anchor location. The left and right stations are
+ * independent and are not required to coincide with the springing voussoirs.
+ */
+export interface ArchTerminalArchAnchorInput {
+  readonly type: "arch-anchor";
+  /**
+   * Normalized position along the reinforcement side boundary: 0 at the left springing, 1 at the
+   * right springing, measured by side-boundary arc length. `0 <= station <= 1`.
+   */
+  readonly station: number;
+  readonly connectors?: ArchDeviceConnectorGroupInput;
+}
+
+/**
+ * Terminal external anchor: the tendon continues outside the arch and ends at a fixed point of
+ * the global frame. The anchor belongs to no voussoir; its force is transmitted to the external
+ * structural system and is never applied to an arch block. The free segment between the external
+ * anchor and the adjacent arch device is part of the tendon path and contributes to its length,
+ * elongation, and elastic force increment. A vertical terminal branch is represented by placing
+ * the anchor on the vertical through the adjacent arch device; no "vertical" model is hard-coded.
+ */
+export interface ArchTerminalExternalAnchorInput {
+  readonly type: "external-anchor";
+  /** Fixed global point of the tendon end, expressed in the declared model units. */
+  readonly point: RigidBlockPoint2D;
+  readonly capacity?: ArchDeviceCapacityInput;
 }
 
 export type ArchReinforcementTerminationInput =
-  | ArchContinuousExternalTerminationInput
-  | ArchDistributedAnchorageTerminationInput;
+  | ArchTerminalArchAnchorInput
+  | ArchTerminalExternalAnchorInput;
 
-interface ArchReinforcementBaseInput {
+/** One arch-side device identified by its normalized side-boundary station. */
+export interface ArchStationedDeviceInput {
+  /** Normalized position along the side boundary, measured by side-boundary arc length. */
+  readonly station: number;
+  readonly connectors?: ArchDeviceConnectorGroupInput;
+}
+
+/**
+ * Interior direction-change devices along the intrados path. Deviators never include the path
+ * terminals: with `uniform-count` `n`, deviators are placed at the normalized side stations
+ * `1/(n+1), ..., n/(n+1)`, so an odd `n` places one deviator at the crown of a symmetric arch.
+ */
+export type ArchDeviatorLayoutInput =
+  | {
+      readonly type: "uniform-count";
+      readonly count: number;
+      /** Optional connector group shared by every deviator of the layout. */
+      readonly connectors?: ArchDeviceConnectorGroupInput;
+    }
+  | {
+      readonly type: "stations";
+      readonly deviators: readonly ArchStationedDeviceInput[];
+    };
+
+interface MasonryArchDiscreteReinforcementBaseInput {
   readonly id: string;
   readonly area: number;
   readonly elasticModulus: number;
+  /**
+   * Assigned initial tendon force: zero defines a passive reinforcement whose force develops from
+   * geometric compatibility; positive defines an active (post-tensioned) reinforcement. The
+   * initial force is a fixed internal quantity and never participates in the load-proportionality
+   * parameter lambda.
+   */
   readonly initialForce: number;
   readonly yieldStrength?: number;
   readonly tensileStrength?: number;
   readonly ultimateStrain?: number;
-  readonly terminations?: {
-    readonly left?: ArchReinforcementTerminationInput;
-    readonly right?: ArchReinforcementTerminationInput;
-  };
 }
 
-export interface IntradosArchReinforcementInput extends ArchReinforcementBaseInput {
+/**
+ * Intrados discrete reinforcement. Three topologies are supported: an open tendon with
+ * independently typed left/right terminations, and a closed loop that returns through a straight
+ * segment between the two return deviators (no terminal anchors).
+ */
+export interface IntradosArchReinforcementInput extends MasonryArchDiscreteReinforcementBaseInput {
   readonly side: "intrados";
-  readonly interaction: ArchRigidDeviatorInteractionInput;
+  readonly topology:
+    | {
+        readonly type: "open";
+        readonly left: ArchReinforcementTerminationInput;
+        readonly right: ArchReinforcementTerminationInput;
+        /** Interior deviators; defaults to one crown deviator (`uniform-count` 1). */
+        readonly deviators?: ArchDeviatorLayoutInput;
+      }
+    | {
+        readonly type: "closed-loop";
+        readonly leftReturnDeviator: ArchStationedDeviceInput;
+        readonly rightReturnDeviator: ArchStationedDeviceInput;
+        /** Interior deviators; defaults to one crown deviator (`uniform-count` 1). */
+        readonly deviators?: ArchDeviatorLayoutInput;
+      };
 }
 
-export interface ExtradosArchReinforcementInput extends ArchReinforcementBaseInput {
+/**
+ * Extrados discrete reinforcement. The cable interaction with the arch is unilateral contact: the
+ * cable may detach from the extrados and the resolved contact geometry is the taut cable envelope;
+ * no tensile contact is required to enforce a prescribed path. Closed loops are not supported on
+ * the extrados. Terminal branch angles are a result of the geometry, never a fundamental input.
+ */
+export interface ExtradosArchReinforcementInput extends MasonryArchDiscreteReinforcementBaseInput {
   readonly side: "extrados";
-  readonly interaction?: ArchExtradosContactInteractionInput;
+  readonly topology: {
+    readonly type: "open";
+    readonly left: ArchReinforcementTerminationInput;
+    readonly right: ArchReinforcementTerminationInput;
+    readonly interaction?: {
+      readonly type: "unilateral-contact";
+      /** Numerical straight segments used to integrate cable-to-arch contact. */
+      readonly segmentCount?: number;
+    };
+  };
 }
 
 export type ArchReinforcementInput =
@@ -441,15 +524,14 @@ export type ArchReinforcementInput =
 
 export type BondedLayerMaterialFamily = "frcm" | "frp" | "sfrm";
 
-export type BondedLayerTerminationInput =
-  | { readonly type: "anchored" }
-  | {
-      readonly type: "unanchored";
-      /** Length over which the available tensile force increases linearly from zero. */
-      readonly developmentLength: number;
-    };
-
-/** Passive zero-thickness layer bonded to one arch boundary. */
+/**
+ * Passive zero-thickness layer bonded to one arch boundary. `startStation` and `endStation` bound
+ * the EFFECTIVE structural layer: inside the interval the layer is immediately effective at its
+ * full assigned capacity under the limit-analysis model, outside it is absent. The user is
+ * responsible for already accounting for anchorage/development length, manufacturer or product
+ * requirements, mechanical anchoring, and other local bond considerations; the model applies no
+ * automatic development, transfer, or end-reduction factor.
+ */
 export interface BondedLayerReinforcementInput {
   readonly id: string;
   readonly family: BondedLayerMaterialFamily;
@@ -460,16 +542,13 @@ export interface BondedLayerReinforcementInput {
   readonly tensileStrength?: number;
   readonly debondingStrain?: number;
   readonly ultimateStrain?: number;
-  /** Required only for deformable-interface analysis. */
-  readonly transferLength?: number;
-  /** Normalized reference-curve station. Defaults to zero. */
+  /**
+   * Normalized side-boundary station at which the effective layer starts. Defaults to zero. Must
+   * satisfy `0 <= startStation < endStation <= 1`.
+   */
   readonly startStation?: number;
-  /** Normalized reference-curve station. Defaults to one. */
+  /** Normalized side-boundary station at which the effective layer ends. Defaults to one. */
   readonly endStation?: number;
-  readonly terminations?: {
-    readonly left?: BondedLayerTerminationInput;
-    readonly right?: BondedLayerTerminationInput;
-  };
 }
 
 export interface MasonryArchModelInput {
@@ -608,63 +687,88 @@ export type NormalizedMasonryArchLoad =
   | NormalizedMasonryArchFillLoad
   | NormalizedMasonryArchPointLoad;
 
-export interface NormalizedArchAnchorCapacity {
+export interface NormalizedArchDeviceCapacity {
   readonly normalResistance: number | null;
   readonly shearResistance: number | null;
   readonly resultantResistance: number | null;
   readonly interactionRule: "independent" | "linear" | "elliptical";
 }
 
-export interface NormalizedArchContinuousExternalTermination {
-  readonly type: "continuous-external";
-}
-
-export interface NormalizedArchDistributedAnchorageTermination {
-  readonly type: "distributed-anchorage";
+export interface NormalizedArchConnectorGroup {
   readonly connectorCount: number;
-  readonly connectorSpacing: number;
   readonly loadShareWeights: readonly number[];
-  readonly capacity: NormalizedArchAnchorCapacity;
+  /** Resistance assigned to each connector of the group. */
+  readonly capacity: NormalizedArchDeviceCapacity;
 }
 
 export type NormalizedArchReinforcementTermination =
-  | NormalizedArchContinuousExternalTermination
-  | NormalizedArchDistributedAnchorageTermination;
+  | {
+      readonly type: "arch-anchor";
+      /** Normalized side-boundary station (0 = left springing, 1 = right springing). */
+      readonly station: number;
+      readonly connectors: NormalizedArchConnectorGroup;
+    }
+  | {
+      readonly type: "external-anchor";
+      readonly point: RigidBlockPoint2D;
+      readonly capacity: NormalizedArchDeviceCapacity;
+    };
+
+/** One arch-side device identified by its normalized side-boundary station. */
+export interface NormalizedArchStationedDevice {
+  readonly station: number;
+  readonly connectors: NormalizedArchConnectorGroup;
+}
 
 interface NormalizedArchReinforcementBase {
   readonly id: string;
-  readonly side: "intrados" | "extrados";
   readonly area: number;
   readonly elasticModulus: number;
   readonly initialForce: number;
   readonly yieldStrength: number | null;
   readonly tensileStrength: number | null;
   readonly ultimateStrain: number | null;
-  readonly terminations: {
+}
+
+export interface NormalizedIntradosOpenArchReinforcement extends NormalizedArchReinforcementBase {
+  readonly side: "intrados";
+  readonly topology: {
+    readonly type: "open";
     readonly left: NormalizedArchReinforcementTermination;
     readonly right: NormalizedArchReinforcementTermination;
+    /** Interior deviators, sorted by increasing station; terminals are never deviators. */
+    readonly deviators: readonly NormalizedArchStationedDevice[];
   };
 }
 
-export interface NormalizedIntradosArchReinforcement extends NormalizedArchReinforcementBase {
+export interface NormalizedIntradosClosedLoopArchReinforcement
+  extends NormalizedArchReinforcementBase {
   readonly side: "intrados";
-  readonly interaction: {
-    readonly type: "rigid-deviators";
-    readonly count: number;
-    readonly capacity: NormalizedArchAnchorCapacity;
+  readonly topology: {
+    readonly type: "closed-loop";
+    readonly leftReturnDeviator: NormalizedArchStationedDevice;
+    readonly rightReturnDeviator: NormalizedArchStationedDevice;
+    /** Interior deviators, sorted by increasing station. */
+    readonly deviators: readonly NormalizedArchStationedDevice[];
   };
 }
 
 export interface NormalizedExtradosArchReinforcement extends NormalizedArchReinforcementBase {
   readonly side: "extrados";
-  readonly interaction: {
-    readonly type: "unilateral-contact";
-    readonly segmentCount: number;
+  readonly topology: {
+    readonly type: "open";
+    readonly left: NormalizedArchReinforcementTermination;
+    readonly right: NormalizedArchReinforcementTermination;
+    readonly interaction: {
+      readonly type: "unilateral-contact";
+      readonly segmentCount: number;
+    };
   };
 }
 
 export type NormalizedArchReinforcement =
-  | NormalizedIntradosArchReinforcement
+  | NormalizedIntradosOpenArchReinforcement
+  | NormalizedIntradosClosedLoopArchReinforcement
   | NormalizedExtradosArchReinforcement;
 
 export interface NormalizedBondedLayerReinforcement {
@@ -676,13 +780,9 @@ export interface NormalizedBondedLayerReinforcement {
   readonly tensileStrength: number | null;
   readonly debondingStrain: number | null;
   readonly ultimateStrain: number | null;
-  readonly transferLength: number | null;
+  /** Boundaries of the EFFECTIVE structural layer, measured by side-boundary arc length. */
   readonly startStation: number;
   readonly endStation: number;
-  readonly terminations: {
-    readonly left: BondedLayerTerminationInput;
-    readonly right: BondedLayerTerminationInput;
-  };
   readonly tensileCapacity: number;
   readonly governingCapacityLimit: "tensile-strength" | "debonding-strain" | "ultimate-strain";
 }
@@ -785,33 +885,88 @@ export type ArchReinforcementState =
   | "yielded"
   | "failed";
 
+export type ArchReinforcementTopologyKind = "open" | "closed-loop";
+
+export type ArchDeviceKind =
+  | "terminal-arch-anchor"
+  | "external-anchor"
+  | "deviator"
+  | "return-deviator";
+
+export type ArchReinforcementSegmentRole =
+  | "along-side"
+  | "free-terminal-branch"
+  | "return-branch"
+  | "contact-envelope";
+
 export interface ArchReinforcementSegmentResult {
   readonly index: number;
   readonly referenceStartPoint: RigidBlockPoint2D;
   readonly referenceEndPoint: RigidBlockPoint2D;
   readonly startPoint: RigidBlockPoint2D;
   readonly endPoint: RigidBlockPoint2D;
-  readonly startStation: number;
-  readonly endStation: number;
+  /** Normalized side-boundary station of the start point; null at a free external end. */
+  readonly startStation: number | null;
+  /** Normalized side-boundary station of the end point; null at a free external end. */
+  readonly endStation: number | null;
   readonly referenceLength: number;
   readonly length: number;
-  /** Ratio of segment tension to the reported central reinforcement force. */
-  readonly tensionRatio: number;
+  /**
+   * Cable tension in this segment. Constant along the whole tendon because deviators are
+   * frictionless and the elastic force increment follows the complete path length.
+   */
   readonly tension: number;
+  /** Geometric role of the segment in the tendon path. */
+  readonly role: ArchReinforcementSegmentRole;
 }
 
-export interface ArchDeviatorGeometryResult {
-  readonly id: string;
-  readonly index: number;
-  readonly station: number;
-  readonly normalizedSideArcStation: number;
+/**
+ * Solver-resolved geometry of one physical reinforcement device. Together with `segments`,
+ * `referencePath`, and `path` this is the complete geometry the mechanics actually used; a UI
+ * must be able to draw the reinforcement directly from it without a parallel geometry model.
+ */
+export interface ArchReinforcementDeviceGeometryResult {
+  readonly deviceId: string;
+  readonly kind: ArchDeviceKind;
+  readonly terminationSide: "left" | "right" | null;
+  /** Normalized side-boundary station; null for external anchors. */
+  readonly station: number | null;
   readonly referencePoint: RigidBlockPoint2D;
   readonly point: RigidBlockPoint2D;
+  /** False only for external anchors, which belong to no voussoir. */
+  readonly attachedToArch: boolean;
+}
+
+/**
+ * Reinforcement free-body diagnostic. For an open tendon the arch-side device actions plus the
+ * external-anchor reactions close the tendon free body; for a closed loop every force the loop
+ * exerts on its support devices must self-equilibrate. This is a solver/model-consistency
+ * diagnostic and never an engineering PASS/FAIL criterion.
+ */
+export interface ArchReinforcementEquilibriumDiagnostic {
+  readonly meaning: "open-tendon-free-body" | "closed-loop-self-equilibrium";
+  /** Sum of the resultant forces the tendon applies to its arch-side devices. */
+  readonly archDeviceForceSum: RigidBlockVector2D;
+  /** Sum of the forces transmitted to external anchors. */
+  readonly externalAnchorForceSum: RigidBlockVector2D;
+  /** `archDeviceForceSum + externalAnchorForceSum`; must vanish within tolerance. */
+  readonly residualForce: RigidBlockVector2D;
+  /** Moment about the global origin of every device force; must vanish within tolerance. */
+  readonly residualMoment: number;
+  readonly normalizedResidual: {
+    /** `|residualForce| / tension`; zero while the tendon is slack. */
+    readonly force: number;
+    /** `|residualMoment| / (tension * max(1, referenceLength))`; zero while slack. */
+    readonly moment: number;
+  };
+  readonly tolerance: number;
+  readonly satisfied: boolean;
 }
 
 export interface ArchReinforcementStateResult {
   readonly reinforcementId: string;
   readonly side: "intrados" | "extrados";
+  readonly topology: ArchReinforcementTopologyKind;
   readonly force: number;
   readonly trialForce: number;
   readonly initialForce: number;
@@ -820,21 +975,24 @@ export interface ArchReinforcementStateResult {
   readonly elasticStrain: number;
   readonly geometricStrain: number;
   readonly state: ArchReinforcementState;
-  readonly compatibilityMode: "anchored-length-compatible" | "externally-force-controlled";
-  readonly referencePathLength: number;
-  readonly currentPathLength: number;
-  readonly pathLength: number;
+  /** Total reference length of the complete tendon path, including free and return branches. */
+  readonly referenceLength: number;
+  /** Total current length of the complete tendon path. */
+  readonly currentLength: number;
   readonly elongation: number;
   /** Absolute path-length change at or below this numerical tolerance is treated as zero. */
   readonly elongationTolerance: number;
-  readonly effectiveElasticLength: number | null;
+  /** Elastic member length used for the force increment; equals the complete reference length. */
+  readonly effectiveElasticLength: number;
   readonly elasticTangentStiffness: number;
-  readonly interactionType: "rigid-deviators" | "unilateral-contact";
+  /** Complete reference polyline, including external anchors and the closed-loop return branch. */
   readonly referencePath: readonly RigidBlockPoint2D[];
+  /** Complete deformed polyline actually used by the mechanics. */
   readonly path: readonly RigidBlockPoint2D[];
   readonly segments: readonly ArchReinforcementSegmentResult[];
-  /** Physical entities; empty for an extrados governed only by unilateral contact. */
-  readonly deviators: readonly ArchDeviatorGeometryResult[];
+  /** Every physical device of the tendon, in path order, with its resolved geometry. */
+  readonly devices: readonly ArchReinforcementDeviceGeometryResult[];
+  readonly equilibrium: ArchReinforcementEquilibriumDiagnostic;
   readonly checks: {
     readonly yielding: {
       readonly criterion: "reinforcement-yield-stress";
@@ -860,29 +1018,18 @@ export interface ArchReinforcementStateResult {
   };
 }
 
-export interface ArchAnchorForceResult {
-  readonly anchorId: string;
-  readonly reinforcementId: string;
-  readonly kind: "deviator" | "terminal-connector" | "terminal-connector-and-deviator";
-  readonly terminationSide: "left" | "right" | null;
+/**
+ * Demand, capacity, and utilization of one connector of a connector group. Connector demand is
+ * the assigned share of the device demand, expressed in the device local frame; the assigned
+ * group capacity applies to each connector individually.
+ */
+export interface ArchConnectorForceResult {
+  readonly connectorId: string;
   readonly index: number;
-  readonly station: number;
-  readonly normalizedSideArcStation: number;
-  readonly referencePoint: RigidBlockPoint2D;
-  readonly point: RigidBlockPoint2D;
-  readonly tensionLeft: number;
-  readonly tensionRight: number;
-  /** Force transmitted by the reinforcement to the rigid anchor/deviator and then to the arch. */
-  readonly resultantForce: RigidBlockVector2D;
-  /** Positive toward the arch interior, opposite the stored outward normal. */
-  readonly normalComponent: number;
-  /** Positive along increasing arch station. */
-  readonly tangentialComponent: number;
-  readonly resultant: number;
-  readonly direction: RigidBlockVector2D | null;
+  readonly loadShare: number;
   readonly demand: {
-    readonly normal: number;
-    readonly shear: number;
+    readonly normal: number | null;
+    readonly shear: number | null;
     readonly resultant: number;
   };
   readonly capacity: {
@@ -893,6 +1040,61 @@ export interface ArchAnchorForceResult {
   readonly interactionRule: "independent" | "linear" | "elliptical";
   readonly utilizationRatio: number | null;
   readonly status: "pass" | "fail" | "not-verifiable";
+}
+
+/**
+ * Force state of one physical reinforcement device. The reported resultant satisfies
+ * `F = T_out * t_out - T_in * t_in` with the directions pointing along the cable into and out of
+ * the device; the current scope is frictionless (`T_in === T_out`), but both tensions are
+ * published separately so the contract survives a future friction model. For terminal devices
+ * exactly one tension is zero and the corresponding direction is null. For external anchors the
+ * local normal/tangential components are null because no arch boundary frame exists there.
+ */
+export interface ArchDeviceForceResult {
+  readonly deviceId: string;
+  readonly reinforcementId: string;
+  readonly kind: ArchDeviceKind;
+  readonly terminationSide: "left" | "right" | null;
+  readonly index: number | null;
+  /** Normalized side-boundary station; null for external anchors. */
+  readonly station: number | null;
+  readonly referencePoint: RigidBlockPoint2D;
+  readonly point: RigidBlockPoint2D;
+  readonly tensionIn: number;
+  readonly tensionOut: number;
+  /** Unit cable direction entering the device; null where no segment enters. */
+  readonly incomingDirection: RigidBlockVector2D | null;
+  /** Unit cable direction leaving the device; null where no segment leaves. */
+  readonly outgoingDirection: RigidBlockVector2D | null;
+  /**
+   * Force the cable applies to the device: `T_out * t_out - T_in * t_in`. Applied to the arch at
+   * the device location for arch-side devices; transmitted to the external structural system for
+   * external anchors.
+   */
+  readonly resultantForce: RigidBlockVector2D;
+  readonly resultant: number;
+  /** Positive toward the arch interior; null for external anchors. */
+  readonly normalComponent: number | null;
+  /** Positive along increasing side station; null for external anchors. */
+  readonly tangentialComponent: number | null;
+  readonly demand: {
+    readonly normal: number | null;
+    readonly shear: number | null;
+    readonly resultant: number;
+  };
+  readonly capacity: {
+    readonly normal: number | null;
+    readonly shear: number | null;
+    readonly resultant: number | null;
+  };
+  readonly interactionRule: "independent" | "linear" | "elliptical";
+  readonly utilizationRatio: number | null;
+  readonly status: "pass" | "fail" | "not-verifiable";
+  /**
+   * Per-connector results when the device carries a multi-connector group; null otherwise. The
+   * connector demands sum to the device demand.
+   */
+  readonly connectors: readonly ArchConnectorForceResult[] | null;
 }
 
 export interface ArchContactForceResult {
@@ -906,20 +1108,33 @@ export interface ArchContactForceResult {
   readonly tensionLeft: number;
   readonly tensionRight: number;
   readonly resultantForce: RigidBlockVector2D;
+  /** Positive toward the arch interior: compressive contact when the cable presses the arch. */
   readonly normalComponent: number;
   readonly tangentialComponent: number;
   readonly state: "in-contact" | "separated" | "contact-cannot-enforce-path";
 }
 
-export interface ArchReinforcementBoundaryForceResult {
+export interface ArchExternalAnchorForceResult {
+  readonly deviceId: string;
   readonly reinforcementId: string;
-  readonly side: "left" | "right";
-  readonly terminationType: "continuous-external" | "distributed-anchorage";
+  readonly terminationSide: "left" | "right";
   readonly referencePoint: RigidBlockPoint2D;
   readonly point: RigidBlockPoint2D;
   readonly tension: number;
-  /** Force transmitted by the modeled tendon to the system outside the arch-model boundary. */
+  /**
+   * Force the modeled tendon transmits to the external structural system at this anchor. It is
+   * never applied to an arch voussoir and it is not an arch support reaction.
+   */
   readonly forceTransmittedToExternalSystem: RigidBlockVector2D;
+  readonly resultant: number;
+  readonly demand: {
+    readonly resultant: number;
+  };
+  readonly capacity: {
+    readonly resultant: number | null;
+  };
+  readonly utilizationRatio: number | null;
+  readonly status: "pass" | "fail" | "not-verifiable";
 }
 
 export interface BondedLayerInterfaceStateResult {
@@ -927,8 +1142,13 @@ export interface BondedLayerInterfaceStateResult {
   readonly interfaceId: string;
   readonly interfaceIndex: number;
   readonly side: "intrados" | "extrados";
-  readonly developmentFactor: number;
+  /**
+   * Minimum-required layer force at this interface recovered by static admissibility; null when
+   * the static problem does not determine a unique value (see `state`).
+   */
   readonly force: number | null;
+  /** Effective capacity at this interface: the full assigned capacity inside the effective
+   * interval and zero outside it (interfaces outside the interval publish no entry). */
   readonly capacity: number;
   readonly utilizationRatio: number | null;
   readonly state: "inactive" | "active" | "at-capacity" | "not-uniquely-determined";
@@ -938,11 +1158,16 @@ export interface BondedLayerStateResult {
   readonly reinforcementId: string;
   readonly family: BondedLayerMaterialFamily;
   readonly side: "intrados" | "extrados";
+  readonly startStation: number;
+  readonly endStation: number;
   readonly tensileCapacity: number;
   readonly governingCapacityLimit: NormalizedBondedLayerReinforcement["governingCapacityLimit"];
-  readonly analysisMeaning:
-    | "minimum-required-static-admissibility"
-    | "deformable-interface-compatibility";
+  /**
+   * The recovered force is the minimum required reinforcement force compatible with the
+   * statically admissible section solution — a lower-bound quantity, never a unique physical
+   * force from strain compatibility.
+   */
+  readonly analysisMeaning: "minimum-required-static-admissibility";
   readonly maximumForce: number | null;
   readonly maximumUtilizationRatio: number | null;
   readonly interfaces: readonly BondedLayerInterfaceStateResult[];
@@ -1012,9 +1237,11 @@ export interface MasonryArchEquilibriumOutputs extends Record<string, unknown> {
   readonly appliedLoads: readonly MasonryArchAppliedLoadResult[];
   readonly blockWrenches: readonly MasonryArchBlockLoadResult[];
   readonly reinforcementState: readonly ArchReinforcementStateResult[];
-  readonly anchorForces: readonly ArchAnchorForceResult[];
+  /** One entry per physical reinforcement device (anchors, deviators, return deviators). */
+  readonly deviceForces: readonly ArchDeviceForceResult[];
   readonly contactForces: readonly ArchContactForceResult[];
-  readonly reinforcementBoundaryForces: readonly ArchReinforcementBoundaryForceResult[];
+  /** Forces transmitted by open tendons to external structural systems, never applied to blocks. */
+  readonly externalAnchorForces: readonly ArchExternalAnchorForceResult[];
   readonly bondedLayerState: readonly BondedLayerStateResult[];
   readonly reactions: {
     readonly left: {
@@ -1119,9 +1346,9 @@ export interface MasonryArchLimitOutputs extends Record<string, unknown> {
   readonly slidingInterfaces: readonly string[];
   readonly crushingInterfaces: readonly string[];
   readonly reinforcementState: readonly ArchReinforcementStateResult[];
-  readonly anchorForces: readonly ArchAnchorForceResult[];
+  readonly deviceForces: readonly ArchDeviceForceResult[];
   readonly contactForces: readonly ArchContactForceResult[];
-  readonly reinforcementBoundaryForces: readonly ArchReinforcementBoundaryForceResult[];
+  readonly externalAnchorForces: readonly ArchExternalAnchorForceResult[];
   /** Null when no certified limit state exists (numerical iteration limit). */
   readonly bondedLayerState: readonly BondedLayerStateResult[] | null;
   readonly loadCases: {

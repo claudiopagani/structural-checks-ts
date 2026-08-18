@@ -5,8 +5,8 @@ import {
   analyzeMasonryArchPath,
   createMasonryArch,
   type AnalyzeMasonryArchPathOptions,
+  type ArchDeviceCapacityInput,
   type ArchReinforcementInput,
-  type ArchRigidDeviatorInteractionInput,
   type BondedLayerReinforcementInput,
   type MasonryDeformableInterfaceLawInput,
 } from "structural-checks-ts-migration-workspace/applications/masonry-arches";
@@ -129,7 +129,7 @@ const designOptions: Omit<AnalyzeMasonryArchPathOptions, "control"> = {
 const INTRA = { side: "intrados" } as const;
 
 function passiveTendon(
-  overrides: { readonly interaction?: ArchRigidDeviatorInteractionInput } = {},
+  overrides: { readonly deviatorCapacity?: ArchDeviceCapacityInput } = {},
 ): ArchReinforcementInput {
   return {
     id: "P",
@@ -139,10 +139,18 @@ function passiveTendon(
     initialForce: 0,
     yieldStrength: 450_000,
     tensileStrength: 550_000,
-    interaction: overrides.interaction ?? { type: "rigid-deviators", count: 3 },
-    terminations: {
-      left: { type: "distributed-anchorage", connectorCount: 1 },
-      right: { type: "distributed-anchorage", connectorCount: 1 },
+    topology: {
+      type: "open",
+      left: { type: "arch-anchor", station: 0 },
+      right: { type: "arch-anchor", station: 1 },
+      deviators:
+        overrides.deviatorCapacity === undefined
+          ? { type: "uniform-count", count: 1 }
+          : {
+              type: "uniform-count",
+              count: 1,
+              connectors: { capacity: overrides.deviatorCapacity },
+            },
     },
   };
 }
@@ -155,10 +163,11 @@ function barePassiveTendon(): ArchReinforcementInput {
     area: 0.001,
     elasticModulus: 200_000_000,
     initialForce: 0,
-    interaction: { type: "rigid-deviators", count: 3 },
-    terminations: {
-      left: { type: "distributed-anchorage", connectorCount: 1 },
-      right: { type: "distributed-anchorage", connectorCount: 1 },
+    topology: {
+      type: "open",
+      left: { type: "arch-anchor", station: 0 },
+      right: { type: "arch-anchor", station: 1 },
+      deviators: { type: "uniform-count", count: 1 },
     },
   };
 }
@@ -172,10 +181,11 @@ function ruptureTendon(): ArchReinforcementInput {
     elasticModulus: 200_000_000,
     initialForce: 0,
     tensileStrength: 0.5,
-    interaction: { type: "rigid-deviators", count: 3 },
-    terminations: {
-      left: { type: "distributed-anchorage", connectorCount: 1 },
-      right: { type: "distributed-anchorage", connectorCount: 1 },
+    topology: {
+      type: "open",
+      left: { type: "arch-anchor", station: 0 },
+      right: { type: "arch-anchor", station: 1 },
+      deviators: { type: "uniform-count", count: 1 },
     },
   };
 }
@@ -264,11 +274,7 @@ void test("9. anchor capacity reached before lambda one fails with the verificat
     arch({
       reinforcements: [
         passiveTendon({
-          interaction: {
-            type: "rigid-deviators",
-            count: 3,
-            capacity: { resultantResistance: 0.01, interactionRule: "independent" },
-          },
+          deviatorCapacity: { resultantResistance: 0.01, interactionRule: "independent" },
         }),
       ],
     }),
@@ -284,7 +290,11 @@ void test("9. anchor capacity reached before lambda one fails with the verificat
   assert.ok(result.outputs.capacity.lambdaVerificationLimit < 1);
 });
 
-void test("10. bonded-layer capacity reached before lambda one fails with the verification limit", () => {
+void test("10. bonded layers stay static-admissibility quantities and never fabricate a path failure", () => {
+  // Bonded layers exert no force in the deformable path equilibrium: their per-step state is the
+  // minimum-required static recovery of the converged interface resultants against the masonry
+  // limit domain. With unbounded compression strength the recovered minimum is zero, so the layer
+  // reports inactive states and the design passes without any bonded-layer event.
   const result = analyzeMasonryArchPath(
     arch({
       voussoirs: 9,
@@ -298,23 +308,26 @@ void test("10. bonded-layer capacity reached before lambda one fails with the ve
           area: 1e-6,
           elasticModulus: 100_000_000,
           tensileStrength: 30_000,
-          transferLength: 0.5,
           startStation: 0,
           endStation: 1,
-          terminations: { left: { type: "anchored" }, right: { type: "anchored" } },
         },
       ],
     }),
     designOptions,
   );
-  assert.equal(result.outputs.engineeringAssessment?.status, "FAIL");
+  assert.equal(result.outputs.engineeringAssessment?.status, "PASS");
   assert.ok(
-    result.outputs.engineeringAssessment.failedCriteria.some(
-      (item) => item.kind === "bonded-layer-capacity-reached",
-    ),
+    result.outputs.events.every((event) => event.kind !== "bonded-layer-capacity-reached"),
+    "no fabricated bonded-layer failure appears",
   );
-  assert.ok(result.outputs.capacity.lambdaVerificationLimit !== null);
-  assert.ok(result.outputs.capacity.lambdaVerificationLimit < 1);
+  const finalLayer = result.outputs.steps.at(-1)!.state.bondedLayerState[0]!;
+  assert.equal(finalLayer.analysisMeaning, "minimum-required-static-admissibility");
+  assert.equal(finalLayer.interfaces.length, 10);
+  for (const item of finalLayer.interfaces) {
+    assert.equal(item.state, "inactive");
+    assert.equal(item.force, 0);
+    assert.equal(item.capacity, finalLayer.tensileCapacity);
+  }
 });
 
 void test("11. certified global limit point below lambda one -> instability FAIL", () => {

@@ -5,10 +5,14 @@ import {
   analyzeMasonryArchEquilibrium,
   analyzeMasonryArchPath,
   createMasonryArch,
+  masonryArchEngineeringCriteriaFromPathEvent,
   type ArchReinforcementInput,
   type BondedLayerReinforcementInput,
   type MasonryArchEngineeringCriterion,
+  type MasonryArchEvent,
   type MasonryArchLoadInput,
+  type MasonryArchPathStep,
+  type MasonryArchPathState,
   type MasonryDeformableInterfaceLawInput,
   type MasonryInterfaceLawInput,
 } from "structural-checks-ts-migration-workspace/applications/masonry-arches";
@@ -149,22 +153,31 @@ function loadControlledDesignPath(
   });
 }
 
-/** Path model whose weak bonded layer reaches capacity during the fixed preload. */
-function bondedLayerCapacityPathModel() {
+/** Path model whose crown deviator exceeds its tiny assigned capacity during the fixed preload. */
+function anchorCapacityPathModel() {
   return pathModel({
     pointForce: { x: 0, y: 100 },
-    bondedLayers: [
+    reinforcements: [
       {
-        id: "FRCM",
-        family: "frcm",
+        id: "PT",
         ...INTRA,
-        area: 1e-6,
-        elasticModulus: 100_000_000,
-        tensileStrength: 1000,
-        transferLength: 0.5,
-        startStation: 0,
-        endStation: 1,
-        terminations: { left: { type: "anchored" }, right: { type: "anchored" } },
+        area: 0.001,
+        elasticModulus: 200_000_000,
+        // T0 = 20 kN keeps the tendon active through the self-weight closure of the fixed
+        // preload; the 5 kN deviator capacity is crossed on the second preload step.
+        initialForce: 20,
+        topology: {
+          type: "open",
+          left: { type: "arch-anchor", station: 0 },
+          right: { type: "arch-anchor", station: 1 },
+          deviators: {
+            type: "uniform-count",
+            count: 1,
+            connectors: {
+              capacity: { resultantResistance: 5, interactionRule: "independent" },
+            },
+          },
+        },
       },
     ],
   });
@@ -181,10 +194,11 @@ function stabilizedUpliftModel() {
         area: 0.001,
         elasticModulus: 200_000_000,
         initialForce: 20,
-        interaction: { type: "rigid-deviators", count: 3 },
-        terminations: {
-          left: { type: "distributed-anchorage", connectorCount: 1 },
-          right: { type: "distributed-anchorage", connectorCount: 1 },
+        topology: {
+          type: "open",
+          left: { type: "arch-anchor", station: 0 },
+          right: { type: "arch-anchor", station: 1 },
+          deviators: { type: "uniform-count", count: 1 },
         },
       },
       {
@@ -193,10 +207,11 @@ function stabilizedUpliftModel() {
         area: 0.001,
         elasticModulus: 200_000_000,
         initialForce: 0,
-        interaction: { type: "rigid-deviators", count: 3 },
-        terminations: {
-          left: { type: "distributed-anchorage", connectorCount: 1 },
-          right: { type: "distributed-anchorage", connectorCount: 1 },
+        topology: {
+          type: "open",
+          left: { type: "arch-anchor", station: 0 },
+          right: { type: "arch-anchor", station: 1 },
+          deviators: { type: "uniform-count", count: 1 },
         },
       },
     ],
@@ -223,7 +238,7 @@ void test("A. verified equilibrium: assessment PASS with no failed criteria", ()
     assessment.question,
     "does-the-assigned-load-state-admit-a-verified-statically-admissible-equilibrium",
   );
-  assert.equal(result.metadata.schemaVersion, "4.0.0");
+  assert.equal(result.metadata.schemaVersion, "5.0.0");
 });
 
 void test("B. compression not verified: global infeasibility without fabricated compression criteria", () => {
@@ -310,10 +325,11 @@ void test("D. reinforcement yield: FAIL with the reinforcement entity and its ch
           elasticModulus: 200_000_000,
           initialForce: 0.25,
           yieldStrength: 200_000,
-          interaction: { type: "rigid-deviators", count: 3 },
-          terminations: {
-            left: { type: "distributed-anchorage", connectorCount: 1 },
-            right: { type: "distributed-anchorage", connectorCount: 1 },
+          topology: {
+            type: "open",
+            left: { type: "arch-anchor", station: 0 },
+            right: { type: "arch-anchor", station: 1 },
+            deviators: { type: "uniform-count", count: 1 },
           },
         },
       ],
@@ -351,10 +367,11 @@ void test("D2. reinforcement rupture: FAIL with reinforcement-rupture from the f
           // a yield strength is also assigned and fails, the yielding criterion is
           // reported as well (covered by the simultaneous-criteria test).
           tensileStrength: 200_000,
-          interaction: { type: "rigid-deviators", count: 3 },
-          terminations: {
-            left: { type: "distributed-anchorage", connectorCount: 1 },
-            right: { type: "distributed-anchorage", connectorCount: 1 },
+          topology: {
+            type: "open",
+            left: { type: "arch-anchor", station: 0 },
+            right: { type: "arch-anchor", station: 1 },
+            deviators: { type: "uniform-count", count: 1 },
           },
         },
       ],
@@ -386,14 +403,17 @@ void test("E. anchor capacity: FAIL with the anchor entity and its check data", 
           area: 0.001,
           elasticModulus: 200_000_000,
           initialForce: 1,
-          interaction: {
-            type: "rigid-deviators",
-            count: 3,
-            capacity: { resultantResistance: 0.1, interactionRule: "independent" },
-          },
-          terminations: {
-            left: { type: "distributed-anchorage", connectorCount: 1 },
-            right: { type: "distributed-anchorage", connectorCount: 1 },
+          topology: {
+            type: "open",
+            left: { type: "arch-anchor", station: 0 },
+            right: { type: "arch-anchor", station: 1 },
+            deviators: {
+              type: "uniform-count",
+              count: 1,
+              connectors: {
+                capacity: { resultantResistance: 0.1, interactionRule: "independent" },
+              },
+            },
           },
         },
       ],
@@ -408,7 +428,7 @@ void test("E. anchor capacity: FAIL with the anchor entity and its check data", 
   const criterion = assessment.failedCriteria[0]!;
   assert.deepEqual(criterion.entityIds, ["PT:D-001"]);
   assert.equal(criterion.lambda, 1);
-  const anchor = result.outputs.anchorForces.find((item) => item.anchorId === "PT:D-001")!;
+  const anchor = result.outputs.deviceForces.find((item) => item.deviceId === "PT:D-001")!;
   assert.equal(anchor.status, "fail");
   assert.equal(criterion.demand, anchor.demand.resultant);
   assert.equal(criterion.capacity, anchor.capacity.resultant);
@@ -439,7 +459,6 @@ void test("F. bonded layer capacity: the failed criterion drives the result stat
           tensileStrength: 840,
           startStation: 0,
           endStation: 1,
-          terminations: { left: { type: "anchored" }, right: { type: "anchored" } },
         },
       ],
     }),
@@ -563,10 +582,11 @@ void test("coherence: equilibrium and path use the same reinforcement criterion 
           elasticModulus: 200_000_000,
           initialForce: 0.25,
           yieldStrength: 200_000,
-          interaction: { type: "rigid-deviators", count: 3 },
-          terminations: {
-            left: { type: "distributed-anchorage", connectorCount: 1 },
-            right: { type: "distributed-anchorage", connectorCount: 1 },
+          topology: {
+            type: "open",
+            left: { type: "arch-anchor", station: 0 },
+            right: { type: "arch-anchor", station: 1 },
+            deviators: { type: "uniform-count", count: 1 },
           },
         },
       ],
@@ -584,10 +604,11 @@ void test("coherence: equilibrium and path use the same reinforcement criterion 
           elasticModulus: 200_000_000,
           initialForce: 0.5,
           yieldStrength: 100,
-          interaction: { type: "rigid-deviators", count: 3 },
-          terminations: {
-            left: { type: "distributed-anchorage", connectorCount: 1 },
-            right: { type: "distributed-anchorage", connectorCount: 1 },
+          topology: {
+            type: "open",
+            left: { type: "arch-anchor", station: 0 },
+            right: { type: "arch-anchor", station: 1 },
+            deviators: { type: "uniform-count", count: 1 },
           },
         },
       ],
@@ -617,14 +638,17 @@ void test("coherence: equilibrium and path use the same anchor criterion kind", 
           area: 0.001,
           elasticModulus: 200_000_000,
           initialForce: 1,
-          interaction: {
-            type: "rigid-deviators",
-            count: 3,
-            capacity: { resultantResistance: 0.1, interactionRule: "independent" },
-          },
-          terminations: {
-            left: { type: "distributed-anchorage", connectorCount: 1 },
-            right: { type: "distributed-anchorage", connectorCount: 1 },
+          topology: {
+            type: "open",
+            left: { type: "arch-anchor", station: 0 },
+            right: { type: "arch-anchor", station: 1 },
+            deviators: {
+              type: "uniform-count",
+              count: 1,
+              connectors: {
+                capacity: { resultantResistance: 0.1, interactionRule: "independent" },
+              },
+            },
           },
         },
       ],
@@ -641,14 +665,17 @@ void test("coherence: equilibrium and path use the same anchor criterion kind", 
           area: 0.001,
           elasticModulus: 200_000_000,
           initialForce: 1,
-          interaction: {
-            type: "rigid-deviators",
-            count: 3,
-            capacity: { resultantResistance: 0.1, interactionRule: "independent" },
-          },
-          terminations: {
-            left: { type: "distributed-anchorage", connectorCount: 1 },
-            right: { type: "distributed-anchorage", connectorCount: 1 },
+          topology: {
+            type: "open",
+            left: { type: "arch-anchor", station: 0 },
+            right: { type: "arch-anchor", station: 1 },
+            deviators: {
+              type: "uniform-count",
+              count: 1,
+              connectors: {
+                capacity: { resultantResistance: 0.1, interactionRule: "independent" },
+              },
+            },
           },
         },
       ],
@@ -688,41 +715,70 @@ void test("coherence: equilibrium and path use the same bonded-layer criterion k
           tensileStrength: 840,
           startStation: 0,
           endStation: 1,
-          terminations: { left: { type: "anchored" }, right: { type: "anchored" } },
         },
       ],
     }),
     { hingeTolerance: 0.02 },
-  );
-  const path = designPath(
-    pathModel({
-      pointForce: { x: 0, y: 100 },
-      bondedLayers: [
-        {
-          id: "FRCM",
-          family: "frcm",
-          ...INTRA,
-          area: 1e-6,
-          elasticModulus: 100_000_000,
-          tensileStrength: 1000,
-          transferLength: 0.5,
-          startStation: 0,
-          endStation: 1,
-          terminations: { left: { type: "anchored" }, right: { type: "anchored" } },
-        },
-      ],
-    }),
   );
   assert.ok(
     kinds(equilibrium.outputs.engineeringAssessment.failedCriteria).includes(
       "bonded-layer-capacity-reached",
     ),
   );
-  assert.ok(
-    kinds(path.outputs.engineeringAssessment!.failedCriteria).includes(
-      "bonded-layer-capacity-reached",
-    ),
-  );
+  // The path event machinery maps the same kind onto the same criterion. Bonded layers no longer
+  // act in the deformable path equilibrium, so the mapping is exercised directly on a synthesized
+  // event whose state carries the bonded-layer data of the equilibrium assessment.
+  const atCapacity = equilibrium.outputs.bondedLayerState[0]!.interfaces.find(
+    (item) => item.state === "at-capacity",
+  )!;
+  const event: MasonryArchEvent = {
+    category: "engineering-limit",
+    kind: "bonded-layer-capacity-reached",
+    step: 0,
+    lambda: 1,
+    entityIds: [atCapacity.reinforcementId, atCapacity.interfaceId],
+    message: "Bonded layer reached capacity.",
+  };
+  const state: MasonryArchPathState = {
+    lambda: 1,
+    fixedLoadFactor: 1,
+    effectiveLoadFactorsByCaseId: {},
+    deformedConfiguration: [],
+    interfaces: [],
+    thrustLine: [],
+    reinforcementState: [],
+    deviceForces: [],
+    contactForces: [],
+    externalAnchorForces: [],
+    bondedLayerState: equilibrium.outputs.bondedLayerState,
+    reactions: {
+      left: equilibrium.outputs.reactions.left,
+      right: equilibrium.outputs.reactions.right,
+    },
+    equilibrium: {
+      forceResidual: equilibrium.outputs.equilibrium.forceResidual,
+      momentResidual: equilibrium.outputs.equilibrium.momentResidual,
+      maximumNormalizedBlockResidual: Math.max(
+        ...Object.values(equilibrium.outputs.equilibrium.normalizedResidual),
+      ),
+      normalizedGlobalResidual: equilibrium.outputs.equilibrium.normalizedResidual,
+      tolerance: equilibrium.outputs.equilibrium.tolerance,
+    },
+  };
+  const step: MasonryArchPathStep = {
+    step: 0,
+    stage: "fixed-preload",
+    controlDisplacement: 0,
+    iterations: 0,
+    events: [],
+    state,
+  };
+  const criteria = masonryArchEngineeringCriteriaFromPathEvent(event, step);
+  assert.equal(criteria.length, 1);
+  assert.equal(criteria[0]!.kind, "bonded-layer-capacity-reached");
+  assert.equal(criteria[0]!.demand, atCapacity.force);
+  assert.equal(criteria[0]!.capacity, atCapacity.capacity);
+  assert.equal(criteria[0]!.utilizationRatio, atCapacity.utilizationRatio);
 });
 
 void test("non-failure: an active bonded layer carrying force alone does not fail the equilibrium", () => {
@@ -738,7 +794,6 @@ void test("non-failure: an active bonded layer carrying force alone does not fai
           tensileStrength: 2_000_000,
           startStation: 0,
           endStation: 1,
-          terminations: { left: { type: "anchored" }, right: { type: "anchored" } },
         },
       ],
     }),
@@ -764,10 +819,11 @@ void test("non-failure: joint opening and tendon activation never appear as fail
           area: 0.001,
           elasticModulus: 200_000_000,
           initialForce: 0,
-          interaction: { type: "rigid-deviators", count: 3 },
-          terminations: {
-            left: { type: "distributed-anchorage", connectorCount: 1 },
-            right: { type: "distributed-anchorage", connectorCount: 1 },
+          topology: {
+            type: "open",
+            left: { type: "arch-anchor", station: 0 },
+            right: { type: "arch-anchor", station: 1 },
+            deviators: { type: "uniform-count", count: 1 },
           },
         },
       ],
@@ -852,7 +908,7 @@ void test("path design assessment reports the shared shape with lambda and requi
   // mode keeps its own semantics and remains available on the outputs.
   assert.equal(assessment.failureMode, null);
   assert.equal(result.outputs.failureMode, "no-collapse-within-model");
-  assert.equal(result.metadata.schemaVersion, "11.0.0");
+  assert.equal(result.metadata.schemaVersion, "12.0.0");
 });
 
 void test("D3. reinforcement rupture from both sub-checks preserves one criterion per check", () => {
@@ -867,10 +923,11 @@ void test("D3. reinforcement rupture from both sub-checks preserves one criterio
           initialForce: 0.25,
           tensileStrength: 150_000,
           ultimateStrain: 1e-4,
-          interaction: { type: "rigid-deviators", count: 3 },
-          terminations: {
-            left: { type: "distributed-anchorage", connectorCount: 1 },
-            right: { type: "distributed-anchorage", connectorCount: 1 },
+          topology: {
+            type: "open",
+            left: { type: "arch-anchor", station: 0 },
+            right: { type: "arch-anchor", station: 1 },
+            deviators: { type: "uniform-count", count: 1 },
           },
         },
       ],
@@ -911,10 +968,11 @@ void test("N. simultaneously violated reinforcement criteria are all preserved",
           yieldStrength: 100_000,
           tensileStrength: 150_000,
           ultimateStrain: 1e-4,
-          interaction: { type: "rigid-deviators", count: 3 },
-          terminations: {
-            left: { type: "distributed-anchorage", connectorCount: 1 },
-            right: { type: "distributed-anchorage", connectorCount: 1 },
+          topology: {
+            type: "open",
+            left: { type: "arch-anchor", station: 0 },
+            right: { type: "arch-anchor", station: 1 },
+            deviators: { type: "uniform-count", count: 1 },
           },
         },
       ],
@@ -987,10 +1045,11 @@ void test("L. a passive extrados tendon activates during the path and the design
           area: 0.001,
           elasticModulus: 200_000_000,
           initialForce: 0,
-          interaction: { type: "unilateral-contact", segmentCount: 12 },
-          terminations: {
-            left: { type: "distributed-anchorage", connectorCount: 1 },
-            right: { type: "distributed-anchorage", connectorCount: 1 },
+          topology: {
+            type: "open",
+            left: { type: "arch-anchor", station: 0 },
+            right: { type: "arch-anchor", station: 1 },
+            interaction: { type: "unilateral-contact", segmentCount: 12 },
           },
         },
       ],
@@ -1108,10 +1167,11 @@ void test("O2b. path reinforcement criteria copy the step's check data", () => {
           elasticModulus: 200_000_000,
           initialForce: 0.5,
           yieldStrength: 100,
-          interaction: { type: "rigid-deviators", count: 3 },
-          terminations: {
-            left: { type: "distributed-anchorage", connectorCount: 1 },
-            right: { type: "distributed-anchorage", connectorCount: 1 },
+          topology: {
+            type: "open",
+            left: { type: "arch-anchor", station: 0 },
+            right: { type: "arch-anchor", station: 1 },
+            deviators: { type: "uniform-count", count: 1 },
           },
         },
       ],
@@ -1147,14 +1207,17 @@ void test("O3. path anchor and bonded-layer criteria carry step-coherent numeric
           area: 0.001,
           elasticModulus: 200_000_000,
           initialForce: 1,
-          interaction: {
-            type: "rigid-deviators",
-            count: 3,
-            capacity: { resultantResistance: 0.1, interactionRule: "independent" },
-          },
-          terminations: {
-            left: { type: "distributed-anchorage", connectorCount: 1 },
-            right: { type: "distributed-anchorage", connectorCount: 1 },
+          topology: {
+            type: "open",
+            left: { type: "arch-anchor", station: 0 },
+            right: { type: "arch-anchor", station: 1 },
+            deviators: {
+              type: "uniform-count",
+              count: 1,
+              connectors: {
+                capacity: { resultantResistance: 0.1, interactionRule: "independent" },
+              },
+            },
           },
         },
       ],
@@ -1169,42 +1232,47 @@ void test("O3. path anchor and bonded-layer criteria carry step-coherent numeric
     (item) => item.kind === "anchor-capacity-reached",
   )!;
   const anchorStep = anchorResult.outputs.steps.find((item) => item.step === anchorEvent.step)!;
-  const anchor = anchorStep.state.anchorForces.find(
-    (item) => item.anchorId === anchorCriterion.entityIds[0],
+  const anchor = anchorStep.state.deviceForces.find(
+    (item) => item.deviceId === anchorCriterion.entityIds[0],
   )!;
   assert.equal(anchorCriterion.demand, anchor.demand.resultant);
   assert.equal(anchorCriterion.capacity, anchor.capacity.resultant);
   assert.equal(anchorCriterion.utilizationRatio, anchor.utilizationRatio);
 
-  const layerResult = loadControlledDesignPath(
-    pathModel({
-      pointForce: { x: 0, y: 100 },
+  // The bonded-layer part exercises the same step-coherent copy for the static-recovery state of
+  // the equilibrium analysis, whose at-capacity interface is the event's own entity.
+  const layerResult = analyzeMasonryArchEquilibrium(
+    equilibriumModel("o3-layer", {
+      loads: [
+        { id: "SW", type: "self-weight", loadCaseId: "G1" },
+        {
+          id: "Q",
+          type: "patch",
+          loadCaseId: "Q1",
+          components: { x: 0, y: -80 },
+          startStation: 0.05,
+          endStation: 0.45,
+        },
+      ],
       bondedLayers: [
         {
           id: "FRCM",
           family: "frcm",
           ...INTRA,
-          area: 1e-6,
+          area: 0.01,
           elasticModulus: 100_000_000,
-          tensileStrength: 1000,
-          transferLength: 0.5,
+          tensileStrength: 840,
           startStation: 0,
           endStation: 1,
-          terminations: { left: { type: "anchored" }, right: { type: "anchored" } },
         },
       ],
     }),
+    { hingeTolerance: 0.02 },
   );
-  const layerAssessment = layerResult.outputs.engineeringAssessment;
-  assert.equal(layerAssessment?.status, "FAIL");
-  const layerCriterion = layerAssessment.failedCriteria.find(
+  const layerCriterion = layerResult.outputs.engineeringAssessment.failedCriteria.find(
     (item) => item.kind === "bonded-layer-capacity-reached",
   )!;
-  const layerEvent = layerResult.outputs.events.find(
-    (item) => item.kind === "bonded-layer-capacity-reached",
-  )!;
-  const layerStep = layerResult.outputs.steps.find((item) => item.step === layerEvent.step)!;
-  const layerInterface = layerStep.state.bondedLayerState
+  const layerInterface = layerResult.outputs.bondedLayerState
     .find((item) => item.reinforcementId === "FRCM")!
     .interfaces.find((item) => item.interfaceId === layerCriterion.entityIds[1])!;
   assert.equal(layerCriterion.demand, layerInterface.force);
@@ -1213,18 +1281,18 @@ void test("O3. path anchor and bonded-layer criteria carry step-coherent numeric
 });
 
 void test("R1. strict sliding policy preserves the default design-failure set", () => {
-  // The configured kinds ADD to the always-active default set. This model reaches the bonded
-  // layer capacity during the fixed preload and never slides: under a replace semantics the
+  // The configured kinds ADD to the always-active default set. This model reaches the assigned
+  // deviator capacity during the fixed preload and never slides: under a replace semantics the
   // strict sliding configuration would have removed every default failure, the path would have
-  // continued past the bonded-layer limit, and the design would have PASSed at lambda one.
-  const result = designPath(bondedLayerCapacityPathModel(), {
+  // continued past the device-capacity limit, and the design would have PASSed at lambda one.
+  const result = designPath(anchorCapacityPathModel(), {
     designFailureEvents: ["plastic-sliding"],
   });
   const assessment = result.outputs.engineeringAssessment;
   assert.equal(assessment?.status, "FAIL");
   assert.equal(result.status, "not-verified");
   assert.ok(
-    kinds(assessment.failedCriteria).includes("bonded-layer-capacity-reached"),
+    kinds(assessment.failedCriteria).includes("anchor-capacity-reached"),
     "the preserved default failure drives the verdict",
   );
   assert.ok(
@@ -1233,31 +1301,31 @@ void test("R1. strict sliding policy preserves the default design-failure set", 
   );
 });
 
-void test("R2. bonded layer capacity reached remains a failure under the strict sliding policy", () => {
-  const result = designPath(bondedLayerCapacityPathModel(), {
+void test("R2. anchor capacity reached remains a failure under the strict sliding policy", () => {
+  const result = designPath(anchorCapacityPathModel(), {
     designFailureEvents: ["plastic-sliding"],
   });
   const assessment = result.outputs.engineeringAssessment;
   assert.equal(assessment?.status, "FAIL");
   assert.equal(result.status, "not-verified");
-  assert.ok(kinds(assessment.failedCriteria).includes("bonded-layer-capacity-reached"));
-  assert.equal(assessment.failureMode, "reinforcement-failure");
+  assert.ok(kinds(assessment.failedCriteria).includes("anchor-capacity-reached"));
+  assert.equal(assessment.failureMode, "anchor-capacity");
   assert.equal(
     result.outputs.convergenceInfo.termination,
-    "engineering-limit",
-    "the default bonded-layer failure still terminates the path",
+    "terminal-physical-event",
+    "the default device-capacity failure still terminates the path",
   );
 });
 
 void test("R3. an empty designFailureEvents array keeps every default failure active", () => {
   // An empty configuration is a no-op addition, not a request to disable the default set.
-  const result = designPath(bondedLayerCapacityPathModel(), {
+  const result = designPath(anchorCapacityPathModel(), {
     designFailureEvents: [],
   });
   const assessment = result.outputs.engineeringAssessment;
   assert.equal(assessment?.status, "FAIL");
   assert.equal(result.status, "not-verified");
-  assert.ok(kinds(assessment.failedCriteria).includes("bonded-layer-capacity-reached"));
+  assert.ok(kinds(assessment.failedCriteria).includes("anchor-capacity-reached"));
 });
 
 void test("R4. terminal physical events remain failures regardless of designFailureEvents", () => {

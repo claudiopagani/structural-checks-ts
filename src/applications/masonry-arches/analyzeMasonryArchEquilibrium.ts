@@ -26,8 +26,8 @@ import {
   MASONRY_ARCH_EQUILIBRIUM_ASSESSMENT_QUESTION,
   MASONRY_ARCH_EQUILIBRIUM_RESULT_SCHEMA_VERSION,
   type AnalyzeMasonryArchEquilibriumOptions,
-  type ArchAnchorForceResult,
   type ArchContactForceResult,
+  type ArchDeviceForceResult,
   type ArchReinforcementStateResult,
   type BondedLayerStateResult,
   type MasonryArchEngineeringAssessment,
@@ -191,7 +191,7 @@ export function recoverMasonryArchInterfaceState(
 function equilibriumFailedCriteria(
   interfaces: readonly MasonryArchInterfaceStateResult[],
   reinforcementState: readonly ArchReinforcementStateResult[],
-  anchorForces: readonly ArchAnchorForceResult[],
+  deviceForces: readonly ArchDeviceForceResult[],
   contactForces: readonly ArchContactForceResult[],
   bondedLayerState: readonly BondedLayerStateResult[],
 ): MasonryArchEngineeringCriterion[] {
@@ -273,14 +273,26 @@ function equilibriumFailedCriteria(
       );
     }
   }
-  for (const anchor of anchorForces) {
-    if (anchor.status === "fail") {
+  for (const device of deviceForces) {
+    const failingConnectors =
+      device.connectors?.filter((connector) => connector.status === "fail") ?? [];
+    if (device.status === "fail") {
       criteria.push(
-        createMasonryArchEngineeringCriterion("anchor-capacity-reached", [anchor.anchorId], {
+        createMasonryArchEngineeringCriterion("anchor-capacity-reached", [device.deviceId], {
           lambda: 1,
-          demand: anchor.demand.resultant,
-          capacity: anchor.capacity.resultant,
-          utilizationRatio: anchor.utilizationRatio,
+          demand: device.demand.resultant,
+          capacity: device.capacity.resultant,
+          utilizationRatio: device.utilizationRatio,
+        }),
+      );
+    }
+    for (const connector of failingConnectors) {
+      criteria.push(
+        createMasonryArchEngineeringCriterion("anchor-capacity-reached", [connector.connectorId], {
+          lambda: 1,
+          demand: connector.demand.resultant,
+          capacity: connector.capacity.resultant,
+          utilizationRatio: connector.utilizationRatio,
         }),
       );
     }
@@ -328,7 +340,7 @@ function buildEquilibriumEngineeringAssessment(
   residualSatisfied: boolean,
   interfaces: readonly MasonryArchInterfaceStateResult[],
   reinforcementState: readonly ArchReinforcementStateResult[],
-  anchorForces: readonly ArchAnchorForceResult[],
+  deviceForces: readonly ArchDeviceForceResult[],
   contactForces: readonly ArchContactForceResult[],
   bondedLayerState: readonly BondedLayerStateResult[],
 ): MasonryArchEngineeringAssessment {
@@ -349,7 +361,7 @@ function buildEquilibriumEngineeringAssessment(
     failedCriteria = equilibriumFailedCriteria(
       interfaces,
       reinforcementState,
-      anchorForces,
+      deviceForces,
       contactForces,
       bondedLayerState,
     );
@@ -450,7 +462,7 @@ export function analyzeMasonryArchEquilibrium(
     residualSatisfied,
     interfaces,
     resolvedReinforcements.reinforcementState,
-    resolvedReinforcements.anchorForces,
+    resolvedReinforcements.deviceForces,
     resolvedReinforcements.contactForces,
     bondedRecovery.bondedLayerState,
   );
@@ -502,9 +514,9 @@ export function analyzeMasonryArchEquilibrium(
     appliedLoads: resolvedLoads.appliedLoads,
     blockWrenches,
     reinforcementState: resolvedReinforcements.reinforcementState,
-    anchorForces: resolvedReinforcements.anchorForces,
+    deviceForces: resolvedReinforcements.deviceForces,
     contactForces: resolvedReinforcements.contactForces,
-    reinforcementBoundaryForces: resolvedReinforcements.boundaryForces,
+    externalAnchorForces: resolvedReinforcements.externalAnchorForces,
     bondedLayerState: bondedRecovery.bondedLayerState,
     engineeringAssessment,
     reactions: {
@@ -560,10 +572,10 @@ export function analyzeMasonryArchEquilibrium(
       "The thrust line is the center of a normalized admissible reaction polytope, not an elastic stress solution.",
       "Finite-compression stress recovery uses a uniform edge compression block and is not an elastic stress solution.",
       "The Coulomb flow rule affects collapse kinematics, not static admissibility under assigned loads.",
-      "Assigned post-tensioning is a fixed action in the reference geometry; zero initial force remains slack.",
-      "Intrados deviators and terminal connectors are rigid; convex extrados interaction is unilateral contact.",
-      "Bonded layers are zero-thickness tension-only membranes; the reported thrust line contains masonry compression only.",
-      "Static Coulomb capacity with bonded layers conservatively uses the total section normal resultant in the eliminated domain.",
+      "Assigned post-tensioning is a fixed action in the reference geometry; zero initial force remains slack until geometric compatibility activates it.",
+      "Discrete tendons follow their resolved polyline with frictionless rigid devices; extrados interaction is compression-only unilateral contact along the taut cable envelope.",
+      "Bonded layers are zero-thickness tension-only membranes effective inside their assigned interval at full capacity; the reported thrust line contains masonry compression only.",
+      "Bonded-layer forces are minimum-required static-admissibility values, never unique strain-compatibility forces; the static Coulomb capacity conservatively uses the total section normal resultant in the eliminated domain.",
     ],
     metadata: {
       schemaVersion: MASONRY_ARCH_EQUILIBRIUM_RESULT_SCHEMA_VERSION,

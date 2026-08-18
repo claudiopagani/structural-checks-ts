@@ -4,7 +4,7 @@ import type {
   RigidBlockDeformableInterfaceEvaluation2D,
   RigidBlockDeformableInterfaceState2D,
 } from "../../domain/masonry/rigid-blocks/evaluateDeformableInterface2D.js";
-import { cross2d, dot2d } from "../../domain/masonry/rigid-blocks/vector2d.js";
+import { cross2d } from "../../domain/masonry/rigid-blocks/vector2d.js";
 import type {
   RigidBlockPoint2D,
   RigidBlockVector2D,
@@ -18,7 +18,6 @@ import {
 import {
   addCompactBandedValue,
   compactBandedMatrixToDense,
-  compactBandedValue,
   createCompactBandedMatrix,
   type CompactBandedMatrix,
 } from "../../domain/math/GeneralBandedLinearSolver.js";
@@ -30,8 +29,7 @@ import type {
   MasonryArchResolvedLoadAction,
   ResolvedMasonryArchLoads,
 } from "./resolveMasonryArchLoads.js";
-import { evaluateArchReinforcementConfiguration } from "./resolveArchReinforcements.js";
-import { resolveBondedLayerInterfaceSections } from "./bondedLayers.js";
+import { resolveArchReinforcementsAtActionFactor } from "./resolveArchReinforcements.js";
 import type {
   MasonryArchAnalysisObjective,
   MasonryArchAnalysisOutcome,
@@ -81,7 +79,7 @@ import {
   masonryArchFailureModeFromEvents,
   shouldStopMasonryArchPathForEvents,
 } from "./pathEvents.js";
-import { createMasonryArchPathState } from "./pathState.js";
+import { createMasonryArchPathState, recoverBondedLayerStateFromDeformable } from "./pathState.js";
 
 type Matrix = number[][];
 type Vector = number[];
@@ -98,7 +96,7 @@ interface SystemEvaluation {
   readonly scalableDerivative: Vector;
   readonly interfaces: readonly RigidBlockDeformableInterfaceEvaluation2D[];
   readonly trialStates: Readonly<Record<string, RigidBlockDeformableInterfaceState2D>>;
-  readonly reinforcement: ReturnType<typeof evaluateArchReinforcementConfiguration>;
+  readonly reinforcement: ReturnType<typeof resolveArchReinforcementsAtActionFactor>;
   readonly bondedLayerState: readonly BondedLayerStateResult[];
   readonly displacements: readonly NormalizedMasonryArchBlockDisplacement[];
 }
@@ -317,183 +315,14 @@ function assembleInterfaces(
   };
 }
 
-function transformedBlockPoint(
-  model: NormalizedMasonryArchModel,
-  blockIndex: number,
-  referencePoint: RigidBlockPoint2D,
-  q: readonly number[],
-): RigidBlockPoint2D {
-  const block = model.geometry.voussoirs[blockIndex]!;
-  const rotatedRadius = rotate(subtract(referencePoint, block.centroid), q[3 * blockIndex + 2]!);
-  return {
-    x: block.centroid.x + q[3 * blockIndex]! + rotatedRadius.x,
-    y: block.centroid.y + q[3 * blockIndex + 1]! + rotatedRadius.y,
-  };
-}
-
-function bondedLayerVector(
-  model: NormalizedMasonryArchModel,
-  q: readonly number[],
-): {
-  readonly vector: Vector;
-  readonly state: readonly BondedLayerStateResult[];
-} {
-  const vector = zeroVector(3 * model.geometry.voussoirs.length);
-  const sections = resolveBondedLayerInterfaceSections(model);
-  const perLayer = new Map<
-    string,
-    {
-      readonly layer: NormalizedMasonryArchModel["bondedLayers"][number];
-      readonly interfaces: BondedLayerStateResult["interfaces"] extends readonly (infer T)[]
-        ? T[]
-        : never;
-    }
-  >(model.bondedLayers.map((layer) => [layer.id, { layer, interfaces: [] }]));
-
-  for (const section of sections) {
-    if (section.coordinate === null || section.contributions.length === 0) continue;
-    const interfaceIndex = section.interface.index;
-    const leftBlockIndex = interfaceIndex === 0 ? null : interfaceIndex - 1;
-    const rightBlockIndex =
-      interfaceIndex === model.geometry.interfaces.length - 1 ? null : interfaceIndex;
-    const referencePoint =
-      section.side === "extrados"
-        ? section.interface.extradosPoint
-        : section.interface.intradosPoint;
-    const leftPoint =
-      leftBlockIndex === null
-        ? referencePoint
-        : transformedBlockPoint(model, leftBlockIndex, referencePoint, q);
-    const rightPoint =
-      rightBlockIndex === null
-        ? referencePoint
-        : transformedBlockPoint(model, rightBlockIndex, referencePoint, q);
-    const frameRotation =
-      leftBlockIndex === null || rightBlockIndex === null
-        ? 0
-        : (q[3 * leftBlockIndex + 2]! + q[3 * rightBlockIndex + 2]!) / 2;
-    const tangent = rotate(section.interface.chainTangent, frameRotation);
-    const opening = dot2d(subtract(rightPoint, leftPoint), tangent);
-
-    let totalForce = 0;
-    for (const contribution of section.contributions) {
-      const { layer } = contribution;
-      if (layer.transferLength === null) {
-        throw new Error(
-          `Bonded layer ${layer.id} requires transferLength for deformable-interface analysis.`,
-        );
-      }
-      const stiffness =
-        (contribution.developmentFactor * layer.elasticModulus * layer.area) / layer.transferLength;
-      const trialForce = stiffness * Math.max(0, opening);
-      const force = Math.min(contribution.capacity, trialForce);
-      const utilizationRatio = contribution.capacity > 0 ? force / contribution.capacity : null;
-      perLayer.get(layer.id)!.interfaces.push({
-        reinforcementId: layer.id,
-        interfaceId: section.interface.id,
-        interfaceIndex,
-        side: layer.side,
-        developmentFactor: contribution.developmentFactor,
-        force,
-        capacity: contribution.capacity,
-        utilizationRatio,
-        state:
-          force <= 1e-12 * Math.max(1, contribution.capacity)
-            ? "inactive"
-            : utilizationRatio! >= 1 - 1e-10
-              ? "at-capacity"
-              : "active",
-      });
-      totalForce += force;
-    }
-
-    const forceOnRight = { x: -totalForce * tangent.x, y: -totalForce * tangent.y };
-    if (leftBlockIndex !== null) {
-      const force = { x: -forceOnRight.x, y: -forceOnRight.y };
-      const base = 3 * leftBlockIndex;
-      const currentCentroid = {
-        x: model.geometry.voussoirs[leftBlockIndex]!.centroid.x + q[base]!,
-        y: model.geometry.voussoirs[leftBlockIndex]!.centroid.y + q[base + 1]!,
-      };
-      vector[base] = vector[base]! + force.x;
-      vector[base + 1] = vector[base + 1]! + force.y;
-      vector[base + 2] = vector[base + 2]! + cross2d(subtract(leftPoint, currentCentroid), force);
-    }
-    if (rightBlockIndex !== null) {
-      const base = 3 * rightBlockIndex;
-      const currentCentroid = {
-        x: model.geometry.voussoirs[rightBlockIndex]!.centroid.x + q[base]!,
-        y: model.geometry.voussoirs[rightBlockIndex]!.centroid.y + q[base + 1]!,
-      };
-      vector[base] = vector[base]! + forceOnRight.x;
-      vector[base + 1] = vector[base + 1]! + forceOnRight.y;
-      vector[base + 2] =
-        vector[base + 2]! + cross2d(subtract(rightPoint, currentCentroid), forceOnRight);
-    }
-  }
-
-  const state = [...perLayer.values()].map(({ layer, interfaces }): BondedLayerStateResult => {
-    const forces = interfaces
-      .map((item) => item.force)
-      .filter((value): value is number => value !== null);
-    const utilizations = interfaces
-      .map((item) => item.utilizationRatio)
-      .filter((value): value is number => value !== null);
-    return {
-      reinforcementId: layer.id,
-      family: layer.family,
-      side: layer.side,
-      tensileCapacity: layer.tensileCapacity,
-      governingCapacityLimit: layer.governingCapacityLimit,
-      analysisMeaning: "deformable-interface-compatibility",
-      maximumForce: forces.length === 0 ? 0 : Math.max(...forces),
-      maximumUtilizationRatio: utilizations.length === 0 ? 0 : Math.max(...utilizations),
-      interfaces,
-    };
-  });
-  return { vector, state };
-}
-
-function assembleBondedLayers(
-  model: NormalizedMasonryArchModel,
-  q: readonly number[],
-  includeTangent: boolean,
-): {
-  readonly vector: Vector;
-  readonly tangent: CompactBandedMatrix;
-  readonly state: readonly BondedLayerStateResult[];
-} {
-  const baseline = bondedLayerVector(model, q);
-  const size = baseline.vector.length;
-  const tangent = createCompactBandedMatrix(size, Math.min(5, size - 1));
-  if (includeTangent && model.bondedLayers.length > 0) {
-    const relativeStep = 1e-7;
-    for (let column = 0; column < size; column += 1) {
-      const component = column % 3;
-      const step = component === 2 ? relativeStep : relativeStep * Math.max(1, model.geometry.span);
-      const plusQ = [...q];
-      const minusQ = [...q];
-      plusQ[column] = plusQ[column]! + step;
-      minusQ[column] = minusQ[column]! - step;
-      const plus = bondedLayerVector(model, plusQ).vector;
-      const minus = bondedLayerVector(model, minusQ).vector;
-      for (let row = Math.max(0, column - 5); row <= Math.min(size - 1, column + 5); row += 1) {
-        const value = (plus[row]! - minus[row]!) / (2 * step);
-        if (value !== 0) addCompactBandedValue(tangent, row, column, value);
-      }
-    }
-  }
-  return { ...baseline, tangent };
-}
-
 function reinforcementVector(
   model: NormalizedMasonryArchModel,
   q: readonly number[],
 ): {
   readonly vector: Vector;
-  readonly resolved: ReturnType<typeof evaluateArchReinforcementConfiguration>;
+  readonly resolved: ReturnType<typeof resolveArchReinforcementsAtActionFactor>;
 } {
-  const resolved = evaluateArchReinforcementConfiguration(model, configurationInput(model, q));
+  const resolved = resolveArchReinforcementsAtActionFactor(model, configurationInput(model, q), 1);
   const vector = zeroVector(3 * model.geometry.voussoirs.length);
   for (const wrench of resolved.blockWrenches) {
     const block = model.geometry.voussoirs.find((item) => item.id === wrench.blockId);
@@ -514,7 +343,7 @@ function assembleReinforcement(
 ): {
   readonly vector: Vector;
   readonly tangent: Matrix;
-  readonly resolved: ReturnType<typeof evaluateArchReinforcementConfiguration>;
+  readonly resolved: ReturnType<typeof resolveArchReinforcementsAtActionFactor>;
 } {
   const baseline = reinforcementVector(model, q);
   const size = baseline.vector.length;
@@ -554,32 +383,15 @@ function evaluateSystem(
     includeTangent,
     numericalCohesionOffset,
   );
-  const bondedLayers = assembleBondedLayers(context.model, q, includeTangent);
   const reinforcement = assembleReinforcement(context.model, q, includeTangent);
   const fixed = externalSystem(context.model, context.fixedLoads.actions, q, includeTangent);
   const scalable = externalSystem(context.model, context.scalableLoads.actions, q, includeTangent);
   const residual = [...interfaces.vector];
-  addVector(residual, bondedLayers.vector);
   addVector(residual, reinforcement.vector, fixedLoadFactor);
   addVector(residual, fixed.vector, fixedLoadFactor);
   addVector(residual, scalable.vector, lambda);
   let tangent: TangentMatrix = interfaces.tangent;
   if (includeTangent) {
-    for (let row = 0; row < bondedLayers.tangent.size; row += 1) {
-      const firstColumn = Math.max(0, row - bondedLayers.tangent.lowerBandwidth);
-      const lastColumn = Math.min(
-        bondedLayers.tangent.size - 1,
-        row + bondedLayers.tangent.upperBandwidth,
-      );
-      for (let column = firstColumn; column <= lastColumn; column += 1) {
-        addCompactBandedValue(
-          interfaces.tangent,
-          row,
-          column,
-          compactBandedValue(bondedLayers.tangent, row, column),
-        );
-      }
-    }
     addTangentDiagonal(tangent, fixed.tangentDiagonal, fixedLoadFactor);
     addTangentDiagonal(tangent, scalable.tangentDiagonal, lambda);
     if (fixedLoadFactor !== 0 && context.model.reinforcements.length > 0) {
@@ -588,14 +400,30 @@ function evaluateSystem(
       tangent = denseTangent;
     }
   }
+  // The residual and tangent above reproduce the reference numerical scheme (unscaled cable
+  // action scaled by the fixed-load factor). The reported reinforcement state below scales the
+  // cable action by the same factor so the device checks and events stay coherent with the
+  // equilibrium residual during the fixed preload.
+  const reportedReinforcement =
+    fixedLoadFactor === 1
+      ? reinforcement.resolved
+      : resolveArchReinforcementsAtActionFactor(
+          context.model,
+          configurationInput(context.model, q),
+          fixedLoadFactor,
+        );
   return {
     residual,
     tangent,
     scalableDerivative: scalable.vector,
     interfaces: interfaces.evaluations,
     trialStates: interfaces.trialStates,
-    reinforcement: reinforcement.resolved,
-    bondedLayerState: bondedLayers.state,
+    reinforcement: reportedReinforcement,
+    bondedLayerState: recoverBondedLayerStateFromDeformable(
+      context.model,
+      interfaces.evaluations,
+      context.tolerance,
+    ),
     displacements: qToDisplacements(context.model, q),
   };
 }
@@ -2471,8 +2299,8 @@ export function analyzeMasonryArchPath(
       "The fixed-load state F_fixed at lambda = 0 is verified first; when that state fails or cannot be certified, the scalable phase never starts and no scalable lambda is defined (zero scalable-loading steps).",
       "Fixed loads and initial reinforcement actions are proportionally initialized before scalable loading; active reinforcement uses its assigned T0 as part of the fixed state and passive reinforcement has T0 = 0.",
       "External dead-load forces retain their global direction while their material application points follow the block motion.",
-      "Intrados reinforcement follows rigid deviators; an extrados tendon uses a compression-only taut-cable contact envelope.",
-      "Bonded layers are local tension-only membrane springs with explicit transfer length and assigned tensile/debonding capacity.",
+      "Intrados reinforcement follows rigid deviators (open tendons with arch or external anchors, or a closed loop through two return deviators); an extrados tendon uses a compression-only taut-cable contact envelope.",
+      "Bonded layers exert no force in the deformable equilibrium: their reported state is the minimum-required static-admissibility recovery of the converged interface resultants against the masonry limit domain, never a strain-compatibility force.",
       "The design-state verification follows the primary equilibrium branch with adaptive arc length and certifies the exact lambda = 1 state with a fixed-lambda Newton corrector; an overshooting arc step is never accepted as the design state.",
       "A certified global limit point requires positive branch-turning evidence between two consecutive converged states with opposite-signed load increments above the numerical noise threshold, plus rising-side refinement with halved arc increments; the certified lambda is the maximum lambda verified on the primary branch. A singular or nearly vertical continuation tangent is only a suspected-critical-point diagnostic, a tangent-solve exception is only a numerical diagnostic, and a discrete local plastic event or max(steps.lambda) is never a certified limit point.",
       "Diagnostics such as lastConvergedLambda, maximumObservedLambda, and lambdaBracket are numerical observables, never capacity, never failure, and never the engineering verdict.",

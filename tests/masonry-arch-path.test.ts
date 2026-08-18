@@ -161,10 +161,11 @@ void test("a passive tendon is activated by compatibility and is not scaled as a
     side: "intrados" as const,
     area: 0.001,
     elasticModulus: 200_000_000,
-    interaction: { type: "rigid-deviators" as const, count: 3 },
-    terminations: {
-      left: { type: "distributed-anchorage" as const, connectorCount: 1 },
-      right: { type: "distributed-anchorage" as const, connectorCount: 1 },
+    topology: {
+      type: "open" as const,
+      left: { type: "arch-anchor" as const, station: 0 },
+      right: { type: "arch-anchor" as const, station: 1 },
+      deviators: { type: "uniform-count" as const, count: 1 },
     },
   };
   const result = analyzeMasonryArchPath(

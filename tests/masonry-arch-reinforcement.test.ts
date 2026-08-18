@@ -50,10 +50,11 @@ function model(initialForce: number) {
         area: 0.001,
         elasticModulus: 200_000_000,
         initialForce,
-        interaction: { type: "rigid-deviators", count: 3 },
-        terminations: {
-          left: { type: "distributed-anchorage", connectorCount: 1 },
-          right: { type: "distributed-anchorage", connectorCount: 1 },
+        topology: {
+          type: "open",
+          left: { type: "arch-anchor", station: 0 },
+          right: { type: "arch-anchor", station: 1 },
+          deviators: { type: "uniform-count", count: 1 },
         },
       },
     ],

@@ -433,10 +433,8 @@ async function main(): Promise<void> {
         area: 25.5e-6,
         elasticModulus: 152.91e6,
         tensileStrength: 1276e3,
-        transferLength: 0.2,
         startStation: 0,
         endStation: 1,
-        terminations: { left: { type: "anchored" }, right: { type: "anchored" } },
       },
     ],
   });
@@ -475,10 +473,8 @@ async function main(): Promise<void> {
         area: 16.5e-6,
         elasticModulus: 252e6,
         tensileStrength: 187e3, // fitted equivalent strength from Bertolesi 2018 (CALIBRATION input)
-        transferLength: 0.2,
         startStation: 0,
         endStation: 1,
-        terminations: { left: { type: "anchored" }, right: { type: "anchored" } },
       },
     ],
   });
@@ -516,10 +512,8 @@ async function main(): Promise<void> {
         area: 12.0e-6,
         elasticModulus: 75.43e6,
         tensileStrength: 386e3, // fitted equivalent strength from Bertolesi 2018 (CALIBRATION input)
-        transferLength: 0.2,
         startStation: 0,
         endStation: 1,
-        terminations: { left: { type: "anchored" }, right: { type: "anchored" } },
       },
     ],
   });
@@ -558,10 +552,8 @@ async function main(): Promise<void> {
         area: 25.5e-6,
         elasticModulus: 152.91e6,
         tensileStrength: 172e3, // fitted equivalent strength (CALIBRATION input)
-        transferLength: 0.2,
         startStation: 0,
         endStation: 1,
-        terminations: { left: { type: "anchored" }, right: { type: "anchored" } },
       },
     ],
   });

@@ -95,10 +95,11 @@ function tendon(
     initialForce: overrides.initialForce ?? 0,
     yieldStrength,
     tensileStrength,
-    interaction: { type: "rigid-deviators", count: 3 },
-    terminations: {
-      left: { type: "distributed-anchorage", connectorCount: 1 },
-      right: { type: "distributed-anchorage", connectorCount: 1 },
+    topology: {
+      type: "open",
+      left: { type: "arch-anchor", station: 0 },
+      right: { type: "arch-anchor", station: 1 },
+      deviators: { type: "uniform-count", count: 1 },
     },
   };
 }
@@ -110,10 +111,8 @@ const bondedLayer: BondedLayerReinforcementInput = {
   area: 1e-3,
   elasticModulus: 100_000_000,
   tensileStrength: 30_000,
-  transferLength: 0.5,
   startStation: 0,
   endStation: 1,
-  terminations: { left: { type: "anchored" }, right: { type: "anchored" } },
 };
 
 function arch(
@@ -495,14 +494,23 @@ void test("I. bonded reinforcement stays a real capacity with Heyman-type masonr
   );
   assert.equal(result.outputs.engineeringAssessment?.status, "PASS");
   const layer = result.outputs.steps.at(-1)!.state.bondedLayerState[0]!;
-  // The layer force and strain are computed by compatibility; the capacity is real and finite.
-  assert.ok(layer.maximumForce !== null && layer.maximumForce > 0);
-  assert.ok(layer.maximumUtilizationRatio !== null);
-  assert.ok(layer.maximumUtilizationRatio > 0 && layer.maximumUtilizationRatio < 1);
+  // Bonded layers keep the static-admissibility meaning in the path analysis: the recovered
+  // per-interface forces are minimum-required values against the masonry-only limit domain and
+  // are never strain-compatibility forces.
+  assert.equal(layer.analysisMeaning, "minimum-required-static-admissibility");
   assert.equal(layer.interfaces.length, 10, "all ten joints carry a bonded-section state");
   for (const item of layer.interfaces) {
-    assert.ok(item.capacity > 0);
+    assert.ok(item.capacity > 0, "the layer is effective inside its interval");
+    assert.equal(item.capacity, layer.tensileCapacity);
+    if (item.force !== null) {
+      assert.ok(item.force >= 0 && item.force <= item.capacity * (1 + 1e-9));
+      assert.ok(
+        item.state === "inactive" || item.state === "active" || item.state === "at-capacity",
+      );
+    }
   }
+  assert.ok(layer.maximumForce !== null);
+  assert.ok(layer.maximumForce >= 0 && layer.maximumForce <= layer.tensileCapacity * (1 + 1e-9));
   // No fake masonry compression or sliding capacity was introduced.
   for (const step of result.outputs.steps) {
     for (const item of step.state.interfaces) {

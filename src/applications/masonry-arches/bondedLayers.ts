@@ -5,6 +5,8 @@ import type {
   RigidBlockInterfaceResultant2D,
   RigidBlockResultantFacet2D,
 } from "../../domain/masonry/rigid-blocks/types.js";
+import { evaluateMasonryArchCurveAtStation } from "./geometry.js";
+import { solveBoundedMinimumProblem } from "./reinforcementLinearProgram.js";
 import type {
   BondedLayerStateResult,
   MasonryArchInterfaceGeometry,
@@ -12,18 +14,108 @@ import type {
   NormalizedMasonryArchModel,
 } from "./types.js";
 
+/**
+ * One bonded layer effective at one interface. The layer is immediately effective at its full
+ * assigned capacity inside its `[startStation, endStation]` interval and absent outside it; no
+ * development, transfer, or terminal-reduction factor is applied.
+ */
 export interface BondedLayerInterfaceContribution {
   readonly layer: NormalizedBondedLayerReinforcement;
-  readonly developmentFactor: number;
+  /** Section coordinate of the tensile contribution: `-length/2` intrados, `+length/2` extrados. */
+  readonly coordinate: number;
   readonly capacity: number;
 }
 
 export interface BondedLayerInterfaceSection {
   readonly interface: MasonryArchInterfaceGeometry;
-  readonly side: "intrados" | "extrados" | null;
-  readonly coordinate: number | null;
-  readonly capacity: number;
+  /** Independent contributions of every effective layer; several sides can coexist. */
   readonly contributions: readonly BondedLayerInterfaceContribution[];
+}
+
+const GAUSS_NODES = [
+  0.1834346424956498, 0.525532409916329, 0.7966664774136267, 0.9602898564975363,
+] as const;
+const GAUSS_WEIGHTS = [
+  0.362683783378362, 0.3137066458778873, 0.2223810344533745, 0.1012285362903763,
+] as const;
+
+function integrateArcLengthJacobian(
+  geometry: NormalizedMasonryArchModel["geometry"],
+  side: "intrados" | "extrados",
+  startStation: number,
+  endStation: number,
+): number {
+  if (endStation <= startStation) return 0;
+  const midpoint = (startStation + endStation) / 2;
+  const half = (endStation - startStation) / 2;
+  let length = 0;
+  for (let index = 0; index < GAUSS_NODES.length; index += 1) {
+    const offset = half * GAUSS_NODES[index]!;
+    const weight = half * GAUSS_WEIGHTS[index]!;
+    length +=
+      weight *
+      (evaluateMasonryArchCurveAtStation(geometry, midpoint - offset).arcLengthJacobian[side] +
+        evaluateMasonryArchCurveAtStation(geometry, midpoint + offset).arcLengthJacobian[side]);
+  }
+  return length;
+}
+
+/**
+ * Normalized side-boundary station of every interface: the side arc length from the left springing
+ * to the interface cut, divided by the total side arc length. Bonded-layer effective intervals are
+ * expressed in this side stationing.
+ */
+function interfaceSideStations(
+  geometry: NormalizedMasonryArchModel["geometry"],
+): ReadonlyMap<number, { readonly intrados: number; readonly extrados: number }> {
+  const stations = geometry.interfaces.map((item) => item.station);
+  const intradosCumulative = [0];
+  const extradosCumulative = [0];
+  for (let index = 0; index < stations.length - 1; index += 1) {
+    intradosCumulative.push(
+      intradosCumulative[index]! +
+        integrateArcLengthJacobian(geometry, "intrados", stations[index]!, stations[index + 1]!),
+    );
+    extradosCumulative.push(
+      extradosCumulative[index]! +
+        integrateArcLengthJacobian(geometry, "extrados", stations[index]!, stations[index + 1]!),
+    );
+  }
+  const intradosTotal = intradosCumulative.at(-1)!;
+  const extradosTotal = extradosCumulative.at(-1)!;
+  const result = new Map<number, { readonly intrados: number; readonly extrados: number }>();
+  stations.forEach((station, index) => {
+    result.set(station, {
+      intrados: intradosTotal > 0 ? intradosCumulative[index]! / intradosTotal : 0,
+      extrados: extradosTotal > 0 ? extradosCumulative[index]! / extradosTotal : 0,
+    });
+  });
+  return result;
+}
+
+export function resolveBondedLayerInterfaceSections(
+  model: NormalizedMasonryArchModel,
+): readonly BondedLayerInterfaceSection[] {
+  const sideStations = interfaceSideStations(model.geometry);
+  const tolerance = 1e-10;
+  return model.geometry.interfaces.map((geometry) => {
+    const stations = sideStations.get(geometry.station)!;
+    const contributions = model.bondedLayers
+      .map((layer): BondedLayerInterfaceContribution | null => {
+        const sideStation = layer.side === "intrados" ? stations.intrados : stations.extrados;
+        const effective =
+          sideStation >= layer.startStation - tolerance &&
+          sideStation <= layer.endStation + tolerance;
+        if (!effective) return null;
+        return {
+          layer,
+          coordinate: layer.side === "extrados" ? geometry.length / 2 : -geometry.length / 2,
+          capacity: layer.tensileCapacity,
+        };
+      })
+      .filter((item): item is BondedLayerInterfaceContribution => item !== null);
+    return { interface: geometry, contributions };
+  });
 }
 
 function compressionFraction(facetIndex: number, facetCount: number): number {
@@ -116,68 +208,11 @@ function baseMasonryDomain(
   };
 }
 
-function developmentFactor(
-  layer: NormalizedBondedLayerReinforcement,
-  normalizedStation: number,
-  totalReferenceArcLength: number,
-): number {
-  if (
-    normalizedStation < layer.startStation - 1e-12 ||
-    normalizedStation > layer.endStation + 1e-12
-  ) {
-    return 0;
-  }
-  const distanceFromLeft = (normalizedStation - layer.startStation) * totalReferenceArcLength;
-  const distanceFromRight = (layer.endStation - normalizedStation) * totalReferenceArcLength;
-  const leftFactor =
-    layer.terminations.left.type === "anchored"
-      ? 1
-      : Math.min(1, Math.max(0, distanceFromLeft / layer.terminations.left.developmentLength));
-  const rightFactor =
-    layer.terminations.right.type === "anchored"
-      ? 1
-      : Math.min(1, Math.max(0, distanceFromRight / layer.terminations.right.developmentLength));
-  return Math.min(leftFactor, rightFactor);
-}
-
-export function resolveBondedLayerInterfaceSections(
-  model: NormalizedMasonryArchModel,
-): readonly BondedLayerInterfaceSection[] {
-  return model.geometry.interfaces.map((geometry) => {
-    const contributions = model.bondedLayers
-      .map((layer): BondedLayerInterfaceContribution | null => {
-        const factor = developmentFactor(
-          layer,
-          geometry.normalizedStation,
-          model.geometry.totalReferenceArcLength,
-        );
-        return factor <= 0
-          ? null
-          : {
-              layer,
-              developmentFactor: factor,
-              capacity: factor * layer.tensileCapacity,
-            };
-      })
-      .filter((item): item is BondedLayerInterfaceContribution => item !== null);
-    const sides = new Set(contributions.map((item) => item.layer.side));
-    if (sides.size > 1) {
-      throw new Error(
-        `Interface ${geometry.id} has bonded layers on both boundaries; the current membrane domain supports one active side per interface.`,
-      );
-    }
-    const side = contributions[0]?.layer.side ?? null;
-    return {
-      interface: geometry,
-      side,
-      coordinate:
-        side === null ? null : side === "extrados" ? geometry.length / 2 : -geometry.length / 2,
-      capacity: contributions.reduce((sum, item) => sum + item.capacity, 0),
-      contributions,
-    };
-  });
-}
-
+/**
+ * Support of the masonry-only domain in one direction, used to translate the layer-capacity
+ * facets of the reinforced domain. Null when the base domain is unbounded in that direction
+ * (possible only for the closed-form no-tension wedge without a finite compression strength).
+ */
 function supportOfBaseDomain(
   normalCoefficient: number,
   momentCoefficient: number,
@@ -201,55 +236,92 @@ function supportOfBaseDomain(
     : null;
 }
 
+function facetKey(
+  facet: Pick<RigidBlockResultantFacet2D, "normalCoefficient" | "momentCoefficient">,
+): string {
+  const normal = facet.normalCoefficient;
+  const moment = facet.momentCoefficient;
+  const scale = Math.hypot(normal, moment) || 1;
+  return `${(normal / scale).toPrecision(12)}:${(moment / scale).toPrecision(12)}`;
+}
+
+/**
+ * Builds the reinforced N-M domain as the Minkowski sum of the masonry domain and every effective
+ * layer's independent bounded tensile contribution `0 <= T_i <= T_Rd,i` acting at its side
+ * coordinate `y_i`. Facets of the sum have the normals of the masonry domain plus, per distinct
+ * layer coordinate, the pair of normals perpendicular to that layer's force direction; duplicate
+ * normals from layers sharing one coordinate are merged into a single facet pair.
+ */
 export function applyBondedLayerSectionToLaw(
   baseLaw: RigidBlockInterfaceLimitLaw2D,
   section: BondedLayerInterfaceSection,
 ): RigidBlockInterfaceLimitLaw2D {
-  if (section.side === null || section.coordinate === null || section.capacity <= 0) return baseLaw;
-  const base = baseMasonryDomain(section.interface, baseLaw);
-  const reinforcementVector = {
-    normalForce: -section.capacity,
-    moment: -section.capacity * section.coordinate,
-  };
+  if (section.contributions.length === 0) return baseLaw;
+  const base = baseMasonryDomain(section.interface, { ...baseLaw, resultantFacets: null });
+  const layers = section.contributions.map((item) => ({
+    capacity: item.capacity,
+    coordinate: item.coordinate,
+  }));
+
   const facets: RigidBlockResultantFacet2D[] = base.facets.map((facet) => ({
     ...facet,
     capacity:
       facet.capacity +
-      Math.max(
+      layers.reduce(
+        (sum, layer) =>
+          sum +
+          Math.max(
+            0,
+            -layer.capacity *
+              (facet.normalCoefficient + facet.momentCoefficient * layer.coordinate),
+          ),
         0,
-        facet.normalCoefficient * reinforcementVector.normalForce +
-          facet.momentCoefficient * reinforcementVector.moment,
       ),
   }));
 
-  for (const sign of [-1, 1] as const) {
-    const normalCoefficient = sign * section.coordinate;
-    const momentCoefficient = -sign;
-    const baseSupport = supportOfBaseDomain(
-      normalCoefficient,
-      momentCoefficient,
-      section.interface.length / 2,
-      base.vertices,
-    );
-    if (baseSupport === null) continue;
-    facets.push({
-      normalCoefficient,
-      momentCoefficient,
-      capacity:
-        baseSupport +
-        Math.max(
-          0,
-          normalCoefficient * reinforcementVector.normalForce +
-            momentCoefficient * reinforcementVector.moment,
-        ),
-      kind: "bonded-layer-capacity",
-    });
+  const addedKeys = new Set<string>();
+  for (const layer of layers) {
+    for (const sign of [-1, 1] as const) {
+      const normalCoefficient = sign * layer.coordinate;
+      const momentCoefficient = -sign;
+      const key = facetKey({ normalCoefficient, momentCoefficient });
+      if (addedKeys.has(key)) continue;
+      const baseSupport = supportOfBaseDomain(
+        normalCoefficient,
+        momentCoefficient,
+        section.interface.length / 2,
+        base.vertices,
+      );
+      if (baseSupport === null) continue;
+      addedKeys.add(key);
+      facets.push({
+        normalCoefficient,
+        momentCoefficient,
+        capacity:
+          baseSupport +
+          layers.reduce(
+            (sum, item) =>
+              sum +
+              Math.max(
+                0,
+                -item.capacity * (normalCoefficient + momentCoefficient * item.coordinate),
+              ),
+            0,
+          ),
+        kind: "bonded-layer-capacity",
+      });
+    }
   }
   return { ...baseLaw, resultantFacets: facets };
 }
 
 interface StaticSectionRecovery {
-  readonly totalLayerForce: number | null;
+  /**
+   * Minimum-required per-contribution forces, in section order; null when the static problem is
+   * infeasible or does not determine a unique force vector. When the vector is null the masonry
+   * resultants are left untouched.
+   */
+  readonly forces: readonly number[] | null;
   readonly masonryNormalForce: number | null;
   readonly masonryMoment: number | null;
 }
@@ -260,40 +332,40 @@ function recoverStaticSection(
   section: BondedLayerInterfaceSection,
   tolerance: number,
 ): StaticSectionRecovery {
-  if (section.coordinate === null || section.capacity <= 0) {
+  if (section.contributions.length === 0) {
     return {
-      totalLayerForce: 0,
+      forces: [],
       masonryNormalForce: resultant.normalForce,
       masonryMoment: resultant.moment,
     };
   }
   const base = baseMasonryDomain(section.interface, { ...law, resultantFacets: null });
-  let lower = 0;
-  let upper = section.capacity;
-  for (const facet of base.facets) {
-    const coefficient = facet.normalCoefficient + facet.momentCoefficient * section.coordinate;
-    const rightHandSide =
-      facet.capacity -
-      facet.normalCoefficient * resultant.normalForce -
-      facet.momentCoefficient * resultant.moment;
-    if (Math.abs(coefficient) <= tolerance) {
-      if (rightHandSide < -tolerance) {
-        return { totalLayerForce: null, masonryNormalForce: null, masonryMoment: null };
-      }
-    } else if (coefficient > 0) {
-      upper = Math.min(upper, rightHandSide / coefficient);
-    } else {
-      lower = Math.max(lower, rightHandSide / coefficient);
-    }
+  const contributions = section.contributions;
+  const problem = {
+    constraints: base.facets.map((facet) => ({
+      coefficients: contributions.map(
+        (item) => facet.normalCoefficient + facet.momentCoefficient * item.coordinate,
+      ),
+      rightHandSide:
+        facet.capacity -
+        facet.normalCoefficient * resultant.normalForce -
+        facet.momentCoefficient * resultant.moment,
+    })),
+    capacities: contributions.map((item) => item.capacity),
+  } as const;
+  const solution = solveBoundedMinimumProblem(problem, tolerance);
+  if (!solution.feasible || !solution.unique || solution.solution === null) {
+    return { forces: null, masonryNormalForce: null, masonryMoment: null };
   }
-  if (lower > upper + tolerance) {
-    return { totalLayerForce: null, masonryNormalForce: null, masonryMoment: null };
-  }
-  const totalLayerForce = Math.min(section.capacity, Math.max(0, lower));
+  const totalForce = solution.solution.reduce((sum, force) => sum + force, 0);
+  const totalMoment = solution.solution.reduce(
+    (sum, force, index) => sum + force * contributions[index]!.coordinate,
+    0,
+  );
   return {
-    totalLayerForce,
-    masonryNormalForce: resultant.normalForce + totalLayerForce,
-    masonryMoment: resultant.moment + totalLayerForce * section.coordinate,
+    forces: solution.solution,
+    masonryNormalForce: resultant.normalForce + totalForce,
+    masonryMoment: resultant.moment + totalMoment,
   };
 }
 
@@ -365,13 +437,13 @@ export function recoverBondedLayerStaticState(
   );
   const bondedLayerState = model.bondedLayers.map((layer): BondedLayerStateResult => {
     const interfaces = sections.flatMap((section, index) => {
-      const contribution = section.contributions.find((item) => item.layer.id === layer.id);
-      if (contribution === undefined) return [];
+      const contributionIndex = section.contributions.findIndex(
+        (item) => item.layer.id === layer.id,
+      );
+      if (contributionIndex < 0) return [];
+      const contribution = section.contributions[contributionIndex]!;
       const recovery = recoveries[index]!;
-      const force =
-        recovery.totalLayerForce === null || section.capacity <= 0
-          ? null
-          : recovery.totalLayerForce * (contribution.capacity / section.capacity);
+      const force = recovery.forces === null ? null : recovery.forces[contributionIndex]!;
       const utilizationRatio = force === null ? null : force / contribution.capacity;
       return [
         {
@@ -379,7 +451,6 @@ export function recoverBondedLayerStaticState(
           interfaceId: section.interface.id,
           interfaceIndex: section.interface.index,
           side: layer.side,
-          developmentFactor: contribution.developmentFactor,
           force,
           capacity: contribution.capacity,
           utilizationRatio,
@@ -404,6 +475,8 @@ export function recoverBondedLayerStaticState(
       reinforcementId: layer.id,
       family: layer.family,
       side: layer.side,
+      startStation: layer.startStation,
+      endStation: layer.endStation,
       tensileCapacity: layer.tensileCapacity,
       governingCapacityLimit: layer.governingCapacityLimit,
       analysisMeaning: "minimum-required-static-admissibility",
@@ -429,7 +502,7 @@ export interface MasonryArchBondedSectionDomainResult {
   readonly contributions: readonly {
     readonly reinforcementId: string;
     readonly side: "intrados" | "extrados";
-    readonly developmentFactor: number;
+    readonly coordinate: number;
     readonly capacity: number;
   }[];
 }
@@ -498,7 +571,7 @@ export function evaluateMasonryArchBondedSectionDomain(
     contributions: section.contributions.map((item) => ({
       reinforcementId: item.layer.id,
       side: item.layer.side,
-      developmentFactor: item.developmentFactor,
+      coordinate: item.coordinate,
       capacity: item.capacity,
     })),
   };

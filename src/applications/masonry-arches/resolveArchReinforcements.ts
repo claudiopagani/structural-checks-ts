@@ -13,16 +13,19 @@ import type {
 import { assertExplicitUnitSystem, createUnitResolver } from "../../domain/units/UnitSystem.js";
 import { evaluateMasonryArchCurveAtStation } from "./geometry.js";
 import type {
-  ArchAnchorForceResult,
+  ArchConnectorForceResult,
   ArchContactForceResult,
-  ArchReinforcementBoundaryForceResult,
+  ArchDeviceForceResult,
+  ArchExternalAnchorForceResult,
+  ArchReinforcementDeviceGeometryResult,
+  ArchReinforcementSegmentResult,
+  ArchReinforcementSegmentRole,
   ArchReinforcementStateResult,
   MasonryArchBlockLoadResult,
   MasonryArchPrescribedConfigurationInput,
-  MasonryArchReferenceCurve,
-  NormalizedArchAnchorCapacity,
+  NormalizedArchConnectorGroup,
+  NormalizedArchDeviceCapacity,
   NormalizedArchReinforcement,
-  NormalizedArchReinforcementTermination,
   NormalizedMasonryArchGeometry,
   NormalizedMasonryArchBlockDisplacement,
   NormalizedMasonryArchModel,
@@ -35,31 +38,20 @@ const GAUSS_WEIGHTS = [
   0.362683783378362, 0.3137066458778873, 0.2223810344533745, 0.1012285362903763,
 ] as const;
 
+const EMPTY_CAPACITY: NormalizedArchDeviceCapacity = Object.freeze({
+  normalResistance: null,
+  shearResistance: null,
+  resultantResistance: null,
+  interactionRule: "independent",
+});
+
 interface SideArcStationing {
   readonly totalLength: number;
   readonly referenceStationAtLength: (sideArcLength: number) => number;
 }
 
-interface ConnectorNode {
-  readonly id: string;
-  readonly side: "left" | "right";
-  readonly index: number;
-  readonly capacity: NormalizedArchAnchorCapacity;
-}
-
-interface MutablePathNode {
-  sideArcStation: number;
-  referenceStation: number;
-  referencePoint: RigidBlockPoint2D;
-  point: RigidBlockPoint2D;
-  referenceChainTangent: RigidBlockVector2D;
-  chainTangent: RigidBlockVector2D;
-  attachments: readonly PathNodeAttachment[];
-  deviatorIndex: number | null;
-  connector: ConnectorNode | null;
-  contact: boolean;
-  /** Stable index after station sorting, retained when unilateral contact releases this sample. */
-  pathIndex: number;
+export interface NormalizedMasonryArchConfiguration {
+  readonly displacementsByBlockId: ReadonlyMap<string, NormalizedMasonryArchBlockDisplacement>;
 }
 
 interface PathNodeAttachment {
@@ -69,21 +61,36 @@ interface PathNodeAttachment {
   point: RigidBlockPoint2D;
 }
 
-export interface NormalizedMasonryArchConfiguration {
-  readonly displacementsByBlockId: ReadonlyMap<string, NormalizedMasonryArchBlockDisplacement>;
+interface DeviceDescriptor {
+  readonly kind: ArchReinforcementDeviceGeometryResult["kind"];
+  readonly terminationSide: "left" | "right" | null;
+  readonly index: number | null;
+  readonly capacity: NormalizedArchDeviceCapacity;
+  readonly connectors: NormalizedArchConnectorGroup | null;
 }
 
-interface ConnectorStation {
-  readonly sideArcStation: number;
-  readonly weight: number;
-  readonly node: ConnectorNode;
+interface MutablePathNode {
+  /** Side arc length from the left springing; null for external anchors. */
+  sideArcStation: number | null;
+  /** Reference-curve station of the arch point; null for external anchors. */
+  referenceStation: number | null;
+  normalizedSideStation: number | null;
+  referencePoint: RigidBlockPoint2D;
+  point: RigidBlockPoint2D;
+  referenceChainTangent: RigidBlockVector2D | null;
+  chainTangent: RigidBlockVector2D | null;
+  attachments: readonly PathNodeAttachment[];
+  device: DeviceDescriptor | null;
+  contact: boolean;
+  /** Stable index after ordering, retained when unilateral contact releases this sample. */
+  pathIndex: number;
 }
 
 interface ResolvedSingleReinforcement {
   readonly state: ArchReinforcementStateResult;
-  readonly anchorForces: readonly ArchAnchorForceResult[];
+  readonly deviceForces: readonly ArchDeviceForceResult[];
   readonly contactForces: readonly ArchContactForceResult[];
-  readonly boundaryForces: readonly ArchReinforcementBoundaryForceResult[];
+  readonly externalAnchorForces: readonly ArchExternalAnchorForceResult[];
   readonly nodalActions: readonly {
     readonly sourceId: string;
     readonly force: RigidBlockVector2D;
@@ -98,9 +105,9 @@ interface ResolvedSingleReinforcement {
 
 export interface ResolvedArchReinforcements {
   readonly reinforcementState: readonly ArchReinforcementStateResult[];
-  readonly anchorForces: readonly ArchAnchorForceResult[];
+  readonly deviceForces: readonly ArchDeviceForceResult[];
   readonly contactForces: readonly ArchContactForceResult[];
-  readonly boundaryForces: readonly ArchReinforcementBoundaryForceResult[];
+  readonly externalAnchorForces: readonly ArchExternalAnchorForceResult[];
   readonly blockWrenches: readonly MasonryArchBlockLoadResult[];
   readonly warnings: readonly string[];
   readonly hasAnchorFailure: boolean;
@@ -123,7 +130,7 @@ export interface EvaluatedArchReinforcementConfiguration extends ResolvedArchRei
 
 function integrateSideArcLength(
   geometry: NormalizedMasonryArchGeometry,
-  side: MasonryArchReferenceCurve,
+  side: "intrados" | "extrados",
   start: number,
   end: number,
 ): number {
@@ -183,35 +190,6 @@ function createSideArcStationing(
       return (lower + upper) / 2;
     },
   };
-}
-
-function terminalConnectorStations(
-  reinforcement: NormalizedArchReinforcement,
-  terminationSide: "left" | "right",
-  termination: NormalizedArchReinforcementTermination,
-  sideArcLength: number,
-): ConnectorStation[] {
-  if (termination.type === "continuous-external") return [];
-  return Array.from({ length: termination.connectorCount }, (_, index) => {
-    const distanceFromBoundary = index * termination.connectorSpacing;
-    return {
-      sideArcStation:
-        terminationSide === "left" ? distanceFromBoundary : sideArcLength - distanceFromBoundary,
-      weight: termination.loadShareWeights[index]!,
-      node: {
-        id: `${reinforcement.id}:${terminationSide}:C-${String(index).padStart(3, "0")}`,
-        side: terminationSide,
-        index,
-        capacity: termination.capacity,
-      },
-    };
-  });
-}
-
-function transferZoneLength(termination: NormalizedArchReinforcementTermination): number {
-  return termination.type === "continuous-external"
-    ? 0
-    : (termination.connectorCount - 1) * termination.connectorSpacing;
 }
 
 function attachmentsAtStation(
@@ -318,44 +296,49 @@ function updatePathNodeConfiguration(
       configuration,
     );
   }
-  node.point = node.attachments.reduce(
-    (sum, attachment) => ({
-      x: sum.x + attachment.share * attachment.point.x,
-      y: sum.y + attachment.share * attachment.point.y,
-    }),
-    { x: 0, y: 0 },
-  );
-  node.chainTangent = transformVectorByAttachments(
-    geometry,
-    node.attachments,
-    node.referenceChainTangent,
-    configuration,
-  );
+  // External anchors carry no block attachments: their point is the fixed global input point and
+  // must never be recomputed from an empty attachment set.
+  if (node.attachments.length > 0) {
+    node.point = node.attachments.reduce(
+      (sum, attachment) => ({
+        x: sum.x + attachment.share * attachment.point.x,
+        y: sum.y + attachment.share * attachment.point.y,
+      }),
+      { x: 0, y: 0 },
+    );
+  }
+  if (node.referenceChainTangent !== null) {
+    node.chainTangent = transformVectorByAttachments(
+      geometry,
+      node.attachments,
+      node.referenceChainTangent,
+      configuration,
+    );
+  }
 }
 
-function addPathNode(
+function addArchPathNode(
   nodes: MutablePathNode[],
   geometry: NormalizedMasonryArchGeometry,
   side: "intrados" | "extrados",
   stationing: SideArcStationing,
   sideArcStation: number,
   attributes: {
-    readonly deviatorIndex?: number;
-    readonly connector?: ConnectorNode;
+    readonly device?: DeviceDescriptor;
     readonly contact?: boolean;
   },
 ): void {
   const tolerance = 1e-10 * Math.max(1, stationing.totalLength);
   const existing = nodes.find(
-    (item) => Math.abs(item.sideArcStation - sideArcStation) <= tolerance,
+    (item) =>
+      item.sideArcStation !== null && Math.abs(item.sideArcStation - sideArcStation) <= tolerance,
   );
   if (existing !== undefined) {
-    if (attributes.deviatorIndex !== undefined) existing.deviatorIndex = attributes.deviatorIndex;
-    if (attributes.connector !== undefined) {
-      if (existing.connector !== null) {
-        throw new Error("Terminal connector transfer zones overlap at one reinforcement node.");
+    if (attributes.device !== undefined) {
+      if (existing.device !== null) {
+        throw new Error("Two reinforcement devices overlap at one path node.");
       }
-      existing.connector = attributes.connector;
+      existing.device = attributes.device;
     }
     existing.contact ||= attributes.contact ?? false;
     return;
@@ -366,110 +349,115 @@ function addPathNode(
   nodes.push({
     sideArcStation,
     referenceStation,
+    normalizedSideStation: sideArcStation / stationing.totalLength,
     referencePoint,
     point: referencePoint,
     referenceChainTangent: sample.chainTangent,
     chainTangent: sample.chainTangent,
     attachments: attachmentsAtStation(geometry, referenceStation, referencePoint),
-    deviatorIndex: attributes.deviatorIndex ?? null,
-    connector: attributes.connector ?? null,
+    device: attributes.device ?? null,
     contact: attributes.contact ?? false,
     pathIndex: -1,
   });
 }
 
+function addExternalPathNode(
+  nodes: MutablePathNode[],
+  point: RigidBlockPoint2D,
+  device: DeviceDescriptor,
+): void {
+  nodes.push({
+    sideArcStation: null,
+    referenceStation: null,
+    normalizedSideStation: null,
+    referencePoint: point,
+    point,
+    referenceChainTangent: null,
+    chainTangent: null,
+    attachments: [],
+    device,
+    contact: false,
+    pathIndex: -1,
+  });
+}
+
+/**
+ * Taut-cable contact envelope of an extrados tendon: the cable runs between its two terminal
+ * devices along the upper envelope of the whole x-monotone node set, so every released sample
+ * lies strictly below the cable and every active contact can be delivered as compression.
+ * Terminal devices are pinned on the envelope (they are never popped); samples sharing the
+ * terminal x-coordinate are popped by their own device.
+ */
 function activeExtradosPathNodes(nodes: readonly MutablePathNode[]): {
   readonly active: readonly MutablePathNode[];
   readonly released: readonly MutablePathNode[];
 } {
   if (nodes.length < 2) throw new Error("An extrados tendon requires at least two path nodes.");
-  const mandatory = nodes
-    .map((node, index) => ({ node, index }))
-    .filter(
-      ({ node, index }) => index === 0 || index === nodes.length - 1 || node.connector !== null,
-    )
-    .map(({ index }) => index);
-  const activeIndices = new Set<number>();
   const scale = nodes.reduce(
     (maximum, node) => Math.max(maximum, Math.abs(node.point.x), Math.abs(node.point.y)),
     1,
   );
   const orientationTolerance = 128 * Number.EPSILON * scale * scale;
-
-  for (let interval = 0; interval < mandatory.length - 1; interval += 1) {
-    const start = mandatory[interval]!;
-    const end = mandatory[interval + 1]!;
-    const hull: number[] = [];
-    for (let index = start; index <= end; index += 1) {
-      while (hull.length >= 2) {
-        const first = nodes[hull[hull.length - 2]!]!.point;
-        const middle = nodes[hull[hull.length - 1]!]!.point;
-        const last = nodes[index]!.point;
-        const turn = cross2d(subtract2d(middle, first), subtract2d(last, middle));
-        // A left turn or a collinear intermediate point lies below the taut upper envelope.
-        if (turn < -orientationTolerance) break;
-        hull.pop();
-      }
-      hull.push(index);
+  const sorted = [...nodes].sort((left, right) => {
+    const deltaX = left.point.x - right.point.x;
+    if (Math.abs(deltaX) > 1e-12 * scale) return deltaX;
+    // Same x-coordinate: the device replaces its coincident contact sample.
+    return left.device === null ? -1 : 1;
+  });
+  const hull: MutablePathNode[] = [];
+  for (const node of sorted) {
+    while (hull.length >= 2) {
+      const first = hull[hull.length - 2]!.point;
+      const middle = hull[hull.length - 1]!.point;
+      const last = node.point;
+      const turn = cross2d(subtract2d(middle, first), subtract2d(last, middle));
+      // A left turn or a collinear intermediate point lies below the taut upper envelope.
+      if (turn < -orientationTolerance) break;
+      if (hull[hull.length - 1]!.device !== null) break; // pin terminal devices
+      hull.pop();
     }
-    for (const index of hull) activeIndices.add(index);
+    hull.push(node);
   }
-
-  const active = nodes.filter((_, index) => activeIndices.has(index));
+  const firstMandatory = hull.findIndex((node) => node.device !== null);
+  const lastMandatory = hull.findLastIndex((node) => node.device !== null);
+  if (firstMandatory < 0 || lastMandatory <= firstMandatory) {
+    throw new Error("An extrados tendon requires two terminal devices.");
+  }
+  const active = hull.slice(firstMandatory, lastMandatory + 1);
   for (let index = 0; index < active.length - 1; index += 1) {
     const length = norm2d(subtract2d(active[index + 1]!.point, active[index]!.point));
     if (length <= 1e-12 * scale) {
       throw new Error("The moved extrados tendon path contains coincident active contact points.");
     }
   }
+  const activeSet = new Set(active);
   return {
     active,
-    released: nodes.filter((node, index) => node.contact && !activeIndices.has(index)),
+    released: nodes.filter((node) => node.contact && !activeSet.has(node)),
   };
 }
 
-function tensionRatioAtSegment(
-  reinforcement: NormalizedArchReinforcement,
-  segmentMidpoint: number,
-  leftConnectors: readonly ConnectorStation[],
-  rightConnectors: readonly ConnectorStation[],
-): number {
-  if (reinforcement.terminations.left.type === "distributed-anchorage") {
-    const zoneEnd = transferZoneLength(reinforcement.terminations.left);
-    if (segmentMidpoint < zoneEnd) {
-      return leftConnectors
-        .filter((item) => item.sideArcStation < segmentMidpoint)
-        .reduce((sum, item) => sum + item.weight, 0);
-    }
-  }
-  if (reinforcement.terminations.right.type === "distributed-anchorage") {
-    const zoneStart =
-      rightConnectors[0]!.sideArcStation - transferZoneLength(reinforcement.terminations.right);
-    if (segmentMidpoint > zoneStart) {
-      const transferred = rightConnectors
-        .filter((item) => item.sideArcStation < segmentMidpoint)
-        .reduce((sum, item) => sum + item.weight, 0);
-      return 1 - transferred;
-    }
-  }
-  return 1;
-}
-
 function capacityUtilization(
-  capacity: NormalizedArchAnchorCapacity,
-  normalDemand: number,
-  shearDemand: number,
-  resultantDemand: number,
+  capacity: NormalizedArchDeviceCapacity,
+  demand: {
+    readonly normal: number | null;
+    readonly shear: number | null;
+    readonly resultant: number;
+  },
 ): {
   readonly utilizationRatio: number | null;
   readonly status: "pass" | "fail" | "not-verifiable";
 } {
   const normalRatio =
-    capacity.normalResistance === null ? null : normalDemand / capacity.normalResistance;
+    capacity.normalResistance === null || demand.normal === null
+      ? null
+      : demand.normal / capacity.normalResistance;
   const shearRatio =
-    capacity.shearResistance === null ? null : shearDemand / capacity.shearResistance;
+    capacity.shearResistance === null || demand.shear === null
+      ? null
+      : demand.shear / capacity.shearResistance;
   const resultantRatio =
-    capacity.resultantResistance === null ? null : resultantDemand / capacity.resultantResistance;
+    capacity.resultantResistance === null ? null : demand.resultant / capacity.resultantResistance;
   const componentRatios = [normalRatio, shearRatio].filter(
     (value): value is number => value !== null,
   );
@@ -495,204 +483,469 @@ function capacityUtilization(
   return { utilizationRatio, status: utilizationRatio <= 1 + 1e-12 ? "pass" : "fail" };
 }
 
-function resolveSingleReinforcement(
+function connectorResults(
+  deviceId: string,
+  group: NormalizedArchConnectorGroup | null,
+  demand: {
+    readonly normal: number | null;
+    readonly shear: number | null;
+    readonly resultant: number;
+  },
+): {
+  readonly connectors: readonly ArchConnectorForceResult[] | null;
+  readonly worstStatus: "pass" | "fail" | "not-verifiable";
+  readonly worstUtilization: number | null;
+} {
+  if (group === null || group.connectorCount <= 1)
+    return { connectors: null, worstStatus: "not-verifiable", worstUtilization: null };
+  const connectors = group.loadShareWeights.map((share, index): ArchConnectorForceResult => {
+    const connectorDemand = {
+      normal: demand.normal === null ? null : share * demand.normal,
+      shear: demand.shear === null ? null : share * demand.shear,
+      resultant: share * demand.resultant,
+    };
+    const check = capacityUtilization(group.capacity, connectorDemand);
+    return {
+      connectorId: `${deviceId}:C-${String(index).padStart(3, "0")}`,
+      index,
+      loadShare: share,
+      demand: connectorDemand,
+      capacity: {
+        normal: group.capacity.normalResistance,
+        shear: group.capacity.shearResistance,
+        resultant: group.capacity.resultantResistance,
+      },
+      interactionRule: group.capacity.interactionRule,
+      utilizationRatio: check.utilizationRatio,
+      status: check.status,
+    };
+  });
+  const worstStatus = connectors.some((item) => item.status === "fail")
+    ? ("fail" as const)
+    : connectors.some((item) => item.status === "pass")
+      ? ("pass" as const)
+      : ("not-verifiable" as const);
+  const utilizations = connectors
+    .map((item) => item.utilizationRatio)
+    .filter((value): value is number => value !== null);
+  return {
+    connectors,
+    worstStatus,
+    worstUtilization: utilizations.length === 0 ? null : Math.max(...utilizations),
+  };
+}
+
+function archAnchorDevice(
+  side: "left" | "right",
+  connectors: NormalizedArchConnectorGroup,
+): DeviceDescriptor {
+  return {
+    kind: "terminal-arch-anchor",
+    terminationSide: side,
+    index: null,
+    capacity: connectors.connectorCount <= 1 ? connectors.capacity : EMPTY_CAPACITY,
+    connectors,
+  };
+}
+
+function externalAnchorDevice(
+  side: "left" | "right",
+  capacity: NormalizedArchDeviceCapacity,
+): DeviceDescriptor {
+  return {
+    kind: "external-anchor",
+    terminationSide: side,
+    index: null,
+    capacity,
+    connectors: null,
+  };
+}
+
+function deviatorDevice(index: number, connectors: NormalizedArchConnectorGroup): DeviceDescriptor {
+  return {
+    kind: "deviator",
+    terminationSide: null,
+    index,
+    capacity: connectors.connectorCount <= 1 ? connectors.capacity : EMPTY_CAPACITY,
+    connectors,
+  };
+}
+
+function returnDeviatorDevice(
+  side: "left" | "right",
+  connectors: NormalizedArchConnectorGroup,
+): DeviceDescriptor {
+  return {
+    kind: "return-deviator",
+    terminationSide: side,
+    index: null,
+    capacity: connectors.connectorCount <= 1 ? connectors.capacity : EMPTY_CAPACITY,
+    connectors,
+  };
+}
+
+function deviceIdFor(
+  reinforcementId: string,
+  kind: ArchReinforcementDeviceGeometryResult["kind"],
+  terminationSide: "left" | "right" | null,
+  index: number | null,
+): string {
+  if (kind === "terminal-arch-anchor") return `${reinforcementId}:TA-${terminationSide}`;
+  if (kind === "external-anchor") return `${reinforcementId}:EA-${terminationSide}`;
+  if (kind === "return-deviator") return `${reinforcementId}:RD-${terminationSide}`;
+  return `${reinforcementId}:D-${String(index).padStart(3, "0")}`;
+}
+
+/**
+ * Builds the ordered path nodes of one reinforcement in the reference configuration and updates
+ * them onto the evaluated configuration. Returns the complete ordered node list together with the
+ * contact samples that unilateral contact released, and whether the path is a closed loop.
+ */
+function buildReinforcementNodes(
   geometry: NormalizedMasonryArchGeometry,
   reinforcement: NormalizedArchReinforcement,
   configuration: NormalizedMasonryArchConfiguration | null,
-): ResolvedSingleReinforcement {
-  const stationing = createSideArcStationing(geometry, reinforcement.side);
-  const leftZoneLength = transferZoneLength(reinforcement.terminations.left);
-  const rightZoneLength = transferZoneLength(reinforcement.terminations.right);
-  if (leftZoneLength + rightZoneLength >= stationing.totalLength - 1e-10) {
+): {
+  readonly nodes: readonly MutablePathNode[];
+  readonly releasedContacts: readonly MutablePathNode[];
+  readonly closedLoop: boolean;
+  readonly stationing: SideArcStationing;
+} {
+  const side = reinforcement.side;
+  const stationing = createSideArcStationing(geometry, side);
+  const scale = Math.max(1, stationing.totalLength);
+  const nodes: MutablePathNode[] = [];
+
+  if (reinforcement.side === "intrados") {
+    const topology = reinforcement.topology;
+    if (topology.type === "closed-loop") {
+      addArchPathNode(
+        nodes,
+        geometry,
+        side,
+        stationing,
+        topology.leftReturnDeviator.station * stationing.totalLength,
+        {
+          device: returnDeviatorDevice("left", topology.leftReturnDeviator.connectors),
+        },
+      );
+    } else if (topology.left.type === "arch-anchor") {
+      addArchPathNode(
+        nodes,
+        geometry,
+        side,
+        stationing,
+        topology.left.station * stationing.totalLength,
+        {
+          device: archAnchorDevice("left", topology.left.connectors),
+        },
+      );
+    } else {
+      addExternalPathNode(
+        nodes,
+        topology.left.point,
+        externalAnchorDevice("left", topology.left.capacity),
+      );
+    }
+
+    topology.deviators.forEach((device, index) => {
+      addArchPathNode(nodes, geometry, side, stationing, device.station * stationing.totalLength, {
+        device: deviatorDevice(index + 1, device.connectors),
+      });
+    });
+
+    if (topology.type === "closed-loop") {
+      addArchPathNode(
+        nodes,
+        geometry,
+        side,
+        stationing,
+        topology.rightReturnDeviator.station * stationing.totalLength,
+        {
+          device: returnDeviatorDevice("right", topology.rightReturnDeviator.connectors),
+        },
+      );
+    } else if (topology.right.type === "arch-anchor") {
+      addArchPathNode(
+        nodes,
+        geometry,
+        side,
+        stationing,
+        topology.right.station * stationing.totalLength,
+        {
+          device: archAnchorDevice("right", topology.right.connectors),
+        },
+      );
+    } else {
+      addExternalPathNode(
+        nodes,
+        topology.right.point,
+        externalAnchorDevice("right", topology.right.capacity),
+      );
+    }
+
+    nodes.forEach((node, index) => {
+      node.pathIndex = index;
+      updatePathNodeConfiguration(node, geometry, configuration);
+    });
+    return {
+      nodes,
+      releasedContacts: [],
+      closedLoop: topology.type === "closed-loop",
+      stationing,
+    };
+  }
+
+  const topology = reinforcement.topology;
+  const leftBound =
+    topology.left.type === "arch-anchor" ? topology.left.station * stationing.totalLength : 0;
+  const rightBound =
+    topology.right.type === "arch-anchor"
+      ? topology.right.station * stationing.totalLength
+      : stationing.totalLength;
+  if (rightBound - leftBound <= 1e-12 * scale) {
     throw new Error(
-      `Reinforcement ${reinforcement.id} terminal transfer zones overlap or leave no full-tension path.`,
+      `Reinforcement ${reinforcement.id} has no positive extrados contact interval between its terminals.`,
     );
   }
 
-  const nodes: MutablePathNode[] = [];
-  if (reinforcement.interaction.type === "rigid-deviators") {
-    for (let index = 0; index < reinforcement.interaction.count; index += 1) {
-      addPathNode(
-        nodes,
-        geometry,
-        reinforcement.side,
-        stationing,
-        (index * stationing.totalLength) / (reinforcement.interaction.count - 1),
-        { deviatorIndex: index },
-      );
-    }
+  if (topology.left.type === "external-anchor") {
+    addExternalPathNode(
+      nodes,
+      topology.left.point,
+      externalAnchorDevice("left", topology.left.capacity),
+    );
   } else {
-    for (let index = 0; index <= reinforcement.interaction.segmentCount; index += 1) {
-      addPathNode(
-        nodes,
-        geometry,
-        reinforcement.side,
-        stationing,
-        (index * stationing.totalLength) / reinforcement.interaction.segmentCount,
-        { contact: true },
-      );
-    }
+    addArchPathNode(
+      nodes,
+      geometry,
+      side,
+      stationing,
+      topology.left.station * stationing.totalLength,
+      {
+        device: archAnchorDevice("left", topology.left.connectors),
+      },
+    );
+  }
+  const segmentCount = topology.interaction.segmentCount;
+  for (let index = 0; index <= segmentCount; index += 1) {
+    addArchPathNode(
+      nodes,
+      geometry,
+      side,
+      stationing,
+      leftBound + ((rightBound - leftBound) * index) / segmentCount,
+      { contact: true },
+    );
+  }
+  if (topology.right.type === "external-anchor") {
+    addExternalPathNode(
+      nodes,
+      topology.right.point,
+      externalAnchorDevice("right", topology.right.capacity),
+    );
+  } else {
+    addArchPathNode(
+      nodes,
+      geometry,
+      side,
+      stationing,
+      topology.right.station * stationing.totalLength,
+      {
+        device: archAnchorDevice("right", topology.right.connectors),
+      },
+    );
   }
 
-  const leftConnectors = terminalConnectorStations(
-    reinforcement,
-    "left",
-    reinforcement.terminations.left,
-    stationing.totalLength,
-  );
-  const rightConnectors = terminalConnectorStations(
-    reinforcement,
-    "right",
-    reinforcement.terminations.right,
-    stationing.totalLength,
-  );
-  for (const connector of [...leftConnectors, ...rightConnectors]) {
-    addPathNode(nodes, geometry, reinforcement.side, stationing, connector.sideArcStation, {
-      connector: connector.node,
-    });
-  }
-  nodes.sort((left, right) => left.sideArcStation - right.sideArcStation);
+  nodes.sort((left, right) => externalNodeOrder(left) - externalNodeOrder(right));
   nodes.forEach((node, index) => {
     node.pathIndex = index;
     updatePathNodeConfiguration(node, geometry, configuration);
   });
+  const contactPath = activeExtradosPathNodes(nodes);
+  return {
+    nodes: contactPath.active,
+    releasedContacts: contactPath.released,
+    closedLoop: false,
+    stationing,
+  };
+}
 
-  const completeReferenceSegmentLengths = nodes
-    .slice(0, -1)
-    .map((node, index) =>
-      norm2d(subtract2d(nodes[index + 1]!.referencePoint, node.referencePoint)),
+/**
+ * Ordering key of an extrados node: the left external anchor precedes every arch node and the
+ * right external anchor follows them; arch nodes are ordered by their side arc station.
+ */
+function externalNodeOrder(node: MutablePathNode): number {
+  if (node.sideArcStation !== null) return node.sideArcStation;
+  return node.device?.terminationSide === "left" ? -1 : Number.POSITIVE_INFINITY;
+}
+
+/** Resolves the cable force from complete-path compatibility: `max(0, T0 + EA * dL / L_ref)`. */
+function resolveTendonForce(
+  reinforcement: NormalizedArchReinforcement,
+  referenceLength: number,
+  currentLength: number,
+): {
+  readonly trialForce: number;
+  readonly force: number;
+  readonly elasticForceIncrement: number;
+  readonly elasticTangentStiffness: number;
+  readonly constitutiveElongation: number;
+  readonly elongationTolerance: number;
+} {
+  const elongation = currentLength - referenceLength;
+  const elongationTolerance = 64 * Number.EPSILON * Math.max(1, referenceLength, currentLength);
+  const constitutiveElongation = Math.abs(elongation) <= elongationTolerance ? 0 : elongation;
+  const elasticForceIncrement =
+    (reinforcement.elasticModulus * reinforcement.area * constitutiveElongation) / referenceLength;
+  const trialForce = reinforcement.initialForce + elasticForceIncrement;
+  const force = Math.max(0, trialForce);
+  const elasticTangentStiffness =
+    trialForce > 0 ? (reinforcement.elasticModulus * reinforcement.area) / referenceLength : 0;
+  return {
+    trialForce,
+    force,
+    elasticForceIncrement,
+    elasticTangentStiffness,
+    constitutiveElongation,
+    elongationTolerance,
+  };
+}
+
+function segmentRole(
+  closedLoop: boolean,
+  isLastSegment: boolean,
+  startExternal: boolean,
+  endExternal: boolean,
+  side: "intrados" | "extrados",
+): ArchReinforcementSegmentRole {
+  if (closedLoop) return isLastSegment ? "return-branch" : "along-side";
+  if (startExternal || endExternal) return "free-terminal-branch";
+  return side === "extrados" ? "contact-envelope" : "along-side";
+}
+
+function resolveSingleReinforcement(
+  geometry: NormalizedMasonryArchGeometry,
+  reinforcement: NormalizedArchReinforcement,
+  configuration: NormalizedMasonryArchConfiguration | null,
+  actionFactor: number,
+): ResolvedSingleReinforcement {
+  const built = buildReinforcementNodes(geometry, reinforcement, configuration);
+  const stationing = built.stationing;
+  const closedLoop = built.closedLoop;
+  const nodes = [...built.nodes];
+  const scale = Math.max(1, stationing.totalLength);
+
+  // Complete cable polyline: for a closed loop the closing segment returns to the first node.
+  const polylineNodes = closedLoop && nodes.length > 0 ? [...nodes, nodes[0]!] : nodes;
+  const referenceSegmentLengths: number[] = [];
+  for (let index = 0; index < polylineNodes.length - 1; index += 1) {
+    const length = norm2d(
+      subtract2d(polylineNodes[index + 1]!.referencePoint, polylineNodes[index]!.referencePoint),
     );
-  const completeReferenceCumulativeLengths = [0];
-  for (const length of completeReferenceSegmentLengths) {
-    completeReferenceCumulativeLengths.push(completeReferenceCumulativeLengths.at(-1)! + length);
+    if (length <= 1e-12 * scale) {
+      throw new Error(
+        `Reinforcement ${reinforcement.id} contains a degenerate zero-length reference segment.`,
+      );
+    }
+    referenceSegmentLengths.push(length);
   }
-  const contactPath =
-    reinforcement.interaction.type === "unilateral-contact"
-      ? activeExtradosPathNodes(nodes)
-      : { active: nodes, released: [] as readonly MutablePathNode[] };
-  const pathNodes = contactPath.active;
+  const referenceLength = referenceSegmentLengths.reduce((sum, length) => sum + length, 0);
+
+  const currentSegmentLengths: number[] = [];
+  for (let index = 0; index < polylineNodes.length - 1; index += 1) {
+    const length = norm2d(subtract2d(polylineNodes[index + 1]!.point, polylineNodes[index]!.point));
+    if (length <= 1e-12 * scale) {
+      throw new Error(
+        `Reinforcement ${reinforcement.id} contains a coincident current path segment; external anchors must not coincide with their adjacent cable point.`,
+      );
+    }
+    currentSegmentLengths.push(length);
+  }
+  const currentLength = currentSegmentLengths.reduce((sum, length) => sum + length, 0);
+
+  const tendon = resolveTendonForce(reinforcement, referenceLength, currentLength);
+  // `actionFactor` scales the whole cable action (the path analysis uses it for its fixed-load
+  // homotopy): every reported force, device demand, check, and diagnostic scales linearly.
+  const tension = tendon.force * actionFactor;
+  const trialForce = tendon.trialForce * actionFactor;
+  const elasticForceIncrement = tendon.elasticForceIncrement * actionFactor;
+  const elasticTangentStiffness = tendon.elasticTangentStiffness * actionFactor;
 
   const segmentTangents: RigidBlockVector2D[] = [];
-  const segmentTensionRatios: number[] = [];
-  const segmentTensions: number[] = [];
-  const referenceSegmentLengths: number[] = [];
-  const currentSegmentLengths: number[] = [];
-  for (let index = 0; index < pathNodes.length - 1; index += 1) {
-    const start = pathNodes[index]!;
-    const end = pathNodes[index + 1]!;
-    referenceSegmentLengths.push(
-      completeReferenceCumulativeLengths[end.pathIndex]! -
-        completeReferenceCumulativeLengths[start.pathIndex]!,
+  const segments: ArchReinforcementSegmentResult[] = [];
+  for (let index = 0; index < polylineNodes.length - 1; index += 1) {
+    const start = polylineNodes[index]!;
+    const end = polylineNodes[index + 1]!;
+    const tangent = normalize2d(
+      subtract2d(end.point, start.point),
+      `Reinforcement ${reinforcement.id} segment ${index}`,
     );
-    currentSegmentLengths.push(norm2d(subtract2d(end.point, start.point)));
-    segmentTensionRatios.push(
-      tensionRatioAtSegment(
-        reinforcement,
-        (start.sideArcStation + end.sideArcStation) / 2,
-        leftConnectors,
-        rightConnectors,
-      ),
-    );
-  }
-  const referencePathLength = completeReferenceCumulativeLengths.at(-1)!;
-  const currentPathLength = currentSegmentLengths.reduce((sum, length) => sum + length, 0);
-  const elongation = currentPathLength - referencePathLength;
-  const elongationTolerance =
-    64 * Number.EPSILON * Math.max(1, referencePathLength, currentPathLength);
-  const constitutiveElongation = Math.abs(elongation) <= elongationTolerance ? 0 : elongation;
-  const compatibilityMode =
-    reinforcement.terminations.left.type === "distributed-anchorage" &&
-    reinforcement.terminations.right.type === "distributed-anchorage"
-      ? ("anchored-length-compatible" as const)
-      : ("externally-force-controlled" as const);
-  const effectiveElasticLength =
-    compatibilityMode === "anchored-length-compatible"
-      ? referenceSegmentLengths.reduce(
-          (sum, length, index) => sum + length * segmentTensionRatios[index]!,
-          0,
-        )
-      : null;
-  if (effectiveElasticLength !== null && effectiveElasticLength <= 0) {
-    throw new Error(`Reinforcement ${reinforcement.id} has no positive effective elastic length.`);
-  }
-  const elasticForceIncrement =
-    effectiveElasticLength === null
-      ? 0
-      : (reinforcement.elasticModulus * reinforcement.area * constitutiveElongation) /
-        effectiveElasticLength;
-  const trialForce = reinforcement.initialForce + elasticForceIncrement;
-  const reinforcementForce = Math.max(0, trialForce);
-  const elasticTangentStiffness =
-    effectiveElasticLength !== null && trialForce > 0
-      ? (reinforcement.elasticModulus * reinforcement.area) / effectiveElasticLength
-      : 0;
-  const segments: ArchReinforcementStateResult["segments"] extends readonly (infer T)[]
-    ? T[]
-    : never = [];
-  for (let index = 0; index < pathNodes.length - 1; index += 1) {
-    const start = pathNodes[index]!;
-    const end = pathNodes[index + 1]!;
-    const chord = subtract2d(end.point, start.point);
-    const length = currentSegmentLengths[index]!;
-    const tangent = normalize2d(chord, `Reinforcement ${reinforcement.id} segment ${index}`);
-    const tensionRatio = segmentTensionRatios[index]!;
-    const tension = reinforcementForce * tensionRatio;
     segmentTangents.push(tangent);
-    segmentTensions.push(tension);
     segments.push({
       index,
       referenceStartPoint: start.referencePoint,
       referenceEndPoint: end.referencePoint,
       startPoint: start.point,
       endPoint: end.point,
-      startStation: start.referenceStation,
-      endStation: end.referenceStation,
+      startStation: start.normalizedSideStation,
+      endStation: end.normalizedSideStation,
       referenceLength: referenceSegmentLengths[index]!,
-      length,
-      tensionRatio,
+      length: currentSegmentLengths[index]!,
       tension,
+      role: segmentRole(
+        closedLoop,
+        index === polylineNodes.length - 2,
+        start.sideArcStation === null,
+        end.sideArcStation === null,
+        reinforcement.side,
+      ),
     });
   }
 
-  const anchorForces: ArchAnchorForceResult[] = [];
+  const deviceForces: ArchDeviceForceResult[] = [];
   const contactForces: ArchContactForceResult[] = [];
+  const externalAnchorForces: ArchExternalAnchorForceResult[] = [];
   const nodalActions: ResolvedSingleReinforcement["nodalActions"] extends readonly (infer T)[]
     ? T[]
     : never = [];
   const warnings: string[] = [];
-  for (let index = 0; index < pathNodes.length; index += 1) {
-    const node = pathNodes[index]!;
-    const leftTangent = index === 0 ? node.chainTangent : segmentTangents[index - 1]!;
-    const rightTangent =
-      index === pathNodes.length - 1 ? node.chainTangent : segmentTangents[index]!;
-    const tensionLeft =
-      index === 0
-        ? reinforcement.terminations.left.type === "continuous-external"
-          ? reinforcementForce
-          : 0
-        : segmentTensions[index - 1]!;
-    const tensionRight =
-      index === pathNodes.length - 1
-        ? reinforcement.terminations.right.type === "continuous-external"
-          ? reinforcementForce
-          : 0
-        : segmentTensions[index]!;
+
+  for (let index = 0; index < nodes.length; index += 1) {
+    const node = nodes[index]!;
+    const hasIncoming = index > 0 || closedLoop;
+    const hasOutgoing = index < nodes.length - 1 || closedLoop;
+    const incomingTangent = hasIncoming
+      ? segmentTangents[hasIncoming && index === 0 ? segmentTangents.length - 1 : index - 1]!
+      : null;
+    const outgoingTangent = hasOutgoing ? segmentTangents[index]! : null;
+    const tensionIn = hasIncoming ? tension : 0;
+    const tensionOut = hasOutgoing ? tension : 0;
     const force = {
-      x: tensionRight * rightTangent.x - tensionLeft * leftTangent.x,
-      y: tensionRight * rightTangent.y - tensionLeft * leftTangent.y,
+      x: tensionOut * (outgoingTangent?.x ?? 0) - tensionIn * (incomingTangent?.x ?? 0),
+      y: tensionOut * (outgoingTangent?.y ?? 0) - tensionIn * (incomingTangent?.y ?? 0),
     };
-    const frameTangent = normalize2d(
-      {
-        x: leftTangent.x + rightTangent.x,
-        y: leftTangent.y + rightTangent.y,
-      },
-      `Reinforcement ${reinforcement.id} node ${index} tangent`,
-    );
-    const frameOutwardNormal = { x: -frameTangent.y, y: frameTangent.x };
-    const normalComponent = -dot2d(force, frameOutwardNormal);
-    const tangentialComponent = dot2d(force, frameTangent);
+
+    const chainTangent = node.chainTangent;
+    const leftFrameTangent = incomingTangent ?? chainTangent;
+    const rightFrameTangent = outgoingTangent ?? chainTangent;
+    let normalComponent: number | null = null;
+    let tangentialComponent: number | null = null;
+    if (leftFrameTangent !== null && rightFrameTangent !== null) {
+      const frameTangent = normalize2d(
+        {
+          x: leftFrameTangent.x + rightFrameTangent.x,
+          y: leftFrameTangent.y + rightFrameTangent.y,
+        },
+        `Reinforcement ${reinforcement.id} node ${index} tangent`,
+      );
+      const frameOutwardNormal = { x: -frameTangent.y, y: frameTangent.x };
+      normalComponent = -dot2d(force, frameOutwardNormal);
+      tangentialComponent = dot2d(force, frameTangent);
+    }
+
     const resultant = norm2d(force);
-    if (resultant > 1e-14 * Math.max(1, reinforcementForce)) {
+    if (resultant > 1e-14 * Math.max(1, tension)) {
       nodalActions.push({
         sourceId: `reinforcement:${reinforcement.id}:node-${String(index).padStart(3, "0")}`,
         force,
@@ -704,100 +957,116 @@ function resolveSingleReinforcement(
       });
     }
 
-    if (node.connector !== null || node.deviatorIndex !== null) {
-      const connector = node.connector;
-      const capacity =
-        connector?.capacity ??
-        (reinforcement.interaction.type === "rigid-deviators"
-          ? reinforcement.interaction.capacity
-          : {
-              normalResistance: null,
-              shearResistance: null,
-              resultantResistance: null,
-              interactionRule: "independent" as const,
-            });
-      const capacityCheck = capacityUtilization(
-        capacity,
-        Math.abs(normalComponent),
-        Math.abs(tangentialComponent),
-        resultant,
+    if (node.device !== null) {
+      const device = node.device;
+      const deviceId = deviceIdFor(
+        reinforcement.id,
+        device.kind,
+        device.terminationSide,
+        device.index,
       );
-      const anchorId =
-        connector?.id ?? `${reinforcement.id}:D-${String(node.deviatorIndex).padStart(3, "0")}`;
-      const kind =
-        connector === null
-          ? ("deviator" as const)
-          : node.deviatorIndex === null
-            ? ("terminal-connector" as const)
-            : ("terminal-connector-and-deviator" as const);
-      anchorForces.push({
-        anchorId,
+      const demand = {
+        normal: normalComponent === null ? null : Math.abs(normalComponent),
+        shear: tangentialComponent === null ? null : Math.abs(tangentialComponent),
+        resultant,
+      };
+      const connectors = connectorResults(deviceId, device.connectors, demand);
+      const deviceCapacityCheck = capacityUtilization(device.capacity, demand);
+      const status =
+        device.capacity.resultantResistance === null &&
+        device.capacity.normalResistance === null &&
+        device.capacity.shearResistance === null &&
+        connectors.connectors !== null
+          ? connectors.worstStatus
+          : deviceCapacityCheck.status;
+      const utilizationRatio = deviceCapacityCheck.utilizationRatio ?? connectors.worstUtilization;
+      deviceForces.push({
+        deviceId,
         reinforcementId: reinforcement.id,
-        kind,
-        terminationSide: connector?.side ?? null,
-        index: connector?.index ?? node.deviatorIndex!,
-        station: node.referenceStation,
-        normalizedSideArcStation: node.sideArcStation / stationing.totalLength,
+        kind: device.kind,
+        terminationSide: device.terminationSide,
+        index: device.index,
+        station: node.normalizedSideStation,
         referencePoint: node.referencePoint,
         point: node.point,
-        tensionLeft,
-        tensionRight,
+        tensionIn,
+        tensionOut,
+        incomingDirection: incomingTangent,
+        outgoingDirection: outgoingTangent,
         resultantForce: force,
+        resultant,
         normalComponent,
         tangentialComponent,
-        resultant,
-        direction: resultant > 0 ? scale2d(force, 1 / resultant) : null,
-        demand: {
-          normal: Math.abs(normalComponent),
-          shear: Math.abs(tangentialComponent),
-          resultant,
-        },
+        demand,
         capacity: {
-          normal: capacity.normalResistance,
-          shear: capacity.shearResistance,
-          resultant: capacity.resultantResistance,
+          normal: device.capacity.normalResistance,
+          shear: device.capacity.shearResistance,
+          resultant: device.capacity.resultantResistance,
         },
-        interactionRule: capacity.interactionRule,
-        ...capacityCheck,
+        interactionRule: device.capacity.interactionRule,
+        utilizationRatio,
+        status,
+        connectors: connectors.connectors,
       });
-      if (capacityCheck.status === "fail") {
-        warnings.push(`Anchor ${anchorId} exceeds its assigned resistance.`);
+      if (status === "fail") {
+        warnings.push(`Device ${deviceId} exceeds its assigned resistance.`);
+      }
+      if (device.kind === "external-anchor") {
+        const check = capacityUtilization(device.capacity, {
+          normal: null,
+          shear: null,
+          resultant,
+        });
+        externalAnchorForces.push({
+          deviceId,
+          reinforcementId: reinforcement.id,
+          terminationSide: device.terminationSide!,
+          referencePoint: node.referencePoint,
+          point: node.point,
+          tension: tensionIn + tensionOut,
+          forceTransmittedToExternalSystem: force,
+          resultant,
+          demand: { resultant },
+          capacity: { resultant: device.capacity.resultantResistance },
+          utilizationRatio: check.utilizationRatio,
+          status: check.status,
+        });
       }
     } else if (node.contact) {
       const contactState =
-        normalComponent >= -1e-10 * Math.max(1, reinforcementForce)
+        normalComponent !== null && normalComponent >= -1e-10 * Math.max(1, tension)
           ? ("in-contact" as const)
           : ("contact-cannot-enforce-path" as const);
       contactForces.push({
         contactId: `${reinforcement.id}:contact-${String(node.pathIndex).padStart(3, "0")}`,
         reinforcementId: reinforcement.id,
         index: node.pathIndex,
-        station: node.referenceStation,
-        normalizedSideArcStation: node.sideArcStation / stationing.totalLength,
+        station: node.referenceStation!,
+        normalizedSideArcStation: node.normalizedSideStation!,
         referencePoint: node.referencePoint,
         point: node.point,
-        tensionLeft,
-        tensionRight,
+        tensionLeft: index > 0 ? tension : 0,
+        tensionRight: index < nodes.length - 1 ? tension : 0,
         resultantForce: force,
-        normalComponent,
-        tangentialComponent,
+        normalComponent: normalComponent ?? 0,
+        tangentialComponent: tangentialComponent ?? 0,
         state: contactState,
       });
       if (contactState === "contact-cannot-enforce-path") {
         warnings.push(
-          `Extrados contact ${reinforcement.id}:${index} would require tensile contact; an explicit guide is required.`,
+          `Extrados contact ${reinforcement.id}:${node.pathIndex} would require tensile contact; an explicit guide is required.`,
         );
       }
     }
   }
 
-  for (const node of contactPath.released) {
+  for (const node of built.releasedContacts) {
     contactForces.push({
       contactId: `${reinforcement.id}:contact-${String(node.pathIndex).padStart(3, "0")}`,
       reinforcementId: reinforcement.id,
       index: node.pathIndex,
-      station: node.referenceStation,
-      normalizedSideArcStation: node.sideArcStation / stationing.totalLength,
+      station: node.referenceStation!,
+      normalizedSideArcStation: node.normalizedSideStation!,
       referencePoint: node.referencePoint,
       point: node.point,
       tensionLeft: 0,
@@ -810,9 +1079,9 @@ function resolveSingleReinforcement(
   }
   contactForces.sort((left, right) => left.index - right.index);
 
-  const axialStress = reinforcementForce / reinforcement.area;
+  const axialStress = tension / reinforcement.area;
   const elasticStrain = axialStress / reinforcement.elasticModulus;
-  const geometricStrain = elongation / referencePathLength;
+  const geometricStrain = (currentLength - referenceLength) / referenceLength;
   const yieldingCheck =
     reinforcement.yieldStrength === null
       ? null
@@ -857,7 +1126,7 @@ function resolveSingleReinforcement(
       ? ("failed" as const)
       : yieldingCheck?.status === "fail"
         ? ("yielded" as const)
-        : reinforcementForce === 0
+        : tension === 0
           ? ("slack" as const)
           : reinforcement.initialForce === 0
             ? ("active-passive" as const)
@@ -872,27 +1141,79 @@ function resolveSingleReinforcement(
     );
   }
 
-  const boundaryForces = (["left", "right"] as const).map((side) => {
-    const node = side === "left" ? pathNodes[0]! : pathNodes.at(-1)!;
-    const termination = reinforcement.terminations[side];
-    const tension = termination.type === "continuous-external" ? reinforcementForce : 0;
-    const sign = side === "left" ? 1 : -1;
-    return {
-      reinforcementId: reinforcement.id,
-      side,
-      terminationType: termination.type,
+  // Reinforcement free-body diagnostic: arch-side actions (devices and contacts) plus external
+  // anchor reactions must close; for a closed loop the arch-side actions self-equilibrate.
+  const archDeviceForceSum = { x: 0, y: 0 };
+  const externalAnchorForceSum = { x: 0, y: 0 };
+  let residualMoment = 0;
+  for (const device of deviceForces) {
+    if (device.kind === "external-anchor") {
+      externalAnchorForceSum.x += device.resultantForce.x;
+      externalAnchorForceSum.y += device.resultantForce.y;
+    } else {
+      archDeviceForceSum.x += device.resultantForce.x;
+      archDeviceForceSum.y += device.resultantForce.y;
+    }
+    residualMoment += cross2d(device.point, device.resultantForce);
+  }
+  for (const contact of contactForces) {
+    archDeviceForceSum.x += contact.resultantForce.x;
+    archDeviceForceSum.y += contact.resultantForce.y;
+    residualMoment += cross2d(contact.point, contact.resultantForce);
+  }
+  const residualForce = {
+    x: archDeviceForceSum.x + externalAnchorForceSum.x,
+    y: archDeviceForceSum.y + externalAnchorForceSum.y,
+  };
+  const equilibriumTolerance = 1e-9;
+  const normalizedForce =
+    tension > 0
+      ? norm2d(residualForce) / tension
+      : norm2d(residualForce) <= equilibriumTolerance
+        ? 0
+        : Number.POSITIVE_INFINITY;
+  const normalizedMoment =
+    tension > 0
+      ? Math.abs(residualMoment) / (tension * Math.max(1, referenceLength))
+      : Math.abs(residualMoment) <= equilibriumTolerance * Math.max(1, referenceLength)
+        ? 0
+        : Number.POSITIVE_INFINITY;
+  const equilibrium = {
+    meaning: closedLoop
+      ? ("closed-loop-self-equilibrium" as const)
+      : ("open-tendon-free-body" as const),
+    archDeviceForceSum,
+    externalAnchorForceSum,
+    residualForce,
+    residualMoment,
+    normalizedResidual: { force: normalizedForce, moment: normalizedMoment },
+    tolerance: equilibriumTolerance,
+    satisfied: normalizedForce <= equilibriumTolerance && normalizedMoment <= equilibriumTolerance,
+  };
+
+  const devices: ArchReinforcementDeviceGeometryResult[] = nodes
+    .filter((node) => node.device !== null)
+    .map((node) => ({
+      deviceId: deviceIdFor(
+        reinforcement.id,
+        node.device!.kind,
+        node.device!.terminationSide,
+        node.device!.index,
+      ),
+      kind: node.device!.kind,
+      terminationSide: node.device!.terminationSide,
+      station: node.normalizedSideStation,
       referencePoint: node.referencePoint,
       point: node.point,
-      tension,
-      forceTransmittedToExternalSystem: scale2d(node.chainTangent, sign * tension),
-    };
-  });
+      attachedToArch: node.device!.kind !== "external-anchor",
+    }));
 
   return {
     state: {
       reinforcementId: reinforcement.id,
       side: reinforcement.side,
-      force: reinforcementForce,
+      topology: closedLoop ? "closed-loop" : "open",
+      force: tension,
       trialForce,
       initialForce: reinforcement.initialForce,
       elasticForceIncrement,
@@ -900,40 +1221,26 @@ function resolveSingleReinforcement(
       elasticStrain,
       geometricStrain,
       state: reinforcementState,
-      compatibilityMode,
-      referencePathLength,
-      currentPathLength,
-      pathLength: currentPathLength,
-      elongation,
-      elongationTolerance,
-      effectiveElasticLength,
+      referenceLength,
+      currentLength,
+      elongation: currentLength - referenceLength,
+      elongationTolerance: tendon.elongationTolerance,
+      effectiveElasticLength: referenceLength,
       elasticTangentStiffness,
-      interactionType: reinforcement.interaction.type,
-      referencePath: nodes.map((node) => node.referencePoint),
-      path: pathNodes.map((node) => node.point),
+      referencePath: polylineNodes.map((node) => node.referencePoint),
+      path: polylineNodes.map((node) => node.point),
       segments,
-      deviators:
-        reinforcement.interaction.type === "rigid-deviators"
-          ? nodes
-              .filter((node) => node.deviatorIndex !== null)
-              .map((node) => ({
-                id: `${reinforcement.id}:D-${String(node.deviatorIndex).padStart(3, "0")}`,
-                index: node.deviatorIndex!,
-                station: node.referenceStation,
-                normalizedSideArcStation: node.sideArcStation / stationing.totalLength,
-                referencePoint: node.referencePoint,
-                point: node.point,
-              }))
-          : [],
+      devices,
+      equilibrium,
       checks: {
         yielding: yieldingCheck,
         tensileFailure: tensileFailureCheck,
         ultimateStrain: ultimateStrainCheck,
       },
     },
-    anchorForces,
+    deviceForces,
     contactForces,
-    boundaryForces,
+    externalAnchorForces,
     nodalActions,
     warnings,
   };
@@ -1002,9 +1309,13 @@ export function combineMasonryArchBlockWrenches(
 function resolveArchReinforcementsInConfiguration(
   model: NormalizedMasonryArchModel,
   configuration: NormalizedMasonryArchConfiguration | null,
+  actionFactor = 1,
 ): ResolvedArchReinforcements {
+  if (!Number.isFinite(actionFactor) || actionFactor < 0) {
+    throw new Error("Reinforcement actionFactor must be finite and non-negative.");
+  }
   const resolved = model.reinforcements.map((reinforcement) =>
-    resolveSingleReinforcement(model.geometry, reinforcement, configuration),
+    resolveSingleReinforcement(model.geometry, reinforcement, configuration, actionFactor),
   );
   const blockWrenches = emptyBlockWrenches(model.geometry, configuration);
   for (const item of resolved) {
@@ -1013,16 +1324,20 @@ function resolveArchReinforcementsInConfiguration(
     }
   }
   const reinforcementState = resolved.map((item) => item.state);
-  const anchorForces = resolved.flatMap((item) => item.anchorForces);
+  const deviceForces = resolved.flatMap((item) => item.deviceForces);
   const contactForces = resolved.flatMap((item) => item.contactForces);
+  const externalAnchorForces = resolved.flatMap((item) => item.externalAnchorForces);
   return {
     reinforcementState,
-    anchorForces,
+    deviceForces,
     contactForces,
-    boundaryForces: resolved.flatMap((item) => item.boundaryForces),
+    externalAnchorForces,
     blockWrenches,
     warnings: resolved.flatMap((item) => item.warnings),
-    hasAnchorFailure: anchorForces.some((item) => item.status === "fail"),
+    hasAnchorFailure: deviceForces.some(
+      (item) =>
+        item.status === "fail" || item.connectors?.some((connector) => connector.status === "fail"),
+    ),
     hasReinforcementYield: reinforcementState.some((item) => item.state === "yielded"),
     hasReinforcementFailure: reinforcementState.some((item) => item.state === "failed"),
     hasInvalidContact: contactForces.some((item) => item.state === "contact-cannot-enforce-path"),
@@ -1114,4 +1429,19 @@ export function evaluateArchReinforcementConfiguration(
       jointDeviceInterpolation: "work-conjugate-two-block-average",
     },
   };
+}
+
+/**
+ * Internal path-analysis entry: resolves the reinforcement actions of a prescribed configuration
+ * under a fixed-load homotopy factor. The whole cable action (forces, device demands, checks, and
+ * the free-body diagnostic) scales with the factor so the reported state stays coherent with the
+ * equilibrium residual during the fixed preload.
+ */
+export function resolveArchReinforcementsAtActionFactor(
+  model: NormalizedMasonryArchModel,
+  input: MasonryArchPrescribedConfigurationInput,
+  actionFactor: number,
+): ResolvedArchReinforcements {
+  const normalized = normalizeMasonryArchPrescribedConfiguration(model, input);
+  return resolveArchReinforcementsInConfiguration(model, normalized.configuration, actionFactor);
 }

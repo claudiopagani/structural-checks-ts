@@ -57,10 +57,11 @@ const passiveIntradosTendon: ArchReinforcementInput = {
   initialForce: 0,
   yieldStrength: 450_000,
   tensileStrength: 550_000,
-  interaction: { type: "rigid-deviators", count: 3 },
-  terminations: {
-    left: { type: "distributed-anchorage", connectorCount: 1 },
-    right: { type: "distributed-anchorage", connectorCount: 1 },
+  topology: {
+    type: "open",
+    left: { type: "arch-anchor", station: 0 },
+    right: { type: "arch-anchor", station: 1 },
+    deviators: { type: "uniform-count", count: 1 },
   },
 };
 
@@ -188,7 +189,12 @@ void test("C. the design state reaches lambda one with PASS", () => {
   assert.ok(finalState.force > 0);
   assert.ok(finalState.elongation > 0);
   assert.equal(finalState.initialForce, 0);
-  assert.equal(finalState.compatibilityMode, "anchored-length-compatible");
+  assert.equal(finalState.topology, "open");
+  assert.ok(
+    Math.abs(finalState.effectiveElasticLength - finalState.referenceLength) <=
+      1e-12 * finalState.referenceLength,
+    "the complete tendon path is the elastic member",
+  );
   assert.ok(
     result.outputs.analysis.lambda.excludedQuantities.includes(
       "passive-tendon-compatibility-force",

@@ -145,20 +145,37 @@ export function masonryArchEngineeringCriteriaFromPathEvent(
     }
     case "anchor-capacity-reached": {
       const anchorId = event.entityIds[0];
-      const anchor =
+      const device =
         anchorId === undefined
           ? undefined
-          : state.anchorForces.find((item) => item.anchorId === anchorId);
-      return anchor === undefined
-        ? [createMasonryArchEngineeringCriterion(event.kind, event.entityIds, { lambda })]
-        : [
-            createMasonryArchEngineeringCriterion(event.kind, [anchor.anchorId], {
-              lambda,
-              demand: anchor.demand.resultant,
-              capacity: anchor.capacity.resultant,
-              utilizationRatio: anchor.utilizationRatio,
-            }),
-          ];
+          : state.deviceForces.find((item) => item.deviceId === anchorId);
+      const connector =
+        anchorId === undefined
+          ? undefined
+          : state.deviceForces
+              .flatMap((item) => item.connectors ?? [])
+              .find((item) => item.connectorId === anchorId);
+      if (device === undefined && connector === undefined) {
+        return [createMasonryArchEngineeringCriterion(event.kind, event.entityIds, { lambda })];
+      }
+      if (connector !== undefined) {
+        return [
+          createMasonryArchEngineeringCriterion(event.kind, [connector.connectorId], {
+            lambda,
+            demand: connector.demand.resultant,
+            capacity: connector.capacity.resultant,
+            utilizationRatio: connector.utilizationRatio,
+          }),
+        ];
+      }
+      return [
+        createMasonryArchEngineeringCriterion(event.kind, [device!.deviceId], {
+          lambda,
+          demand: device!.demand.resultant,
+          capacity: device!.capacity.resultant,
+          utilizationRatio: device!.utilizationRatio,
+        }),
+      ];
     }
     case "bonded-layer-capacity-reached": {
       const [layerId, interfaceId] = event.entityIds;

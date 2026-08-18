@@ -1,7 +1,7 @@
 import type { RigidBlockDeformableInterfaceEvaluation2D } from "../../domain/masonry/rigid-blocks/evaluateDeformableInterface2D.js";
 import type {
-  ArchAnchorForceResult,
   ArchContactForceResult,
+  ArchDeviceForceResult,
   ArchReinforcementStateResult,
   BondedLayerStateResult,
   MasonryArchAnalysisObjective,
@@ -53,7 +53,7 @@ interface MasonryArchEventEvaluation {
   readonly interfaces: readonly RigidBlockDeformableInterfaceEvaluation2D[];
   readonly reinforcement: {
     readonly reinforcementState: readonly ArchReinforcementStateResult[];
-    readonly anchorForces: readonly ArchAnchorForceResult[];
+    readonly deviceForces: readonly ArchDeviceForceResult[];
     readonly contactForces: readonly ArchContactForceResult[];
   };
   readonly bondedLayerState: readonly BondedLayerStateResult[];
@@ -217,21 +217,46 @@ export function detectMasonryArchStepEvents(
     }
   }
 
-  const previousAnchors = new Map(
-    previous.reinforcement.anchorForces.map((item) => [item.anchorId, item]),
+  const previousDevices = new Map(
+    previous.reinforcement.deviceForces.map((item) => [
+      item.deviceId,
+      item.status === "fail" || item.connectors?.some((connector) => connector.status === "fail"),
+    ]),
   );
-  for (const anchor of current.reinforcement.anchorForces) {
-    if (previousAnchors.get(anchor.anchorId)?.status !== "fail" && anchor.status === "fail") {
+  const previousConnectors = new Map(
+    previous.reinforcement.deviceForces.flatMap((item) =>
+      (item.connectors ?? []).map((entry) => [entry.connectorId, entry.status === "fail"] as const),
+    ),
+  );
+  for (const device of current.reinforcement.deviceForces) {
+    const failingConnectors =
+      device.connectors?.filter((connector) => connector.status === "fail") ?? [];
+    const currentlyFailed = device.status === "fail" || failingConnectors.length > 0;
+    if (previousDevices.get(device.deviceId) !== true && currentlyFailed) {
       events.push(
         createMasonryArchEvent(
           "terminal-physical-event",
           "anchor-capacity-reached",
           step,
           lambda,
-          [anchor.anchorId],
-          `Anchor ${anchor.anchorId} exceeded its assigned capacity.`,
+          [device.deviceId],
+          `Device ${device.deviceId} exceeded its assigned capacity.`,
         ),
       );
+    }
+    for (const connector of failingConnectors) {
+      if (previousConnectors.get(connector.connectorId) !== true) {
+        events.push(
+          createMasonryArchEvent(
+            "terminal-physical-event",
+            "anchor-capacity-reached",
+            step,
+            lambda,
+            [connector.connectorId],
+            `Connector ${connector.connectorId} exceeded its assigned capacity.`,
+          ),
+        );
+      }
     }
   }
 

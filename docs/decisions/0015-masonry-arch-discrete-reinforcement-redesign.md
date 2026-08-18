@@ -1,0 +1,70 @@
+# Decision 0015 — Masonry-arch discrete-reinforcement redesign
+
+- Status: implemented
+- Scope: `structural-checks-ts` masonry-arch reinforcement subsystem (STEP 1 of the redesign plan).
+- Pre-production breaking change; no compatibility layer is retained.
+
+## Context
+
+The historical masonry-arch reinforcement model conflated several physically distinct concepts:
+
+- terminal anchorage was defined per side through a generic `terminations` record whose default
+  (`continuous-external`) was an externally force-controlled tendon without length compatibility;
+- `rigid-deviators.count` included the two path-end terminals, making "deviator" ambiguous;
+- intrados deviators, terminal connectors, and the distributed anchorage transfer zone shared one
+  anchor-force result kind;
+- external-system forces were published as `reinforcementBoundaryForces` and were indistinguishable
+  from arch-side forces;
+- bonded layers applied an automatic `developmentFactor` ramp near their ends and rejected
+  simultaneous intrados + extrados layers at one interface;
+- multi-layer static recovery split the recovered total force proportionally to capacity share,
+  which fabricated a force distribution the limit/static problem does not determine.
+
+## Decision
+
+1. **Topology-first schema.** Every discrete reinforcement carries a discriminated `topology` union:
+   - intrados `open` (independent left/right terminations) and intrados `closed-loop`;
+   - extrados `open` with `unilateral-contact` interaction (closed loop is not an extrados option).
+     Terminations are `arch-anchor` (normalized side-boundary station) or `external-anchor` (fixed
+     global point). Left and right are independent, so mixed terminations are first-class.
+2. **Device taxonomy.** Physical devices are explicitly
+   `terminal-arch-anchor | external-anchor | deviator | return-deviator`; every device publishes
+   `tensionIn`, `tensionOut`, incoming/outgoing directions, and `F = T_out * t_out - T_in * t_in`
+   (frictionless: `T_in === T_out`). `deviatorCount` ambiguity is removed: deviators are interior
+   devices only.
+3. **Complete-path compatibility.** Every tendon computes its elastic force increment from the
+   complete path length — including external-anchor free branches and the closed-loop return segment
+   — as `max(0, T0 + EA * (L - L_ref) / L_ref)`. Active and passive reinforcement differ only
+   through `initialForce` (`> 0` vs `= 0`). The historical externally-force-controlled mode is
+   removed.
+4. **Force collections.** Results publish `deviceForces`, `externalAnchorForces`, `contactForces`,
+   and the existing arch `reactions`. External-anchor forces are never applied to arch blocks.
+   Per-reinforcement equilibrium diagnostics publish the free-body residual (force/moment about the
+   origin, normalized) as solver diagnostics, never engineering criteria.
+5. **Connector groups.** A multi-connector anchorage (`inghisaggi`) is modeled as pure load sharing
+   at the device point with user-assigned shares; the historical transfer-zone `connectorSpacing`
+   model is removed because it conflicts with the point-terminal topology and its offset
+   parallel-share centroid violates device moment equilibrium. Connector demand is
+   `share * device demand`; capacity is per connector. No load distribution is invented when none is
+   assigned.
+6. **Bonded layers: effective interval only.** `startStation`/`endStation` bound the effective
+   layer; inside, the layer is immediately effective at its full assigned capacity; outside, it is
+   absent. `developmentFactor`, `developmentLength`, `transferLength`, and the anchored/unanchored
+   reduction logic are removed. The deformable membrane-spring model is removed from the path
+   analysis: bonded layers keep the `minimum-required-static-admissibility` meaning in every
+   analysis.
+7. **Multi-layer bonded domains.** Each layer contributes its own bounded tension vector
+   `0 <= T_i <= T_Rd,i` at its side coordinate (`-h/2` intrados, `+h/2` extrados); the reinforced
+   N-M domain is the Minkowski sum of the masonry domain and all layer segments. Static recovery
+   minimizes the total required layer force through a dedicated linear program and reports a
+   per-interface layer force only when the minimizer is unique; otherwise the force is `null` with
+   state `not-uniquely-determined`. The simultaneous intrados + extrados limitation is removed.
+
+## Consequences
+
+- Breaking input/result schema changes; model schema 2.0.0 -> 3.0.0, equilibrium result 4.0.0 ->
+  5.0.0, limit result 5.0.0 -> 6.0.0, path result 11.0.0 -> 12.0.0.
+- Old fixtures must be migrated; mechanical equivalence is preserved for the one-connector
+  distributed anchorage (effective elastic length equals the complete path length).
+- Deliberately not modeled: deviator friction, anchorage compliance, bond-slip, bonded-layer
+  interface tractions, automatic development-length calculation, dynamic snap-through.

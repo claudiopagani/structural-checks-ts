@@ -18,7 +18,7 @@ import type {
   NormalizedMasonryArchModel,
 } from "./types.js";
 
-export const MASONRY_ARCH_MODEL_COMPARISON_RESULT_SCHEMA_VERSION = "3.0.0";
+export const MASONRY_ARCH_MODEL_COMPARISON_RESULT_SCHEMA_VERSION = "4.0.0";
 
 export type MasonryArchComparisonModelLike =
   | MasonryArchModel
@@ -93,7 +93,7 @@ export interface MasonryArchModelComparisonSummary {
   readonly failureMode: MasonryArchFailureMode | null;
   readonly maximumCompression: MasonryArchComparisonMaximum;
   readonly maximumReinforcementForce: MasonryArchComparisonMaximum;
-  readonly maximumAnchorForce: MasonryArchComparisonMaximum;
+  readonly maximumDeviceForce: MasonryArchComparisonMaximum;
   readonly maximumContactForce: MasonryArchComparisonMaximum;
   /** Null when the case analysis did not certify an equilibrium state (numerical iteration limit). */
   readonly maximumNormalizedEquilibriumResidual: number | null;
@@ -400,10 +400,10 @@ function caseSummary(
       : "maximumNormalizedBlockResidual" in equilibrium
         ? equilibrium.maximumNormalizedBlockResidual
         : Math.max(...Object.values(equilibrium.normalizedResidual).map(Math.abs));
-  const anchorForces =
-    state?.anchorForces ??
+  const deviceForces =
+    state?.deviceForces ??
     (result as ReturnType<typeof analyzeMasonryArchEquilibrium> | MasonryArchLimitResult).outputs
-      .anchorForces;
+      .deviceForces;
   const contactForces =
     state?.contactForces ??
     (result as ReturnType<typeof analyzeMasonryArchEquilibrium> | MasonryArchLimitResult).outputs
@@ -442,10 +442,10 @@ function caseSummary(
       (item) => item.force,
       (item) => item.reinforcementId,
     ),
-    maximumAnchorForce: maximum(
-      anchorForces,
+    maximumDeviceForce: maximum(
+      deviceForces,
       (item) => item.resultant,
-      (item) => item.anchorId,
+      (item) => item.deviceId,
     ),
     maximumContactForce: maximum(
       contactForces,
