@@ -8,8 +8,6 @@ import { buildSimplifiedMasonryArchGeometry } from "./geometry.js";
 import {
   MASONRY_ARCH_MODEL_SCHEMA_VERSION,
   type ArchDeviatorLayoutInput,
-  type ArchDeviceCapacityInput,
-  type ArchDeviceConnectorGroupInput,
   type ArchReinforcementInput,
   type ArchReinforcementTerminationInput,
   type ArchStationedDeviceInput,
@@ -19,8 +17,6 @@ import {
   type MasonryArchModelInput,
   type NormalizedMasonryArchLoad,
   type NormalizedMasonryArchModel,
-  type NormalizedArchDeviceCapacity,
-  type NormalizedArchConnectorGroup,
   type NormalizedArchReinforcement,
   type NormalizedArchReinforcementTermination,
   type NormalizedArchStationedDevice,
@@ -155,56 +151,6 @@ function positiveOrZero(value: number, label: string): number {
   return resolved;
 }
 
-function normalizeDeviceCapacity(
-  input: ArchDeviceCapacityInput | undefined,
-  resolver: UnitResolver,
-  label: string,
-): NormalizedArchDeviceCapacity {
-  return {
-    normalResistance:
-      input?.normalResistance === undefined
-        ? null
-        : positive(resolver.force(input.normalResistance), `${label}.normalResistance`),
-    shearResistance:
-      input?.shearResistance === undefined
-        ? null
-        : positive(resolver.force(input.shearResistance), `${label}.shearResistance`),
-    resultantResistance:
-      input?.resultantResistance === undefined
-        ? null
-        : positive(resolver.force(input.resultantResistance), `${label}.resultantResistance`),
-    interactionRule: input?.interactionRule ?? "independent",
-  };
-}
-
-function normalizeConnectorGroup(
-  input: ArchDeviceConnectorGroupInput | undefined,
-  resolver: UnitResolver,
-  label: string,
-): NormalizedArchConnectorGroup {
-  const connectorCount = input?.connectorCount ?? 1;
-  if (!Number.isInteger(connectorCount) || connectorCount < 1) {
-    throw new Error(`${label}.connectorCount must be a positive integer.`);
-  }
-  const suppliedWeights = input?.loadShareWeights;
-  if (suppliedWeights !== undefined && suppliedWeights.length !== connectorCount) {
-    throw new Error(`${label}.loadShareWeights must contain one value per connector.`);
-  }
-  const weights =
-    suppliedWeights?.map((weight, index) =>
-      positive(weight, `${label}.loadShareWeights[${index}]`),
-    ) ?? Array.from({ length: connectorCount }, () => 1 / connectorCount);
-  const weightSum = weights.reduce((sum, weight) => sum + weight, 0);
-  if (Math.abs(weightSum - 1) > 1e-9) {
-    throw new Error(`${label}.loadShareWeights must sum to one.`);
-  }
-  return {
-    connectorCount,
-    loadShareWeights: weights.map((weight) => weight / weightSum),
-    capacity: normalizeDeviceCapacity(input?.capacity, resolver, `${label}.capacity`),
-  };
-}
-
 function normalizeReinforcementTermination(
   input: ArchReinforcementTerminationInput | undefined,
   resolver: UnitResolver,
@@ -216,11 +162,9 @@ function normalizeReinforcementTermination(
     );
   }
   if (input.type === "arch-anchor") {
-    const station = normalizedStation(input.station, 0, `${label}.station`);
     return {
       type: "arch-anchor",
-      station,
-      connectors: normalizeConnectorGroup(input.connectors, resolver, `${label}.connectors`),
+      station: normalizedStation(input.station, 0, `${label}.station`),
     };
   }
   if (input.type === "external-anchor") {
@@ -230,7 +174,6 @@ function normalizeReinforcementTermination(
         x: finite(resolver.length(input.point.x), `${label}.point.x`),
         y: finite(resolver.length(input.point.y), `${label}.point.y`),
       },
-      capacity: normalizeDeviceCapacity(input.capacity, resolver, `${label}.capacity`),
     };
   }
   throw new Error(`${label} has an unsupported termination type.`);
@@ -238,12 +181,10 @@ function normalizeReinforcementTermination(
 
 function normalizeStationedDevice(
   input: ArchStationedDeviceInput,
-  resolver: UnitResolver,
   label: string,
 ): NormalizedArchStationedDevice {
   return {
     station: normalizedStation(input.station, 0, `${label}.station`),
-    connectors: normalizeConnectorGroup(input.connectors, resolver, `${label}.connectors`),
   };
 }
 
@@ -254,7 +195,6 @@ function normalizeStationedDevice(
  */
 function normalizeDeviatorLayout(
   input: ArchDeviatorLayoutInput | undefined,
-  resolver: UnitResolver,
   label: string,
 ): readonly NormalizedArchStationedDevice[] {
   if (input === undefined || input.type === "uniform-count") {
@@ -262,14 +202,12 @@ function normalizeDeviatorLayout(
     if (!Number.isInteger(count) || count < 1) {
       throw new Error(`${label}.deviators.count must be a positive integer.`);
     }
-    const connectors = normalizeConnectorGroup(input?.connectors, resolver, `${label}.connectors`);
     return Array.from({ length: count }, (_, index) => ({
       station: (index + 1) / (count + 1),
-      connectors,
     }));
   }
   const deviators = input.deviators.map((device, index) =>
-    normalizeStationedDevice(device, resolver, `${label}.deviators[${index}]`),
+    normalizeStationedDevice(device, `${label}.deviators[${index}]`),
   );
   if (deviators.length === 0) {
     throw new Error(
@@ -349,11 +287,7 @@ function normalizeReinforcement(
         resolver,
         `${label}.topology.right`,
       );
-      const deviators = normalizeDeviatorLayout(
-        input.topology.deviators,
-        resolver,
-        `${label}.topology`,
-      );
+      const deviators = normalizeDeviatorLayout(input.topology.deviators, `${label}.topology`);
       assertDistinctStations([
         ...(left.type === "arch-anchor"
           ? [{ station: left.station, label: `${label}.topology.left` }]
@@ -379,19 +313,13 @@ function normalizeReinforcement(
     }
     const leftReturnDeviator = normalizeStationedDevice(
       input.topology.leftReturnDeviator,
-      resolver,
       `${label}.topology.leftReturnDeviator`,
     );
     const rightReturnDeviator = normalizeStationedDevice(
       input.topology.rightReturnDeviator,
-      resolver,
       `${label}.topology.rightReturnDeviator`,
     );
-    const deviators = normalizeDeviatorLayout(
-      input.topology.deviators,
-      resolver,
-      `${label}.topology`,
-    );
+    const deviators = normalizeDeviatorLayout(input.topology.deviators, `${label}.topology`);
     assertDistinctStations([
       { station: leftReturnDeviator.station, label: `${label}.topology.leftReturnDeviator` },
       ...deviators.map((device, index) => ({

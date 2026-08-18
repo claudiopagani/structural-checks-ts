@@ -304,11 +304,9 @@ export function analyzeMasonryArchLimit(
       ? "reinforcement-failure"
       : resolvedReinforcements.hasReinforcementYield
         ? "reinforcement-yield"
-        : resolvedReinforcements.hasAnchorFailure
-          ? "anchor-capacity"
-          : resolvedReinforcements.hasInvalidContact
-            ? "instability"
-            : null;
+        : resolvedReinforcements.hasInvalidContact
+          ? "instability"
+          : null;
   const fixedBlockWrenches = combineMasonryArchBlockWrenches(
     model.geometry,
     fixedLoads.blockWrenches,
@@ -805,7 +803,7 @@ export function analyzeMasonryArchLimit(
       : collapse.status === "unbounded"
         ? "The limit problem is unbounded: no collapse occurs within the assigned mechanical model."
         : fixedReinforcementFailureMode !== null
-          ? "An assigned reinforcement, contact, or anchor limit is already exceeded before scalable loading."
+          ? "An assigned reinforcement material or contact limit is already exceeded before scalable loading."
           : collapse.status === "fixed-load-infeasible"
             ? "The fixed load state alone admits no statically admissible equilibrium."
             : collapse.status === "optimal"

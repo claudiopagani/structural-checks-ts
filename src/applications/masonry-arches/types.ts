@@ -13,9 +13,9 @@ import type {
   RigidBlockVector2D,
 } from "../../domain/masonry/rigid-blocks/types.js";
 
-export const MASONRY_ARCH_MODEL_SCHEMA_VERSION = "3.0.0";
-export const MASONRY_ARCH_EQUILIBRIUM_RESULT_SCHEMA_VERSION = "5.0.0";
-export const MASONRY_ARCH_LIMIT_ANALYSIS_RESULT_SCHEMA_VERSION = "6.0.0";
+export const MASONRY_ARCH_MODEL_SCHEMA_VERSION = "4.0.0";
+export const MASONRY_ARCH_EQUILIBRIUM_RESULT_SCHEMA_VERSION = "6.0.0";
+export const MASONRY_ARCH_LIMIT_ANALYSIS_RESULT_SCHEMA_VERSION = "7.0.0";
 
 export type MasonryArchReferenceCurve = "intrados" | "centerline" | "extrados";
 export type MasonryArchAngleUnits = "deg" | "rad";
@@ -128,7 +128,6 @@ export type MasonryArchEventKind =
   | "tendon-slackened"
   | "reinforcement-yielded"
   | "reinforcement-rupture"
-  | "anchor-capacity-reached"
   | "bonded-layer-capacity-reached"
   | "extrados-contact-active-set-changed"
   | "extrados-contact-invalid"
@@ -152,7 +151,6 @@ export type MasonryArchPhysicalLimitEventKind =
   | "crushing"
   | "reinforcement-yielded"
   | "reinforcement-rupture"
-  | "anchor-capacity-reached"
   | "bonded-layer-capacity-reached"
   | "extrados-contact-invalid";
 
@@ -372,38 +370,15 @@ export interface MasonryArchSupportsInput {
 }
 
 /**
- * Assigned resistance of one physical reinforcement device (terminal anchor, deviator, return
- * deviator, or one connector of a connector group). Every component is optional: a device without
- * any assigned resistance is reported with `not-verifiable` status and never produces a failure.
- */
-export interface ArchDeviceCapacityInput {
-  readonly normalResistance?: number;
-  readonly shearResistance?: number;
-  readonly resultantResistance?: number;
-  readonly interactionRule?: "independent" | "linear" | "elliptical";
-}
-
-/**
- * Optional group of rigid connectors through which one arch-side device (terminal arch anchor,
- * deviator, or return deviator) transfers its resultant into the masonry. The group is a pure
- * load-sharing model: every connector acts at the device location and takes the user-assigned
- * share of the device demand. The assigned capacity applies to each connector individually.
- * When no group is defined the device itself is a single connector without assigned capacity.
- */
-export interface ArchDeviceConnectorGroupInput {
-  /** Number of rigid connectors sharing the device load. Defaults to one. */
-  readonly connectorCount?: number;
-  /** Ordered load shares, one per connector, summing to one. Defaults to equal shares. */
-  readonly loadShareWeights?: readonly number[];
-  /** Resistance assigned to each connector of the group. */
-  readonly capacity?: ArchDeviceCapacityInput;
-}
-
-/**
  * Terminal arch anchor: the tendon ends at a geometrically assigned point of the arch side
  * boundary. The anchor belongs to the voussoir at that station and moves with it; the terminal
  * force is applied to the arch at the anchor location. The left and right stations are
  * independent and are not required to coincide with the springing voussoirs.
+ *
+ * The library computes the mechanical action the tendon transmits to the anchor. It deliberately
+ * does NOT model or verify the physical anchorage system that resists that action (resin anchors,
+ * bolts, plates, saddles, connector groups, pull-out): the user performs those local checks
+ * independently.
  */
 export interface ArchTerminalArchAnchorInput {
   readonly type: "arch-anchor";
@@ -412,7 +387,6 @@ export interface ArchTerminalArchAnchorInput {
    * right springing, measured by side-boundary arc length. `0 <= station <= 1`.
    */
   readonly station: number;
-  readonly connectors?: ArchDeviceConnectorGroupInput;
 }
 
 /**
@@ -422,12 +396,12 @@ export interface ArchTerminalArchAnchorInput {
  * anchor and the adjacent arch device is part of the tendon path and contributes to its length,
  * elongation, and elastic force increment. A vertical terminal branch is represented by placing
  * the anchor on the vertical through the adjacent arch device; no "vertical" model is hard-coded.
+ * There is no assigned anchor resistance: only the transmitted action is reported.
  */
 export interface ArchTerminalExternalAnchorInput {
   readonly type: "external-anchor";
   /** Fixed global point of the tendon end, expressed in the declared model units. */
   readonly point: RigidBlockPoint2D;
-  readonly capacity?: ArchDeviceCapacityInput;
 }
 
 export type ArchReinforcementTerminationInput =
@@ -438,7 +412,6 @@ export type ArchReinforcementTerminationInput =
 export interface ArchStationedDeviceInput {
   /** Normalized position along the side boundary, measured by side-boundary arc length. */
   readonly station: number;
-  readonly connectors?: ArchDeviceConnectorGroupInput;
 }
 
 /**
@@ -450,8 +423,6 @@ export type ArchDeviatorLayoutInput =
   | {
       readonly type: "uniform-count";
       readonly count: number;
-      /** Optional connector group shared by every deviator of the layout. */
-      readonly connectors?: ArchDeviceConnectorGroupInput;
     }
   | {
       readonly type: "stations";
@@ -687,37 +658,20 @@ export type NormalizedMasonryArchLoad =
   | NormalizedMasonryArchFillLoad
   | NormalizedMasonryArchPointLoad;
 
-export interface NormalizedArchDeviceCapacity {
-  readonly normalResistance: number | null;
-  readonly shearResistance: number | null;
-  readonly resultantResistance: number | null;
-  readonly interactionRule: "independent" | "linear" | "elliptical";
-}
-
-export interface NormalizedArchConnectorGroup {
-  readonly connectorCount: number;
-  readonly loadShareWeights: readonly number[];
-  /** Resistance assigned to each connector of the group. */
-  readonly capacity: NormalizedArchDeviceCapacity;
-}
-
 export type NormalizedArchReinforcementTermination =
   | {
       readonly type: "arch-anchor";
       /** Normalized side-boundary station (0 = left springing, 1 = right springing). */
       readonly station: number;
-      readonly connectors: NormalizedArchConnectorGroup;
     }
   | {
       readonly type: "external-anchor";
       readonly point: RigidBlockPoint2D;
-      readonly capacity: NormalizedArchDeviceCapacity;
     };
 
 /** One arch-side device identified by its normalized side-boundary station. */
 export interface NormalizedArchStationedDevice {
   readonly station: number;
-  readonly connectors: NormalizedArchConnectorGroup;
 }
 
 interface NormalizedArchReinforcementBase {
@@ -1019,36 +973,17 @@ export interface ArchReinforcementStateResult {
 }
 
 /**
- * Demand, capacity, and utilization of one connector of a connector group. Connector demand is
- * the assigned share of the device demand, expressed in the device local frame; the assigned
- * group capacity applies to each connector individually.
- */
-export interface ArchConnectorForceResult {
-  readonly connectorId: string;
-  readonly index: number;
-  readonly loadShare: number;
-  readonly demand: {
-    readonly normal: number | null;
-    readonly shear: number | null;
-    readonly resultant: number;
-  };
-  readonly capacity: {
-    readonly normal: number | null;
-    readonly shear: number | null;
-    readonly resultant: number | null;
-  };
-  readonly interactionRule: "independent" | "linear" | "elliptical";
-  readonly utilizationRatio: number | null;
-  readonly status: "pass" | "fail" | "not-verifiable";
-}
-
-/**
  * Force state of one physical reinforcement device. The reported resultant satisfies
  * `F = T_out * t_out - T_in * t_in` with the directions pointing along the cable into and out of
  * the device; the current scope is frictionless (`T_in === T_out`), but both tensions are
  * published separately so the contract survives a future friction model. For terminal devices
  * exactly one tension is zero and the corresponding direction is null. For external anchors the
  * local normal/tangential components are null because no arch boundary frame exists there.
+ *
+ * This is a pure mechanical-action result: the library computes the action the tendon transmits
+ * to the device and deliberately does NOT model or verify the physical anchorage (resin anchors,
+ * bolts, plates, connector groups, pull-out). No device capacity, utilization, or PASS/FAIL
+ * status exists.
  */
 export interface ArchDeviceForceResult {
   readonly deviceId: string;
@@ -1073,28 +1008,29 @@ export interface ArchDeviceForceResult {
    */
   readonly resultantForce: RigidBlockVector2D;
   readonly resultant: number;
-  /** Positive toward the arch interior; null for external anchors. */
-  readonly normalComponent: number | null;
-  /** Positive along increasing side station; null for external anchors. */
-  readonly tangentialComponent: number | null;
-  readonly demand: {
-    readonly normal: number | null;
-    readonly shear: number | null;
-    readonly resultant: number;
-  };
-  readonly capacity: {
-    readonly normal: number | null;
-    readonly shear: number | null;
-    readonly resultant: number | null;
-  };
-  readonly interactionRule: "independent" | "linear" | "elliptical";
-  readonly utilizationRatio: number | null;
-  readonly status: "pass" | "fail" | "not-verifiable";
   /**
-   * Per-connector results when the device carries a multi-connector group; null otherwise. The
-   * connector demands sum to the device demand.
+   * Normalized resultant direction `resultantForce / |resultantForce|`; null when the resultant
+   * is zero. Together with `resultant` this makes magnitude and direction immediately consumable
+   * by an engineering UI.
    */
-  readonly connectors: readonly ArchConnectorForceResult[] | null;
+  readonly resultantDirection: RigidBlockVector2D | null;
+  /**
+   * Angle of the resultant from the global +x axis, counter-clockwise, in radians; null when the
+   * resultant is zero.
+   */
+  readonly resultantAngle: number | null;
+  /**
+   * Component of the resultant along the local device frame normal, positive toward the arch
+   * interior; null for external anchors. A secondary mechanical interpretation of the global
+   * resultant — it never drives a capacity check.
+   */
+  readonly normalComponent: number | null;
+  /**
+   * Component of the resultant along the local device frame tangent, positive along increasing
+   * side station; null for external anchors. A secondary mechanical interpretation of the global
+   * resultant — it never drives a capacity check.
+   */
+  readonly tangentialComponent: number | null;
 }
 
 export interface ArchContactForceResult {
@@ -1114,6 +1050,12 @@ export interface ArchContactForceResult {
   readonly state: "in-contact" | "separated" | "contact-cannot-enforce-path";
 }
 
+/**
+ * Action transmitted by an open tendon to the external structural system at one fixed external
+ * anchor. It is a pure mechanical result: fixed point, cable tension, and the transmitted force
+ * with its magnitude and direction. There is no anchor capacity, utilization, or status — the
+ * external system's resistance is verified outside this library.
+ */
 export interface ArchExternalAnchorForceResult {
   readonly deviceId: string;
   readonly reinforcementId: string;
@@ -1127,14 +1069,10 @@ export interface ArchExternalAnchorForceResult {
    */
   readonly forceTransmittedToExternalSystem: RigidBlockVector2D;
   readonly resultant: number;
-  readonly demand: {
-    readonly resultant: number;
-  };
-  readonly capacity: {
-    readonly resultant: number | null;
-  };
-  readonly utilizationRatio: number | null;
-  readonly status: "pass" | "fail" | "not-verifiable";
+  /** Normalized direction of the transmitted force; null when the force is zero. */
+  readonly resultantDirection: RigidBlockVector2D | null;
+  /** Angle of the transmitted force from the global +x axis, counter-clockwise, in radians. */
+  readonly resultantAngle: number | null;
 }
 
 export interface BondedLayerInterfaceStateResult {
@@ -1290,7 +1228,6 @@ export type MasonryArchFailureMode =
   | "masonry-crushing"
   | "reinforcement-yield"
   | "reinforcement-failure"
-  | "anchor-capacity"
   | "instability"
   | "mixed"
   | "fixed-load-infeasible"

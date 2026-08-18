@@ -178,12 +178,11 @@ automatically fail the design state. `plastic-sliding` and the perfectly-plastic
 `compression-strength-reached`/`crushing` events continue the path by default, so the system may
 redistribute and still reach `lambda = 1` with `PASS`. Terminal limits without an assigned
 post-limit law remain default failures (`reinforcement-yielded` because no post-yield law is
-assigned, `reinforcement-rupture`, `anchor-capacity-reached`, `bonded-layer-capacity-reached`,
-`extrados-contact-invalid`), and every `terminal-physical-event` always fails the design check. A
-caller can opt into a stricter policy, for example `designFailureEvents: ["plastic-sliding"]` to
-treat the first plastic sliding as a design failure. The configured kinds are added to the default
-set: `designFailureEvents` can only make the policy stricter and can never be used to remove a
-default failure.
+assigned, `reinforcement-rupture`, `bonded-layer-capacity-reached`, `extrados-contact-invalid`), and
+every `terminal-physical-event` always fails the design check. A caller can opt into a stricter
+policy, for example `designFailureEvents: ["plastic-sliding"]` to treat the first plastic sliding as
+a design failure. The configured kinds are added to the default set: `designFailureEvents` can only
+make the policy stricter and can never be used to remove a default failure.
 
 Every criterion carries only quantities the producing analysis actually knows:
 

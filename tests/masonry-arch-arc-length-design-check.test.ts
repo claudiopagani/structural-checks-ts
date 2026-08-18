@@ -5,7 +5,6 @@ import {
   analyzeMasonryArchPath,
   createMasonryArch,
   type AnalyzeMasonryArchPathOptions,
-  type ArchDeviceCapacityInput,
   type ArchReinforcementInput,
   type BondedLayerReinforcementInput,
   type MasonryDeformableInterfaceLawInput,
@@ -129,7 +128,7 @@ const designOptions: Omit<AnalyzeMasonryArchPathOptions, "control"> = {
 const INTRA = { side: "intrados" } as const;
 
 function passiveTendon(
-  overrides: { readonly deviatorCapacity?: ArchDeviceCapacityInput } = {},
+  overrides: { readonly yieldStrength?: number } = {},
 ): ArchReinforcementInput {
   return {
     id: "P",
@@ -137,20 +136,13 @@ function passiveTendon(
     area: 0.001,
     elasticModulus: 200_000_000,
     initialForce: 0,
-    yieldStrength: 450_000,
+    yieldStrength: overrides.yieldStrength ?? 450_000,
     tensileStrength: 550_000,
     topology: {
       type: "open",
       left: { type: "arch-anchor", station: 0 },
       right: { type: "arch-anchor", station: 1 },
-      deviators:
-        overrides.deviatorCapacity === undefined
-          ? { type: "uniform-count", count: 1 }
-          : {
-              type: "uniform-count",
-              count: 1,
-              connectors: { capacity: overrides.deviatorCapacity },
-            },
+      deviators: { type: "uniform-count", count: 1 },
     },
   };
 }
@@ -269,21 +261,22 @@ void test("8. reinforcement rupture before lambda one fails with the verificatio
   assert.ok(result.outputs.capacity.lambdaVerificationLimit < 1);
 });
 
-void test("9. anchor capacity reached before lambda one fails with the verification limit", () => {
+void test("9. tendon yielding before lambda one fails with the verification limit", () => {
+  // Device resistance is no longer part of the model: this design-blocking event is the tendon
+  // MATERIAL yield. The sliding-driven asymmetric mechanism of the left-half patch activates
+  // the passive tendon before lambda one; the tiny assigned yield strength is crossed as soon
+  // as the tendon activates.
   const result = analyzeMasonryArchPath(
     arch({
-      reinforcements: [
-        passiveTendon({
-          deviatorCapacity: { resultantResistance: 0.01, interactionRule: "independent" },
-        }),
-      ],
+      reinforcements: [passiveTendon({ yieldStrength: 0.5 })],
     }),
     designOptions,
   );
   assert.equal(result.outputs.engineeringAssessment?.status, "FAIL");
+  assert.equal(result.outputs.engineeringAssessment?.failureMode, "reinforcement-yield");
   assert.ok(
     result.outputs.engineeringAssessment.failedCriteria.some(
-      (item) => item.kind === "anchor-capacity-reached",
+      (item) => item.kind === "reinforcement-yielded",
     ),
   );
   assert.ok(result.outputs.capacity.lambdaVerificationLimit !== null);

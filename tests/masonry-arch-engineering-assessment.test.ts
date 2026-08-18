@@ -153,8 +153,8 @@ function loadControlledDesignPath(
   });
 }
 
-/** Path model whose crown deviator exceeds its tiny assigned capacity during the fixed preload. */
-function anchorCapacityPathModel() {
+/** Path model whose active tendon yields during the fixed preload (material check only). */
+function yieldingTendonPathModel() {
   return pathModel({
     pointForce: { x: 0, y: 100 },
     reinforcements: [
@@ -164,19 +164,15 @@ function anchorCapacityPathModel() {
         area: 0.001,
         elasticModulus: 200_000_000,
         // T0 = 20 kN keeps the tendon active through the self-weight closure of the fixed
-        // preload; the 5 kN deviator capacity is crossed on the second preload step.
+        // preload; the 4 MPa assigned yield strength is crossed on the second preload step
+        // (the preload force reaches ~4.12 kN on a 1e-3 m2 area).
         initialForce: 20,
+        yieldStrength: 4000,
         topology: {
           type: "open",
           left: { type: "arch-anchor", station: 0 },
           right: { type: "arch-anchor", station: 1 },
-          deviators: {
-            type: "uniform-count",
-            count: 1,
-            connectors: {
-              capacity: { resultantResistance: 5, interactionRule: "independent" },
-            },
-          },
+          deviators: { type: "uniform-count", count: 1 },
         },
       },
     ],
@@ -238,7 +234,7 @@ void test("A. verified equilibrium: assessment PASS with no failed criteria", ()
     assessment.question,
     "does-the-assigned-load-state-admit-a-verified-statically-admissible-equilibrium",
   );
-  assert.equal(result.metadata.schemaVersion, "5.0.0");
+  assert.equal(result.metadata.schemaVersion, "6.0.0");
 });
 
 void test("B. compression not verified: global infeasibility without fabricated compression criteria", () => {
@@ -393,7 +389,10 @@ void test("D2. reinforcement rupture: FAIL with reinforcement-rupture from the f
   assert.equal(criterion.utilizationRatio, tensile.utilizationRatio);
 });
 
-void test("E. anchor capacity: FAIL with the anchor entity and its check data", () => {
+void test("E. device forces are pure mechanical actions without local resistance semantics", () => {
+  // The solver computes the reaction each device transmits. It deliberately contains no
+  // anchorage/device capacity, utilization, or PASS/FAIL: the device results carry only the
+  // mechanical action, and the equilibrium assessment cannot fail because of a device resistance.
   const result = analyzeMasonryArchEquilibrium(
     equilibriumModel("assess-e", {
       reinforcements: [
@@ -407,32 +406,40 @@ void test("E. anchor capacity: FAIL with the anchor entity and its check data", 
             type: "open",
             left: { type: "arch-anchor", station: 0 },
             right: { type: "arch-anchor", station: 1 },
-            deviators: {
-              type: "uniform-count",
-              count: 1,
-              connectors: {
-                capacity: { resultantResistance: 0.1, interactionRule: "independent" },
-              },
-            },
+            deviators: { type: "uniform-count", count: 1 },
           },
         },
       ],
     }),
     { loadFactorsByCaseId: { G1: 1, G2: 1, Q1: 0.2 } },
   );
-  const assessment = result.outputs.engineeringAssessment;
-  assert.equal(assessment.status, "FAIL");
-  assert.equal(result.status, "not-verified");
-  assert.equal(assessment.failureMode, "anchor-capacity");
-  assert.deepEqual(kinds(assessment.failedCriteria), ["anchor-capacity-reached"]);
-  const criterion = assessment.failedCriteria[0]!;
-  assert.deepEqual(criterion.entityIds, ["PT:D-001"]);
-  assert.equal(criterion.lambda, 1);
-  const anchor = result.outputs.deviceForces.find((item) => item.deviceId === "PT:D-001")!;
-  assert.equal(anchor.status, "fail");
-  assert.equal(criterion.demand, anchor.demand.resultant);
-  assert.equal(criterion.capacity, anchor.capacity.resultant);
-  assert.equal(criterion.utilizationRatio, anchor.utilizationRatio);
+  const crown = result.outputs.deviceForces.find((item) => item.deviceId === "PT:D-001")!;
+  assert.equal(crown.kind, "deviator");
+  assert.ok(crown.resultant > 0, "the deviator reaction is reported");
+  assert.ok(
+    Math.abs(Math.hypot(crown.resultantForce.x, crown.resultantForce.y) - crown.resultant) <= 1e-12,
+  );
+  assert.ok(crown.resultantDirection !== null);
+  assert.ok(
+    Math.abs(Math.hypot(crown.resultantDirection.x, crown.resultantDirection.y) - 1) <= 1e-12,
+  );
+  assert.ok(crown.resultantAngle !== null);
+  assert.ok(
+    Math.abs(crown.resultantAngle - Math.atan2(crown.resultantForce.y, crown.resultantForce.x)) <=
+      1e-12,
+  );
+  // No anchorage semantics exist anywhere in the result.
+  for (const device of result.outputs.deviceForces) {
+    assert.equal("capacity" in device, false);
+    assert.equal("utilizationRatio" in device, false);
+    assert.equal("status" in device, false);
+    assert.equal("connectors" in device, false);
+  }
+  for (const anchor of result.outputs.externalAnchorForces) {
+    assert.equal("capacity" in anchor, false);
+    assert.equal("utilizationRatio" in anchor, false);
+    assert.equal("status" in anchor, false);
+  }
 });
 
 void test("F. bonded layer capacity: the failed criterion drives the result status to not-verified", () => {
@@ -628,27 +635,24 @@ void test("coherence: equilibrium and path use the same reinforcement criterion 
   );
 });
 
-void test("coherence: equilibrium and path use the same anchor criterion kind", () => {
+void test("coherence: equilibrium and path use the same reinforcement-yield criterion kind", () => {
+  // Replaces the removed anchor-capacity coherence test: local device resistance no longer
+  // exists, so the shared reinforcement criterion is the tendon material yield.
   const equilibrium = analyzeMasonryArchEquilibrium(
     equilibriumModel("coherence-anchor-eq", {
       reinforcements: [
         {
           id: "PT",
           ...INTRA,
-          area: 0.001,
+          area: 1e-6,
           elasticModulus: 200_000_000,
-          initialForce: 1,
+          initialForce: 0.25,
+          yieldStrength: 200_000,
           topology: {
             type: "open",
             left: { type: "arch-anchor", station: 0 },
             right: { type: "arch-anchor", station: 1 },
-            deviators: {
-              type: "uniform-count",
-              count: 1,
-              connectors: {
-                capacity: { resultantResistance: 0.1, interactionRule: "independent" },
-              },
-            },
+            deviators: { type: "uniform-count", count: 1 },
           },
         },
       ],
@@ -660,22 +664,17 @@ void test("coherence: equilibrium and path use the same anchor criterion kind", 
       pointForce: { x: 0, y: 100 },
       reinforcements: [
         {
-          id: "PT",
+          id: "weak",
           ...INTRA,
           area: 0.001,
           elasticModulus: 200_000_000,
-          initialForce: 1,
+          initialForce: 0.5,
+          yieldStrength: 100,
           topology: {
             type: "open",
             left: { type: "arch-anchor", station: 0 },
             right: { type: "arch-anchor", station: 1 },
-            deviators: {
-              type: "uniform-count",
-              count: 1,
-              connectors: {
-                capacity: { resultantResistance: 0.1, interactionRule: "independent" },
-              },
-            },
+            deviators: { type: "uniform-count", count: 1 },
           },
         },
       ],
@@ -683,11 +682,11 @@ void test("coherence: equilibrium and path use the same anchor criterion kind", 
   );
   assert.ok(
     kinds(equilibrium.outputs.engineeringAssessment.failedCriteria).includes(
-      "anchor-capacity-reached",
+      "reinforcement-yielded",
     ),
   );
   assert.ok(
-    kinds(path.outputs.engineeringAssessment!.failedCriteria).includes("anchor-capacity-reached"),
+    kinds(path.outputs.engineeringAssessment!.failedCriteria).includes("reinforcement-yielded"),
   );
 });
 
@@ -908,7 +907,7 @@ void test("path design assessment reports the shared shape with lambda and requi
   // mode keeps its own semantics and remains available on the outputs.
   assert.equal(assessment.failureMode, null);
   assert.equal(result.outputs.failureMode, "no-collapse-within-model");
-  assert.equal(result.metadata.schemaVersion, "12.0.0");
+  assert.equal(result.metadata.schemaVersion, "13.0.0");
 });
 
 void test("D3. reinforcement rupture from both sub-checks preserves one criterion per check", () => {
@@ -1196,51 +1195,11 @@ void test("O2b. path reinforcement criteria copy the step's check data", () => {
   assert.equal(assessment.failureMode, "mixed");
 });
 
-void test("O3. path anchor and bonded-layer criteria carry step-coherent numeric data", () => {
-  const anchorResult = loadControlledDesignPath(
-    pathModel({
-      pointForce: { x: 0, y: 100 },
-      reinforcements: [
-        {
-          id: "PT",
-          ...INTRA,
-          area: 0.001,
-          elasticModulus: 200_000_000,
-          initialForce: 1,
-          topology: {
-            type: "open",
-            left: { type: "arch-anchor", station: 0 },
-            right: { type: "arch-anchor", station: 1 },
-            deviators: {
-              type: "uniform-count",
-              count: 1,
-              connectors: {
-                capacity: { resultantResistance: 0.1, interactionRule: "independent" },
-              },
-            },
-          },
-        },
-      ],
-    }),
-  );
-  const anchorAssessment = anchorResult.outputs.engineeringAssessment;
-  assert.equal(anchorAssessment?.status, "FAIL");
-  const anchorCriterion = anchorAssessment.failedCriteria.find(
-    (item) => item.kind === "anchor-capacity-reached",
-  )!;
-  const anchorEvent = anchorResult.outputs.events.find(
-    (item) => item.kind === "anchor-capacity-reached",
-  )!;
-  const anchorStep = anchorResult.outputs.steps.find((item) => item.step === anchorEvent.step)!;
-  const anchor = anchorStep.state.deviceForces.find(
-    (item) => item.deviceId === anchorCriterion.entityIds[0],
-  )!;
-  assert.equal(anchorCriterion.demand, anchor.demand.resultant);
-  assert.equal(anchorCriterion.capacity, anchor.capacity.resultant);
-  assert.equal(anchorCriterion.utilizationRatio, anchor.utilizationRatio);
-
-  // The bonded-layer part exercises the same step-coherent copy for the static-recovery state of
-  // the equilibrium analysis, whose at-capacity interface is the event's own entity.
+void test("O3. path bonded-layer criteria carry step-coherent numeric data", () => {
+  // The former anchor part of this test is removed with the anchorage model: device forces are
+  // pure mechanical actions with no capacity semantics. The bonded-layer part exercises the same
+  // step-coherent copy for the static-recovery state of the equilibrium analysis, whose
+  // at-capacity interface is the event's own entity.
   const layerResult = analyzeMasonryArchEquilibrium(
     equilibriumModel("o3-layer", {
       loads: [
@@ -1282,17 +1241,17 @@ void test("O3. path anchor and bonded-layer criteria carry step-coherent numeric
 
 void test("R1. strict sliding policy preserves the default design-failure set", () => {
   // The configured kinds ADD to the always-active default set. This model reaches the assigned
-  // deviator capacity during the fixed preload and never slides: under a replace semantics the
-  // strict sliding configuration would have removed every default failure, the path would have
-  // continued past the device-capacity limit, and the design would have PASSed at lambda one.
-  const result = designPath(anchorCapacityPathModel(), {
+  // tendon yield strength during the fixed preload and never slides: under a replace semantics
+  // the strict sliding configuration would have removed every default failure, the path would
+  // have continued past the yield limit, and the design would have PASSed at lambda one.
+  const result = designPath(yieldingTendonPathModel(), {
     designFailureEvents: ["plastic-sliding"],
   });
   const assessment = result.outputs.engineeringAssessment;
   assert.equal(assessment?.status, "FAIL");
   assert.equal(result.status, "not-verified");
   assert.ok(
-    kinds(assessment.failedCriteria).includes("anchor-capacity-reached"),
+    kinds(assessment.failedCriteria).includes("reinforcement-yielded"),
     "the preserved default failure drives the verdict",
   );
   assert.ok(
@@ -1301,31 +1260,31 @@ void test("R1. strict sliding policy preserves the default design-failure set", 
   );
 });
 
-void test("R2. anchor capacity reached remains a failure under the strict sliding policy", () => {
-  const result = designPath(anchorCapacityPathModel(), {
+void test("R2. tendon yielding remains a failure under the strict sliding policy", () => {
+  const result = designPath(yieldingTendonPathModel(), {
     designFailureEvents: ["plastic-sliding"],
   });
   const assessment = result.outputs.engineeringAssessment;
   assert.equal(assessment?.status, "FAIL");
   assert.equal(result.status, "not-verified");
-  assert.ok(kinds(assessment.failedCriteria).includes("anchor-capacity-reached"));
-  assert.equal(assessment.failureMode, "anchor-capacity");
+  assert.ok(kinds(assessment.failedCriteria).includes("reinforcement-yielded"));
+  assert.equal(assessment.failureMode, "reinforcement-yield");
   assert.equal(
     result.outputs.convergenceInfo.termination,
     "terminal-physical-event",
-    "the default device-capacity failure still terminates the path",
+    "the default material-yield failure still terminates the path",
   );
 });
 
 void test("R3. an empty designFailureEvents array keeps every default failure active", () => {
   // An empty configuration is a no-op addition, not a request to disable the default set.
-  const result = designPath(anchorCapacityPathModel(), {
+  const result = designPath(yieldingTendonPathModel(), {
     designFailureEvents: [],
   });
   const assessment = result.outputs.engineeringAssessment;
   assert.equal(assessment?.status, "FAIL");
   assert.equal(result.status, "not-verified");
-  assert.ok(kinds(assessment.failedCriteria).includes("anchor-capacity-reached"));
+  assert.ok(kinds(assessment.failedCriteria).includes("reinforcement-yielded"));
 });
 
 void test("R4. terminal physical events remain failures regardless of designFailureEvents", () => {

@@ -120,7 +120,6 @@ family to its mode:
 - reinforcement (`reinforcement-yielded`, `reinforcement-rupture`, `bonded-layer-capacity-reached`)
   -> `reinforcement-failure` when rupture or bonded-layer capacity is present, `reinforcement-yield`
   when only yielding is present;
-- anchor -> `anchor-capacity`;
 - instability -> `instability`.
 
 Several distinct families -> `mixed`. `equilibrium-infeasible` and kinds without a physical family

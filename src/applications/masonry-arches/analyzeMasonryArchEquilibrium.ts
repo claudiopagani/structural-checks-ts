@@ -27,7 +27,6 @@ import {
   MASONRY_ARCH_EQUILIBRIUM_RESULT_SCHEMA_VERSION,
   type AnalyzeMasonryArchEquilibriumOptions,
   type ArchContactForceResult,
-  type ArchDeviceForceResult,
   type ArchReinforcementStateResult,
   type BondedLayerStateResult,
   type MasonryArchEngineeringAssessment,
@@ -191,7 +190,6 @@ export function recoverMasonryArchInterfaceState(
 function equilibriumFailedCriteria(
   interfaces: readonly MasonryArchInterfaceStateResult[],
   reinforcementState: readonly ArchReinforcementStateResult[],
-  deviceForces: readonly ArchDeviceForceResult[],
   contactForces: readonly ArchContactForceResult[],
   bondedLayerState: readonly BondedLayerStateResult[],
 ): MasonryArchEngineeringCriterion[] {
@@ -273,30 +271,6 @@ function equilibriumFailedCriteria(
       );
     }
   }
-  for (const device of deviceForces) {
-    const failingConnectors =
-      device.connectors?.filter((connector) => connector.status === "fail") ?? [];
-    if (device.status === "fail") {
-      criteria.push(
-        createMasonryArchEngineeringCriterion("anchor-capacity-reached", [device.deviceId], {
-          lambda: 1,
-          demand: device.demand.resultant,
-          capacity: device.capacity.resultant,
-          utilizationRatio: device.utilizationRatio,
-        }),
-      );
-    }
-    for (const connector of failingConnectors) {
-      criteria.push(
-        createMasonryArchEngineeringCriterion("anchor-capacity-reached", [connector.connectorId], {
-          lambda: 1,
-          demand: connector.demand.resultant,
-          capacity: connector.capacity.resultant,
-          utilizationRatio: connector.utilizationRatio,
-        }),
-      );
-    }
-  }
   for (const contact of contactForces) {
     if (contact.state === "contact-cannot-enforce-path") {
       criteria.push(
@@ -340,7 +314,6 @@ function buildEquilibriumEngineeringAssessment(
   residualSatisfied: boolean,
   interfaces: readonly MasonryArchInterfaceStateResult[],
   reinforcementState: readonly ArchReinforcementStateResult[],
-  deviceForces: readonly ArchDeviceForceResult[],
   contactForces: readonly ArchContactForceResult[],
   bondedLayerState: readonly BondedLayerStateResult[],
 ): MasonryArchEngineeringAssessment {
@@ -361,7 +334,6 @@ function buildEquilibriumEngineeringAssessment(
     failedCriteria = equilibriumFailedCriteria(
       interfaces,
       reinforcementState,
-      deviceForces,
       contactForces,
       bondedLayerState,
     );
@@ -462,7 +434,6 @@ export function analyzeMasonryArchEquilibrium(
     residualSatisfied,
     interfaces,
     resolvedReinforcements.reinforcementState,
-    resolvedReinforcements.deviceForces,
     resolvedReinforcements.contactForces,
     bondedRecovery.bondedLayerState,
   );

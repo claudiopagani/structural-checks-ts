@@ -13,7 +13,6 @@ import type {
 import { assertExplicitUnitSystem, createUnitResolver } from "../../domain/units/UnitSystem.js";
 import { evaluateMasonryArchCurveAtStation } from "./geometry.js";
 import type {
-  ArchConnectorForceResult,
   ArchContactForceResult,
   ArchDeviceForceResult,
   ArchExternalAnchorForceResult,
@@ -23,8 +22,6 @@ import type {
   ArchReinforcementStateResult,
   MasonryArchBlockLoadResult,
   MasonryArchPrescribedConfigurationInput,
-  NormalizedArchConnectorGroup,
-  NormalizedArchDeviceCapacity,
   NormalizedArchReinforcement,
   NormalizedMasonryArchGeometry,
   NormalizedMasonryArchBlockDisplacement,
@@ -37,13 +34,6 @@ const GAUSS_NODES = [
 const GAUSS_WEIGHTS = [
   0.362683783378362, 0.3137066458778873, 0.2223810344533745, 0.1012285362903763,
 ] as const;
-
-const EMPTY_CAPACITY: NormalizedArchDeviceCapacity = Object.freeze({
-  normalResistance: null,
-  shearResistance: null,
-  resultantResistance: null,
-  interactionRule: "independent",
-});
 
 interface SideArcStationing {
   readonly totalLength: number;
@@ -65,8 +55,6 @@ interface DeviceDescriptor {
   readonly kind: ArchReinforcementDeviceGeometryResult["kind"];
   readonly terminationSide: "left" | "right" | null;
   readonly index: number | null;
-  readonly capacity: NormalizedArchDeviceCapacity;
-  readonly connectors: NormalizedArchConnectorGroup | null;
 }
 
 interface MutablePathNode {
@@ -110,7 +98,6 @@ export interface ResolvedArchReinforcements {
   readonly externalAnchorForces: readonly ArchExternalAnchorForceResult[];
   readonly blockWrenches: readonly MasonryArchBlockLoadResult[];
   readonly warnings: readonly string[];
-  readonly hasAnchorFailure: boolean;
   readonly hasReinforcementYield: boolean;
   readonly hasReinforcementFailure: boolean;
   readonly hasInvalidContact: boolean;
@@ -437,150 +424,35 @@ function activeExtradosPathNodes(nodes: readonly MutablePathNode[]): {
   };
 }
 
-function capacityUtilization(
-  capacity: NormalizedArchDeviceCapacity,
-  demand: {
-    readonly normal: number | null;
-    readonly shear: number | null;
-    readonly resultant: number;
-  },
-): {
-  readonly utilizationRatio: number | null;
-  readonly status: "pass" | "fail" | "not-verifiable";
-} {
-  const normalRatio =
-    capacity.normalResistance === null || demand.normal === null
-      ? null
-      : demand.normal / capacity.normalResistance;
-  const shearRatio =
-    capacity.shearResistance === null || demand.shear === null
-      ? null
-      : demand.shear / capacity.shearResistance;
-  const resultantRatio =
-    capacity.resultantResistance === null ? null : demand.resultant / capacity.resultantResistance;
-  const componentRatios = [normalRatio, shearRatio].filter(
-    (value): value is number => value !== null,
-  );
-  let componentInteraction: number | null = null;
-  if (componentRatios.length > 0) {
-    if (capacity.interactionRule === "linear" && normalRatio !== null && shearRatio !== null) {
-      componentInteraction = normalRatio + shearRatio;
-    } else if (
-      capacity.interactionRule === "elliptical" &&
-      normalRatio !== null &&
-      shearRatio !== null
-    ) {
-      componentInteraction = Math.hypot(normalRatio, shearRatio);
-    } else {
-      componentInteraction = Math.max(...componentRatios);
-    }
-  }
-  const ratios = [componentInteraction, resultantRatio].filter(
-    (value): value is number => value !== null,
-  );
-  if (ratios.length === 0) return { utilizationRatio: null, status: "not-verifiable" };
-  const utilizationRatio = Math.max(...ratios);
-  return { utilizationRatio, status: utilizationRatio <= 1 + 1e-12 ? "pass" : "fail" };
-}
-
-function connectorResults(
-  deviceId: string,
-  group: NormalizedArchConnectorGroup | null,
-  demand: {
-    readonly normal: number | null;
-    readonly shear: number | null;
-    readonly resultant: number;
-  },
-): {
-  readonly connectors: readonly ArchConnectorForceResult[] | null;
-  readonly worstStatus: "pass" | "fail" | "not-verifiable";
-  readonly worstUtilization: number | null;
-} {
-  if (group === null || group.connectorCount <= 1)
-    return { connectors: null, worstStatus: "not-verifiable", worstUtilization: null };
-  const connectors = group.loadShareWeights.map((share, index): ArchConnectorForceResult => {
-    const connectorDemand = {
-      normal: demand.normal === null ? null : share * demand.normal,
-      shear: demand.shear === null ? null : share * demand.shear,
-      resultant: share * demand.resultant,
-    };
-    const check = capacityUtilization(group.capacity, connectorDemand);
-    return {
-      connectorId: `${deviceId}:C-${String(index).padStart(3, "0")}`,
-      index,
-      loadShare: share,
-      demand: connectorDemand,
-      capacity: {
-        normal: group.capacity.normalResistance,
-        shear: group.capacity.shearResistance,
-        resultant: group.capacity.resultantResistance,
-      },
-      interactionRule: group.capacity.interactionRule,
-      utilizationRatio: check.utilizationRatio,
-      status: check.status,
-    };
-  });
-  const worstStatus = connectors.some((item) => item.status === "fail")
-    ? ("fail" as const)
-    : connectors.some((item) => item.status === "pass")
-      ? ("pass" as const)
-      : ("not-verifiable" as const);
-  const utilizations = connectors
-    .map((item) => item.utilizationRatio)
-    .filter((value): value is number => value !== null);
-  return {
-    connectors,
-    worstStatus,
-    worstUtilization: utilizations.length === 0 ? null : Math.max(...utilizations),
-  };
-}
-
-function archAnchorDevice(
-  side: "left" | "right",
-  connectors: NormalizedArchConnectorGroup,
-): DeviceDescriptor {
+function archAnchorDevice(side: "left" | "right"): DeviceDescriptor {
   return {
     kind: "terminal-arch-anchor",
     terminationSide: side,
     index: null,
-    capacity: connectors.connectorCount <= 1 ? connectors.capacity : EMPTY_CAPACITY,
-    connectors,
   };
 }
 
-function externalAnchorDevice(
-  side: "left" | "right",
-  capacity: NormalizedArchDeviceCapacity,
-): DeviceDescriptor {
+function externalAnchorDevice(side: "left" | "right"): DeviceDescriptor {
   return {
     kind: "external-anchor",
     terminationSide: side,
     index: null,
-    capacity,
-    connectors: null,
   };
 }
 
-function deviatorDevice(index: number, connectors: NormalizedArchConnectorGroup): DeviceDescriptor {
+function deviatorDevice(index: number): DeviceDescriptor {
   return {
     kind: "deviator",
     terminationSide: null,
     index,
-    capacity: connectors.connectorCount <= 1 ? connectors.capacity : EMPTY_CAPACITY,
-    connectors,
   };
 }
 
-function returnDeviatorDevice(
-  side: "left" | "right",
-  connectors: NormalizedArchConnectorGroup,
-): DeviceDescriptor {
+function returnDeviatorDevice(side: "left" | "right"): DeviceDescriptor {
   return {
     kind: "return-deviator",
     terminationSide: side,
     index: null,
-    capacity: connectors.connectorCount <= 1 ? connectors.capacity : EMPTY_CAPACITY,
-    connectors,
   };
 }
 
@@ -626,7 +498,7 @@ function buildReinforcementNodes(
         stationing,
         topology.leftReturnDeviator.station * stationing.totalLength,
         {
-          device: returnDeviatorDevice("left", topology.leftReturnDeviator.connectors),
+          device: returnDeviatorDevice("left"),
         },
       );
     } else if (topology.left.type === "arch-anchor") {
@@ -637,20 +509,16 @@ function buildReinforcementNodes(
         stationing,
         topology.left.station * stationing.totalLength,
         {
-          device: archAnchorDevice("left", topology.left.connectors),
+          device: archAnchorDevice("left"),
         },
       );
     } else {
-      addExternalPathNode(
-        nodes,
-        topology.left.point,
-        externalAnchorDevice("left", topology.left.capacity),
-      );
+      addExternalPathNode(nodes, topology.left.point, externalAnchorDevice("left"));
     }
 
     topology.deviators.forEach((device, index) => {
       addArchPathNode(nodes, geometry, side, stationing, device.station * stationing.totalLength, {
-        device: deviatorDevice(index + 1, device.connectors),
+        device: deviatorDevice(index + 1),
       });
     });
 
@@ -662,7 +530,7 @@ function buildReinforcementNodes(
         stationing,
         topology.rightReturnDeviator.station * stationing.totalLength,
         {
-          device: returnDeviatorDevice("right", topology.rightReturnDeviator.connectors),
+          device: returnDeviatorDevice("right"),
         },
       );
     } else if (topology.right.type === "arch-anchor") {
@@ -673,15 +541,11 @@ function buildReinforcementNodes(
         stationing,
         topology.right.station * stationing.totalLength,
         {
-          device: archAnchorDevice("right", topology.right.connectors),
+          device: archAnchorDevice("right"),
         },
       );
     } else {
-      addExternalPathNode(
-        nodes,
-        topology.right.point,
-        externalAnchorDevice("right", topology.right.capacity),
-      );
+      addExternalPathNode(nodes, topology.right.point, externalAnchorDevice("right"));
     }
 
     nodes.forEach((node, index) => {
@@ -710,11 +574,7 @@ function buildReinforcementNodes(
   }
 
   if (topology.left.type === "external-anchor") {
-    addExternalPathNode(
-      nodes,
-      topology.left.point,
-      externalAnchorDevice("left", topology.left.capacity),
-    );
+    addExternalPathNode(nodes, topology.left.point, externalAnchorDevice("left"));
   } else {
     addArchPathNode(
       nodes,
@@ -723,7 +583,7 @@ function buildReinforcementNodes(
       stationing,
       topology.left.station * stationing.totalLength,
       {
-        device: archAnchorDevice("left", topology.left.connectors),
+        device: archAnchorDevice("left"),
       },
     );
   }
@@ -739,11 +599,7 @@ function buildReinforcementNodes(
     );
   }
   if (topology.right.type === "external-anchor") {
-    addExternalPathNode(
-      nodes,
-      topology.right.point,
-      externalAnchorDevice("right", topology.right.capacity),
-    );
+    addExternalPathNode(nodes, topology.right.point, externalAnchorDevice("right"));
   } else {
     addArchPathNode(
       nodes,
@@ -752,7 +608,7 @@ function buildReinforcementNodes(
       stationing,
       topology.right.station * stationing.totalLength,
       {
-        device: archAnchorDevice("right", topology.right.connectors),
+        device: archAnchorDevice("right"),
       },
     );
   }
@@ -965,21 +821,8 @@ function resolveSingleReinforcement(
         device.terminationSide,
         device.index,
       );
-      const demand = {
-        normal: normalComponent === null ? null : Math.abs(normalComponent),
-        shear: tangentialComponent === null ? null : Math.abs(tangentialComponent),
-        resultant,
-      };
-      const connectors = connectorResults(deviceId, device.connectors, demand);
-      const deviceCapacityCheck = capacityUtilization(device.capacity, demand);
-      const status =
-        device.capacity.resultantResistance === null &&
-        device.capacity.normalResistance === null &&
-        device.capacity.shearResistance === null &&
-        connectors.connectors !== null
-          ? connectors.worstStatus
-          : deviceCapacityCheck.status;
-      const utilizationRatio = deviceCapacityCheck.utilizationRatio ?? connectors.worstUtilization;
+      const resultantDirection = resultant > 0 ? scale2d(force, 1 / resultant) : null;
+      const resultantAngle = resultant > 0 ? Math.atan2(force.y, force.x) : null;
       deviceForces.push({
         deviceId,
         reinforcementId: reinforcement.id,
@@ -995,28 +838,12 @@ function resolveSingleReinforcement(
         outgoingDirection: outgoingTangent,
         resultantForce: force,
         resultant,
+        resultantDirection,
+        resultantAngle,
         normalComponent,
         tangentialComponent,
-        demand,
-        capacity: {
-          normal: device.capacity.normalResistance,
-          shear: device.capacity.shearResistance,
-          resultant: device.capacity.resultantResistance,
-        },
-        interactionRule: device.capacity.interactionRule,
-        utilizationRatio,
-        status,
-        connectors: connectors.connectors,
       });
-      if (status === "fail") {
-        warnings.push(`Device ${deviceId} exceeds its assigned resistance.`);
-      }
       if (device.kind === "external-anchor") {
-        const check = capacityUtilization(device.capacity, {
-          normal: null,
-          shear: null,
-          resultant,
-        });
         externalAnchorForces.push({
           deviceId,
           reinforcementId: reinforcement.id,
@@ -1026,10 +853,8 @@ function resolveSingleReinforcement(
           tension: tensionIn + tensionOut,
           forceTransmittedToExternalSystem: force,
           resultant,
-          demand: { resultant },
-          capacity: { resultant: device.capacity.resultantResistance },
-          utilizationRatio: check.utilizationRatio,
-          status: check.status,
+          resultantDirection,
+          resultantAngle,
         });
       }
     } else if (node.contact) {
@@ -1334,10 +1159,6 @@ function resolveArchReinforcementsInConfiguration(
     externalAnchorForces,
     blockWrenches,
     warnings: resolved.flatMap((item) => item.warnings),
-    hasAnchorFailure: deviceForces.some(
-      (item) =>
-        item.status === "fail" || item.connectors?.some((connector) => connector.status === "fail"),
-    ),
     hasReinforcementYield: reinforcementState.some((item) => item.state === "yielded"),
     hasReinforcementFailure: reinforcementState.some((item) => item.state === "failed"),
     hasInvalidContact: contactForces.some((item) => item.state === "contact-cannot-enforce-path"),

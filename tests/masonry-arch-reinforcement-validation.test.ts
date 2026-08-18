@@ -212,33 +212,29 @@ void test("I8. coincident return deviators give an invalid return segment", () =
   );
 });
 
-void test("I9. connector share weights must be positive and sum to one", () => {
-  assert.throws(
-    () =>
-      archWith([
-        openTendon({
-          left: {
-            type: "arch-anchor",
-            station: 0,
-            connectors: { connectorCount: 2, loadShareWeights: [0.6, 0.6] },
-          },
-        }) as unknown as ArchReinforcementInput,
-      ]),
-    /sum to one/,
-  );
-  assert.throws(
-    () =>
-      archWith([
-        openTendon({
-          left: {
-            type: "arch-anchor",
-            station: 0,
-            connectors: { connectorCount: 0 },
-          },
-        }) as unknown as ArchReinforcementInput,
-      ]),
-    /positive integer/,
-  );
+void test("I9. anchorage/connector input no longer exists in the model contract", () => {
+  // The connector-group abstraction was removed: the normalized model contract carries pure
+  // geometry and material properties. The serialized reinforcement input contains no
+  // connector/capacity keys anywhere.
+  const model = archWith([
+    {
+      id: "T",
+      side: "intrados",
+      area: 0.001,
+      elasticModulus: 200_000_000,
+      initialForce: 10,
+      topology: {
+        type: "open",
+        left: { type: "arch-anchor", station: 0 },
+        right: { type: "external-anchor", point: { x: 4.5, y: -1 } },
+        deviators: { type: "uniform-count", count: 1 },
+      },
+    },
+  ]);
+  const serialized = JSON.stringify(model.toJSON());
+  assert.ok(!serialized.includes("connector"), "no connector semantics in the serialized model");
+  assert.ok(!serialized.includes("capacity"), "no device capacity in the serialized model");
+  assert.ok(!serialized.includes("loadShare"), "no load sharing in the serialized model");
 });
 
 void test("I10. an external anchor coincident with its adjacent cable point is rejected at resolution", () => {

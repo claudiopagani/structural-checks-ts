@@ -67,9 +67,9 @@ commit `61fbfe9` (`Expose masonry interface edge compression`). It is the engine
 
 - `MasonryArchEventKind` — everything that can happen along a path (15 kinds, unchanged): observable
   events, warnings, engineering limits, terminal physical events, `convergence-lost`.
-- `MasonryArchPhysicalLimitEventKind` — the 8 physical-limit kinds: `plastic-sliding`,
+- `MasonryArchPhysicalLimitEventKind` — the 7 physical-limit kinds: `plastic-sliding`,
   `compression-strength-reached`, `crushing`, `reinforcement-yielded`, `reinforcement-rupture`,
-  `anchor-capacity-reached`, `bonded-layer-capacity-reached`, `extrados-contact-invalid`.
+  `bonded-layer-capacity-reached`, `extrados-contact-invalid`.
 - `MasonryArchEngineeringCriterionKind` =
   `MasonryArchPhysicalLimitEventKind | "equilibrium-infeasible"`. Observable, warning, and numerical
   kinds are not criteria at the type level.
@@ -147,11 +147,12 @@ step:
   `compressiveStrength`, utilization = ratio.
 - `reinforcement-yielded` / `reinforcement-rupture` — the step's `checks.yielding`,
   `checks.tensileFailure`, `checks.ultimateStrain`.
-- `anchor-capacity-reached` — the step's anchor resultant demand/capacity/utilization.
 - `bonded-layer-capacity-reached` — the step's layer-interface force/capacity/utilization.
 - `extrados-contact-invalid` — no applicable quantities, null.
 
-Nothing is recomputed and nothing is taken from a different step (tests O1-O3).
+Nothing is recomputed and nothing is taken from a different step (tests O1-O3). Device reactions are
+pure mechanical actions: no local anchorage/connector resistance exists, so no device-capacity
+criterion can appear (removed with the STEP 1.1 anchorage simplification).
 
 ## Passive reinforcement behavior
 
@@ -175,13 +176,14 @@ not forced.
 
 ## Tests
 
-Updated `tests/masonry-arch-engineering-assessment.test.ts` (23 tests) covering: equilibrium PASS,
+Updated `tests/masonry-arch-engineering-assessment.test.ts` covering: equilibrium PASS,
 infeasibility without fabricated causes, numerical INDETERMINATE, reinforcement yielding, single and
-dual sub-check rupture, simultaneous criteria, anchor capacity, bonded-layer capacity
-(`not-verified`, replacing the legacy pin), design-failure-event compile-time rejection, passive
-activation with PASS at λ = 1, and step-coherent numeric data for compression, sliding,
-reinforcement, anchor, and bonded-layer criteria. `tests/masonry-arch-path.test.ts` and
-`tests/masonry-arch-state.test.ts` pin the unified result statuses and the limit status semantics.
+dual sub-check rupture, simultaneous criteria, bonded-layer capacity (`not-verified`, replacing the
+legacy pin), design-failure-event compile-time rejection, passive activation with PASS at λ = 1, and
+step-coherent numeric data for compression, sliding, reinforcement, and bonded-layer criteria (the
+former anchor-capacity cases were removed with the STEP 1.1 anchorage simplification).
+`tests/masonry-arch-path.test.ts` and `tests/masonry-arch-state.test.ts` pin the unified result
+statuses and the limit status semantics.
 
 ## Validation
 

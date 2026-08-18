@@ -49,7 +49,6 @@ export const MASONRY_ARCH_PHYSICAL_LIMIT_EVENT_KINDS: readonly MasonryArchPhysic
     "crushing",
     "reinforcement-yielded",
     "reinforcement-rupture",
-    "anchor-capacity-reached",
     "bonded-layer-capacity-reached",
     "extrados-contact-invalid",
   ];
@@ -98,7 +97,6 @@ type MasonryArchMechanismFamily =
   | "masonry-compression"
   | "sliding"
   | "reinforcement"
-  | "anchor"
   | "instability";
 
 function masonryArchMechanismFamily(
@@ -114,8 +112,6 @@ function masonryArchMechanismFamily(
     case "reinforcement-rupture":
     case "bonded-layer-capacity-reached":
       return "reinforcement";
-    case "anchor-capacity-reached":
-      return "anchor";
     case "extrados-contact-invalid":
       return "instability";
     case "equilibrium-limit-point":
@@ -164,8 +160,6 @@ export function masonryArchFailureModeFromKinds(
         : reinforcementYielded
           ? "reinforcement-yield"
           : "undetermined";
-    case "anchor":
-      return "anchor-capacity";
     case "instability":
       return "instability";
   }

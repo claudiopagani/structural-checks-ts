@@ -170,64 +170,11 @@ void test("H2. device identity holds on a deformed prescribed configuration", ()
 });
 
 // ---------------------------------------------------------------------------
-// 5A. Connector groups
+// A–G. Pure mechanical-action contract
 // ---------------------------------------------------------------------------
 
-void test("5A1. connector groups publish shares and per-connector checks without inventing a split", () => {
-  const arch = archModel("device-connectors", [
-    {
-      id: "T",
-      side: "intrados",
-      area: 0.001,
-      elasticModulus: 200_000_000,
-      initialForce: 100,
-      topology: {
-        type: "open",
-        left: {
-          type: "arch-anchor",
-          station: 0,
-          connectors: {
-            connectorCount: 3,
-            loadShareWeights: [0.5, 0.3, 0.2],
-            capacity: { resultantResistance: 40, interactionRule: "independent" },
-          },
-        },
-        right: { type: "arch-anchor", station: 1 },
-        deviators: { type: "uniform-count", count: 1 },
-      },
-    },
-  ]);
-  const resolved = resolveArchReinforcements(arch);
-  const left = resolved.deviceForces[0]!;
-  assert.equal(left.kind, "terminal-arch-anchor");
-  assert.equal(left.tensionIn, 0);
-  assert.equal(left.tensionOut, 100);
-  assert.ok(Math.abs(left.demand.resultant - 100) <= 1e-9);
-  const connectors = left.connectors;
-  assert.ok(connectors !== null && connectors.length === 3);
-  const connectorList = connectors;
-  const shares = connectorList.map((item) => item.loadShare);
-  assert.deepEqual(shares, [0.5, 0.3, 0.2]);
-  // Per-connector demand is the assigned share of the device demand.
-  for (const connector of connectorList) {
-    assert.ok(Math.abs(connector.demand.resultant - connector.loadShare * 100) <= 1e-9);
-  }
-  // The connector demands sum exactly to the device demand: no load is invented or lost.
-  const total = connectorList.reduce((sum, item) => sum + item.demand.resultant, 0);
-  assert.ok(Math.abs(total - left.demand.resultant) <= 1e-9);
-  // Capacities are per connector: 50 kN demand exceeds 40 kN, the others pass.
-  assert.equal(connectorList[0]!.capacity.resultant, 40);
-  assert.equal(connectorList[0]!.status, "fail");
-  assert.equal(connectorList[1]!.status, "pass");
-  assert.equal(connectorList[2]!.status, "pass");
-  // The device-level capacity is unassigned for a multi-connector group; its status aggregates
-  // the published connector checks.
-  assert.equal(left.capacity.resultant, null);
-  assert.equal(left.status, "fail");
-});
-
-void test("5A2. devices without assigned capacity publish not-verifiable, never utilization", () => {
-  const arch = archModel("device-no-capacity", [
+void test("A. terminal arch anchor: reaction, magnitude, direction, location, block application", () => {
+  const arch = archModel("device-a", [
     {
       id: "T",
       side: "intrados",
@@ -243,9 +190,236 @@ void test("5A2. devices without assigned capacity publish not-verifiable, never 
     },
   ]);
   const resolved = resolveArchReinforcements(arch);
+  const left = resolved.deviceForces.find(
+    (item) => item.kind === "terminal-arch-anchor" && item.terminationSide === "left",
+  )!;
+  assert.equal(left.tensionIn, 0);
+  assert.equal(left.tensionOut, 100);
+  assert.ok(Math.abs(left.resultant - 100) <= 1e-9, "the terminal anchor carries the full tension");
+  assert.ok(Math.abs(left.resultantForce.x - 100 * left.outgoingDirection!.x) <= 1e-9);
+  assert.ok(Math.abs(left.resultantForce.y - 100 * left.outgoingDirection!.y) <= 1e-9);
+  assert.ok(left.resultantDirection !== null);
+  assert.ok(
+    Math.abs(Math.hypot(left.resultantDirection.x, left.resultantDirection.y) - 1) <= 1e-12,
+  );
+  assert.ok(left.resultantAngle !== null);
+  assert.ok(
+    Math.abs(left.resultantAngle - Math.atan2(left.resultantForce.y, left.resultantForce.x)) <=
+      1e-12,
+  );
+  // The station and location are the resolved geometry of the assigned station 0.
+  assert.ok(Math.abs(left.station! - 0) <= 1e-9);
+  assert.deepEqual(left.point, left.referencePoint);
+  // The reaction is applied to the arch: the left springing voussoir carries the pull.
+  const firstBlock = resolved.blockWrenches[0]!;
+  assert.ok(
+    firstBlock.force.x !== 0 || firstBlock.force.y !== 0,
+    "the terminal force reaches the arch block",
+  );
+  const blockSum = resolved.blockWrenches.reduce(
+    (sum, item) => ({ x: sum.x + item.force.x, y: sum.y + item.force.y }),
+    { x: 0, y: 0 },
+  );
+  const deviceSum = resolved.deviceForces
+    .filter((item) => item.kind !== "external-anchor")
+    .reduce(
+      (sum, item) => ({ x: sum.x + item.resultantForce.x, y: sum.y + item.resultantForce.y }),
+      { x: 0, y: 0 },
+    );
+  assert.ok(Math.abs(blockSum.x - deviceSum.x) <= 1e-9);
+  assert.ok(Math.abs(blockSum.y - deviceSum.y) <= 1e-9);
+});
+
+void test("B. intrados deviator: exact identity F = T_out*t_out - T_in*t_in with coherent magnitude/direction", () => {
+  const arch = archModel("device-b", [
+    {
+      id: "T",
+      side: "intrados",
+      area: 0.001,
+      elasticModulus: 200_000_000,
+      initialForce: 90,
+      topology: {
+        type: "open",
+        left: { type: "arch-anchor", station: 0 },
+        right: { type: "arch-anchor", station: 1 },
+        deviators: {
+          type: "stations",
+          deviators: [{ station: 0.25 }, { station: 0.5 }, { station: 0.75 }],
+        },
+      },
+    },
+  ]);
+  const resolved = resolveArchReinforcements(arch);
+  const deviators = resolved.deviceForces.filter((item) => item.kind === "deviator");
+  assert.equal(deviators.length, 3);
+  for (const device of deviators) {
+    assert.equal(device.tensionIn, device.tensionOut, "frictionless deviator");
+    const expected = {
+      x:
+        device.tensionOut * device.outgoingDirection!.x -
+        device.tensionIn * device.incomingDirection!.x,
+      y:
+        device.tensionOut * device.outgoingDirection!.y -
+        device.tensionIn * device.incomingDirection!.y,
+    };
+    assert.ok(Math.abs(device.resultantForce.x - expected.x) <= 1e-9);
+    assert.ok(Math.abs(device.resultantForce.y - expected.y) <= 1e-9);
+    assert.ok(
+      Math.abs(Math.hypot(device.resultantForce.x, device.resultantForce.y) - device.resultant) <=
+        1e-9,
+    );
+    if (device.resultant > 1e-12) {
+      assert.ok(device.resultantDirection !== null);
+      assert.ok(device.resultantAngle !== null);
+      assert.ok(
+        Math.abs(device.resultantDirection.x - device.resultantForce.x / device.resultant) <= 1e-12,
+      );
+      assert.ok(
+        Math.abs(device.resultantDirection.y - device.resultantForce.y / device.resultant) <= 1e-12,
+      );
+      assert.ok(
+        Math.abs(
+          device.resultantAngle - Math.atan2(device.resultantForce.y, device.resultantForce.x),
+        ) <= 1e-12,
+      );
+    } else {
+      assert.equal(device.resultantDirection, null);
+      assert.equal(device.resultantAngle, null);
+    }
+  }
+});
+
+void test("C. external anchor: fixed point, Fx/Fy, magnitude/direction, no arch block action, free-body closure", () => {
+  const arch = archModel("device-c", [
+    {
+      id: "T",
+      side: "intrados",
+      area: 0.001,
+      elasticModulus: 200_000_000,
+      initialForce: 70,
+      topology: {
+        type: "open",
+        left: { type: "arch-anchor", station: 0 },
+        right: { type: "external-anchor", point: { x: 4.5, y: -1 } },
+        deviators: { type: "uniform-count", count: 1 },
+      },
+    },
+  ]);
+  const resolved = resolveArchReinforcements(arch);
+  const anchor = resolved.externalAnchorForces[0]!;
+  assert.equal(anchor.terminationSide, "right");
+  assert.deepEqual(anchor.point, { x: 4.5, y: -1 }, "the anchor is a fixed global point");
+  assert.equal(anchor.tension, 70);
+  assert.ok(Math.abs(anchor.resultant - 70) <= 1e-9);
+  assert.ok(anchor.resultantDirection !== null);
+  assert.ok(anchor.resultantAngle !== null);
+  assert.ok(
+    Math.abs(anchor.forceTransmittedToExternalSystem.x - 70 * anchor.resultantDirection.x) <= 1e-9,
+  );
+  assert.ok(
+    Math.abs(anchor.forceTransmittedToExternalSystem.y - 70 * anchor.resultantDirection.y) <= 1e-9,
+  );
+  assert.ok(
+    Math.abs(
+      anchor.resultantAngle -
+        Math.atan2(
+          anchor.forceTransmittedToExternalSystem.y,
+          anchor.forceTransmittedToExternalSystem.x,
+        ),
+    ) <= 1e-12,
+  );
+  // The external action is never applied to an arch block: the block wrenches equal only the
+  // arch-side device actions.
+  const blockSum = resolved.blockWrenches.reduce(
+    (sum, item) => ({ x: sum.x + item.force.x, y: sum.y + item.force.y }),
+    { x: 0, y: 0 },
+  );
+  const archSum = resolved.deviceForces
+    .filter((item) => item.kind !== "external-anchor")
+    .reduce(
+      (sum, item) => ({ x: sum.x + item.resultantForce.x, y: sum.y + item.resultantForce.y }),
+      { x: 0, y: 0 },
+    );
+  assert.ok(Math.abs(blockSum.x - archSum.x) <= 1e-9);
+  assert.ok(Math.abs(blockSum.y - archSum.y) <= 1e-9);
+  // The external anchor is included in the free-body closure.
+  const equilibrium = resolved.reinforcementState[0]!.equilibrium;
+  assert.equal(equilibrium.satisfied, true);
+  assert.ok(Math.abs(equilibrium.residualForce.x) <= 1e-9);
+  assert.ok(Math.abs(equilibrium.residualForce.y) <= 1e-9);
+});
+
+void test("D. return deviator: correct reaction, no fictitious terminal anchor, loop equilibrium closes", () => {
+  const arch = archModel("device-d", [
+    {
+      id: "L",
+      side: "intrados",
+      area: 0.001,
+      elasticModulus: 200_000_000,
+      initialForce: 60,
+      topology: {
+        type: "closed-loop",
+        leftReturnDeviator: { station: 0 },
+        rightReturnDeviator: { station: 1 },
+        deviators: { type: "uniform-count", count: 1 },
+      },
+    },
+  ]);
+  const resolved = resolveArchReinforcements(arch);
+  assert.deepEqual(
+    resolved.deviceForces.map((item) => item.kind),
+    ["return-deviator", "deviator", "return-deviator"],
+  );
+  const left = resolved.deviceForces[0]!;
+  // The left return deviator has an incoming return segment and an outgoing intrados segment.
+  assert.equal(left.tensionIn, 60);
+  assert.equal(left.tensionOut, 60);
+  assert.ok(left.incomingDirection !== null && left.outgoingDirection !== null);
+  const expected = {
+    x: 60 * left.outgoingDirection.x - 60 * left.incomingDirection.x,
+    y: 60 * left.outgoingDirection.y - 60 * left.incomingDirection.y,
+  };
+  assert.ok(Math.abs(left.resultantForce.x - expected.x) <= 1e-9);
+  assert.ok(Math.abs(left.resultantForce.y - expected.y) <= 1e-9);
+  // No terminal anchor exists; the loop free body self-equilibrates.
+  assert.ok(resolved.deviceForces.every((item) => item.kind !== "terminal-arch-anchor"));
+  assert.equal(resolved.reinforcementState[0]!.equilibrium.satisfied, true);
+  assert.ok(Math.abs(resolved.reinforcementState[0]!.equilibrium.residualForce.x) <= 1e-9);
+  assert.ok(Math.abs(resolved.reinforcementState[0]!.equilibrium.residualForce.y) <= 1e-9);
+});
+
+void test("G. reinforcement-device results contain no connector-group/capacity/utilization semantics", () => {
+  // Public-contract regression: the device results are pure mechanical actions. The removed
+  // anchorage abstractions must not resurface in the serialized shape.
+  const arch = archModel("device-g", [
+    {
+      id: "T",
+      side: "intrados",
+      area: 0.001,
+      elasticModulus: 200_000_000,
+      initialForce: 100,
+      topology: {
+        type: "open",
+        left: { type: "arch-anchor", station: 0 },
+        right: { type: "external-anchor", point: { x: 4.5, y: -1 } },
+        deviators: { type: "uniform-count", count: 1 },
+      },
+    },
+  ]);
+  const resolved = resolveArchReinforcements(arch);
   for (const device of resolved.deviceForces) {
-    assert.equal(device.utilizationRatio, null);
-    assert.equal(device.status, "not-verifiable");
+    assert.equal("capacity" in device, false);
+    assert.equal("demand" in device, false);
+    assert.equal("utilizationRatio" in device, false);
+    assert.equal("status" in device, false);
+    assert.equal("connectors" in device, false);
+    assert.equal("interactionRule" in device, false);
+  }
+  for (const anchor of resolved.externalAnchorForces) {
+    assert.equal("capacity" in anchor, false);
+    assert.equal("utilizationRatio" in anchor, false);
+    assert.equal("status" in anchor, false);
+    assert.equal("connectors" in anchor, false);
   }
 });
 

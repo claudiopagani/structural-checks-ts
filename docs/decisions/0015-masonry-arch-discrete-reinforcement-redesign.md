@@ -1,7 +1,8 @@
 # Decision 0015 — Masonry-arch discrete-reinforcement redesign
 
 - Status: implemented
-- Scope: `structural-checks-ts` masonry-arch reinforcement subsystem (STEP 1 of the redesign plan).
+- Scope: `structural-checks-ts` masonry-arch reinforcement subsystem (STEP 1 and the STEP 1.1
+  anchorage simplification of the redesign plan).
 - Pre-production breaking change; no compatibility layer is retained.
 
 ## Context
@@ -41,18 +42,25 @@ The historical masonry-arch reinforcement model conflated several physically dis
    and the existing arch `reactions`. External-anchor forces are never applied to arch blocks.
    Per-reinforcement equilibrium diagnostics publish the free-body residual (force/moment about the
    origin, normalized) as solver diagnostics, never engineering criteria.
-5. **Connector groups.** A multi-connector anchorage (`inghisaggi`) is modeled as pure load sharing
-   at the device point with user-assigned shares; the historical transfer-zone `connectorSpacing`
-   model is removed because it conflicts with the point-terminal topology and its offset
-   parallel-share centroid violates device moment equilibrium. Connector demand is
-   `share * device demand`; capacity is per connector. No load distribution is invented when none is
-   assigned.
+5. **No anchorage design in the library (STEP 1.1).** The library computes only the mechanical
+   action each device transmits. It does NOT model or verify the physical anchorage that resists
+   that action: the connector-group abstraction (`connectorCount`, `loadShareWeights`,
+   `connectorSpacing`, per-connector demand/capacity/utilization), device capacities
+   (`normalResistance`, `shearResistance`, `resultantResistance`, `interactionRule`), device
+   utilization/status, the `hasAnchorFailure` flag, the `anchor-capacity-reached` event and
+   criterion, and the `anchor-capacity` failure mode are all removed. The user verifies anchors,
+   resin bars, plates, connector groups, and foundations independently from the reported resultant.
+   Device results keep the reaction with its magnitude, direction (`resultantDirection`,
+   `resultantAngle`), and the local normal/tangential components as secondary interpretations — none
+   of them drives a check. Tendon material limits (yield, tensile, ultimate strain) remain active.
 6. **Bonded layers: effective interval only.** `startStation`/`endStation` bound the effective
    layer; inside, the layer is immediately effective at its full assigned capacity; outside, it is
    absent. `developmentFactor`, `developmentLength`, `transferLength`, and the anchored/unanchored
    reduction logic are removed. The deformable membrane-spring model is removed from the path
    analysis: bonded layers keep the `minimum-required-static-admissibility` meaning in every
-   analysis.
+   analysis. In deformable/path analyses bonded layers are assessed as static-admissibility capacity
+   contributions on the converged resultant field; they do not contribute constitutive stiffness or
+   force to the deformable equilibrium residual.
 7. **Multi-layer bonded domains.** Each layer contributes its own bounded tension vector
    `0 <= T_i <= T_Rd,i` at its side coordinate (`-h/2` intrados, `+h/2` extrados); the reinforced
    N-M domain is the Minkowski sum of the masonry domain and all layer segments. Static recovery
@@ -62,9 +70,12 @@ The historical masonry-arch reinforcement model conflated several physically dis
 
 ## Consequences
 
-- Breaking input/result schema changes; model schema 2.0.0 -> 3.0.0, equilibrium result 4.0.0 ->
-  5.0.0, limit result 5.0.0 -> 6.0.0, path result 11.0.0 -> 12.0.0.
+- Breaking input/result schema changes; model schema 2.0.0 -> 3.0.0 (STEP 1) -> 4.0.0 (STEP 1.1),
+  equilibrium result 4.0.0 -> 5.0.0 -> 6.0.0, limit result 5.0.0 -> 6.0.0 -> 7.0.0, path result
+  11.0.0 -> 12.0.0 -> 13.0.0, verification result 2.0.0 -> 3.0.0 -> 4.0.0, model comparison 3.0.0 ->
+  4.0.0 -> 5.0.0.
 - Old fixtures must be migrated; mechanical equivalence is preserved for the one-connector
   distributed anchorage (effective elastic length equals the complete path length).
 - Deliberately not modeled: deviator friction, anchorage compliance, bond-slip, bonded-layer
-  interface tractions, automatic development-length calculation, dynamic snap-through.
+  interface tractions, automatic development-length calculation, dynamic snap-through, and — after
+  the STEP 1.1 simplification — any local anchorage/connector design or resistance verification.

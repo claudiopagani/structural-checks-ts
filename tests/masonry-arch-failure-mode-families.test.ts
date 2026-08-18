@@ -48,15 +48,10 @@ void test("G. reinforcement rupture plus crushing are distinct families and mix"
   assert.equal(mode(["reinforcement-rupture", "crushing"]), "mixed");
 });
 
-void test("H. anchor capacity plus reinforcement rupture are distinct families and mix", () => {
-  assert.equal(mode(["anchor-capacity-reached", "reinforcement-rupture"]), "mixed");
-});
-
 void test("single-family kinds resolve to their own modes", () => {
   assert.equal(mode(["plastic-sliding"]), "sliding");
   assert.equal(mode(["compression-strength-reached"]), "masonry-crushing");
   assert.equal(mode(["crushing"]), "masonry-crushing");
-  assert.equal(mode(["anchor-capacity-reached"]), "anchor-capacity");
   assert.equal(mode(["extrados-contact-invalid"]), "instability");
   assert.equal(mode(["bonded-layer-capacity-reached"]), "reinforcement-failure");
 });
@@ -72,10 +67,6 @@ void test("duplicate criteria of one family do not change the family mode", () =
 void test("kinds without a physical family classify as undetermined", () => {
   assert.equal(mode(["equilibrium-infeasible"]), "undetermined");
   assert.equal(mode([]), "undetermined");
-});
-
-void test("sliding plus anchor capacity are distinct families and mix", () => {
-  assert.equal(mode(["plastic-sliding", "anchor-capacity-reached"]), "mixed");
 });
 
 void test("reinforcement failure plus instability are distinct families and mix", () => {

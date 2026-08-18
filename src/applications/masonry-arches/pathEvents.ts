@@ -1,7 +1,6 @@
 import type { RigidBlockDeformableInterfaceEvaluation2D } from "../../domain/masonry/rigid-blocks/evaluateDeformableInterface2D.js";
 import type {
   ArchContactForceResult,
-  ArchDeviceForceResult,
   ArchReinforcementStateResult,
   BondedLayerStateResult,
   MasonryArchAnalysisObjective,
@@ -33,7 +32,7 @@ import type {
  *   terminal semantics: `stop-at-onset` emits a terminal event and fails automatically, while
  *   `perfectly-plastic` continues by default;
  * - `reinforcement-yielded` — terminal because no post-yield law is assigned;
- * - `reinforcement-rupture`, `anchor-capacity-reached`, `extrados-contact-invalid` — terminal;
+ * - `reinforcement-rupture`, `extrados-contact-invalid` — terminal;
  * - `bonded-layer-capacity-reached` — the assigned law defines no post-capacity behavior.
  *
  * Callers can always opt into a stricter policy by configuring `designFailureEvents`, for
@@ -44,7 +43,6 @@ import type {
 export const DEFAULT_DESIGN_FAILURE_EVENTS: readonly MasonryArchDesignFailureEventKind[] = [
   "reinforcement-yielded",
   "reinforcement-rupture",
-  "anchor-capacity-reached",
   "bonded-layer-capacity-reached",
   "extrados-contact-invalid",
 ] satisfies readonly MasonryArchPhysicalLimitEventKind[];
@@ -53,7 +51,6 @@ interface MasonryArchEventEvaluation {
   readonly interfaces: readonly RigidBlockDeformableInterfaceEvaluation2D[];
   readonly reinforcement: {
     readonly reinforcementState: readonly ArchReinforcementStateResult[];
-    readonly deviceForces: readonly ArchDeviceForceResult[];
     readonly contactForces: readonly ArchContactForceResult[];
   };
   readonly bondedLayerState: readonly BondedLayerStateResult[];
@@ -214,49 +211,6 @@ export function detectMasonryArchStepEvents(
           `Reinforcement ${currentState.reinforcementId} reached tensile or ultimate-strain failure.`,
         ),
       );
-    }
-  }
-
-  const previousDevices = new Map(
-    previous.reinforcement.deviceForces.map((item) => [
-      item.deviceId,
-      item.status === "fail" || item.connectors?.some((connector) => connector.status === "fail"),
-    ]),
-  );
-  const previousConnectors = new Map(
-    previous.reinforcement.deviceForces.flatMap((item) =>
-      (item.connectors ?? []).map((entry) => [entry.connectorId, entry.status === "fail"] as const),
-    ),
-  );
-  for (const device of current.reinforcement.deviceForces) {
-    const failingConnectors =
-      device.connectors?.filter((connector) => connector.status === "fail") ?? [];
-    const currentlyFailed = device.status === "fail" || failingConnectors.length > 0;
-    if (previousDevices.get(device.deviceId) !== true && currentlyFailed) {
-      events.push(
-        createMasonryArchEvent(
-          "terminal-physical-event",
-          "anchor-capacity-reached",
-          step,
-          lambda,
-          [device.deviceId],
-          `Device ${device.deviceId} exceeded its assigned capacity.`,
-        ),
-      );
-    }
-    for (const connector of failingConnectors) {
-      if (previousConnectors.get(connector.connectorId) !== true) {
-        events.push(
-          createMasonryArchEvent(
-            "terminal-physical-event",
-            "anchor-capacity-reached",
-            step,
-            lambda,
-            [connector.connectorId],
-            `Connector ${connector.connectorId} exceeded its assigned capacity.`,
-          ),
-        );
-      }
     }
   }
 

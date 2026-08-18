@@ -97,8 +97,8 @@ No `sliding-started` / `plastic-sliding` events can be produced (there is no sli
 Everything else is unchanged:
 
 - `joint-opened` / `joint-closed`, `passive-tendon-activated`, `tendon-slackened`,
-  `reinforcement-yielded`, `reinforcement-rupture`, `anchor-capacity-reached`,
-  `bonded-layer-capacity-reached`, `extrados-contact` events;
+  `reinforcement-yielded`, `reinforcement-rupture`, `bonded-layer-capacity-reached`,
+  `extrados-contact` events;
 - a certified global limit point below lambda = 1 remains `FAIL` with `failureMode = "instability"`
   and `lambdaVerificationLimit < 1`;
 - numerical failure without a certified limit point remains `INDETERMINATE`, never `FAIL`;

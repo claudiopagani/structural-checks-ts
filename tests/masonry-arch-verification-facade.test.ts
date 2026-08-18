@@ -192,9 +192,10 @@ void test("1. fixed loads PASS -> the scalable phase starts and lambda one passe
 });
 
 void test("2. fixed loads physical FAIL -> no scalable lambda is defined", () => {
-  // An active tendon whose crown-deviator capacity is already exceeded by the fixed-load state
-  // fails phase A; the verification stops there and never defines a scalable lambda. T0 = 20 kN
-  // keeps the tendon active through the self-weight closure of the preload.
+  // An active tendon whose assigned MATERIAL yield strength is already exceeded by the
+  // fixed-load state fails phase A; the verification stops there and never defines a scalable
+  // lambda. T0 = 20 kN keeps the tendon active through the self-weight closure of the preload;
+  // the 4 MPa yield strength is crossed on the second preload step.
   const model = deformableArch({
     reinforcements: [
       {
@@ -203,15 +204,12 @@ void test("2. fixed loads physical FAIL -> no scalable lambda is defined", () =>
         area: 0.001,
         elasticModulus: 200_000_000,
         initialForce: 20,
+        yieldStrength: 4000,
         topology: {
           type: "open",
           left: { type: "arch-anchor", station: 0 },
           right: { type: "arch-anchor", station: 1 },
-          deviators: {
-            type: "uniform-count",
-            count: 1,
-            connectors: { capacity: { resultantResistance: 5 } },
-          },
+          deviators: { type: "uniform-count", count: 1 },
         },
       },
     ],
@@ -225,9 +223,7 @@ void test("2. fixed loads physical FAIL -> no scalable lambda is defined", () =>
   });
   assert.equal(result.outputs.fixedState.status, "FAIL");
   assert.ok(
-    result.outputs.fixedState.failedCriteria.some(
-      (item) => item.kind === "anchor-capacity-reached",
-    ),
+    result.outputs.fixedState.failedCriteria.some((item) => item.kind === "reinforcement-yielded"),
     "the fixed-state failure criteria explain the problem",
   );
   assert.equal(result.outputs.engineeringAssessment.status, "FAIL");
@@ -246,11 +242,10 @@ void test("2. fixed loads physical FAIL -> no scalable lambda is defined", () =>
 // A: a design-blocking event exactly on the step that completes the fixed load must stop the
 // analysis with zero scalable-loading steps, no scalable lambda, no verification limit.
 void test("blocking event exactly at fixedLoadFactor = 1 -> zero scalable steps", () => {
-  // The crown-deviator capacity (74.2 kN) is crossed exactly inside the final fixed-preload
-  // step: with the stiff-joint law below the reference deviator resultant scales with the
-  // preload factor (T0 = 60 kN, ~60 kN * sqrt(2) at factor one), the device passes at factor
-  // 0.925 (~71.5 kN) and fails at factor 1 (~76.8 kN), and the first capacity event fires on
-  // the completing step.
+  // The assigned yield strength (52 MPa) is crossed exactly inside the final fixed-preload
+  // step: with the stiff-joint law below the tendon force scales with the preload factor
+  // (T0 = 60 kN on a 1e-3 m2 area), the stress passes at factor 0.925 (~50.6 MPa) and fails at
+  // factor 1 (~54.3 MPa), and the first yield event fires on the completing step.
   const model = deformableArch({
     interfaceLaw: {
       response: "deformable",
@@ -276,15 +271,12 @@ void test("blocking event exactly at fixedLoadFactor = 1 -> zero scalable steps"
         area: 0.001,
         elasticModulus: 200_000_000,
         initialForce: 60,
+        yieldStrength: 52_000,
         topology: {
           type: "open",
           left: { type: "arch-anchor", station: 0 },
           right: { type: "arch-anchor", station: 1 },
-          deviators: {
-            type: "uniform-count",
-            count: 1,
-            connectors: { capacity: { resultantResistance: 74.2 } },
-          },
+          deviators: { type: "uniform-count", count: 1 },
         },
       },
     ],
@@ -302,7 +294,7 @@ void test("blocking event exactly at fixedLoadFactor = 1 -> zero scalable steps"
   assert.ok(fixedSteps.length > 0, "the fixed preload converged at least one step");
   assert.equal(fixedSteps.at(-1)!.state.fixedLoadFactor, 1);
   assert.ok(
-    fixedSteps.at(-1)!.events.some((event) => event.kind === "anchor-capacity-reached"),
+    fixedSteps.at(-1)!.events.some((event) => event.kind === "reinforcement-yielded"),
     "the design-blocking event fires exactly on the step that completes the fixed load",
   );
   // The scalable phase must never start.
