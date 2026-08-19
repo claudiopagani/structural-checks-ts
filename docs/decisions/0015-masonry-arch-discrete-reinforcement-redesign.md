@@ -67,6 +67,16 @@ The historical masonry-arch reinforcement model conflated several physically dis
    minimizes the total required layer force through a dedicated linear program and reports a
    per-interface layer force only when the minimizer is unique; otherwise the force is `null` with
    state `not-uniquely-determined`. The simultaneous intrados + extrados limitation is removed.
+8. **Extrados terminal geometry validation (STEP 1.2).** For the simplified-symmetric arch, "left"
+   and "right" are geometric sides: the resolved left terminal must lie geometrically left of (or on
+   the same x-coordinate as) the right terminal for every open topology, and reversed terminations
+   are rejected during reinforcement geometry resolution. An extrados external anchor must lie
+   outside the masonry body (the normal-offset band of the reference curve between the springing
+   joints, evaluated with the same normalized-profile parameterization the geometry builder uses),
+   and its straight free branch to the first resolved contact must not travel through the masonry.
+   Penetrations smaller than the polygonal sagitta of the contact discretization are accepted as an
+   inherent discretization characteristic; deeper penetrations are rejected. Vertical terminal
+   branches and tangent-like free branches remain valid.
 
 ## Consequences
 
@@ -79,3 +89,6 @@ The historical masonry-arch reinforcement model conflated several physically dis
 - Deliberately not modeled: deviator friction, anchorage compliance, bond-slip, bonded-layer
   interface tractions, automatic development-length calculation, dynamic snap-through, and — after
   the STEP 1.1 simplification — any local anchorage/connector design or resistance verification.
+- After STEP 1.2, geometrically reversed open-tendon terminals, extrados external anchors inside the
+  masonry body, and free branches that travel through the masonry are rejected during reinforcement
+  geometry resolution (no schema change: the public input/output contracts are unchanged).

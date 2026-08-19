@@ -12,6 +12,10 @@ import type {
 } from "../../domain/masonry/rigid-blocks/types.js";
 import { assertExplicitUnitSystem, createUnitResolver } from "../../domain/units/UnitSystem.js";
 import { evaluateMasonryArchCurveAtStation } from "./geometry.js";
+import {
+  validateExtradosExternalAnchorGeometry,
+  validateOpenTendonTerminalOrder,
+} from "./validateExtradosAnchorGeometry.js";
 import type {
   ArchContactForceResult,
   ArchDeviceForceResult,
@@ -372,8 +376,9 @@ function addExternalPathNode(
  * Taut-cable contact envelope of an extrados tendon: the cable runs between its two terminal
  * devices along the upper envelope of the whole x-monotone node set, so every released sample
  * lies strictly below the cable and every active contact can be delivered as compression.
- * Terminal devices are pinned on the envelope (they are never popped); samples sharing the
- * terminal x-coordinate are popped by their own device.
+ * Terminal devices are pinned on the envelope (they are never popped). Nodes sharing one
+ * x-coordinate are ordered by y: a device below a contact sample precedes it (a vertical terminal
+ * branch), while a device exactly coincident with a sample follows it and replaces it.
  */
 function activeExtradosPathNodes(nodes: readonly MutablePathNode[]): {
   readonly active: readonly MutablePathNode[];
@@ -388,8 +393,19 @@ function activeExtradosPathNodes(nodes: readonly MutablePathNode[]): {
   const sorted = [...nodes].sort((left, right) => {
     const deltaX = left.point.x - right.point.x;
     if (Math.abs(deltaX) > 1e-12 * scale) return deltaX;
-    // Same x-coordinate: the device replaces its coincident contact sample.
-    return left.device === null ? -1 : 1;
+    const deltaY = left.point.y - right.point.y;
+    const coincident = Math.abs(deltaY) <= 1e-12 * scale;
+    // Exactly coincident: the device replaces the contact sample.
+    if (coincident) return left.device === null ? -1 : 1;
+    // A left terminal departs upward through its same-x contact sample; a right terminal arrives
+    // downward from its same-x contact sample.
+    const leftIsLeft = left.device?.terminationSide === "left";
+    const rightIsLeft = right.device?.terminationSide === "left";
+    if (leftIsLeft !== rightIsLeft) return leftIsLeft ? -1 : 1;
+    const leftIsRight = left.device?.terminationSide === "right";
+    const rightIsRight = right.device?.terminationSide === "right";
+    if (leftIsRight !== rightIsRight) return leftIsRight ? 1 : -1;
+    return deltaY;
   });
   const hull: MutablePathNode[] = [];
   for (const node of sorted) {
@@ -548,6 +564,16 @@ function buildReinforcementNodes(
       addExternalPathNode(nodes, topology.right.point, externalAnchorDevice("right"));
     }
 
+    if (topology.type === "open") {
+      // The terminals are the first and last path nodes of the open tendon.
+      validateOpenTendonTerminalOrder(
+        geometry,
+        reinforcement.id,
+        nodes[0]!.point,
+        nodes.at(-1)!.point,
+      );
+    }
+
     nodes.forEach((node, index) => {
       node.pathIndex = index;
       updatePathNodeConfiguration(node, geometry, configuration);
@@ -612,6 +638,16 @@ function buildReinforcementNodes(
       },
     );
   }
+
+  // The terminals keep their geometric order before the envelope reorders the nodes by x.
+  const leftTerminal = nodes.find((node) => node.device?.terminationSide === "left")!;
+  const rightTerminal = nodes.find((node) => node.device?.terminationSide === "right")!;
+  validateOpenTendonTerminalOrder(
+    geometry,
+    reinforcement.id,
+    leftTerminal.point,
+    rightTerminal.point,
+  );
 
   nodes.sort((left, right) => externalNodeOrder(left) - externalNodeOrder(right));
   nodes.forEach((node, index) => {
@@ -691,6 +727,38 @@ function resolveSingleReinforcement(
   const closedLoop = built.closedLoop;
   const nodes = [...built.nodes];
   const scale = Math.max(1, stationing.totalLength);
+
+  // Extrados external anchors must lie outside the masonry and their resolved free branches
+  // must not travel through it; the check runs before any force assembly or continuation.
+  if (
+    reinforcement.side === "extrados" &&
+    reinforcement.topology.type === "open" &&
+    (reinforcement.topology.left.type === "external-anchor" ||
+      reinforcement.topology.right.type === "external-anchor")
+  ) {
+    for (const [terminationSide, adjacentIndex] of [
+      ["left", 1],
+      ["right", nodes.length - 2],
+    ] as const) {
+      const terminalNode = nodes.find(
+        (node) =>
+          node.device?.terminationSide === terminationSide &&
+          node.device.kind === "external-anchor",
+      );
+      if (terminalNode === undefined) continue;
+      const adjacent = nodes[adjacentIndex];
+      if (adjacent === undefined) continue;
+      validateExtradosExternalAnchorGeometry(
+        geometry,
+        reinforcement.id,
+        terminationSide,
+        terminalNode.point,
+        adjacent.point,
+        stationing.totalLength,
+        reinforcement.topology.interaction.segmentCount,
+      );
+    }
+  }
 
   // Complete cable polyline: for a closed loop the closing segment returns to the first node.
   const polylineNodes = closedLoop && nodes.length > 0 ? [...nodes, nodes[0]!] : nodes;

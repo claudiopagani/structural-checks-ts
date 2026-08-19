@@ -342,29 +342,18 @@ void test("I2. the resolved cable is x-monotone: no self-intersection", () => {
   }
 });
 
-void test("I3. reversed left/right anchor ordering resolves deterministically", () => {
-  // The left/right labels identify the terminations; the taut envelope follows the x order of the
-  // fixed anchor points. The reversed assignment resolves to the same straight free branches,
-  // compressive contact, and a closed free body.
+void test("I3. reversed left/right anchor ordering is rejected before resolution", () => {
+  // "Left" and "right" are geometric sides of the simplified-symmetric arch: a user cannot label
+  // a right-hand point as the left termination. The error is raised during reinforcement
+  // geometry resolution, before any nonlinear continuation.
   const arch = extradosExternalModel("extrados-i3", [
     { x: 5.2, y: 4 },
     { x: -5.2, y: 4 },
   ]);
-  const resolved = resolveArchReinforcements(arch);
-  const state = resolved.reinforcementState[0]!;
-  const path = state.path;
-  for (let index = 1; index < path.length; index += 1) {
-    assert.ok(path[index]!.x > path[index - 1]!.x, "the envelope stays x-monotone");
-  }
-  // The cable runs from the x-leftmost terminal (here the "right" anchor) to the x-rightmost.
-  assert.equal(state.segments[0]!.role, "free-terminal-branch");
-  assert.equal(state.segments.at(-1)!.role, "free-terminal-branch");
-  for (const contact of resolved.contactForces.filter((item) => item.state === "in-contact")) {
-    assert.ok(contact.normalComponent >= -1e-9);
-  }
-  assert.equal(state.equilibrium.satisfied, true);
-  assert.ok(Math.abs(state.equilibrium.residualForce.x) <= 1e-9);
-  assert.ok(Math.abs(state.equilibrium.residualForce.y) <= 1e-9);
+  assert.throws(
+    () => resolveArchReinforcements(arch),
+    /left termination must lie geometrically left/,
+  );
 });
 
 void test("I4. an anchor below the taut envelope dips the cable without penetrating the samples", () => {
