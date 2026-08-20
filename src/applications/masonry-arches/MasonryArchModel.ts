@@ -4,6 +4,12 @@ import {
   type UnitResolver,
 } from "../../domain/units/UnitSystem.js";
 import { normalizeMasonryInterfaceLaw } from "../../domain/masonry/interfaces/normalizeMasonryInterfaceLaw.js";
+import {
+  masonryArchBlockBoundarySideStations,
+  resolveBondedLayerExtent,
+  resolveExtradosTendonAnchorage,
+  resolveIntradosTendonAnchorage,
+} from "./anchorage.js";
 import { buildSimplifiedMasonryArchGeometry } from "./geometry.js";
 import {
   MASONRY_ARCH_MODEL_SCHEMA_VERSION,
@@ -21,6 +27,7 @@ import {
   type NormalizedArchReinforcementTermination,
   type NormalizedArchStationedDevice,
   type NormalizedBondedLayerReinforcement,
+  type NormalizedMasonryArchGeometry,
   type SimplifiedSymmetricMasonryArchGeometryInput,
 } from "./types.js";
 
@@ -226,6 +233,24 @@ function normalizeDeviatorLayout(
   return deviators;
 }
 
+function normalizeStableDeviatorLayout(
+  input: ArchDeviatorLayoutInput | undefined,
+  label: string,
+  startStation: number,
+  endStation: number,
+): readonly NormalizedArchStationedDevice[] {
+  if (input === undefined || input.type === "uniform-count") {
+    const count = input?.count ?? 1;
+    if (!Number.isInteger(count) || count < 1) {
+      throw new Error(`${label}.deviators.count must be a positive integer.`);
+    }
+    return Array.from({ length: count }, (_, index) => ({
+      station: startStation + ((endStation - startStation) * (index + 1)) / (count + 1),
+    }));
+  }
+  return normalizeDeviatorLayout(input, label);
+}
+
 function assertDistinctStations(
   stations: readonly { readonly station: number; readonly label: string }[],
 ): void {
@@ -241,7 +266,7 @@ function assertDistinctStations(
 function normalizeReinforcement(
   input: ArchReinforcementInput,
   resolver: UnitResolver,
-  voussoirCount: number,
+  geometry: NormalizedMasonryArchGeometry,
 ): NormalizedArchReinforcement {
   const label = `reinforcements.${input.id}`;
   if (typeof input.id !== "string" || input.id.trim().length === 0) {
@@ -275,6 +300,125 @@ function normalizeReinforcement(
     ultimateStrain,
   } as const;
 
+  const hasStableAnchorage = "anchorage" in input && input.anchorage !== undefined;
+  const hasAdvancedTopology = "topology" in input && input.topology !== undefined;
+  if (hasStableAnchorage === hasAdvancedTopology) {
+    throw new Error(
+      `${label} must declare exactly one of stable anchorage or experimental topology.`,
+    );
+  }
+
+  if (hasStableAnchorage) {
+    if (input.side === "intrados") {
+      const resolved = resolveIntradosTendonAnchorage(input.anchorage, geometry.voussoirCount);
+      const boundaries = masonryArchBlockBoundarySideStations(geometry, input.side);
+      const custom = input.anchorage.kind === "customBlocks";
+      const startStation = custom
+        ? (boundaries[resolved.startBlockIndex]! + boundaries[resolved.startBlockIndex + 1]!) / 2
+        : 0;
+      const endStation = custom
+        ? (boundaries[resolved.endBlockIndex]! + boundaries[resolved.endBlockIndex + 1]!) / 2
+        : 1;
+      const deviators = normalizeStableDeviatorLayout(
+        input.deviators,
+        `${label}.anchorage`,
+        startStation,
+        endStation,
+      );
+      assertDistinctStations([
+        { station: startStation, label: `${label}.anchorage.startBlock` },
+        ...deviators.map((device, index) => ({
+          station: device.station,
+          label: `${label}.deviators[${index}]`,
+        })),
+        { station: endStation, label: `${label}.anchorage.endBlock` },
+      ]);
+      if (resolved.isClosedLoop) {
+        return {
+          ...common,
+          anchorage: resolved,
+          side: "intrados",
+          topology: {
+            type: "closed-loop",
+            leftReturnDeviator: { station: startStation },
+            rightReturnDeviator: { station: endStation },
+            deviators,
+          },
+        };
+      }
+      const left: NormalizedArchReinforcementTermination =
+        resolved.startTerminalDirection === null
+          ? { type: "arch-anchor", station: startStation }
+          : {
+              type: "external-direction",
+              station: startStation,
+              direction: resolved.startTerminalDirection,
+            };
+      const right: NormalizedArchReinforcementTermination =
+        resolved.endTerminalDirection === null
+          ? { type: "arch-anchor", station: endStation }
+          : {
+              type: "external-direction",
+              station: endStation,
+              direction: resolved.endTerminalDirection,
+            };
+      return {
+        ...common,
+        anchorage: resolved,
+        side: "intrados",
+        topology: { type: "open", left, right, deviators },
+      };
+    }
+
+    const resolved = resolveExtradosTendonAnchorage(input.anchorage, geometry.voussoirCount);
+    const boundaries = masonryArchBlockBoundarySideStations(geometry, input.side);
+    const custom =
+      input.anchorage.kind === "customBlocks" ||
+      (input.anchorage.kind === "externalByAngle" && input.anchorage.startBlock !== undefined);
+    const startStation = custom
+      ? (boundaries[resolved.startBlockIndex]! + boundaries[resolved.startBlockIndex + 1]!) / 2
+      : 0;
+    const endStation = custom
+      ? (boundaries[resolved.endBlockIndex]! + boundaries[resolved.endBlockIndex + 1]!) / 2
+      : 1;
+    const left: NormalizedArchReinforcementTermination =
+      resolved.startTerminalDirection === null
+        ? { type: "arch-anchor", station: startStation }
+        : {
+            type: "external-direction",
+            station: startStation,
+            direction: resolved.startTerminalDirection,
+          };
+    const right: NormalizedArchReinforcementTermination =
+      resolved.endTerminalDirection === null
+        ? { type: "arch-anchor", station: endStation }
+        : {
+            type: "external-direction",
+            station: endStation,
+            direction: resolved.endTerminalDirection,
+          };
+    const segmentCount =
+      input.interaction?.segmentCount ?? Math.max(32, 2 * geometry.voussoirCount);
+    if (!Number.isInteger(segmentCount) || segmentCount < 2) {
+      throw new Error(`${label}.interaction.segmentCount must be an integer not smaller than two.`);
+    }
+    return {
+      ...common,
+      anchorage: resolved,
+      side: "extrados",
+      topology: {
+        type: "open",
+        left,
+        right,
+        interaction: { type: "unilateral-contact", segmentCount },
+      },
+    };
+  }
+
+  if (!("topology" in input) || input.topology === undefined) {
+    throw new Error(`${label}.topology is required for the experimental topology path.`);
+  }
+
   if (input.side === "intrados") {
     if (input.topology.type === "open") {
       const left = normalizeReinforcementTermination(
@@ -307,6 +451,7 @@ function normalizeReinforcement(
       }
       return {
         ...common,
+        anchorage: null,
         side: "intrados",
         topology: { type: "open", left, right, deviators },
       };
@@ -335,6 +480,7 @@ function normalizeReinforcement(
     }
     return {
       ...common,
+      anchorage: null,
       side: "intrados",
       topology: {
         type: "closed-loop",
@@ -371,7 +517,7 @@ function normalizeReinforcement(
     if (interaction !== undefined && interaction.type !== "unilateral-contact") {
       throw new Error(`${label}.topology.interaction has an unsupported interaction type.`);
     }
-    const segmentCount = interaction?.segmentCount ?? Math.max(32, 2 * voussoirCount);
+    const segmentCount = interaction?.segmentCount ?? Math.max(32, 2 * geometry.voussoirCount);
     if (!Number.isInteger(segmentCount) || segmentCount < 2) {
       throw new Error(
         `${label}.topology.interaction.segmentCount must be an integer not smaller than two.`,
@@ -379,6 +525,7 @@ function normalizeReinforcement(
     }
     return {
       ...common,
+      anchorage: null,
       side: "extrados",
       topology: {
         type: "open",
@@ -397,6 +544,7 @@ function normalizeReinforcement(
 function normalizeBondedLayer(
   input: BondedLayerReinforcementInput,
   resolver: UnitResolver,
+  geometry: NormalizedMasonryArchGeometry,
 ): NormalizedBondedLayerReinforcement {
   const label = `bondedLayers.${input.id}`;
   if (typeof input.id !== "string" || input.id.trim().length === 0) {
@@ -435,13 +583,30 @@ function normalizeBondedLayer(
   const governing = capacityCandidates.reduce((minimum, candidate) =>
     candidate.force < minimum.force ? candidate : minimum,
   );
-  const startStation = normalizedStation(input.startStation, 0, `${label}.startStation`);
-  const endStation = normalizedStation(input.endStation, 1, `${label}.endStation`);
+  if (
+    input.extent !== undefined &&
+    (input.startStation !== undefined || input.endStation !== undefined)
+  ) {
+    throw new Error(`${label} cannot combine block extent with startStation or endStation.`);
+  }
+  let startStation: number;
+  let endStation: number;
+  let extent: NormalizedBondedLayerReinforcement["extent"] = null;
+  if (input.extent !== undefined) {
+    extent = resolveBondedLayerExtent(input.extent, geometry.voussoirCount);
+    const boundaries = masonryArchBlockBoundarySideStations(geometry, input.side);
+    startStation = boundaries[extent.startBlockIndex]!;
+    endStation = boundaries[extent.endBlockIndex + 1]!;
+  } else {
+    startStation = normalizedStation(input.startStation, 0, `${label}.startStation`);
+    endStation = normalizedStation(input.endStation, 1, `${label}.endStation`);
+  }
   if (endStation <= startStation) {
     throw new Error(`${label} requires endStation greater than startStation.`);
   }
   return {
     id: input.id,
+    extent,
     family: input.family,
     side: input.side,
     area,
@@ -569,7 +734,7 @@ export class MasonryArchModel implements NormalizedMasonryArchModel {
     this.loads = loads;
 
     const reinforcements = (input.reinforcements ?? []).map((reinforcement) =>
-      normalizeReinforcement(reinforcement, resolver, this.geometry.voussoirCount),
+      normalizeReinforcement(reinforcement, resolver, this.geometry),
     );
     const reinforcementIds = new Set<string>();
     for (const reinforcement of reinforcements) {
@@ -580,7 +745,7 @@ export class MasonryArchModel implements NormalizedMasonryArchModel {
     }
     this.reinforcements = reinforcements;
     const bondedLayers = (input.bondedLayers ?? []).map((layer) =>
-      normalizeBondedLayer(layer, resolver),
+      normalizeBondedLayer(layer, resolver, this.geometry),
     );
     for (const layer of bondedLayers) {
       if (reinforcementIds.has(layer.id)) {

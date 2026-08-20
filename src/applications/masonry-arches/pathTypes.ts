@@ -32,7 +32,7 @@ import type {
 
 export type { MasonryArchEventKind } from "./types.js";
 
-export const MASONRY_ARCH_PATH_RESULT_SCHEMA_VERSION = "14.0.0";
+export const MASONRY_ARCH_PATH_RESULT_SCHEMA_VERSION = "15.0.0";
 
 export interface MasonryArchDof {
   readonly blockId: string;

@@ -74,6 +74,11 @@ export {
   resolveArchReinforcements,
 } from "./resolveArchReinforcements.js";
 export {
+  resolveBondedLayerExtent,
+  resolveExtradosTendonAnchorage,
+  resolveIntradosTendonAnchorage,
+} from "./anchorage.js";
+export {
   resolveMasonryArchLoads,
   type MasonryArchResolvedLoadAction,
   type ResolveMasonryArchLoadsOptions,

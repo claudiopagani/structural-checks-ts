@@ -86,6 +86,72 @@ reserved as the unbounded-compression marker (`compressiveStrength` omitted).
 Support interfaces may override the interior law through `supports.left.interfaceLaw` and
 `supports.right.interfaceLaw`.
 
+## Stable reinforcement anchorage
+
+The stable tendon API is block-based and discriminated by reinforcement side. User-facing block
+numbers default to one-based numbering; `numbering: "zeroBased"` is accepted only when requested
+explicitly. The public resolvers validate the range and publish zero-based `startBlockIndex` and
+`endBlockIndex`, external/loop flags, and any prescribed unit terminal directions. The same
+resolvers are used by `createMasonryArch`, so a UI does not need a parallel block or direction
+normalizer.
+
+Intrados tendon anchorage has exactly four stable modes:
+
+- `terminalBlocks`: open internal tendon on the first and last voussoirs;
+- `customBlocks`: open internal tendon on two strictly ordered selected voussoirs;
+- `closedLoop`: closed internal loop between the terminal voussoirs, with a horizontal equivalent
+  return direction and no external anchor;
+- `externalVertical`: terminal force-transfer points on the first and last voussoirs, with vertical
+  downward external lines of action and no external coordinates.
+
+Extrados tendon anchorage has exactly three stable modes:
+
+- `terminalBlocks`: open extrados tendon on the first and last voussoirs;
+- `customBlocks`: open extrados tendon on two strictly ordered selected voussoirs;
+- `externalByAngle`: external lines of action prescribed by `angleDeg` from the horizontal, in the
+  range `0 <= angleDeg <= 90`. Omitted blocks mean first and last; otherwise both blocks are
+  required and validated. Left and right directions are outward, upward, and mirror-symmetric.
+
+For example:
+
+```ts
+import {
+  resolveExtradosTendonAnchorage,
+  resolveIntradosTendonAnchorage,
+} from "structural-checks-ts-migration-workspace/applications/masonry-arches";
+
+const intrados = resolveIntradosTendonAnchorage({ kind: "externalVertical" }, 10);
+// startBlockIndex = 0, endBlockIndex = 9, no external point
+
+const extrados = resolveExtradosTendonAnchorage(
+  { kind: "externalByAngle", angleDeg: 45, startBlock: 2, endBlock: 8 },
+  10,
+);
+// startBlockIndex = 1, endBlockIndex = 7
+```
+
+Stable model inputs use `anchorage` directly. `externalVertical` and `externalByAngle` create
+prescribed-direction terminals attached to the resolved arch blocks: no free terminal segment, free
+point, tangent search, intersection search, or contact-range inference from an arbitrary spatial
+line is performed. Normalized reinforcements and `reinforcementState` retain the complete resolved
+`anchorage` DTO, so consumers can read the selected kind and resolved mechanics without reverse
+engineering the path. The resulting external-system action has
+`anchorageGeometry: "prescribed-direction"`; its reported point is the arch-side transfer point, not
+a synthesized external coordinate.
+
+Bonded reinforcement is separate from tendons. Its stable `extent` contains `startBlock` and
+`endBlock`; the selected interval covers those blocks and every block between them. It produces no
+tendon topology, point anchor, closed loop, external direction, or terminal-direction result.
+Normalized bonded layers and `bondedLayerState` retain the resolved zero-based `extent`. Existing
+`startStation`/`endStation` input remains available for explicit advanced studies so the validated
+continuous effective-interval semantics is preserved, but it cannot be combined with `extent`.
+
+The explicit `topology` API (`arch-anchor` stations and fixed `external-anchor` points) is retained
+only as an experimental advanced geometry route for existing studies. Free external points are not
+part of the stable UI anchorage API. In particular, the stable vertical and angular modes never map
+to `external-anchor`, never choose the nearest available point, and never deduce a tangent or an
+intersection automatically. Extrados closed loops and stable `externalByPoint` modes do not exist.
+
 ## Engineering objectives
 
 Path analyses require one explicit objective:

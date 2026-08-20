@@ -58068,11 +58068,11 @@
     },
     "sourceFiles": {
       "javascript": 480,
-      "typescript": 537
+      "typescript": 538
     },
     "tests": {
       "javascript": 131,
-      "typescript": 438
+      "typescript": 440
     },
     "validationCampaigns": {
       "javascript": 17,

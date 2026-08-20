@@ -234,7 +234,7 @@ void test("A. verified equilibrium: assessment PASS with no failed criteria", ()
     assessment.question,
     "does-the-assigned-load-state-admit-a-verified-statically-admissible-equilibrium",
   );
-  assert.equal(result.metadata.schemaVersion, "7.0.0");
+  assert.equal(result.metadata.schemaVersion, "8.0.0");
 });
 
 void test("B. compression not verified: global infeasibility without fabricated compression criteria", () => {
@@ -909,7 +909,7 @@ void test("path design assessment reports the shared shape with lambda and requi
   // mode keeps its own semantics and remains available on the outputs.
   assert.equal(assessment.failureMode, null);
   assert.equal(result.outputs.failureMode, "no-collapse-within-model");
-  assert.equal(result.metadata.schemaVersion, "14.0.0");
+  assert.equal(result.metadata.schemaVersion, "15.0.0");
 });
 
 void test("D3. reinforcement rupture from both sub-checks preserves one criterion per check", () => {

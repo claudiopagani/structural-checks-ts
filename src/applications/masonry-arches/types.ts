@@ -13,14 +13,82 @@ import type {
   RigidBlockVector2D,
 } from "../../domain/masonry/rigid-blocks/types.js";
 
-export const MASONRY_ARCH_MODEL_SCHEMA_VERSION = "5.0.0";
-export const MASONRY_ARCH_EQUILIBRIUM_RESULT_SCHEMA_VERSION = "7.0.0";
-export const MASONRY_ARCH_LIMIT_ANALYSIS_RESULT_SCHEMA_VERSION = "8.0.0";
+export const MASONRY_ARCH_MODEL_SCHEMA_VERSION = "6.0.0";
+export const MASONRY_ARCH_EQUILIBRIUM_RESULT_SCHEMA_VERSION = "8.0.0";
+export const MASONRY_ARCH_LIMIT_ANALYSIS_RESULT_SCHEMA_VERSION = "9.0.0";
 
 export type MasonryArchReferenceCurve = "intrados" | "centerline" | "extrados";
 export type MasonryArchAngleUnits = "deg" | "rad";
 export type MasonryArchDistributionBasis = "horizontal-projection" | "arc-length";
 export type MasonryArchLoadApplicationCurve = MasonryArchReferenceCurve;
+export type MasonryArchTendonSide = "intrados" | "extrados";
+export type MasonryArchBlockNumbering = "oneBased" | "zeroBased";
+
+export type IntradosTendonAnchorage =
+  | { readonly kind: "terminalBlocks" }
+  | {
+      readonly kind: "customBlocks";
+      readonly startBlock: number;
+      readonly endBlock: number;
+      readonly numbering?: MasonryArchBlockNumbering;
+    }
+  | { readonly kind: "closedLoop" }
+  | { readonly kind: "externalVertical" };
+
+export type ExtradosTendonAnchorage =
+  | { readonly kind: "terminalBlocks" }
+  | {
+      readonly kind: "customBlocks";
+      readonly startBlock: number;
+      readonly endBlock: number;
+      readonly numbering?: MasonryArchBlockNumbering;
+    }
+  | {
+      readonly kind: "externalByAngle";
+      /** Prescribed terminal-line angle from the horizontal, in degrees. */
+      readonly angleDeg: number;
+      readonly startBlock?: number;
+      readonly endBlock?: number;
+      readonly numbering?: MasonryArchBlockNumbering;
+    };
+
+export interface BondedLayerExtent {
+  readonly startBlock: number;
+  readonly endBlock: number;
+  readonly numbering?: MasonryArchBlockNumbering;
+}
+
+export interface ResolvedIntradosTendonAnchorage {
+  readonly side: "intrados";
+  readonly kind: IntradosTendonAnchorage["kind"];
+  readonly startBlockIndex: number;
+  readonly endBlockIndex: number;
+  readonly hasExternalAnchor: boolean;
+  readonly isClosedLoop: boolean;
+  /** Unit direction from the arch terminal toward the external/return branch, when applicable. */
+  readonly startTerminalDirection: RigidBlockVector2D | null;
+  /** Unit direction from the arch terminal toward the external/return branch, when applicable. */
+  readonly endTerminalDirection: RigidBlockVector2D | null;
+}
+
+export interface ResolvedExtradosTendonAnchorage {
+  readonly side: "extrados";
+  readonly kind: ExtradosTendonAnchorage["kind"];
+  readonly startBlockIndex: number;
+  readonly endBlockIndex: number;
+  readonly hasExternalAnchor: boolean;
+  readonly isClosedLoop: false;
+  readonly angleDeg: number | null;
+  /** Unit direction from the arch terminal toward the external branch, when applicable. */
+  readonly startTerminalDirection: RigidBlockVector2D | null;
+  /** Unit direction from the arch terminal toward the external branch, when applicable. */
+  readonly endTerminalDirection: RigidBlockVector2D | null;
+}
+
+export interface ResolvedBondedLayerExtent {
+  readonly startBlockIndex: number;
+  readonly endBlockIndex: number;
+}
 
 /** Engineering purpose of an analysis, independent from its mechanical model and solver control. */
 export type MasonryArchAnalysisObjective = "design-state-check" | "capacity" | "advanced-path";
@@ -384,6 +452,9 @@ export interface MasonryArchSupportsInput {
  * does NOT model or verify the physical anchorage system that resists that action (resin anchors,
  * bolts, plates, saddles, connector groups, pull-out): the user performs those local checks
  * independently.
+ *
+ * @experimental This station-based termination belongs to the advanced topology API. Stable UI
+ * anchorage uses the side-specific `anchorage` discriminated unions instead.
  */
 export interface ArchTerminalArchAnchorInput {
   readonly type: "arch-anchor";
@@ -402,6 +473,9 @@ export interface ArchTerminalArchAnchorInput {
  * elongation, and elastic force increment. A vertical terminal branch is represented by placing
  * the anchor on the vertical through the adjacent arch device; no "vertical" model is hard-coded.
  * There is no assigned anchor resistance: only the transmitted action is reported.
+ *
+ * @experimental Free external points are retained only for explicit advanced topology studies.
+ * They are not part of the stable block-based anchorage API and are never synthesized by it.
  */
 export interface ArchTerminalExternalAnchorInput {
   readonly type: "external-anchor";
@@ -450,13 +524,10 @@ interface MasonryArchDiscreteReinforcementBaseInput {
   readonly ultimateStrain?: number;
 }
 
-/**
- * Intrados discrete reinforcement. Three topologies are supported: an open tendon with
- * independently typed left/right terminations, and a closed loop that returns through a straight
- * segment between the two return deviators (no terminal anchors).
- */
-export interface IntradosArchReinforcementInput extends MasonryArchDiscreteReinforcementBaseInput {
+interface ExperimentalIntradosArchReinforcementInput
+  extends MasonryArchDiscreteReinforcementBaseInput {
   readonly side: "intrados";
+  /** @experimental Explicit station/point topology; not the stable UI anchorage contract. */
   readonly topology:
     | {
         readonly type: "open";
@@ -472,16 +543,30 @@ export interface IntradosArchReinforcementInput extends MasonryArchDiscreteReinf
         /** Interior deviators; defaults to one crown deviator (`uniform-count` 1). */
         readonly deviators?: ArchDeviatorLayoutInput;
       };
+  readonly anchorage?: never;
+  readonly deviators?: never;
 }
 
 /**
- * Extrados discrete reinforcement. The cable interaction with the arch is unilateral contact: the
- * cable may detach from the extrados and the resolved contact geometry is the taut cable envelope;
- * no tensile contact is required to enforce a prescribed path. Closed loops are not supported on
- * the extrados. Terminal branch angles are a result of the geometry, never a fundamental input.
+ * Stable intrados tendon input. Anchorage is block-based and side-specific; no free external point
+ * is accepted. Interior deviators default to one crown deviator.
  */
-export interface ExtradosArchReinforcementInput extends MasonryArchDiscreteReinforcementBaseInput {
+export interface StableIntradosArchReinforcementInput
+  extends MasonryArchDiscreteReinforcementBaseInput {
+  readonly side: "intrados";
+  readonly anchorage: IntradosTendonAnchorage;
+  readonly deviators?: ArchDeviatorLayoutInput;
+  readonly topology?: never;
+}
+
+export type IntradosArchReinforcementInput =
+  | StableIntradosArchReinforcementInput
+  | ExperimentalIntradosArchReinforcementInput;
+
+interface ExperimentalExtradosArchReinforcementInput
+  extends MasonryArchDiscreteReinforcementBaseInput {
   readonly side: "extrados";
+  /** @experimental Explicit station/point topology; not the stable UI anchorage contract. */
   readonly topology: {
     readonly type: "open";
     readonly left: ArchReinforcementTerminationInput;
@@ -492,7 +577,29 @@ export interface ExtradosArchReinforcementInput extends MasonryArchDiscreteReinf
       readonly segmentCount?: number;
     };
   };
+  readonly anchorage?: never;
+  readonly interaction?: never;
 }
+
+/**
+ * Stable extrados tendon input. The external terminal line is prescribed by angle and never by a
+ * free point. Cable-to-arch interaction remains unilateral contact over the resolved block range.
+ */
+export interface StableExtradosArchReinforcementInput
+  extends MasonryArchDiscreteReinforcementBaseInput {
+  readonly side: "extrados";
+  readonly anchorage: ExtradosTendonAnchorage;
+  readonly interaction?: {
+    readonly type: "unilateral-contact";
+    /** Numerical straight segments used to integrate cable-to-arch contact. */
+    readonly segmentCount?: number;
+  };
+  readonly topology?: never;
+}
+
+export type ExtradosArchReinforcementInput =
+  | StableExtradosArchReinforcementInput
+  | ExperimentalExtradosArchReinforcementInput;
 
 export type ArchReinforcementInput =
   | IntradosArchReinforcementInput
@@ -524,9 +631,14 @@ export interface BondedLayerReinforcementInput {
    */
   readonly debondingStrain?: number;
   readonly ultimateStrain?: number;
+  /** Stable block-based extent. Mutually exclusive with the advanced station interval. */
+  readonly extent?: BondedLayerExtent;
   /**
    * Normalized side-boundary station at which the effective layer starts. Defaults to zero. Must
    * satisfy `0 <= startStation < endStation <= 1`.
+   *
+   * @experimental Stable UI input uses `extent`; stations remain available for explicit advanced
+   * studies and existing validated models.
    */
   readonly startStation?: number;
   /** Normalized side-boundary station at which the effective layer ends. Defaults to one. */
@@ -678,6 +790,14 @@ export type NormalizedArchReinforcementTermination =
   | {
       readonly type: "external-anchor";
       readonly point: RigidBlockPoint2D;
+    }
+  | {
+      /** External branch represented only by its prescribed line of action at an arch terminal. */
+      readonly type: "external-direction";
+      /** Normalized side-boundary station of the terminal attached to an arch block. */
+      readonly station: number;
+      /** Unit direction from the arch terminal toward the external structural system. */
+      readonly direction: RigidBlockVector2D;
     };
 
 /** One arch-side device identified by its normalized side-boundary station. */
@@ -687,6 +807,8 @@ export interface NormalizedArchStationedDevice {
 
 interface NormalizedArchReinforcementBase {
   readonly id: string;
+  /** Stable resolved anchorage; null only for the experimental explicit-topology route. */
+  readonly anchorage: ResolvedIntradosTendonAnchorage | ResolvedExtradosTendonAnchorage | null;
   readonly area: number;
   readonly elasticModulus: number;
   readonly initialForce: number;
@@ -738,6 +860,8 @@ export type NormalizedArchReinforcement =
 
 export interface NormalizedBondedLayerReinforcement {
   readonly id: string;
+  /** Stable resolved block extent; null only for the advanced station-interval route. */
+  readonly extent: ResolvedBondedLayerExtent | null;
   readonly family: BondedLayerMaterialFamily;
   readonly side: "intrados" | "extrados";
   readonly area: number;
@@ -931,6 +1055,8 @@ export interface ArchReinforcementEquilibriumDiagnostic {
 export interface ArchReinforcementStateResult {
   readonly reinforcementId: string;
   readonly side: "intrados" | "extrados";
+  /** Stable resolved anchorage; null only for the experimental explicit-topology route. */
+  readonly anchorage: ResolvedIntradosTendonAnchorage | ResolvedExtradosTendonAnchorage | null;
   readonly topology: ArchReinforcementTopologyKind;
   readonly force: number;
   readonly trialForce: number;
@@ -987,9 +1113,11 @@ export interface ArchReinforcementStateResult {
  * Force state of one physical reinforcement device. The reported resultant satisfies
  * `F = T_out * t_out - T_in * t_in` with the directions pointing along the cable into and out of
  * the device; the current scope is frictionless (`T_in === T_out`), but both tensions are
- * published separately so the contract survives a future friction model. For terminal devices
- * exactly one tension is zero and the corresponding direction is null. For external anchors the
- * local normal/tangential components are null because no arch boundary frame exists there.
+ * published separately so the contract survives a future friction model. A tendon ending on the
+ * arch has exactly one terminal tension; a stable prescribed-direction terminal has two directions
+ * because it transfers the turn from the internal tendon path to the external line of action. For
+ * fixed external anchors the local normal/tangential components are null because no arch boundary
+ * frame exists there.
  *
  * This is a pure mechanical-action result: the library computes the action the tendon transmits
  * to the device and deliberately does NOT model or verify the physical anchorage (resin anchors,
@@ -1062,15 +1190,20 @@ export interface ArchContactForceResult {
 }
 
 /**
- * Action transmitted by an open tendon to the external structural system at one fixed external
- * anchor. It is a pure mechanical result: fixed point, cable tension, and the transmitted force
- * with its magnitude and direction. There is no anchor capacity, utilization, or status — the
- * external system's resistance is verified outside this library.
+ * Action transmitted by an open tendon to the external structural system. Advanced topologies may
+ * provide a fixed external point; stable topologies prescribe only a terminal direction at the
+ * arch block. There is no anchor capacity, utilization, or status — the external system's
+ * resistance is verified outside this library.
  */
 export interface ArchExternalAnchorForceResult {
   readonly deviceId: string;
   readonly reinforcementId: string;
   readonly terminationSide: "left" | "right";
+  readonly anchorageGeometry: "fixed-point" | "prescribed-direction";
+  /**
+   * Fixed anchor point for `fixed-point`; arch-side force-transfer point for
+   * `prescribed-direction`. The latter is not a synthesized external coordinate.
+   */
   readonly referencePoint: RigidBlockPoint2D;
   readonly point: RigidBlockPoint2D;
   readonly tension: number;
@@ -1107,6 +1240,8 @@ export interface BondedLayerStateResult {
   readonly reinforcementId: string;
   readonly family: BondedLayerMaterialFamily;
   readonly side: "intrados" | "extrados";
+  /** Stable resolved block extent; null only for the advanced station-interval route. */
+  readonly extent: ResolvedBondedLayerExtent | null;
   readonly startStation: number;
   readonly endStation: number;
   readonly tensileCapacity: number;

@@ -95,3 +95,6 @@ The historical masonry-arch reinforcement model conflated several physically dis
 - After STEP 1.2, geometrically reversed open-tendon terminals, extrados external anchors inside the
   masonry body, and free branches that travel through the masonry are rejected during reinforcement
   geometry resolution (no schema change: the public input/output contracts are unchanged).
+- Decision 0016 subsequently classifies the station/point topology as an experimental advanced route
+  and adds the stable side-specific block anchorage API. The advanced mechanics recorded here
+  remains available but is not used to represent stable vertical or angle-prescribed anchorage.

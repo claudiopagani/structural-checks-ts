@@ -73,6 +73,8 @@ interface MutablePathNode {
   chainTangent: RigidBlockVector2D | null;
   attachments: readonly PathNodeAttachment[];
   device: DeviceDescriptor | null;
+  /** Unit direction from this arch terminal toward an external system; no external point exists. */
+  externalDirection: RigidBlockVector2D | null;
   contact: boolean;
   /** Stable index after ordering, retained when unilateral contact releases this sample. */
   pathIndex: number;
@@ -316,6 +318,7 @@ function addArchPathNode(
   sideArcStation: number,
   attributes: {
     readonly device?: DeviceDescriptor;
+    readonly externalDirection?: RigidBlockVector2D;
     readonly contact?: boolean;
   },
 ): void {
@@ -330,6 +333,12 @@ function addArchPathNode(
         throw new Error("Two reinforcement devices overlap at one path node.");
       }
       existing.device = attributes.device;
+    }
+    if (attributes.externalDirection !== undefined) {
+      if (existing.externalDirection !== null) {
+        throw new Error("Two prescribed external directions overlap at one path node.");
+      }
+      existing.externalDirection = attributes.externalDirection;
     }
     existing.contact ||= attributes.contact ?? false;
     return;
@@ -347,6 +356,7 @@ function addArchPathNode(
     chainTangent: sample.chainTangent,
     attachments: attachmentsAtStation(geometry, referenceStation, referencePoint),
     device: attributes.device ?? null,
+    externalDirection: attributes.externalDirection ?? null,
     contact: attributes.contact ?? false,
     pathIndex: -1,
   });
@@ -367,6 +377,7 @@ function addExternalPathNode(
     chainTangent: null,
     attachments: [],
     device,
+    externalDirection: null,
     contact: false,
     pathIndex: -1,
   });
@@ -528,6 +539,18 @@ function buildReinforcementNodes(
           device: archAnchorDevice("left"),
         },
       );
+    } else if (topology.left.type === "external-direction") {
+      addArchPathNode(
+        nodes,
+        geometry,
+        side,
+        stationing,
+        topology.left.station * stationing.totalLength,
+        {
+          device: archAnchorDevice("left"),
+          externalDirection: topology.left.direction,
+        },
+      );
     } else {
       addExternalPathNode(nodes, topology.left.point, externalAnchorDevice("left"));
     }
@@ -560,6 +583,18 @@ function buildReinforcementNodes(
           device: archAnchorDevice("right"),
         },
       );
+    } else if (topology.right.type === "external-direction") {
+      addArchPathNode(
+        nodes,
+        geometry,
+        side,
+        stationing,
+        topology.right.station * stationing.totalLength,
+        {
+          device: archAnchorDevice("right"),
+          externalDirection: topology.right.direction,
+        },
+      );
     } else {
       addExternalPathNode(nodes, topology.right.point, externalAnchorDevice("right"));
     }
@@ -588,11 +623,11 @@ function buildReinforcementNodes(
 
   const topology = reinforcement.topology;
   const leftBound =
-    topology.left.type === "arch-anchor" ? topology.left.station * stationing.totalLength : 0;
+    topology.left.type === "external-anchor" ? 0 : topology.left.station * stationing.totalLength;
   const rightBound =
-    topology.right.type === "arch-anchor"
-      ? topology.right.station * stationing.totalLength
-      : stationing.totalLength;
+    topology.right.type === "external-anchor"
+      ? stationing.totalLength
+      : topology.right.station * stationing.totalLength;
   if (rightBound - leftBound <= 1e-12 * scale) {
     throw new Error(
       `Reinforcement ${reinforcement.id} has no positive extrados contact interval between its terminals.`,
@@ -610,6 +645,9 @@ function buildReinforcementNodes(
       topology.left.station * stationing.totalLength,
       {
         device: archAnchorDevice("left"),
+        ...(topology.left.type === "external-direction"
+          ? { externalDirection: topology.left.direction }
+          : {}),
       },
     );
   }
@@ -635,6 +673,9 @@ function buildReinforcementNodes(
       topology.right.station * stationing.totalLength,
       {
         device: archAnchorDevice("right"),
+        ...(topology.right.type === "external-direction"
+          ? { externalDirection: topology.right.direction }
+          : {}),
       },
     );
   }
@@ -837,12 +878,25 @@ function resolveSingleReinforcement(
 
   for (let index = 0; index < nodes.length; index += 1) {
     const node = nodes[index]!;
-    const hasIncoming = index > 0 || closedLoop;
-    const hasOutgoing = index < nodes.length - 1 || closedLoop;
-    const incomingTangent = hasIncoming
-      ? segmentTangents[hasIncoming && index === 0 ? segmentTangents.length - 1 : index - 1]!
-      : null;
-    const outgoingTangent = hasOutgoing ? segmentTangents[index]! : null;
+    const prescribedIncoming =
+      index === 0 && node.externalDirection !== null ? scale2d(node.externalDirection, -1) : null;
+    const prescribedOutgoing =
+      index === nodes.length - 1 && node.externalDirection !== null ? node.externalDirection : null;
+    if (
+      node.externalDirection !== null &&
+      prescribedIncoming === null &&
+      prescribedOutgoing === null
+    ) {
+      throw new Error(
+        `Reinforcement ${reinforcement.id} has a prescribed external direction away from a path terminal.`,
+      );
+    }
+    const hasIncoming = prescribedIncoming !== null || index > 0 || closedLoop;
+    const hasOutgoing = prescribedOutgoing !== null || index < nodes.length - 1 || closedLoop;
+    const incomingTangent =
+      prescribedIncoming ??
+      (hasIncoming ? segmentTangents[index === 0 ? segmentTangents.length - 1 : index - 1]! : null);
+    const outgoingTangent = prescribedOutgoing ?? (hasOutgoing ? segmentTangents[index]! : null);
     const tensionIn = hasIncoming ? tension : 0;
     const tensionOut = hasOutgoing ? tension : 0;
     const force = {
@@ -916,6 +970,7 @@ function resolveSingleReinforcement(
           deviceId,
           reinforcementId: reinforcement.id,
           terminationSide: device.terminationSide!,
+          anchorageGeometry: "fixed-point",
           referencePoint: node.referencePoint,
           point: node.point,
           tension: tensionIn + tensionOut,
@@ -923,6 +978,25 @@ function resolveSingleReinforcement(
           resultant,
           resultantDirection,
           resultantAngle,
+        });
+      } else if (node.externalDirection !== null) {
+        const forceTransmittedToExternalSystem = scale2d(node.externalDirection, -tension);
+        externalAnchorForces.push({
+          deviceId: `${reinforcement.id}:ED-${device.terminationSide}`,
+          reinforcementId: reinforcement.id,
+          terminationSide: device.terminationSide!,
+          anchorageGeometry: "prescribed-direction",
+          referencePoint: node.referencePoint,
+          point: node.point,
+          tension,
+          forceTransmittedToExternalSystem,
+          resultant: tension,
+          resultantDirection:
+            tension > 0 ? scale2d(forceTransmittedToExternalSystem, 1 / tension) : null,
+          resultantAngle:
+            tension > 0
+              ? Math.atan2(forceTransmittedToExternalSystem.y, forceTransmittedToExternalSystem.x)
+              : null,
         });
       }
     } else if (node.contact) {
@@ -1040,14 +1114,18 @@ function resolveSingleReinforcement(
   const externalAnchorForceSum = { x: 0, y: 0 };
   let residualMoment = 0;
   for (const device of deviceForces) {
-    if (device.kind === "external-anchor") {
-      externalAnchorForceSum.x += device.resultantForce.x;
-      externalAnchorForceSum.y += device.resultantForce.y;
-    } else {
+    if (device.kind !== "external-anchor") {
       archDeviceForceSum.x += device.resultantForce.x;
       archDeviceForceSum.y += device.resultantForce.y;
     }
     residualMoment += cross2d(device.point, device.resultantForce);
+  }
+  for (const external of externalAnchorForces) {
+    externalAnchorForceSum.x += external.forceTransmittedToExternalSystem.x;
+    externalAnchorForceSum.y += external.forceTransmittedToExternalSystem.y;
+    if (external.anchorageGeometry === "prescribed-direction") {
+      residualMoment += cross2d(external.point, external.forceTransmittedToExternalSystem);
+    }
   }
   for (const contact of contactForces) {
     archDeviceForceSum.x += contact.resultantForce.x;
@@ -1105,6 +1183,7 @@ function resolveSingleReinforcement(
     state: {
       reinforcementId: reinforcement.id,
       side: reinforcement.side,
+      anchorage: reinforcement.anchorage,
       topology: closedLoop ? "closed-loop" : "open",
       force: tension,
       trialForce,

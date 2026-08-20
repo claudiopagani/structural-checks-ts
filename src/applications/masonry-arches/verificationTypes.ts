@@ -19,7 +19,7 @@ import type {
   MasonryArchVerifiedLimitPoint,
 } from "./pathTypes.js";
 
-export const MASONRY_ARCH_VERIFICATION_RESULT_SCHEMA_VERSION = "5.0.0";
+export const MASONRY_ARCH_VERIFICATION_RESULT_SCHEMA_VERSION = "6.0.0";
 
 export type MasonryArchVerificationRoute = "rigid-plastic-static" | "arc-length-continuation";
 
