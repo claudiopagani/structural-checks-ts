@@ -4,7 +4,7 @@ import test from "node:test";
 import {
   buildSimplifiedMasonryArchGeometry,
   evaluateMasonryArchCurveAtStation,
-} from "structural-checks-ts-migration-workspace/applications/masonry-arches";
+} from "structural-checks-ts/applications/masonry-arches";
 
 function ellipticalMinimumRadius(input: {
   readonly span: number;

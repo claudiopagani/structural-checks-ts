@@ -6,7 +6,7 @@ import {
   scaleArcLengthDirection,
   sphericalArcLengthConstraint,
   sphericalArcLengthNorm,
-} from "structural-checks-ts-migration-workspace";
+} from "structural-checks-ts";
 
 const metric = { displacementScales: [2, 4], loadScale: 0.5 };
 

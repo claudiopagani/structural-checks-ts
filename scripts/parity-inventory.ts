@@ -436,10 +436,14 @@ export async function computeCurrentTypescriptCounts(
     recorded.applicationsExports.some((item) => item.id === name),
   ).length;
   const sourceFiles = [...targetFiles.paths].filter(
-    (filePath) => filePath.startsWith("src/") && filePath.endsWith(".ts"),
+    (filePath) =>
+      filePath.startsWith("src/") && filePath.endsWith(".ts") && targetFiles.texts.has(filePath),
   ).length;
   const tests = [...targetFiles.paths].filter(
-    (filePath) => filePath.startsWith("tests/") && filePath.endsWith(".test.ts"),
+    (filePath) =>
+      filePath.startsWith("tests/") &&
+      filePath.endsWith(".test.ts") &&
+      targetFiles.texts.has(filePath),
   ).length;
   return {
     rootExports: rootExports.length,

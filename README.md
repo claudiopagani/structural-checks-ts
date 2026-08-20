@@ -1,195 +1,62 @@
 # structural-checks-ts
 
-`structural-checks-ts` is the canonical public, solver-neutral TypeScript library for structural
-calculation and verification.
+`structural-checks-ts` is an open-source, solver-neutral structural-engineering library for
+TypeScript. It provides serializable calculation models, engineering checks, and numerical tools as
+ES modules with TypeScript declarations.
 
-## Current status
+## Install
 
-Implementation status: **partial**. Canonical authority status: **active**. Package publication
-status: **not yet approved**.
-
-All new development and engineering validation takes place in this repository under
-[Decision 0004](docs/decisions/0004-typescript-canonical-authority-and-evolving-normative-corpus.md).
-Historical migration records remain provenance evidence only. Implemented capabilities include:
-
-- result status constants and serializable `CalculationResult` and `VerificationResult` DTOs;
-- generic result-check utilities;
-- the generic force/length unit-system resolver;
-- geometrically linear 2D rigid-voussoir masonry-arch state analysis for simplified circular and
-  elliptical geometry, with self-weight, fill, uniform, patch and point loads, general load
-  combinations, selectable Heyman, Coulomb, or finite-compression interface domains, reactions,
-  equilibrium diagnostics, and a representative masonry thrust line, plus collapse multipliers for
-  selected factored load cases with rigid-block kinematics, zero-dilation non-associated sliding,
-  frictional dissipation, explicit crushing diagnostics, assigned curved post-tensioning with
-  independent intrados deviators or convex-extrados contact, and rigid terminal/device demand and
-  assigned-capacity checks, plus tension-only passive-tendon activation on prescribed finite
-  rigid-block configurations and an initial coupled finite-kinematics solver with explicit
-  deformable no-tension interfaces, adaptive load control, augmented displacement control, spherical
-  arc-length control, zero-dilation Coulomb slip, optional irreversible perfectly plastic crushing,
-  a regularized Heyman-type interface variant (no tension, unbounded compression strength,
-  elastic-unbounded finite-G tangential response without any Coulomb surface, stresses as response
-  quantities with null resistance utilizations), passive intrados/extrados tendon activation with
-  unilateral extrados contact release, passive bonded FRCM/FRP/equivalent-SFRM membrane layers with
-  asymmetric section domains and end development, plus typed cross-model comparison with explicit
-  geometry/load comparability diagnostics;
-- rectangular, circular, T, and polygon section geometry;
-- reinforcing bars and generated top/bottom longitudinal layouts;
-- generic composite sections and transformed reinforced-concrete sections;
-- base, concrete, and steel material DTOs;
-- NTC 2018 concrete and reinforcing-steel catalogs and factories, including existing-material
-  confidence handling and structured normative references;
-- NTC 2018 ULS uniaxial reinforced-concrete section resistance at an assigned axial force, with
-  strain compatibility, fiber integration, and an Illinois axial-equilibrium solver;
-- NTC 2018 ULS uniaxial reinforced-concrete N-M interaction domains at assigned or automatically
-  sampled axial-force levels and for either or both curvature signs.
-- NTC 2018 ULS reinforced-concrete N-Mx-My interaction domains at an assigned axial force, sampled
-  by neutral-axis orientation.
-- radial demand-capacity classification for sampled two-dimensional domains, plus the source public
-  dense and banded linear-algebra boundary needed by subsequent concrete analyses.
-- reinforced-concrete service-stress equilibrium under axial force and biaxial bending, using
-  no-tension concrete, elastic steel, and an explicit modular ratio.
-- reinforced-concrete moment-curvature response at assigned axial force, including first yield,
-  material ultimate, balanced failure, post-ultimate termination, and curvature ductility.
-- reinforced-concrete shear verification with and without vertical transverse reinforcement,
-  including the NTC 2018 variable-angle truss model.
-- reinforced-concrete torsion verification for concrete struts, closed transverse reinforcement,
-  assigned longitudinal reinforcement, and combined concrete shear-torsion interaction.
-- reinforced-concrete beam and column detailing for ordinary and dissipative reinforcement,
-  anchorage, and column confinement.
-- reinforced-concrete column member verification with slenderness screening, nominal-stiffness
-  second-order moments, biaxial resistance, shear, and detailing aggregation.
-- reinforced-concrete local beam member verification for sampled solver-neutral actions, including
-  uniaxial or biaxial flexure, service stress and indirect crack control, optional shear-torsion
-  interaction, detailing, and explicit station selection.
-- reinforced-concrete local plate and slab-strip verification using rotated Wood-Armer demands for
-  ULS bending and shear, SLS stress and indirect crack control, and simplified flat-slab
-  slenderness.
-- reinforced-concrete punching verification for interior, edge, and corner columns using first- or
-  second-generation EN 1992 methods, with generated or explicit perimeters and optional vertical
-  punching reinforcement.
-- reinforced-concrete seismic-wall checks for biaxial resistance, critical zones, capacity shear,
-  confinement, ductility, wall detailing, coupling beams, and wall-height aggregation.
-- reinforced-concrete isolated-footing checks for compression-only rigid-base contact, assigned
-  bearing and sliding resistance, strip bending, one-way shear, punching, local bearing, and
-  anchorage.
-- static axial capacity of one vertical constant-section pile in a layered one-dimensional ground
-  profile, with explicit shaft/base methods, groundwater, resistance conversion, and a
-  solver-neutral structural-coupling result.
-- a solver-neutral linear-elastic 2D Euler-Bernoulli frame kernel with generic nodes, supports,
-  nodal and uniform element loads, springs, prescribed and equal-DOF constraints, reactions, and
-  internal-force sampling.
-- straight beam-line preprocessing at supports and load discontinuities, plus a closed-form
-  Timoshenko element for linear bending and shear deformation.
-- a generic single-beam analysis pipeline with explicit section providers, inclined geometry,
-  section-rotation projection, load cases, combinations, selectable result stations, sampled
-  actions, reactions, envelopes, and solver-neutral section-action verification.
-- generic foundation-beam analysis with bilateral or compression-only lumped Winkler springs,
-  imposed soil settlements, active-set contact iteration, optional element stiffness iteration,
-  pressure/reaction envelopes, and explicit solver-neutral result metadata.
-- reinforced-concrete foundation-beam analysis for assigned horizontal prismatic beam and Winkler
-  inputs, including cracked-stiffness iteration from service moment-curvature curves and local RC
-  beam section verification.
-- standalone reinforced-concrete cracked-section service deflection with uncracked/cracked
-  curvature, creep, optional EN 1992 shrinkage curvature, adaptive hyperstatic stiffness
-  redistribution, and compatible beam-deflection integration, including local beam-verifier
-  composition when enabled.
-- reinforced-concrete beam-column joint verification for the pinned NTC 2018 local 2D and concurrent
-  orthogonal 3D boundary, including confinement, shear, diagonal compression, tension reinforcement,
-  capacity hierarchy, eccentricity transfer, and anchorage.
-- reinforced-concrete strut-and-tie verification for explicitly assigned 2D EN 1992 topologies,
-  including linear axial force distribution, member-sign compatibility, concrete strut and steel tie
-  resistance, and ccc/cct/ctt nodal-zone checks.
-- shared solver-neutral FEM capabilities, model, analysis, result, mapping, and complete
-  contract-set validation, including explicit units, axes, statuses, and provenance;
-- concurrent FEM demand-state collection, resistance-axis projection, assisted classification,
-  demand extraction, readiness reporting, and global postprocessing for externally supplied results;
-- NTC 2018 RC building capacity design, diaphragm, regularity, displacement/P-Delta, linear-dynamic,
-  coverage, design-basis, wall, slab, punching, and foundation building boundaries;
-- `RcBuildingVerificationApplication` with explicit consumer-provided member/system verifiers and
-  complete two-producer serialized conformance fixtures.
-
-The section, reinforcement, and material models are usable engineering data models. The ULS uniaxial
-section-resistance and uniaxial/biaxial interaction-domain applications are usable within their
-stated inputs and assumptions and retain historical numerical regression evidence. The public
-`rayPolygonCapacity` operation can classify a demand against one of those sampled domains using the
-source-compatible `utilizationRatio <= 1` rule. The service-stress workflow solves section stresses,
-and the local beam verifier applies the inherited NTC stress limits and indirect crack-control
-tables. The moment-curvature workflow preserves the source event and post-ultimate behavior.
-Section-level shear and torsion verification are available, while the inherited circular-section
-shear research method remains explicitly empirical and outside the normative corpus. Beam and column
-detailing checks and local beam and column member verification are also available. Local plate
-verification is available on conventional 1000 mm strips, punching is available through its separate
-connection/perimeter contract, and local seismic-wall checks are available for explicit
-solver-neutral demands. Centered rectangular isolated footings can also be checked locally when
-design bearing and sliding resistances are supplied; geotechnical capacity and settlement are not
-calculated by that structural application. The generic frame, single-beam, and foundation-beam
-pipelines can perform bounded linear 2D analysis for their explicit solver-neutral inputs. The RC
-foundation-beam application adds local section verification and source-compatible cracked-stiffness
-iteration for its declared horizontal prismatic beam boundary. Standalone cracked-section beam
-deflection and its local member-verifier composition are implemented for the declared solver-neutral
-boundary; the solver-neutral RC-building application now coordinates the declared building boundary
-from externally supplied FEM results, while application-registry parity and solver adapters remain
-outside the migration. Beam-column joints are available only for the declared local NTC 2018
-boundary; unsupported joint topologies, design codes, and global analysis remain outside the
-migration. Explicit 2D strut-and-tie models are available for the declared EN 1992 boundary;
-automatic topology generation, reinforcement detailing beyond assigned effective areas, and global
-analysis remain outside the migration. The RC-building application does not implement a FEM solver
-or solver-specific adapter and consumes explicit consumer-provided resistance verifiers. The
-repository does not claim normative, legal, regulatory, or professional conformity.
-
-The axial pile slice calculates single-pile geotechnical compression or tension capacity only. It
-does not implement pile groups, pile-cap load sharing, settlement or transfer curves, lateral
-response, or structural pile-section verification.
-
-## Historical provenance baselines
-
-- `strutture-js@0.8.0`:
-  [`6f33baead8b88166c4b2cf94af41763412e3c751`](https://github.com/claudiopagani/strutture-js/commit/6f33baead8b88166c4b2cf94af41763412e3c751)
-- initial `strutture-normative` validation snapshot:
-  [`41da3faa489600173106935bbcf726119300e48d`](https://github.com/claudiopagani/strutture-normative/commit/41da3faa489600173106935bbcf726119300e48d)
-
-These revisions record the clean evidence used when migration began. They are not active
-implementation or normative-corpus pins. See [migration status](docs/migration-status.md) and the
-machine-readable [baseline record](migration/baseline.json).
-
-## Install and verify
-
-This workspace intentionally has no publishable npm identity. `package.json#private` remains `true`
-until package identity, history import, and compatibility policy are approved.
-
-```bash
-npm ci
-npm run check
+```sh
+npm install structural-checks-ts
 ```
 
-The normative-reference check uses a clean, structurally compatible current checkout at
-`../strutture-normative` by default; it does not require an older commit. Override its location with
-`STRUTTURE_NORMATIVE_PATH`.
+Import general library functions from the package root:
 
-The default `npm run check` is TypeScript-canonical and does not require the former implementation.
-Historical live-parity files remain outside the default suite and may be run explicitly with
-`npm run test:legacy-parity` while their useful numerical evidence is converted to self-contained
-fixtures. They do not define canonical behavior.
+```ts
+import { createUnitResolver, RectangularSection } from "structural-checks-ts";
 
-The build emits portable ESM JavaScript and TypeScript declarations under `dist/`.
+const units = createUnitResolver({ force: "kN", length: "m" });
+const section = new RectangularSection({ width: 0.3, height: 0.5, units: { length: "m" } });
 
-## Boundaries
+console.log(units.force(1), section.area);
+```
 
-The library contains reusable structural domain primitives, normative checks, deterministic
-applications, and serializable technical results. It does not contain UI, storage, authentication,
-analytics, network orchestration, product logic, or solver-specific adapters. Concrete NextFEM and
-OOFEM integrations belong outside this repository.
+Use documented subpaths for focused modules:
 
-Internally, dependencies follow `applications -> norms -> domain`. The normative corpus is an
-external development and CI input only; it is never shipped at runtime.
+```ts
+import {
+  analyzeMasonryArchEquilibrium,
+  createMasonryArch,
+} from "structural-checks-ts/applications/masonry-arches";
+```
 
-See [project boundaries](docs/project-boundaries.md),
-[public API policy](docs/public-api-policy.md), and
-[normative traceability](docs/normative-traceability.md). The implemented masonry-arch scope and
-limits are documented in [masonry-arch analysis](docs/masonry-arch-analysis.md).
+## Scope
 
-## License and provenance
+The public surface includes structural result and unit contracts, materials, section geometry,
+catalogs, numerical tools, solver-neutral FEM contracts, and calculation modules for
+reinforced-concrete, masonry, steel, timber and composite members, foundations, and geotechnical
+problems. Norm-specific modules include implemented NTC 2018, EN 1992, and Italian historical-code
+calculations with structured references where available.
 
-This project is licensed under `LGPL-2.1-or-later`. Migrated implementation derives from
-`strutture-js`; the move to TypeScript does not erase that origin or relicense the work. See
-[LICENSE](LICENSE), [NOTICE](NOTICE), and [licensing guidance](docs/licensing.md).
+The advanced masonry-arch module models two-dimensional rigid-voussoir circular and elliptical
+arches. Its implemented scope includes rigid-plastic and deformable interfaces, assigned-state and
+path analyses, station-based discrete tendons, bonded effective intervals, and unilateral extrados
+cable contact. Tendon device results are mechanical actions only: local anchor/deviator design,
+bond-development mechanics, and construction detailing are outside the model. See
+[the masonry-arch model documentation](docs/masonry-arch-analysis.md) for assumptions and limits.
+
+## Status and support
+
+This is a pre-1.0 library. Public APIs may change in documented minor releases while the model
+matures. The package is ESM-only and supports the Node versions declared in `package.json`; the
+public calculation boundary is also checked for Web Worker bundling.
+
+Structural engineering software does not replace qualified professional judgment. Users are
+responsible for validating inputs, applicability, units, assumptions, results, and governing rules
+for each project. Passing tests or resolving normative references is not a claim of regulatory,
+legal, or professional conformity.
+
+The project is licensed under
+[GNU LGPL 2.1 or later](https://github.com/claudiopagani/structural-checks-ts/blob/master/LICENSE).
+Source, issues, and release history are hosted on
+[GitHub](https://github.com/claudiopagani/structural-checks-ts).

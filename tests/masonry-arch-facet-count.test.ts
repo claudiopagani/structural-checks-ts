@@ -4,7 +4,7 @@ import test from "node:test";
 import {
   createMasonryArch,
   type MasonryInterfaceLawInput,
-} from "structural-checks-ts-migration-workspace/applications/masonry-arches";
+} from "structural-checks-ts/applications/masonry-arches";
 // Internal low-level seams (not part of the public package exports): the rigid-block solvers are
 // tested directly to pin the compressionFacetCount validation contract at every pertinent entry
 // point.

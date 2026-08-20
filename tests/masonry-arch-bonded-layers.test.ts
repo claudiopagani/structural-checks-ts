@@ -13,7 +13,7 @@ import {
   type MasonryArchModel,
   type MasonryInterfaceLawInput,
   type RigidBlockInterfaceResultant2D,
-} from "structural-checks-ts-migration-workspace/applications/masonry-arches";
+} from "structural-checks-ts/applications/masonry-arches";
 
 /**
  * Deterministic bonded-layer campaign:
@@ -66,6 +66,8 @@ function intradosLayer(
     area: 0.01,
     elasticModulus: 100_000_000,
     tensileStrength: 1000,
+    startStation: 0,
+    endStation: 1,
     ...overrides,
   };
 }

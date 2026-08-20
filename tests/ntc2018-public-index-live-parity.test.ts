@@ -127,9 +127,7 @@ void test("NTC 2018 public index matches the independent pinned JavaScript imple
     path.join(repositoryRoot, "dist"),
     "norms/ntc2018/index.js",
   );
-  const packageIndex = (await import(
-    "structural-checks-ts-migration-workspace/norms/ntc2018"
-  )) as RuntimeModule;
+  const packageIndex = (await import("structural-checks-ts/norms/ntc2018")) as RuntimeModule;
   const sourceKeys = Object.keys(sourceIndex);
   assert.deepEqual(Object.keys(typescriptIndex), sourceKeys, "exact NTC 2018 export order");
   assert.deepEqual(Object.keys(packageIndex), sourceKeys, "package subpath export order");

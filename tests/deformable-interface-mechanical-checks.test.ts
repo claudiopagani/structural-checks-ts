@@ -7,7 +7,7 @@ import {
   type RigidBlockDeformableInterfaceLaw2D,
   type RigidBlockDeformableInterfaceMechanicalCheck2D,
   type RigidBlockDeformableInterfaceState2D,
-} from "structural-checks-ts-migration-workspace";
+} from "structural-checks-ts";
 
 /**
  * Direct tests of the mechanical checks published by `evaluateRigidBlockDeformableInterface2D`.

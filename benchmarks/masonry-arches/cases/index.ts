@@ -18,7 +18,7 @@ import {
   type MasonryArchLoadInput,
   type MasonryArchModel,
   type MasonryInterfaceLawInput,
-} from "structural-checks-ts-migration-workspace/applications/masonry-arches";
+} from "structural-checks-ts/applications/masonry-arches";
 import type {
   BenchmarkComparison,
   ConvergenceStudyRow,

@@ -5,7 +5,7 @@ import {
   compareMasonryArchModels,
   createMasonryArch,
   type MasonryInterfaceLawInput,
-} from "structural-checks-ts-migration-workspace/applications/masonry-arches";
+} from "structural-checks-ts/applications/masonry-arches";
 
 const rigidInterfaceLaw: MasonryInterfaceLawInput = {
   response: "rigid-plastic",

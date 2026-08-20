@@ -5,7 +5,7 @@ import {
   analyzeMasonryArchLimit,
   createMasonryArch,
   type MasonryInterfaceLawInput,
-} from "structural-checks-ts-migration-workspace/applications/masonry-arches";
+} from "structural-checks-ts/applications/masonry-arches";
 // Internal low-level seam (not part of the public package exports): the collapse solver is tested
 // directly so the iteration-limit forcing is deterministic.
 import { solveRigidBlockChainCollapse2D } from "../dist/domain/masonry/rigid-blocks/solveHeymanChainCollapse2D.js";

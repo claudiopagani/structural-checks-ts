@@ -491,7 +491,6 @@ export function recoverBondedLayerStaticState(
       reinforcementId: layer.id,
       family: layer.family,
       side: layer.side,
-      extent: layer.extent,
       startStation: layer.startStation,
       endStation: layer.endStation,
       tensileCapacity: layer.tensileCapacity,

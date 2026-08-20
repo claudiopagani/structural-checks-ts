@@ -18,7 +18,7 @@ import type {
   NormalizedMasonryArchModel,
 } from "./types.js";
 
-export const MASONRY_ARCH_MODEL_COMPARISON_RESULT_SCHEMA_VERSION = "7.0.0";
+export const MASONRY_ARCH_MODEL_COMPARISON_RESULT_SCHEMA_VERSION = "8.0.0";
 
 export type MasonryArchComparisonModelLike =
   | MasonryArchModel

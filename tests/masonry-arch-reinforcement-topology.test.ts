@@ -9,7 +9,7 @@ import {
   type ArchReinforcementInput,
   type MasonryArchModel,
   type MasonryInterfaceLawInput,
-} from "structural-checks-ts-migration-workspace/applications/masonry-arches";
+} from "structural-checks-ts/applications/masonry-arches";
 
 /**
  * Deterministic topology campaign for discrete intrados tendons:
@@ -146,7 +146,7 @@ void test("A3. arch anchors at non-terminal stations follow the assigned geometr
 // B. Intrados external-anchored tendons with vertical terminal branches
 // ---------------------------------------------------------------------------
 
-function externalVerticalModel(id: string, initialForce: number): MasonryArchModel {
+function verticalExternalBranchModel(id: string, initialForce: number): MasonryArchModel {
   // Deviators at the symmetric stations 0.25 / 0.5 / 0.75. The external anchors must hang
   // exactly one unit of length below the RESOLVED first and last deviator points, so both free
   // branches are vertical: probe the resolution first, then place the anchors.
@@ -159,19 +159,19 @@ function externalVerticalModel(id: string, initialForce: number): MasonryArchMod
       initialForce,
       topology: {
         type: "open",
-        left: { type: "external-anchor", point: { x: -6, y: 0 } },
-        right: { type: "external-anchor", point: { x: 6, y: 0 } },
+        left: { type: "external-anchor", station: 0.25, point: { x: -6, y: 0 } },
+        right: { type: "external-anchor", station: 0.75, point: { x: 6, y: 0 } },
         deviators: {
           type: "stations",
-          deviators: [{ station: 0.25 }, { station: 0.5 }, { station: 0.75 }],
+          deviators: [{ station: 0.5 }],
         },
       },
     },
   ]);
   const probeResolved = resolveArchReinforcements(probe);
-  const deviators = probeResolved.deviceForces.filter((item) => item.kind === "deviator");
-  const firstDeviator = deviators[0]!.point;
-  const lastDeviator = deviators.at(-1)!.point;
+  const terminals = probeResolved.deviceForces.filter((item) => item.kind === "arch-side-terminal");
+  const firstDeviator = terminals[0]!.point;
+  const lastDeviator = terminals.at(-1)!.point;
   return baseModel(id, [
     {
       id: "T",
@@ -183,15 +183,17 @@ function externalVerticalModel(id: string, initialForce: number): MasonryArchMod
         type: "open",
         left: {
           type: "external-anchor",
+          station: 0.25,
           point: { x: firstDeviator.x, y: firstDeviator.y - 1 },
         },
         right: {
           type: "external-anchor",
+          station: 0.75,
           point: { x: lastDeviator.x, y: lastDeviator.y - 1 },
         },
         deviators: {
           type: "stations",
-          deviators: [{ station: 0.25 }, { station: 0.5 }, { station: 0.75 }],
+          deviators: [{ station: 0.5 }],
         },
       },
     },
@@ -199,7 +201,7 @@ function externalVerticalModel(id: string, initialForce: number): MasonryArchMod
 }
 
 void test("B1. external anchors are fixed global points and the branches are vertical", () => {
-  const arch = externalVerticalModel("topology-b1", 100);
+  const arch = verticalExternalBranchModel("topology-b1", 100);
   const resolved = resolveArchReinforcements(arch);
   const state = resolved.reinforcementState[0]!;
   const path = state.path;
@@ -230,7 +232,7 @@ void test("B1. external anchors are fixed global points and the branches are ver
 });
 
 void test("B2. external branches participate in the elastic length", () => {
-  const arch = externalVerticalModel("topology-b2", 0);
+  const arch = verticalExternalBranchModel("topology-b2", 0);
   const state = resolveArchReinforcements(arch).reinforcementState[0]!;
   // 4 segments: two vertical branches (1 m each) plus three intrados chords.
   assert.equal(state.segments.length, 4);
@@ -244,7 +246,7 @@ void test("B2. external branches participate in the elastic length", () => {
 });
 
 void test("B3. external anchor forces are separate results and never arch block actions", () => {
-  const arch = externalVerticalModel("topology-b3", 100);
+  const arch = verticalExternalBranchModel("topology-b3", 100);
   const resolved = resolveArchReinforcements(arch);
   assert.equal(resolved.externalAnchorForces.length, 2);
   for (const anchor of resolved.externalAnchorForces) {
@@ -267,7 +269,9 @@ void test("B3. external anchor forces are separate results and never arch block 
 
 void test("B4. arch support reactions respond to the prestress and stay symmetric", () => {
   const bare = analyzeMasonryArchEquilibrium(baseModel("topology-b4-bare"));
-  const reinforced = analyzeMasonryArchEquilibrium(externalVerticalModel("topology-b4-re", 100));
+  const reinforced = analyzeMasonryArchEquilibrium(
+    verticalExternalBranchModel("topology-b4-re", 100),
+  );
   assert.equal(bare.outputs.engineeringAssessment.status, "PASS");
   assert.equal(reinforced.outputs.engineeringAssessment.status, "PASS");
   const bareLeft = bare.outputs.reactions.left.force;
@@ -290,7 +294,7 @@ void test("B4. arch support reactions respond to the prestress and stay symmetri
 });
 
 void test("B5. open tendon free body closes: arch devices plus external anchors", () => {
-  const arch = externalVerticalModel("topology-b5", 100);
+  const arch = verticalExternalBranchModel("topology-b5", 100);
   const state = resolveArchReinforcements(arch).reinforcementState[0]!;
   const equilibrium = state.equilibrium;
   assert.equal(equilibrium.meaning, "open-tendon-free-body");
@@ -339,6 +343,7 @@ void test("C. mixed left arch-anchor / right external-anchor closes the free bod
           left: { type: "arch-anchor", station: 0 },
           right: {
             type: "external-anchor",
+            station: 0.9,
             point: { x: intradosRight.x, y: intradosRight.y - 1 },
           },
           deviators: { type: "uniform-count", count: 1 },
@@ -349,7 +354,7 @@ void test("C. mixed left arch-anchor / right external-anchor closes the free bod
   const resolved = resolveArchReinforcements(mixed);
   assert.deepEqual(
     resolved.deviceForces.map((item) => item.kind),
-    ["terminal-arch-anchor", "deviator", "external-anchor"],
+    ["terminal-arch-anchor", "deviator", "arch-side-terminal", "external-anchor"],
   );
   assert.equal(resolved.externalAnchorForces.length, 1);
   assert.equal(resolved.externalAnchorForces[0]!.terminationSide, "right");

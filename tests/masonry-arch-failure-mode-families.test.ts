@@ -4,7 +4,7 @@ import test from "node:test";
 import {
   masonryArchFailureModeFromKinds,
   type MasonryArchEngineeringCriterionKind,
-} from "structural-checks-ts-migration-workspace/applications/masonry-arches";
+} from "structural-checks-ts/applications/masonry-arches";
 
 /**
  * The global failure mode classifies physical mechanism families, not the number of failed

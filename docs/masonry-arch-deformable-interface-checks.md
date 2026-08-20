@@ -12,6 +12,9 @@ design-failure policy follows the assigned constitutive law. This record remains
 report of the Decision 0011 iteration; the current semantics are documented in Decision 0012 and
 `docs/masonry-arch-analysis.md`.
 
+Decision 0015 subsequently removed local anchor resistance and its criterion entirely. Current
+device results contain mechanical actions only.
+
 This report records the iteration that removed the mechanical-formula duplication from
 `pathCriteria.ts` and made the deformable interface law publish its own structural checks. It is the
 implementation companion of
@@ -91,7 +94,7 @@ check:
 
 - `plastic-sliding` -> `state.interfaces[].checks.friction`;
 - `compression-strength-reached` and `crushing` -> `state.interfaces[].checks.compression`;
-- reinforcement, anchor, and bonded-layer criteria continue to copy their own evaluations' checks.
+- reinforcement and bonded-layer criteria continue to copy their own evaluations' checks.
 
 It contains no mechanical formula. An architecture guard in `scripts/check-architecture.ts` rejects
 the forbidden patterns (Coulomb capacity, friction-coefficient products, demand/capacity division,
@@ -166,8 +169,8 @@ references, provenance, parity inventory, package, packed consumer, worker bundl
 
 ## Remaining technical limits
 
-- `pathCriteria.ts` still copies anchor and bonded-layer data from their own evaluation results,
-  which already publish demand/capacity/utilization; no reconstruction happens there.
+- `pathCriteria.ts` still copies bonded-layer data from its evaluation results, which already
+  publish demand/capacity/utilization; no reconstruction happens there.
 - The friction check of the deformable law reports the returned force, so its utilization never
   exceeds one: reaching the limit is expressed by the `fail` status, not by a utilization above one,
   matching the law's own sliding test.

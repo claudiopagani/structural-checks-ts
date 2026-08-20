@@ -2,6 +2,10 @@
 
 Status: accepted
 
+> Refined by [Decision 0015](0015-masonry-arch-discrete-reinforcement-redesign.md): local anchor
+> resistance and the `anchor-capacity-reached` event were removed. Device actions have no local
+> capacity or verification verdict.
+
 ## Context
 
 Decision 0011 made the deformable interface law publish its checks and turned `pathCriteria.ts` into
@@ -54,8 +58,8 @@ The repository is not in production (see the pre-production change policy in `AG
      for `stop-at-onset` the `crushing` event is already a `terminal-physical-event` and therefore
      fails automatically;
    - `reinforcement-yielded` (no post-yield law assigned), `reinforcement-rupture`,
-     `anchor-capacity-reached`, `bonded-layer-capacity-reached` (no post-capacity behavior
-     assigned), and `extrados-contact-invalid` remain default failures;
+     `bonded-layer-capacity-reached` (no post-capacity behavior assigned), and
+     `extrados-contact-invalid` remain default failures;
    - every `terminal-physical-event` always fails the design check, unchanged.
 
    Callers can opt into a stricter policy with the existing `designFailureEvents` option, for
@@ -76,8 +80,8 @@ Consumers must read the constitutive state from the evaluation's `sliding`/`crus
 treat the check quantities as mechanical data, not as a verdict. Design-state analyses of arches
 whose local sliding or perfectly-plastic crushing redistributes now return `PASS` at `lambda = 1` by
 default, matching the assigned law; stricter consumers opt in through `designFailureEvents`.
-Terminal failures (`stop-at-onset`, reinforcement limits, anchor and bonded-layer capacity, extrados
-contact) are unchanged. The equilibrium assessment, the limit analysis, the `equilibrium-infeasible`
+Terminal failures (`stop-at-onset`, reinforcement limits, bonded-layer capacity, extrados contact)
+are unchanged. The equilibrium assessment, the limit analysis, the `equilibrium-infeasible`
 guardrail, and the single assessment-to-status mapping are unchanged.
 
 The change does not alter the repository's LGPL-2.1-or-later license, canonical-authority decision,

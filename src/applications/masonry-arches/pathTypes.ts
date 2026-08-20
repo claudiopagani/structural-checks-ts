@@ -32,7 +32,7 @@ import type {
 
 export type { MasonryArchEventKind } from "./types.js";
 
-export const MASONRY_ARCH_PATH_RESULT_SCHEMA_VERSION = "15.0.0";
+export const MASONRY_ARCH_PATH_RESULT_SCHEMA_VERSION = "16.0.0";
 
 export interface MasonryArchDof {
   readonly blockId: string;
@@ -133,7 +133,7 @@ export interface MasonryArchPathState {
   readonly interfaces: readonly RigidBlockDeformableInterfaceEvaluation2D[];
   readonly thrustLine: readonly (RigidBlockPoint2D | null)[];
   readonly reinforcementState: readonly ArchReinforcementStateResult[];
-  /** One entry per physical reinforcement device (anchors, deviators, return deviators). */
+  /** One entry per physical reinforcement device (terminals, deviators, and return deviators). */
   readonly deviceForces: readonly ArchDeviceForceResult[];
   readonly contactForces: readonly ArchContactForceResult[];
   /** Forces transmitted by open tendons to external structural systems, never applied to blocks. */

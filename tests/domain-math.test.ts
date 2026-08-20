@@ -6,7 +6,7 @@ import { pathToFileURL } from "node:url";
 import { promisify } from "node:util";
 
 import { BandedLinearSolver, DenseLinearSolver } from "../dist/index.js";
-import * as MathApi from "structural-checks-ts-migration-workspace/domain/math";
+import * as MathApi from "structural-checks-ts/domain/math";
 
 const execFileAsync = promisify(execFile);
 const expectedRevision = "6f33baead8b88166c4b2cf94af41763412e3c751";

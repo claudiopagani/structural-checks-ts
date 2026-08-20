@@ -5,8 +5,9 @@ import {
   createMasonryArch,
   resolveArchReinforcements,
   type ArchReinforcementInput,
+  type BondedLayerReinforcementInput,
   type MasonryInterfaceLawInput,
-} from "structural-checks-ts-migration-workspace/applications/masonry-arches";
+} from "structural-checks-ts/applications/masonry-arches";
 
 /**
  * Deterministic input-validation campaign: malformed reinforcement geometry must be rejected at
@@ -226,7 +227,7 @@ void test("I9. anchorage/connector input no longer exists in the model contract"
       topology: {
         type: "open",
         left: { type: "arch-anchor", station: 0 },
-        right: { type: "external-anchor", point: { x: 4.5, y: -1 } },
+        right: { type: "external-anchor", station: 1, point: { x: 4.5, y: -1 } },
         deviators: { type: "uniform-count", count: 1 },
       },
     },
@@ -268,11 +269,12 @@ void test("I10. an external anchor coincident with its adjacent cable point is r
           type: "open",
           left: {
             type: "external-anchor",
+            station: 0.5,
             // Exactly the intrados point at the crown deviator station 0.5.
             point: { x: 0, y: 4.5 },
           },
           right: { type: "arch-anchor", station: 1 },
-          deviators: { type: "uniform-count", count: 1 },
+          deviators: { type: "stations", deviators: [{ station: 0.75 }] },
         },
       },
     ],
@@ -313,5 +315,47 @@ void test("I11. bonded layers with a non-positive effective interval are rejecte
         ],
       }),
     /greater than/,
+  );
+});
+
+void test("I12. every physical reinforcement station is required at runtime", () => {
+  assert.throws(
+    () =>
+      archWith([
+        openTendon({
+          left: { type: "external-anchor", point: { x: -5, y: -1 } },
+        }) as unknown as ArchReinforcementInput,
+      ]),
+    /station is required/,
+  );
+  assert.throws(
+    () =>
+      createMasonryArch({
+        id: "validation-missing-bonded-station",
+        units: { force: "kN", length: "m" },
+        geometry: {
+          kind: "simplified-symmetric",
+          referenceCurve: "centerline",
+          profile: { type: "circular" },
+          span: 10,
+          rise: 5,
+          thickness: 1,
+          outOfPlaneWidth: 1,
+          voussoirCount: 21,
+        },
+        interfaceLaw: rigid,
+        bondedLayers: [
+          {
+            id: "FRCM",
+            family: "frcm",
+            side: "intrados",
+            area: 0.01,
+            elasticModulus: 100_000_000,
+            tensileStrength: 840,
+            endStation: 0.8,
+          } as unknown as BondedLayerReinforcementInput,
+        ],
+      }),
+    /startStation is required/,
   );
 });

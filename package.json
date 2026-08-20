@@ -1,9 +1,31 @@
 {
-  "name": "structural-checks-ts-migration-workspace",
-  "version": "0.0.0",
-  "private": true,
-  "description": "Non-publishable canonical TypeScript workspace for solver-neutral structural calculations and checks.",
+  "name": "structural-checks-ts",
+  "version": "0.1.0",
+  "description": "Solver-neutral TypeScript library for structural calculations and verification workflows.",
   "license": "LGPL-2.1-or-later",
+  "author": "Claudio Pagani",
+  "homepage": "https://github.com/claudiopagani/structural-checks-ts#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/claudiopagani/structural-checks-ts.git"
+  },
+  "bugs": {
+    "url": "https://github.com/claudiopagani/structural-checks-ts/issues"
+  },
+  "keywords": [
+    "structural-engineering",
+    "civil-engineering",
+    "structural-analysis",
+    "masonry",
+    "reinforced-concrete",
+    "geotechnical-engineering",
+    "eurocode",
+    "ntc2018",
+    "typescript"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
   "allowScripts": {
     "esbuild@0.28.1": true
   },
@@ -85,20 +107,18 @@
   },
   "files": [
     "dist",
-    "src",
-    "scripts/build.ts",
-    "tsconfig.build.json",
     "README.md",
+    "CHANGELOG.md",
     "LICENSE",
     "NOTICE",
-    "docs/licensing.md",
-    "migration"
+    "docs/licensing.md"
   ],
   "engines": {
     "node": "^22.13.0 || >=24.0.0"
   },
   "scripts": {
     "build": "node --experimental-strip-types scripts/build.ts",
+    "prepack": "npm run build",
     "test": "npm run build && npm run test:run",
     "test:run": "node --experimental-strip-types scripts/run-tests.ts --suite canonical",
     "test:legacy-parity": "node --experimental-strip-types scripts/run-tests.ts --suite legacy-parity",
@@ -117,7 +137,8 @@
     "check:parity-inventory": "node --experimental-strip-types scripts/check-parity-inventory.ts",
     "benchmark:masonry-arches": "npm run build && node --experimental-strip-types scripts/benchmark-masonry-arches.ts",
     "benchmark:masonry-arches:write": "npm run build && node --experimental-strip-types scripts/benchmark-masonry-arches.ts --full --write-evidence",
-    "check": "npm run build && npm run format:check && npm run lint && npm run typecheck && npm run test:run && npm run check:architecture && npm run check:normative-references && npm run check:provenance && npm run check:parity-inventory && npm run check:package && npm run check:packed-consumer && npm run check:worker-bundle && npm run check:encoding"
+    "release:verify": "npm run build && npm run format:check && npm run lint && npm run typecheck && npm run test:run && npm run check:architecture && npm run check:normative-references && npm run check:provenance && npm run check:parity-inventory && npm run check:package && npm run check:packed-consumer && npm run check:worker-bundle && npm run check:encoding && npm run benchmark:masonry-arches",
+    "check": "npm run release:verify"
   },
   "devDependencies": {
     "@eslint/js": "10.0.1",

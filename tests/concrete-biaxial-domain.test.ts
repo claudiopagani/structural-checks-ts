@@ -14,7 +14,7 @@ import {
   createNTC2018ConcreteMaterial,
   createNTC2018ReinforcementSteelMaterial,
 } from "../dist/index.js";
-import { rayPolygonCapacity } from "structural-checks-ts-migration-workspace/domain/math";
+import { rayPolygonCapacity } from "structural-checks-ts/domain/math";
 
 const units = { force: "N", length: "mm" } as const;
 

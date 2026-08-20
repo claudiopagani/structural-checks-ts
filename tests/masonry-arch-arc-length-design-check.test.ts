@@ -8,7 +8,7 @@ import {
   type ArchReinforcementInput,
   type BondedLayerReinforcementInput,
   type MasonryDeformableInterfaceLawInput,
-} from "structural-checks-ts-migration-workspace/applications/masonry-arches";
+} from "structural-checks-ts/applications/masonry-arches";
 // Internal numerical-safety seam (not part of the public package exports): the tangent-seed
 // helper used by the fixed-lambda corrector, tested directly for exception safety.
 import {

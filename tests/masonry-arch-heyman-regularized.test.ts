@@ -6,7 +6,7 @@ import {
   evaluateRigidBlockDeformableInterface2D,
   normalizeMasonryInterfaceLaw,
   type EvaluateRigidBlockDeformableInterface2DInput,
-} from "structural-checks-ts-migration-workspace";
+} from "structural-checks-ts";
 import {
   analyzeMasonryArchPath,
   analyzeMasonryArchVerification,
@@ -16,7 +16,7 @@ import {
   type BondedLayerReinforcementInput,
   type MasonryArchLoadInput,
   type MasonryDeformableInterfaceLawInput,
-} from "structural-checks-ts-migration-workspace/applications/masonry-arches";
+} from "structural-checks-ts/applications/masonry-arches";
 
 /**
  * Regularized Heyman-type deformable interface model.

@@ -9,7 +9,7 @@ import {
   type AnalyzeMasonryArchPathOptions,
   type ArchReinforcementInput,
   type MasonryDeformableInterfaceLawInput,
-} from "structural-checks-ts-migration-workspace/applications/masonry-arches";
+} from "structural-checks-ts/applications/masonry-arches";
 
 function deformable(
   overrides: Partial<MasonryDeformableInterfaceLawInput["normal"]> = {},

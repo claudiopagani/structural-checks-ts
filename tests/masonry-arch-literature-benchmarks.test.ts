@@ -1,11 +1,11 @@
 import assert from "node:assert/strict";
 import test from "node:test";
 
-import { rectangularNoTensionCompressionDomain2D } from "structural-checks-ts-migration-workspace";
+import { rectangularNoTensionCompressionDomain2D } from "structural-checks-ts";
 import {
   createMasonryArch,
   evaluateMasonryArchBondedSectionDomain,
-} from "structural-checks-ts-migration-workspace/applications/masonry-arches";
+} from "structural-checks-ts/applications/masonry-arches";
 
 function close(actual: number, expected: number, tolerance = 1e-12): void {
   assert.ok(Math.abs(actual - expected) <= tolerance, `${actual} is not close to ${expected}.`);
@@ -53,6 +53,8 @@ void test("bonded-layer section domain remains available through the arch assemb
         area: 0.001,
         elasticModulus: 200_000_000,
         debondingStrain: 0.0066,
+        startStation: 0,
+        endStation: 1,
       },
     ],
   });

@@ -8,6 +8,10 @@ Status: accepted
 > and criterion-locked, and the default design-failure policy follows the assigned constitutive law
 > (local sliding and perfectly-plastic crushing continue by default). The mapping-layer and
 > failure-mode-family decisions below remain in force.
+>
+> Refined again by [Decision 0015](0015-masonry-arch-discrete-reinforcement-redesign.md): local
+> anchor resistance, `anchor-capacity-reached`, and its failure-mode family were removed. Device
+> results now publish mechanical actions only.
 
 ## Context
 
@@ -76,11 +80,11 @@ correctness, clarity, and API coherence outrank backward compatibility.
 4. `masonryArchFailureModeFromKinds` classifies by physical mechanism family, not by the number of
    failed criteria. Criterion kinds map to families: masonry compression
    (`compression-strength-reached`, `crushing`), sliding (`plastic-sliding`), reinforcement
-   (`reinforcement-yielded`, `reinforcement-rupture`, `bonded-layer-capacity-reached`), anchor
-   (`anchor-capacity-reached`), and instability (`extrados-contact-invalid`). One family resolves to
-   the family's mode; within the reinforcement family, rupture or bonded-layer capacity prevails
-   over bare yielding. Several distinct families resolve to `mixed`. `equilibrium-infeasible` and
-   kinds without a physical family remain `undetermined`.
+   (`reinforcement-yielded`, `reinforcement-rupture`, `bonded-layer-capacity-reached`) and
+   instability (`extrados-contact-invalid`). One family resolves to the family's mode; within the
+   reinforcement family, rupture or bonded-layer capacity prevails over bare yielding. Several
+   distinct families resolve to `mixed`. `equilibrium-infeasible` and kinds without a physical
+   family remain `undetermined`.
 
 5. `bonded-layer-capacity-reached` stays in the reinforcement family even when it references a
    reinforcement system distinct from a simultaneously yielded or ruptured one: the global failure

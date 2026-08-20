@@ -21,7 +21,7 @@ masonry domain because the same zero-thickness laws can be assembled by wall mic
 masonry applications.
 
 ```ts
-import { createMasonryArch } from "structural-checks-ts-migration-workspace/applications/masonry-arches";
+import { createMasonryArch } from "structural-checks-ts/applications/masonry-arches";
 
 const arch = createMasonryArch({
   id: "arch",
@@ -86,71 +86,47 @@ reserved as the unbounded-compression marker (`compressiveStrength` omitted).
 Support interfaces may override the interior law through `supports.left.interfaceLaw` and
 `supports.right.interfaceLaw`.
 
-## Stable reinforcement anchorage
+## Reinforcement geometry
 
-The stable tendon API is block-based and discriminated by reinforcement side. User-facing block
-numbers default to one-based numbering; `numbering: "zeroBased"` is accepted only when requested
-explicitly. The public resolvers validate the range and publish zero-based `startBlockIndex` and
-`endBlockIndex`, external/loop flags, and any prescribed unit terminal directions. The same
-resolvers are used by `createMasonryArch`, so a UI does not need a parallel block or direction
-normalizer.
+Reinforcement geometry is topology-first and independent of `voussoirCount`. Every arch-side
+terminal, deviator, and return deviator uses a normalized station measured by arc length along the
+relevant physical side boundary: `0` is its left end and `1` its right end. Intrados stations belong
+to the intrados boundary and extrados stations to the extrados boundary. They are not normalized
+reference-curve coordinates. The library owns the continuous side-to-reference-curve transformation
+and only then determines the numerical block attachment.
 
-Intrados tendon anchorage has exactly four stable modes:
-
-- `terminalBlocks`: open internal tendon on the first and last voussoirs;
-- `customBlocks`: open internal tendon on two strictly ordered selected voussoirs;
-- `closedLoop`: closed internal loop between the terminal voussoirs, with a horizontal equivalent
-  return direction and no external anchor;
-- `externalVertical`: terminal force-transfer points on the first and last voussoirs, with vertical
-  downward external lines of action and no external coordinates.
-
-Extrados tendon anchorage has exactly three stable modes:
-
-- `terminalBlocks`: open extrados tendon on the first and last voussoirs;
-- `customBlocks`: open extrados tendon on two strictly ordered selected voussoirs;
-- `externalByAngle`: external lines of action prescribed by `angleDeg` from the horizontal, in the
-  range `0 <= angleDeg <= 90`. Omitted blocks mean first and last; otherwise both blocks are
-  required and validated. Left and right directions are outward, upward, and mirror-symmetric.
-
-For example:
+An open tendon terminates with either an arch anchor or a physical external fixed anchor:
 
 ```ts
-import {
-  resolveExtradosTendonAnchorage,
-  resolveIntradosTendonAnchorage,
-} from "structural-checks-ts-migration-workspace/applications/masonry-arches";
-
-const intrados = resolveIntradosTendonAnchorage({ kind: "externalVertical" }, 10);
-// startBlockIndex = 0, endBlockIndex = 9, no external point
-
-const extrados = resolveExtradosTendonAnchorage(
-  { kind: "externalByAngle", angleDeg: 45, startBlock: 2, endBlock: 8 },
-  10,
-);
-// startBlockIndex = 1, endBlockIndex = 7
+type ArchReinforcementTerminationInput =
+  | { type: "arch-anchor"; station: number }
+  | { type: "external-anchor"; station: number; point: { x: number; y: number } };
 ```
 
-Stable model inputs use `anchorage` directly. `externalVertical` and `externalByAngle` create
-prescribed-direction terminals attached to the resolved arch blocks: no free terminal segment, free
-point, tangent search, intersection search, or contact-range inference from an arbitrary spatial
-line is performed. Normalized reinforcements and `reinforcementState` retain the complete resolved
-`anchorage` DTO, so consumers can read the selected kind and resolved mechanics without reverse
-engineering the path. The resulting external-system action has
-`anchorageGeometry: "prescribed-direction"`; its reported point is the arch-side transfer point, not
-a synthesized external coordinate.
+An arch anchor moves with the masonry material point. An external anchor has both an arch-side
+terminal-device station and its actual fixed global point. The straight free terminal branch between
+those points is part of the reference and current tendon polyline, so it contributes to constitutive
+compatibility and passive activation. Its force is reported separately as an action on the external
+structural system and is not included in masonry support reactions. Left and right terminations may
+be fully asymmetric.
 
-Bonded reinforcement is separate from tendons. Its stable `extent` contains `startBlock` and
-`endBlock`; the selected interval covers those blocks and every block between them. It produces no
-tendon topology, point anchor, closed loop, external direction, or terminal-direction result.
-Normalized bonded layers and `bondedLayerState` retain the resolved zero-based `extent`. Existing
-`startStation`/`endStation` input remains available for explicit advanced studies so the validated
-continuous effective-interval semantics is preserved, but it cannot be combined with `extent`.
+For input interfaces that collect a direction and branch length, the pure
+`externalAnchorPointFromDirectionAndLength` helper validates a finite nonzero direction and a finite
+positive length, normalizes the direction, and returns the actual fixed point. The structural model
+receives that point; no hidden one-metre segment or prescribed-direction terminal exists.
 
-The explicit `topology` API (`arch-anchor` stations and fixed `external-anchor` points) is retained
-only as an experimental advanced geometry route for existing studies. Free external points are not
-part of the stable UI anchorage API. In particular, the stable vertical and angular modes never map
-to `external-anchor`, never choose the nearest available point, and never deduce a tangent or an
-intersection automatically. Extrados closed loops and stable `externalByPoint` modes do not exist.
+Intrados closed loops use left and right return-deviator stations plus their interior deviator
+layout. The return branch is the actual straight chord between the return devices and participates
+in complete-path compatibility. It is not assigned a horizontal direction. Extrados open tendons use
+compression-only unilateral contact: terminal stations delimit the allowed arch-side contact
+interval, while the taut-cable envelope determines which contacts remain active. Assigning a station
+does not force cable contact.
+
+Bonded layers are separate zero-thickness reinforcements. `startStation` and `endStation` define a
+strict effective side-boundary interval. Full assigned tensile capacity is available inside and the
+layer is absent outside. The model contains no block range or automatic development calculation.
+Block selection may be converted to stations by a consumer UI, but block indices are not physical
+reinforcement data and do not appear in normalized reinforcement geometry.
 
 ## Engineering objectives
 
@@ -308,19 +284,19 @@ response stays at or below one; how far the predictor crossed the surface is rep
 `trialDemand`, never by the main utilization.
 
 The equilibrium analysis fills demand, capacity, and utilization from its public interface,
-reinforcement, anchor, and bonded-layer checks, and reports one criterion per actually failing
-sub-check regardless of the synthetic reinforcement state. The path analysis maps its design-failure
-events onto the same criterion taxonomy and copies each criterion's demand, capacity, utilization,
-and `checkId` from the mechanical check published by the converged state of the event's own step:
+reinforcement, and bonded-layer checks, and reports one criterion per actually failing sub-check
+regardless of the synthetic reinforcement state. The path analysis maps its design-failure events
+onto the same criterion taxonomy and copies each criterion's demand, capacity, utilization, and
+`checkId` from the mechanical check published by the converged state of the event's own step:
 `plastic-sliding` copies the step's friction check, `compression-strength-reached` and `crushing`
-copy the step's compression check, and the reinforcement, anchor, and bonded-layer criteria copy
-their own evaluations' checks. The copied demand is the mobilized demand; `trialDemand` stays a
-constitutive diagnostic and is never used as the criterion demand. When a step terminates through a
-physical event, every physical-limit event identified by that same converged step is reported as a
-failed criterion, so a `stop-at-onset` step keeps its `compression-strength-reached` criterion next
-to the terminal `crushing` one. Path criteria never recompute a mechanical formula; quantities the
-step does not carry stay `null`, and the same violated condition re-identified at a later step does
-not duplicate the criterion list.
+copy the step's compression check, and the reinforcement and bonded-layer criteria copy their own
+evaluations' checks. The copied demand is the mobilized demand; `trialDemand` stays a constitutive
+diagnostic and is never used as the criterion demand. When a step terminates through a physical
+event, every physical-limit event identified by that same converged step is reported as a failed
+criterion, so a `stop-at-onset` step keeps its `compression-strength-reached` criterion next to the
+terminal `crushing` one. Path criteria never recompute a mechanical formula; quantities the step
+does not carry stay `null`, and the same violated condition re-identified at a later step does not
+duplicate the criterion list.
 
 Bonded-layer static recovery minimizes `sum(T_i)` subject to the masonry section domain and each
 layer bound. It then solves auxiliary minima and maxima on the complete optimal face for every
@@ -505,7 +481,7 @@ no such state exists. It is never a capacity.
 
 `lambdaVerificationLimit` is a capacity of the scalable pattern: the lambda of the first event that
 makes satisfying the design verification at `lambda = 1` impossible (certified limit point below
-one, terminal crushing, reinforcement/anchor/bonded-layer failure, …). It is `null` on `PASS`, on
+one, terminal crushing, reinforcement or bonded-layer failure, …). It is `null` on `PASS`, on
 fixed-state failure, and when no blocking event could be certified. On the static route, a design
 `FAIL` reports `assessment.lambda = 1` together with `lambdaVerificationLimit` from direct limit
 analysis (for example `0.72`): the two meanings never overload each other.
@@ -587,8 +563,8 @@ coordinates. No automatic load-to-arc-length switching occurs within one analysi
 Events are classified as `observable-event`, `warning`, `engineering-limit`,
 `terminal-physical-event`, or `numerical-failure`. Joint opening/closure, passive tendon activation,
 and ordinary extrados contact active-set changes are observable, not collapse. Sliding, compression
-strength, reinforcement and anchor limits retain their explicit physical classification. A normal
-active-set change does not terminate the path.
+strength and reinforcement limits retain their explicit physical classification. A normal active-set
+change does not terminate the path.
 
 ## Step-coherent states
 

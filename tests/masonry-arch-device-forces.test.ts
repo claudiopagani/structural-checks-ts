@@ -8,7 +8,7 @@ import {
   type ArchReinforcementInput,
   type MasonryArchModel,
   type MasonryInterfaceLawInput,
-} from "structural-checks-ts-migration-workspace/applications/masonry-arches";
+} from "structural-checks-ts/applications/masonry-arches";
 
 /**
  * Deterministic device-force campaign:
@@ -87,7 +87,7 @@ void test("H1. every device of the intrados topologies satisfies F = T_out*t_out
         topology: {
           type: "open",
           left: { type: "arch-anchor", station: 0.05 },
-          right: { type: "external-anchor", point: { x: 4.5, y: -1 } },
+          right: { type: "external-anchor", station: 0.95, point: { x: 4.5, y: -1 } },
           deviators: {
             type: "stations",
             deviators: [{ station: 0.25 }, { station: 0.5 }, { station: 0.75 }],
@@ -122,7 +122,7 @@ void test("H1. every device of the intrados topologies satisfies F = T_out*t_out
         initialForce: 70,
         topology: {
           type: "open",
-          left: { type: "external-anchor", point: { x: -5.2, y: 4 } },
+          left: { type: "external-anchor", station: 0, point: { x: -5.2, y: 4 } },
           right: { type: "arch-anchor", station: 1 },
           interaction: { type: "unilateral-contact", segmentCount: 16 },
         },
@@ -300,7 +300,7 @@ void test("C. external anchor: fixed point, Fx/Fy, magnitude/direction, no arch 
       topology: {
         type: "open",
         left: { type: "arch-anchor", station: 0 },
-        right: { type: "external-anchor", point: { x: 4.5, y: -1 } },
+        right: { type: "external-anchor", station: 1, point: { x: 4.5, y: -1 } },
         deviators: { type: "uniform-count", count: 1 },
       },
     },
@@ -401,7 +401,7 @@ void test("G. reinforcement-device results contain no connector-group/capacity/u
       topology: {
         type: "open",
         left: { type: "arch-anchor", station: 0 },
-        right: { type: "external-anchor", point: { x: 4.5, y: -1 } },
+        right: { type: "external-anchor", station: 1, point: { x: 4.5, y: -1 } },
         deviators: { type: "uniform-count", count: 1 },
       },
     },
@@ -437,7 +437,7 @@ void test("7. the published geometry is exactly the geometry used by the mechani
       initialForce: 100,
       topology: {
         type: "open",
-        left: { type: "external-anchor", point: { x: -4.5, y: -1 } },
+        left: { type: "external-anchor", station: 0.1, point: { x: -4.5, y: -1 } },
         right: { type: "arch-anchor", station: 1 },
         deviators: {
           type: "stations",

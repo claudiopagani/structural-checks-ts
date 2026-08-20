@@ -1,0 +1,48 @@
+name: Publish npm package
+
+on:
+  release:
+    types: [published]
+
+permissions:
+  contents: read
+  id-token: write
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          ref: ${{ github.event.release.tag_name }}
+          fetch-depth: 0
+          path: structural-checks-ts
+      - uses: actions/checkout@v6
+        with:
+          repository: claudiopagani/strutture-normative
+          path: strutture-normative
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 24
+          registry-url: https://registry.npmjs.org
+          cache: npm
+          cache-dependency-path: structural-checks-ts/package-lock.json
+      - name: Verify release tag and package version
+        working-directory: structural-checks-ts
+        shell: bash
+        run: |
+          tag='${{ github.event.release.tag_name }}'
+          version="$(node --print "require('./package.json').version")"
+          test "$tag" = "v$version"
+          test "$(git rev-list -n 1 "$tag")" = "$(git rev-parse HEAD)"
+          test "$(git rev-parse HEAD)" = "$GITHUB_SHA"
+      - name: Install current npm CLI
+        run: npm install --global 'npm@^11.15.0'
+      - run: npm ci
+        working-directory: structural-checks-ts
+      - run: npm run release:verify
+        working-directory: structural-checks-ts
+      - run: npm publish
+        working-directory: structural-checks-ts

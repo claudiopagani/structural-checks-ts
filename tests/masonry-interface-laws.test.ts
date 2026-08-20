@@ -1,10 +1,7 @@
 import assert from "node:assert/strict";
 import test from "node:test";
 
-import {
-  createUnitResolver,
-  normalizeMasonryInterfaceLaw,
-} from "structural-checks-ts-migration-workspace";
+import { createUnitResolver, normalizeMasonryInterfaceLaw } from "structural-checks-ts";
 
 const resolver = createUnitResolver({ force: "kN", length: "m" }, { force: "N", length: "m" });
 

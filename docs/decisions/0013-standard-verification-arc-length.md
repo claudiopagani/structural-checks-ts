@@ -2,6 +2,10 @@
 
 Status: accepted
 
+> Refined by [Decision 0015](0015-masonry-arch-discrete-reinforcement-redesign.md): the standard
+> route retains reinforcement and bonded-layer limits, but local anchor capacity is outside the
+> model and device results publish actions only.
+
 ## Context
 
 The previous standard verification of a masonry arch was the path primitive with objective
@@ -54,8 +58,8 @@ The repository is not in production (see the pre-production change policy in `AG
 10. The existing local-plasticity semantics of Decision 0012 are preserved unchanged:
     `joint-opened`, `passive-tendon-activated`, redistributing `plastic-sliding`, redistributing
     perfectly-plastic `compression-strength-reached`/`crushing`, terminal `stop-at-onset` crushing,
-    reinforcement yield without a post-yield law, reinforcement rupture, anchor capacity,
-    bonded-layer capacity, and `extrados-contact-invalid`.
+    reinforcement yield without a post-yield law, reinforcement rupture, bonded-layer capacity, and
+    `extrados-contact-invalid`.
 
 ## Consequences
 
@@ -64,6 +68,6 @@ The repository is not in production (see the pre-production change policy in `AG
   taxonomy tests use the explicit expert load control, and benchmark tests assert the new arc-length
   semantics (`design-state-reached`, corrected design state with lambda exactly one).
 - The mandatory verification tests (fixed state, corrector, sliding and crushing redistribution,
-  rupture/anchor/bonded verification limits, certified limit point, numerical INDETERMINATE, active
-  `T0`) are added in `tests/masonry-arch-verification-facade.test.ts` and
+  rupture/bonded verification limits, certified limit point, numerical INDETERMINATE, active `T0`)
+  are added in `tests/masonry-arch-verification-facade.test.ts` and
   `tests/masonry-arch-arc-length-design-check.test.ts`.

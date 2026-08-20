@@ -19,7 +19,7 @@ import type {
   MasonryArchVerifiedLimitPoint,
 } from "./pathTypes.js";
 
-export const MASONRY_ARCH_VERIFICATION_RESULT_SCHEMA_VERSION = "6.0.0";
+export const MASONRY_ARCH_VERIFICATION_RESULT_SCHEMA_VERSION = "7.0.0";
 
 export type MasonryArchVerificationRoute = "rigid-plastic-static" | "arc-length-continuation";
 
@@ -67,8 +67,8 @@ export interface MasonryArchVerificationFixedState {
 
 /**
  * Significant states of the verification, pointing at the underlying analyses and steps so that
- * FAIL diagrams (thrust line, interface forces, openings, reinforcement forces, anchors, bonded
- * layers, displacements) can always be recovered.
+ * FAIL diagrams (thrust line, interface forces, openings, reinforcement forces, external
+ * fixed-anchor actions, bonded layers, displacements) can always be recovered.
  */
 export interface MasonryArchVerificationSignificantStates {
   readonly fixedState: {
@@ -125,7 +125,7 @@ export interface MasonryArchVerificationOutputs extends Record<string, unknown> 
   /**
    * Lambda of the first event that makes satisfying the design verification at lambda = 1
    * impossible on the primary branch: a certified global limit point below one, terminal
-   * crushing, reinforcement or anchor or bonded-layer failure, or another genuinely
+   * crushing, reinforcement or bonded-layer failure, or another genuinely
    * design-blocking criterion. Null on PASS, on fixed-state failure (no scalable lambda is
    * defined), and when no blocking event could be certified (INDETERMINATE). Never confused with
    * the first local limit.
