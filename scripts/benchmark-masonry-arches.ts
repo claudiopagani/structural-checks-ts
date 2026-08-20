@@ -1,17 +1,20 @@
 /**
  * Masonry-arches scientific benchmark runner.
  *
- * Usage: node --experimental-strip-types scripts/benchmark-masonry-arches.ts [--fast|--full]
+ * Usage: node --experimental-strip-types scripts/benchmark-masonry-arches.ts
+ *        [--fast|--full] [--write-evidence]
  *
  * - --fast (default): the quantitative case suite plus the fast convergence study.
  * - --full: also the deformable-path integration-point and arc-length robustness studies.
  *
  * The runner executes the public solver API against the provenance-bearing corpus under
- * benchmarks/masonry-arches/, writes the machine-readable results to
- * benchmarks/masonry-arches/results/validation-results.json, and regenerates
- * benchmarks/masonry-arches/results/validation-report.md. It never rewrites acceptance criteria
- * and never modifies source datasets.
+ * benchmarks/masonry-arches/. Normal execution is check-only and leaves the worktree untouched.
+ * The explicit --write-evidence flag rewrites the machine-readable results and Markdown report;
+ * it never rewrites acceptance criteria or source datasets.
  */
+
+import { readFile } from "node:fs/promises";
+import path from "node:path";
 
 import {
   computeStatistics,
@@ -38,7 +41,25 @@ import {
   type CaseComparisonSpec,
 } from "../benchmarks/masonry-arches/cases/index.ts";
 
-const mode = process.argv.includes("--full") ? "full" : "fast";
+const arguments_ = process.argv.slice(2);
+const supportedArguments = new Set(["--fast", "--full", "--write-evidence"]);
+const unsupportedArgument = arguments_.find((argument) => !supportedArguments.has(argument));
+if (
+  unsupportedArgument !== undefined ||
+  (arguments_.includes("--fast") && arguments_.includes("--full"))
+) {
+  throw new Error("Usage: benchmark-masonry-arches.ts [--fast|--full] [--write-evidence].");
+}
+const mode = arguments_.includes("--full") ? "full" : "fast";
+const writeEvidence = arguments_.includes("--write-evidence");
+const evidencePaths = [
+  path.resolve(import.meta.dirname, "../benchmarks/masonry-arches/results/validation-results.json"),
+  path.resolve(import.meta.dirname, "../benchmarks/masonry-arches/results/validation-report.md"),
+] as const;
+
+async function evidenceSnapshot(): Promise<readonly string[]> {
+  return Promise.all(evidencePaths.map((filePath) => readFile(filePath, "utf8")));
+}
 
 function comparisonSpec(
   spec: Omit<CaseComparisonSpec, "predictedValue">,
@@ -48,6 +69,7 @@ function comparisonSpec(
 }
 
 async function main(): Promise<void> {
+  const originalEvidence = writeEvidence ? null : await evidenceSnapshot();
   const comparisons: BenchmarkComparison[] = [];
   const notes: string[] = [];
 
@@ -674,8 +696,6 @@ async function main(): Promise<void> {
     ],
   };
 
-  await writeRunResult(run);
-
   const convergenceBody = convergenceStudy
     .map(
       (row) =>
@@ -774,7 +794,15 @@ Evidence:
    hide a mismatch.
 `;
 
-  await writeMarkdownReport(run, body);
+  if (writeEvidence) {
+    await writeRunResult(run);
+    await writeMarkdownReport(run, body);
+  } else {
+    const finalEvidence = await evidenceSnapshot();
+    if (finalEvidence.some((contents, index) => contents !== originalEvidence![index])) {
+      throw new Error("Check-only masonry-arch benchmark modified versioned evidence.");
+    }
+  }
 
   console.log(`Benchmark mode: ${mode}`);
   console.log(
@@ -787,7 +815,11 @@ Evidence:
       .map(([family, value]) => `${family}=${value.within}/${value.total}`)
       .join(", ")}`,
   );
-  console.log(`Results written to benchmarks/masonry-arches/results/`);
+  console.log(
+    writeEvidence
+      ? "Evidence written to benchmarks/masonry-arches/results/."
+      : "Check-only run complete; versioned benchmark evidence was not modified.",
+  );
 }
 
 void main();

@@ -37,6 +37,7 @@ function deformable(): MasonryDeformableInterfaceLawInput {
 
 interface ModelOverrides {
   readonly interfaceLaw?: MasonryInterfaceLawInput;
+  readonly supports?: Parameters<typeof createMasonryArch>[0]["supports"];
   readonly loads?: Parameters<typeof createMasonryArch>[0]["loads"];
   readonly reinforcements?: readonly ArchReinforcementInput[];
 }
@@ -57,6 +58,7 @@ function urmArch(id: string, overrides: ModelOverrides = {}) {
     },
     masonry: { unitWeight: 20 },
     interfaceLaw: overrides.interfaceLaw ?? rigid,
+    ...(overrides.supports === undefined ? {} : { supports: overrides.supports }),
     loads: overrides.loads ?? [
       { id: "SW", type: "self-weight", loadCaseId: "G1" },
       {
@@ -72,6 +74,28 @@ function urmArch(id: string, overrides: ModelOverrides = {}) {
     bondedLayers: [],
   });
 }
+
+void test("mixed rigid-plastic and deformable interface response families are rejected at normalization", () => {
+  assert.throws(
+    () =>
+      urmArch("mixed-rigid-main", {
+        supports: {
+          left: { type: "rigid-contact", interfaceLaw: deformable() },
+        },
+      }),
+    /response family must be uniform.*supports\.left\.interfaceLaw is deformable/,
+  );
+  assert.throws(
+    () =>
+      urmArch("mixed-deformable-main", {
+        interfaceLaw: deformable(),
+        supports: {
+          right: { type: "rigid-contact", interfaceLaw: rigid },
+        },
+      }),
+    /response family must be uniform.*supports\.right\.interfaceLaw is rigid-plastic/,
+  );
+});
 
 function deformableArch(
   overrides: {

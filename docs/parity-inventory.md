@@ -20,6 +20,9 @@ The link to the previous implementation is severed and it is never consulted at 
 - Record updates: 2026-08-15 — the passive intrados tendon validation campaign added
   `tests/masonry-arch-passive-intrados-benchmark.test.ts`: TypeScript-side tests moved 425 -> 426.
   The JavaScript side remains the original snapshot.
+- Record updates: 2026-08-20 — the masonry-arch stabilization added the independent elliptical
+  geometry regression file: TypeScript-side tests moved 437 -> 438. The JavaScript side and every
+  historical artifact remain frozen.
 
 ## Surface counts
 
@@ -31,8 +34,8 @@ The link to the previous implementation is severed and it is never consulted at 
 | ApplicationRegistry entries       |                30 |                 30 |
 | Application catalog entries       |                30 |                 30 |
 | Serialized schema/version symbols |                49 |                 49 |
-| Source files                      |               480 |                532 |
-| Tests                             |               131 |                426 |
+| Source files                      |               480 |                537 |
+| Tests                             |               131 |                438 |
 | Validation campaigns              |                17 |                  0 |
 | Validation files                  |                27 |                  0 |
 | Examples                          |                32 |                  0 |

@@ -234,7 +234,7 @@ void test("A. verified equilibrium: assessment PASS with no failed criteria", ()
     assessment.question,
     "does-the-assigned-load-state-admit-a-verified-statically-admissible-equilibrium",
   );
-  assert.equal(result.metadata.schemaVersion, "6.0.0");
+  assert.equal(result.metadata.schemaVersion, "7.0.0");
 });
 
 void test("B. compression not verified: global infeasibility without fabricated compression criteria", () => {
@@ -263,6 +263,7 @@ void test("B. compression not verified: global infeasibility without fabricated 
   assert.equal(criterion.utilizationRatio, null);
   // The relaxed representative state fails the uniform-edge-block check at several interfaces,
   // but none of them may be promoted to a certified cause of the global infeasibility.
+  assert.ok(result.outputs.interfaces !== null);
   const failingInterfaces = result.outputs.interfaces.filter(
     (item) => item.checks.compression?.status === "fail",
   );
@@ -300,6 +301,7 @@ void test("C. friction-boundary model: global infeasibility without fabricated c
   assert.equal(criterion.utilizationRatio, null);
   // Interfaces show friction utilization above one in the relaxed representative state, but the
   // library must not promote them to a certified cause of the global infeasibility.
+  assert.ok(result.outputs.interfaces !== null);
   assert.ok(
     result.outputs.interfaces.some(
       (item) => item.checks.friction !== null && item.checks.friction.utilizationRatio! > 1,
@@ -907,7 +909,7 @@ void test("path design assessment reports the shared shape with lambda and requi
   // mode keeps its own semantics and remains available on the outputs.
   assert.equal(assessment.failureMode, null);
   assert.equal(result.outputs.failureMode, "no-collapse-within-model");
-  assert.equal(result.metadata.schemaVersion, "13.0.0");
+  assert.equal(result.metadata.schemaVersion, "14.0.0");
 });
 
 void test("D3. reinforcement rupture from both sub-checks preserves one criterion per check", () => {

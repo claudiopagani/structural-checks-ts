@@ -317,13 +317,20 @@ export function applyBondedLayerSectionToLaw(
 
 interface StaticSectionRecovery {
   /**
-   * Minimum-required per-contribution forces, in section order; null when the static problem is
-   * infeasible or does not determine a unique force vector. When the vector is null the masonry
-   * resultants are left untouched.
+   * Minimum-required per-contribution forces, in section order. Each force is independently null
+   * unless its value is unique over the complete minimum-force optimal face.
    */
-  readonly forces: readonly number[] | null;
+  readonly forces: readonly (number | null)[];
   readonly masonryNormalForce: number | null;
   readonly masonryMoment: number | null;
+}
+
+function uniqueRangeValue(range: {
+  readonly minimum: number;
+  readonly maximum: number;
+  readonly unique: boolean;
+}): number | null {
+  return range.unique ? (range.minimum + range.maximum) / 2 : null;
 }
 
 function recoverStaticSection(
@@ -353,19 +360,27 @@ function recoverStaticSection(
     })),
     capacities: contributions.map((item) => item.capacity),
   } as const;
-  const solution = solveBoundedMinimumProblem(problem, tolerance);
-  if (!solution.feasible || !solution.unique || solution.solution === null) {
-    return { forces: null, masonryNormalForce: null, masonryMoment: null };
+  const solution = solveBoundedMinimumProblem(problem, tolerance, [
+    { coefficients: contributions.map(() => 1) },
+    { coefficients: contributions.map((item) => item.coordinate) },
+  ]);
+  if (
+    !solution.feasible ||
+    solution.variableRanges === null ||
+    solution.projectionRanges === null
+  ) {
+    return {
+      forces: contributions.map(() => null),
+      masonryNormalForce: null,
+      masonryMoment: null,
+    };
   }
-  const totalForce = solution.solution.reduce((sum, force) => sum + force, 0);
-  const totalMoment = solution.solution.reduce(
-    (sum, force, index) => sum + force * contributions[index]!.coordinate,
-    0,
-  );
+  const totalForce = uniqueRangeValue(solution.projectionRanges[0]!);
+  const totalMoment = uniqueRangeValue(solution.projectionRanges[1]!);
   return {
-    forces: solution.solution,
-    masonryNormalForce: resultant.normalForce + totalForce,
-    masonryMoment: resultant.moment + totalMoment,
+    forces: solution.variableRanges.map(uniqueRangeValue),
+    masonryNormalForce: totalForce === null ? null : resultant.normalForce + totalForce,
+    masonryMoment: totalMoment === null ? null : resultant.moment + totalMoment,
   };
 }
 
@@ -374,8 +389,8 @@ function masonryResultant(
   section: BondedLayerInterfaceSection,
   baseLaw: RigidBlockInterfaceLimitLaw2D,
   recovery: StaticSectionRecovery,
-): RigidBlockInterfaceResultant2D {
-  if (recovery.masonryNormalForce === null || recovery.masonryMoment === null) return source;
+): RigidBlockInterfaceResultant2D | null {
+  if (recovery.masonryNormalForce === null || recovery.masonryMoment === null) return null;
   const normalForce = recovery.masonryNormalForce;
   const moment = recovery.masonryMoment;
   const halfLength = section.interface.length / 2;
@@ -425,7 +440,8 @@ export function recoverBondedLayerStaticState(
   resultants: readonly RigidBlockInterfaceResultant2D[],
   tolerance: number,
 ): {
-  readonly masonryResultants: readonly RigidBlockInterfaceResultant2D[];
+  /** Null per interface when the exact masonry-only aggregate is not uniquely recoverable. */
+  readonly masonryResultants: readonly (RigidBlockInterfaceResultant2D | null)[];
   readonly bondedLayerState: readonly BondedLayerStateResult[];
 } {
   const sections = resolveBondedLayerInterfaceSections(model);
@@ -443,7 +459,7 @@ export function recoverBondedLayerStaticState(
       if (contributionIndex < 0) return [];
       const contribution = section.contributions[contributionIndex]!;
       const recovery = recoveries[index]!;
-      const force = recovery.forces === null ? null : recovery.forces[contributionIndex]!;
+      const force = recovery.forces[contributionIndex]!;
       const utilizationRatio = force === null ? null : force / contribution.capacity;
       return [
         {

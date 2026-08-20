@@ -471,7 +471,7 @@
       "label": "Continuous intrados GFRP strengthening, 2 x 50 mm strips, with 4 spike anchors per strip (CSI-3)",
       "kind": "experimental",
       "tier": "B",
-      "tierRationale": "Spike anchors are hand-made dry-fiber anchors; our anchored terminations approximate them. Known difference: distributed spike action versus terminal anchorage.",
+      "tierRationale": "Spike anchors are hand-made dry-fiber anchors and are outside the library model. The effective bonded interval assumes anchorage effects are already accounted for; physical spike action remains a missing mechanic.",
       "phenomena": [
         "hinging",
         "debonding",

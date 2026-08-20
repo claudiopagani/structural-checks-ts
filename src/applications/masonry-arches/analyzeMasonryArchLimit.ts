@@ -9,6 +9,7 @@ import type {
   RigidBlockCollapse2D,
   RigidBlockInterfaceConstraintKind,
   RigidBlockInterfaceLimitLaw2D,
+  RigidBlockInterfaceResultant2D,
   RigidBlockKinematicMechanism2D,
   RigidBlockMotion2D,
 } from "../../domain/masonry/rigid-blocks/types.js";
@@ -510,10 +511,15 @@ export function analyzeMasonryArchLimit(
   else if (mechanism.verified && workVerified) failureMode = "mechanism";
   else failureMode = "undetermined";
 
+  const exactMasonryResultants = bondedRecovery?.masonryResultants.every(
+    (item): item is RigidBlockInterfaceResultant2D => item !== null,
+  )
+    ? bondedRecovery.masonryResultants
+    : null;
   const interfaces: MasonryArchInterfaceStateResult[] | null =
-    bondedRecovery === null || governingInterfaceResultants === null
+    exactMasonryResultants === null || governingInterfaceResultants === null
       ? null
-      : bondedRecovery.masonryResultants.map((item) => {
+      : exactMasonryResultants.map((item) => {
           const recovered = recoverMasonryArchInterfaceState(
             item,
             model.geometry.interfaces[item.index]!,
@@ -574,6 +580,11 @@ export function analyzeMasonryArchLimit(
           : ("fail" as const),
   };
   const warnings: string[] = [...resolvedReinforcements.warnings];
+  if (bondedRecovery !== null && exactMasonryResultants === null) {
+    warnings.push(
+      "The exact masonry-only bonded-section resultant is not uniquely determined; masonry interface checks and the thrust line are not verifiable.",
+    );
+  }
   if (collapse.reason !== null) warnings.push(collapse.reason);
   if (
     collapse.status === "optimal" &&

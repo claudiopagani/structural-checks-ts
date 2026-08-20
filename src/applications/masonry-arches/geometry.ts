@@ -149,12 +149,42 @@ function profileSpeed(profile: NormalizedMasonryArchProfile, parameter: number):
   );
 }
 
-function profileCurvature(profile: NormalizedMasonryArchProfile, parameter: number): number {
+export function masonryArchProfileCurvature(
+  profile: NormalizedMasonryArchProfile,
+  parameter: number,
+): number {
   if (profile.type === "circular") {
     return 1 / profile.radius;
   }
   const speed = profileSpeed(profile, parameter);
   return (profile.semiAxisX * profile.semiAxisY) / speed ** 3;
+}
+
+/** Exact radius of curvature of the supported circular/elliptical reference profile. */
+export function masonryArchProfileRadiusOfCurvature(
+  profile: NormalizedMasonryArchProfile,
+  parameter: number,
+): number {
+  return 1 / masonryArchProfileCurvature(profile, parameter);
+}
+
+/**
+ * Exact minimum radius over the complete supported symmetric profile interval.
+ *
+ * For x = a sin(p), y = b cos(p) + c,
+ *
+ *   rho(p) = (a^2 cos^2(p) + b^2 sin^2(p))^(3/2) / (a b).
+ *
+ * On 0 <= p <= halfParameter, the term inside the power is
+ * a^2 + (b^2 - a^2) sin^2(p). It is monotone on that interval: the minimum is at the crown when
+ * b >= a and at either springing when b < a. Symmetry supplies the negative-parameter half.
+ */
+export function minimumMasonryArchProfileRadiusOfCurvature(
+  profile: NormalizedMasonryArchProfile,
+): number {
+  if (profile.type === "circular") return profile.radius;
+  const parameter = profile.semiAxisY >= profile.semiAxisX ? 0 : profile.halfParameter;
+  return masonryArchProfileRadiusOfCurvature(profile, parameter);
 }
 
 function profileTotalLength(profile: NormalizedMasonryArchProfile): number {
@@ -232,19 +262,6 @@ function referencePointAndTangent(
       "Elliptical arch tangent",
     ),
   };
-}
-
-function minimumRadiusOfCurvature(profile: NormalizedMasonryArchProfile): number {
-  if (profile.type === "circular") {
-    return profile.radius;
-  }
-  const radius = (parameter: number) => {
-    const term =
-      profile.semiAxisX ** 2 * Math.sin(parameter) ** 2 +
-      profile.semiAxisY ** 2 * Math.cos(parameter) ** 2;
-    return term ** 1.5 / (profile.semiAxisX * profile.semiAxisY);
-  };
-  return Math.min(radius(0), radius(profile.halfParameter));
 }
 
 function offsetDistances(
@@ -347,7 +364,7 @@ export function evaluateMasonryArchCurveAtStation(
   const { point, tangent } = referencePointAndTangent(geometry.profile, parameter);
   const outwardNormal = { x: -tangent.y, y: tangent.x };
   const offsets = offsetDistances(geometry.referenceCurve, geometry.thickness);
-  const curvature = profileCurvature(geometry.profile, parameter);
+  const curvature = masonryArchProfileCurvature(geometry.profile, parameter);
   return {
     station: clampedStation,
     normalizedStation: totalLength === 0 ? 0 : clampedStation / totalLength,
@@ -386,8 +403,9 @@ export function buildSimplifiedMasonryArchGeometry(
       : input.referenceCurve === "centerline"
         ? thickness / 2
         : 0;
-  const minimumRadius = minimumRadiusOfCurvature(profile);
-  if (inwardOffset >= minimumRadius * (1 - 1e-10)) {
+  const minimumRadius = minimumMasonryArchProfileRadiusOfCurvature(profile);
+  const minimumInwardOffsetJacobian = 1 - inwardOffset / minimumRadius;
+  if (minimumInwardOffsetJacobian <= 1e-10) {
     throw new Error(
       "Arch thickness is incompatible with the minimum radius of curvature of the selected reference curve.",
     );

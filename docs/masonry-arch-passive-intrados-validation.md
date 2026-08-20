@@ -1,6 +1,6 @@
 # Passive intrados tendon validation: activation + redistribution + design PASS at lambda 1
 
-Status: validated benchmark found | Scope: `applications/masonry-arches` path analysis
+Status: validated regression | Scope: current `applications/masonry-arches` path analysis
 
 This report records an isolated validation campaign for the masonry-arch passive intrados tendon
 model. It answers one question: does the current mechanical model contain a physically sensible case
@@ -11,37 +11,24 @@ T0 = 0  ->  arch initially equilibrated  ->  deformation/opening  ->  intrados-p
         ->  passive activation  ->  T > 0  ->  redistribution  ->  continuation  ->  lambda = 1  ->  PASS
 ```
 
-The campaign did **not** modify the solver, the tendon formulas, the compatibility, or the
-design-policy code. Only new files were added. The conclusion is the strongest success case:
+The original campaign did not calibrate the solver or tendon formulas. The maintained test now
+tracks the canonical topology and verification contracts. The conclusion remains the strongest
+success case:
 
 > **PASSIVE INTRADOS ACTIVATION + PASS BENCHMARK FOUND**
 
-## 1. Baseline used
+## 1. Current baseline
 
-- Repository: `structural-checks-ts`
-- HEAD at campaign start: `e7c6ebe9ac886907295b6d3a939e8340619f4ec0` (`archi: modifiche ulteriori`)
-- The working tree additionally carries the uncommitted "local plastic limits are not global
-  failures" iteration (decision record
-  `docs/decisions/0012-local-plastic-limits-are-not-global-failures.md`, path schema version
-  `8.0.0`). That iteration changes the **default design-failure policy**: `plastic-sliding`,
-  `compression-strength-reached`, and `crushing` are no longer default design-failure events; local
-  plastic sliding and perfectly-plastic crushing continue the path by default, while the caller can
-  opt into a stricter policy with `designFailureEvents`.
-- The benchmark depends on that default policy: under the previous strict default it stops at the
-  first plastic sliding (lambda = 0.475) before activation. The mechanical sequence itself
-  (activation at lambda = 0.975) is policy-independent.
+This report follows the canonical TypeScript implementation and the reinforcement contract in
+Decision 0015. The pinned test uses the current arch-anchor topology and standard arc-length design
+verification. Local plastic sliding and perfectly-plastic compression may redistribute under the
+default policy; callers can add stricter physical-limit kinds through `designFailureEvents`.
 
-## 2. Files added / modified
+## 2. Maintained evidence
 
-Added only (no source, no test-suite modifications):
-
-- `tests/masonry-arch-passive-intrados-benchmark.test.ts` — deterministic regression test (6 tests).
-- `docs/masonry-arch-passive-intrados-validation.md` — this report.
-- `migration/parity-inventory.json` + `docs/parity-inventory.md` — deliberate frozen-record update
-  for the new test file (TypeScript-side tests count 425 -> 426, JavaScript side untouched), as
-  required by `npm run check:parity-inventory`.
-
-Temporary exploration scripts were used locally and removed before delivery.
+- `tests/masonry-arch-passive-intrados-benchmark.test.ts` is the executable regression oracle.
+- This report explains its mechanical interpretation. Historical migration/parity records are
+  provenance only and do not define the current implementation.
 
 ## 3. Exact passive intrados tendon model (audit)
 
@@ -49,21 +36,18 @@ All in `src/applications/masonry-arches/resolveArchReinforcements.ts`:
 
 1. **Reference path** — `createSideArcStationing` integrates the intrados arc length between
    interface stations; path nodes are placed at equally spaced side-arc stations (rigid deviators,
-   count odd >= 3, one at the crown) plus terminal-connector stations. The node reference points are
-   the intrados curve points of the undeformed arch.
+   with one at the crown) plus the two terminal arch anchors. The node reference points are the
+   intrados curve points of the undeformed arch.
 2. **Reference length** — `referencePathLength` is the polyline length through the node reference
-   points (two chords of 6.364 m each for 3 deviators, total 12.728 m).
+   points (two chords of 6.364 m each for the one-crown-deviator path, total 12.728 m).
 3. **Deformed path** — every node is rigidly attached to its voussoir(s) (`transformPointByBlock`;
    interface nodes share 0.5/0.5 between the two adjacent blocks). The current path is the polyline
    through the moved points.
 4. **Delta-L** — `elongation = currentPathLength - referencePathLength`; values below
    `elongationTolerance = 64 * EPS * max(1, Lref, Lcur)` are treated as zero.
-5. **Compatibility mode** — `anchored-length-compatible` only when both terminations are
-   `distributed-anchorage`; then
-   `effectiveElasticLength = sum(referenceSegmentLengths[i] * segmentTensionRatios[i])` (equal to
-   the full reference length for `connectorCount: 1`). Any other termination combination is
-   `externally-force-controlled`, with zero elastic increment (a passive tendon can therefore only
-   activate with distributed anchorage on both ends).
+5. **Compatibility** — every supported tendon topology uses its complete resolved reference and
+   current path lengths. Arch anchors move with their voussoirs; external anchors remain fixed in
+   the global frame. There is no distributed-anchorage or connector-capacity mechanics.
 6. **Force** —
    `trialForce = initialForce + E * A * constitutiveElongation / effectiveElasticLength`;
    `force = max(0, trialForce)`; tangent stiffness `E * A / effectiveElasticLength` when the trial
@@ -78,7 +62,7 @@ All in `src/applications/masonry-arches/resolveArchReinforcements.ts`:
 
 ```text
 F = max(0, F0 + E * A * (L_current - L_reference) / L_effective)
-L_effective = sum(L_reference_i * ratio_i)          (ratio_i = 1 for connectorCount 1)
+L_effective = L_reference
 state = slack if F = 0; active-passive if F > 0 and F0 = 0
 ```
 
@@ -95,8 +79,8 @@ Guided, deterministic sweeps (temporary scripts, ~200 runs):
   crown load (reproduction of the previously documented activation case).
 - **Geometry**: circular semicircular and elliptical basket arches (springing angles 65–80 deg),
   rise 3–5, thickness 0.8–2.0, voussoir count 5, 7, 9, 13.
-- **Tendon**: deviator counts 3, 5, 7; area 1e-3 m2; E = 200 GPa; both terminations
-  distributed-anchorage; initialForce 0.
+- **Tendon**: deviator counts 1, 3, 5, 7; area 1e-3 m2; E = 200 GPa; terminal arch anchors;
+  initialForce 0.
 - **Interface stiffness**: normal E 1e6–1e8 kPa (closure-dominated shortening hypothesis).
 
 Key empirical findings along the way:
@@ -120,23 +104,25 @@ Key empirical findings along the way:
   kinematics** — this is not a complete design benchmark.
 - Scalable load Q: patch `components (0, -20)` kN/m over reference stations [0.05, 0.45] (left ~40%
   of the arch).
-- Reinforcement: id `passive-intrados`, side `intrados`, rigid deviators count 3, area 0.001 m2, E =
-  200 GPa, **initialForce 0**, yield 450 MPa, tensile 550 MPa, terminations distributed-anchorage
-  connectorCount 1 on both sides.
+- Reinforcement: id `passive-intrados`, side `intrados`, rigid deviators count 1, area 0.001 m2, E =
+  200 GPa, **initialForce 0**, yield 450 MPa, tensile 550 MPa, arch anchors at stations 0 and 1, and
+  one crown deviator.
 - Analysis: `design-state-check`, scalable ["Q"], equilibrium tolerance 1e-7, maxIterations 50,
-  maxSteps 200 (default load control to targetLambda 1, default design-failure events).
+  maxSteps 200 (standard adaptive arc length with an exact fixed-lambda corrector at lambda 1).
 
 ## 7. Activation lambda
 
-- Activation event at **step 11, lambda = 0.975** (0 < lambda < 1 as required).
+- The current regression pins activation at **step 14, lambda = 0.9536693** and asserts
+  `0 < lambda < 1`; the activation lambda is an observed path quantity rather than a public capacity
+  landmark.
 
 ## 8. Tendon force before / after activation
 
-| step | lambda | state          | force (kN) | elongation (m) |
-| ---- | ------ | -------------- | ---------- | -------------- |
-| 8    | 0.725  | slack          | 0          | -5.73e-4       |
-| 11   | 0.975  | active-passive | **8.84**   | +5.63e-4       |
-| 12   | 1.000  | active-passive | **11.29**  | +7.19e-4       |
+| step | lambda   | state          | force (kN) | elongation (m) |
+| ---- | -------- | -------------- | ---------- | -------------- |
+| 13   | 0.753674 | slack          | 0          | -4.98e-4       |
+| 14   | 0.953669 | active-passive | **6.91**   | +4.40e-4       |
+| 15   | 1.000000 | active-passive | **11.29**  | +7.19e-4       |
 
 `initialForce` is exactly 0 throughout. The force before activation is exactly 0; after activation
 it is positive and grows monotonically to 11.29 kN at lambda = 1. No slack/active oscillation:
@@ -159,19 +145,19 @@ exactly one `passive-tendon-activated` event and no `tendon-slackened` event.
   new default policy the design path continues (local plasticity is not a global failure; no failed
   criterion is produced).
 - lambda 0.725: J-007 closes again.
-- **lambda 0.975: joint J-004 closes; `passive-tendon-activated` (observable event).**
+- **lambda 0.953669: `passive-tendon-activated` (observable event).**
 - lambda 1.000: J-007 re-opens; analysis terminates `target-reached`.
 
 ## 11. Converged steps after activation
 
-- One full converged scalable step after activation (step 12, lambda = 1.0, 5 Newton iterations)
-  plus the activation step itself; 12 completed steps, 0 cutbacks. The equilibrium path continues
-  with positive evolving tendon force.
+- One full converged scalable step after activation (step 15, lambda = 1.0) plus the activation step
+  itself; 15 completed steps and 1 cutback. The equilibrium path continues with positive evolving
+  tendon force.
 
 ## 12. Reaching lambda = 1
 
-- Yes: `convergenceInfo.termination = "target-reached"`, `lambda = 1`, converged residuals within
-  tolerance, `engineeringAssessment.status = "PASS"`, `result.status = "ok"`.
+- Yes: `convergenceInfo.termination = "design-state-reached"`, `lambda = 1`, converged residuals
+  within tolerance, `engineeringAssessment.status = "PASS"`, `result.status = "ok"`.
 
 ## 13. Verdict
 
@@ -190,8 +176,8 @@ exactly one `passive-tendon-activated` event and no `tendon-slackened` event.
 Same arch, loads, and interfaces, no reinforcement:
 
 - With tendon: PASS, lambda = 1.
-- Without tendon: **INDETERMINATE**, `minimum-step` at **lambda = 0.9578** (peak 0.9578, 19
-  completed steps, 7 cutbacks); the load-controlled path cannot reach the design state.
+- Without tendon: **INDETERMINATE**, `minimum-step` with a non-null `maximumObservedLambda`;
+  `capacity.lambdaPeak` remains null because no two-sided branch turn was certified.
 
 This is the strongest outcome (CASO 1): the passive tendon is necessary for the design state to be
 reached. No parameter was tuned to manufacture the contrast — the same configuration is used with
@@ -219,9 +205,9 @@ None. The elongation, strain, force, slack/active-passive state, and activation 
 consistently with the documented compatibility model in every explored configuration. Two behavioral
 notes, not bugs:
 
-- A passive intrados tendon can only activate with `distributed-anchorage` on both ends
-  (`anchored-length-compatible` mode); with a `continuous-external` termination the elastic
-  increment is zero by design.
+- A passive tendon activates when its complete resolved path lengthens enough to make
+  `T0 + E A DeltaL / Lref` positive. Arch and external anchors affect that path through their
+  declared kinematics; neither carries an anchorage-capacity model.
 - With many voussoirs the cumulative elastic joint closure shortens the intrados path at design
   loads, so activation is confined to mechanisms close to the limit point; this is the physical
   behavior of the current model family, not a defect.
@@ -240,28 +226,19 @@ notes, not bugs:
 - F. strict opt-in policy boundary: `designFailureEvents: ["plastic-sliding"]` fails at lambda =
   0.475 before activation.
 
-## 19. Validation executed
+## 19. Validation contract
 
-On the working-tree baseline described in section 1:
-
-- `npm run build` — clean.
-- New test file in isolation — 6/6 pass (~3 s).
-- Full canonical test suite — 313 tests, 313 pass, 0 fail (includes the 6 new tests and every
-  masonry-arch test).
-- `npm run typecheck` — clean.
-- `npm run lint` — clean.
-- `npx prettier --check` on the new files — clean.
-- `npm run check` — exit code 0: architecture (532 source files), normative references, provenance,
-  parity inventory (426 tests, record updated deliberately), package, packed consumer, browser
-  bundle and web worker checks all pass.
+The executable regression participates in `npm run test:run`. Repository delivery additionally
+requires `npm run check` and the non-mutating `npm run benchmark:masonry-arches`; current validation
+counts belong in the delivery report rather than being frozen into this mechanical case note.
 
 ## 20. Conclusion
 
 > **PASSIVE INTRADOS ACTIVATION + PASS BENCHMARK FOUND**
 
 The current mechanical model contains a physically sensible case of a passive intrados tendon (zero
-initial force) that activates by path-elongation compatibility at lambda = 0.975, develops positive
-force, redistributes actions, continues the equilibrium path, and reaches lambda = 1 with `PASS`.
-The same arch without the tendon does not reach lambda = 1, so the benchmark also demonstrates the
-tendon's stabilizing role. The design PASS uses the default local-plasticity policy introduced by
-the parallel iteration; the strict opt-in policy boundary is documented and tested.
+initial force) that activates by path-elongation compatibility at lambda = 0.9536693, develops
+positive force, redistributes actions, continues the equilibrium path, and reaches lambda = 1 with
+`PASS`. The same arch without the tendon does not reach lambda = 1, so the benchmark also
+demonstrates the tendon's stabilizing role. The design PASS uses the default local-plasticity policy
+introduced by the parallel iteration; the strict opt-in policy boundary is documented and tested.

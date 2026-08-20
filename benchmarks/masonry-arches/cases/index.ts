@@ -379,10 +379,8 @@ export function gfrpExtradosLayers(
     area: (widthMm * 0.149) / 1e6,
     elasticModulus: modulus * 1000,
     tensileStrength: strength * 1000,
-    transferLength: 0.1,
     startStation: 0,
     endStation: 1,
-    terminations: { left: { type: "anchored" }, right: { type: "anchored" } },
   }));
 }
 
@@ -399,10 +397,8 @@ export function gfrpIntradosLayers(
     area: (widthMm * 0.149) / 1e6,
     elasticModulus: modulus * 1000,
     tensileStrength: strength * 1000,
-    transferLength: 0.1,
     startStation: 0,
     endStation: 1,
-    terminations: { left: { type: "anchored" }, right: { type: "anchored" } },
   }));
 }
 

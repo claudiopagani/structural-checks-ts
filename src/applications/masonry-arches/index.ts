@@ -90,7 +90,9 @@ export {
 } from "./bondedLayers.js";
 export {
   solveBoundedMinimumProblem,
+  type BoundedMinimumProjection,
   type BoundedMinimumProblem,
+  type BoundedMinimumRange,
   type BoundedMinimumResult,
 } from "./reinforcementLinearProgram.js";
 export {

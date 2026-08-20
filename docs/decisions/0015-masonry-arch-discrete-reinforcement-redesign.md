@@ -64,9 +64,12 @@ The historical masonry-arch reinforcement model conflated several physically dis
 7. **Multi-layer bonded domains.** Each layer contributes its own bounded tension vector
    `0 <= T_i <= T_Rd,i` at its side coordinate (`-h/2` intrados, `+h/2` extrados); the reinforced
    N-M domain is the Minkowski sum of the masonry domain and all layer segments. Static recovery
-   minimizes the total required layer force through a dedicated linear program and reports a
-   per-interface layer force only when the minimizer is unique; otherwise the force is `null` with
-   state `not-uniquely-determined`. The simultaneous intrados + extrados limitation is removed.
+   minimizes the total required layer force through a dedicated linear program. Auxiliary LPs over
+   the complete optimal face certify each individual `T_i`, `sum(T_i)`, and `sum(y_i T_i)`
+   independently. A per-interface layer force is `null` with state `not-uniquely-determined` when
+   its own range is not unique, while exact aggregate actions still recover the masonry-only
+   resultant. If either aggregate is non-unique, exact masonry checks are not verifiable. The
+   simultaneous intrados + extrados limitation is removed.
 8. **Extrados terminal geometry validation (STEP 1.2).** For the simplified-symmetric arch, "left"
    and "right" are geometric sides: the resolved left terminal must lie geometrically left of (or on
    the same x-coordinate as) the right terminal for every open topology, and reversed terminations
@@ -80,12 +83,12 @@ The historical masonry-arch reinforcement model conflated several physically dis
 
 ## Consequences
 
-- Breaking input/result schema changes; model schema 2.0.0 -> 3.0.0 (STEP 1) -> 4.0.0 (STEP 1.1),
-  equilibrium result 4.0.0 -> 5.0.0 -> 6.0.0, limit result 5.0.0 -> 6.0.0 -> 7.0.0, path result
-  11.0.0 -> 12.0.0 -> 13.0.0, verification result 2.0.0 -> 3.0.0 -> 4.0.0, model comparison 3.0.0 ->
-  4.0.0 -> 5.0.0.
-- Old fixtures must be migrated; mechanical equivalence is preserved for the one-connector
-  distributed anchorage (effective elastic length equals the complete path length).
+- Breaking input/result schema changes; model schema 2.0.0 -> 3.0.0 (STEP 1) -> 4.0.0 (STEP 1.1) ->
+  5.0.0, equilibrium result 4.0.0 -> 5.0.0 -> 6.0.0 -> 7.0.0, limit result 5.0.0 -> 6.0.0 -> 7.0.0
+  -> 8.0.0, path result 11.0.0 -> 12.0.0 -> 13.0.0 -> 14.0.0, verification result 2.0.0 -> 3.0.0 ->
+  4.0.0 -> 5.0.0, model comparison 3.0.0 -> 4.0.0 -> 5.0.0 -> 6.0.0.
+- Old fixtures must be migrated to explicit arch-anchor or external-anchor terminations; no
+  distributed-anchorage compatibility alias or connector-capacity layer remains.
 - Deliberately not modeled: deviator friction, anchorage compliance, bond-slip, bonded-layer
   interface tractions, automatic development-length calculation, dynamic snap-through, and — after
   the STEP 1.1 simplification — any local anchorage/connector design or resistance verification.

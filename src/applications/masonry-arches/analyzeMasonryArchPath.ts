@@ -21,6 +21,7 @@ import {
   createCompactBandedMatrix,
   type CompactBandedMatrix,
 } from "../../domain/math/GeneralBandedLinearSolver.js";
+import { SingularMatrixError } from "../../domain/math/SingularMatrixError.js";
 import { assertExplicitUnitSystem, createUnitResolver } from "../../domain/units/UnitSystem.js";
 import { asMasonryArchModel } from "./MasonryArchModel.js";
 import { evaluateMasonryArchInterfaceConfigurationForSolver } from "./evaluateArchInterfaceConfiguration.js";
@@ -768,9 +769,8 @@ function validateNonlinearMechanicalModel(model: NormalizedMasonryArchModel): vo
 
 /**
  * Tangent-seeded design-state coordinates at the requested lambda, built from the linearized
- * load correction direction. Numerical exception safety: a failed tangent load-correction solve
- * only produces a diagnostic (null seed plus error text); it is never interpreted as a structural
- * property, never as a limit point, and never promoted to a failure.
+ * load correction direction. An expected singular linear solve produces a numerical diagnostic;
+ * programming and contract errors propagate unchanged to the caller.
  */
 export function masonryArchTangentSeedAtLambda(
   context: SolverContext,
@@ -791,6 +791,7 @@ export function masonryArchTangentSeedAtLambda(
       error: null,
     };
   } catch (error) {
+    if (!(error instanceof SingularMatrixError)) throw error;
     return { seed: null, error: String(error) };
   }
 }
@@ -1500,6 +1501,7 @@ export function analyzeMasonryArchPath(
             const tangentNorm = arcLengthIncrementNorm(context, tangentDirection, 1, loadScale);
             tangentLambdaComponent = tangentNorm > 0 ? 1 / tangentNorm : 1;
           } catch (error) {
+            if (!(error instanceof SingularMatrixError)) throw error;
             tangentLambdaComponent = null;
             if (!tangentSolveFailureReported) {
               tangentSolveFailureReported = true;
@@ -1522,6 +1524,7 @@ export function analyzeMasonryArchPath(
             loadScale,
           );
         } catch (error) {
+          if (!(error instanceof SingularMatrixError)) throw error;
           termination = "minimum-step";
           terminationReason = `Arc-length predictor failed: ${String(error)}`;
           failureMode = "undetermined";
@@ -1600,7 +1603,8 @@ export function analyzeMasonryArchPath(
                 leapRadius,
                 loadScale,
               );
-            } catch {
+            } catch (error) {
+              if (!(error instanceof SingularMatrixError)) throw error;
               continue;
             }
             const leapSeedQ = q.map((value, index) => value + leapPredictor.q[index]!);
@@ -1811,7 +1815,8 @@ export function analyzeMasonryArchPath(
                 refinementRadius,
                 loadScale,
               );
-            } catch {
+            } catch (error) {
+              if (!(error instanceof SingularMatrixError)) throw error;
               break;
             }
             const refinementSeedQ = risingQ.map(
@@ -1991,10 +1996,6 @@ export function analyzeMasonryArchPath(
     : null;
   const equilibriumPathHistory =
     fixedEquilibriumPoint === null ? scalableHistory : [fixedEquilibriumPoint, ...scalableHistory];
-  const peakPoint = equilibriumPathHistory.reduce<MasonryArchPathStep | null>(
-    (peak, point) => (peak === null || point.state.lambda > peak.state.lambda ? point : peak),
-    null,
-  );
   const terminalEvent = eventLog.find(
     (item) => item.category === "terminal-physical-event" && item.step === lastHistory?.step,
   );
@@ -2121,14 +2122,15 @@ export function analyzeMasonryArchPath(
   }
   const capacity: MasonryArchCapacityLandmarks = {
     lambdaFirstLimit: firstLimitEvent?.lambda ?? null,
-    lambdaPeak:
-      verifiedLimitPoint !== null ? verifiedLimitPoint.lambda : (peakPoint?.state.lambda ?? null),
+    // A sampled maximum is a path diagnostic, not capacity. Only positive two-sided
+    // branch-turning evidence can certify the global peak of the primary branch.
+    lambdaPeak: verifiedLimitPoint?.lambda ?? null,
     lambdaTermination: lastHistory?.state.lambda ?? null,
     lambdaCollapse,
     lambdaVerificationLimit: verificationLimit,
     steps: {
       firstLimit: firstLimitEvent?.step ?? null,
-      peak: verifiedLimitPoint !== null ? (lastHistory?.step ?? null) : (peakPoint?.step ?? null),
+      peak: verifiedLimitPoint === null ? null : (lastHistory?.step ?? null),
       termination: lastHistory?.step ?? null,
       collapse: lambdaCollapse === null ? null : (lastHistory?.step ?? null),
       verificationLimit: verificationStep,

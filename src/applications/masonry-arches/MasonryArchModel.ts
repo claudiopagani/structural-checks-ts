@@ -537,6 +537,21 @@ export class MasonryArchModel implements NormalizedMasonryArchModel {
         ),
       },
     };
+    const responseFamilies = [
+      ["interfaceLaw", this.interfaceLaw.response],
+      ["supports.left.interfaceLaw", this.supports.left.interfaceLaw.response],
+      ["supports.right.interfaceLaw", this.supports.right.interfaceLaw.response],
+    ] as const;
+    const mismatchedResponse = responseFamilies.find(
+      ([, response]) => response !== this.interfaceLaw.response,
+    );
+    if (mismatchedResponse !== undefined) {
+      throw new Error(
+        `Masonry arch interface response family must be uniform across interfaceLaw and both ` +
+          `supports; interfaceLaw is ${this.interfaceLaw.response} but ` +
+          `${mismatchedResponse[0]} is ${mismatchedResponse[1]}.`,
+      );
+    }
 
     const loads = (input.loads ?? []).map((load) =>
       normalizeLoad(load, resolver, this.geometry.referenceCurve),

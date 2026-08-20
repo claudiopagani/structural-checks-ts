@@ -149,7 +149,7 @@
       "label": "Borri et al. 2011 intrados FRP-strengthened arch with spike anchors (as reported by Simoncello et al. 2020)",
       "kind": "experimental",
       "tier": "B",
-      "tierRationale": "Quoted secondary data plus spike anchors whose action our anchored terminations only approximate; nonlinear curves are available as a discrete approximation of the experimental curve in Figure 6A.",
+      "tierRationale": "Quoted secondary data plus physical spike anchors outside the library model; nonlinear curves are available as a discrete approximation of the experimental curve in Figure 6A.",
       "phenomena": [
         "hinging",
         "debonding",

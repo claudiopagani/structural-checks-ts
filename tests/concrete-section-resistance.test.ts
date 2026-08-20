@@ -414,6 +414,20 @@ void test("Illinois accepts an exact root at a bracket endpoint immediately", ()
   assert.ok(Math.abs(result.residual) <= 1e-6);
 });
 
+void test("Illinois preserves residual-tolerance endpoint acceptance", () => {
+  const solver = new IllinoisRootSolver({ tolerance: 1e-6 });
+  const result = solver.solve({
+    fn: (x) => x + 5e-7,
+    min: 0,
+    max: 1,
+    includeHistory: false,
+  });
+  assert.equal(result.converged, true);
+  assert.equal(result.iterations, 0);
+  assert.equal(result.root, 0);
+  assert.equal(result.residual, 5e-7);
+});
+
 void test("Illinois rejects a bracket without a sign change", () => {
   const solver = new IllinoisRootSolver();
   assert.throws(
@@ -426,6 +440,30 @@ void test("Illinois rejects a bracket without a sign change", () => {
       }),
     /change sign/,
   );
+});
+
+void test("Illinois sign decisions remain correct for subnormal-scale residual products", () => {
+  const solver = new IllinoisRootSolver({ tolerance: 1e-310, maxIterations: 8 });
+  assert.throws(
+    () =>
+      solver.solve({
+        fn: () => 1e-300,
+        min: 0,
+        max: 1,
+        includeHistory: false,
+      }),
+    /change sign/,
+  );
+
+  const discontinuous = solver.solve({
+    fn: (x) => (x < 0.5 ? -1e-300 : 1e-300),
+    min: 0,
+    max: 1,
+    includeHistory: false,
+  });
+  assert.equal(discontinuous.converged, false);
+  assert.ok(Number.isFinite(discontinuous.root));
+  assert.ok(Math.abs(discontinuous.residual) > solver.tolerance);
 });
 
 void test("Illinois rejects non-finite function values", () => {

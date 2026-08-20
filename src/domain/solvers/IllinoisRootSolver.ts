@@ -118,7 +118,10 @@ export class IllinoisRootSolver {
       };
     }
 
-    if (fa * fb > 0) {
+    const oppositeSigns = (left: number, right: number): boolean =>
+      (left < 0 && right > 0) || (left > 0 && right < 0);
+
+    if (!oppositeSigns(fa, fb)) {
       throw new Error("IllinoisRootSolver requires the function to change sign in the bracket.");
     }
 
@@ -127,7 +130,19 @@ export class IllinoisRootSolver {
     let fx = fa;
 
     for (let iteration = 1; iteration <= this.maxIterations; iteration += 1) {
-      x = (a * fb - b * fa) / (fb - fa);
+      // Normalize the false-position weights before interpolation. This avoids underflow in sign
+      // products and overflow/cancellation in `a * fb - b * fa` for extremely small or large
+      // finite residuals. The weights are positive because the bracket invariant is sign-based.
+      const residualScale = Math.max(Math.abs(fa), Math.abs(fb));
+      const aWeight = Math.abs(fb) / residualScale;
+      const bWeight = Math.abs(fa) / residualScale;
+      x = (a * aWeight + b * bWeight) / (aWeight + bWeight);
+      if (!Number.isFinite(x) || x < a || x > b) {
+        x = a / 2 + b / 2;
+      }
+      if (!Number.isFinite(x)) {
+        throw new Error("IllinoisRootSolver produced a non-finite bracket interpolation.");
+      }
       fx = evaluate(x);
       history?.push({ x, value: fx + target, residual: fx });
 
@@ -145,7 +160,7 @@ export class IllinoisRootSolver {
         };
       }
 
-      if (fa * fx < 0) {
+      if (oppositeSigns(fa, fx)) {
         b = x;
         fb = fx;
 
@@ -154,7 +169,7 @@ export class IllinoisRootSolver {
         }
 
         lastUpdatedSide = "b";
-      } else if (fb * fx < 0) {
+      } else if (oppositeSigns(fb, fx)) {
         a = x;
         fa = fx;
 
@@ -164,15 +179,7 @@ export class IllinoisRootSolver {
 
         lastUpdatedSide = "a";
       } else {
-        return {
-          converged: true,
-          iterations: iteration,
-          root: x,
-          value: fx + target,
-          residual: fx,
-          bracket: { min: a, max: b },
-          ...historyResult(),
-        };
+        throw new Error("IllinoisRootSolver lost its sign-changing bracket invariant.");
       }
     }
 

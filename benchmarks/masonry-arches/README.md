@@ -1,11 +1,16 @@
 # Masonry-arches scientific benchmark corpus
 
-Status: draft | Classification: PUBLIC-SAFE | Iteration step 1 of 4
+Status: implemented validation corpus | Classification: PUBLIC-SAFE
 
 This folder is the scientific benchmark corpus for masonry arches of `structural-checks-ts`. It
-exists to validate the masonry-arch module later; it does **not** modify the solver. The corpus is
-built before any method change: no value here was produced to match a model result, and no solver
-parameter was calibrated on this data in this step.
+validates the masonry-arch module without modifying the solver. No value here was produced to match
+a model result, and no solver parameter was calibrated on the benchmark data.
+
+`npm run benchmark:masonry-arches` is the normal check-only command: it evaluates the fast suite in
+memory and verifies that the tracked evidence files remain byte-for-byte unchanged. Deliberately
+refreshing committed full-mode evidence requires the explicit
+`npm run benchmark:masonry-arches:write` command. Evidence refreshes are reviewable engineering
+actions, never a side effect of ordinary validation.
 
 ## Contents
 

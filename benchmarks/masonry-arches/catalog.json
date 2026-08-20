@@ -702,7 +702,7 @@
     },
     {
       "phenomenon": "FRP bonded layers, intrados and extrados",
-      "solverCapability": "bondedLayers family 'frp' with area, modulus, tensile strength, debonding strain, ultimate strain, anchored/unanchored terminations",
+      "solverCapability": "bondedLayers family 'frp' with an effective interval and tensile-force caps; no automatic anchorage, development, or transfer mechanics",
       "state": "covered",
       "benchmarkSpecimens": [
         "oliveira-2010/CSI-1",
@@ -718,14 +718,14 @@
     },
     {
       "phenomenon": "Passive tie-rods and prestressing",
-      "solverCapability": "intrados/extrados reinforcement (tendon) with deviators or unilateral contact, initial force, yield/rupture limits, distributed anchorage",
+      "solverCapability": "intrados/extrados reinforcement (tendon) with arch or external anchors, deviators or unilateral contact, initial force, and tendon yield/rupture limits; local anchorage resistance is external",
       "state": "representable-with-approximation",
       "benchmarkSpecimens": []
     },
     {
       "phenomenon": "Spike anchors / distributed anchorage",
-      "solverCapability": "anchored terminations and distributed-anchorage termination with connector capacities",
-      "state": "representable-with-approximation",
+      "solverCapability": "not modeled; physical anchorage and connector capacities require independent verification from the reported device actions",
+      "state": "not-covered",
       "benchmarkSpecimens": ["oliveira-2010/CSI-3", "simoncello-2020/borri-2011-arch-FRP"]
     },
     {

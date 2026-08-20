@@ -245,7 +245,7 @@ void test("M1. single-layer recovery returns the minimum required force (lower b
   assert.ok(Math.abs(recovery.masonryResultants[crownIndex]!.moment - 3.0) <= 1e-6);
 });
 
-void test("M2. multi-layer recovery returns null when the split is not unique", () => {
+void test("M2. non-unique layer forces retain the uniquely determined masonry aggregate", () => {
   // Two identical intrados layers: any split of the required total is optimal.
   const model = bondedModel("bonded-m2", [
     intradosLayer("I1", { tensileStrength: 1000 }),
@@ -279,9 +279,10 @@ void test("M2. multi-layer recovery returns null when the split is not unique", 
     assert.equal(crown.force, null, "no fabricated split");
     assert.equal(crown.state, "not-uniquely-determined");
   }
-  // The masonry resultants stay untouched: the analysis does not commit to a split.
-  assert.equal(recovery.masonryResultants[crownIndex]!.normalForce, 5);
-  assert.equal(recovery.masonryResultants[crownIndex]!.moment, 3.5);
+  // Although the individual split is free, sum(T_i) = 1 and sum(y_i T_i) = -0.5 are unique.
+  // The exact masonry-only aggregate is therefore recovered without fabricating either layer.
+  assert.ok(Math.abs(recovery.masonryResultants[crownIndex]!.normalForce - 6) <= 1e-6);
+  assert.ok(Math.abs(recovery.masonryResultants[crownIndex]!.moment - 3) <= 1e-6);
 });
 
 void test("M3. a unique multi-layer split is recovered exactly", () => {
@@ -405,6 +406,8 @@ void test("M5. the bounded-minimum kernel matches hand-computed cases", () => {
   });
   assert.equal(nonUnique.feasible, true);
   assert.equal(nonUnique.unique, false);
+  assert.equal(nonUnique.solution, null);
+  assert.ok(nonUnique.variableRanges?.every((range) => !range.unique));
 
   // Distinct coordinates: unique (1, 0).
   const unique = solveBoundedMinimumProblem({
@@ -419,4 +422,75 @@ void test("M5. the bounded-minimum kernel matches hand-computed cases", () => {
   assert.equal(unique.unique, true);
   assert.ok(Math.abs(unique.solution![0]! - 1) <= 1e-9);
   assert.ok(Math.abs(unique.solution![1]!) <= 1e-9);
+});
+
+void test("M6. optimal-face ranges separate capacity-bound values from free splits and projections", () => {
+  // x0 is fixed at its capacity by the first row. The remaining required force can be split
+  // arbitrarily between x1 and x2. The axial aggregate is exact while a moment-like projection
+  // with different coordinates is genuinely non-unique.
+  const result = solveBoundedMinimumProblem(
+    {
+      constraints: [
+        { coefficients: [-1, 0, 0], rightHandSide: -2 },
+        { coefficients: [-1, -1, -1], rightHandSide: -4 },
+      ],
+      capacities: [2, 10, 10],
+    },
+    1e-9,
+    [{ coefficients: [1, 1, 1] }, { coefficients: [0, -0.5, 0.5] }],
+  );
+  assert.equal(result.feasible, true);
+  assert.equal(result.unique, false);
+  assert.equal(result.solution, null);
+  assert.ok(result.variableRanges !== null);
+  assert.equal(result.variableRanges[0]!.unique, true);
+  assert.ok(Math.abs(result.variableRanges[0]!.minimum - 2) <= 1e-8);
+  assert.equal(result.variableRanges[1]!.unique, false);
+  assert.equal(result.variableRanges[2]!.unique, false);
+  assert.ok(result.projectionRanges !== null);
+  assert.equal(result.projectionRanges[0]!.unique, true);
+  assert.ok(Math.abs(result.projectionRanges[0]!.minimum - 4) <= 1e-8);
+  assert.equal(result.projectionRanges[1]!.unique, false);
+  assert.ok(result.projectionRanges[1]!.minimum < result.projectionRanges[1]!.maximum);
+});
+
+void test("M7. scaled tolerance classifies a near-degenerate optimal-face range", () => {
+  const result = solveBoundedMinimumProblem(
+    {
+      constraints: [
+        { coefficients: [-1, 0], rightHandSide: -0.5 },
+        { coefficients: [1, 0], rightHandSide: 0.5 + 1e-10 },
+        { coefficients: [-1, -1], rightHandSide: -1 },
+      ],
+      capacities: [1, 1],
+    },
+    1e-9,
+  );
+  assert.equal(result.feasible, true);
+  assert.equal(result.unique, true);
+  assert.ok(result.variableRanges !== null);
+  assert.ok(result.variableRanges[0]!.maximum - result.variableRanges[0]!.minimum <= 1.1e-10);
+  assert.ok(Math.abs(result.solution![0]! - 0.5) <= 1e-9);
+  assert.ok(Math.abs(result.solution![1]! - 0.5) <= 1e-9);
+});
+
+void test("M8. a capacity-bound basic optimizer does not fabricate a two-layer allocation", () => {
+  // Any split with x0 + x1 = 12 and 0 <= xi <= 10 is optimal. A simplex basis may place x0 at
+  // capacity, but the physical ranges are [2, 10] for both layers and only the sum is exact.
+  const result = solveBoundedMinimumProblem(
+    {
+      constraints: [{ coefficients: [-1, -1], rightHandSide: -12 }],
+      capacities: [10, 10],
+    },
+    1e-9,
+    [{ coefficients: [1, 1] }],
+  );
+  assert.equal(result.unique, false);
+  assert.equal(result.solution, null);
+  assert.ok(result.variableRanges !== null);
+  assert.ok(Math.abs(result.variableRanges[0]!.minimum - 2) <= 1e-8);
+  assert.ok(Math.abs(result.variableRanges[0]!.maximum - 10) <= 1e-8);
+  assert.ok(Math.abs(result.variableRanges[1]!.minimum - 2) <= 1e-8);
+  assert.ok(Math.abs(result.variableRanges[1]!.maximum - 10) <= 1e-8);
+  assert.equal(result.projectionRanges?.[0]?.unique, true);
 });

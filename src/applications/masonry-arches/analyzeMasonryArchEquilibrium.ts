@@ -312,7 +312,7 @@ function buildEquilibriumEngineeringAssessment(
   feasible: boolean,
   optimizerStatus: "optimal" | "unbounded" | "iteration-limit",
   residualSatisfied: boolean,
-  interfaces: readonly MasonryArchInterfaceStateResult[],
+  interfaces: readonly MasonryArchInterfaceStateResult[] | null,
   reinforcementState: readonly ArchReinforcementStateResult[],
   contactForces: readonly ArchContactForceResult[],
   bondedLayerState: readonly BondedLayerStateResult[],
@@ -327,7 +327,7 @@ function buildEquilibriumEngineeringAssessment(
     failedCriteria = [
       createMasonryArchEngineeringCriterion("equilibrium-infeasible", [], { lambda: 1 }),
     ];
-  } else if (!residualSatisfied) {
+  } else if (!residualSatisfied || interfaces === null) {
     status = "INDETERMINATE";
     failedCriteria = [];
   } else {
@@ -402,26 +402,34 @@ export function analyzeMasonryArchEquilibrium(
     equilibrium.interfaces,
     hingeTolerance,
   );
-  const interfaces: MasonryArchInterfaceStateResult[] = bondedRecovery.masonryResultants.map(
-    (item) =>
-      recoverMasonryArchInterfaceState(
-        item,
-        model.geometry.interfaces[item.index]!,
-        baseInterfaceLaws[item.index]!,
-        model.geometry.interfaces[item.index]!.index === 0
-          ? model.supports.left.interfaceLaw.approachingLimitRatio
-          : item.index === model.geometry.interfaces.length - 1
-            ? model.supports.right.interfaceLaw.approachingLimitRatio
-            : model.interfaceLaw.approachingLimitRatio,
-        hingeTolerance,
-        equilibrium.interfaces[item.index]!.normalForce,
-      ),
-  );
-  const hinges = interfaces.flatMap((item) =>
-    item.state === "hinge" && item.hingeSide !== null
-      ? [{ interfaceId: item.interfaceId, side: item.hingeSide }]
-      : [],
-  );
+  const exactMasonryResultants = bondedRecovery.masonryResultants.every(
+    (item): item is RigidBlockInterfaceResultant2D => item !== null,
+  )
+    ? bondedRecovery.masonryResultants
+    : null;
+  const interfaces: MasonryArchInterfaceStateResult[] | null =
+    exactMasonryResultants === null
+      ? null
+      : exactMasonryResultants.map((item) =>
+          recoverMasonryArchInterfaceState(
+            item,
+            model.geometry.interfaces[item.index]!,
+            baseInterfaceLaws[item.index]!,
+            model.geometry.interfaces[item.index]!.index === 0
+              ? model.supports.left.interfaceLaw.approachingLimitRatio
+              : item.index === model.geometry.interfaces.length - 1
+                ? model.supports.right.interfaceLaw.approachingLimitRatio
+                : model.interfaceLaw.approachingLimitRatio,
+            hingeTolerance,
+            equilibrium.interfaces[item.index]!.normalForce,
+          ),
+        );
+  const hinges =
+    interfaces?.flatMap((item) =>
+      item.state === "hinge" && item.hingeSide !== null
+        ? [{ interfaceId: item.interfaceId, side: item.hingeSide }]
+        : [],
+    ) ?? [];
   const maximumNormalizedResidual = Math.max(
     Math.abs(equilibrium.residual.normalizedForceX),
     Math.abs(equilibrium.residual.normalizedForceY),
@@ -447,22 +455,27 @@ export function analyzeMasonryArchEquilibrium(
   if (hinges.length > 0) {
     warnings.push(`${hinges.length} interface(s) are at a Heyman eccentricity boundary.`);
   }
-  if (interfaces.some((item) => item.state === "no-compression")) {
+  if (interfaces === null) {
+    warnings.push(
+      "The exact masonry-only bonded-section resultant is not uniquely determined; masonry interface checks and the thrust line are not verifiable.",
+    );
+  }
+  if (interfaces?.some((item) => item.state === "no-compression")) {
     warnings.push("One or more interfaces have non-positive compression and no thrust-line point.");
   }
-  const slidingCount = interfaces.filter(
+  const slidingCount = (interfaces ?? []).filter(
     (item) => item.state === "sliding" || item.state === "sliding-and-crushing",
   ).length;
   if (slidingCount > 0) {
     warnings.push(`${slidingCount} interface(s) are at the Coulomb friction boundary.`);
   }
-  const crushingCount = interfaces.filter(
+  const crushingCount = (interfaces ?? []).filter(
     (item) => item.state === "crushing" || item.state === "sliding-and-crushing",
   ).length;
   if (crushingCount > 0) {
     warnings.push(`${crushingCount} interface(s) are at the finite-compression boundary.`);
   }
-  const outsideCount = interfaces.filter(
+  const outsideCount = (interfaces ?? []).filter(
     (item) => item.state === "outside-admissible-thickness",
   ).length;
   if (outsideCount > 0) {
@@ -495,7 +508,7 @@ export function analyzeMasonryArchEquilibrium(
       right: equilibrium.rightReaction,
     },
     interfaces,
-    thrustLine: interfaces.map((item) => item.thrustPoint),
+    thrustLine: interfaces?.map((item) => item.thrustPoint) ?? null,
     hinges,
     equilibrium: {
       feasible: equilibrium.feasible,

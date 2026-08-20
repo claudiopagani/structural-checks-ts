@@ -256,6 +256,20 @@ to the terminal `crushing` one. Path criteria never recompute a mechanical formu
 step does not carry stay `null`, and the same violated condition re-identified at a later step does
 not duplicate the criterion list.
 
+Bonded-layer static recovery minimizes `sum(T_i)` subject to the masonry section domain and each
+layer bound. It then solves auxiliary minima and maxima on the complete optimal face for every
+individual force, `sum(T_i)`, and `sum(y_i T_i)`. A layer force is published only when its own range
+is unique; non-unique forces remain `null`/`not-uniquely-determined`. Unique aggregate axial and
+moment actions still recover the exact masonry-only resultant. If an aggregate is non-unique, the
+library does not relabel the reinforced-section resultant as masonry-only: exact masonry interface
+checks and the thrust line are `null`/not verifiable.
+
+`debondingStrain` is an assigned equivalent limiting strain used only to derive the tensile-force
+cap `A E epsilon` in this simplified static bonded-layer model. It does not model bond-slip,
+development length, interface shear stress, peeling, fracture energy, or physical debonding
+propagation. The effective layer interval must already reflect the user's separate bond and
+anchorage assessment; the library applies no automatic development, transfer, or end reduction.
+
 `failureMode` classifies physical mechanism families, not the number of failed criteria. All
 criteria of one family resolve to the family's mode: within the reinforcement family, rupture or
 bonded-layer capacity prevails over bare yielding (`reinforcement-yielded` alone gives
@@ -290,13 +304,16 @@ For the path analysis, `engineeringAssessment` adds the path-specific `requiredL
 explicit control. The result uses four distinct landmarks:
 
 - `lambdaFirstLimit`: first event classified as an engineering or terminal physical limit;
-- `lambdaPeak`: maximum lambda on the actually followed branch;
+- `lambdaPeak`: certified global maximum lambda on the primary branch, populated only after a
+  two-sided converged branch turn is refined; otherwise `null`;
 - `lambdaTermination`: lambda of the last converged state;
 - `lambdaCollapse`: present only when the model and algorithm identify collapse using the reported
   `collapseDefinition`.
 
-The associated step numbers are in `capacity.steps`. Numerical failure never populates
-`lambdaCollapse`.
+The associated step numbers are in `capacity.steps`. `capacity.steps.peak` is likewise present only
+for a certified global limit point. The largest lambda sampled in any converged history remains the
+diagnostic `convergenceInfo.maximumObservedLambda`; it is never promoted to capacity. Numerical
+failure never populates `lambdaPeak` or `lambdaCollapse`.
 
 In direct rigid-plastic limit analysis, a simplex `iteration-limit` is numerical inability, never a
 certified collapse state:

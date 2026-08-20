@@ -100,13 +100,18 @@ void test("numerical exhaustion returns INDETERMINATE and never collapse", () =>
   const result = analyzeMasonryArchPath(model(), {
     ...numericalOptions,
     analysisObjective: "design-state-check",
-    maxSteps: 1,
+    maxSteps: 7,
   });
+  assert.equal(result.outputs.convergenceInfo.termination, "maximum-steps");
   assert.equal(result.outputs.engineeringAssessment?.status, "INDETERMINATE");
   assert.equal(result.status, "failed");
   assert.deepEqual(result.outputs.engineeringAssessment?.failedCriteria, []);
   assert.equal(result.outputs.engineeringAssessment?.failureMode, null);
   assert.equal(result.outputs.analysisOutcome.terminationCategory, "numerical-failure");
+  assert.equal(result.outputs.convergenceInfo.verifiedLimitPoint, null);
+  assert.ok(result.outputs.convergenceInfo.maximumObservedLambda !== null);
+  assert.equal(result.outputs.capacity.lambdaPeak, null);
+  assert.equal(result.outputs.capacity.steps.peak, null);
   assert.equal(result.outputs.capacity.lambdaCollapse, null);
 });
 
@@ -248,7 +253,7 @@ void test("load and spherical arc-length controls recover the same pre-peak equi
   assert.ok(Math.abs(displacement - arcStep.controlDisplacement) < 2e-7);
 });
 
-void test("displacement control can traverse a descending branch and stores the earlier peak", () => {
+void test("displacement control keeps an uncertified observed maximum out of capacity", () => {
   const options: AnalyzeMasonryArchPathOptions = {
     ...numericalOptions,
     analysisObjective: "advanced-path",
@@ -270,6 +275,11 @@ void test("displacement control can traverse a descending branch and stores the 
     options,
   );
   assert.equal(result.outputs.convergenceInfo.termination, "target-reached");
-  assert.ok(result.outputs.capacity.lambdaPeak! > result.outputs.capacity.lambdaTermination!);
-  assert.ok(result.outputs.capacity.steps.peak! < result.outputs.capacity.steps.termination!);
+  assert.equal(result.outputs.convergenceInfo.verifiedLimitPoint, null);
+  assert.equal(result.outputs.capacity.lambdaPeak, null);
+  assert.equal(result.outputs.capacity.steps.peak, null);
+  assert.ok(
+    result.outputs.convergenceInfo.maximumObservedLambda! >
+      result.outputs.capacity.lambdaTermination!,
+  );
 });

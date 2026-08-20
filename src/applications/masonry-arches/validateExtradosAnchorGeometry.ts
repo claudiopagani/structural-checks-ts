@@ -3,6 +3,7 @@ import type {
   RigidBlockVector2D,
 } from "../../domain/masonry/rigid-blocks/types.js";
 import { normalize2d } from "../../domain/masonry/rigid-blocks/vector2d.js";
+import { minimumMasonryArchProfileRadiusOfCurvature } from "./geometry.js";
 import type {
   MasonryArchReferenceCurve,
   NormalizedMasonryArchGeometry,
@@ -187,21 +188,8 @@ function pointInsideMasonry(
 
 /** Minimum radius of curvature of the inner (intrados-side) boundary of the masonry band. */
 function minimumInnerRadius(geometry: NormalizedMasonryArchGeometry): number {
-  const profile = geometry.profile;
   const bounds = bandBounds(geometry.referenceCurve, geometry.thickness);
-  if (profile.type === "circular") {
-    return profile.radius + bounds.intrados;
-  }
-  const radius = (parameter: number): number => {
-    const term =
-      profile.semiAxisX ** 2 * Math.sin(parameter) ** 2 +
-      profile.semiAxisY ** 2 * Math.cos(parameter) ** 2;
-    return term ** 1.5 / (profile.semiAxisX * profile.semiAxisY);
-  };
-  return (
-    Math.min(radius(0), radius(profile.halfParameter), radius(-profile.halfParameter)) +
-    bounds.intrados
-  );
+  return minimumMasonryArchProfileRadiusOfCurvature(geometry.profile) + bounds.intrados;
 }
 
 /** True when the straight segment passes strictly inside the masonry body. */

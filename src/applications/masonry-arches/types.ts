@@ -13,9 +13,9 @@ import type {
   RigidBlockVector2D,
 } from "../../domain/masonry/rigid-blocks/types.js";
 
-export const MASONRY_ARCH_MODEL_SCHEMA_VERSION = "4.0.0";
-export const MASONRY_ARCH_EQUILIBRIUM_RESULT_SCHEMA_VERSION = "6.0.0";
-export const MASONRY_ARCH_LIMIT_ANALYSIS_RESULT_SCHEMA_VERSION = "7.0.0";
+export const MASONRY_ARCH_MODEL_SCHEMA_VERSION = "5.0.0";
+export const MASONRY_ARCH_EQUILIBRIUM_RESULT_SCHEMA_VERSION = "7.0.0";
+export const MASONRY_ARCH_LIMIT_ANALYSIS_RESULT_SCHEMA_VERSION = "8.0.0";
 
 export type MasonryArchReferenceCurve = "intrados" | "centerline" | "extrados";
 export type MasonryArchAngleUnits = "deg" | "rad";
@@ -238,6 +238,11 @@ export interface MasonryArchEngineeringAssessment {
 /** Load-pattern landmarks. Step identifiers are available only for incremental analyses. */
 export interface MasonryArchCapacityLandmarks {
   readonly lambdaFirstLimit: number | null;
+  /**
+   * Certified global maximum load factor on the primary equilibrium branch. For incremental
+   * path analysis this is populated only by a positively certified two-sided branch turn;
+   * sampled maxima remain available solely as `convergenceInfo.maximumObservedLambda`.
+   */
   readonly lambdaPeak: number | null;
   readonly lambdaTermination: number | null;
   readonly lambdaCollapse: number | null;
@@ -511,6 +516,12 @@ export interface BondedLayerReinforcementInput {
   readonly area: number;
   readonly elasticModulus: number;
   readonly tensileStrength?: number;
+  /**
+   * Assigned equivalent limiting strain used to derive the axial tensile-force cap
+   * `area * elasticModulus * debondingStrain` in the simplified static bonded-layer model. It is
+   * not a bond-slip, development-length, interface-shear, peeling, fracture-energy, or physical
+   * debonding-propagation model.
+   */
   readonly debondingStrain?: number;
   readonly ultimateStrain?: number;
   /**
@@ -1193,8 +1204,10 @@ export interface MasonryArchEquilibriumOutputs extends Record<string, unknown> {
       readonly applicationPoint: RigidBlockPoint2D;
     };
   };
-  readonly interfaces: readonly MasonryArchInterfaceStateResult[];
-  readonly thrustLine: readonly (RigidBlockPoint2D | null)[];
+  /** Null when an exact masonry-only bonded-section aggregate is not uniquely recoverable. */
+  readonly interfaces: readonly MasonryArchInterfaceStateResult[] | null;
+  /** Null when the masonry-only interface resultants are not uniquely recoverable. */
+  readonly thrustLine: readonly (RigidBlockPoint2D | null)[] | null;
   readonly hinges: readonly {
     readonly interfaceId: string;
     readonly side: "intrados" | "extrados";

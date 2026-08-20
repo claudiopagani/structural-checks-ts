@@ -6,10 +6,9 @@
  *   minimize  sum(x_i)
  *   subject to  A x <= b,  0 <= x_i <= c_i
  *
- * where `b` may contain negative entries. The solution is reported together with a uniqueness
- * certificate: a layer-force vector is returned only when the minimizer is unique, so the bonded
- * static recovery never fabricates a force distribution that the limit/static problem does not
- * determine.
+ * where `b` may contain negative entries. Auxiliary minimum/maximum solves over the complete
+ * optimal face certify every requested coordinate and projection; a layer-force vector is returned
+ * only when every coordinate is unique.
  */
 
 export interface BoundedMinimumProblem {
@@ -26,6 +25,28 @@ export interface BoundedMinimumResult {
   readonly feasible: boolean;
   /** True only when the minimizing force vector is unique up to numerical tolerance. */
   readonly unique: boolean;
+  /** Present only when the complete minimizing vector is unique. */
+  readonly solution: readonly number[] | null;
+  readonly objectiveValue: number | null;
+  /** Exact optimal-face range of each original variable, subject to numerical tolerance. */
+  readonly variableRanges: readonly BoundedMinimumRange[] | null;
+  /** Optimal-face ranges in the same order as the requested projections. */
+  readonly projectionRanges: readonly BoundedMinimumRange[] | null;
+  readonly iterations: number;
+}
+
+export interface BoundedMinimumRange {
+  readonly minimum: number;
+  readonly maximum: number;
+  readonly unique: boolean;
+}
+
+export interface BoundedMinimumProjection {
+  readonly coefficients: readonly number[];
+}
+
+interface LinearMinimumResult {
+  readonly feasible: boolean;
   readonly solution: readonly number[] | null;
   readonly objectiveValue: number | null;
   readonly iterations: number;
@@ -35,18 +56,24 @@ const DEFAULT_TOLERANCE = 1e-11;
 const MAX_ITERATIONS = 100_000;
 
 /**
- * Two-phase primal simplex with Bland's rule for the bounded minimum problem above. Uniqueness is
- * certified by inspecting the optimal dictionary: every nonbasic column with a vanishing reduced
- * cost spans an alternative-optimal ray, and the solution is non-unique when any such ray changes
- * an original variable.
+ * Two-phase primal simplex with Bland's rule for a bounded linear minimum problem.
  */
-export function solveBoundedMinimumProblem(
+function solveBoundedLinearMinimum(
   problem: BoundedMinimumProblem,
+  objectiveCoefficients: readonly number[],
   tolerance = DEFAULT_TOLERANCE,
-): BoundedMinimumResult {
+): LinearMinimumResult {
   const variableCount = problem.capacities.length;
+  if (objectiveCoefficients.length !== variableCount) {
+    throw new Error(`Bounded-minimum objective must contain ${variableCount} coefficients.`);
+  }
+  for (let index = 0; index < variableCount; index += 1) {
+    if (!Number.isFinite(objectiveCoefficients[index]!)) {
+      throw new Error(`Bounded-minimum objective coefficient ${index} must be finite.`);
+    }
+  }
   if (variableCount === 0) {
-    return { feasible: true, unique: true, solution: [], objectiveValue: 0, iterations: 0 };
+    return { feasible: true, solution: [], objectiveValue: 0, iterations: 0 };
   }
   for (let index = 0; index < variableCount; index += 1) {
     if (!Number.isFinite(problem.capacities[index]!) || problem.capacities[index]! <= 0) {
@@ -190,7 +217,7 @@ export function solveBoundedMinimumProblem(
   // ---- Phase I: drive the artificial variables to zero ----
   for (;;) {
     if (iterations >= MAX_ITERATIONS) {
-      return { feasible: false, unique: false, solution: null, objectiveValue: null, iterations };
+      return { feasible: false, solution: null, objectiveValue: null, iterations };
     }
     const next = enterLeaving(rhsColumn);
     if (next === null) break;
@@ -199,7 +226,7 @@ export function solveBoundedMinimumProblem(
   }
   const phaseOneValue = -objective()[rhsColumn]!;
   if (phaseOneValue > tol) {
-    return { feasible: false, unique: false, solution: null, objectiveValue: null, iterations };
+    return { feasible: false, solution: null, objectiveValue: null, iterations };
   }
   // Drive out any artificial that remained basic at zero; delete provably redundant rows.
   for (let row = 0; row < rowCount; row += 1) {
@@ -225,10 +252,10 @@ export function solveBoundedMinimumProblem(
     row -= 1;
   }
 
-  // ---- Phase II: minimize sum(x_i) ----
+  // ---- Phase II: minimize the requested linear objective ----
   const objectivePhaseTwo = objective();
   for (let column = 0; column < columnCount; column += 1) {
-    objectivePhaseTwo[column] = column < variableCount ? 1 : 0;
+    objectivePhaseTwo[column] = column < variableCount ? objectiveCoefficients[column]! : 0;
   }
   for (let row = 0; row < rowCount; row += 1) {
     const basicVariable = basis[row]!;
@@ -244,7 +271,7 @@ export function solveBoundedMinimumProblem(
   }
   for (;;) {
     if (iterations >= MAX_ITERATIONS) {
-      return { feasible: false, unique: false, solution: null, objectiveValue: null, iterations };
+      return { feasible: false, solution: null, objectiveValue: null, iterations };
     }
     // Phase II never enters artificial columns.
     const next = enterLeaving(artificialOffset);
@@ -260,31 +287,113 @@ export function solveBoundedMinimumProblem(
       solution[variable] = Math.max(0, tableau[row]![rhsColumn]!);
     }
   }
-  const objectiveValue = -objective()[rhsColumn]!;
+  const objectiveValue = solution.reduce(
+    (sum, value, index) => sum + value * objectiveCoefficients[index]!,
+    0,
+  );
+  return { feasible: true, solution, objectiveValue, iterations };
+}
 
-  // ---- Uniqueness certificate ----
-  // An alternative-optimal ray exists for every nonbasic column with vanishing reduced cost; the
-  // solution is non-unique when any such ray changes an original variable. Artificial columns are
-  // solver machinery and never participate.
-  let unique = true;
-  for (let column = 0; column < artificialOffset && unique; column += 1) {
-    if (basis.includes(column)) continue;
-    if (Math.abs(objective()[column]!) > tol) continue;
-    if (column < variableCount) {
-      unique = false;
-      break;
+/**
+ * Solves the minimum-sum problem and certifies coordinate/projection values over its complete
+ * optimal face. A value is published as unique only when an auxiliary minimization and
+ * maximization agree within tolerance. This remains correct for capacity-bound alternatives and
+ * degenerate optimal dictionaries, where inspecting only one simplex representative is unsafe.
+ */
+export function solveBoundedMinimumProblem(
+  problem: BoundedMinimumProblem,
+  tolerance = DEFAULT_TOLERANCE,
+  projections: readonly BoundedMinimumProjection[] = [],
+): BoundedMinimumResult {
+  const variableCount = problem.capacities.length;
+  for (const [projectionIndex, projection] of projections.entries()) {
+    if (projection.coefficients.length !== variableCount) {
+      throw new Error(
+        `Bounded-minimum projection ${projectionIndex} must contain ${variableCount} coefficients.`,
+      );
     }
-    for (let row = 0; row < rowCount; row += 1) {
-      const direction = -tableau[row]![column]!;
-      if (Math.abs(direction) <= tol) continue;
-      if (basis[row]! < variableCount) {
-        unique = false;
-        break;
-      }
+    if (projection.coefficients.some((value) => !Number.isFinite(value))) {
+      throw new Error(`Bounded-minimum projection ${projectionIndex} must be finite.`);
     }
   }
+  const objective = Array.from({ length: variableCount }, () => 1);
+  const optimum = solveBoundedLinearMinimum(problem, objective, tolerance);
+  if (!optimum.feasible || optimum.solution === null || optimum.objectiveValue === null) {
+    return {
+      feasible: false,
+      unique: false,
+      solution: null,
+      objectiveValue: null,
+      variableRanges: null,
+      projectionRanges: null,
+      iterations: optimum.iterations,
+    };
+  }
 
-  return { feasible: true, unique, solution, objectiveValue, iterations };
+  // The minimum objective cuts out a face of the original bounded polytope. Both inequalities
+  // are retained explicitly so each auxiliary LP is restricted to that face.
+  const objectiveValue = optimum.solution.reduce((sum, value) => sum + value, 0);
+  const optimalFace: BoundedMinimumProblem = {
+    capacities: problem.capacities,
+    constraints: [
+      ...problem.constraints,
+      { coefficients: objective, rightHandSide: objectiveValue },
+      { coefficients: objective.map((value) => -value), rightHandSide: -objectiveValue },
+    ],
+  };
+  let iterations = optimum.iterations;
+  const rangeOf = (coefficients: readonly number[]): BoundedMinimumRange => {
+    const minimumResult = solveBoundedLinearMinimum(optimalFace, coefficients, tolerance);
+    const maximumResult = solveBoundedLinearMinimum(
+      optimalFace,
+      coefficients.map((value) => -value),
+      tolerance,
+    );
+    iterations += minimumResult.iterations + maximumResult.iterations;
+    if (
+      !minimumResult.feasible ||
+      minimumResult.objectiveValue === null ||
+      !maximumResult.feasible ||
+      maximumResult.objectiveValue === null
+    ) {
+      throw new Error("Bounded-minimum optimal-face range solve became infeasible.");
+    }
+    const minimum = minimumResult.objectiveValue;
+    const maximum = -maximumResult.objectiveValue;
+    const projectionScale = Math.max(
+      1,
+      Math.abs(minimum),
+      Math.abs(maximum),
+      coefficients.reduce(
+        (sum, coefficient, index) => sum + Math.abs(coefficient) * (problem.capacities[index] ?? 0),
+        0,
+      ),
+    );
+    const uniquenessTolerance = Math.max(
+      Number.EPSILON * 512 * projectionScale,
+      tolerance * projectionScale * 16,
+    );
+    return {
+      minimum,
+      maximum,
+      unique: maximum - minimum <= uniquenessTolerance,
+    };
+  };
+
+  const variableRanges = Array.from({ length: variableCount }, (_, index) =>
+    rangeOf(Array.from({ length: variableCount }, (_value, column) => (column === index ? 1 : 0))),
+  );
+  const projectionRanges = projections.map((projection) => rangeOf(projection.coefficients));
+  const unique = variableRanges.every((range) => range.unique);
+  return {
+    feasible: true,
+    unique,
+    solution: unique ? optimum.solution : null,
+    objectiveValue,
+    variableRanges,
+    projectionRanges,
+    iterations,
+  };
 }
 
 function addScaledRow(target: number[], source: number[], factor: number, columns: number): void {

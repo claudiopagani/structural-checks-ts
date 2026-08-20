@@ -61,6 +61,45 @@ function archModel(
   });
 }
 
+function ellipticalArchModel(
+  id: string,
+  left: { readonly x: number; readonly y: number },
+  right: { readonly x: number; readonly y: number },
+): MasonryArchModel {
+  return createMasonryArch({
+    id,
+    units: { force: "kN", length: "m" },
+    geometry: {
+      kind: "simplified-symmetric",
+      referenceCurve: "centerline",
+      profile: { type: "elliptical", springingAngle: 60, angleUnits: "deg" },
+      span: 10,
+      rise: 2,
+      thickness: 0.5,
+      outOfPlaneWidth: 1,
+      voussoirCount: 21,
+    },
+    masonry: { unitWeight: 20 },
+    interfaceLaw: rigid,
+    loads: [{ id: "SW", type: "self-weight", loadCaseId: "G" }],
+    reinforcements: [
+      {
+        id: "E",
+        side: "extrados",
+        area: 0.001,
+        elasticModulus: 200_000_000,
+        initialForce: 80,
+        topology: {
+          type: "open",
+          left: { type: "external-anchor", point: left },
+          right: { type: "external-anchor", point: right },
+          interaction: { type: "unilateral-contact", segmentCount: 24 },
+        },
+      },
+    ],
+  });
+}
+
 // ---------------------------------------------------------------------------
 // 1. Terminal order
 // ---------------------------------------------------------------------------
@@ -228,4 +267,46 @@ void test("B6. an anchor exactly on the extrados boundary is accepted", () => {
   const arch = archModel("t12-b6", { x: 0, y: 5.5 }, { x: 5.2, y: 4 });
   const resolved = resolveArchReinforcements(arch);
   assert.equal(resolved.reinforcementState[0]!.equilibrium.satisfied, true);
+});
+
+// ---------------------------------------------------------------------------
+// 3. Elliptical contact-envelope anchor classification
+// ---------------------------------------------------------------------------
+
+void test("C1. elliptical outside, tangent-like, vertical, and near-springing anchors are accepted", () => {
+  const cases = [
+    [
+      { x: -6.2, y: 3 },
+      { x: 6.2, y: 3 },
+    ],
+    [
+      { x: -4.5, y: 3 },
+      { x: 4.5, y: 3 },
+    ],
+    [
+      { x: -5.25, y: -1 },
+      { x: 5.25, y: -1 },
+    ],
+    [
+      { x: -5.45, y: 0.15 },
+      { x: 5.45, y: 0.15 },
+    ],
+  ] as const;
+  for (const [index, [left, right]] of cases.entries()) {
+    const resolved = resolveArchReinforcements(ellipticalArchModel(`t12-c1-${index}`, left, right));
+    assert.equal(resolved.reinforcementState[0]!.equilibrium.satisfied, true);
+  }
+});
+
+void test("C2. an elliptical anchor inside the masonry is rejected", () => {
+  const arch = ellipticalArchModel("t12-c2", { x: -4.9, y: 0.3 }, { x: 6.2, y: 3 });
+  assert.throws(
+    () => resolveArchReinforcements(arch),
+    /external anchor .* lies inside the masonry body/,
+  );
+});
+
+void test("C3. an elliptical free branch crossing the masonry is rejected", () => {
+  const arch = ellipticalArchModel("t12-c3", { x: -2, y: 0.3 }, { x: 6.2, y: 3 });
+  assert.throws(() => resolveArchReinforcements(arch), /free terminal branch crosses the masonry/);
 });

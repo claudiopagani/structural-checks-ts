@@ -492,7 +492,7 @@ void test("15. the passive intrados activation benchmark remains valid on the fa
 // B/E numerical-safety seam: a tangent load-correction solve that throws (singular matrix) must
 // only produce a diagnostic from the corrector seed helper. It must never throw out of the
 // standard verification, never become a limit point, and never become a physical failure.
-void test("tangent-seed construction exception is a diagnostic, never a throw", () => {
+void test("a singular tangent-seed solve is a diagnostic but programming errors propagate", () => {
   const solver = new NonlinearEquilibriumContinuationSolver({
     scaling: {
       residualScales: [1, 1, 1],
@@ -537,4 +537,17 @@ void test("tangent-seed construction exception is a diagnostic, never a throw", 
   assert.notEqual(healthy.seed, null);
   assert.equal(healthy.error, null);
   assert.ok(healthy.seed!.every((value) => Number.isFinite(value)));
+
+  const sentinel = new Error("sentinel-programming-error");
+  const throwingContext = {
+    continuationSolver: {
+      solveLoadCorrection(): never {
+        throw sentinel;
+      },
+    },
+  } as unknown as SolverContext;
+  assert.throws(
+    () => masonryArchTangentSeedAtLambda(throwingContext, [0, 0, 0], 0.9, healthyEvaluation, 1),
+    (error) => error === sentinel,
+  );
 });
