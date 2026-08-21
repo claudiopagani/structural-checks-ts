@@ -234,7 +234,7 @@ void test("A. verified equilibrium: assessment PASS with no failed criteria", ()
     assessment.question,
     "does-the-assigned-load-state-admit-a-verified-statically-admissible-equilibrium",
   );
-  assert.equal(result.metadata.schemaVersion, "9.0.0");
+  assert.equal(result.metadata.schemaVersion, "10.0.0");
 });
 
 void test("B. compression not verified: global infeasibility without fabricated compression criteria", () => {
@@ -909,7 +909,7 @@ void test("path design assessment reports the shared shape with lambda and requi
   // mode keeps its own semantics and remains available on the outputs.
   assert.equal(assessment.failureMode, null);
   assert.equal(result.outputs.failureMode, "no-collapse-within-model");
-  assert.equal(result.metadata.schemaVersion, "16.0.0");
+  assert.equal(result.metadata.schemaVersion, "17.0.0");
 });
 
 void test("D3. reinforcement rupture from both sub-checks preserves one criterion per check", () => {
@@ -1075,6 +1075,60 @@ void test("L. a passive extrados tendon activates during the path and the design
   )!;
   assert.equal(passive.state, "active-passive");
   assert.ok(passive.force > 0);
+});
+
+void test("L2. passive external-extrados contact migration is observable and the design passes", () => {
+  const result = designPath(
+    pathModel({
+      pointForce: { x: 0, y: 40 },
+      reinforcements: [
+        {
+          id: "passive-extrados",
+          side: "extrados",
+          area: 0.001,
+          elasticModulus: 200_000_000,
+          initialForce: 0,
+          topology: {
+            type: "open",
+            left: {
+              type: "external-anchor",
+              point: { x: -5.625163973647156, y: 1.614784898858708 },
+            },
+            right: {
+              type: "external-anchor",
+              point: { x: 5.625163973647156, y: 1.614784898858708 },
+            },
+            interaction: { type: "unilateral-contact", segmentCount: 12 },
+          },
+        },
+      ],
+    }),
+  );
+  const assessment = result.outputs.engineeringAssessment;
+  assert.equal(assessment?.status, "PASS");
+  assert.equal(result.status, "ok");
+  assert.equal(assessment.lambda, 1);
+  assert.equal(assessment.failureMode, null);
+  assert.equal(assessment.failedCriteria.length, 0);
+  const contactMigration = result.outputs.events.find(
+    (event) => event.kind === "extrados-contact-active-set-changed",
+  );
+  assert.ok(contactMigration !== undefined, "external extrados contact migration is observable");
+  assert.equal(contactMigration.category, "observable-event");
+  // Contact migration is observable only and cannot appear in failedCriteria.
+  const finalState = result.outputs.steps.at(-1)!.state;
+  const passive = finalState.reinforcementState.find(
+    (item) => item.reinforcementId === "passive-extrados",
+  )!;
+  assert.equal(passive.initialForce, 0);
+  assert.equal(passive.state, "slack");
+  assert.equal(passive.force, 0);
+  assert.ok(
+    Math.abs(
+      passive.contactBoundary!.current!.start.normalizedSideArcStation -
+        passive.contactBoundary!.reference!.start.normalizedSideArcStation,
+    ) > 1e-6,
+  );
 });
 
 void test("O1. stop-at-onset path criteria copy the step's deformable-interface check", () => {

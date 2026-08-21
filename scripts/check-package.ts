@@ -38,7 +38,7 @@ const lock = JSON.parse(await readFile(path.join(repositoryRoot, "package-lock.j
 };
 
 assert.equal(packageJson.name, "structural-checks-ts");
-assert.equal(packageJson.version, "0.1.0");
+assert.equal(packageJson.version, "0.2.0");
 assert.equal(packageJson.private, undefined, "The release package must not be private.");
 assert.equal(packageJson.license, "LGPL-2.1-or-later");
 assert.deepEqual(packageJson.repository, {

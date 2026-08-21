@@ -73,7 +73,14 @@ export {
   evaluateArchReinforcementConfiguration,
   resolveArchReinforcements,
 } from "./resolveArchReinforcements.js";
-export { externalAnchorPointFromDirectionAndLength } from "./reinforcementGeometry.js";
+export {
+  externalAnchorPointFromDirectionAndLength,
+  externalAnchorPointFromExtradosTangency,
+  extradosTangencyStationFromAngle,
+  resolveExtradosTangentAtStation,
+  type ExtradosTangentAtStation,
+  type ExtradosTangentSide,
+} from "./reinforcementGeometry.js";
 export {
   resolveMasonryArchLoads,
   type MasonryArchResolvedLoadAction,

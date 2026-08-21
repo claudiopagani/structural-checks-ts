@@ -26,6 +26,9 @@ The link to the previous implementation is severed and it is never consulted at 
 - Record updates: 2026-08-20 — Decision 0016 added the new masonry-arch stable block-anchorage core
   file and two focused test files: TypeScript-side source files moved 537 -> 538 and tests moved 438
   -> 440. The JavaScript side and every historical artifact remain frozen.
+- Record updates: 2026-08-21 — Decision 0017 added the independent external-extrados natural
+  tangency regression file: TypeScript-side tests moved 440 -> 441. The JavaScript side and every
+  historical artifact remain frozen.
 
 ## Surface counts
 
@@ -38,7 +41,7 @@ The link to the previous implementation is severed and it is never consulted at 
 | Application catalog entries       |                30 |                 30 |
 | Serialized schema/version symbols |                49 |                 49 |
 | Source files                      |               480 |                538 |
-| Tests                             |               131 |                440 |
+| Tests                             |               131 |                441 |
 | Validation campaigns              |                17 |                  0 |
 | Validation files                  |                27 |                  0 |
 | Examples                          |                32 |                  0 |

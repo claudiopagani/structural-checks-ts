@@ -26,7 +26,6 @@ function archModel(
   id: string,
   left: { readonly x: number; readonly y: number },
   right: { readonly x: number; readonly y: number },
-  stations: readonly [number, number] = [0, 1],
 ): MasonryArchModel {
   return createMasonryArch({
     id,
@@ -53,8 +52,8 @@ function archModel(
         initialForce: 80,
         topology: {
           type: "open",
-          left: { type: "external-anchor", station: stations[0], point: left },
-          right: { type: "external-anchor", station: stations[1], point: right },
+          left: { type: "external-anchor", point: left },
+          right: { type: "external-anchor", point: right },
           interaction: { type: "unilateral-contact", segmentCount: 24 },
         },
       },
@@ -92,8 +91,8 @@ function ellipticalArchModel(
         initialForce: 80,
         topology: {
           type: "open",
-          left: { type: "external-anchor", station: 0, point: left },
-          right: { type: "external-anchor", station: 1, point: right },
+          left: { type: "external-anchor", point: left },
+          right: { type: "external-anchor", point: right },
           interaction: { type: "unilateral-contact", segmentCount: 24 },
         },
       },
@@ -162,7 +161,7 @@ void test("A4. reversed mixed external/arch terminals are rejected before contin
         topology: {
           type: "open",
           // A right-hand external point labeled "left", with the right arch anchor at the crown.
-          left: { type: "external-anchor", station: 0, point: { x: 4.2, y: 4 } },
+          left: { type: "external-anchor", point: { x: 4.2, y: 4 } },
           right: { type: "arch-anchor", station: 0.5 },
           interaction: { type: "unilateral-contact", segmentCount: 24 },
         },
@@ -253,7 +252,11 @@ void test("B4. a free branch crossing the masonry before its contact region is r
 void test("B5. a tangent-like free branch is accepted", () => {
   // The anchor is positioned so that the straight branch to the first contact only grazes the
   // extrados: the contact envelope keeps the branch outside the masonry.
-  const arch = archModel("t12-b5", { x: -4.5, y: 5.9 }, { x: 4.5, y: 5.9 }, [0.25, 0.75]);
+  const arch = archModel(
+    "t12-b5",
+    { x: -5.303300858899107, y: 2.474873734152916 },
+    { x: 5.303300858899107, y: 2.474873734152916 },
+  );
   const resolved = resolveArchReinforcements(arch);
   const state = resolved.reinforcementState[0]!;
   assert.equal(state.segments[0]!.role, "free-terminal-branch");
@@ -263,10 +266,13 @@ void test("B5. a tangent-like free branch is accepted", () => {
   assert.equal(state.equilibrium.satisfied, true);
 });
 
-void test("B6. an external anchor coincident with its terminal device is rejected", () => {
-  // A physical external anchor requires a positive-length free branch.
-  const arch = archModel("t12-b6", { x: 0, y: 5.5 }, { x: 6.2, y: 4 }, [0.5, 1]);
-  assert.throws(() => resolveArchReinforcements(arch), /zero-length|coincident|degenerate/);
+void test("B6. an external anchor on the extrados with no admissible free branch is rejected", () => {
+  // The anchor is not outside the cable-contact geometry and cannot form an admissible branch.
+  const arch = archModel("t12-b6", { x: 0, y: 5.5 }, { x: 6.2, y: 4 });
+  assert.throws(
+    () => resolveArchReinforcements(arch),
+    /zero-length|coincident|degenerate|crosses the masonry/,
+  );
 });
 
 // ---------------------------------------------------------------------------

@@ -2,6 +2,19 @@
 
 All notable public changes are recorded here.
 
+## 0.2.0
+
+- Corrected external extrados cables so external anchors are fixed global endpoints and the cable
+  enters or leaves masonry naturally through the unilateral-contact solution.
+- Removed externally anchored extrados terminal stations as kinematic constraints and removed the
+  artificial extrados terminal saddle/device force semantics.
+- Added reference/current contact-boundary results; smooth tangency is continuously refined, contact
+  may migrate to another masonry material station, moved joints may carry corner contact, and full
+  detachment is supported.
+- Added public geometry helpers for extrados station-to-tangent, reference tangency plus branch
+  length to fixed anchor point, and side-specific tangent-angle inversion for circular and
+  elliptical profiles.
+
 ## 0.1.0
 
 Initial public npm release of the solver-neutral TypeScript library.

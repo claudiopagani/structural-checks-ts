@@ -26,13 +26,16 @@ The historical masonry-arch reinforcement model conflated several physically dis
 1. **Topology-first schema.** Every discrete reinforcement carries a discriminated `topology` union:
    - intrados `open` (independent left/right terminations) and intrados `closed-loop`;
    - extrados `open` with `unilateral-contact` interaction (closed loop is not an extrados option).
-     Terminations are `arch-anchor` (normalized side-boundary station) or `external-anchor` (fixed
-     global point). Left and right are independent, so mixed terminations are first-class.
+     Terminations are `arch-anchor` (normalized side-boundary station) or `external-anchor`.
+     Intrados external anchors include their real transfer-device station and fixed global point;
+     extrados external anchors include only the fixed global point because contact is solved. Left
+     and right are independent, so mixed terminations are first-class.
 2. **Device taxonomy.** Physical devices are explicitly
-   `terminal-arch-anchor | external-anchor | deviator | return-deviator`; every device publishes
-   `tensionIn`, `tensionOut`, incoming/outgoing directions, and `F = T_out * t_out - T_in * t_in`
-   (frictionless: `T_in === T_out`). `deviatorCount` ambiguity is removed: deviators are interior
-   devices only.
+   `terminal-arch-anchor | external-anchor | arch-side-terminal | deviator | return-deviator`;
+   `arch-side-terminal` is the real intrados external transfer device and, after Decision 0017, is
+   never extrados contact. Every device publishes `tensionIn`, `tensionOut`, incoming/outgoing
+   directions, and `F = T_out * t_out - T_in * t_in` (frictionless: `T_in === T_out`).
+   `deviatorCount` ambiguity is removed: deviators are interior devices only.
 3. **Complete-path compatibility.** Every tendon computes its elastic force increment from the
    complete path length — including external-anchor free branches and the closed-loop return segment
    — as `max(0, T0 + EA * (L - L_ref) / L_ref)`. Active and passive reinforcement differ only

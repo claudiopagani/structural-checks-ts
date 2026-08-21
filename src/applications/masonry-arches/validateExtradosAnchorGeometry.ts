@@ -3,7 +3,6 @@ import type {
   RigidBlockVector2D,
 } from "../../domain/masonry/rigid-blocks/types.js";
 import { normalize2d } from "../../domain/masonry/rigid-blocks/vector2d.js";
-import { minimumMasonryArchProfileRadiusOfCurvature } from "./geometry.js";
 import type {
   MasonryArchReferenceCurve,
   NormalizedMasonryArchGeometry,
@@ -24,9 +23,8 @@ import type {
  *    and its straight free branch to the first resolved contact must not travel through the
  *    masonry. The masonry body is the normal-offset band of the reference curve between the two
  *    springing joints, evaluated from the same normalized-profile parameterization the geometry
- *    builder uses (circular and elliptical). Penetrations smaller than the polygonal sagitta of
- *    the unilateral-contact discretization are accepted as an inherent discretization
- *    characteristic; deeper penetrations are rejected.
+ *    builder uses (circular and elliptical). The adjacent point is the continuously refined
+ *    contact-envelope boundary, so validation does not depend on contact discretization sagitta.
  */
 
 const PROJECTION_SCAN_COUNT = 32;
@@ -186,12 +184,6 @@ function pointInsideMasonry(
   return offset > bounds.intrados + tolerance && offset < bounds.extrados - tolerance;
 }
 
-/** Minimum radius of curvature of the inner (intrados-side) boundary of the masonry band. */
-function minimumInnerRadius(geometry: NormalizedMasonryArchGeometry): number {
-  const bounds = bandBounds(geometry.referenceCurve, geometry.thickness);
-  return minimumMasonryArchProfileRadiusOfCurvature(geometry.profile) + bounds.intrados;
-}
-
 /** True when the straight segment passes strictly inside the masonry body. */
 function segmentCrossesMasonry(
   geometry: NormalizedMasonryArchGeometry,
@@ -238,8 +230,7 @@ export function validateOpenTendonTerminalOrder(
 /**
  * Validates one extrados external anchor and its resolved free branch against the masonry body.
  * The branch is the straight segment from the fixed anchor to the adjacent resolved contact
- * point. Penetrations smaller than the contact discretization sagitta are accepted as an inherent
- * discretization characteristic.
+ * point. The contact point comes from the anchor-inclusive, continuously refined taut envelope.
  */
 export function validateExtradosExternalAnchorGeometry(
   geometry: NormalizedMasonryArchGeometry,
@@ -247,8 +238,6 @@ export function validateExtradosExternalAnchorGeometry(
   side: "left" | "right",
   anchorPoint: RigidBlockPoint2D,
   adjacentContactPoint: RigidBlockPoint2D,
-  sideArcLength: number,
-  segmentCount: number,
 ): void {
   const scale = Math.max(1, geometry.thickness, geometry.span);
   const anchorTolerance = 1e-9 * scale;
@@ -257,9 +246,7 @@ export function validateExtradosExternalAnchorGeometry(
       `Reinforcement ${reinforcementId} ${side} external anchor (${anchorPoint.x}, ${anchorPoint.y}) lies inside the masonry body.`,
     );
   }
-  const spacing = sideArcLength / segmentCount;
-  const sagitta = spacing ** 2 / (8 * minimumInnerRadius(geometry));
-  const branchTolerance = 1e-9 * scale + sagitta;
+  const branchTolerance = 1e-9 * scale;
   if (segmentCrossesMasonry(geometry, anchorPoint, adjacentContactPoint, branchTolerance)) {
     throw new Error(
       `Reinforcement ${reinforcementId} ${side} free terminal branch crosses the masonry before reaching the extrados contact envelope.`,

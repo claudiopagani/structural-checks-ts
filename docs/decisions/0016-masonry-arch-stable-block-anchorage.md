@@ -1,8 +1,14 @@
 # Decision 0016 — Station-based masonry-arch reinforcement geometry
 
-- Status: implemented; the original block-based decision at `e859daf` is superseded.
+- Status: partially superseded by Decision 0017; intrados station-based geometry remains
+  implemented.
 - Scope: `applications/masonry-arches` discrete tendons and bonded-layer geometry.
 - Classification: new solver-neutral work; no normative conformity is claimed.
+
+> Decision 0017 supersedes the extrados external-terminal parts of items 4, 5, and 8 and their
+> result/schema consequences. The station-bearing extrados external terminal described below is
+> historical 0.1.0 behavior only and is not a supported current topology. Intrados external transfer
+> stations remain physical and implemented.
 
 ## Context
 

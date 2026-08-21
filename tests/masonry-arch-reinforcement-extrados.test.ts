@@ -114,8 +114,8 @@ void test("F1. extrados external-anchored cable: fixed anchors, straight free br
       initialForce: 80,
       topology: {
         type: "open",
-        left: { type: "external-anchor", station: 0, point: { x: -6.2, y: 4 } },
-        right: { type: "external-anchor", station: 1, point: { x: 6.2, y: 4 } },
+        left: { type: "external-anchor", point: { x: -6.2, y: 4 } },
+        right: { type: "external-anchor", point: { x: 6.2, y: 4 } },
         interaction: { type: "unilateral-contact", segmentCount: 24 },
       },
     },
@@ -144,12 +144,9 @@ void test("F1. extrados external-anchored cable: fixed anchors, straight free br
   };
   assert.ok(Math.abs(branchDirection.x) > 1e-9, "the branch is not forced vertical");
   assert.ok(Math.abs(first.length - Math.hypot(branchDirection.x, branchDirection.y)) <= 1e-9);
-  // Assigned stations bound the nominal contact interval; the unilateral solver, not the input,
-  // decides its active set. This reference geometry remains fully in contact.
+  // The unilateral solver finds contact from the fixed anchors without a stationed terminal.
   const active = resolved.contactForces.filter((item) => item.state === "in-contact");
-  const released = resolved.contactForces.filter((item) => item.state === "separated");
   assert.ok(active.length > 0, "the cable keeps contact along the crown");
-  assert.equal(released.length, 0, "the undeformed circular envelope remains fully in contact");
   for (const contact of active) {
     assert.ok(contact.normalComponent >= -1e-9, "active contact stays compressive");
   }
@@ -160,7 +157,7 @@ void test("F1. extrados external-anchored cable: fixed anchors, straight free br
   assert.ok(Math.abs(equilibrium.residualForce.y) <= 1e-9);
   assert.ok(Math.abs(equilibrium.residualMoment) <= 1e-6);
   // The external anchors take exactly the reactions the arch-side actions require.
-  const archSum = equilibrium.archDeviceForceSum;
+  const archSum = equilibrium.archActionForceSum;
   const externalSum = equilibrium.externalAnchorForceSum;
   assert.ok(Math.abs(archSum.x + externalSum.x) <= 1e-9);
   assert.ok(Math.abs(archSum.y + externalSum.y) <= 1e-9);
@@ -250,11 +247,7 @@ void test("J. two reinforcements coexist with stable independent identities", ()
 // I. Extrados taut-envelope geometry audit
 // ---------------------------------------------------------------------------
 
-function extradosExternalModel(
-  id: string,
-  anchors: { readonly x: number; readonly y: number }[],
-  stations: readonly [number, number] = [0, 1],
-) {
+function extradosExternalModel(id: string, anchors: { readonly x: number; readonly y: number }[]) {
   return archModel(id, [
     {
       id: "E",
@@ -264,8 +257,8 @@ function extradosExternalModel(
       initialForce: 80,
       topology: {
         type: "open",
-        left: { type: "external-anchor", station: stations[0], point: anchors[0]! },
-        right: { type: "external-anchor", station: stations[1], point: anchors[1]! },
+        left: { type: "external-anchor", point: anchors[0]! },
+        right: { type: "external-anchor", point: anchors[1]! },
         interaction: { type: "unilateral-contact", segmentCount: 24 },
       },
     },
@@ -298,32 +291,13 @@ void test("I1. the resolved cable never penetrates the sampled extrados", () => 
   const resolved = resolveArchReinforcements(arch);
   const path = resolved.reinforcementState[0]!.path;
   const tolerance = 1e-9 * Math.max(1, Math.abs(path[0]!.y));
-  const cableMinX = Math.min(...path.map((point) => point.x));
-  const cableMaxX = Math.max(...path.map((point) => point.x));
   for (const contact of resolved.contactForces) {
-    // Samples outside the cable x-range have no cable above them at all: the free terminal
-    // branch starts at the anchor, so only the span between the terminals is constrained.
-    if (contact.point.x < cableMinX - tolerance || contact.point.x > cableMaxX + tolerance) {
-      assert.equal(contact.state, "separated", "samples outside the cable span are released");
-      continue;
-    }
     const envelope = envelopeYAt(path, contact.point.x);
     assert.ok(envelope !== null, "the sample lies inside the cable x-range");
     assert.ok(
       contact.point.y <= envelope + tolerance,
       `sample ${contact.index} at y=${contact.point.y} lies below the cable (${envelope})`,
     );
-  }
-  // Released samples within the span lie strictly below the cable: the cable really detaches.
-  const released = resolved.contactForces.filter(
-    (item) =>
-      item.state === "separated" &&
-      item.point.x >= cableMinX - tolerance &&
-      item.point.x <= cableMaxX + tolerance,
-  );
-  for (const contact of released) {
-    const envelope = envelopeYAt(path, contact.point.x);
-    assert.ok(contact.point.y <= envelope! + tolerance);
   }
   // Active contact is always compression.
   for (const contact of resolved.contactForces.filter((item) => item.state === "in-contact")) {
@@ -360,26 +334,16 @@ void test("I3. reversed left/right anchor ordering is rejected before resolution
 });
 
 void test("I4. an anchor below the taut envelope dips the cable without penetrating the samples", () => {
-  // The anchor hangs below the straight anchor-to-anchor chord but above the extrados; the pinned
+  // The anchor hangs below the straight anchor-to-anchor chord but above the extrados; the taut
   // envelope dips to reach it, and the Graham invariant still keeps every sample below the cable.
-  const arch = extradosExternalModel(
-    "extrados-i4",
-    [
-      { x: -4.2, y: 3.6 },
-      { x: 6.2, y: 4 },
-    ],
-    [0.25, 1],
-  );
+  const arch = extradosExternalModel("extrados-i4", [
+    { x: -4.2, y: 3.6 },
+    { x: 6.2, y: 4 },
+  ]);
   const resolved = resolveArchReinforcements(arch);
   const path = resolved.reinforcementState[0]!.path;
   const tolerance = 1e-9 * Math.max(1, Math.abs(path[0]!.y));
-  const cableMinX = Math.min(...path.map((point) => point.x));
-  const cableMaxX = Math.max(...path.map((point) => point.x));
   for (const contact of resolved.contactForces) {
-    if (contact.point.x < cableMinX - tolerance || contact.point.x > cableMaxX + tolerance) {
-      assert.equal(contact.state, "separated");
-      continue;
-    }
     const envelope = envelopeYAt(path, contact.point.x);
     assert.ok(envelope !== null);
     assert.ok(contact.point.y <= envelope + tolerance, "no sample is cut by the cable");
@@ -389,7 +353,7 @@ void test("I4. an anchor below the taut envelope dips the cable without penetrat
   assert.equal(resolved.reinforcementState[0]!.equilibrium.satisfied, true);
 });
 
-void test("I5. an external anchor coincident with its stationed terminal is rejected", () => {
+void test("I5. an external anchor on the extrados without an admissible branch is rejected", () => {
   const coincident = archModel("extrados-i5", [
     {
       id: "E",
@@ -401,13 +365,15 @@ void test("I5. an external anchor coincident with its stationed terminal is reje
         type: "open",
         left: {
           type: "external-anchor",
-          station: 0.5,
           point: { x: 0, y: 5.5 },
         },
-        right: { type: "external-anchor", station: 1, point: { x: 6.2, y: 4 } },
+        right: { type: "external-anchor", point: { x: 6.2, y: 4 } },
         interaction: { type: "unilateral-contact", segmentCount: 24 },
       },
     },
   ]);
-  assert.throws(() => resolveArchReinforcements(coincident), /zero-length|coincident|degenerate/);
+  assert.throws(
+    () => resolveArchReinforcements(coincident),
+    /zero-length|coincident|degenerate|crosses the masonry/,
+  );
 });

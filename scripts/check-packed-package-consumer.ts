@@ -12,7 +12,7 @@ const packageJson = JSON.parse(
 ) as { name: string; private?: boolean; version: string; exports: Record<string, unknown> };
 
 assert.equal(packageJson.name, "structural-checks-ts");
-assert.equal(packageJson.version, "0.1.0");
+assert.equal(packageJson.version, "0.2.0");
 assert.equal(packageJson.private, undefined);
 
 const npmCliPath =
@@ -95,8 +95,10 @@ import {
   analyzeMasonryArchEquilibrium,
   analyzeMasonryArchVerification,
   createMasonryArch,
+  externalAnchorPointFromExtradosTangency,
   resolveArchReinforcements,
   resolveBondedLayerInterfaceSections,
+  resolveExtradosTangentAtStation,
 } from "structural-checks-ts/applications/masonry-arches";
 
 const resolver = createUnitResolver({ force: "kN", length: "m" });
@@ -159,6 +161,48 @@ const verification = analyzeMasonryArchVerification(arch, {
 });
 assert.equal(verification.outputs.route, "rigid-plastic-static");
 assert.equal(verification.outputs.engineeringAssessment.status, "FAIL");
+
+const leftTangent = resolveExtradosTangentAtStation(arch.geometry, "left", 0.2);
+const rightTangent = resolveExtradosTangentAtStation(arch.geometry, "right", 0.8);
+assert.ok(Number.isFinite(leftTangent.outwardTangentAngle));
+assert.ok(Number.isFinite(rightTangent.outwardTangentAngle));
+const leftExternalPoint = externalAnchorPointFromExtradosTangency(arch.geometry, "left", 0.2, 2);
+const rightExternalPoint = externalAnchorPointFromExtradosTangency(arch.geometry, "right", 0.8, 2);
+const extradosArch = createMasonryArch({
+  id: "packed-extrados",
+  units: { force: "kN", length: "m" },
+  geometry: {
+    kind: "simplified-symmetric",
+    referenceCurve: "centerline",
+    profile: { type: "circular" },
+    span: 10,
+    rise: 5,
+    thickness: 1,
+    outOfPlaneWidth: 1,
+    voussoirCount: 21,
+  },
+  interfaceLaw: {
+    response: "rigid-plastic",
+    normal: { type: "no-tension" },
+    tangential: { type: "frictionless" },
+  },
+  reinforcements: [{
+    id: "EX",
+    side: "extrados",
+    area: 0.001,
+    elasticModulus: 200_000_000,
+    initialForce: 80,
+    topology: {
+      type: "open",
+      left: { type: "external-anchor", point: leftExternalPoint },
+      right: { type: "external-anchor", point: rightExternalPoint },
+      interaction: { type: "unilateral-contact", segmentCount: 24 },
+    },
+  }],
+});
+const extrados = resolveArchReinforcements(extradosArch);
+assert.equal(extrados.reinforcementState[0].contactBoundary.reference.start.kind, "smooth-tangency");
+assert.equal(extrados.deviceForces.some((item) => item.kind === "arch-side-terminal"), false);
 
 const specifiers = ${JSON.stringify(importSpecifiers)};
 const modules = await Promise.all(specifiers.map((specifier) => import(specifier)));

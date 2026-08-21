@@ -21,6 +21,8 @@ import type {
   ArchDeviceForceResult,
   ArchExternalAnchorForceResult,
   ArchReinforcementDeviceGeometryResult,
+  ExtradosContactBoundaryKind,
+  ExtradosContactIntervalResult,
   ArchReinforcementSegmentResult,
   ArchReinforcementSegmentRole,
   ArchReinforcementStateResult,
@@ -41,6 +43,7 @@ const GAUSS_WEIGHTS = [
 
 interface SideArcStationing {
   readonly totalLength: number;
+  readonly sideArcLengthAtReferenceStation: (referenceStation: number) => number;
   readonly referenceStationAtLength: (sideArcLength: number) => number;
 }
 
@@ -74,6 +77,9 @@ interface MutablePathNode {
   attachments: readonly PathNodeAttachment[];
   device: DeviceDescriptor | null;
   contact: boolean;
+  contactKind: "smooth-contact" | "joint-contact" | null;
+  boundaryKind: ExtradosContactBoundaryKind | null;
+  attachmentKey: string;
   /** Stable index after ordering, retained when unilateral contact releases this sample. */
   pathIndex: number;
 }
@@ -147,10 +153,26 @@ function createSideArcStationing(
   // Integrate and invert directly on the continuous reference curve. No block boundary enters
   // this transformation, so changing voussoirCount cannot move a physical side-arc station.
   const totalReferenceLength = geometry.totalReferenceArcLength;
+  if (side === geometry.referenceCurve) {
+    return {
+      totalLength: totalReferenceLength,
+      sideArcLengthAtReferenceStation: (referenceStation: number): number =>
+        Math.min(totalReferenceLength, Math.max(0, referenceStation)),
+      referenceStationAtLength: (sideArcLength: number): number =>
+        Math.min(totalReferenceLength, Math.max(0, sideArcLength)),
+    };
+  }
   const totalLength = integrateSideArcLength(geometry, side, 0, totalReferenceLength);
   const tolerance = 1e-12 * Math.max(1, totalLength);
   return {
     totalLength,
+    sideArcLengthAtReferenceStation: (referenceStation: number): number =>
+      integrateSideArcLength(
+        geometry,
+        side,
+        0,
+        Math.min(totalReferenceLength, Math.max(0, referenceStation)),
+      ),
     referenceStationAtLength: (requestedLength: number): number => {
       if (requestedLength <= tolerance) return 0;
       if (requestedLength >= totalLength - tolerance) return totalReferenceLength;
@@ -171,7 +193,11 @@ function attachmentsAtStation(
   geometry: NormalizedMasonryArchGeometry,
   referenceStation: number,
   referencePoint: RigidBlockPoint2D,
+  blockIndex?: number,
 ): PathNodeAttachment[] {
+  if (blockIndex !== undefined) {
+    return [{ blockIndex, share: 1, referencePoint, point: referencePoint }];
+  }
   const tolerance = 1e-10 * Math.max(1, geometry.totalReferenceArcLength);
   const internalInterface = geometry.interfaces.find(
     (item) =>
@@ -301,12 +327,19 @@ function addArchPathNode(
   attributes: {
     readonly device?: DeviceDescriptor;
     readonly contact?: boolean;
+    readonly contactKind?: "smooth-contact" | "joint-contact";
+    readonly boundaryKind?: ExtradosContactBoundaryKind;
+    readonly blockIndex?: number;
   },
 ): void {
   const tolerance = 1e-10 * Math.max(1, stationing.totalLength);
+  const attachmentKey =
+    attributes.blockIndex === undefined ? "average" : `block-${attributes.blockIndex}`;
   const existing = nodes.find(
     (item) =>
-      item.sideArcStation !== null && Math.abs(item.sideArcStation - sideArcStation) <= tolerance,
+      item.sideArcStation !== null &&
+      Math.abs(item.sideArcStation - sideArcStation) <= tolerance &&
+      item.attachmentKey === attachmentKey,
   );
   if (existing !== undefined) {
     if (attributes.device !== undefined) {
@@ -316,6 +349,8 @@ function addArchPathNode(
       existing.device = attributes.device;
     }
     existing.contact ||= attributes.contact ?? false;
+    existing.contactKind ??= attributes.contactKind ?? null;
+    existing.boundaryKind ??= attributes.boundaryKind ?? null;
     return;
   }
   const referenceStation = stationing.referenceStationAtLength(sideArcStation);
@@ -329,9 +364,17 @@ function addArchPathNode(
     point: referencePoint,
     referenceChainTangent: sample.chainTangent,
     chainTangent: sample.chainTangent,
-    attachments: attachmentsAtStation(geometry, referenceStation, referencePoint),
+    attachments: attachmentsAtStation(
+      geometry,
+      referenceStation,
+      referencePoint,
+      attributes.blockIndex,
+    ),
     device: attributes.device ?? null,
     contact: attributes.contact ?? false,
+    contactKind: attributes.contactKind ?? null,
+    boundaryKind: attributes.boundaryKind ?? null,
+    attachmentKey,
     pathIndex: -1,
   });
 }
@@ -352,19 +395,19 @@ function addExternalPathNode(
     attachments: [],
     device,
     contact: false,
+    contactKind: null,
+    boundaryKind: null,
+    attachmentKey: "external",
     pathIndex: -1,
   });
 }
 
-/**
- * Taut-cable contact envelope of an extrados tendon: the cable runs between its two terminal
- * devices along the upper envelope of the whole x-monotone node set, so every released sample
- * lies strictly below the cable and every active contact can be delivered as compression.
- * Terminal devices are pinned on the envelope (they are never popped). Nodes sharing one
- * x-coordinate are ordered by y: a device below a contact sample precedes it (a vertical terminal
- * branch), while a device exactly coincident with a sample follows it and replaces it.
- */
-function activeExtradosPathNodes(nodes: readonly MutablePathNode[]): {
+/** Upper x-monotone taut-cable envelope between the actual cable endpoints. */
+function activeExtradosPathNodes(
+  nodes: readonly MutablePathNode[],
+  leftEndpoint: MutablePathNode,
+  rightEndpoint: MutablePathNode,
+): {
   readonly active: readonly MutablePathNode[];
   readonly released: readonly MutablePathNode[];
 } {
@@ -377,20 +420,20 @@ function activeExtradosPathNodes(nodes: readonly MutablePathNode[]): {
   const sorted = [...nodes].sort((left, right) => {
     const deltaX = left.point.x - right.point.x;
     if (Math.abs(deltaX) > 1e-12 * scale) return deltaX;
+    if (left === leftEndpoint || right === leftEndpoint) return left === leftEndpoint ? -1 : 1;
+    if (left === rightEndpoint || right === rightEndpoint) return left === rightEndpoint ? 1 : -1;
     const deltaY = left.point.y - right.point.y;
-    const coincident = Math.abs(deltaY) <= 1e-12 * scale;
-    // Exactly coincident: the device replaces the contact sample.
-    if (coincident) return left.device === null ? -1 : 1;
-    // A left terminal departs upward through its same-x contact sample; a right terminal arrives
-    // downward from its same-x contact sample.
-    const leftIsLeft = left.device?.terminationSide === "left";
-    const rightIsLeft = right.device?.terminationSide === "left";
-    if (leftIsLeft !== rightIsLeft) return leftIsLeft ? -1 : 1;
-    const leftIsRight = left.device?.terminationSide === "right";
-    const rightIsRight = right.device?.terminationSide === "right";
-    if (leftIsRight !== rightIsRight) return leftIsRight ? 1 : -1;
-    return deltaY;
+    if (Math.abs(deltaY) > 1e-12 * scale) return deltaY;
+    const leftStation = left.sideArcStation ?? Number.NEGATIVE_INFINITY;
+    const rightStation = right.sideArcStation ?? Number.POSITIVE_INFINITY;
+    if (leftStation !== rightStation) return leftStation - rightStation;
+    return left.attachmentKey.localeCompare(right.attachmentKey);
   });
+  if (sorted[0] !== leftEndpoint || sorted.at(-1) !== rightEndpoint) {
+    throw new Error(
+      "The extrados cable endpoints do not bound a physically admissible x-monotone path.",
+    );
+  }
   const hull: MutablePathNode[] = [];
   for (const node of sorted) {
     while (hull.length >= 2) {
@@ -400,17 +443,12 @@ function activeExtradosPathNodes(nodes: readonly MutablePathNode[]): {
       const turn = cross2d(subtract2d(middle, first), subtract2d(last, middle));
       // A left turn or a collinear intermediate point lies below the taut upper envelope.
       if (turn < -orientationTolerance) break;
-      if (hull[hull.length - 1]!.device !== null) break; // pin terminal devices
+      if (hull[hull.length - 1] === leftEndpoint) break;
       hull.pop();
     }
     hull.push(node);
   }
-  const firstMandatory = hull.findIndex((node) => node.device !== null);
-  const lastMandatory = hull.findLastIndex((node) => node.device !== null);
-  if (firstMandatory < 0 || lastMandatory <= firstMandatory) {
-    throw new Error("An extrados tendon requires two terminal devices.");
-  }
-  const active = hull.slice(firstMandatory, lastMandatory + 1);
+  const active = hull;
   for (let index = 0; index < active.length - 1; index += 1) {
     const length = norm2d(subtract2d(active[index + 1]!.point, active[index]!.point));
     if (length <= 1e-12 * scale) {
@@ -477,6 +515,175 @@ function deviceIdFor(
   return `${reinforcementId}:D-${String(index).padStart(3, "0")}`;
 }
 
+function internalJointIndexAtStation(
+  geometry: NormalizedMasonryArchGeometry,
+  referenceStation: number,
+): number | null {
+  const tolerance = 1e-10 * Math.max(1, geometry.totalReferenceArcLength);
+  const joint = geometry.interfaces.find(
+    (item) =>
+      item.index > 0 &&
+      item.index < geometry.interfaces.length - 1 &&
+      Math.abs(item.station - referenceStation) <= tolerance,
+  );
+  return joint?.index ?? null;
+}
+
+function movedExtradosFrame(
+  geometry: NormalizedMasonryArchGeometry,
+  referenceStation: number,
+  blockIndex: number,
+  configuration: NormalizedMasonryArchConfiguration | null,
+): { readonly point: RigidBlockPoint2D; readonly tangent: RigidBlockVector2D } {
+  const sample = evaluateMasonryArchCurveAtStation(geometry, referenceStation);
+  const point = transformPointByBlock(geometry, blockIndex, sample.extrados, configuration);
+  const tangent = transformVectorByAttachments(
+    geometry,
+    [{ blockIndex, share: 1, referencePoint: sample.extrados, point }],
+    sample.chainTangent,
+    configuration,
+  );
+  return { point, tangent };
+}
+
+interface ExtradosTangencyRoot {
+  readonly referenceStation: number;
+  readonly blockIndex: number;
+  readonly boundaryKind: "smooth-tangency" | "joint-contact";
+}
+
+function isDeformedJointCorner(
+  geometry: NormalizedMasonryArchGeometry,
+  referenceStation: number,
+  configuration: NormalizedMasonryArchConfiguration | null,
+): boolean {
+  const jointIndex = internalJointIndexAtStation(geometry, referenceStation);
+  if (jointIndex === null || configuration === null) return false;
+  const left = movedExtradosFrame(geometry, referenceStation, jointIndex - 1, configuration);
+  const right = movedExtradosFrame(geometry, referenceStation, jointIndex, configuration);
+  const scale = Math.max(1, geometry.span, geometry.rise, geometry.thickness);
+  return (
+    norm2d(subtract2d(left.point, right.point)) > 1e-10 * scale ||
+    Math.abs(cross2d(left.tangent, right.tangent)) > 1e-10 ||
+    dot2d(left.tangent, right.tangent) < 1 - 1e-10
+  );
+}
+
+/** Bracketed roots of cross(P(s) - A, t(s)) = 0 on every moved voussoir boundary segment. */
+function extradosTangencyRoots(
+  geometry: NormalizedMasonryArchGeometry,
+  side: "left" | "right",
+  anchor: RigidBlockPoint2D,
+  lowerReferenceStation: number,
+  upperReferenceStation: number,
+  configuration: NormalizedMasonryArchConfiguration | null,
+): ExtradosTangencyRoot[] {
+  const roots: ExtradosTangencyRoot[] = [];
+  const scale = Math.max(1, geometry.span, geometry.rise, geometry.thickness);
+  const equationTolerance = 1e-12 * scale;
+  const stationTolerance = 1e-11 * Math.max(1, geometry.totalReferenceArcLength);
+  const equationAt = (station: number, blockIndex: number): number => {
+    const frame = movedExtradosFrame(geometry, station, blockIndex, configuration);
+    return cross2d(subtract2d(frame.point, anchor), frame.tangent);
+  };
+  const acceptsDirection = (station: number, blockIndex: number): boolean => {
+    const frame = movedExtradosFrame(geometry, station, blockIndex, configuration);
+    const branch =
+      side === "left" ? subtract2d(frame.point, anchor) : subtract2d(anchor, frame.point);
+    return dot2d(branch, frame.tangent) > 1e-10 * scale;
+  };
+  const addRoot = (station: number, blockIndex: number): void => {
+    if (!acceptsDirection(station, blockIndex)) return;
+    if (
+      roots.some(
+        (root) =>
+          root.blockIndex === blockIndex &&
+          Math.abs(root.referenceStation - station) <= stationTolerance,
+      )
+    ) {
+      return;
+    }
+    roots.push({
+      referenceStation: station,
+      blockIndex,
+      boundaryKind: isDeformedJointCorner(geometry, station, configuration)
+        ? "joint-contact"
+        : "smooth-tangency",
+    });
+  };
+
+  for (const block of geometry.voussoirs) {
+    const start = Math.max(lowerReferenceStation, block.startStation);
+    const end = Math.min(upperReferenceStation, block.endStation);
+    if (end < start - stationTolerance) continue;
+    const scanCount = 12;
+    let previousStation = start;
+    let previousValue = equationAt(previousStation, block.index);
+    if (Math.abs(previousValue) <= equationTolerance) addRoot(previousStation, block.index);
+    for (let scan = 1; scan <= scanCount; scan += 1) {
+      const station = start + ((end - start) * scan) / scanCount;
+      const value = equationAt(station, block.index);
+      if (Math.abs(value) <= equationTolerance) addRoot(station, block.index);
+      if (previousValue * value < 0) {
+        let lower = previousStation;
+        let upper = station;
+        let lowerValue = previousValue;
+        for (let iteration = 0; iteration < 64; iteration += 1) {
+          const trial = (lower + upper) / 2;
+          const trialValue = equationAt(trial, block.index);
+          if (Math.abs(trialValue) <= equationTolerance) {
+            lower = trial;
+            upper = trial;
+            break;
+          }
+          if (lowerValue * trialValue <= 0) {
+            upper = trial;
+          } else {
+            lower = trial;
+            lowerValue = trialValue;
+          }
+        }
+        addRoot((lower + upper) / 2, block.index);
+      }
+      previousStation = station;
+      previousValue = value;
+    }
+  }
+  return roots;
+}
+
+function extradosContactInterval(
+  nodes: readonly MutablePathNode[],
+): ExtradosContactIntervalResult | null {
+  const contactNodes = nodes.filter((node) => node.sideArcStation !== null);
+  if (contactNodes.length === 0) return null;
+  const pointResult = (
+    node: MutablePathNode,
+    fallbackKind: ExtradosContactBoundaryKind,
+  ): ExtradosContactIntervalResult["start"] => ({
+    normalizedSideArcStation: node.normalizedSideStation!,
+    referenceCurveStation: node.referenceStation!,
+    kind:
+      node.device?.kind === "terminal-arch-anchor"
+        ? "arch-anchor"
+        : (node.boundaryKind ?? fallbackKind),
+    referencePoint: node.referencePoint,
+    point: node.point,
+  });
+  const start = contactNodes[0]!;
+  const end = contactNodes.at(-1)!;
+  return {
+    start: pointResult(
+      start,
+      start.contactKind === "joint-contact" ? "joint-contact" : "smooth-tangency",
+    ),
+    end: pointResult(
+      end,
+      end.contactKind === "joint-contact" ? "joint-contact" : "smooth-tangency",
+    ),
+  };
+}
+
 /**
  * Builds the ordered path nodes of one reinforcement in the reference configuration and updates
  * them onto the evaluated configuration. Returns the complete ordered node list together with the
@@ -489,6 +696,7 @@ function buildReinforcementNodes(
 ): {
   readonly nodes: readonly MutablePathNode[];
   readonly releasedContacts: readonly MutablePathNode[];
+  readonly contactBoundary: ExtradosContactIntervalResult | null;
   readonly closedLoop: boolean;
   readonly stationing: SideArcStationing;
 } {
@@ -590,100 +798,155 @@ function buildReinforcementNodes(
     return {
       nodes,
       releasedContacts: [],
+      contactBoundary: null,
       closedLoop: topology.type === "closed-loop",
       stationing,
     };
   }
 
   const topology = reinforcement.topology;
-  const leftBound = topology.left.station * stationing.totalLength;
-  const rightBound = topology.right.station * stationing.totalLength;
+  const leftBound =
+    topology.left.type === "arch-anchor" ? topology.left.station * stationing.totalLength : 0;
+  const rightBound =
+    topology.right.type === "arch-anchor"
+      ? topology.right.station * stationing.totalLength
+      : stationing.totalLength;
   if (rightBound - leftBound <= 1e-12 * scale) {
     throw new Error(
-      `Reinforcement ${reinforcement.id} has no positive extrados contact interval between its terminals.`,
+      `Reinforcement ${reinforcement.id} has no positive extrados search interval between its arch endpoints.`,
     );
   }
 
   if (topology.left.type === "external-anchor") {
     addExternalPathNode(nodes, topology.left.point, externalAnchorDevice("left"));
+  } else {
+    addArchPathNode(nodes, geometry, side, stationing, leftBound, {
+      device: archAnchorDevice("left"),
+      boundaryKind: "arch-anchor",
+    });
   }
-  addArchPathNode(nodes, geometry, side, stationing, leftBound, {
-    device:
-      topology.left.type === "external-anchor"
-        ? archSideTerminalDevice("left")
-        : archAnchorDevice("left"),
-  });
   const segmentCount = topology.interaction.segmentCount;
-  for (let index = 1; index < segmentCount; index += 1) {
+  for (let index = 0; index <= segmentCount; index += 1) {
     addArchPathNode(
       nodes,
       geometry,
       side,
       stationing,
       leftBound + ((rightBound - leftBound) * index) / segmentCount,
-      { contact: true },
+      { contact: true, contactKind: "smooth-contact" },
     );
   }
+
+  const lowerReferenceStation = stationing.referenceStationAtLength(leftBound);
+  const upperReferenceStation = stationing.referenceStationAtLength(rightBound);
+  if (configuration !== null) {
+    for (let index = nodes.length - 1; index >= 0; index -= 1) {
+      const node = nodes[index]!;
+      if (
+        node.device === null &&
+        node.referenceStation !== null &&
+        node.attachmentKey === "average" &&
+        internalJointIndexAtStation(geometry, node.referenceStation) !== null
+      ) {
+        nodes.splice(index, 1);
+      }
+    }
+  }
+  for (const joint of geometry.interfaces.slice(1, -1)) {
+    if (
+      joint.station <= lowerReferenceStation + 1e-12 * scale ||
+      joint.station >= upperReferenceStation - 1e-12 * scale
+    ) {
+      continue;
+    }
+    const jointSideStation = stationing.sideArcLengthAtReferenceStation(joint.station);
+    if (!isDeformedJointCorner(geometry, joint.station, configuration)) {
+      addArchPathNode(nodes, geometry, side, stationing, jointSideStation, {
+        contact: true,
+        contactKind: "smooth-contact",
+      });
+    } else {
+      for (const blockIndex of [joint.index - 1, joint.index]) {
+        addArchPathNode(nodes, geometry, side, stationing, jointSideStation, {
+          contact: true,
+          contactKind: "joint-contact",
+          boundaryKind: "joint-contact",
+          blockIndex,
+        });
+      }
+    }
+  }
+
+  for (const [terminationSide, termination] of [
+    ["left", topology.left],
+    ["right", topology.right],
+  ] as const) {
+    if (termination.type !== "external-anchor") continue;
+    for (const root of extradosTangencyRoots(
+      geometry,
+      terminationSide,
+      termination.point,
+      lowerReferenceStation,
+      upperReferenceStation,
+      configuration,
+    )) {
+      addArchPathNode(
+        nodes,
+        geometry,
+        side,
+        stationing,
+        stationing.sideArcLengthAtReferenceStation(root.referenceStation),
+        {
+          contact: true,
+          contactKind: root.boundaryKind === "joint-contact" ? "joint-contact" : "smooth-contact",
+          boundaryKind: root.boundaryKind,
+          blockIndex: root.blockIndex,
+        },
+      );
+    }
+  }
+
   if (topology.right.type === "external-anchor") {
-    addArchPathNode(nodes, geometry, side, stationing, rightBound, {
-      device: archSideTerminalDevice("right"),
-    });
     addExternalPathNode(nodes, topology.right.point, externalAnchorDevice("right"));
   } else {
     addArchPathNode(nodes, geometry, side, stationing, rightBound, {
       device: archAnchorDevice("right"),
+      boundaryKind: "arch-anchor",
     });
   }
 
-  // The terminals keep their geometric order before the envelope reorders the nodes by x.
-  const leftTerminal = nodes.find((node) => node.device?.terminationSide === "left")!;
-  const rightTerminal = nodes.find((node) => node.device?.terminationSide === "right")!;
-  const leftOrderPoint =
-    topology.left.type === "external-anchor" ? topology.left.point : leftTerminal.point;
-  const rightOrderPoint =
-    topology.right.type === "external-anchor" ? topology.right.point : rightTerminal.point;
-  validateOpenTendonTerminalOrder(geometry, reinforcement.id, leftOrderPoint, rightOrderPoint);
-
-  nodes.sort((left, right) => externalNodeOrder(left) - externalNodeOrder(right));
   nodes.forEach((node, index) => {
     node.pathIndex = index;
     updatePathNodeConfiguration(node, geometry, configuration);
   });
-  // The fixed external branches terminate at explicit arch-side devices. They are physical path
-  // segments but do not participate in finding the unilateral contact envelope between those
-  // devices. This keeps the nominal contact interval station-based while allowing either free
-  // branch to have arbitrary length and direction.
-  const archNodes = nodes.filter((node) => node.sideArcStation !== null);
-  const contactPath = activeExtradosPathNodes(archNodes);
-  const leftExternal = nodes.find(
-    (node) => node.device?.kind === "external-anchor" && node.device.terminationSide === "left",
+  const leftEndpoint = nodes.find((node) => node.device?.terminationSide === "left")!;
+  const rightEndpoint = nodes.find((node) => node.device?.terminationSide === "right")!;
+  validateOpenTendonTerminalOrder(
+    geometry,
+    reinforcement.id,
+    leftEndpoint.point,
+    rightEndpoint.point,
   );
-  const rightExternal = nodes.find(
-    (node) => node.device?.kind === "external-anchor" && node.device.terminationSide === "right",
+  const xTolerance = 1e-10 * Math.max(1, geometry.span);
+  const envelopeCandidates = nodes.filter(
+    (node) =>
+      node === leftEndpoint ||
+      node === rightEndpoint ||
+      (node.point.x >= leftEndpoint.point.x - xTolerance &&
+        node.point.x <= rightEndpoint.point.x + xTolerance),
   );
-  const completePath = [
-    ...(leftExternal === undefined ? [] : [leftExternal]),
-    ...contactPath.active,
-    ...(rightExternal === undefined ? [] : [rightExternal]),
-  ];
+  const contactPath = activeExtradosPathNodes(envelopeCandidates, leftEndpoint, rightEndpoint);
+  const completePath = [...contactPath.active];
   completePath.forEach((node, index) => {
     node.pathIndex = index;
   });
   return {
     nodes: completePath,
     releasedContacts: contactPath.released,
+    contactBoundary: extradosContactInterval(completePath),
     closedLoop: false,
     stationing,
   };
-}
-
-/**
- * Ordering key of an extrados node: the left external anchor precedes every arch node and the
- * right external anchor follows them; arch nodes are ordered by their side arc station.
- */
-function externalNodeOrder(node: MutablePathNode): number {
-  if (node.sideArcStation !== null) return node.sideArcStation;
-  return node.device?.terminationSide === "left" ? -1 : Number.POSITIVE_INFINITY;
 }
 
 /** Resolves the cable force from complete-path compatibility: `max(0, T0 + EA * dL / L_ref)`. */
@@ -736,10 +999,15 @@ function resolveSingleReinforcement(
   configuration: NormalizedMasonryArchConfiguration | null,
   actionFactor: number,
 ): ResolvedSingleReinforcement {
-  const built = buildReinforcementNodes(geometry, reinforcement, configuration);
-  const stationing = built.stationing;
-  const closedLoop = built.closedLoop;
-  const nodes = [...built.nodes];
+  const currentBuilt = buildReinforcementNodes(geometry, reinforcement, configuration);
+  const referenceBuilt =
+    reinforcement.side === "extrados" && configuration !== null
+      ? buildReinforcementNodes(geometry, reinforcement, null)
+      : currentBuilt;
+  const stationing = currentBuilt.stationing;
+  const closedLoop = currentBuilt.closedLoop;
+  const nodes = [...currentBuilt.nodes];
+  const referenceNodes = [...referenceBuilt.nodes];
   const scale = Math.max(1, stationing.totalLength);
 
   // Extrados external anchors must lie outside the masonry and their resolved free branches
@@ -752,15 +1020,15 @@ function resolveSingleReinforcement(
   ) {
     for (const [terminationSide, adjacentIndex] of [
       ["left", 1],
-      ["right", nodes.length - 2],
+      ["right", referenceNodes.length - 2],
     ] as const) {
-      const terminalNode = nodes.find(
+      const terminalNode = referenceNodes.find(
         (node) =>
           node.device?.terminationSide === terminationSide &&
           node.device.kind === "external-anchor",
       );
       if (terminalNode === undefined) continue;
-      const adjacent = nodes[adjacentIndex];
+      const adjacent = referenceNodes[adjacentIndex];
       if (adjacent === undefined) continue;
       validateExtradosExternalAnchorGeometry(
         geometry,
@@ -768,18 +1036,23 @@ function resolveSingleReinforcement(
         terminationSide,
         terminalNode.point,
         adjacent.point,
-        stationing.totalLength,
-        reinforcement.topology.interaction.segmentCount,
       );
     }
   }
 
   // Complete cable polyline: for a closed loop the closing segment returns to the first node.
   const polylineNodes = closedLoop && nodes.length > 0 ? [...nodes, nodes[0]!] : nodes;
+  const referencePolylineNodes =
+    closedLoop && referenceNodes.length > 0
+      ? [...referenceNodes, referenceNodes[0]!]
+      : referenceNodes;
   const referenceSegmentLengths: number[] = [];
-  for (let index = 0; index < polylineNodes.length - 1; index += 1) {
+  for (let index = 0; index < referencePolylineNodes.length - 1; index += 1) {
     const length = norm2d(
-      subtract2d(polylineNodes[index + 1]!.referencePoint, polylineNodes[index]!.referencePoint),
+      subtract2d(
+        referencePolylineNodes[index + 1]!.referencePoint,
+        referencePolylineNodes[index]!.referencePoint,
+      ),
     );
     if (length <= 1e-12 * scale) {
       throw new Error(
@@ -828,7 +1101,7 @@ function resolveSingleReinforcement(
       endPoint: end.point,
       startStation: start.normalizedSideStation,
       endStation: end.normalizedSideStation,
-      referenceLength: referenceSegmentLengths[index]!,
+      referenceLength: norm2d(subtract2d(end.referencePoint, start.referencePoint)),
       length: currentSegmentLengths[index]!,
       tension,
       role: segmentRole(
@@ -939,7 +1212,10 @@ function resolveSingleReinforcement(
           deviceId,
           reinforcementId: reinforcement.id,
           terminationSide: device.terminationSide!,
-          archSideStation: termination.station,
+          intradosTransferStation:
+            reinforcement.side === "intrados" && reinforcement.topology.type === "open"
+              ? reinforcement.topology[device.terminationSide!].station
+              : null,
           referencePoint: node.referencePoint,
           point: node.point,
           tension: tensionIn + tensionOut,
@@ -950,23 +1226,35 @@ function resolveSingleReinforcement(
         });
       }
     } else if (node.contact) {
+      const isJointContact = node.contactKind === "joint-contact";
+      const contactNormalComponent = isJointContact
+        ? resultant
+        : node.chainTangent === null
+          ? 0
+          : -dot2d(force, { x: -node.chainTangent.y, y: node.chainTangent.x });
+      const contactTangentialComponent = isJointContact
+        ? 0
+        : node.chainTangent === null
+          ? 0
+          : dot2d(force, node.chainTangent);
       const contactState =
-        normalComponent !== null && normalComponent >= -1e-10 * Math.max(1, tension)
+        contactNormalComponent >= -1e-10 * Math.max(1, tension)
           ? ("in-contact" as const)
           : ("contact-cannot-enforce-path" as const);
       contactForces.push({
-        contactId: `${reinforcement.id}:contact-${String(node.pathIndex).padStart(3, "0")}`,
+        contactId: `${reinforcement.id}:contact-${node.normalizedSideStation!.toFixed(12)}-${node.attachmentKey}`,
         reinforcementId: reinforcement.id,
         index: node.pathIndex,
-        station: node.referenceStation!,
+        referenceCurveStation: node.referenceStation!,
         normalizedSideArcStation: node.normalizedSideStation!,
         referencePoint: node.referencePoint,
         point: node.point,
+        contactKind: node.contactKind ?? "smooth-contact",
         tensionLeft: index > 0 ? tension : 0,
         tensionRight: index < nodes.length - 1 ? tension : 0,
         resultantForce: force,
-        normalComponent: normalComponent ?? 0,
-        tangentialComponent: tangentialComponent ?? 0,
+        normalComponent: contactNormalComponent,
+        tangentialComponent: contactTangentialComponent,
         state: contactState,
       });
       if (contactState === "contact-cannot-enforce-path") {
@@ -975,24 +1263,6 @@ function resolveSingleReinforcement(
         );
       }
     }
-  }
-
-  for (const node of built.releasedContacts) {
-    contactForces.push({
-      contactId: `${reinforcement.id}:contact-${String(node.pathIndex).padStart(3, "0")}`,
-      reinforcementId: reinforcement.id,
-      index: node.pathIndex,
-      station: node.referenceStation!,
-      normalizedSideArcStation: node.normalizedSideStation!,
-      referencePoint: node.referencePoint,
-      point: node.point,
-      tensionLeft: 0,
-      tensionRight: 0,
-      resultantForce: { x: 0, y: 0 },
-      normalComponent: 0,
-      tangentialComponent: 0,
-      state: "separated",
-    });
   }
   contactForces.sort((left, right) => left.index - right.index);
 
@@ -1060,13 +1330,13 @@ function resolveSingleReinforcement(
 
   // Reinforcement free-body diagnostic: arch-side actions (devices and contacts) plus external
   // anchor reactions must close; for a closed loop the arch-side actions self-equilibrate.
-  const archDeviceForceSum = { x: 0, y: 0 };
+  const archActionForceSum = { x: 0, y: 0 };
   const externalAnchorForceSum = { x: 0, y: 0 };
   let residualMoment = 0;
   for (const device of deviceForces) {
     if (device.kind !== "external-anchor") {
-      archDeviceForceSum.x += device.resultantForce.x;
-      archDeviceForceSum.y += device.resultantForce.y;
+      archActionForceSum.x += device.resultantForce.x;
+      archActionForceSum.y += device.resultantForce.y;
     }
     residualMoment += cross2d(device.point, device.resultantForce);
   }
@@ -1075,13 +1345,13 @@ function resolveSingleReinforcement(
     externalAnchorForceSum.y += external.forceTransmittedToExternalSystem.y;
   }
   for (const contact of contactForces) {
-    archDeviceForceSum.x += contact.resultantForce.x;
-    archDeviceForceSum.y += contact.resultantForce.y;
+    archActionForceSum.x += contact.resultantForce.x;
+    archActionForceSum.y += contact.resultantForce.y;
     residualMoment += cross2d(contact.point, contact.resultantForce);
   }
   const residualForce = {
-    x: archDeviceForceSum.x + externalAnchorForceSum.x,
-    y: archDeviceForceSum.y + externalAnchorForceSum.y,
+    x: archActionForceSum.x + externalAnchorForceSum.x,
+    y: archActionForceSum.y + externalAnchorForceSum.y,
   };
   const equilibriumTolerance = 1e-9;
   const normalizedForce =
@@ -1100,7 +1370,7 @@ function resolveSingleReinforcement(
     meaning: closedLoop
       ? ("closed-loop-self-equilibrium" as const)
       : ("open-tendon-free-body" as const),
-    archDeviceForceSum,
+    archActionForceSum,
     externalAnchorForceSum,
     residualForce,
     residualMoment,
@@ -1145,10 +1415,17 @@ function resolveSingleReinforcement(
       elongationTolerance: tendon.elongationTolerance,
       effectiveElasticLength: referenceLength,
       elasticTangentStiffness,
-      referencePath: polylineNodes.map((node) => node.referencePoint),
+      referencePath: referencePolylineNodes.map((node) => node.referencePoint),
       path: polylineNodes.map((node) => node.point),
       segments,
       devices,
+      contactBoundary:
+        reinforcement.side === "extrados"
+          ? {
+              reference: referenceBuilt.contactBoundary,
+              current: currentBuilt.contactBoundary,
+            }
+          : null,
       equilibrium,
       checks: {
         yielding: yieldingCheck,

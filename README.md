@@ -40,9 +40,10 @@ calculations with structured references where available.
 
 The advanced masonry-arch module models two-dimensional rigid-voussoir circular and elliptical
 arches. Its implemented scope includes rigid-plastic and deformable interfaces, assigned-state and
-path analyses, station-based discrete tendons, bonded effective intervals, and unilateral extrados
-cable contact. Tendon device results are mechanical actions only: local anchor/deviator design,
-bond-development mechanics, and construction detailing are outside the model. See
+path analyses, station-based intrados devices and arch anchors, bonded effective intervals, and
+unilateral extrados cable contact with migrating tangency from fixed global external endpoints.
+Tendon device results are mechanical actions only: local anchor/deviator design, bond-development
+mechanics, and construction detailing are outside the model. See
 [the masonry-arch model documentation](docs/masonry-arch-analysis.md) for assumptions and limits.
 
 ## Status and support

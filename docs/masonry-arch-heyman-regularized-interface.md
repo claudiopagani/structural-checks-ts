@@ -24,8 +24,9 @@ regularization, or the reinforcement mechanics:
   finite;
 - **finite rigid-block kinematics**: the same corotational rigid-voussoir formulation, arc-length
   continuation, branch turning, and exact lambda = 1 corrector used by every deformable model;
-- **compatible active and passive reinforcement**: tendons, anchors, deviators, extrados contact,
-  and bonded layers are unchanged and fully operative;
+- **compatible active and passive reinforcement**: tendon material capacities remain active where
+  defined, and extrados contact and bonded layers remain operative. Local anchor and deviator
+  resistance is outside the masonry-arch model;
 - **stresses remain response quantities, not resistance utilization**: `sigma_c` and `tau` are
   demands published per interface state; with no assigned masonry resistance limits the
   corresponding utilizations are `null`, never `0`, `1`, or an invented pseudo-capacity.

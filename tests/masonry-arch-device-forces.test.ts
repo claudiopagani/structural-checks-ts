@@ -122,7 +122,7 @@ void test("H1. every device of the intrados topologies satisfies F = T_out*t_out
         initialForce: 70,
         topology: {
           type: "open",
-          left: { type: "external-anchor", station: 0, point: { x: -5.2, y: 4 } },
+          left: { type: "external-anchor", point: { x: -5.2, y: 4 } },
           right: { type: "arch-anchor", station: 1 },
           interaction: { type: "unilateral-contact", segmentCount: 16 },
         },

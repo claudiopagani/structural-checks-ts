@@ -95,32 +95,42 @@ to the intrados boundary and extrados stations to the extrados boundary. They ar
 reference-curve coordinates. The library owns the continuous side-to-reference-curve transformation
 and only then determines the numerical block attachment.
 
-An open tendon terminates with either an arch anchor or a physical external fixed anchor:
+Intrados and extrados open tendons deliberately use different external-anchor contracts:
 
 ```ts
-type ArchReinforcementTerminationInput =
+type IntradosArchReinforcementTerminationInput =
   | { type: "arch-anchor"; station: number }
   | { type: "external-anchor"; station: number; point: { x: number; y: number } };
+
+type ExtradosArchReinforcementTerminationInput =
+  | { type: "arch-anchor"; station: number }
+  | { type: "external-anchor"; point: { x: number; y: number } };
 ```
 
-An arch anchor moves with the masonry material point. An external anchor has both an arch-side
-terminal-device station and its actual fixed global point. The straight free terminal branch between
-those points is part of the reference and current tendon polyline, so it contributes to constitutive
-compatibility and passive activation. Its force is reported separately as an action on the external
-structural system and is not included in masonry support reactions. Left and right terminations may
-be fully asymmetric.
+An arch anchor moves with its masonry material point. For an intrados external tendon, `station`
+identifies the real arch-side transfer/deviator device. For an extrados external cable there is no
+such device: `point` is the only fixed endpoint, and the first or last extrados contact material
+point is solved. The straight free branch is part of the reference/current cable path, so migration
+changes both branch length and complete-path compatibility. External-anchor action is reported to
+the external structural system and is not included in masonry support reactions.
 
-For input interfaces that collect a direction and branch length, the pure
+For general input interfaces that collect a direction and branch length, the pure
 `externalAnchorPointFromDirectionAndLength` helper validates a finite nonzero direction and a finite
-positive length, normalizes the direction, and returns the actual fixed point. The structural model
-receives that point; no hidden one-metre segment or prescribed-direction terminal exists.
+positive length, normalizes the direction, and returns a fixed point. For circular and elliptical
+arches, `resolveExtradosTangentAtStation`, `externalAnchorPointFromExtradosTangency`, and
+`extradosTangencyStationFromAngle` provide exact reference-extrados geometry. A reference tangency
+station or angle is an input helper only: after the point is constructed, neither belongs to the
+mechanical tendon input or constrains subsequent contact.
 
 Intrados closed loops use left and right return-deviator stations plus their interior deviator
 layout. The return branch is the actual straight chord between the return devices and participates
 in complete-path compatibility. It is not assigned a horizontal direction. Extrados open tendons use
-compression-only unilateral contact: terminal stations delimit the allowed arch-side contact
-interval, while the taut-cable envelope determines which contacts remain active. Assigning a station
-does not force cable contact.
+compression-only unilateral contact on the anchor-inclusive taut envelope. External anchors impose
+no contact bounds; an arch-anchor station remains a physical endpoint bound. Smooth entry and exit
+are continuously tangent-refined on each moved voussoir boundary segment. A moved joint may instead
+be a physical corner contact. `reinforcementState.contactBoundary` publishes the reference and
+current start/end material stations and boundary kinds; the current normalized side-arc station is
+still a coordinate on the reference extrados. The interval is null when the cable is fully detached.
 
 Bonded layers are separate zero-thickness reinforcements. `startStation` and `endStation` define a
 strict effective side-boundary interval. Full assigned tensile capacity is available inside and the

@@ -1,6 +1,6 @@
 {
   "name": "structural-checks-ts",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Solver-neutral TypeScript library for structural calculations and verification workflows.",
   "license": "LGPL-2.1-or-later",
   "author": "Claudio Pagani",

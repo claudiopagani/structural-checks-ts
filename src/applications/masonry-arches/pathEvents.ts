@@ -240,23 +240,30 @@ export function detectMasonryArchStepEvents(
   const previousContacts = new Map(
     previous.reinforcement.contactForces.map((item) => [item.contactId, item.state]),
   );
-  const changedContacts = current.reinforcement.contactForces.filter(
-    (item) => previousContacts.get(item.contactId) !== item.state,
+  const currentContacts = new Map(
+    current.reinforcement.contactForces.map((item) => [item.contactId, item]),
   );
-  if (changedContacts.length > 0) {
+  const changedContactIds = new Set<string>();
+  for (const item of current.reinforcement.contactForces) {
+    if (previousContacts.get(item.contactId) !== item.state) changedContactIds.add(item.contactId);
+  }
+  for (const contactId of previousContacts.keys()) {
+    if (!currentContacts.has(contactId)) changedContactIds.add(contactId);
+  }
+  if (changedContactIds.size > 0) {
     events.push(
       createMasonryArchEvent(
         "observable-event",
         "extrados-contact-active-set-changed",
         step,
         lambda,
-        changedContacts.map((item) => item.contactId),
+        [...changedContactIds].sort(),
         "The extrados tendon contact active set changed.",
       ),
     );
   }
-  const invalidContacts = changedContacts.filter(
-    (item) => item.state === "contact-cannot-enforce-path",
+  const invalidContacts = current.reinforcement.contactForces.filter(
+    (item) => changedContactIds.has(item.contactId) && item.state === "contact-cannot-enforce-path",
   );
   if (invalidContacts.length > 0) {
     events.push(

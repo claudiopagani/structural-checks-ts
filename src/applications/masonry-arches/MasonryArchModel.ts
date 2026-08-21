@@ -9,16 +9,18 @@ import {
   MASONRY_ARCH_MODEL_SCHEMA_VERSION,
   type ArchDeviatorLayoutInput,
   type ArchReinforcementInput,
-  type ArchReinforcementTerminationInput,
   type ArchStationedDeviceInput,
   type BondedLayerReinforcementInput,
+  type ExtradosArchReinforcementTerminationInput,
+  type IntradosArchReinforcementTerminationInput,
   type MasonryArchFillLoadInput,
   type MasonryArchLoadInput,
   type MasonryArchModelInput,
   type NormalizedMasonryArchLoad,
   type NormalizedMasonryArchModel,
   type NormalizedArchReinforcement,
-  type NormalizedArchReinforcementTermination,
+  type NormalizedExtradosArchReinforcementTermination,
+  type NormalizedIntradosArchReinforcementTermination,
   type NormalizedArchStationedDevice,
   type NormalizedBondedLayerReinforcement,
   type NormalizedMasonryArchGeometry,
@@ -159,11 +161,11 @@ function positiveOrZero(value: number, label: string): number {
   return resolved;
 }
 
-function normalizeReinforcementTermination(
-  input: ArchReinforcementTerminationInput | undefined,
+function normalizeIntradosReinforcementTermination(
+  input: IntradosArchReinforcementTerminationInput | undefined,
   resolver: UnitResolver,
   label: string,
-): NormalizedArchReinforcementTermination {
+): NormalizedIntradosArchReinforcementTermination {
   if (input === undefined) {
     throw new Error(
       `${label} is required: every open tendon must declare an arch-anchor or external-anchor termination on each side.`,
@@ -179,6 +181,39 @@ function normalizeReinforcementTermination(
     return {
       type: "external-anchor",
       station: requiredNormalizedStation(input.station, `${label}.station`),
+      point: {
+        x: finite(resolver.length(input.point.x), `${label}.point.x`),
+        y: finite(resolver.length(input.point.y), `${label}.point.y`),
+      },
+    };
+  }
+  throw new Error(`${label} has an unsupported termination type.`);
+}
+
+function normalizeExtradosReinforcementTermination(
+  input: ExtradosArchReinforcementTerminationInput | undefined,
+  resolver: UnitResolver,
+  label: string,
+): NormalizedExtradosArchReinforcementTermination {
+  if (input === undefined) {
+    throw new Error(
+      `${label} is required: every extrados cable must declare an arch-anchor or external-anchor endpoint on each side.`,
+    );
+  }
+  if (input.type === "arch-anchor") {
+    return {
+      type: "arch-anchor",
+      station: requiredNormalizedStation(input.station, `${label}.station`),
+    };
+  }
+  if (input.type === "external-anchor") {
+    if ("station" in input) {
+      throw new Error(
+        `${label}.station is not supported for an extrados external anchor; only its fixed global point is mechanical input.`,
+      );
+    }
+    return {
+      type: "external-anchor",
       point: {
         x: finite(resolver.length(input.point.x), `${label}.point.x`),
         y: finite(resolver.length(input.point.y), `${label}.point.y`),
@@ -286,12 +321,12 @@ function normalizeReinforcement(
 
   if (input.side === "intrados") {
     if (input.topology.type === "open") {
-      const left = normalizeReinforcementTermination(
+      const left = normalizeIntradosReinforcementTermination(
         input.topology.left,
         resolver,
         `${label}.topology.left`,
       );
-      const right = normalizeReinforcementTermination(
+      const right = normalizeIntradosReinforcementTermination(
         input.topology.right,
         resolver,
         `${label}.topology.right`,
@@ -354,20 +389,22 @@ function normalizeReinforcement(
     if (input.topology.type !== "open") {
       throw new Error(`${label}: extrados reinforcement does not support a closed loop.`);
     }
-    const left = normalizeReinforcementTermination(
+    const left = normalizeExtradosReinforcementTermination(
       input.topology.left,
       resolver,
       `${label}.topology.left`,
     );
-    const right = normalizeReinforcementTermination(
+    const right = normalizeExtradosReinforcementTermination(
       input.topology.right,
       resolver,
       `${label}.topology.right`,
     );
-    assertDistinctStations([
-      { station: left.station, label: `${label}.topology.left` },
-      { station: right.station, label: `${label}.topology.right` },
-    ]);
+    if (left.type === "arch-anchor" && right.type === "arch-anchor") {
+      assertDistinctStations([
+        { station: left.station, label: `${label}.topology.left` },
+        { station: right.station, label: `${label}.topology.right` },
+      ]);
+    }
     const interaction = input.topology.interaction;
     if (interaction !== undefined && interaction.type !== "unilateral-contact") {
       throw new Error(`${label}.topology.interaction has an unsupported interaction type.`);

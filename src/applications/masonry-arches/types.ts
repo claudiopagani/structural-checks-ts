@@ -13,9 +13,9 @@ import type {
   RigidBlockVector2D,
 } from "../../domain/masonry/rigid-blocks/types.js";
 
-export const MASONRY_ARCH_MODEL_SCHEMA_VERSION = "7.0.0";
-export const MASONRY_ARCH_EQUILIBRIUM_RESULT_SCHEMA_VERSION = "9.0.0";
-export const MASONRY_ARCH_LIMIT_ANALYSIS_RESULT_SCHEMA_VERSION = "10.0.0";
+export const MASONRY_ARCH_MODEL_SCHEMA_VERSION = "8.0.0";
+export const MASONRY_ARCH_EQUILIBRIUM_RESULT_SCHEMA_VERSION = "10.0.0";
+export const MASONRY_ARCH_LIMIT_ANALYSIS_RESULT_SCHEMA_VERSION = "11.0.0";
 
 export type MasonryArchReferenceCurve = "intrados" | "centerline" | "extrados";
 export type MasonryArchAngleUnits = "deg" | "rad";
@@ -394,29 +394,35 @@ export interface ArchTerminalArchAnchorInput {
 }
 
 /**
- * Terminal external anchor: the tendon continues outside the arch and ends at a fixed point of
- * the global frame. The anchor belongs to no voussoir; its force is transmitted to the external
- * structural system and is never applied to an arch block. The free segment between the external
- * anchor and the adjacent arch device is part of the tendon path and contributes to its length,
- * elongation, and elastic force increment. A vertical terminal branch is represented by placing
- * the anchor on the vertical through the adjacent arch device; no "vertical" model is hard-coded.
- * There is no assigned anchor resistance: only the transmitted action is reported.
- *
+ * Intrados external anchor and its real arch-side transfer/deviator station. The fixed global
+ * anchor belongs to no voussoir; the stationed transfer device does, moves with the arch, and
+ * turns the free branch into the intrados tendon path. Local device resistance is outside this
+ * model.
  */
-export interface ArchTerminalExternalAnchorInput {
+export interface IntradosTerminalExternalAnchorInput {
   readonly type: "external-anchor";
-  /**
-   * Normalized position of the arch-side terminal device along the reinforcement side boundary,
-   * measured by side-boundary arc length. `0 <= station <= 1`.
-   */
+  /** Normalized intrados side-arc station of the physical transfer device. */
   readonly station: number;
   /** Fixed global point of the tendon end, expressed in the declared model units. */
   readonly point: RigidBlockPoint2D;
 }
 
-export type ArchReinforcementTerminationInput =
+/**
+ * Extrados external anchor: the actual fixed global cable endpoint. No contact station or hidden
+ * arch-side saddle belongs to this input; cable contact is solved by the unilateral envelope.
+ */
+export interface ExtradosTerminalExternalAnchorInput {
+  readonly type: "external-anchor";
+  readonly point: RigidBlockPoint2D;
+}
+
+export type IntradosArchReinforcementTerminationInput =
   | ArchTerminalArchAnchorInput
-  | ArchTerminalExternalAnchorInput;
+  | IntradosTerminalExternalAnchorInput;
+
+export type ExtradosArchReinforcementTerminationInput =
+  | ArchTerminalArchAnchorInput
+  | ExtradosTerminalExternalAnchorInput;
 
 /** One arch-side device identified by its normalized side-boundary station. */
 export interface ArchStationedDeviceInput {
@@ -460,8 +466,8 @@ export interface IntradosArchReinforcementInput extends MasonryArchDiscreteReinf
   readonly topology:
     | {
         readonly type: "open";
-        readonly left: ArchReinforcementTerminationInput;
-        readonly right: ArchReinforcementTerminationInput;
+        readonly left: IntradosArchReinforcementTerminationInput;
+        readonly right: IntradosArchReinforcementTerminationInput;
         /** Interior deviators; defaults to one crown deviator (`uniform-count` 1). */
         readonly deviators?: ArchDeviatorLayoutInput;
       }
@@ -478,8 +484,8 @@ export interface ExtradosArchReinforcementInput extends MasonryArchDiscreteReinf
   readonly side: "extrados";
   readonly topology: {
     readonly type: "open";
-    readonly left: ArchReinforcementTerminationInput;
-    readonly right: ArchReinforcementTerminationInput;
+    readonly left: ExtradosArchReinforcementTerminationInput;
+    readonly right: ExtradosArchReinforcementTerminationInput;
     readonly interaction?: {
       readonly type: "unilateral-contact";
       /** Numerical straight segments used to integrate cable-to-arch contact. */
@@ -663,7 +669,7 @@ export type NormalizedMasonryArchLoad =
   | NormalizedMasonryArchFillLoad
   | NormalizedMasonryArchPointLoad;
 
-export type NormalizedArchReinforcementTermination =
+export type NormalizedIntradosArchReinforcementTermination =
   | {
       readonly type: "arch-anchor";
       /** Normalized side-boundary station (0 = left springing, 1 = right springing). */
@@ -673,6 +679,18 @@ export type NormalizedArchReinforcementTermination =
       readonly type: "external-anchor";
       /** Normalized station of the arch-side terminal device. */
       readonly station: number;
+      readonly point: RigidBlockPoint2D;
+    };
+
+export type NormalizedExtradosArchReinforcementTermination =
+  | {
+      readonly type: "arch-anchor";
+      /** Normalized extrados side-arc station (0 = left springing, 1 = right springing). */
+      readonly station: number;
+    }
+  | {
+      readonly type: "external-anchor";
+      /** Fixed global cable endpoint; the contact boundary is solver state, not input data. */
       readonly point: RigidBlockPoint2D;
     };
 
@@ -695,8 +713,8 @@ export interface NormalizedIntradosOpenArchReinforcement extends NormalizedArchR
   readonly side: "intrados";
   readonly topology: {
     readonly type: "open";
-    readonly left: NormalizedArchReinforcementTermination;
-    readonly right: NormalizedArchReinforcementTermination;
+    readonly left: NormalizedIntradosArchReinforcementTermination;
+    readonly right: NormalizedIntradosArchReinforcementTermination;
     /** Interior deviators, sorted by increasing station; terminals are never deviators. */
     readonly deviators: readonly NormalizedArchStationedDevice[];
   };
@@ -718,8 +736,8 @@ export interface NormalizedExtradosArchReinforcement extends NormalizedArchReinf
   readonly side: "extrados";
   readonly topology: {
     readonly type: "open";
-    readonly left: NormalizedArchReinforcementTermination;
-    readonly right: NormalizedArchReinforcementTermination;
+    readonly left: NormalizedExtradosArchReinforcementTermination;
+    readonly right: NormalizedExtradosArchReinforcementTermination;
     readonly interaction: {
       readonly type: "unilateral-contact";
       readonly segmentCount: number;
@@ -863,7 +881,9 @@ export type ArchReinforcementSegmentRole =
 
 export interface ArchReinforcementSegmentResult {
   readonly index: number;
+  /** Reference material location corresponding to the current segment start. */
   readonly referenceStartPoint: RigidBlockPoint2D;
+  /** Reference material location corresponding to the current segment end. */
   readonly referenceEndPoint: RigidBlockPoint2D;
   readonly startPoint: RigidBlockPoint2D;
   readonly endPoint: RigidBlockPoint2D;
@@ -871,6 +891,11 @@ export interface ArchReinforcementSegmentResult {
   readonly startStation: number | null;
   /** Normalized side-boundary station of the end point; null at a free external end. */
   readonly endStation: number | null;
+  /**
+   * Distance between the two corresponding reference material points. When extrados contact
+   * migrates, current segments need not partition `state.referencePath`; the complete constitutive
+   * reference length remains `state.referenceLength`.
+   */
   readonly referenceLength: number;
   readonly length: number;
   /**
@@ -900,18 +925,18 @@ export interface ArchReinforcementDeviceGeometryResult {
 }
 
 /**
- * Reinforcement free-body diagnostic. For an open tendon the arch-side device actions plus the
- * external-anchor reactions close the tendon free body; for a closed loop every force the loop
+ * Reinforcement free-body diagnostic. For an open tendon the arch-side device/contact actions plus
+ * the external-anchor reactions close the tendon free body; for a closed loop every force the loop
  * exerts on its support devices must self-equilibrate. This is a solver/model-consistency
  * diagnostic and never an engineering PASS/FAIL criterion.
  */
 export interface ArchReinforcementEquilibriumDiagnostic {
   readonly meaning: "open-tendon-free-body" | "closed-loop-self-equilibrium";
-  /** Sum of the resultant forces the tendon applies to its arch-side devices. */
-  readonly archDeviceForceSum: RigidBlockVector2D;
+  /** Sum of the resultant forces the tendon applies through arch devices and masonry contact. */
+  readonly archActionForceSum: RigidBlockVector2D;
   /** Sum of the forces transmitted to external anchors. */
   readonly externalAnchorForceSum: RigidBlockVector2D;
-  /** `archDeviceForceSum + externalAnchorForceSum`; must vanish within tolerance. */
+  /** `archActionForceSum + externalAnchorForceSum`; must vanish within tolerance. */
   readonly residualForce: RigidBlockVector2D;
   /** Moment about the global origin of every device force; must vanish within tolerance. */
   readonly residualMoment: number;
@@ -923,6 +948,34 @@ export interface ArchReinforcementEquilibriumDiagnostic {
   };
   readonly tolerance: number;
   readonly satisfied: boolean;
+}
+
+export type ExtradosContactBoundaryKind = "smooth-tangency" | "joint-contact" | "arch-anchor";
+
+export interface ExtradosContactBoundaryPointResult {
+  /** Normalized physical extrados side-arc station of the contacted masonry material point. */
+  readonly normalizedSideArcStation: number;
+  /** Station of the same material point on the geometry reference curve. */
+  readonly referenceCurveStation: number;
+  readonly kind: ExtradosContactBoundaryKind;
+  readonly referencePoint: RigidBlockPoint2D;
+  readonly point: RigidBlockPoint2D;
+}
+
+export interface ExtradosContactIntervalResult {
+  readonly start: ExtradosContactBoundaryPointResult;
+  readonly end: ExtradosContactBoundaryPointResult;
+}
+
+/**
+ * Reference and current material locations at which an extrados cable enters and leaves masonry
+ * contact. Current stations remain normalized coordinates on the reference extrados side arc;
+ * they identify moving material locations, not spatial projection coordinates. Null means the
+ * cable spans its endpoints without touching the extrados.
+ */
+export interface ExtradosContactBoundaryStateResult {
+  readonly reference: ExtradosContactIntervalResult | null;
+  readonly current: ExtradosContactIntervalResult | null;
 }
 
 export interface ArchReinforcementStateResult {
@@ -947,13 +1000,19 @@ export interface ArchReinforcementStateResult {
   /** Elastic member length used for the force increment; equals the complete reference length. */
   readonly effectiveElasticLength: number;
   readonly elasticTangentStiffness: number;
-  /** Complete reference polyline, including external anchors and the closed-loop return branch. */
+  /**
+   * Independently resolved reference cable polyline, including external anchors and the
+   * closed-loop return branch. It may have a different node count from `path` after contact
+   * migration.
+   */
   readonly referencePath: readonly RigidBlockPoint2D[];
   /** Complete deformed polyline actually used by the mechanics. */
   readonly path: readonly RigidBlockPoint2D[];
   readonly segments: readonly ArchReinforcementSegmentResult[];
   /** Every physical device of the tendon, in path order, with its resolved geometry. */
   readonly devices: readonly ArchReinforcementDeviceGeometryResult[];
+  /** Null for intrados tendons; machine-readable reference/current contact state for extrados. */
+  readonly contactBoundary: ExtradosContactBoundaryStateResult | null;
   readonly equilibrium: ArchReinforcementEquilibriumDiagnostic;
   readonly checks: {
     readonly yielding: {
@@ -985,8 +1044,8 @@ export interface ArchReinforcementStateResult {
  * `F = T_out * t_out - T_in * t_in` with the directions pointing along the cable into and out of
  * the device; the current scope is frictionless (`T_in === T_out`), but both tensions are
  * published separately so the contract survives a future friction model. A tendon ending on the
- * arch has exactly one terminal tension. An arch-side terminal device for a fixed external anchor
- * has two directions because it transfers the turn between the free branch and the arch-side path.
+ * arch has exactly one terminal tension. `arch-side-terminal` is used only for the real transfer
+ * device of an intrados external tendon; external extrados contact never creates such a device.
  * For fixed external anchors the local normal/tangential components are null because no arch
  * boundary frame exists there.
  *
@@ -1047,17 +1106,23 @@ export interface ArchContactForceResult {
   readonly contactId: string;
   readonly reinforcementId: string;
   readonly index: number;
-  readonly station: number;
+  readonly referenceCurveStation: number;
+  /** Current contacted material location expressed on the normalized reference extrados side arc. */
   readonly normalizedSideArcStation: number;
   readonly referencePoint: RigidBlockPoint2D;
   readonly point: RigidBlockPoint2D;
+  readonly contactKind: "smooth-contact" | "joint-contact";
   readonly tensionLeft: number;
   readonly tensionRight: number;
   readonly resultantForce: RigidBlockVector2D;
-  /** Positive toward the arch interior: compressive contact when the cable presses the arch. */
+  /**
+   * For smooth contact, the resultant component toward the arch interior. For joint contact, the
+   * contact-resultant magnitude in the admissible corner normal cone.
+   */
   readonly normalComponent: number;
+  /** Smooth-contact tangent component; zero at a joint where no unique tangent frame exists. */
   readonly tangentialComponent: number;
-  readonly state: "in-contact" | "separated" | "contact-cannot-enforce-path";
+  readonly state: "in-contact" | "contact-cannot-enforce-path";
 }
 
 /**
@@ -1068,8 +1133,8 @@ export interface ArchExternalAnchorForceResult {
   readonly deviceId: string;
   readonly reinforcementId: string;
   readonly terminationSide: "left" | "right";
-  /** Station of the corresponding arch-side terminal device. */
-  readonly archSideStation: number;
+  /** Physical transfer-device station for intrados tendons; always null for extrados cables. */
+  readonly intradosTransferStation: number | null;
   /** Fixed external anchor point. */
   readonly referencePoint: RigidBlockPoint2D;
   readonly point: RigidBlockPoint2D;

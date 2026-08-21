@@ -359,3 +359,25 @@ void test("I12. every physical reinforcement station is required at runtime", ()
     /startStation is required/,
   );
 });
+
+void test("I13. the removed extrados external terminal station is rejected at runtime", () => {
+  assert.throws(
+    () =>
+      archWith([
+        {
+          id: "legacy-extrados-terminal",
+          side: "extrados",
+          area: 0.001,
+          elasticModulus: 200_000_000,
+          initialForce: 10,
+          topology: {
+            type: "open",
+            left: { type: "external-anchor", station: 0.2, point: { x: -6, y: 1 } },
+            right: { type: "external-anchor", station: 0.8, point: { x: 6, y: 1 } },
+            interaction: { type: "unilateral-contact" },
+          },
+        } as unknown as ArchReinforcementInput,
+      ]),
+    /station is not supported for an extrados external anchor/,
+  );
+});
