@@ -30,7 +30,12 @@ import type {
   MasonryArchResolvedLoadAction,
   ResolvedMasonryArchLoads,
 } from "./resolveMasonryArchLoads.js";
-import { resolveArchReinforcementsAtActionFactor } from "./resolveArchReinforcements.js";
+import {
+  resolveArchReinforcementsAtActionFactor,
+  resolveArchReinforcementsAtActionFactorUsingContactTopology,
+  resolveArchReinforcementsAtActionFactorWithContactTopology,
+  type MasonryArchReinforcementContactTopology,
+} from "./resolveArchReinforcements.js";
 import type {
   MasonryArchAnalysisObjective,
   MasonryArchAnalysisOutcome,
@@ -115,6 +120,28 @@ interface SolverContext {
   readonly maximumLineSearchIterations: number;
   readonly minimumLineSearchFactor: number;
   readonly continuationSolver: NonlinearEquilibriumContinuationSolver<SystemEvaluation>;
+  readonly performanceMetrics: MasonryArchPathPerformanceMetrics | null;
+}
+
+/** Internal deterministic operation counts used by the extrados performance regression. */
+export interface MasonryArchPathPerformanceMetrics {
+  systemEvaluations: number;
+  tangentSystemEvaluations: number;
+  residualOnlySystemEvaluations: number;
+  reinforcementVectorEvaluations: number;
+  fullContactSearches: number;
+  fixedTopologyEvaluations: number;
+}
+
+function emptyPerformanceMetrics(): MasonryArchPathPerformanceMetrics {
+  return {
+    systemEvaluations: 0,
+    tangentSystemEvaluations: 0,
+    residualOnlySystemEvaluations: 0,
+    reinforcementVectorEvaluations: 0,
+    fullContactSearches: 0,
+    fixedTopologyEvaluations: 0,
+  };
 }
 
 interface NewtonResult {
@@ -319,11 +346,37 @@ function assembleInterfaces(
 function reinforcementVector(
   model: NormalizedMasonryArchModel,
   q: readonly number[],
+  contactTopology: readonly MasonryArchReinforcementContactTopology[] | null = null,
+  performanceMetrics: MasonryArchPathPerformanceMetrics | null = null,
 ): {
   readonly vector: Vector;
   readonly resolved: ReturnType<typeof resolveArchReinforcementsAtActionFactor>;
+  readonly contactTopology: readonly MasonryArchReinforcementContactTopology[];
 } {
-  const resolved = resolveArchReinforcementsAtActionFactor(model, configurationInput(model, q), 1);
+  if (performanceMetrics !== null) {
+    performanceMetrics.reinforcementVectorEvaluations += 1;
+    if (model.reinforcements.some((reinforcement) => reinforcement.side === "extrados")) {
+      if (contactTopology === null) performanceMetrics.fullContactSearches += 1;
+      else performanceMetrics.fixedTopologyEvaluations += 1;
+    }
+  }
+  const evaluated =
+    contactTopology === null
+      ? resolveArchReinforcementsAtActionFactorWithContactTopology(
+          model,
+          configurationInput(model, q),
+          1,
+        )
+      : {
+          resolved: resolveArchReinforcementsAtActionFactorUsingContactTopology(
+            model,
+            configurationInput(model, q),
+            1,
+            contactTopology,
+          ),
+          contactTopology,
+        };
+  const resolved = evaluated.resolved;
   const vector = zeroVector(3 * model.geometry.voussoirs.length);
   for (const wrench of resolved.blockWrenches) {
     const block = model.geometry.voussoirs.find((item) => item.id === wrench.blockId);
@@ -334,19 +387,20 @@ function reinforcementVector(
     vector[base + 1] = vector[base + 1]! + wrench.force.y;
     vector[base + 2] = vector[base + 2]! + wrench.moment;
   }
-  return { vector, resolved };
+  return { vector, resolved, contactTopology: evaluated.contactTopology };
 }
 
 function assembleReinforcement(
   model: NormalizedMasonryArchModel,
   q: readonly number[],
   includeTangent: boolean,
+  performanceMetrics: MasonryArchPathPerformanceMetrics | null = null,
 ): {
   readonly vector: Vector;
   readonly tangent: Matrix;
   readonly resolved: ReturnType<typeof resolveArchReinforcementsAtActionFactor>;
 } {
-  const baseline = reinforcementVector(model, q);
+  const baseline = reinforcementVector(model, q, null, performanceMetrics);
   const size = baseline.vector.length;
   const tangent = zeroMatrix(size);
   if (includeTangent && model.reinforcements.length > 0) {
@@ -358,8 +412,21 @@ function assembleReinforcement(
       const minusQ = [...q];
       plusQ[column] = plusQ[column]! + step;
       minusQ[column] = minusQ[column]! - step;
-      const plus = reinforcementVector(model, plusQ).vector;
-      const minus = reinforcementVector(model, minusQ).vector;
+      // A full search at q selected baseline.contactTopology. Central differences evaluate both
+      // perturbations on that one local active branch; the next ordinary residual starts with a
+      // new full search and may select a different branch.
+      const plus = reinforcementVector(
+        model,
+        plusQ,
+        baseline.contactTopology,
+        performanceMetrics,
+      ).vector;
+      const minus = reinforcementVector(
+        model,
+        minusQ,
+        baseline.contactTopology,
+        performanceMetrics,
+      ).vector;
       for (let row = 0; row < size; row += 1) {
         tangent[row]![column] = (plus[row]! - minus[row]!) / (2 * step);
       }
@@ -377,6 +444,11 @@ function evaluateSystem(
   includeTangent: boolean,
   numericalCohesionOffset = 0,
 ): SystemEvaluation {
+  if (context.performanceMetrics !== null) {
+    context.performanceMetrics.systemEvaluations += 1;
+    if (includeTangent) context.performanceMetrics.tangentSystemEvaluations += 1;
+    else context.performanceMetrics.residualOnlySystemEvaluations += 1;
+  }
   const interfaces = assembleInterfaces(
     context.model,
     q,
@@ -384,7 +456,12 @@ function evaluateSystem(
     includeTangent,
     numericalCohesionOffset,
   );
-  const reinforcement = assembleReinforcement(context.model, q, includeTangent);
+  const reinforcement = assembleReinforcement(
+    context.model,
+    q,
+    includeTangent,
+    context.performanceMetrics,
+  );
   const fixed = externalSystem(context.model, context.fixedLoads.actions, q, includeTangent);
   const scalable = externalSystem(context.model, context.scalableLoads.actions, q, includeTangent);
   const residual = [...interfaces.vector];
@@ -413,6 +490,13 @@ function evaluateSystem(
           configurationInput(context.model, q),
           fixedLoadFactor,
         );
+  if (
+    fixedLoadFactor !== 1 &&
+    context.performanceMetrics !== null &&
+    context.model.reinforcements.some((reinforcement) => reinforcement.side === "extrados")
+  ) {
+    context.performanceMetrics.fullContactSearches += 1;
+  }
   return {
     residual,
     tangent,
@@ -1021,9 +1105,10 @@ function nonlinearAnalysisOutcome(
   };
 }
 
-export function analyzeMasonryArchPath(
+function analyzeMasonryArchPathCore(
   modelInput: MasonryArchModel | NormalizedMasonryArchModel | MasonryArchModelInput,
   options: AnalyzeMasonryArchPathOptions,
+  performanceMetrics: MasonryArchPathPerformanceMetrics | null,
 ): MasonryArchPathResult {
   const analysisObjective = resolveAnalysisObjective(options);
   const model = asMasonryArchModel(modelInput);
@@ -1100,6 +1185,7 @@ export function analyzeMasonryArchPath(
     maximumLineSearchIterations,
     minimumLineSearchFactor,
     continuationSolver,
+    performanceMetrics,
   };
   const contactInitialization = options.contactInitialization ?? "cohesion-homotopy";
   const minimumInterfaceArea = Math.min(
@@ -2328,4 +2414,26 @@ export function analyzeMasonryArchPath(
       normativeConformityClaimed: false,
     },
   });
+}
+
+export function analyzeMasonryArchPath(
+  modelInput: MasonryArchModel | NormalizedMasonryArchModel | MasonryArchModelInput,
+  options: AnalyzeMasonryArchPathOptions,
+): MasonryArchPathResult {
+  return analyzeMasonryArchPathCore(modelInput, options, null);
+}
+
+/** Internal benchmark entry; it does not alter the public result contract. */
+export function analyzeMasonryArchPathWithPerformanceMetrics(
+  modelInput: MasonryArchModel | NormalizedMasonryArchModel | MasonryArchModelInput,
+  options: AnalyzeMasonryArchPathOptions,
+): {
+  readonly result: MasonryArchPathResult;
+  readonly performanceMetrics: MasonryArchPathPerformanceMetrics;
+} {
+  const performanceMetrics = emptyPerformanceMetrics();
+  return {
+    result: analyzeMasonryArchPathCore(modelInput, options, performanceMetrics),
+    performanceMetrics,
+  };
 }

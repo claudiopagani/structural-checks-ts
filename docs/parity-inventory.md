@@ -29,6 +29,9 @@ The link to the previous implementation is severed and it is never consulted at 
 - Record updates: 2026-08-21 — Decision 0017 added the independent external-extrados natural
   tangency regression file: TypeScript-side tests moved 440 -> 441. The JavaScript side and every
   historical artifact remain frozen.
+- Record updates: 2026-08-22 — the extrados unilateral-contact performance correction added the
+  full-path U/P/A numerical and convergence regression file: TypeScript-side tests moved 441 -> 442.
+  The JavaScript side and every historical artifact remain frozen.
 
 ## Surface counts
 
@@ -41,7 +44,7 @@ The link to the previous implementation is severed and it is never consulted at 
 | Application catalog entries       |                30 |                 30 |
 | Serialized schema/version symbols |                49 |                 49 |
 | Source files                      |               480 |                538 |
-| Tests                             |               131 |                441 |
+| Tests                             |               131 |                442 |
 | Validation campaigns              |                17 |                  0 |
 | Validation files                  |                27 |                  0 |
 | Examples                          |                32 |                  0 |

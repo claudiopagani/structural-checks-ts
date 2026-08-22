@@ -40,11 +40,32 @@ const GAUSS_NODES = [
 const GAUSS_WEIGHTS = [
   0.362683783378362, 0.3137066458778873, 0.2223810344533745, 0.1012285362903763,
 ] as const;
+const MAX_STATION_MAP_ENTRIES_PER_SIDE = 4096;
 
 interface SideArcStationing {
   readonly totalLength: number;
   readonly sideArcLengthAtReferenceStation: (referenceStation: number) => number;
   readonly referenceStationAtLength: (sideArcLength: number) => number;
+}
+
+/**
+ * Reference side-arc stationing belongs to one immutable normalized geometry. A WeakMap gives the
+ * cache exactly that lifetime without retaining discarded models. Only reference-geometry
+ * integrals and their deterministic inverses are stored here; no configuration-dependent value is
+ * eligible for this cache. Each numeric mapping is FIFO-bounded, while the outer weak keys allow
+ * discarded geometries and their closures to be collected.
+ */
+const sideArcStationingByGeometry = new WeakMap<
+  NormalizedMasonryArchGeometry,
+  Map<"intrados" | "extrados", SideArcStationing>
+>();
+
+function rememberStationMapping(cache: Map<number, number>, key: number, value: number): void {
+  if (!cache.has(key) && cache.size >= MAX_STATION_MAP_ENTRIES_PER_SIDE) {
+    const oldestKey = cache.keys().next().value;
+    if (oldestKey !== undefined) cache.delete(oldestKey);
+  }
+  cache.set(key, value);
 }
 
 export interface NormalizedMasonryArchConfiguration {
@@ -79,9 +100,45 @@ interface MutablePathNode {
   contact: boolean;
   contactKind: "smooth-contact" | "joint-contact" | null;
   boundaryKind: ExtradosContactBoundaryKind | null;
+  /** Selected external-anchor tangency branch, if this node was created by tangency refinement. */
+  tangencyBranch: ExtradosTangencyBranch | null;
   attachmentKey: string;
   /** Stable index after ordering, retained when unilateral contact releases this sample. */
   pathIndex: number;
+}
+
+interface ExtradosTangencyBranch {
+  readonly terminationSide: "left" | "right";
+  readonly blockIndex: number;
+  readonly referenceStation: number;
+}
+
+interface FixedExtradosPathNode {
+  readonly location:
+    | { readonly type: "external-anchor"; readonly terminationSide: "left" | "right" }
+    | {
+        readonly type: "arch";
+        readonly sideArcStation: number;
+        readonly blockIndex: number | null;
+        readonly tangencyBranch: ExtradosTangencyBranch | null;
+      };
+  readonly device: DeviceDescriptor | null;
+  readonly contact: boolean;
+  readonly contactKind: "smooth-contact" | "joint-contact" | null;
+  readonly boundaryKind: ExtradosContactBoundaryKind | null;
+}
+
+/** Internal-only topology selected by one full extrados contact search. */
+export interface MasonryArchReinforcementContactTopology {
+  readonly reinforcementId: string;
+  readonly kind: "configuration-independent" | "extrados-active-path";
+  readonly activePath: readonly FixedExtradosPathNode[];
+  readonly signature: string;
+}
+
+export interface ResolvedArchReinforcementsWithContactTopology {
+  readonly resolved: ResolvedArchReinforcements;
+  readonly contactTopology: readonly MasonryArchReinforcementContactTopology[];
 }
 
 interface ResolvedSingleReinforcement {
@@ -99,6 +156,7 @@ interface ResolvedSingleReinforcement {
     }[];
   }[];
   readonly warnings: readonly string[];
+  readonly contactTopology: MasonryArchReinforcementContactTopology;
 }
 
 export interface ResolvedArchReinforcements {
@@ -150,43 +208,71 @@ function createSideArcStationing(
   geometry: NormalizedMasonryArchGeometry,
   side: "intrados" | "extrados",
 ): SideArcStationing {
+  const cached = sideArcStationingByGeometry.get(geometry)?.get(side);
+  if (cached !== undefined) return cached;
+
   // Integrate and invert directly on the continuous reference curve. No block boundary enters
   // this transformation, so changing voussoirCount cannot move a physical side-arc station.
   const totalReferenceLength = geometry.totalReferenceArcLength;
+  let stationing: SideArcStationing;
   if (side === geometry.referenceCurve) {
-    return {
+    stationing = {
       totalLength: totalReferenceLength,
       sideArcLengthAtReferenceStation: (referenceStation: number): number =>
         Math.min(totalReferenceLength, Math.max(0, referenceStation)),
       referenceStationAtLength: (sideArcLength: number): number =>
         Math.min(totalReferenceLength, Math.max(0, sideArcLength)),
     };
+  } else {
+    const totalLength = integrateSideArcLength(geometry, side, 0, totalReferenceLength);
+    const tolerance = 1e-12 * Math.max(1, totalLength);
+    const sideArcLengths = new Map<number, number>([
+      [0, 0],
+      [totalReferenceLength, totalLength],
+    ]);
+    const referenceStations = new Map<number, number>([
+      [0, 0],
+      [totalLength, totalReferenceLength],
+    ]);
+    stationing = {
+      totalLength,
+      sideArcLengthAtReferenceStation: (referenceStation: number): number => {
+        const clamped = Math.min(totalReferenceLength, Math.max(0, referenceStation));
+        const known = sideArcLengths.get(clamped);
+        if (known !== undefined) return known;
+        const length = integrateSideArcLength(geometry, side, 0, clamped);
+        rememberStationMapping(sideArcLengths, clamped, length);
+        return length;
+      },
+      referenceStationAtLength: (requestedLength: number): number => {
+        const clamped = Math.min(totalLength, Math.max(0, requestedLength));
+        const known = referenceStations.get(clamped);
+        if (known !== undefined) return known;
+        let referenceStation: number;
+        if (clamped <= tolerance) referenceStation = 0;
+        else if (clamped >= totalLength - tolerance) referenceStation = totalReferenceLength;
+        else {
+          let lower = 0;
+          let upper = totalReferenceLength;
+          for (let iteration = 0; iteration < 60; iteration += 1) {
+            const trial = (lower + upper) / 2;
+            const trialLength = integrateSideArcLength(geometry, side, 0, trial);
+            if (trialLength < clamped) lower = trial;
+            else upper = trial;
+          }
+          referenceStation = (lower + upper) / 2;
+        }
+        rememberStationMapping(referenceStations, clamped, referenceStation);
+        return referenceStation;
+      },
+    };
   }
-  const totalLength = integrateSideArcLength(geometry, side, 0, totalReferenceLength);
-  const tolerance = 1e-12 * Math.max(1, totalLength);
-  return {
-    totalLength,
-    sideArcLengthAtReferenceStation: (referenceStation: number): number =>
-      integrateSideArcLength(
-        geometry,
-        side,
-        0,
-        Math.min(totalReferenceLength, Math.max(0, referenceStation)),
-      ),
-    referenceStationAtLength: (requestedLength: number): number => {
-      if (requestedLength <= tolerance) return 0;
-      if (requestedLength >= totalLength - tolerance) return totalReferenceLength;
-      let lower = 0;
-      let upper = totalReferenceLength;
-      for (let iteration = 0; iteration < 60; iteration += 1) {
-        const trial = (lower + upper) / 2;
-        const trialLength = integrateSideArcLength(geometry, side, 0, trial);
-        if (trialLength < requestedLength) lower = trial;
-        else upper = trial;
-      }
-      return (lower + upper) / 2;
-    },
-  };
+  const bySide =
+    sideArcStationingByGeometry.get(geometry) ??
+    new Map<"intrados" | "extrados", SideArcStationing>();
+  bySide.set(side, stationing);
+  sideArcStationingByGeometry.set(geometry, bySide);
+  return stationing;
 }
 
 function attachmentsAtStation(
@@ -330,6 +416,7 @@ function addArchPathNode(
     readonly contactKind?: "smooth-contact" | "joint-contact";
     readonly boundaryKind?: ExtradosContactBoundaryKind;
     readonly blockIndex?: number;
+    readonly tangencyBranch?: ExtradosTangencyBranch;
   },
 ): void {
   const tolerance = 1e-10 * Math.max(1, stationing.totalLength);
@@ -351,6 +438,7 @@ function addArchPathNode(
     existing.contact ||= attributes.contact ?? false;
     existing.contactKind ??= attributes.contactKind ?? null;
     existing.boundaryKind ??= attributes.boundaryKind ?? null;
+    existing.tangencyBranch ??= attributes.tangencyBranch ?? null;
     return;
   }
   const referenceStation = stationing.referenceStationAtLength(sideArcStation);
@@ -374,6 +462,7 @@ function addArchPathNode(
     contact: attributes.contact ?? false,
     contactKind: attributes.contactKind ?? null,
     boundaryKind: attributes.boundaryKind ?? null,
+    tangencyBranch: attributes.tangencyBranch ?? null,
     attachmentKey,
     pathIndex: -1,
   });
@@ -397,6 +486,7 @@ function addExternalPathNode(
     contact: false,
     contactKind: null,
     boundaryKind: null,
+    tangencyBranch: null,
     attachmentKey: "external",
     pathIndex: -1,
   });
@@ -577,6 +667,7 @@ function extradosTangencyRoots(
   lowerReferenceStation: number,
   upperReferenceStation: number,
   configuration: NormalizedMasonryArchConfiguration | null,
+  selectedBlockIndex: number | null = null,
 ): ExtradosTangencyRoot[] {
   const roots: ExtradosTangencyRoot[] = [];
   const scale = Math.max(1, geometry.span, geometry.rise, geometry.thickness);
@@ -613,6 +704,7 @@ function extradosTangencyRoots(
   };
 
   for (const block of geometry.voussoirs) {
+    if (selectedBlockIndex !== null && block.index !== selectedBlockIndex) continue;
     const start = Math.max(lowerReferenceStation, block.startStation);
     const end = Math.min(upperReferenceStation, block.endStation);
     if (end < start - stationTolerance) continue;
@@ -684,6 +776,206 @@ function extradosContactInterval(
   };
 }
 
+interface BuiltReinforcementNodes {
+  readonly nodes: readonly MutablePathNode[];
+  readonly releasedContacts: readonly MutablePathNode[];
+  readonly contactBoundary: ExtradosContactIntervalResult | null;
+  readonly closedLoop: boolean;
+  readonly stationing: SideArcStationing;
+}
+
+function fixedPathNode(node: MutablePathNode): FixedExtradosPathNode {
+  const device = node.device === null ? null : { ...node.device };
+  if (node.sideArcStation === null) {
+    if (node.device?.terminationSide === null || node.device?.terminationSide === undefined) {
+      throw new Error("An external extrados path node must identify its termination side.");
+    }
+    return {
+      location: { type: "external-anchor", terminationSide: node.device.terminationSide },
+      device,
+      contact: node.contact,
+      contactKind: node.contactKind,
+      boundaryKind: node.boundaryKind,
+    };
+  }
+  const blockIndex = node.attachmentKey.startsWith("block-")
+    ? Number(node.attachmentKey.slice("block-".length))
+    : null;
+  return {
+    location: {
+      type: "arch",
+      sideArcStation: node.sideArcStation,
+      blockIndex,
+      tangencyBranch: node.tangencyBranch,
+    },
+    device,
+    contact: node.contact,
+    contactKind: node.contactKind,
+    boundaryKind: node.boundaryKind,
+  };
+}
+
+function contactTopologyForPath(
+  reinforcement: NormalizedArchReinforcement,
+  nodes: readonly MutablePathNode[],
+): MasonryArchReinforcementContactTopology {
+  if (reinforcement.side !== "extrados") {
+    return {
+      reinforcementId: reinforcement.id,
+      kind: "configuration-independent",
+      activePath: [],
+      signature: `${reinforcement.id}:configuration-independent`,
+    };
+  }
+  const activePath = nodes.map(fixedPathNode);
+  // The signature intentionally records material identity and the selected block side, but not
+  // current coordinates. It therefore changes only when the contact topology changes.
+  const signature = JSON.stringify(
+    activePath.map((node) =>
+      node.location.type === "external-anchor"
+        ? ["external", node.location.terminationSide]
+        : node.location.tangencyBranch === null
+          ? [
+              "material-contact",
+              node.location.sideArcStation,
+              node.location.blockIndex,
+              node.contactKind,
+              node.boundaryKind,
+              node.device?.kind ?? null,
+            ]
+          : [
+              "smooth-tangency-branch",
+              node.location.tangencyBranch.terminationSide,
+              node.location.tangencyBranch.blockIndex,
+              node.contactKind,
+              node.boundaryKind,
+            ],
+    ),
+  );
+  return {
+    reinforcementId: reinforcement.id,
+    kind: "extrados-active-path",
+    activePath,
+    signature,
+  };
+}
+
+function tangencyStationOnSelectedBranch(
+  geometry: NormalizedMasonryArchGeometry,
+  reinforcement: NormalizedArchReinforcement,
+  branch: ExtradosTangencyBranch,
+  configuration: NormalizedMasonryArchConfiguration | null,
+): number {
+  if (reinforcement.topology.type !== "open") {
+    throw new Error(`Extrados reinforcement ${reinforcement.id} must use an open topology.`);
+  }
+  const termination = reinforcement.topology[branch.terminationSide];
+  if (termination.type !== "external-anchor") {
+    throw new Error(
+      `Extrados reinforcement ${reinforcement.id} has no ${branch.terminationSide} external anchor.`,
+    );
+  }
+  const block = geometry.voussoirs[branch.blockIndex];
+  if (block === undefined) {
+    throw new Error(`Unknown extrados tangency block ${branch.blockIndex}.`);
+  }
+  const roots = extradosTangencyRoots(
+    geometry,
+    branch.terminationSide,
+    termination.point,
+    block.startStation,
+    block.endStation,
+    configuration,
+    branch.blockIndex,
+  );
+  const nearest = roots.reduce<ExtradosTangencyRoot | null>(
+    (selected, root) =>
+      selected === null ||
+      Math.abs(root.referenceStation - branch.referenceStation) <
+        Math.abs(selected.referenceStation - branch.referenceStation)
+        ? root
+        : selected,
+    null,
+  );
+  // At a branch birth/death the selected smooth root may not exist on both infinitesimal sides.
+  // Holding its current material station is the deterministic generalized derivative of the
+  // already-selected branch; ordinary residual evaluations still perform the full search.
+  return nearest?.referenceStation ?? branch.referenceStation;
+}
+
+function buildFixedExtradosPath(
+  geometry: NormalizedMasonryArchGeometry,
+  reinforcement: NormalizedArchReinforcement,
+  configuration: NormalizedMasonryArchConfiguration | null,
+  topology: MasonryArchReinforcementContactTopology,
+): BuiltReinforcementNodes {
+  if (topology.reinforcementId !== reinforcement.id || topology.kind !== "extrados-active-path") {
+    throw new Error(`Invalid fixed contact topology for reinforcement ${reinforcement.id}.`);
+  }
+  if (reinforcement.topology.type !== "open") {
+    throw new Error(`Extrados reinforcement ${reinforcement.id} must use an open topology.`);
+  }
+  const stationing = createSideArcStationing(geometry, "extrados");
+  const nodes: MutablePathNode[] = [];
+  for (const selected of topology.activePath) {
+    if (selected.location.type === "external-anchor") {
+      const termination = reinforcement.topology[selected.location.terminationSide];
+      if (termination.type !== "external-anchor") {
+        throw new Error(
+          `Extrados reinforcement ${reinforcement.id} has inconsistent fixed external-anchor topology.`,
+        );
+      }
+      addExternalPathNode(nodes, termination.point, selected.device!);
+      continue;
+    }
+    const sideArcStation =
+      selected.location.tangencyBranch === null
+        ? selected.location.sideArcStation
+        : stationing.sideArcLengthAtReferenceStation(
+            tangencyStationOnSelectedBranch(
+              geometry,
+              reinforcement,
+              selected.location.tangencyBranch,
+              configuration,
+            ),
+          );
+    addArchPathNode(nodes, geometry, "extrados", stationing, sideArcStation, {
+      ...(selected.device === null ? {} : { device: selected.device }),
+      contact: selected.contact,
+      ...(selected.contactKind === null ? {} : { contactKind: selected.contactKind }),
+      ...(selected.boundaryKind === null ? {} : { boundaryKind: selected.boundaryKind }),
+      ...(selected.location.blockIndex === null
+        ? {}
+        : { blockIndex: selected.location.blockIndex }),
+      ...(selected.location.tangencyBranch === null
+        ? {}
+        : { tangencyBranch: selected.location.tangencyBranch }),
+    });
+  }
+  nodes.forEach((node, index) => {
+    node.pathIndex = index;
+    updatePathNodeConfiguration(node, geometry, configuration);
+  });
+  const leftEndpoint = nodes.find((node) => node.device?.terminationSide === "left");
+  const rightEndpoint = nodes.find((node) => node.device?.terminationSide === "right");
+  if (leftEndpoint === undefined || rightEndpoint === undefined) {
+    throw new Error(`Fixed extrados topology for ${reinforcement.id} has incomplete endpoints.`);
+  }
+  validateOpenTendonTerminalOrder(
+    geometry,
+    reinforcement.id,
+    leftEndpoint.point,
+    rightEndpoint.point,
+  );
+  return {
+    nodes,
+    releasedContacts: [],
+    contactBoundary: extradosContactInterval(nodes),
+    closedLoop: false,
+    stationing,
+  };
+}
+
 /**
  * Builds the ordered path nodes of one reinforcement in the reference configuration and updates
  * them onto the evaluated configuration. Returns the complete ordered node list together with the
@@ -693,17 +985,16 @@ function buildReinforcementNodes(
   geometry: NormalizedMasonryArchGeometry,
   reinforcement: NormalizedArchReinforcement,
   configuration: NormalizedMasonryArchConfiguration | null,
-): {
-  readonly nodes: readonly MutablePathNode[];
-  readonly releasedContacts: readonly MutablePathNode[];
-  readonly contactBoundary: ExtradosContactIntervalResult | null;
-  readonly closedLoop: boolean;
-  readonly stationing: SideArcStationing;
-} {
+  fixedTopology: MasonryArchReinforcementContactTopology | null = null,
+): BuiltReinforcementNodes {
   const side = reinforcement.side;
   const stationing = createSideArcStationing(geometry, side);
   const scale = Math.max(1, stationing.totalLength);
   const nodes: MutablePathNode[] = [];
+
+  if (reinforcement.side === "extrados" && fixedTopology !== null) {
+    return buildFixedExtradosPath(geometry, reinforcement, configuration, fixedTopology);
+  }
 
   if (reinforcement.side === "intrados") {
     const topology = reinforcement.topology;
@@ -901,6 +1192,15 @@ function buildReinforcementNodes(
           contactKind: root.boundaryKind === "joint-contact" ? "joint-contact" : "smooth-contact",
           boundaryKind: root.boundaryKind,
           blockIndex: root.blockIndex,
+          ...(root.boundaryKind === "smooth-tangency"
+            ? {
+                tangencyBranch: {
+                  terminationSide,
+                  blockIndex: root.blockIndex,
+                  referenceStation: root.referenceStation,
+                },
+              }
+            : {}),
         },
       );
     }
@@ -998,8 +1298,14 @@ function resolveSingleReinforcement(
   reinforcement: NormalizedArchReinforcement,
   configuration: NormalizedMasonryArchConfiguration | null,
   actionFactor: number,
+  fixedTopology: MasonryArchReinforcementContactTopology | null = null,
 ): ResolvedSingleReinforcement {
-  const currentBuilt = buildReinforcementNodes(geometry, reinforcement, configuration);
+  const currentBuilt = buildReinforcementNodes(
+    geometry,
+    reinforcement,
+    configuration,
+    fixedTopology,
+  );
   const referenceBuilt =
     reinforcement.side === "extrados" && configuration !== null
       ? buildReinforcementNodes(geometry, reinforcement, null)
@@ -1438,6 +1744,7 @@ function resolveSingleReinforcement(
     externalAnchorForces,
     nodalActions,
     warnings,
+    contactTopology: fixedTopology ?? contactTopologyForPath(reinforcement, currentBuilt.nodes),
   };
 }
 
@@ -1501,16 +1808,26 @@ export function combineMasonryArchBlockWrenches(
   return combined;
 }
 
-function resolveArchReinforcementsInConfiguration(
+function resolveArchReinforcementsInConfigurationWithTopology(
   model: NormalizedMasonryArchModel,
   configuration: NormalizedMasonryArchConfiguration | null,
   actionFactor = 1,
-): ResolvedArchReinforcements {
+  fixedTopology: readonly MasonryArchReinforcementContactTopology[] | null = null,
+): ResolvedArchReinforcementsWithContactTopology {
   if (!Number.isFinite(actionFactor) || actionFactor < 0) {
     throw new Error("Reinforcement actionFactor must be finite and non-negative.");
   }
-  const resolved = model.reinforcements.map((reinforcement) =>
-    resolveSingleReinforcement(model.geometry, reinforcement, configuration, actionFactor),
+  if (fixedTopology !== null && fixedTopology.length !== model.reinforcements.length) {
+    throw new Error("Fixed reinforcement contact topology does not match the model.");
+  }
+  const resolved = model.reinforcements.map((reinforcement, index) =>
+    resolveSingleReinforcement(
+      model.geometry,
+      reinforcement,
+      configuration,
+      actionFactor,
+      fixedTopology?.[index] ?? null,
+    ),
   );
   const blockWrenches = emptyBlockWrenches(model.geometry, configuration);
   for (const item of resolved) {
@@ -1523,16 +1840,28 @@ function resolveArchReinforcementsInConfiguration(
   const contactForces = resolved.flatMap((item) => item.contactForces);
   const externalAnchorForces = resolved.flatMap((item) => item.externalAnchorForces);
   return {
-    reinforcementState,
-    deviceForces,
-    contactForces,
-    externalAnchorForces,
-    blockWrenches,
-    warnings: resolved.flatMap((item) => item.warnings),
-    hasReinforcementYield: reinforcementState.some((item) => item.state === "yielded"),
-    hasReinforcementFailure: reinforcementState.some((item) => item.state === "failed"),
-    hasInvalidContact: contactForces.some((item) => item.state === "contact-cannot-enforce-path"),
+    resolved: {
+      reinforcementState,
+      deviceForces,
+      contactForces,
+      externalAnchorForces,
+      blockWrenches,
+      warnings: resolved.flatMap((item) => item.warnings),
+      hasReinforcementYield: reinforcementState.some((item) => item.state === "yielded"),
+      hasReinforcementFailure: reinforcementState.some((item) => item.state === "failed"),
+      hasInvalidContact: contactForces.some((item) => item.state === "contact-cannot-enforce-path"),
+    },
+    contactTopology: resolved.map((item) => item.contactTopology),
   };
+}
+
+function resolveArchReinforcementsInConfiguration(
+  model: NormalizedMasonryArchModel,
+  configuration: NormalizedMasonryArchConfiguration | null,
+  actionFactor = 1,
+): ResolvedArchReinforcements {
+  return resolveArchReinforcementsInConfigurationWithTopology(model, configuration, actionFactor)
+    .resolved;
 }
 
 export function resolveArchReinforcements(
@@ -1635,4 +1964,41 @@ export function resolveArchReinforcementsAtActionFactor(
 ): ResolvedArchReinforcements {
   const normalized = normalizeMasonryArchPrescribedConfiguration(model, input);
   return resolveArchReinforcementsInConfiguration(model, normalized.configuration, actionFactor);
+}
+
+/**
+ * Internal path-analysis entry that performs the authoritative current contact search and captures
+ * the selected topology for one local tangent. It is deliberately not re-exported by the package.
+ */
+export function resolveArchReinforcementsAtActionFactorWithContactTopology(
+  model: NormalizedMasonryArchModel,
+  input: MasonryArchPrescribedConfigurationInput,
+  actionFactor: number,
+): ResolvedArchReinforcementsWithContactTopology {
+  const normalized = normalizeMasonryArchPrescribedConfiguration(model, input);
+  return resolveArchReinforcementsInConfigurationWithTopology(
+    model,
+    normalized.configuration,
+    actionFactor,
+  );
+}
+
+/**
+ * Internal tangent-only entry. Geometry and forces are evaluated on the supplied active path;
+ * unilateral-contact search is not repeated. Callers must never use this result as an ordinary
+ * nonlinear residual or accepted state.
+ */
+export function resolveArchReinforcementsAtActionFactorUsingContactTopology(
+  model: NormalizedMasonryArchModel,
+  input: MasonryArchPrescribedConfigurationInput,
+  actionFactor: number,
+  contactTopology: readonly MasonryArchReinforcementContactTopology[],
+): ResolvedArchReinforcements {
+  const normalized = normalizeMasonryArchPrescribedConfiguration(model, input);
+  return resolveArchReinforcementsInConfigurationWithTopology(
+    model,
+    normalized.configuration,
+    actionFactor,
+    contactTopology,
+  ).resolved;
 }

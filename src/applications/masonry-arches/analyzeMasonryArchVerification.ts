@@ -15,7 +15,11 @@ import {
 import { masonryArchResultStatusFromAssessmentStatus } from "./engineeringAssessment.js";
 import { analyzeMasonryArchEquilibrium } from "./analyzeMasonryArchEquilibrium.js";
 import { analyzeMasonryArchLimit } from "./analyzeMasonryArchLimit.js";
-import { analyzeMasonryArchPath } from "./analyzeMasonryArchPath.js";
+import {
+  analyzeMasonryArchPath,
+  analyzeMasonryArchPathWithPerformanceMetrics,
+  type MasonryArchPathPerformanceMetrics,
+} from "./analyzeMasonryArchPath.js";
 import type {
   AnalyzeMasonryArchVerificationOptions,
   MasonryArchVerificationDiagnostics,
@@ -26,7 +30,10 @@ import type {
   MasonryArchVerificationSignificantStates,
 } from "./verificationTypes.js";
 import { MASONRY_ARCH_VERIFICATION_RESULT_SCHEMA_VERSION } from "./verificationTypes.js";
-import type { MasonryArchPathEngineeringAssessment } from "./pathTypes.js";
+import type {
+  AnalyzeMasonryArchPathOptions,
+  MasonryArchPathEngineeringAssessment,
+} from "./pathTypes.js";
 import type { MasonryArchEquilibriumResult, MasonryArchLimitResult } from "./types.js";
 
 type MasonryArchModelLike = MasonryArchModel | NormalizedMasonryArchModel | MasonryArchModelInput;
@@ -231,7 +238,11 @@ function staticRoute(
 function arcLengthRoute(
   model: NormalizedMasonryArchModel,
   options: AnalyzeMasonryArchVerificationOptions,
-): { readonly outputs: MasonryArchVerificationOutputs } {
+  collectPerformanceMetrics = false,
+): {
+  readonly outputs: MasonryArchVerificationOutputs;
+  readonly performanceMetrics: MasonryArchPathPerformanceMetrics | null;
+} {
   if (
     options.control !== undefined &&
     (options.control.type !== "arc-length" ||
@@ -242,7 +253,7 @@ function arcLengthRoute(
       "analyzeMasonryArchVerification: the standard verification is arc-length governed; the control override must be arc-length with targetLambda: 1.",
     );
   }
-  const pathResult = analyzeMasonryArchPath(model, {
+  const pathOptions = {
     units: options.units,
     analysisObjective: "design-state-check",
     scalableLoadCaseIds: options.scalableLoadCaseIds,
@@ -266,7 +277,11 @@ function arcLengthRoute(
     ...(options.designFailureEvents === undefined
       ? {}
       : { designFailureEvents: options.designFailureEvents }),
-  });
+  } satisfies AnalyzeMasonryArchPathOptions;
+  const pathAnalysis = collectPerformanceMetrics
+    ? analyzeMasonryArchPathWithPerformanceMetrics(model, pathOptions)
+    : { result: analyzeMasonryArchPath(model, pathOptions), performanceMetrics: null };
+  const pathResult = pathAnalysis.result;
   const pathOutputs = pathResult.outputs;
   const fixedState: MasonryArchVerificationFixedState = {
     status: pathOutputs.fixedState.status,
@@ -334,7 +349,7 @@ function arcLengthRoute(
       path: pathResult,
     },
   };
-  return { outputs };
+  return { outputs, performanceMetrics: pathAnalysis.performanceMetrics };
 }
 
 /**
@@ -355,24 +370,31 @@ function arcLengthRoute(
  * safety factor. If the fixed state fails or is numerically undeterminable, no scalable lambda
  * is defined. A numerical difficulty is never transformed into a capacity or a physical failure.
  */
-export function analyzeMasonryArchVerification(
+function analyzeMasonryArchVerificationCore(
   modelInput: MasonryArchModelLike,
   options: AnalyzeMasonryArchVerificationOptions,
-): MasonryArchVerificationResult {
+  collectPerformanceMetrics: boolean,
+): {
+  readonly result: MasonryArchVerificationResult;
+  readonly performanceMetrics: MasonryArchPathPerformanceMetrics | null;
+} {
   const model = asMasonryArchModel(modelInput);
   assertExplicitUnitSystem(options.units, "AnalyzeMasonryArchVerificationOptions");
   const route: MasonryArchVerificationRoute =
     model.interfaceLaw.response === "deformable"
       ? "arc-length-continuation"
       : "rigid-plastic-static";
-  const { outputs } =
-    route === "rigid-plastic-static" ? staticRoute(model, options) : arcLengthRoute(model, options);
+  const analyzed =
+    route === "rigid-plastic-static"
+      ? { ...staticRoute(model, options), performanceMetrics: null }
+      : arcLengthRoute(model, options, collectPerformanceMetrics);
+  const { outputs } = analyzed;
   const assessment = outputs.engineeringAssessment;
   const warnings =
     assessment.status === "INDETERMINATE" && outputs.diagnostics.terminationReason !== null
       ? [outputs.diagnostics.terminationReason]
       : [];
-  return new CalculationResult<MasonryArchVerificationOutputs>({
+  const result = new CalculationResult<MasonryArchVerificationOutputs>({
     applicationId: "masonry-arch-verification",
     status: masonryArchResultStatusFromAssessmentStatus(assessment.status),
     summary:
@@ -408,4 +430,23 @@ export function analyzeMasonryArchVerification(
       normativeConformityClaimed: false,
     },
   });
+  return { result, performanceMetrics: analyzed.performanceMetrics };
+}
+
+export function analyzeMasonryArchVerification(
+  modelInput: MasonryArchModelLike,
+  options: AnalyzeMasonryArchVerificationOptions,
+): MasonryArchVerificationResult {
+  return analyzeMasonryArchVerificationCore(modelInput, options, false).result;
+}
+
+/** Internal benchmark entry; no counters are added to the public verification DTO. */
+export function analyzeMasonryArchVerificationWithPerformanceMetrics(
+  modelInput: MasonryArchModelLike,
+  options: AnalyzeMasonryArchVerificationOptions,
+): {
+  readonly result: MasonryArchVerificationResult;
+  readonly performanceMetrics: MasonryArchPathPerformanceMetrics | null;
+} {
+  return analyzeMasonryArchVerificationCore(modelInput, options, true);
 }
