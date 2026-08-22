@@ -12,7 +12,7 @@ const packageJson = JSON.parse(
 ) as { name: string; private?: boolean; version: string; exports: Record<string, unknown> };
 
 assert.equal(packageJson.name, "structural-checks-ts");
-assert.equal(packageJson.version, "0.2.0");
+assert.equal(packageJson.version, "0.2.1");
 assert.equal(packageJson.private, undefined);
 
 const npmCliPath =

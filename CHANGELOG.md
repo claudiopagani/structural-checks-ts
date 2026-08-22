@@ -2,6 +2,19 @@
 
 All notable public changes are recorded here.
 
+## 0.2.1
+
+- Dramatically accelerated nonlinear analysis of masonry arches with discrete extrados tendons and
+  unilateral contact, fixing severe convergence and performance degradation for active prestressed
+  extrados tendons.
+- Cached immutable reference stationing and constructed the reinforcement finite-difference tangent
+  on the fixed current contact active set. Ordinary nonlinear residual evaluations still recompute
+  the full exact unilateral-contact solution.
+- This backward-compatible numerical and performance correction does not change the mechanical
+  model, public API, schemas, DTOs, engineering-status semantics, or contact capabilities. Migrating
+  contact, smooth tangency, joint/corner contact, full detachment, and complete-path compatibility
+  remain operative.
+
 ## 0.2.0
 
 - Corrected external extrados cables so external anchors are fixed global endpoints and the cable
